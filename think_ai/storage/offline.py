@@ -375,11 +375,16 @@ class OfflineSyncManager:
     def __init__(
         self,
         offline_storage: OfflineStorage,
-        online_storage: StorageBackend
+        online_storage: StorageBackend,
+        vector_db = None,
+        embedding_model = None
     ):
         self.offline = offline_storage
         self.online = online_storage
+        self.vector_db = vector_db
+        self.embedding_model = embedding_model
         self.is_syncing = False
+        self.sync_history: List[Dict[str, Any]] = []
     
     async def sync_to_online(self, batch_size: int = 100) -> Dict[str, Any]:
         """Sync unsynced items from offline to online storage."""
@@ -413,6 +418,10 @@ class OfflineSyncManager:
                     # Sync to online storage
                     await self.online.batch_put(items_to_sync)
                     
+                    # Sync vector embeddings if available
+                    if self.vector_db and self.embedding_model:
+                        await self._sync_vectors(items_to_sync)
+                    
                     # Mark as synced
                     await self.offline.mark_synced(keys_to_mark)
                     
@@ -427,6 +436,9 @@ class OfflineSyncManager:
             sync_stats["duration_seconds"] = (
                 sync_stats["completed_at"] - sync_stats["started_at"]
             ).total_seconds()
+            
+            # Record sync history
+            self.sync_history.append(sync_stats)
             
             return sync_stats
             
@@ -480,3 +492,202 @@ class OfflineSyncManager:
             logger.error(f"Error syncing from online: {e}")
             sync_stats["errors"].append(str(e))
             return sync_stats
+    
+    async def _sync_vectors(self, items: Dict[str, StorageItem]) -> None:
+        """Sync vector embeddings for items."""
+        try:
+            # Generate embeddings
+            texts = [str(item.content) for item in items.values()]
+            embeddings = await self.embedding_model.embed_texts(texts)
+            
+            # Prepare metadata
+            keys = list(items.keys())
+            metadatas = [
+                {"key": key, "synced_from": "offline", **items[key].metadata}
+                for key in keys
+            ]
+            
+            # Store in vector database
+            await self.vector_db.insert_vectors(
+                "think_ai_vectors",  # Collection name
+                embeddings,
+                keys,
+                metadatas
+            )
+            
+            logger.info(f"Synced {len(embeddings)} vector embeddings")
+            
+        except Exception as e:
+            logger.error(f"Failed to sync vectors: {e}")
+    
+    async def get_sync_status(self) -> Dict[str, Any]:
+        """Get comprehensive sync status."""
+        offline_stats = await self.offline.get_stats()
+        
+        status = {
+            "is_syncing": self.is_syncing,
+            "offline_items": offline_stats["total_items"],
+            "unsynced_items": offline_stats["unsynced_items"],
+            "sync_percentage": (
+                (offline_stats["total_items"] - offline_stats["unsynced_items"]) /
+                max(offline_stats["total_items"], 1) * 100
+            ),
+            "last_sync": self.sync_history[-1] if self.sync_history else None,
+            "total_syncs": len(self.sync_history),
+            "sync_health": self._calculate_sync_health()
+        }
+        
+        return status
+    
+    def _calculate_sync_health(self) -> str:
+        """Calculate overall sync health."""
+        if not self.sync_history:
+            return "no_data"
+        
+        recent_syncs = self.sync_history[-5:]
+        error_rate = sum(1 for s in recent_syncs if s.get("errors")) / len(recent_syncs)
+        
+        if error_rate == 0:
+            return "excellent"
+        elif error_rate < 0.2:
+            return "good"
+        elif error_rate < 0.5:
+            return "fair"
+        else:
+            return "poor"
+
+
+class AdvancedOfflineManager:
+    """Advanced offline capabilities with conflict resolution."""
+    
+    def __init__(
+        self,
+        offline_storage: OfflineStorage,
+        sync_manager: OfflineSyncManager
+    ):
+        self.offline = offline_storage
+        self.sync_manager = sync_manager
+        self.conflict_resolution_strategy = "last_write_wins"
+    
+    async def handle_conflict(
+        self,
+        local_item: StorageItem,
+        remote_item: StorageItem,
+        key: str
+    ) -> StorageItem:
+        """Resolve conflicts between local and remote versions."""
+        if self.conflict_resolution_strategy == "last_write_wins":
+            # Choose the most recently updated version
+            if local_item.updated_at > remote_item.updated_at:
+                logger.info(f"Conflict for {key}: choosing local version")
+                return local_item
+            else:
+                logger.info(f"Conflict for {key}: choosing remote version")
+                return remote_item
+        
+        elif self.conflict_resolution_strategy == "merge":
+            # Merge metadata and choose longer content
+            merged_metadata = {**remote_item.metadata, **local_item.metadata}
+            
+            if len(str(local_item.content)) > len(str(remote_item.content)):
+                content = local_item.content
+            else:
+                content = remote_item.content
+            
+            return StorageItem(
+                id=local_item.id,
+                content=content,
+                metadata=merged_metadata,
+                created_at=min(local_item.created_at, remote_item.created_at),
+                updated_at=max(local_item.updated_at, remote_item.updated_at),
+                version=max(local_item.version, remote_item.version) + 1
+            )
+        
+        else:
+            # Default to remote
+            return remote_item
+    
+    async def smart_sync(self) -> Dict[str, Any]:
+        """Perform intelligent sync with conflict resolution."""
+        sync_report = {
+            "started_at": datetime.utcnow(),
+            "conflicts_resolved": 0,
+            "items_uploaded": 0,
+            "items_downloaded": 0,
+            "errors": []
+        }
+        
+        try:
+            # Get unsynced items
+            unsynced = await self.offline.get_unsynced_items(limit=1000)
+            
+            # Check for conflicts
+            for key, local_item in unsynced:
+                remote_item = await self.sync_manager.online.get(key)
+                
+                if remote_item and remote_item.version != local_item.version:
+                    # Conflict detected
+                    resolved_item = await self.handle_conflict(
+                        local_item, remote_item, key
+                    )
+                    
+                    # Update both local and remote with resolved version
+                    await self.offline.put(key, resolved_item)
+                    await self.sync_manager.online.put(key, resolved_item)
+                    
+                    sync_report["conflicts_resolved"] += 1
+                else:
+                    # No conflict, proceed with normal sync
+                    await self.sync_manager.online.put(key, local_item)
+                    sync_report["items_uploaded"] += 1
+            
+            # Mark all as synced
+            await self.offline.mark_synced([key for key, _ in unsynced])
+            
+            # Download new items from online
+            # (In production, track last sync timestamp for efficiency)
+            
+            sync_report["completed_at"] = datetime.utcnow()
+            sync_report["success"] = True
+            
+        except Exception as e:
+            sync_report["errors"].append(str(e))
+            sync_report["success"] = False
+            logger.error(f"Smart sync failed: {e}")
+        
+        return sync_report
+    
+    async def enable_offline_mode(self) -> None:
+        """Enable full offline mode with local-first operation."""
+        logger.info("Enabling offline mode - all operations will be local-first")
+        # Set flags for offline operation
+        # In production, this would configure the entire system for offline mode
+    
+    async def prepare_for_offline(self, prefetch_keys: List[str]) -> Dict[str, Any]:
+        """Prefetch content for offline usage."""
+        results = {
+            "prefetched": 0,
+            "failed": 0,
+            "already_cached": 0
+        }
+        
+        for key in prefetch_keys:
+            # Check if already in offline storage
+            if await self.offline.exists(key):
+                results["already_cached"] += 1
+                continue
+            
+            try:
+                # Fetch from online
+                item = await self.sync_manager.online.get(key)
+                if item:
+                    # Store offline
+                    await self.offline.put(key, item)
+                    results["prefetched"] += 1
+                else:
+                    results["failed"] += 1
+            except Exception as e:
+                logger.error(f"Failed to prefetch {key}: {e}")
+                results["failed"] += 1
+        
+        return results
