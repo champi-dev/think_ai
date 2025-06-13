@@ -45,6 +45,9 @@ dependencies = [
   "bitsandbytes>=0.41.0",
   "accelerate>=0.25.0",
   "sentence-transformers>=2.2.0",
+  "rich>=13.7.0",
+  "typer>=0.9.0",
+  "scikit-learn>=1.3.0",
 ]
 
 [project.optional-dependencies]
@@ -59,7 +62,7 @@ dev = [
 ]
 
 [project.scripts]
-think-ai = "think_ai.cli:main"
+think-ai = "think_ai.cli.main:main"
 think-ai-tui = "think_ai.ui.app:run_ui"
 
 [tool.ruff]
