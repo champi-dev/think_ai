@@ -1,0 +1,244 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: think-ai
+  labels:
+    name: think-ai
+    love-aligned: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: think-ai-config
+  namespace: think-ai
+data:
+  config.yaml: |
+    storage:
+      scylla:
+        hosts: ["scylla-service:9042"]
+        keyspace: "think_ai"
+        replication_factor: 3
+      redis:
+        host: "redis-service"
+        port: 6379
+      vector:
+        backend: "milvus"
+        host: "milvus-service"
+        port: 19530
+    
+    ai:
+      language_model:
+        name: "microsoft/phi-2"
+        quantization: "int8"
+        device: "cpu"
+        max_memory: "2GB"
+      embedding_model:
+        name: "all-MiniLM-L6-v2"
+        dimension: 384
+    
+    consciousness:
+      default_state: "AWARE"
+      attention_threshold: 0.7
+      love_bias: 0.2
+    
+    ethics:
+      strict_mode: true
+      harm_prevention: true
+      love_required: true
+      min_love_score: 0.6
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: think-ai
+  namespace: think-ai
+  labels:
+    app: think-ai
+    component: core
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: think-ai
+      component: core
+  template:
+    metadata:
+      labels:
+        app: think-ai
+        component: core
+    spec:
+      containers:
+      - name: think-ai
+        image: think-ai:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: api
+        - containerPort: 8080
+          name: ui
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: THINK_AI_CONFIG
+          value: /app/config/config.yaml
+        - name: SCYLLA_HOSTS
+          value: "scylla-service:9042"
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: NEO4J_URI
+          value: "bolt://neo4j-service:7687"
+        - name: NEO4J_USER
+          value: "neo4j"
+        - name: NEO4J_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: neo4j-secret
+              key: password
+        - name: MILVUS_HOST
+          value: "milvus-service"
+        - name: MILVUS_PORT
+          value: "19530"
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1"
+          limits:
+            memory: "4Gi"
+            cpu: "2"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+        - name: data
+          mountPath: /app/data
+        - name: plugins
+          mountPath: /app/plugins
+      volumes:
+      - name: config
+        configMap:
+          name: think-ai-config
+      - name: data
+        persistentVolumeClaim:
+          claimName: think-ai-data-pvc
+      - name: plugins
+        persistentVolumeClaim:
+          claimName: think-ai-plugins-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: think-ai-service
+  namespace: think-ai
+  labels:
+    app: think-ai
+spec:
+  selector:
+    app: think-ai
+    component: core
+  ports:
+  - name: api
+    port: 8000
+    targetPort: 8000
+  - name: ui
+    port: 8080
+    targetPort: 8080
+  - name: metrics
+    port: 9090
+    targetPort: 9090
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: think-ai-data-pvc
+  namespace: think-ai
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: think-ai-plugins-pvc
+  namespace: think-ai
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: standard
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: think-ai-hpa
+  namespace: think-ai
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: think-ai
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 60
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+      selectPolicy: Max
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: neo4j-secret
+  namespace: think-ai
+type: Opaque
+data:
+  password: dGhpbmstYWktbG92ZQ==  # Base64 encoded "think-ai-love"
