@@ -89,6 +89,16 @@ class ConsciousnessConfig:
     empathy_threshold: float = 0.8
 
 
+@dataclass 
+class GraphDBConfig:
+    """Graph database configuration."""
+    provider: str = "neo4j"
+    uri: str = "bolt://localhost:7687"
+    username: str = "neo4j"
+    password: str = "password"
+    database: str = "neo4j"
+
+
 @dataclass
 class Config:
     """Main configuration class for Think AI system."""
@@ -100,6 +110,7 @@ class Config:
     model: ModelConfig = field(default_factory=ModelConfig)
     ui: UIConfig = field(default_factory=UIConfig)
     consciousness: ConsciousnessConfig = field(default_factory=ConsciousnessConfig)
+    graph_db: GraphDBConfig = field(default_factory=GraphDBConfig)
     
     # General settings
     app_name: str = "Think AI"
@@ -147,6 +158,7 @@ class Config:
             },
             "ui": vars(self.ui),
             "consciousness": vars(self.consciousness),
+            "graph_db": vars(self.graph_db),
             "app_name": self.app_name,
             "version": self.version,
             "debug": self.debug,

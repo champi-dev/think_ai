@@ -12,6 +12,9 @@ from ..storage.scylla import ScyllaDBBackend
 from ..storage.redis_cache import RedisCache
 from ..storage.vector_db import VectorDB, create_vector_db, VectorSearchResult
 from ..models.embeddings import EmbeddingModel, create_embedding_model
+from ..graph.knowledge_graph import KnowledgeGraph, GraphEnhancedEngine
+from ..consciousness.principles import ConstitutionalAI, HarmPreventionSystem
+from ..consciousness.awareness import ConsciousnessFramework
 from ..core.config import Config
 from ..utils.logging import get_logger
 
@@ -38,6 +41,10 @@ class ThinkAIEngine:
         self.cache: Optional[RedisCache] = None
         self.vector_db: Optional[VectorDB] = None
         self.embedding_model: Optional[EmbeddingModel] = None
+        self.knowledge_graph: Optional[KnowledgeGraph] = None
+        self.graph_engine: Optional[GraphEnhancedEngine] = None
+        self.consciousness: Optional[ConsciousnessFramework] = None
+        self.constitutional_ai: Optional[ConstitutionalAI] = None
         self.offline_storage = None  # Will be implemented later
         self._initialized = False
     
@@ -82,6 +89,28 @@ class ThinkAIEngine:
             )
             await self.embedding_model.initialize()
             
+            # Initialize knowledge graph
+            logger.info("Initializing knowledge graph...")
+            self.knowledge_graph = KnowledgeGraph(
+                uri=self.config.graph_db.uri,
+                username=self.config.graph_db.username,
+                password=self.config.graph_db.password
+            )
+            await self.knowledge_graph.initialize()
+            self.graph_engine = GraphEnhancedEngine(self.knowledge_graph)
+            
+            # Initialize consciousness framework
+            logger.info("Initializing consciousness framework...")
+            self.consciousness = ConsciousnessFramework()
+            self.constitutional_ai = ConstitutionalAI()
+            
+            # Process initial consciousness state
+            await self.consciousness.process_input({
+                "content": "System initialization",
+                "type": "system_event",
+                "metadata": {"event": "startup"}
+            })
+            
             # TODO: Initialize offline storage
             
             self._initialized = True
@@ -102,6 +131,9 @@ class ThinkAIEngine:
         if self.vector_db:
             await self.vector_db.close()
         
+        if self.knowledge_graph:
+            await self.knowledge_graph.close()
+        
         self._initialized = False
         logger.info("Think AI Engine shutdown complete")
     
@@ -114,6 +146,22 @@ class ThinkAIEngine:
         """Store knowledge in the system."""
         if not self._initialized:
             raise RuntimeError("Engine not initialized")
+        
+        # Ethical evaluation
+        if self.constitutional_ai:
+            assessment = await self.constitutional_ai.evaluate_content(str(content))
+            if not assessment.passed:
+                logger.warning(f"Content failed ethical assessment: {assessment.recommendations}")
+                # Enhance with love if possible
+                content = await self.constitutional_ai.enhance_with_love(str(content))
+        
+        # Process through consciousness framework
+        if self.consciousness:
+            await self.consciousness.process_input({
+                "content": content,
+                "type": "knowledge_storage",
+                "metadata": metadata
+            })
         
         # Create storage item
         item = StorageItem.create(content, metadata)
@@ -139,7 +187,16 @@ class ThinkAIEngine:
             except Exception as e:
                 logger.error(f"Failed to store vector embedding: {e}")
         
-        # TODO: Update knowledge graph
+        # Store in knowledge graph with auto-extracted concepts
+        if self.graph_engine:
+            try:
+                # Extract concepts (simplified - production would use NLP)
+                concepts = self._extract_concepts(str(content))
+                await self.graph_engine.store_with_concepts(
+                    key, str(content), metadata or {}, concepts
+                )
+            except Exception as e:
+                logger.error(f"Failed to store in knowledge graph: {e}")
         
         logger.info(f"Stored knowledge: {key}")
         return item.id
@@ -176,6 +233,14 @@ class ThinkAIEngine:
         
         start_time = datetime.utcnow()
         results = []
+        
+        # Process through consciousness
+        if self.consciousness:
+            await self.consciousness.process_input({
+                "content": query,
+                "type": "query",
+                "metadata": {"semantic_search": use_semantic_search}
+            })
         
         # Determine search method
         if use_semantic_search and self.embedding_model and self.vector_db:
@@ -216,7 +281,24 @@ class ThinkAIEngine:
                     if item:
                         results.append(item)
         
-        # TODO: Implement knowledge graph queries
+        # Knowledge graph enhancement
+        if self.graph_engine and results:
+            try:
+                # Enhance results with graph context
+                for result in results[:5]:  # Top 5 results
+                    key = result.get("key")
+                    if key:
+                        # Get related knowledge
+                        related = await self.knowledge_graph.find_related_knowledge(key, limit=3)
+                        result["related_knowledge"] = related
+                        
+                        # Get knowledge context
+                        context = await self.knowledge_graph.get_knowledge_context(key)
+                        if context:
+                            result["concepts"] = context.get("concepts", [])
+            except Exception as e:
+                logger.error(f"Graph enhancement failed: {e}")
+        
         # TODO: Implement hybrid search combining multiple methods
         
         # Calculate processing time
@@ -392,3 +474,17 @@ class ThinkAIEngine:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         """Async context manager exit."""
         await self.shutdown()
+    
+    def _extract_concepts(self, content: str) -> List[str]:
+        """Extract concepts from content (simplified)."""
+        # In production, use NLP for proper concept extraction
+        # For now, extract significant words
+        import re
+        
+        words = re.findall(r'\b\w{4,}\b', content.lower())
+        # Filter common words
+        stop_words = {'that', 'this', 'with', 'from', 'have', 'been', 'were', 'their'}
+        concepts = [w for w in words if w not in stop_words]
+        
+        # Return unique concepts
+        return list(set(concepts))[:10]  # Limit to 10 concepts

@@ -10,9 +10,11 @@ A comprehensive AI system for universal knowledge access with O(1) performance, 
 
 - **O(1) Performance**: ScyllaDB primary storage with Redis caching layer
 - **Semantic Search**: Vector similarity search using Milvus/Qdrant with transformer embeddings
+- **Knowledge Graph**: Neo4j-powered semantic relationships and concept mapping
 - **Beautiful Terminal UI**: Rich interactive interface built with Textual framework
 - **Offline Operation**: SQLite-based local storage with full-text search
-- **Consciousness-Aware**: Love-based design with harm prevention
+- **Consciousness-Aware**: Global Workspace Theory and Attention Schema implementation
+- **Constitutional AI**: Multi-layered harm prevention with love-based metrics
 - **Open Source**: Apache 2.0 licensed core infrastructure
 
 ## Architecture
@@ -21,13 +23,13 @@ A comprehensive AI system for universal knowledge access with O(1) performance, 
 ┌─────────────────────────────────────────────────────┐
 │                   Terminal UI (Textual)              │
 ├─────────────────────────────────────────────────────┤
+│     Consciousness Framework │ Constitutional AI      │
+├─────────────────────────────────────────────────────┤
 │                  Knowledge Query API                 │
 ├─────────────────────────────────────────────────────┤
-│      Redis Cache     │    Vector DB    │   Graph DB │
+│   Redis Cache │ Vector DB │ Neo4j Graph │ SQLite    │
 ├─────────────────────────────────────────────────────┤
-│                ScyllaDB Primary Storage             │
-├─────────────────────────────────────────────────────┤
-│                Offline Storage (SQLite)             │
+│           ScyllaDB Primary Storage (O(1))           │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -68,8 +70,17 @@ REDIS_PORT=6379
 VECTOR_DB_PROVIDER=milvus
 VECTOR_DB_HOST=localhost
 
+# Neo4j Graph Database
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=password
+
 # Model Configuration
 MODEL_NAME=EleutherAI/pythia-2.8b
+
+# Consciousness Settings
+ENABLE_COMPASSION_METRICS=true
+LOVE_BASED_DESIGN=true
 ```
 
 ### Usage
@@ -117,6 +128,20 @@ The TUI provides:
 - ⌨️ Keyboard shortcuts for efficiency
 - 🎨 Beautiful dark theme with colors
 
+#### Consciousness Examples
+
+```bash
+# Run consciousness-aware features demo
+python example_consciousness.py
+```
+
+This demonstrates:
+- 🛡️ Multi-layered harm prevention
+- ❤️ Love-based content enhancement
+- 🧠 Consciousness state management
+- 🌐 Knowledge graph relationships
+- 🧘 AI meditation and reflection
+
 ## Development Roadmap
 
 ### Phase 1: Foundation (Completed ✅)
@@ -129,24 +154,32 @@ The TUI provides:
 - ✅ Offline SQLite storage with FTS5
 - ✅ Basic CLI interface
 
-### Phase 2: Core Development (Current)
-- [ ] Knowledge graph with Neo4j
-- [ ] Model integration (3B parameter quantized)
-- [ ] Constitutional AI principles
-- [ ] Federated learning infrastructure
-- [ ] Advanced offline sync capabilities
+### Phase 2: Core Development (Completed ✅)
+- ✅ Knowledge graph with Neo4j
+- ✅ Constitutional AI principles with harm prevention
+- ✅ Love-based metrics and compassionate AI
+- ✅ Consciousness framework (GWT + AST)
+- ✅ Multi-layered ethical evaluation
 
-### Phase 3: Ecosystem Growth
+### Phase 3: Advanced Features (Current)
+- [ ] Model integration (3B parameter quantized)
+- [ ] Federated learning infrastructure  
+- [ ] Advanced offline sync capabilities
+- [ ] Learned index structures for true O(1)
+- [ ] Memory-centric computing integration
+
+### Phase 4: Ecosystem Growth
 - [ ] Plugin architecture
 - [ ] Developer documentation
 - [ ] Community governance model
 - [ ] Performance benchmarks
-
-### Phase 4: Global Scale
-- [ ] Learned index structures
-- [ ] Memory-centric computing
 - [ ] Multi-modal support
-- [ ] Production deployment
+
+### Phase 5: Global Scale
+- [ ] Production deployment at scale
+- [ ] Distributed knowledge federation
+- [ ] Global community network
+- [ ] Universal access achievement
 
 ## Contributing
 

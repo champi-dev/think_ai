@@ -93,6 +93,7 @@ services:
       retries: 3
 
   # Alternative: Qdrant vector database (comment out Milvus services above if using this)
+  # Alternative: Qdrant vector database (comment out Milvus services above if using this)
   # qdrant:
   #   image: qdrant/qdrant:v1.7.4
   #   container_name: think-ai-qdrant
@@ -104,12 +105,36 @@ services:
   #   networks:
   #     - think-ai-network
 
+  neo4j:
+    image: neo4j:5.15
+    container_name: think-ai-neo4j
+    ports:
+      - "7474:7474"  # HTTP
+      - "7687:7687"  # Bolt
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4J_PLUGINS=["graph-data-science", "apoc"]
+      - NEO4J_dbms_memory_pagecache_size=1G
+      - NEO4J_dbms_memory_heap_max__size=1G
+    networks:
+      - think-ai-network
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "password", "RETURN 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
 volumes:
   scylla-data:
   redis-data:
   etcd-data:
   minio-data:
   milvus-data:
+  neo4j-data:
+  neo4j-logs:
   # qdrant-data:
 
 networks:
