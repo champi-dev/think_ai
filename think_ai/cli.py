@@ -13,8 +13,9 @@ from .utils.logging import configure_logging
 
 @click.group()
 @click.option('--debug', is_flag=True, help='Enable debug logging')
+@click.option('--offline', is_flag=True, help='Use offline storage mode')
 @click.pass_context
-def main(ctx, debug):
+def main(ctx, debug, offline):
     """Think AI - Universal Knowledge Access System"""
     # Configure logging
     log_level = "DEBUG" if debug else "INFO"
@@ -28,6 +29,7 @@ def main(ctx, debug):
     ctx.ensure_object(dict)
     ctx.obj['config'] = config
     ctx.obj['logger'] = logger
+    ctx.obj['offline'] = offline
 
 
 @main.command()

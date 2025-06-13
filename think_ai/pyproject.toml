@@ -55,6 +55,7 @@ dev = [
 
 [project.scripts]
 think-ai = "think_ai.cli:main"
+think-ai-tui = "think_ai.ui.app:run_ui"
 
 [tool.ruff]
 line-length = 100
