@@ -1,0 +1,33 @@
+services:
+  # Web service for the API with ultra-lightweight Docker and precompiled binaries
+  - type: web
+    name: think-ai-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile.lightweight
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHONOPTIMIZE
+        value: 2
+      - key: BINARY_MODE
+        value: true
+    autoDeploy: false  # Set to true if you want automatic deploys on push
+    healthCheckPath: /health
+    # Use precompiled binary instead of Python
+    dockerCommand: ["/usr/local/bin/think-ai", "--host", "0.0.0.0", "--port", "8080"]
+
+  # Background worker with lightweight Docker and precompiled binary
+  - type: worker
+    name: think-ai-worker
+    runtime: docker
+    dockerfilePath: ./Dockerfile.lightweight
+    dockerContext: .
+    dockerCommand: ["/usr/local/bin/think-ai-worker"]
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: BINARY_MODE
+        value: true

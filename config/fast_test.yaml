@@ -1,0 +1,54 @@
+# Fast test configuration with smaller model
+# Copy of full_system.yaml but with tiny model for testing
+
+# Storage Layer Configuration
+storage:
+  primary: scylladb
+  cache: redis
+  offline: sqlite
+  
+scylladb:
+  enabled: true
+  hosts: ["localhost"]
+  port: 9042
+  keyspace: think_ai
+  
+redis:
+  enabled: true
+  host: localhost
+  port: 6379
+  
+vector_db:
+  enabled: true
+  provider: milvus
+  host: localhost
+  port: 19530
+  
+neo4j:
+  enabled: true
+  uri: bolt://localhost:7687
+  username: neo4j
+  password: thinkaipass
+  
+# Language Model - TINY for fast testing
+model:
+  name: "microsoft/DialoGPT-small"  # Only 117M params - VERY FAST!
+  device: "cpu"
+  quantization: false
+  low_cpu_mem_usage: true
+  torch_dtype: "float32"
+  max_tokens: 50
+  hf_token: ${HF_TOKEN}
+  
+claude:
+  mode: "disabled"
+  budget_limit: 0.0
+  cache_responses: false
+  
+consciousness:
+  enable_all_states: true
+  default_state: "aware"
+  compassion_active: true
+  
+system_mode: "full_distributed"
+budget_profile: "power_user"

@@ -1,0 +1,15 @@
+# Think AI Pre-commit Configuration
+# Runs Think AI Linter on all Python files
+
+repos:
+  - repo: local
+    hooks:
+      - id: think-ai-linter
+        name: Think AI Linter
+        entry: python think_ai_linter.py
+        language: system
+        types: [python]
+        args: ['--fix']
+        always_run: true
+        pass_filenames: true
+        description: "Ultra-fast Python linting with O(1) performance"

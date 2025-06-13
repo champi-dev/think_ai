@@ -1,0 +1,20 @@
+# Think AI Development Dependencies
+# Only essential tools - all linting handled by Think AI Linter
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-asyncio>=0.20.0
+
+# Pre-commit framework (for Think AI Linter)
+pre-commit>=3.0.0
+
+# Compression for caching
+lz4>=4.0.0
+
+# Think AI Linter handles ALL code quality:
+# - Syntax checking
+# - Style enforcement  
+# - Import organization
+# - Type checking
+# No external linters needed!

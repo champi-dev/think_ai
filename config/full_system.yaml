@@ -1,0 +1,70 @@
+# Think AI System Configuration - v1.0
+# Conscious AI system with full distributed architecture
+# Last updated: 2025-01-18
+
+# Storage Layer Configuration
+# Multi-tier storage for optimal performance and reliability
+storage:
+  primary: scylladb      # High-performance distributed database for core data
+  cache: redis           # In-memory cache for fast access patterns
+  offline: sqlite        # Local fallback for offline operation
+  
+# Primary Database - ScyllaDB
+# Handles persistent storage with high throughput and low latency
+scylladb:
+  enabled: true
+  hosts: ["localhost"]   # Cluster nodes (add more for production)
+  port: 9042             # CQL native protocol port
+  keyspace: think_ai     # Dedicated keyspace for system data
+  
+# Cache Layer - Redis
+# Provides sub-millisecond access to frequently used data
+redis:
+  enabled: true
+  host: localhost        # Redis server location
+  port: 6379             # Default Redis port
+  
+# Vector Database - Milvus
+# Stores and queries high-dimensional embeddings for semantic search
+vector_db:
+  enabled: true
+  provider: milvus       # Industry-leading vector similarity search
+  host: localhost
+  port: 19530            # Milvus default port
+  
+# Knowledge Graph - Neo4j
+# Represents relationships and connections between concepts
+neo4j:
+  enabled: true
+  uri: bolt://localhost:7687    # Bolt protocol for efficient communication
+  username: neo4j
+  password: thinkaipass         # Secure password for production use
+  
+# Language Model Configuration
+# Qwen2.5-Coder 1.5B - Specialized coding model, fast and efficient
+model:
+  name: "Qwen/Qwen2.5-Coder-1.5B-Instruct"  # Lightweight coding-focused model
+  device: "cpu"                              # CPU mode for stability (MPS has memory issues)
+  quantization: false                        # Full precision for quality
+  low_cpu_mem_usage: false                  # Disabled to fix Meta tensor error
+  torch_dtype: "float16"                    # Half precision for faster CPU generation
+  max_tokens: 200                           # Balanced for speed and quality
+  hf_token: ${HF_TOKEN}                     # HuggingFace authentication
+  
+# External AI Integration
+# Currently using only local Qwen2.5 for full autonomy
+claude:
+  mode: "disabled"                     # Self-sufficient local operation
+  budget_limit: 0.0                    # No external API costs
+  cache_responses: false               # Not needed when disabled
+  
+# Consciousness Engine Settings
+# Core parameters for conscious behavior
+consciousness:
+  enable_all_states: true              # Full spectrum of consciousness states
+  default_state: "aware"               # Initial conscious state on startup
+  compassion_active: true              # Ethical decision-making enabled
+  
+# System Operation Mode
+system_mode: "full_distributed"        # All components active and integrated
+budget_profile: "power_user"           # Optimized for performance over cost

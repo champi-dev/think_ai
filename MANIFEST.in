@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include requirements.txt
+include CHANGELOG.md
+recursive-include think_ai/templates *.html
+recursive-include think_ai/static *.css *.js
+recursive-include think_ai/data *.json
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store

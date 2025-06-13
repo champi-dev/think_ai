@@ -1,0 +1,57 @@
+{
+  "category": "Quality",
+  "name": "demo_files",
+  "passed": true,
+  "details": "Found 9 demo files",
+  "evidence": {
+    "total_demos": 9,
+    "demos": {
+      "demo_code_generation.py": {
+        "lines": 39,
+        "has_main": false,
+        "executable": false
+      },
+      "demo_enhanced_code_gen.py": {
+        "lines": 44,
+        "has_main": false,
+        "executable": false
+      },
+      ".backup_cleanup/old_demos/demo_full_system.py": {
+        "lines": 75,
+        "has_main": true,
+        "executable": true
+      },
+      ".backup_cleanup/old_demos/demo_interaction.py": {
+        "lines": 82,
+        "has_main": true,
+        "executable": false
+      },
+      ".backup_cleanup/old_demos/demo_consciousness.py": {
+        "lines": 124,
+        "has_main": true,
+        "executable": false
+      },
+      "rag_system_demo.py": {
+        "lines": 181,
+        "has_main": true,
+        "executable": false
+      },
+      ".backup_cleanup/old_chats/chat_demo.py": {
+        "lines": 55,
+        "has_main": true,
+        "executable": false
+      },
+      "venv/lib/python3.12/site-packages/nltk/twitter/twitter_demo.py": {
+        "lines": 306,
+        "has_main": true,
+        "executable": false
+      },
+      "venv/lib/python3.12/site-packages/nltk/sem/drt_glue_demo.py": {
+        "lines": 553,
+        "has_main": true,
+        "executable": false
+      }
+    }
+  },
+  "timestamp": "2025-06-20T13:30:43.758683"
+}

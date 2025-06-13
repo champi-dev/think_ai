@@ -1,0 +1,14 @@
+{
+  "category": "Error_Handling",
+  "name": "missing_arguments",
+  "passed": true,
+  "details": "Properly handles missing required arguments",
+  "timestamp": "2025-06-20T13:27:31.414432",
+  "evidence": {
+    "success": false,
+    "stdout": "",
+    "stderr": "/usr/bin/python3: No module named think_ai_cli\n",
+    "returncode": 1,
+    "command": "python3 -m think_ai_cli add --code \"test\""
+  }
+}

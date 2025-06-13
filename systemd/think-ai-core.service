@@ -1,0 +1,52 @@
+[Unit]
+Description=Think AI Core Service
+Documentation=https://github.com/think-ai
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=forking
+User=administrator
+Group=administrator
+WorkingDirectory=/home/administrator/development/think_ai
+
+# Environment variables
+Environment="PYTHONPATH=/home/administrator/development/think_ai"
+Environment="THINK_AI_MODE=production"
+Environment="THINK_AI_LOG_LEVEL=info"
+
+# Pre-start: Ensure dependencies are running
+ExecStartPre=/bin/bash -c 'docker-compose -f docker-compose.yml up -d scylla redis milvus neo4j'
+ExecStartPre=/bin/sleep 10
+
+# Start Think AI in background mode
+ExecStart=/usr/bin/python3 -m think_ai.core.background_service \
+    --daemon \
+    --log-file=/var/log/think-ai/core.log \
+    --pid-file=/var/run/think-ai/core.pid
+
+# Graceful stop
+ExecStop=/usr/bin/python3 -m think_ai.core.background_service --stop
+
+# Restart policy
+Restart=always
+RestartSec=10
+StartLimitBurst=5
+StartLimitInterval=60s
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+MemoryLimit=8G
+CPUQuota=80%
+
+# Security
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/log/think-ai /var/run/think-ai /home/administrator/development/think_ai
+
+[Install]
+WantedBy=multi-user.target

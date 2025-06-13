@@ -1,0 +1,15 @@
+{
+  "category": "Components",
+  "name": "webapp",
+  "passed": true,
+  "details": "Webapp has 11 components",
+  "evidence": {
+    "package_json": true,
+    "next_config": true,
+    "pages_or_app": false,
+    "public_dir": true,
+    "node_modules": true,
+    "component_count": 11
+  },
+  "timestamp": "2025-06-20T13:30:42.395898"
+}

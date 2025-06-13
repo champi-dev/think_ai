@@ -1,0 +1,105 @@
+# Multi-stage build with aggressive caching
+FROM python:3.11-slim as base
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create cache layer for pip
+ENV PIP_CACHE_DIR=/cache/pip
+RUN mkdir -p $PIP_CACHE_DIR
+
+# First layer: Install heavy dependencies that rarely change
+FROM base as heavy-deps
+WORKDIR /deps
+
+# Copy only requirements files first
+COPY requirements-fast.txt ./
+
+# Install numpy first (many deps need it)
+RUN --mount=type=cache,target=/cache/pip \
+    pip install --no-cache-dir numpy>=1.19.0
+
+# Install torch separately (very large)
+RUN --mount=type=cache,target=/cache/pip \
+    pip install --no-cache-dir torch>=1.9.0 --index-url https://download.pytorch.org/whl/cpu
+
+# Install transformers and sentence-transformers
+RUN --mount=type=cache,target=/cache/pip \
+    pip install --no-cache-dir \
+    transformers>=4.20.0 \
+    sentence-transformers>=2.2.0
+
+# Second layer: Install medium dependencies
+FROM heavy-deps as medium-deps
+
+# Install ML/AI dependencies
+RUN --mount=type=cache,target=/cache/pip \
+    pip install --no-cache-dir \
+    scikit-learn>=1.0.0 \
+    annoy>=1.17.0
+
+# Install web framework dependencies
+RUN --mount=type=cache,target=/cache/pip \
+    pip install --no-cache-dir \
+    fastapi>=0.68.0 \
+    uvicorn>=0.15.0 \
+    aiofiles>=0.8.0 \
+    httpx>=0.23.0
+
+# Third layer: Install remaining dependencies
+FROM medium-deps as all-deps
+
+# Copy and install all requirements
+COPY requirements-fast.txt ./
+RUN --mount=type=cache,target=/cache/pip \
+    pip install --no-cache-dir -r requirements-fast.txt
+
+# Development dependencies
+RUN --mount=type=cache,target=/cache/pip \
+    pip install --no-cache-dir \
+    pytest>=7.0.0 \
+    pytest-cov>=4.0.0 \
+    pytest-asyncio>=0.20.0 \
+    black>=22.0.0 \
+    flake8>=5.0.0 \
+    ruff>=0.1.0 \
+    mypy>=1.0.0 \
+    pre-commit>=3.0.0 \
+    lz4>=4.0.0
+
+# Final stage: Minimal runtime
+FROM python:3.11-slim as runtime
+
+# Copy installed packages from build stage
+COPY --from=all-deps /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=all-deps /usr/local/bin /usr/local/bin
+
+# Install only runtime system deps
+RUN apt-get update && apt-get install -y \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy application code
+COPY . .
+
+# Precompile Python files for faster startup
+RUN python -m compileall -q .
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Set environment for optimal performance
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONOPTIMIZE=2 \
+    TOKENIZERS_PARALLELISM=false
+
+# Default command
+CMD ["python", "-m", "uvicorn", "vector_db_api:app", "--host", "0.0.0.0", "--port", "8000"]

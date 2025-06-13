@@ -1,0 +1,24 @@
+{
+  "category": "Quality",
+  "name": "dependency_resolver",
+  "passed": true,
+  "details": "Found 3 dependency resolver files",
+  "evidence": {
+    "think_ai/utils/dependency_resolver.py": {
+      "exists": true,
+      "has_install_function": false,
+      "has_fallback": true
+    },
+    "think_ai/utils/torch_fallback.py": {
+      "exists": true,
+      "has_install_function": false,
+      "has_fallback": true
+    },
+    "test_deps_installation_fixed.py": {
+      "exists": true,
+      "has_install_function": true,
+      "has_fallback": false
+    }
+  },
+  "timestamp": "2025-06-20T13:30:43.109212"
+}

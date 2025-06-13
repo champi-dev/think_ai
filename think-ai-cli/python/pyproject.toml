@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "think-ai-cli"
+version = "0.2.0"
+description = "AI-powered coding assistant with vector search - no compilation required"
+readme = "README.md"
+authors = [
+    {name = "Think AI", email = "contact@think-ai.dev"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0",
+    "rich>=13.0.0",
+    "annoy>=1.17.0",
+    "sentence-transformers>=2.0.0",
+    "requests>=2.25.0",
+    "pyyaml>=6.0",
+    "pygments>=2.10.0",
+    "torch>=2.0.0",
+    "numpy<2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+]
+
+[project.scripts]
+think = "think_ai_cli.cli:main"
+
+[project.urls]
+"Homepage" = "https://github.com/champi-dev/think_ai"
+"Bug Reports" = "https://github.com/champi-dev/think_ai/issues"
+"Source" = "https://github.com/champi-dev/think_ai"
+
+[tool.setuptools]
+packages = ["think_ai_cli"]
+
+[tool.setuptools.package-data]
+think_ai_cli = ["*.json", "*.yaml"]

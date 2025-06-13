@@ -1,0 +1,31 @@
+# Ignore everything except what we need
+**
+!think_ai/
+!api_server_cpu.py
+!requirements.txt
+!requirements-fast.txt
+!package.json
+!package-lock.json
+!setup.py
+!.env.example
+!README.md
+
+# But still ignore these patterns
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/node_modules
+**/.git
+**/*.log
+**/.DS_Store
+**/*.sqlite
+**/*.db
+**/.env
+**/dist
+**/build
+**/*.egg-info
+**/coverage
+**/.coverage
+**/htmlcov
+**/.mypy_cache
+**/.ruff_cache

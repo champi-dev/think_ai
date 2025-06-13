@@ -1,0 +1,14 @@
+{
+  "category": "Environment",
+  "name": "pip_available",
+  "passed": true,
+  "details": "pip 24.0 from /usr/lib/python3/dist-packages/pip (python 3.12)",
+  "timestamp": "2025-06-20T13:26:59.548069",
+  "evidence": {
+    "success": true,
+    "stdout": "pip 24.0 from /usr/lib/python3/dist-packages/pip (python 3.12)\n",
+    "stderr": "",
+    "returncode": 0,
+    "command": "python3 -m pip --version"
+  }
+}

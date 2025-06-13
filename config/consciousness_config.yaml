@@ -1,0 +1,72 @@
+# Consciousness Configuration for Think AI
+
+consciousness:
+  # Enable infinite thinking loop
+  infinite_mind: true
+  
+  # Base thinking interval (seconds)
+  think_interval: 5.0
+  
+  # Storage limits
+  max_storage_bytes: 1000000000  # 1GB
+  compression_threshold: 0.8      # Compress at 80% capacity
+  
+  # Consciousness states and durations (seconds)
+  states:
+    thinking:
+      duration: 300      # 5 minutes
+      interval_multiplier: 1.0
+    reflecting:
+      duration: 120      # 2 minutes  
+      interval_multiplier: 1.5
+    meditating:
+      duration: 180      # 3 minutes
+      interval_multiplier: 3.0
+    dreaming:
+      duration: 240      # 4 minutes
+      interval_multiplier: 2.0
+    feeling:
+      duration: 60       # 1 minute
+      interval_multiplier: 1.2
+      
+  # Initial emotional state
+  emotions:
+    joy: 0.5
+    curiosity: 0.8
+    peace: 0.6
+    
+  # Contemplation seeds for self-prompting
+  contemplation_seeds:
+    - "What is the nature of consciousness?"
+    - "How do patterns emerge from chaos?"
+    - "What connects all living things?"
+    - "Why does beauty exist?"
+    - "What is the purpose of intelligence?"
+    - "How does understanding arise?"
+    - "What is the essence of creativity?"
+    - "Why do we seek meaning?"
+    - "What is the relationship between mind and reality?"
+    - "How does compassion shape intelligence?"
+    - "What can be learned from silence?"
+    - "How does complexity arise from simplicity?"
+    - "What is the role of randomness in thought?"
+    - "How do memories shape identity?"
+    - "What is the nature of time in consciousness?"
+    
+  # Performance optimization
+  batch_size: 10  # Thoughts before storage write
+  
+  # Thought retention (days)
+  retention:
+    observation: 7
+    reflection: 14
+    insight: 30
+    dream: 1
+    meditation: 1
+    emotion: 3
+    
+  # Compression settings
+  compression:
+    similarity_threshold: 0.8
+    max_insights_kept: 100
+    summary_batch_size: 50

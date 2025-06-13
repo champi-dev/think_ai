@@ -1,0 +1,76 @@
+# Ultra-compressed Docker image for Think AI
+# Uses multi-stage build and aggressive optimization
+
+# Stage 1: Build dependencies
+FROM python:3.11-slim as builder
+
+# Install only essential build tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create wheels directory
+RUN mkdir /wheels
+
+# Copy requirements
+COPY requirements-alternative.txt /tmp/
+
+# Build wheels with compression
+RUN pip wheel --no-cache-dir --wheel-dir /wheels \
+    -r /tmp/requirements-alternative.txt \
+    && find /wheels -name "*.whl" -exec sh -c 'python -m zipfile -c 9 "$1.new" "$1"/* && mv "$1.new" "$1"' _ {} \;
+
+# Stage 2: Runtime image
+FROM python:3.11-slim
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && rm -rf /var/cache/apt/*
+
+# Copy pre-built wheels
+COPY --from=builder /wheels /wheels
+
+# Install from wheels (no compilation)
+RUN pip install --no-cache-dir --no-index --find-links /wheels \
+    annoy \
+    sentence-transformers \
+    torch \
+    transformers \
+    neo4j \
+    pymilvus \
+    fastapi \
+    uvicorn \
+    && rm -rf /wheels \
+    && find /usr/local/lib/python3.11 -name "*.pyc" -delete \
+    && find /usr/local/lib/python3.11 -name "__pycache__" -type d -delete \
+    && find /usr/local/lib/python3.11/site-packages -name "tests" -type d -exec rm -rf {} + 2>/dev/null || true \
+    && find /usr/local/lib/python3.11/site-packages -name "*.dist-info" -type d -exec rm -rf {} + 2>/dev/null || true
+
+# Remove unnecessary files from transformers cache
+RUN python -c "import transformers; transformers.utils.move_cache()" \
+    && rm -rf /root/.cache/huggingface/hub/*/.git \
+    && find /root/.cache/huggingface -name "*.bin" -size +100M -delete 2>/dev/null || true
+
+# Copy application
+WORKDIR /app
+COPY *.py ./
+COPY think-ai-cli/ ./think-ai-cli/
+
+# Pre-download and compress model
+RUN python -c "from sentence_transformers import SentenceTransformer; model = SentenceTransformer('all-MiniLM-L6-v2'); model.save('/app/model')" \
+    && find /app/model -name "*.bin" -exec gzip -9 {} \; -exec mv {}.gz {} \;
+
+# Optimize Python
+ENV PYTHONOPTIMIZE=2
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Compress final image layers
+RUN find /usr/local/lib/python3.11 -name "*.so" -exec strip {} \; 2>/dev/null || true
+
+# Runtime
+EXPOSE 8000
+CMD ["python", "-O", "vector_db_api.py"]

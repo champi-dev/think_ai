@@ -1,0 +1,63 @@
+{
+  "category": "Structure",
+  "name": "ci_cd_pipelines",
+  "passed": true,
+  "details": "Found 6 CI/CD workflows",
+  "evidence": {
+    "ci-cd.yml": {
+      "lines": 164,
+      "has_on": true,
+      "has_jobs": true,
+      "triggers": [
+        "push",
+        "pull_request"
+      ]
+    },
+    "ci.yml": {
+      "lines": 154,
+      "has_on": true,
+      "has_jobs": true,
+      "triggers": [
+        "push",
+        "pull_request"
+      ]
+    },
+    "think-ai-robust-ci.yml": {
+      "lines": 369,
+      "has_on": true,
+      "has_jobs": true,
+      "triggers": [
+        "push",
+        "pull_request",
+        "schedule"
+      ]
+    },
+    "test-deps.yml": {
+      "lines": 59,
+      "has_on": true,
+      "has_jobs": true,
+      "triggers": [
+        "push",
+        "pull_request"
+      ]
+    },
+    "think-ai-ci.yml": {
+      "lines": 170,
+      "has_on": true,
+      "has_jobs": true,
+      "triggers": [
+        "push",
+        "pull_request"
+      ]
+    },
+    "publish.yml": {
+      "lines": 84,
+      "has_on": true,
+      "has_jobs": true,
+      "triggers": [
+        "push"
+      ]
+    }
+  },
+  "timestamp": "2025-06-20T13:30:38.113614"
+}
