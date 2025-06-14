@@ -1,0 +1,38 @@
+claude:
+  enhancement_threshold: 0.8
+  max_tokens: 300
+  optimize_tokens: true
+model:
+  bnb_4bit_compute_dtype: float16
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_use_double_quant: true
+  device: mps
+  load_in_4bit: true
+  low_cpu_mem_usage: true
+  max_tokens: 4096
+  name: microsoft/Phi-3.5-mini-instruct
+  quantization: 4bit
+  torch_dtype: float16
+  trust_remote_code: true
+neo4j:
+  enabled: true
+  password: think_ai_2024
+  uri: bolt://localhost:7687
+  username: neo4j
+redis:
+  enabled: true
+  host: localhost
+  port: 6379
+scylladb:
+  enabled: true
+  hosts:
+  - localhost
+  keyspace: think_ai
+  port: 9042
+system_mode: full_distributed
+system_name: Think AI with Phi-3.5
+vector_db:
+  enabled: true
+  host: localhost
+  port: 19530
+  provider: milvus

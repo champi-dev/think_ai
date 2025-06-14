@@ -8,6 +8,7 @@ import json
 import numpy as np
 from datetime import datetime
 from typing import Dict, Any, List, Optional
+import httpx
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -20,6 +21,36 @@ from think_ai.utils.logging import get_logger
 logger = get_logger(__name__)
 
 
+class OllamaModel:
+    """Ollama wrapper for Phi-3.5 Mini."""
+    
+    def __init__(self):
+        self.base_url = "http://localhost:11434"
+        self.model = "phi3:mini"
+    
+    async def generate(self, prompt: str, max_tokens: int = 512) -> str:
+        """Generate response using Phi-3.5 Mini."""
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            try:
+                response = await client.post(
+                    f"{self.base_url}/api/generate",
+                    json={
+                        "model": self.model,
+                        "prompt": prompt,
+                        "stream": False,
+                        "options": {
+                            "num_predict": max_tokens,
+                            "temperature": 0.7
+                        }
+                    }
+                )
+                result = response.json()
+                return result.get("response", "")
+            except Exception as e:
+                logger.error(f"Ollama error: {e}")
+                return ""
+
+
 class ProperThinkAI:
     """Think AI with properly integrated distributed architecture."""
     
@@ -30,6 +61,7 @@ class ProperThinkAI:
         self.services = None
         self.knowledge_base = {}
         self.embeddings_cache = {}
+        self.ollama_model = OllamaModel()  # Phi-3.5 Mini integration
         
     async def initialize(self):
         """Initialize and populate all distributed components."""
@@ -208,6 +240,7 @@ class ProperThinkAI:
             print("✅ Cache hit!")
             return {
                 "response": cached.get("response", ""),
+                "source": "cache",
                 "architecture_usage": {
                     "cache": "hit",
                     "knowledge_base": "0 facts (cached)",
@@ -278,8 +311,15 @@ class ProperThinkAI:
         print("\n✅ COMPLETE DISTRIBUTED PROCESSING!")
         print("="*60)
         
+        # Determine source
+        if final_response != distributed_response:
+            source = "claude_enhanced"
+        else:
+            source = "distributed"
+        
         return {
             "response": final_response,
+            "source": source,
             "architecture_usage": {
                 "cache": "checked",
                 "knowledge_base": f"{len(knowledge_results)} facts",
@@ -406,17 +446,26 @@ class ProperThinkAI:
             for insight in components['graph']:
                 response_parts.append(f"- {insight}")
         
-        # Use language model if available
-        if 'model_orchestrator' in self.services:
-            try:
-                model_response = await self.services['model_orchestrator'].generate(
-                    f"Answer this based on the following knowledge:\n{' '.join(response_parts)}\n\nQuestion: {query}\n\nAnswer:",
-                    max_tokens=200
-                )
-                if model_response:
-                    return model_response
-            except:
-                pass
+        # Use Phi-3.5 Mini for intelligent response generation
+        try:
+            # Create context from distributed knowledge
+            context = "\n".join(response_parts) if response_parts else ""
+            
+            # Generate with Phi-3.5 Mini
+            prompt = f"""Based on the following distributed knowledge, provide a helpful response:
+
+{context}
+
+User Question: {query}
+
+Response:"""
+            
+            model_response = await self.ollama_model.generate(prompt, max_tokens=200)
+            
+            if model_response and len(model_response.strip()) > 10:
+                return model_response.strip()
+        except Exception as e:
+            logger.warning(f"Phi-3.5 Mini generation failed: {e}")
         
         # Fallback: structured response
         if response_parts:
@@ -426,15 +475,19 @@ class ProperThinkAI:
     
     def _needs_enhancement(self, response: str, query: str) -> bool:
         """Determine if response needs Claude enhancement."""
-        # Enhancement criteria
-        if len(response) < 50:  # Too short
+        # With Phi-3.5 Mini, we need much less enhancement
+        
+        # Only enhance if:
+        if len(response) < 20:  # Very short or empty
             return True
-        if response.startswith("Based on my knowledge:"):  # Too structured
+        if "error" in response.lower() or "failed" in response.lower():
             return True
-        if "?" in query and "I don't" in response:  # Can't answer
+        if "complex mathematical proof" in query.lower():  # Very complex
+            return True
+        if "latest" in query.lower() and "2024" in query:  # Recent info
             return True
         
-        # Good enough - no enhancement needed!
+        # Phi-3.5 Mini handles most queries well - no enhancement needed!
         return False
     
     async def _enhance_with_claude(
