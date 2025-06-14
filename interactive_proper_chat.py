@@ -232,7 +232,10 @@ async def interactive_chat():
         traceback.print_exc()
     finally:
         print("\n🔄 Shutting down...")
-        await ai.shutdown()
+        try:
+            await ai.shutdown()
+        except Exception:
+            pass  # Ignore shutdown errors
         print("👋 Goodbye!")
 
 

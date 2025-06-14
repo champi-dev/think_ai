@@ -589,7 +589,10 @@ Please enhance this response to be more natural and helpful while incorporating 
     
     async def shutdown(self):
         """Graceful shutdown."""
-        await self.claude.close()
+        try:
+            await self.claude.close()
+        except Exception:
+            pass  # Ignore httpx shutdown errors
         await self.system.shutdown()
 
 
