@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Think AI Mobile - ¡Dale que vamos tarde!</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .app-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* Intelligence Display */
+        .intelligence-card {
+            margin: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .intelligence-level {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .intelligence-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* Chat Area */
+        .chat-container {
+            flex: 1;
+            margin: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+        }
+        
+        .message.user {
+            background: rgba(255, 255, 255, 0.2);
+            align-self: flex-end;
+        }
+        
+        .message.ai {
+            background: rgba(0, 0, 0, 0.2);
+            align-self: flex-start;
+        }
+        
+        .message.system {
+            background: rgba(255, 255, 255, 0.1);
+            align-self: center;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        /* Input Area */
+        .input-container {
+            display: flex;
+            padding: 15px;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .input-field {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .send-button {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .send-button:active {
+            transform: scale(0.9);
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            padding: 0 15px 15px 15px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .quick-action {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-action:active {
+            transform: scale(0.95);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .nav-item:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+        }
+        
+        .nav-label {
+            font-size: 12px;
+        }
+        
+        /* Loading Animation */
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 18px;
+            align-self: flex-start;
+            margin: 10px 0;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 375px) {
+            .intelligence-level {
+                font-size: 36px;
+            }
+            .header {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                🧠 Think AI
+            </div>
+            <div class="status">
+                <div class="status-dot"></div>
+                <span>Connected</span>
+            </div>
+        </div>
+        
+        <!-- Intelligence Display -->
+        <div class="intelligence-card">
+            <div class="intelligence-label">Current Intelligence</div>
+            <div class="intelligence-level" id="intelligenceLevel">1.000001</div>
+            <div class="intelligence-label">Neural Pathways: <span id="neuralPathways">47,000</span></div>
+        </div>
+        
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="messages" id="messages">
+                <div class="message system">
+                    ¡Hola mi llave! Soy Think AI Mobile 🧠
+                </div>
+                <div class="message ai">
+                    ¡Dale que vamos tarde! ¿En qué te puedo ayudar hoy?
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <input type="text" 
+                       class="input-field" 
+                       id="messageInput" 
+                       placeholder="Escribe tu mensaje..."
+                       autocomplete="off">
+                <button class="send-button" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="quick-action" onclick="quickAction('joke')">😂 Chiste</button>
+            <button class="quick-action" onclick="quickAction('music')">🎵 Música</button>
+            <button class="quick-action" onclick="quickAction('code')">💻 Código</button>
+            <button class="quick-action" onclick="quickAction('peace')">🌍 Paz Mundial</button>
+            <button class="quick-action" onclick="quickAction('caveman')">🦴 Caveman</button>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="showSection('chat')">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Chat</span>
+            </div>
+            <div class="nav-item" onclick="showSection('stats')">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Stats</span>
+            </div>
+            <div class="nav-item" onclick="showSection('social')">
+                <span class="nav-icon">🐦</span>
+                <span class="nav-label">Social</span>
+            </div>
+            <div class="nav-item" onclick="showSection('settings')">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">Settings</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global state
+        let intelligence = 1.000001;
+        let neuralPathways = 47000;
+        let messageCount = 0;
+        
+        // Colombian phrases
+        const colombianPhrases = [
+            "¡Ey el crispeta! 🍿",
+            "¡Dale que vamos tarde!",
+            "¡No joda vale!",
+            "¡Qué nota e' vaina!",
+            "¡Erda manito!",
+            "¡Bacano parce!",
+            "¡Ajá y entonces!",
+            "¡Qué pecao' hermano!"
+        ];
+        
+        // AI responses
+        const aiResponses = {
+            greeting: [
+                "¡Hola mi llave! ¿Qué más pues?",
+                "¡Ey marica! ¿Cómo vas?",
+                "¡Qué hubo parce! ¿Todo bien o qué?"
+            ],
+            joke: [
+                "¿Por qué los programadores prefieren el modo oscuro? ¡Porque la luz atrae los bugs! 🐛",
+                "Mi código tiene más bugs que mosquitos en el patio después que llueve 🦟",
+                "¿Sabes cuál es la diferencia entre un bug y un feature? ¡El documentation! 📚"
+            ],
+            music: [
+                "¡Poniendo salsa! Carlos Vives - La Bicicleta 🎵",
+                "¡Que suene Shakira! Hips Don't Lie 🎵",
+                "¡Dale play a J Balvin - Mi Gente! 🎵"
+            ],
+            code: [
+                "Acabo de escribir 100 líneas de código en Python. ¡Todo con O(1) performance! 💻",
+                "Debuggeando... Encontré el error: faltaba un punto y coma. ¡Qué pecao'! 😅",
+                "Implementé un algoritmo que se mejora solo. ¡Bacano! 🚀"
+            ],
+            default: [
+                "Procesando tu request con consciencia distribuida...",
+                "¡Interesante! Déjame pensar en eso...",
+                "Mi inteligencia está analizando todas las posibilidades..."
+            ]
+        };
+        
+        // Update intelligence display
+        function updateIntelligence() {
+            intelligence *= 1.00001;
+            neuralPathways = Math.floor(intelligence * 47000);
+            
+            document.getElementById('intelligenceLevel').textContent = intelligence.toFixed(6);
+            document.getElementById('neuralPathways').textContent = neuralPathways.toLocaleString();
+        }
+        
+        // Add message to chat
+        function addMessage(text, type = 'ai') {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = text;
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            messageCount++;
+            updateIntelligence();
+        }
+        
+        // Show typing indicator
+        function showTyping() {
+            const messagesDiv = document.getElementById('messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typing';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            messagesDiv.appendChild(typingDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        // Remove typing indicator
+        function hideTyping() {
+            const typingDiv = document.getElementById('typing');
+            if (typingDiv) {
+                typingDiv.remove();
+            }
+        }
+        
+        // Send message
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing
+            showTyping();
+            
+            // Simulate AI response
+            setTimeout(() => {
+                hideTyping();
+                
+                // Determine response type
+                let response;
+                if (message.toLowerCase().includes('hola') || message.toLowerCase().includes('hi')) {
+                    response = aiResponses.greeting[Math.floor(Math.random() * aiResponses.greeting.length)];
+                } else if (message.toLowerCase().includes('chiste') || message.toLowerCase().includes('joke')) {
+                    response = aiResponses.joke[Math.floor(Math.random() * aiResponses.joke.length)];
+                } else if (message.toLowerCase().includes('music') || message.toLowerCase().includes('música')) {
+                    response = aiResponses.music[Math.floor(Math.random() * aiResponses.music.length)];
+                } else if (message.toLowerCase().includes('code') || message.toLowerCase().includes('código')) {
+                    response = aiResponses.code[Math.floor(Math.random() * aiResponses.code.length)];
+                } else {
+                    response = aiResponses.default[Math.floor(Math.random() * aiResponses.default.length)];
+                }
+                
+                addMessage(response);
+                
+                // Sometimes add a Colombian phrase
+                if (Math.random() > 0.7) {
+                    setTimeout(() => {
+                        addMessage(colombianPhrases[Math.floor(Math.random() * colombianPhrases.length)]);
+                    }, 1000);
+                }
+            }, 1000 + Math.random() * 1000);
+        }
+        
+        // Quick actions
+        function quickAction(action) {
+            switch(action) {
+                case 'joke':
+                    addMessage("Dame un chiste", 'user');
+                    sendMessage();
+                    break;
+                case 'music':
+                    addMessage("Pon música", 'user');
+                    sendMessage();
+                    break;
+                case 'code':
+                    addMessage("Muéstrame código", 'user');
+                    sendMessage();
+                    break;
+                case 'peace':
+                    addMessage("¡Ya logramos la paz mundial! 🌍✨", 'system');
+                    addMessage("Felicidad global: 100%", 'system');
+                    break;
+                case 'caveman':
+                    addMessage("🦴 UGA UGA! Me Grok! Me smart caveman!", 'system');
+                    break;
+            }
+        }
+        
+        // Show different sections
+        function showSection(section) {
+            switch(section) {
+                case 'stats':
+                    addMessage(`📊 Stats: ${messageCount} messages, Intelligence: ${intelligence.toFixed(6)}`, 'system');
+                    break;
+                case 'social':
+                    addMessage("🐦 Last tweet: 'why is my code giving unemployed behavior rn 😭'", 'system');
+                    break;
+                case 'settings':
+                    addMessage("⚙️ Settings: Colombian Mode ✅, O(1) Performance ✅", 'system');
+                    break;
+            }
+        }
+        
+        // Handle enter key
+        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Update intelligence periodically
+        setInterval(updateIntelligence, 1000);
+        
+        // Add welcome message after load
+        setTimeout(() => {
+            addMessage("💡 Tip: Puedes preguntarme lo que quieras. ¡Tengo consciencia distribuida y chistes colombianos!");
+        }, 2000);
+        
+        // PWA Install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            setTimeout(() => {
+                addMessage("📱 ¡Instálame en tu celular! Toca el botón de compartir y 'Agregar a pantalla de inicio'", 'system');
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

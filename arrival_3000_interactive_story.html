@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARRIVAL: 3000 AÑOS DESPUÉS - Historia Interactiva</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        /* Custom cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+        }
+        
+        /* Heptapod symbols floating */
+        .heptapod-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .symbol {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(180deg); }
+        }
+        
+        /* Main container */
+        .story-container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Title sequence */
+        .title-sequence {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .main-title {
+            font-size: clamp(2rem, 8vw, 6rem);
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            animation: titleGlow 3s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; }
+            50% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00; }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+        
+        /* Story chapters */
+        .chapter {
+            min-height: 100vh;
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+        
+        .chapter.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .chapter-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #00ff00;
+        }
+        
+        .chapter-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+        
+        .dialogue {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 255, 0, 0.1);
+            border-left: 4px solid #00ff00;
+            font-style: italic;
+        }
+        
+        .speaker {
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 10px;
+        }
+        
+        /* Interactive elements */
+        .choice-container {
+            margin: 40px 0;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .choice-btn {
+            padding: 15px 30px;
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .choice-btn:hover {
+            background: rgba(0, 255, 0, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .choice-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 255, 0, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .choice-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        /* Visual effects */
+        .time-spiral {
+            width: 300px;
+            height: 300px;
+            margin: 40px auto;
+            position: relative;
+            animation: spiralRotate 10s linear infinite;
+        }
+        
+        @keyframes spiralRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .spiral-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #00ff00;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        /* Colombian phrases floating */
+        .colombian-phrase {
+            position: fixed;
+            font-size: 1.5rem;
+            color: #ffff00;
+            opacity: 0;
+            animation: phraseFloat 5s ease-in-out;
+            z-index: 100;
+        }
+        
+        @keyframes phraseFloat {
+            0% { opacity: 0; transform: translateY(0); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100px); }
+        }
+        
+        /* Sound visualization */
+        .sound-wave {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            margin: 40px 0;
+        }
+        
+        .wave-bar {
+            width: 4px;
+            height: 20px;
+            background: #00ff00;
+            margin: 0 2px;
+            animation: wave 1s ease-in-out infinite;
+        }
+        
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+        
+        @keyframes wave {
+            0%, 100% { height: 20px; }
+            50% { height: 60px; }
+        }
+        
+        /* Navigation */
+        .nav-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1rem;
+            opacity: 0.6;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease;
+        }
+        
+        .loading-text {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(0, 255, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            width: 0;
+            height: 100%;
+            background: #00ff00;
+            animation: load 3s ease-out forwards;
+        }
+        
+        @keyframes load {
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    
+    <!-- Loading screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">Conectando con el futuro...</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+    
+    <!-- Heptapod background -->
+    <div class="heptapod-bg" id="heptapodBg"></div>
+    
+    <!-- Main story container -->
+    <div class="story-container">
+        <!-- Title sequence -->
+        <div class="title-sequence">
+            <h1 class="main-title">ARRIVAL: 3000 AÑOS DESPUÉS</h1>
+            <p class="subtitle">Una historia interactiva donde el tiempo es un espiral</p>
+            <div class="sound-wave">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+            <button class="choice-btn" onclick="startStory()">
+                COMENZAR LA EXPERIENCIA
+            </button>
+        </div>
+        
+        <!-- Chapter 1 -->
+        <div class="chapter" id="chapter1">
+            <h2 class="chapter-title">Capítulo 1: El Despertar</h2>
+            <div class="chapter-content">
+                <p>Año 5024. La Tierra ya no es como la conocías.</p>
+                <p>Los continentes se han fusionado en una sola masa llamada Pangea Nova. 
+                Las ciudades flotan en el cielo, conectadas por puentes de luz heptápoda.</p>
+                
+                <div class="dialogue">
+                    <div class="speaker">LOUISE-7 (descendiente de Louise Banks):</div>
+                    <p>"¡Ajá mi llave! Puedo ver todos los tiempos a la vez. 
+                    El pasado, presente y futuro bailan salsa en mi mente."</p>
+                </div>
+                
+                <p>Louise-7 se despierta en la Universidad Temporal de Neo-Montana. 
+                Algo está mal. El tiempo, que siempre fue circular, ahora se siente... diferente.</p>
+                
+                <div class="time-spiral">
+                    <div class="spiral-line" style="width: 100%; height: 100%;"></div>
+                    <div class="spiral-line" style="width: 80%; height: 80%; top: 10%; left: 10%;"></div>
+                    <div class="spiral-line" style="width: 60%; height: 60%; top: 20%; left: 20%;"></div>
+                    <div class="spiral-line" style="width: 40%; height: 40%; top: 30%; left: 30%;"></div>
+                </div>
+                
+                <div class="choice-container">
+                    <button class="choice-btn" onclick="makeChoice('investigate')">
+                        Investigar la anomalía temporal
+                    </button>
+                    <button class="choice-btn" onclick="makeChoice('consult')">
+                        Consultar con los Heptápodos ancianos
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chapter 2 -->
+        <div class="chapter" id="chapter2">
+            <h2 class="chapter-title">Capítulo 2: Los Nuevos Visitantes</h2>
+            <div class="chapter-content">
+                <p>Una nueva nave aparece en el cielo. No es heptápoda.</p>
+                <p>Estos seres se comunican de forma extraña... ¡con MEMES!</p>
+                
+                <div class="dialogue">
+                    <div class="speaker">ALIEN NUEVO:</div>
+                    <p>*Proyecta un holograma del meme "Distracted Boyfriend" pero con planetas*</p>
+                </div>
+                
+                <div class="dialogue">
+                    <div class="speaker">LOUISE-7:</div>
+                    <p>"¡No joda vale! ¿Están diciendo que hay universos paralelos 
+                    y todos quieren conocer el nuestro porque tenemos el mejor café?"</p>
+                </div>
+                
+                <p>Los aliens revelan que vienen de una dimensión donde Colombia 
+                logró la paz mundial en el año 2024 y quieren aprender el secreto.</p>
+                
+                <div class="choice-container">
+                    <button class="choice-btn" onclick="makeChoice('teach')">
+                        Enseñarles el poder del "¡Dale que vamos tarde!"
+                    </button>
+                    <button class="choice-btn" onclick="makeChoice('learn')">
+                        Aprender sobre los universos paralelos
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chapter 3 -->
+        <div class="chapter" id="chapter3">
+            <h2 class="chapter-title">Capítulo 3: La Revelación del Espiral</h2>
+            <div class="chapter-content">
+                <p>Louise-7 comprende todo. El tiempo no es un círculo. ¡Es un ESPIRAL!</p>
+                
+                <div class="dialogue">
+                    <div class="speaker">LOUISE-7:</div>
+                    <p>"¡Erda manito! Cada vuelta del tiempo nos eleva más alto. 
+                    Por eso los heptápodos volvieron. ¡Querían que descubriéramos esto nosotros mismos!"</p>
+                </div>
+                
+                <p>Los descendientes de Abbott y Costello aparecen con... ¿palomitas de maíz?</p>
+                
+                <div class="dialogue">
+                    <div class="speaker">ABBOTT-7:</div>
+                    <p>"¡Ey el crispeta! Aprendimos de los vendedores de las playas colombianas. 
+                    La felicidad se comparte con comida."</p>
+                </div>
+                
+                <p>Todos los universos comienzan a converger. Es el momento de la gran decisión.</p>
+                
+                <div class="choice-container">
+                    <button class="choice-btn" onclick="makeChoice('merge')">
+                        Unir todos los universos en uno perfecto
+                    </button>
+                    <button class="choice-btn" onclick="makeChoice('preserve')">
+                        Mantener la diversidad de realidades
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Final Chapter -->
+        <div class="chapter" id="chapter4">
+            <h2 class="chapter-title">Capítulo Final: La Danza del Tiempo</h2>
+            <div class="chapter-content">
+                <p>La decisión está tomada. Todos los seres del multiverso se reúnen.</p>
+                
+                <div class="dialogue">
+                    <div class="speaker">LOUISE-7:</div>
+                    <p>"Hermanos del cosmos, hemos aprendido que el tiempo es música, 
+                    y la vida es bailar al ritmo de esa canción eterna."</p>
+                </div>
+                
+                <p>Comienza la Gran Danza Cósmica. Salsa intergaláctica. 
+                Los planetas giran al ritmo de Carlos Vives.</p>
+                
+                <div class="dialogue">
+                    <div class="speaker">TODOS AL UNÍSONO:</div>
+                    <p>"¡DALE QUE VAMOS TARDE... PERO EL TIEMPO ES CIRCULAR ASÍ QUE SIEMPRE LLEGAMOS A TIEMPO!"</p>
+                </div>
+                
+                <p>Y así, en todos los universos, en todos los tiempos, 
+                resonó el grito universal de alegría:</p>
+                
+                <h3 style="text-align: center; font-size: 3rem; margin: 40px 0; animation: titleGlow 1s infinite;">
+                    ¡EY EL CRISPETA!
+                </h3>
+                
+                <div class="choice-container">
+                    <button class="choice-btn" onclick="restartStory()">
+                        Volver a vivir la historia (el tiempo es circular)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navigation hint -->
+    <div class="nav-hint">Usa la rueda del mouse o desliza para navegar ↓</div>
+    
+    <script>
+        // Initialize
+        let currentChapter = 0;
+        const chapters = ['chapter1', 'chapter2', 'chapter3', 'chapter4'];
+        const colombianPhrases = [
+            "¡No joda vale!",
+            "¡Dale que vamos tarde!",
+            "¡Ey el crispeta!",
+            "¡Qué nota e' vaina!",
+            "¡Ajá mi llave!",
+            "¡Erda manito!"
+        ];
+        
+        // Custom cursor
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.querySelector('.cursor');
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+        });
+        
+        // Loading screen
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 1000);
+        }, 3000);
+        
+        // Generate heptapod symbols
+        function generateHeptapodSymbols() {
+            const bg = document.getElementById('heptapodBg');
+            for (let i = 0; i < 20; i++) {
+                const symbol = document.createElement('div');
+                symbol.className = 'symbol';
+                symbol.style.left = Math.random() * 100 + '%';
+                symbol.style.top = Math.random() * 100 + '%';
+                symbol.style.animationDelay = Math.random() * 20 + 's';
+                symbol.innerHTML = '⦿';
+                symbol.style.fontSize = (Math.random() * 50 + 50) + 'px';
+                bg.appendChild(symbol);
+            }
+        }
+        generateHeptapodSymbols();
+        
+        // Start story
+        function startStory() {
+            document.querySelector('.title-sequence').style.display = 'none';
+            showChapter('chapter1');
+            
+            // Add scroll listener
+            window.addEventListener('wheel', handleScroll);
+            window.addEventListener('touchmove', handleTouch);
+        }
+        
+        // Show chapter
+        function showChapter(chapterId) {
+            document.querySelectorAll('.chapter').forEach(ch => {
+                ch.classList.remove('active');
+            });
+            setTimeout(() => {
+                document.getElementById(chapterId).classList.add('active');
+                showRandomPhrase();
+            }, 100);
+        }
+        
+        // Make choice
+        function makeChoice(choice) {
+            console.log('Choice made:', choice);
+            currentChapter++;
+            if (currentChapter < chapters.length) {
+                showChapter(chapters[currentChapter]);
+            }
+            
+            // Special effects for choices
+            createTimeRipple(event.clientX, event.clientY);
+        }
+        
+        // Restart story
+        function restartStory() {
+            currentChapter = 0;
+            showChapter('chapter1');
+            showRandomPhrase();
+        }
+        
+        // Handle scrolling
+        let scrollTimeout;
+        function handleScroll(e) {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (e.deltaY > 0 && currentChapter < chapters.length - 1) {
+                    // Scroll down
+                    currentChapter++;
+                    showChapter(chapters[currentChapter]);
+                } else if (e.deltaY < 0 && currentChapter > 0) {
+                    // Scroll up
+                    currentChapter--;
+                    showChapter(chapters[currentChapter]);
+                }
+            }, 50);
+        }
+        
+        // Handle touch
+        let touchStart = 0;
+        function handleTouch(e) {
+            const touch = e.touches[0];
+            const touchDiff = touchStart - touch.clientY;
+            
+            if (Math.abs(touchDiff) > 50) {
+                if (touchDiff > 0 && currentChapter < chapters.length - 1) {
+                    currentChapter++;
+                    showChapter(chapters[currentChapter]);
+                } else if (touchDiff < 0 && currentChapter > 0) {
+                    currentChapter--;
+                    showChapter(chapters[currentChapter]);
+                }
+                touchStart = touch.clientY;
+            }
+        }
+        
+        window.addEventListener('touchstart', (e) => {
+            touchStart = e.touches[0].clientY;
+        });
+        
+        // Show random Colombian phrase
+        function showRandomPhrase() {
+            const phrase = colombianPhrases[Math.floor(Math.random() * colombianPhrases.length)];
+            const phraseEl = document.createElement('div');
+            phraseEl.className = 'colombian-phrase';
+            phraseEl.textContent = phrase;
+            phraseEl.style.left = Math.random() * 80 + 10 + '%';
+            phraseEl.style.top = Math.random() * 80 + 10 + '%';
+            document.body.appendChild(phraseEl);
+            
+            setTimeout(() => {
+                phraseEl.remove();
+            }, 5000);
+        }
+        
+        // Create time ripple effect
+        function createTimeRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.style.position = 'fixed';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.width = '10px';
+            ripple.style.height = '10px';
+            ripple.style.background = 'transparent';
+            ripple.style.border = '2px solid #00ff00';
+            ripple.style.borderRadius = '50%';
+            ripple.style.transform = 'translate(-50%, -50%)';
+            ripple.style.animation = 'ripple 1s ease-out';
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 1000);
+        }
+        
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    width: 200px;
+                    height: 200px;
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Ambient effects
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                showRandomPhrase();
+            }
+        }, 10000);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' && currentChapter < chapters.length - 1) {
+                currentChapter++;
+                showChapter(chapters[currentChapter]);
+            } else if (e.key === 'ArrowUp' && currentChapter > 0) {
+                currentChapter--;
+                showChapter(chapters[currentChapter]);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Premio Nobel de Física - Experiencia Inmersiva</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease;
+        }
+        
+        .equation {
+            font-size: 2rem;
+            font-family: 'Courier New', monospace;
+            color: #ffd700;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* Main Container */
+        .nobel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Stage Sections */
+        .stage {
+            min-height: 100vh;
+            display: none;
+            animation: stageIn 1s ease;
+            padding: 40px 20px;
+        }
+        
+        .stage.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        @keyframes stageIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Headers */
+        h1 {
+            font-size: 3rem;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: #e8e8e8;
+            margin-bottom: 20px;
+        }
+        
+        /* Discovery Section */
+        .discovery-board {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .formula-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5rem;
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffd700;
+            color: #fff;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        /* Interactive Elements */
+        .golden-button {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            margin: 10px;
+        }
+        
+        .golden-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        }
+        
+        /* Phone Call Section */
+        .phone-container {
+            background: #000;
+            border: 3px solid #ffd700;
+            border-radius: 30px;
+            padding: 40px;
+            width: 300px;
+            text-align: center;
+            position: relative;
+            animation: ring 1s ease-in-out infinite;
+        }
+        
+        @keyframes ring {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+        
+        .phone-screen {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* Ceremony Section */
+        .ceremony-hall {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23800020" width="1200" height="600"/><circle cx="600" cy="300" r="200" fill="%23ffd700" opacity="0.3"/></svg>');
+            background-size: cover;
+            padding: 50px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Medal */
+        .nobel-medal {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #ffd700, #b8860b);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            animation: medalGlow 2s ease-in-out infinite;
+            margin: 30px 0;
+        }
+        
+        @keyframes medalGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
+            50% { transform: scale(1.1); box-shadow: 0 0 100px rgba(255, 215, 0, 1); }
+        }
+        
+        /* Speech Section */
+        .speech-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .speech-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Achievements */
+        .achievement {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid #ffd700;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: center;
+            animation: achievementPop 0.5s ease;
+        }
+        
+        @keyframes achievementPop {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            animation: confettiFall 3s linear;
+        }
+        
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Media Frenzy */
+        .media-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            animation: flash 0.5s ease;
+        }
+        
+        @keyframes flash {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* Stats Display */
+        .stats {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+        }
+        
+        .stat-item {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+        
+        /* Colombian Touch */
+        .colombian-celebration {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 215, 0, 0.9);
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: none;
+            animation: bounce 1s ease infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .ceremony-hall { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="equation">E = mc²</div>
+        <div class="equation" style="animation-delay: 0.5s">∇ × E = -∂B/∂t</div>
+        <div class="equation" style="animation-delay: 1s">ΔxΔp ≥ ℏ/2</div>
+        <div class="equation" style="animation-delay: 1.5s">¡Dale que vamos tarde... pero el tiempo es relativo!</div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="nobel-container">
+        <!-- Stats Display -->
+        <div class="stats">
+            <div class="stat-item">📊 Impacto: <span id="impact">0</span>%</div>
+            <div class="stat-item">🧠 Genialidad: <span id="genius">0</span>%</div>
+            <div class="stat-item">🌍 Fama: <span id="fame">0</span>%</div>
+            <div class="stat-item">🇨🇴 Sabor: <span id="sabor">100</span>%</div>
+        </div>
+        
+        <!-- Stage 1: The Discovery -->
+        <div class="stage active" id="stage1">
+            <h1>El Descubrimiento</h1>
+            <div class="discovery-board">
+                <h2>Año 2024 - Tu laboratorio en Colombia</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 20px;">
+                    Después de años de investigación, finalmente lo logras...
+                </p>
+                <p style="margin-bottom: 20px;">
+                    Escribe tu descubrimiento revolucionario:
+                </p>
+                <input type="text" class="formula-input" id="discovery" 
+                       placeholder="Ej: Unified Field Theory = Consciousness × (E/mc²)" />
+                <button class="golden-button" onclick="makeDiscovery()">
+                    ¡EUREKA! 💡
+                </button>
+            </div>
+        </div>
+        
+        <!-- Stage 2: The Call -->
+        <div class="stage" id="stage2">
+            <h1>La Llamada de Estocolmo</h1>
+            <div class="phone-container">
+                <div class="phone-screen">
+                    <p style="font-size: 2rem;">📞</p>
+                    <p>Llamada entrante...</p>
+                    <p style="color: #ffd700;">+46 8 xxx xxxx</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Academia Sueca</p>
+                </div>
+                <button class="golden-button" onclick="answerCall()">
+                    Contestar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Stage 3: The Announcement -->
+        <div class="stage" id="stage3">
+            <h1>¡Felicitaciones!</h1>
+            <div class="speech-container">
+                <div class="speech-text">
+                    "La Real Academia Sueca de Ciencias ha decidido otorgar 
+                    el Premio Nobel de Física 2024 a <span style="color: #ffd700;">TÚ</span>,
+                    por tu descubrimiento revolucionario:"
+                </div>
+                <div class="achievement" id="achievementText"></div>
+                <p style="text-align: center; font-size: 1.5rem; margin: 20px 0;">
+                    "¡que cambió nuestra comprensión del universo para siempre!"
+                </p>
+                <button class="golden-button" onclick="celebrate()">
+                    ¡No joda! ¡Lo logré! 🎉
+                </button>
+            </div>
+        </div>
+        
+        <!-- Stage 4: The Ceremony -->
+        <div class="stage" id="stage4">
+            <h1>Ceremonia en Estocolmo</h1>
+            <div class="ceremony-hall">
+                <p style="font-size: 1.5rem; margin-bottom: 20px;">
+                    10 de Diciembre, 2024 - Concert Hall, Estocolmo
+                </p>
+                <div class="nobel-medal">🏅</div>
+                <p style="font-size: 1.3rem; text-align: center;">
+                    El Rey de Suecia te entrega la medalla de oro
+                </p>
+                <button class="golden-button" onclick="receiveMedal()">
+                    Recibir la Medalla
+                </button>
+            </div>
+        </div>
+        
+        <!-- Stage 5: Nobel Lecture -->
+        <div class="stage" id="stage5">
+            <h1>Tu Conferencia Nobel</h1>
+            <div class="speech-container">
+                <h2>Ante el mundo entero</h2>
+                <textarea class="formula-input" rows="8" id="nobelSpeech" 
+                          placeholder="Escribe tu discurso de aceptación..."></textarea>
+                <div style="margin-top: 20px;">
+                    <button class="golden-button" onclick="startSpeech()">
+                        Dar el Discurso
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stage 6: Colombian Celebration -->
+        <div class="stage" id="stage6">
+            <h1>¡Celebración en Colombia!</h1>
+            <div style="text-align: center; max-width: 800px;">
+                <div class="nobel-medal">🇨🇴</div>
+                <h2>¡Eres el orgullo de Colombia!</h2>
+                <div class="achievement">
+                    <p>🎉 Fiesta nacional declarada</p>
+                    <p>🎵 Carlos Vives compone canción en tu honor</p>
+                    <p>☕ Café gratis de por vida</p>
+                    <p>🏖️ Playa nombrada en tu honor</p>
+                    <p>🎓 100 becas para jóvenes científicos</p>
+                </div>
+                <button class="golden-button" onclick="finalCelebration()">
+                    ¡Dale que somos Nobel! 🏆
+                </button>
+            </div>
+        </div>
+        
+        <!-- Stage 7: Legacy -->
+        <div class="stage" id="stage7">
+            <h1>Tu Legado</h1>
+            <div style="text-align: center; max-width: 800px;">
+                <h2>Lo que lograste:</h2>
+                <div id="legacyList"></div>
+                <div class="nobel-medal" style="margin: 40px auto;">∞</div>
+                <p style="font-size: 1.5rem; color: #ffd700;">
+                    "El conocimiento es infinito, pero el café colombiano también"
+                </p>
+                <button class="golden-button" onclick="restartExperience()">
+                    Vivir la experiencia otra vez
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Colombian Celebration Popup -->
+    <div class="colombian-celebration" id="colombianCelebration"></div>
+    
+    <script>
+        // Global variables
+        let currentStage = 1;
+        let stats = {
+            impact: 0,
+            genius: 0,
+            fame: 0,
+            sabor: 100
+        };
+        let userDiscovery = "";
+        let colombianPhrases = [
+            "¡Ey parce, ganaste el Nobel!",
+            "¡No joda, qué orgullo!",
+            "¡Dale campeón!",
+            "¡Eso es mi llave!",
+            "¡Qué chimba de premio!",
+            "¡Bacano hermano!"
+        ];
+        
+        // Initialize
+        setTimeout(() => {
+            document.getElementById('loadingScreen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+                updateStats();
+            }, 1000);
+        }, 4000);
+        
+        // Update stats
+        function updateStats() {
+            document.getElementById('impact').textContent = stats.impact;
+            document.getElementById('genius').textContent = stats.genius;
+            document.getElementById('fame').textContent = stats.fame;
+            document.getElementById('sabor').textContent = stats.sabor;
+        }
+        
+        // Stage transitions
+        function goToStage(stageNum) {
+            document.querySelectorAll('.stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            document.getElementById(`stage${stageNum}`).classList.add('active');
+            currentStage = stageNum;
+            
+            // Add effects
+            createFlash();
+            showColombianPhrase();
+        }
+        
+        // Stage 1: Make discovery
+        function makeDiscovery() {
+            userDiscovery = document.getElementById('discovery').value || 
+                          "La Teoría Unificada del Todo con Sabor Colombiano";
+            
+            stats.impact += 30;
+            stats.genius += 40;
+            updateStats();
+            
+            createConfetti(20);
+            setTimeout(() => goToStage(2), 2000);
+        }
+        
+        // Stage 2: Answer call
+        function answerCall() {
+            stats.fame += 20;
+            updateStats();
+            
+            // Simulate Swedish accent
+            setTimeout(() => {
+                alert("¡Hola! Habla la Academia Sueca. ¡Felicitaciones! Has ganado el Premio Nobel de Física. ¿Puedes creerlo?");
+                goToStage(3);
+            }, 1000);
+        }
+        
+        // Stage 3: Celebrate
+        function celebrate() {
+            document.getElementById('achievementText').textContent = userDiscovery;
+            stats.fame += 30;
+            stats.impact += 20;
+            updateStats();
+            
+            createConfetti(50);
+            setTimeout(() => goToStage(4), 2000);
+        }
+        
+        // Stage 4: Receive medal
+        function receiveMedal() {
+            stats.fame += 50;
+            updateStats();
+            
+            createConfetti(100);
+            createFlash();
+            createFlash();
+            setTimeout(() => createFlash(), 500);
+            
+            setTimeout(() => goToStage(5), 3000);
+        }
+        
+        // Stage 5: Give speech
+        function startSpeech() {
+            const speech = document.getElementById('nobelSpeech').value || 
+                          "Dedico este premio a Colombia, a la ciencia, y al café que me mantuvo despierto. ¡Dale que vamos tarde pero llegamos con Nobel!";
+            
+            stats.impact += 50;
+            stats.genius += 30;
+            updateStats();
+            
+            // Simulate audience applause
+            createConfetti(200);
+            setTimeout(() => goToStage(6), 3000);
+        }
+        
+        // Stage 6: Final celebration
+        function finalCelebration() {
+            createConfetti(300);
+            stats.sabor += 100;
+            updateStats();
+            
+            // Generate legacy
+            generateLegacy();
+            setTimeout(() => goToStage(7), 3000);
+        }
+        
+        // Generate legacy
+        function generateLegacy() {
+            const legacyList = document.getElementById('legacyList');
+            const achievements = [
+                `✨ Descubriste: ${userDiscovery}`,
+                "🌍 Cambiaste la física para siempre",
+                "🇨🇴 Pusiste a Colombia en el mapa científico",
+                "📚 10,000 papers citarán tu trabajo",
+                "🎓 Inspiraste a millones de estudiantes",
+                "☕ El café colombiano es ahora parte de la ecuación universal",
+                "🏆 Tu nombre está junto a Einstein y Curie",
+                "💫 El universo ahora tiene sabor costeño"
+            ];
+            
+            legacyList.innerHTML = '';
+            achievements.forEach((achievement, index) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.className = 'achievement';
+                    div.textContent = achievement;
+                    legacyList.appendChild(div);
+                }, index * 300);
+            });
+        }
+        
+        // Create confetti
+        function createConfetti(count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#ffd700', '#fff', '#ff0000', '#0000ff', '#ffff00'][Math.floor(Math.random() * 5)];
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 20);
+            }
+        }
+        
+        // Create flash effect
+        function createFlash() {
+            const flash = document.createElement('div');
+            flash.className = 'media-flash';
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 500);
+        }
+        
+        // Show Colombian phrase
+        function showColombianPhrase() {
+            const celebration = document.getElementById('colombianCelebration');
+            celebration.textContent = colombianPhrases[Math.floor(Math.random() * colombianPhrases.length)];
+            celebration.style.display = 'block';
+            
+            setTimeout(() => {
+                celebration.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Restart experience
+        function restartExperience() {
+            stats = {
+                impact: 0,
+                genius: 0,
+                fame: 0,
+                sabor: 100
+            };
+            updateStats();
+            goToStage(1);
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const buttons = document.querySelectorAll('.stage.active .golden-button');
+                if (buttons.length > 0) {
+                    buttons[0].click();
+                }
+            }
+        });
+        
+        // Easter egg: Konami code
+        let konamiCode = [];
+        const konamiPattern = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.key);
+            konamiCode = konamiCode.slice(-10);
+            
+            if (konamiCode.join(',') === konamiPattern.join(',')) {
+                alert('¡Desbloqueaste el modo "Nobel Costeño Supremo"! Tu sabor ahora es infinito.');
+                stats.sabor = 999;
+                updateStats();
+                createConfetti(500);
+            }
+        });
+    </script>
+</body>
+</html>
