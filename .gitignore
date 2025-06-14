@@ -74,6 +74,25 @@ Thumbs.db
 logs/
 data/
 .think_ai/
+thinking.log
+training.log
+claude_training.log
+monitor_*.sh
+.think_ai_cache/
+.benchmarks/
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.npm
+.eslintcache
+
+# Python package builds
+think_ai_consciousness.egg-info/
+*.whl
 
 # Docker volumes
 docker-compose.override.yml

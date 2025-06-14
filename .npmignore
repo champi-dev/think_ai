@@ -1,0 +1,13 @@
+src/
+tests/
+*.log
+.env
+.git/
+.github/
+.vscode/
+*.pyc
+__pycache__/
+node_modules/
+*.egg-info/
+build/
+*.whl
