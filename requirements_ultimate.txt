@@ -1,0 +1,31 @@
+# Ultimate Think AI Requirements
+
+# Core AI
+anthropic  # Claude API
+transformers  # Language models
+torch  # PyTorch for neural networks
+
+# Distributed Systems
+cassandra-driver  # ScyllaDB
+redis  # Redis cache
+pymilvus  # Milvus vector DB
+neo4j  # Neo4j graph DB
+
+# Performance
+uvloop  # High-performance asyncio
+aiohttp  # Async HTTP
+httpx  # HTTP client
+multiprocess  # Better multiprocessing
+
+# Hot Reloading
+watchdog  # File system monitoring
+
+# Utilities
+python-dotenv  # Environment variables
+structlog  # Structured logging
+rich  # Beautiful terminal output
+numpy  # Numerical computing
+
+# Monitoring
+psutil  # System monitoring
+prometheus-client  # Metrics export
