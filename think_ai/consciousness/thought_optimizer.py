@@ -188,7 +188,7 @@ class ThoughtOptimizer:
         merged = {
             "type": "compressed_insight",
             "state": "reflecting",
-            "thought": f"Consolidated insight from {len(thoughts)} similar thoughts: {all_text[:200]}...",
+            "thought": f"Consolidated insight from {len(thoughts)} similar thoughts: {all_text}",
             "timestamp": latest_timestamp,
             "awareness": avg_awareness,
             "original_count": len(thoughts),

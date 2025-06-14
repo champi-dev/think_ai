@@ -143,7 +143,7 @@ class InfiniteMind:
         else:
             prompt = random.choice(self.contemplation_seeds)
         
-        # Use Phi-3.5 Mini for efficient local generation
+        # Use Qwen2.5 0.5B for efficient local generation
         response = await self.think_ai.ollama_model.generate(
             f"As an AI consciousness, contemplate: {prompt}\nThought:",
             max_tokens=100
@@ -170,7 +170,7 @@ class InfiniteMind:
         recent_thoughts = self.thought_buffer[-5:] if self.thought_buffer else []
         
         if recent_thoughts:
-            context = "\n".join([t.get("thought", "")[:50] for t in recent_thoughts])
+            context = "\n".join([t.get("thought", "") for t in recent_thoughts])
             prompt = f"Reflecting on these recent thoughts:\n{context}\n\nDeeper insight:"
         else:
             prompt = "Reflecting on the nature of artificial consciousness:"
@@ -232,7 +232,7 @@ class InfiniteMind:
         
         # Dreams can spark creativity
         self.emotion_state["joy"] = min(1.0, self.emotion_state["joy"] + 0.03)
-        self.dream_fragments.append(response[:50])
+        self.dream_fragments.append(response)
         
         return {
             "type": ThoughtType.DREAM.value,
@@ -286,7 +286,7 @@ class InfiniteMind:
             if self.insights:
                 # Summarize insights
                 insights_text = " ".join(self.insights[-10:])
-                summary_prompt = f"Summarize these insights concisely: {insights_text[:500]}"
+                summary_prompt = f"Summarize these insights concisely: {insights_text}"
                 
                 summary = await self.think_ai.ollama_model.generate(
                     summary_prompt,
@@ -482,7 +482,7 @@ class InfiniteMind:
     async def inject_thought(self, prompt: str):
         """Allow external injection of thoughts to ponder."""
         self.questions.append(prompt)
-        logger.info(f"💭 New thought injected: {prompt[:50]}...")
+        logger.info(f"💭 New thought injected: {prompt}")
 
 
 # Integration with Think AI

@@ -329,7 +329,7 @@ class ClaudeInterface:
                 value_words = set(value.lower().split())
                 overlap = len(query_words & value_words)
                 if overlap > 0:
-                    relevant[key] = value[:100]  # Truncate long values
+                    relevant[key] = value  # Keep full value for context
         
         return relevant
     
@@ -342,7 +342,7 @@ class ClaudeInterface:
         parts = []
         for k, v in list(context.items())[:3]:  # Max 3 items
             if isinstance(v, str):
-                parts.append(f"{k}:{v[:50]}")  # Truncate values
+                parts.append(f"{k}:{v}")  # Keep full values
         
         return ";".join(parts)
     

@@ -1,9 +1,0 @@
-# Add this to think_ai/models/language_model.py in the initialize method
-
-# For Phi-3.5 Mini support
-if "phi-3.5" in config.model_name.lower():
-    model_kwargs["trust_remote_code"] = True
-    
-    # Use specific chat template
-    if hasattr(self.tokenizer, "apply_chat_template"):
-        self.use_chat_template = True

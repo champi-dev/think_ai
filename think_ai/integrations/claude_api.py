@@ -442,8 +442,8 @@ class ClaudeAPI:
             else:
                 # Keep assistant messages as-is but truncate if very long
                 content = msg["content"]
-                if len(content) > 1000:
-                    content = content[:1000] + "... [truncated for token efficiency]"
+                # Keep full content, don't truncate assistant messages
+                # Token optimization should happen at prompt level, not response level
                 optimized.append({
                     "role": "assistant", 
                     "content": content

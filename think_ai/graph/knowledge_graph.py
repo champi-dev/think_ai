@@ -450,6 +450,59 @@ class KnowledgeGraph:
                 })
             
             return suggestions
+    
+    async def get_stats(self) -> Dict[str, Any]:
+        """Get Neo4j knowledge graph statistics."""
+        if not self.driver:
+            return {"status": "disconnected", "nodes": 0, "relationships": 0, "total_nodes": 0, "total_relationships": 0}
+        
+        try:
+            async with self.driver.session() as session:
+                # Count nodes
+                node_result = await session.run("MATCH (n) RETURN count(n) as node_count")
+                node_record = await node_result.single()
+                node_count = node_record["node_count"] if node_record else 0
+                
+                # Count relationships
+                rel_result = await session.run("MATCH ()-[r]->() RETURN count(r) as rel_count")
+                rel_record = await rel_result.single()
+                rel_count = rel_record["rel_count"] if rel_record else 0
+                
+                # Get node types
+                type_result = await session.run("""
+                    MATCH (n) 
+                    RETURN labels(n) as labels, count(*) as count 
+                    ORDER BY count DESC 
+                    LIMIT 5
+                """)
+                
+                node_types = []
+                async for record in type_result:
+                    labels = record["labels"]
+                    count = record["count"]
+                    if labels:
+                        node_types.append({"type": labels[0], "count": count})
+                
+                return {
+                    "status": "connected",
+                    "nodes": node_count,
+                    "relationships": rel_count,
+                    "total_nodes": node_count,
+                    "total_relationships": rel_count,
+                    "node_types": node_types,
+                    "database": "neo4j"
+                }
+                
+        except Exception as e:
+            logger.error(f"Failed to get Neo4j stats: {e}")
+            return {
+                "status": "error", 
+                "error": str(e),
+                "nodes": 0,
+                "relationships": 0,
+                "total_nodes": 0,
+                "total_relationships": 0
+            }
 
 
 class GraphEnhancedEngine:
