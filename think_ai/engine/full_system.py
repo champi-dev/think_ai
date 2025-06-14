@@ -69,11 +69,14 @@ class FullSystemInitializer:
         # Initialize Redis
         if self.config.get('redis', {}).get('enabled', False):
             try:
-                redis = RedisCache(
+                from ..core.config import RedisConfig
+                redis_config = RedisConfig(
                     host=self.config['redis'].get('host', 'localhost'),
-                    port=self.config['redis'].get('port', 6379)
+                    port=self.config['redis'].get('port', 6379),
+                    password=self.config['redis'].get('password', None)
                 )
-                await redis.connect()
+                redis = RedisCache(redis_config)
+                await redis.initialize()
                 self.services['redis'] = redis
                 logger.info("✅ Redis cache initialized")
             except Exception as e:
@@ -110,7 +113,7 @@ class FullSystemInitializer:
                     username=self.config['neo4j'].get('username', 'neo4j'),
                     password=self.config['neo4j'].get('password', 'think_ai_2024')
                 )
-                await neo4j.connect()
+                await neo4j.initialize()
                 self.services['neo4j'] = neo4j
                 logger.info("✅ Neo4j knowledge graph initialized")
             except Exception as e:

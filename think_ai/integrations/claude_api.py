@@ -41,10 +41,10 @@ class ClaudeAPI:
             raise ValueError("Claude API key required. Set CLAUDE_API_KEY environment variable.")
         
         # Configuration from environment
-        self.model = os.getenv("CLAUDE_MODEL", "claude-3-5-sonnet-20241022")
+        self.model = os.getenv("CLAUDE_MODEL", "claude-opus-4-20250514")
         self.max_tokens = int(os.getenv("CLAUDE_MAX_TOKENS", "4096"))
-        self.cost_per_input_token = float(os.getenv("CLAUDE_COST_PER_INPUT_TOKEN", "0.000003"))
-        self.cost_per_output_token = float(os.getenv("CLAUDE_COST_PER_OUTPUT_TOKEN", "0.000015"))
+        self.cost_per_input_token = float(os.getenv("CLAUDE_COST_PER_INPUT_TOKEN", "0.000015"))
+        self.cost_per_output_token = float(os.getenv("CLAUDE_COST_PER_OUTPUT_TOKEN", "0.000075"))
         
         # Features
         self.enabled = os.getenv("CLAUDE_ENABLED", "true").lower() == "true"

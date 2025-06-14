@@ -15,7 +15,7 @@ async def test_claude_api():
             return False
         
         print("🔑 Claude API key found")
-        print(f"🤖 Model: {os.getenv('CLAUDE_MODEL', 'claude-3-5-sonnet-20241022')}")
+        print(f"🤖 Model: {os.getenv('CLAUDE_MODEL', 'claude-opus-4-20250514')}")
         print(f"💰 Budget: ${os.getenv('CLAUDE_BUDGET_LIMIT', '20.0')}")
         
         # Initialize Claude API

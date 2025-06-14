@@ -34,7 +34,6 @@ click>=8.1.0
 pyyaml>=6.0.0
 rich>=13.7.0
 anthropic>=0.18.0
-cassandra-driver>=3.28.0
 
 # Development dependencies
 pytest>=7.4.0

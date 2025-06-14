@@ -69,8 +69,14 @@ class SimpleConsciousChat:
         try:
             while self.running:
                 try:
-                    # Get user input
-                    user_input = await asyncio.to_thread(input, "> ")
+                    # Get user input with EOF handling
+                    try:
+                        user_input = await asyncio.to_thread(input, "> ")
+                    except EOFError:
+                        # No interactive input available
+                        print("\n👋 No interactive input detected. Exiting...")
+                        self.running = False
+                        break
                     
                     if not user_input.strip():
                         continue
