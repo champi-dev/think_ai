@@ -117,7 +117,7 @@ class ScyllaDBBackend(StorageBackend):
         """Store an item with O(1) performance."""
         query = """
         INSERT INTO storage (key, id, content, metadata, created_at, updated_at, version)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         
         # Serialize content and metadata
@@ -126,8 +126,8 @@ class ScyllaDBBackend(StorageBackend):
         
         await self._execute_async(
             query,
-            (key, item.id, content_json, metadata_json, 
-             item.created_at, item.updated_at, item.version)
+            [key, item.id, content_json, metadata_json, 
+             item.created_at, item.updated_at, item.version]
         )
         
         # Update index for prefix queries
@@ -135,9 +135,9 @@ class ScyllaDBBackend(StorageBackend):
     
     async def get(self, key: str) -> Optional[StorageItem]:
         """Retrieve an item with O(1) performance."""
-        query = "SELECT * FROM storage WHERE key = ?"
+        query = "SELECT * FROM storage WHERE key = %s"
         
-        rows = await self._execute_async(query, (key,))
+        rows = await self._execute_async(query, [key])
         if not rows:
             return None
         
@@ -157,8 +157,8 @@ class ScyllaDBBackend(StorageBackend):
         if not await self.exists(key):
             return False
         
-        query = "DELETE FROM storage WHERE key = ?"
-        await self._execute_async(query, (key,))
+        query = "DELETE FROM storage WHERE key = %s"
+        await self._execute_async(query, [key])
         
         # Remove from index
         await self._remove_from_index(key)
@@ -167,21 +167,21 @@ class ScyllaDBBackend(StorageBackend):
     
     async def exists(self, key: str) -> bool:
         """Check if a key exists with O(1) performance."""
-        query = "SELECT key FROM storage WHERE key = ? LIMIT 1"
-        rows = await self._execute_async(query, (key,))
+        query = "SELECT key FROM storage WHERE key = %s LIMIT 1"
+        rows = await self._execute_async(query, [key])
         return len(rows) > 0
     
     async def list_keys(self, prefix: Optional[str] = None, limit: int = 100) -> List[str]:
         """List keys with optional prefix filter."""
         if prefix:
             # Use index table for prefix queries
-            query = "SELECT key FROM storage_index WHERE prefix = ? LIMIT ?"
-            rows = await self._execute_async(query, (self._get_prefix(prefix), limit))
+            query = "SELECT key FROM storage_index WHERE prefix = %s LIMIT %s"
+            rows = await self._execute_async(query, [self._get_prefix(prefix), limit])
             return [row.key for row in rows if row.key.startswith(prefix)]
         else:
             # Full scan (use with caution)
-            query = "SELECT key FROM storage LIMIT ?"
-            rows = await self._execute_async(query, (limit,))
+            query = "SELECT key FROM storage LIMIT %s"
+            rows = await self._execute_async(query, [limit])
             return [row.key for row in rows]
     
     async def batch_get(self, keys: List[str]) -> Dict[str, Optional[StorageItem]]:
@@ -206,7 +206,7 @@ class ScyllaDBBackend(StorageBackend):
         
         query = """
         INSERT INTO storage (key, id, content, metadata, created_at, updated_at, version)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         
         for key, item in items.items():
@@ -232,14 +232,14 @@ class ScyllaDBBackend(StorageBackend):
         """Scan through items with optional filters."""
         if prefix:
             # Use index for prefix scan
-            query = "SELECT key FROM storage_index WHERE prefix = ?"
+            query = "SELECT key FROM storage_index WHERE prefix = %s"
             params = [self._get_prefix(prefix)]
             
             if start_key:
-                query += " AND key >= ?"
+                query += " AND key >= %s"
                 params.append(start_key)
             
-            query += " LIMIT ?"
+            query += " LIMIT %s"
             params.append(limit)
             
             rows = await self._execute_async(query, params)
@@ -254,12 +254,12 @@ class ScyllaDBBackend(StorageBackend):
             query = "SELECT key FROM storage"
             
             if start_key:
-                query += " WHERE token(key) > token(?)"
+                query += " WHERE token(key) > token(%s)"
                 params = [start_key]
             else:
                 params = []
             
-            query += " LIMIT ?"
+            query += " LIMIT %s"
             params.append(limit)
             
             rows = await self._execute_async(query, params)
@@ -289,26 +289,32 @@ class ScyllaDBBackend(StorageBackend):
             "initialized": self._initialized
         }
     
-    async def _execute_async(self, query: str, parameters: tuple = None):
+    async def _execute_async(self, query, parameters=None):
         """Execute query asynchronously."""
         loop = asyncio.get_event_loop()
         
-        # Set consistency level
-        if isinstance(query, str):
-            statement = SimpleStatement(
-                query,
-                consistency_level=getattr(ConsistencyLevel, self.config.consistency_level)
+        # For parameterized queries, we don't need SimpleStatement
+        if parameters:
+            # Execute with parameters directly
+            future = loop.run_in_executor(
+                None,
+                lambda: self.session.execute(query, parameters)
             )
         else:
-            statement = query
-        
-        # Execute in thread pool to avoid blocking
-        future = loop.run_in_executor(
-            None,
-            self.session.execute,
-            statement,
-            parameters
-        )
+            # For non-parameterized queries, use SimpleStatement for consistency level
+            if isinstance(query, str):
+                statement = SimpleStatement(
+                    query,
+                    consistency_level=getattr(ConsistencyLevel, self.config.consistency_level)
+                )
+            else:
+                statement = query
+            
+            future = loop.run_in_executor(
+                None,
+                self.session.execute,
+                statement
+            )
         
         return await future
     
@@ -321,12 +327,12 @@ class ScyllaDBBackend(StorageBackend):
         prefix = self._get_prefix(key)
         query = """
         INSERT INTO storage_index (prefix, key, created_at)
-        VALUES (?, ?, ?)
+        VALUES (%s, %s, %s)
         """
-        await self._execute_async(query, (prefix, key, datetime.utcnow()))
+        await self._execute_async(query, [prefix, key, datetime.utcnow()])
     
     async def _remove_from_index(self, key: str) -> None:
         """Remove key from prefix index."""
         prefix = self._get_prefix(key)
-        query = "DELETE FROM storage_index WHERE prefix = ? AND key = ?"
-        await self._execute_async(query, (prefix, key))
+        query = "DELETE FROM storage_index WHERE prefix = %s AND key = %s"
+        await self._execute_async(query, [prefix, key])
