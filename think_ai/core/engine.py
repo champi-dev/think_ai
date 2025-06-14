@@ -41,6 +41,7 @@ class ThinkAIEngine:
         self.cache: Optional[RedisCache] = None
         self.vector_db: Optional[VectorDB] = None
         self.embedding_model: Optional[EmbeddingModel] = None
+        self.language_model = None  # Will be initialized for local mode
         self.knowledge_graph: Optional[KnowledgeGraph] = None
         self.graph_engine: Optional[GraphEnhancedEngine] = None
         self.consciousness: Optional[ConsciousnessFramework] = None
@@ -56,32 +57,61 @@ class ThinkAIEngine:
         logger.info("Initializing Think AI Engine...")
         
         try:
-            # Initialize ScyllaDB primary storage
-            logger.info("Initializing ScyllaDB backend...")
-            scylla_backend = ScyllaDBBackend(self.config.scylla)
-            await scylla_backend.initialize()
+            # Check if local dev mode is enabled
+            use_local_storage = (
+                hasattr(self.config, 'offline_storage') and 
+                self.config.offline_storage.db_path.name == "free_tier.db"
+            ) or self.config.model.device == "cpu"
             
-            # Initialize Redis cache
-            logger.info("Initializing Redis cache...")
-            self.cache = RedisCache(self.config.redis)
-            await self.cache.initialize()
+            if use_local_storage:
+                # Use offline storage for free tier/local development
+                logger.info("Initializing offline SQLite storage...")
+                from ..storage.offline import OfflineStorage
+                primary_storage = OfflineStorage(self.config.offline_storage)
+                await primary_storage.initialize()
+                self.storage = primary_storage
+                logger.info("✅ Offline storage initialized")
+            else:
+                # Initialize ScyllaDB primary storage
+                logger.info("Initializing ScyllaDB backend...")
+                scylla_backend = ScyllaDBBackend(self.config.scylla)
+                await scylla_backend.initialize()
+                
+                # Initialize Redis cache
+                logger.info("Initializing Redis cache...")
+                self.cache = RedisCache(self.config.redis)
+                await self.cache.initialize()
+                
+                # Create cached storage backend
+                self.storage = CachedStorageBackend(
+                    primary=scylla_backend,
+                    cache=self.cache
+                )
             
-            # Create cached storage backend
-            self.storage = CachedStorageBackend(
-                primary=scylla_backend,
-                cache=self.cache
-            )
+            # Initialize optional components (skip for local mode)
+            if not use_local_storage:
+                # Initialize vector database
+                logger.info("Initializing vector database...")
+                self.vector_db = create_vector_db(self.config.vector_db)
+                await self.vector_db.initialize()
+                await self.vector_db.create_collection(
+                    self.config.vector_db.collection_name,
+                    self.config.vector_db.dimension
+                )
+                
+                # Initialize knowledge graph
+                logger.info("Initializing knowledge graph...")
+                self.knowledge_graph = KnowledgeGraph(
+                    uri=self.config.graph_db.uri,
+                    username=self.config.graph_db.username,
+                    password=self.config.graph_db.password
+                )
+                await self.knowledge_graph.initialize()
+                self.graph_engine = GraphEnhancedEngine(self.knowledge_graph)
+            else:
+                logger.info("Skipping external services for local mode")
             
-            # Initialize vector database
-            logger.info("Initializing vector database...")
-            self.vector_db = create_vector_db(self.config.vector_db)
-            await self.vector_db.initialize()
-            await self.vector_db.create_collection(
-                self.config.vector_db.collection_name,
-                self.config.vector_db.dimension
-            )
-            
-            # Initialize embedding model
+            # Initialize embedding model (lightweight for local)
             logger.info("Initializing embedding model...")
             self.embedding_model = create_embedding_model(
                 model_type="transformer",
@@ -89,20 +119,21 @@ class ThinkAIEngine:
             )
             await self.embedding_model.initialize()
             
-            # Initialize knowledge graph
-            logger.info("Initializing knowledge graph...")
-            self.knowledge_graph = KnowledgeGraph(
-                uri=self.config.graph_db.uri,
-                username=self.config.graph_db.username,
-                password=self.config.graph_db.password
-            )
-            await self.knowledge_graph.initialize()
-            self.graph_engine = GraphEnhancedEngine(self.knowledge_graph)
-            
             # Initialize consciousness framework
             logger.info("Initializing consciousness framework...")
             self.consciousness = ConsciousnessFramework()
             self.constitutional_ai = ConstitutionalAI()
+            
+            # Initialize language model for local processing
+            if use_local_storage:
+                logger.info("Initializing language model for local processing...")
+                from ..models.language_model import LanguageModel
+                self.language_model = LanguageModel(
+                    config=self.config.model,
+                    constitutional_ai=self.constitutional_ai
+                )
+                # Note: We'll initialize the language model on first use to save startup time
+                logger.info("Language model ready for lazy initialization")
             
             # Process initial consciousness state
             await self.consciousness.process_input({

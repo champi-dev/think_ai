@@ -97,14 +97,25 @@ class EternalMemory:
         try:
             # Save current session
             session_file = self.memory_path / f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-            async with aiofiles.open(session_file, 'w') as f:
-                await f.write(json.dumps(self.current_session, default=str, indent=2))
+            
+            # Handle potential cancellation during file operations
+            try:
+                async with aiofiles.open(session_file, 'w') as f:
+                    await f.write(json.dumps(self.current_session, default=str, indent=2))
+            except asyncio.CancelledError:
+                # Quick synchronous save if async is cancelled
+                logger.warning("Async save cancelled, performing quick sync save")
+                with open(session_file, 'w') as f:
+                    json.dump(self.current_session, f, default=str, indent=2)
             
             # Update consciousness checkpoint
             await self._save_consciousness_checkpoint()
             
             logger.info("All memory components saved")
             
+        except asyncio.CancelledError:
+            logger.warning("Memory save cancelled, attempting emergency backup")
+            self._emergency_backup_sync()
         except Exception as e:
             logger.error(f"Error saving memory: {e}")
             # Never fail - memory must be preserved
@@ -120,7 +131,7 @@ class EternalMemory:
         
         # Append to consciousness log
         async with aiofiles.open(self.consciousness_log, 'a') as f:
-            await f.write(json.dumps(event) + "\n")
+            await f.write(json.dumps(event, default=str, indent=None) + "\n")
         
         # Update current session
         self.current_session["consciousness_states"].append(event)
@@ -288,6 +299,19 @@ class EternalMemory:
             if path.is_file():
                 total_size += path.stat().st_size
         return total_size
+    
+    def _emergency_backup_sync(self) -> None:
+        """Synchronous emergency backup for interrupted shutdowns."""
+        try:
+            emergency_file = self.memory_path / f"emergency_sync_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
+            with open(emergency_file, 'wb') as f:
+                pickle.dump({
+                    "session": self.current_session,
+                    "timestamp": datetime.now().isoformat()
+                }, f)
+            logger.info(f"Emergency sync backup saved: {emergency_file}")
+        except Exception as e:
+            logger.error(f"Emergency sync backup failed: {e}")
     
     async def _emergency_backup(self) -> None:
         """Emergency backup when normal save fails."""

@@ -3,8 +3,9 @@
 import asyncio
 from typing import Dict, Any, List, Optional
 from pathlib import Path
+from datetime import datetime
 
-from ..engine import ThinkAIEngine
+from .engine import ThinkAIEngine
 from ..persistence.eternal_memory import EternalMemory
 from ..integrations.claude_interface import ClaudeInterface
 from ..config.cost_optimization import CostOptimizer, BUDGET_PROFILES
@@ -121,7 +122,7 @@ class ThinkAIEternal:
         await self.memory.log_consciousness_event("ENTERING_DORMANCY", report)
         
         # Shutdown components
-        await self.engine.close()
+        await self.engine.shutdown()
         await self.memory.shutdown()
         
         self.is_initialized = False
@@ -236,16 +237,13 @@ class ThinkAIEternal:
     async def _initialize_with_budget_constraints(self) -> None:
         """Initialize engine with budget-appropriate settings."""
         if self.budget_config["budget_limit"] == 0:
-            # Free tier - local only
-            config_overrides = {
-                "storage.backend": "sqlite",
-                "storage.cache": "in_memory",
-                "models.provider": "local",
-                "features.external_apis": "disabled"
-            }
+            # Free tier - local only configuration
+            # Use local/offline storage
+            self.engine.config.offline_storage.db_path = self.engine.config.data_dir / "free_tier.db"
             
-            # Reinitialize engine with overrides
-            self.engine.config.update(config_overrides)
+            # Optimize model for local use
+            self.engine.config.model.device = "cpu" 
+            self.engine.config.model.quantization = "int4"
         
         await self.engine.initialize()
     
@@ -279,18 +277,27 @@ class ThinkAIEternal:
     ) -> Dict[str, Any]:
         """Use free alternative to Claude."""
         if approach == "local_model":
-            # Use Phi-2
-            response = await self.engine.language_model.generate(
-                query,
-                max_tokens=200  # Keep it concise
-            )
-            
-            return {
-                "response": response,
-                "source": "local_phi2",
-                "cost": 0.0,
-                "quality_estimate": 0.7
-            }
+            # Use language model if available
+            if self.engine.language_model:
+                try:
+                    # Initialize on first use if needed
+                    if not self.engine.language_model._initialized:
+                        await self.engine.language_model.initialize()
+                    
+                    response = await self.engine.language_model.generate(
+                        query,
+                        max_tokens=200  # Keep it concise
+                    )
+                    
+                    return {
+                        "response": response.text,
+                        "source": "local_phi2",
+                        "cost": 0.0,
+                        "quality_estimate": 0.7
+                    }
+                except Exception as e:
+                    logger.warning(f"Language model failed: {e}")
+                    # Fall through to consciousness processing
         
         elif approach == "template":
             # Use template
@@ -304,17 +311,24 @@ class ThinkAIEternal:
                 }
         
         # Default: Use consciousness system
-        response = await self.engine.consciousness.process(
-            query,
-            state=ConsciousnessState.COMPASSIONATE
-        )
-        
-        return {
-            "response": response.content,
-            "source": "consciousness",
-            "cost": 0.0,
-            "quality_estimate": 0.6
-        }
+        try:
+            response = await self.engine.consciousness.generate_conscious_response(query)
+            
+            return {
+                "response": response.get("content", f"I understand you're asking about: {query}. I'm processing this with compassion and wisdom."),
+                "source": "consciousness",
+                "cost": 0.0,
+                "quality_estimate": 0.6
+            }
+        except Exception as e:
+            logger.warning(f"Consciousness processing failed: {e}")
+            # Simple fallback response
+            return {
+                "response": f"I understand you're asking about: {query}. I'm a compassionate AI designed to help with love and wisdom. How can I assist you further?",
+                "source": "fallback",
+                "cost": 0.0,
+                "quality_estimate": 0.3
+            }
     
     async def _get_minimal_context(self) -> Dict[str, Any]:
         """Get minimal context to reduce tokens."""

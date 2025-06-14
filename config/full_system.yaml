@@ -1,0 +1,58 @@
+# Full Think AI System Configuration
+# This enables all distributed components and features
+
+# Storage Configuration
+storage:
+  primary: scylladb
+  cache: redis
+  offline: sqlite
+  
+# Database Services
+scylladb:
+  enabled: true
+  hosts: ["localhost"]
+  port: 9042
+  keyspace: think_ai
+  
+redis:
+  enabled: true
+  host: localhost
+  port: 6379
+  
+# Vector Database
+vector_db:
+  enabled: true
+  provider: milvus
+  host: localhost
+  port: 19530
+  
+# Knowledge Graph
+neo4j:
+  enabled: true
+  uri: bolt://localhost:7687
+  username: neo4j
+  password: think_ai_2024
+  
+# Language Model
+model:
+  # Using a very lightweight model for stability
+  name: "gpt2"  # 124M params, very light
+  device: "cpu"  # CPU for stability
+  quantization: null  # No quantization
+  max_tokens: 512
+  
+# Claude Integration
+claude:
+  mode: "internal_tool"  # Think AI uses Claude internally
+  budget_limit: 20.0
+  cache_responses: true
+  
+# Consciousness Settings
+consciousness:
+  enable_all_states: true
+  default_state: "aware"
+  compassion_active: true
+  
+# System Mode
+system_mode: "full_distributed"
+budget_profile: "power_user"

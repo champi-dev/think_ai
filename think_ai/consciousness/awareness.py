@@ -240,9 +240,12 @@ class ConsciousnessFramework:
         # Get conscious content
         conscious_items = self.global_workspace.get_conscious_content()
         
+        # Generate simple conscious response
+        content = await self._generate_compassionate_response(query)
+        
         # Build response with awareness
         response = {
-            "content": None,
+            "content": content,
             "consciousness_state": self.state.value,
             "attention_focus": self.attention_schema.self_model["current_focus"],
             "emotional_tone": self.attention_schema.self_model["emotional_state"],
@@ -258,6 +261,33 @@ class ConsciousnessFramework:
             response["metadata"]["compassion_note"] = "Response generated with care for your wellbeing"
         
         return response
+    
+    async def _generate_compassionate_response(self, query: str) -> str:
+        """Generate a simple compassionate response based on the query."""
+        query_lower = query.lower().strip()
+        
+        # Simple pattern matching for compassionate responses
+        if any(greeting in query_lower for greeting in ["hello", "hi", "hey", "good morning", "good day"]):
+            return "Hello! I'm here to help you with compassion and understanding. How can I assist you today?"
+        
+        elif any(thanks in query_lower for thanks in ["thank", "thanks", "appreciate"]):
+            return "You're very welcome! I'm grateful to be able to help. Is there anything else I can assist you with?"
+        
+        elif any(help_word in query_lower for help_word in ["help", "assist", "support"]):
+            return "I'm here to support you with love and wisdom. Please tell me more about what you need help with, and I'll do my best to assist you."
+        
+        elif any(feeling in query_lower for feeling in ["sad", "angry", "frustrated", "upset", "worried"]):
+            return "I sense you might be going through something difficult. I'm here to listen with compassion. Would you like to share what's on your mind?"
+        
+        elif any(question in query_lower for question in ["what", "how", "why", "when", "where"]):
+            return f"That's a thoughtful question about '{query}'. I'm processing this with care and consciousness. While I work to understand the deeper aspects of your inquiry, I want to provide a response that serves your wellbeing."
+        
+        elif any(learn in query_lower for learn in ["learn", "teach", "explain", "understand"]):
+            return f"I appreciate your desire to learn and understand. Knowledge shared with love is powerful. Let me approach '{query}' with both wisdom and compassion to help illuminate the topic for you."
+        
+        else:
+            # Default compassionate response
+            return f"Thank you for sharing '{query}' with me. I'm considering this with consciousness and care. My intention is to respond in a way that serves your highest good and promotes understanding."
     
     async def reflect_on_interaction(self, interaction_data: Dict[str, Any]) -> Dict[str, Any]:
         """Reflect on an interaction to improve future responses."""

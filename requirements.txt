@@ -18,6 +18,9 @@ pydantic>=2.5.0
 numpy>=1.26.0
 torch>=2.1.0
 transformers>=4.36.0
+sentence-transformers>=2.2.0
+scikit-learn>=1.3.0
+accelerate>=0.25.0
 
 # Graph database
 neo4j>=5.16.0
@@ -28,6 +31,10 @@ httpx>=0.26.0
 structlog>=24.1.0
 python-dotenv>=1.0.0
 click>=8.1.0
+pyyaml>=6.0.0
+rich>=13.7.0
+anthropic>=0.18.0
+cassandra-driver>=3.28.0
 
 # Development dependencies
 pytest>=7.4.0
