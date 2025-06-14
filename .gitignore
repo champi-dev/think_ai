@@ -107,3 +107,6 @@ models/
 *.tmp
 *.temp
 .~*
+
+# Training results
+exponential_training_results.json
