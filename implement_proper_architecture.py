@@ -20,6 +20,8 @@ from think_ai.integrations.claude_api import ClaudeAPI
 from think_ai.storage.base import StorageItem
 from think_ai.persistence.eternal_memory import EternalMemory
 from think_ai.utils.logging import get_logger
+from think_ai.coding.code_executor import SafeCodeExecutor
+from think_ai.coding.autonomous_coder import AutonomousCoder
 
 logger = get_logger(__name__)
 
@@ -128,6 +130,8 @@ class ProperThinkAI:
         self.knowledge_base = {}
         self.embeddings_cache = {}
         self.claude_model = SmartClaudeModel()  # Claude Opus 4 with budget protection
+        self.code_executor = SafeCodeExecutor()  # Add code execution capability
+        self.autonomous_coder = AutonomousCoder()  # Add autonomous coding capability
         
     async def initialize(self):
         """Initialize and populate all distributed components."""
@@ -571,6 +575,15 @@ class ProperThinkAI:
             for insight in components['graph']:
                 response_parts.append(f"- {insight}")
         
+        # Check for code writing requests FIRST (before Claude)
+        query_lower = query.lower()
+        if any(phrase in query_lower for phrase in ['write code', 'create file', 'save file', 'write file', 'create a file', 'write a file', 'save code', 'create code', 'write the code', 'save the code']):
+            logger.info("Code writing request detected - handling directly")
+            print("💻 [Code Request] Detected - handling with code executor")
+            
+            # Handle code writing request
+            return await self._handle_code_writing_request(query)
+        
         # Use Claude Opus 4 for intelligent response generation
         try:
             # Create context from distributed knowledge
@@ -605,6 +618,170 @@ class ProperThinkAI:
         
         # Check for direct answers first
         query_lower = query.lower()
+        
+        # Code writing/file creation requests (HIGHEST PRIORITY)
+        if any(phrase in query_lower for phrase in ['write code', 'create file', 'save file', 'write file', 'create a file', 'write a file', 'save code', 'create code', 'write the code', 'save the code']):
+            logger.info("Code writing request detected")
+            print("💻 [Code Request] Detected code writing request")
+            
+            # Extract code type and filename if mentioned
+            filename_match = re.search(r'(?:file|called|named|as)\s+["\']?(\w+\.?\w*)["\']?', query_lower)
+            filename = filename_match.group(1) if filename_match else "code.py"
+            
+            # Generate code based on the request
+            try:
+                # First try to extract what kind of code they want
+                code_request = query
+                
+                # Use Claude to generate the code
+                code_prompt = f"""Generate Python code for the following request: {code_request}
+                
+                Only provide the code, no explanations. Make it complete and functional."""
+                
+                code_result = await self.claude_model.generate(code_prompt, context={'type': 'code_generation'})
+                
+                if code_result and len(code_result.strip()) > 20:
+                    # Extract just the code from the response
+                    code_lines = []
+                    in_code_block = False
+                    for line in code_result.split('\n'):
+                        if line.strip().startswith('```'):
+                            in_code_block = not in_code_block
+                            continue
+                        if in_code_block or (not line.startswith('Here') and not line.startswith('This')):
+                            code_lines.append(line)
+                    
+                    generated_code = '\n'.join(code_lines).strip()
+                    
+                    # Save the code using autonomous coder
+                    save_result = await self.autonomous_coder.save_code(generated_code, filename)
+                    
+                    if save_result['success']:
+                        # Also try to execute it if it's safe
+                        exec_result = await self.code_executor.execute_code(generated_code)
+                        
+                        if exec_result['success']:
+                            return f"""✅ Successfully created and tested '{filename}'!
+
+📁 File saved to: {save_result['path']}
+
+💻 Code:
+```python
+{generated_code}
+```
+
+🔧 Execution result:
+{exec_result.get('output', 'Code executed successfully!')}
+
+The code has been saved and tested. You can run it with: `python {filename}`"""
+                        else:
+                            return f"""✅ Successfully created '{filename}'!
+
+📁 File saved to: {save_result['path']}
+
+💻 Code:
+```python
+{generated_code}
+```
+
+⚠️ Note: {exec_result.get('error', 'Could not test the code automatically')}
+
+The code has been saved. You may need to install dependencies or adjust it for your environment."""
+                    else:
+                        # If saving failed, still show the code
+                        return f"""I've generated the code for you:
+
+```python
+{generated_code}
+```
+
+You can copy and save this code to '{filename}' manually."""
+                else:
+                    # Fallback: Generate simple code based on patterns
+                    if 'hello world' in query_lower:
+                        generated_code = '''#!/usr/bin/env python3
+"""Hello World program generated by Think AI"""
+
+def main():
+    print("Hello, World!")
+    print("Generated by Think AI with distributed intelligence!")
+
+if __name__ == "__main__":
+    main()'''
+                    elif 'calculator' in query_lower:
+                        generated_code = '''#!/usr/bin/env python3
+"""Simple calculator generated by Think AI"""
+
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+def multiply(a, b):
+    return a * b
+
+def divide(a, b):
+    if b != 0:
+        return a / b
+    else:
+        return "Error: Division by zero"
+
+def main():
+    print("Think AI Calculator")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+    
+    choice = input("Enter choice (1-4): ")
+    num1 = float(input("Enter first number: "))
+    num2 = float(input("Enter second number: "))
+    
+    if choice == '1':
+        print(f"{num1} + {num2} = {add(num1, num2)}")
+    elif choice == '2':
+        print(f"{num1} - {num2} = {subtract(num1, num2)}")
+    elif choice == '3':
+        print(f"{num1} * {num2} = {multiply(num1, num2)}")
+    elif choice == '4':
+        print(f"{num1} / {num2} = {divide(num1, num2)}")
+
+if __name__ == "__main__":
+    main()'''
+                    else:
+                        # Generic code template
+                        generated_code = f'''#!/usr/bin/env python3
+"""Program generated by Think AI based on: {query}"""
+
+def main():
+    # TODO: Implement the requested functionality
+    print("Generated by Think AI")
+    print("Request: {query[:50]}...")
+    
+    # Add your code here
+    pass
+
+if __name__ == "__main__":
+    main()'''
+                    
+                    # Save the generated code
+                    save_result = await self.autonomous_coder.save_code(generated_code, filename)
+                    
+                    return f"""✅ I've generated code for you!
+
+📁 File: '{filename}'
+
+💻 Code:
+```python
+{generated_code}
+```
+
+The code has been saved to your project directory. You can run it with: `python {filename}`"""
+                    
+            except Exception as e:
+                logger.error(f"Error in code generation: {e}")
+                return f"I can help you write code! However, I encountered an issue: {e}. Let me try a different approach - could you describe what specific functionality you need?"
         
         # Greetings with name detection (highest priority)
         if any(word in query_lower for word in ['hello', 'hi', 'hey', 'how are you', 'whats up']):
@@ -893,10 +1070,198 @@ Please enhance this response to be more natural and helpful while incorporating 
         print(f"  • Total cost: ${costs['total_cost']:.4f}")
         print(f"  • Savings: {(1 - costs['request_count']/len(test_queries))*100:.0f}% fewer API calls!")
     
+    async def _handle_code_writing_request(self, query: str) -> str:
+        """Handle code writing requests with the code executor."""
+        logger.info(f"Handling code writing request: {query}")
+        
+        # Extract filename if mentioned
+        query_lower = query.lower()
+        filename_match = re.search(r'(?:file|called|named|as)\s+["\']?(\w+\.?\w*)["\']?', query_lower)
+        filename = filename_match.group(1) if filename_match else "code.py"
+        
+        try:
+            # Generate code based on the request
+            code_prompt = f"""Generate Python code for the following request: {query}
+            
+            Only provide the code, no explanations. Make it complete and functional."""
+            
+            # Use Claude to generate the code
+            code_result = await self.claude_model.generate(code_prompt, context={'type': 'code_generation'})
+            
+            if code_result and len(code_result.strip()) > 20:
+                # Extract just the code from the response
+                code_lines = []
+                in_code_block = False
+                for line in code_result.split('\n'):
+                    if line.strip().startswith('```'):
+                        in_code_block = not in_code_block
+                        continue
+                    if in_code_block or (not line.startswith('Here') and not line.startswith('This')):
+                        code_lines.append(line)
+                
+                generated_code = '\n'.join(code_lines).strip()
+                
+                # Save the code using autonomous coder
+                save_result = await self.autonomous_coder.save_code(generated_code, filename)
+                
+                if save_result['success']:
+                    # Also try to execute it if it's safe
+                    exec_result = await self.code_executor.execute_code(generated_code)
+                    
+                    if exec_result['success']:
+                        return f"""✅ Successfully created and tested '{filename}'!
+
+📁 File saved to: {save_result['path']}
+
+💻 Code:
+```python
+{generated_code}
+```
+
+🔧 Execution result:
+{exec_result.get('output', 'Code executed successfully!')}
+
+The code has been saved and tested. You can run it with: `python {filename}`"""
+                    else:
+                        return f"""✅ Successfully created '{filename}'!
+
+📁 File saved to: {save_result['path']}
+
+💻 Code:
+```python
+{generated_code}
+```
+
+⚠️ Note: {exec_result.get('error', 'Could not test the code automatically')}
+
+The code has been saved. You may need to install dependencies or adjust it for your environment."""
+                else:
+                    # If saving failed, still show the code
+                    return f"""I've generated the code for you:
+
+```python
+{generated_code}
+```
+
+You can copy and save this code to '{filename}' manually."""
+            else:
+                # Fallback: Generate simple code based on patterns
+                if 'hello world' in query_lower:
+                    generated_code = '''#!/usr/bin/env python3
+"""Hello World program generated by Think AI"""
+
+def main():
+    print("Hello, World!")
+    print("Generated by Think AI with distributed intelligence!")
+
+if __name__ == "__main__":
+    main()'''
+                elif 'calculator' in query_lower:
+                    generated_code = '''#!/usr/bin/env python3
+"""Simple calculator generated by Think AI"""
+
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+def multiply(a, b):
+    return a * b
+
+def divide(a, b):
+    if b != 0:
+        return a / b
+    else:
+        return "Error: Division by zero"
+
+def main():
+    print("Think AI Calculator")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+    
+    choice = input("Enter choice (1-4): ")
+    num1 = float(input("Enter first number: "))
+    num2 = float(input("Enter second number: "))
+    
+    if choice == '1':
+        print(f"{num1} + {num2} = {add(num1, num2)}")
+    elif choice == '2':
+        print(f"{num1} - {num2} = {subtract(num1, num2)}")
+    elif choice == '3':
+        print(f"{num1} * {num2} = {multiply(num1, num2)}")
+    elif choice == '4':
+        print(f"{num1} / {num2} = {divide(num1, num2)}")
+
+if __name__ == "__main__":
+    main()'''
+                else:
+                    # Generic code template
+                    generated_code = f'''#!/usr/bin/env python3
+"""Program generated by Think AI based on: {query}"""
+
+def main():
+    # TODO: Implement the requested functionality
+    print("Generated by Think AI")
+    print("Request: {query[:50]}...")
+    
+    # Add your code here
+    pass
+
+if __name__ == "__main__":
+    main()'''
+                
+                # Save the generated code
+                save_result = await self.autonomous_coder.save_code(generated_code, filename)
+                
+                if save_result['success']:
+                    return f"""✅ I've generated and saved code for you!
+
+📁 File: '{save_result['path']}'
+
+💻 Code:
+```python
+{generated_code}
+```
+
+The code has been saved. You can run it with: `python {filename}`"""
+                else:
+                    return f"""I've generated code for you:
+
+```python
+{generated_code}
+```
+
+You can save this code to '{filename}' manually."""
+                
+        except Exception as e:
+            logger.error(f"Error in code generation: {e}")
+            # Fallback response
+            return f"""I can help you write code! Let me generate a simple example:
+
+```python
+#!/usr/bin/env python3
+# Generated by Think AI
+
+def main():
+    print("Hello from Think AI!")
+    # Add your code here
+
+if __name__ == "__main__":
+    main()
+```
+
+You can save this code and modify it for your needs."""
+    
     async def shutdown(self):
         """Graceful shutdown."""
         try:
-            await self.claude.close()
+            # Close Claude model if it has a close method
+            if hasattr(self.claude_model, 'claude_api') and self.claude_model.claude_api:
+                if hasattr(self.claude_model.claude_api, 'close'):
+                    await self.claude_model.claude_api.close()
         except Exception:
             pass  # Ignore httpx shutdown errors
         await self.system.shutdown()

@@ -10,7 +10,7 @@ import tempfile
 from pathlib import Path
 import traceback
 import ast
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 import multiprocessing
 import signal
 from contextlib import contextmanager

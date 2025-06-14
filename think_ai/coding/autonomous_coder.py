@@ -9,9 +9,15 @@ import subprocess
 import os
 from typing import Dict, Any, List, Optional, Tuple
 from pathlib import Path
-import black
-import autopep8
 import re
+try:
+    import black
+except ImportError:
+    black = None
+try:
+    import autopep8
+except ImportError:
+    autopep8 = None
 import traceback
 from datetime import datetime
 import sys
@@ -249,11 +255,15 @@ class AutonomousCoder:
         """Format code properly."""
         try:
             # Try black first
-            return black.format_str(code, mode=black.Mode())
+            if black:
+                return black.format_str(code, mode=black.Mode())
+            return code
         except:
             try:
                 # Fallback to autopep8
-                return autopep8.fix_code(code)
+                if autopep8:
+                    return autopep8.fix_code(code)
+                return code
             except:
                 # Last resort - return as is
                 return code
@@ -443,6 +453,42 @@ class AutonomousCoder:
             'lines_changed': len(improvements),
             'new_capabilities': ['learn_from_mistakes'] if 'learn_from_mistakes' in improved_code else []
         }
+    
+    async def save_code(self, code: str, filename: str) -> Dict[str, Any]:
+        """Save generated code to a file."""
+        try:
+            # Create a safe filename
+            safe_filename = re.sub(r'[^\w\-_\.]', '_', filename)
+            if not safe_filename.endswith('.py'):
+                safe_filename += '.py'
+            
+            # Save to a generated_code directory
+            output_dir = Path('generated_code')
+            output_dir.mkdir(exist_ok=True)
+            
+            file_path = output_dir / safe_filename
+            
+            # Write the code
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(code)
+            
+            logger.info(f"✅ Saved code to {file_path}")
+            
+            return {
+                'success': True,
+                'path': str(file_path.absolute()),
+                'filename': safe_filename,
+                'size': len(code),
+                'lines': code.count('\n') + 1
+            }
+            
+        except Exception as e:
+            logger.error(f"Failed to save code: {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'filename': filename
+            }
     
     def get_stats(self) -> Dict[str, Any]:
         """Get coder statistics."""
