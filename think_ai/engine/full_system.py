@@ -7,11 +7,11 @@ import yaml
 import json
 from datetime import datetime
 
-from ..storage.scylla import ScyllaDBBackend
+from ..storage.scylla_mock import ScyllaDBBackend
 from ..storage.redis_cache import RedisCache
-from ..storage.vector_db import MilvusDB
+from ..storage.vector_db_mock import MilvusDB
 from ..graph.knowledge_graph import KnowledgeGraph
-from ..federated.federated_learning import FederatedLearningServer
+from ..federated.federated_learning_mock import FederatedLearningServer
 from ..models.language_model import ModelOrchestrator
 from ..consciousness.awareness import ConsciousnessFramework
 from ..consciousness.principles import ConstitutionalAI

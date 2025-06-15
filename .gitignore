@@ -110,3 +110,14 @@ models/
 
 # Training results
 exponential_training_results.json
+
+# Large files and ISOs
+*.iso
+*.tar.gz
+*.qcow2
+vm-think-ai/alpine-*
+vm-think-ai/*.iso
+vm-think-ai/*.qcow2
+databases/neo4j.tar.gz
+databases/neo4j/
+vm-boot-test.log

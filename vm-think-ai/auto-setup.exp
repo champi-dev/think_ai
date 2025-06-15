@@ -1,0 +1,76 @@
+#!/usr/bin/expect -f
+# Automated Alpine setup script
+
+set timeout 300
+
+spawn ./vm-think-ai/run-alpine-vm.sh
+
+# Wait for boot prompt and press Enter
+expect "boot:" 
+send "\r"
+
+# Wait for login prompt
+expect "localhost login:"
+send "root\r"
+
+# Run setup-alpine
+expect "#"
+send "setup-alpine\r"
+
+# Keyboard layout (us)
+expect "Select keyboard layout"
+send "us\r"
+expect "Select variant"
+send "us\r"
+
+# Hostname
+expect "Enter system hostname"
+send "think-ai-vm\r"
+
+# Network - use dhcp
+expect "Which one do you want to initialize"
+send "eth0\r"
+expect "Ip address for eth0"
+send "dhcp\r"
+
+# No manual network config
+expect "Do you want to do any manual network configuration"
+send "n\r"
+
+# Root password
+expect "New password:"
+send "think-ai-2024\r"
+expect "Retype password:"
+send "think-ai-2024\r"
+
+# Timezone
+expect "Which timezone are you in"
+send "UTC\r"
+
+# No proxy
+expect "HTTP/FTP proxy URL"
+send "\r"
+
+# Default mirror
+expect "Enter mirror number"
+send "1\r"
+
+# SSH server
+expect "Which SSH server"
+send "openssh\r"
+
+# Disk setup
+expect "Which disk(s) would you like to use"
+send "sda\r"
+expect "How would you like to use it"
+send "sys\r"
+expect "WARNING: Erase the above disk(s) and continue"
+send "y\r"
+
+# Wait for installation to complete
+expect "Installation is complete"
+
+# Poweroff
+send "poweroff\r"
+
+expect eof

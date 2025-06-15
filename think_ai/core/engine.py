@@ -8,9 +8,9 @@ import uuid
 import numpy as np
 
 from ..storage.base import StorageBackend, CachedStorageBackend, StorageItem
-from ..storage.scylla import ScyllaDBBackend
+from ..storage.scylla_mock import ScyllaDBBackend
 from ..storage.redis_cache import RedisCache
-from ..storage.vector_db import VectorDB, create_vector_db, VectorSearchResult
+from ..storage.vector_db_mock import VectorDB, create_vector_db, VectorSearchResult
 from ..models.embeddings import EmbeddingModel, create_embedding_model
 from ..graph.knowledge_graph import KnowledgeGraph, GraphEnhancedEngine
 from ..consciousness.principles import ConstitutionalAI, HarmPreventionSystem

@@ -1,0 +1,51 @@
+# Hybrid Think AI System Configuration
+# Uses real services where available, fallbacks for others
+
+# Storage Configuration
+storage:
+  primary: sqlite  # Use SQLite as primary since ScyllaDB not available
+  cache: redis     # Real Redis cache
+  offline: sqlite
+  
+# Redis - REAL SERVICE
+redis:
+  enabled: true
+  host: localhost
+  port: 6379
+  
+# SQLite for primary storage (instead of ScyllaDB)
+sqlite:
+  enabled: true
+  path: think_ai_data.db
+  
+# Vector Database - Use in-memory implementation
+vector_db:
+  enabled: true
+  provider: inmemory  # In-memory vector search
+  
+# Knowledge Graph - Use in-memory graph
+neo4j:
+  enabled: false  # Disable since not available
+  
+# Language Model
+model:
+  name: "gpt2"  # Lightweight model
+  device: "cpu"
+  quantization: null
+  max_tokens: 512
+  
+# Claude Integration
+claude:
+  mode: "api"
+  budget_limit: 20.0
+  cache_responses: true
+  
+# Consciousness Settings
+consciousness:
+  enable_all_states: true
+  default_state: "aware"
+  compassion_active: true
+  
+# System Mode
+system_mode: "hybrid_real"
+budget_profile: "balanced"
