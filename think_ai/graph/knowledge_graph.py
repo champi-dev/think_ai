@@ -56,11 +56,7 @@ class KnowledgeGraph:
             return
 
         try:
-            logger.info(
-                f"Connecting to Neo4j at {
-                    self.uri} with username: {
-                    self.username}"
-            )
+            logger.info(f"Connecting to Neo4j at {self.uri} with username: {self.username}")
             # Don't log the actual password for security, just its length
             logger.info(f"Password length: {len(self.password)}")
 
@@ -142,10 +138,7 @@ class KnowledgeGraph:
                 properties=dict(node_data),
             )
 
-    async def create_concept_node(
-            self,
-            name: str,
-            description: str = "") -> Node:
+    async def create_concept_node(self, name: str, description: str = "") -> Node:
         """Create a concept node."""
         query = """
         MERGE (c:Concept {name: $name})
@@ -296,10 +289,10 @@ class KnowledgeGraph:
                 return None
 
             return {
-                "knowledge": dict(
-                    record["k"]), "concepts": [
-                    c for c in record["concepts"] if c["concept"]], "incoming_relationships": [
-                    r for r in record["incoming"] if r["node"]], }
+                "knowledge": dict(record["k"]),
+                "concepts": [c for c in record["concepts"] if c["concept"]],
+                "incoming_relationships": [r for r in record["incoming"] if r["node"]],
+            }
 
     async def search_by_concept_similarity(
         self,
@@ -493,16 +486,12 @@ class KnowledgeGraph:
         try:
             async with self.driver.session() as session:
                 # Count nodes
-                node_result = await session.run(
-                    "MATCH (n) RETURN count(n) as node_count"
-                )
+                node_result = await session.run("MATCH (n) RETURN count(n) as node_count")
                 node_record = await node_result.single()
                 node_count = node_record["node_count"] if node_record else 0
 
                 # Count relationships
-                rel_result = await session.run(
-                    "MATCH ()-[r]->() RETURN count(r) as rel_count"
-                )
+                rel_result = await session.run("MATCH ()-[r]->() RETURN count(r) as rel_count")
                 rel_record = await rel_result.single()
                 rel_count = rel_record["rel_count"] if rel_record else 0
 
@@ -589,8 +578,7 @@ class GraphEnhancedEngine:
 
         if use_graph:
             # Extract concepts from query (simplified)
-            query_concepts = [
-                word for word in query.lower().split() if len(word) > 4]
+            query_concepts = [word for word in query.lower().split() if len(word) > 4]
 
             # Search by concept similarity
             if query_concepts:

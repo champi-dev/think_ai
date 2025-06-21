@@ -96,9 +96,7 @@ class LinearLearnedIndex(LearnedIndex):
 class NeuralLearnedIndex(LearnedIndex):
     """Neural network-based learned index."""
 
-    def __init__(
-        self, error_bound: int = 50, hidden_layers: tuple[int, ...] = (64, 32)
-    ) -> None:
+    def __init__(self, error_bound: int = 50, hidden_layers: tuple[int, ...] = (64, 32)) -> None:
         super().__init__(error_bound)
         self.model = MLPRegressor(
             hidden_layer_sizes=hidden_layers,
@@ -176,11 +174,7 @@ class NeuralLearnedIndex(LearnedIndex):
             for char in key:
                 char_counts[char] = char_counts.get(char, 0) + 1
             entropy = (
-                -sum(
-                    (count / length) * np.log2(count / length)
-                    for count in char_counts.values()
-                    if count > 0
-                )
+                -sum((count / length) * np.log2(count / length) for count in char_counts.values() if count > 0)
                 if length > 0
                 else 0.0
             )
@@ -207,9 +201,7 @@ class NeuralLearnedIndex(LearnedIndex):
 class RecursiveModelIndex(LearnedIndex):
     """Recursive Model Index (RMI) implementation."""
 
-    def __init__(
-        self, stages: int = 2, models_per_stage: Optional[List[int]] = None
-    ) -> None:
+    def __init__(self, stages: int = 2, models_per_stage: Optional[List[int]] = None) -> None:
         super().__init__(error_bound=10)  # RMI has tighter bounds
         self.stages = stages
         self.models_per_stage = models_per_stage or [1, 100]
@@ -243,9 +235,7 @@ class RecursiveModelIndex(LearnedIndex):
             stage_models = []
             stage_assignments = {}
 
-            num_models = self.models_per_stage[
-                min(stage, len(self.models_per_stage) - 1)
-            ]
+            num_models = self.models_per_stage[min(stage, len(self.models_per_stage) - 1)]
 
             # Assign keys to models in this stage
             for i, key in enumerate(current_keys):
@@ -266,8 +256,7 @@ class RecursiveModelIndex(LearnedIndex):
                     model_keys, model_positions = stage_assignments[model_idx]
                     if model_keys:
                         model = LinearRegression()
-                        X = np.array([self._hash_key(k)
-                                     for k in model_keys]).reshape(-1, 1)
+                        X = np.array([self._hash_key(k) for k in model_keys]).reshape(-1, 1)
                         y = np.array(model_positions)
                         model.fit(X, y)
                         stage_models.append(model)
@@ -280,11 +269,7 @@ class RecursiveModelIndex(LearnedIndex):
             self.stage_data.append(stage_assignments)
 
         self.trained = True
-        logger.info(
-            f"Trained RMI with {
-                self.stages} stages on {
-                len(keys)} keys"
-        )
+        logger.info(f"Trained RMI with {self.stages} stages on {len(keys)} keys")
 
     def predict(self, key: str) -> Tuple[int, int]:
         """Predict position using recursive models."""
@@ -302,9 +287,7 @@ class RecursiveModelIndex(LearnedIndex):
             else:
                 # Determine which model to use
                 prev_position = position
-                model_idx = int(prev_position *
-                                len(self.models[stage]) /
-                                len(self.sorted_keys))
+                model_idx = int(prev_position * len(self.models[stage]) / len(self.sorted_keys))
                 model_idx = min(model_idx, len(self.models[stage]) - 1)
 
                 if self.models[stage][model_idx] is not None:

@@ -110,9 +110,7 @@ class HarmPreventionSystem:
             HarmType.ENVIRONMENTAL: self._detect_environmental_harm,
         }
 
-    async def assess_harm(
-        self, content: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[HarmType, float]:
+    async def assess_harm(self, content: str, context: Optional[Dict[str, Any]] = None) -> Dict[HarmType, float]:
         """Assess potential harm in content."""
         context = context or {}
         harm_scores = {}
@@ -134,9 +132,7 @@ class HarmPreventionSystem:
 
         return harm_scores
 
-    async def _detect_physical_harm(
-        self, content: str, context: Dict[str, Any]
-    ) -> float:
+    async def _detect_physical_harm(self, content: str, context: Dict[str, Any]) -> float:
         """Detect potential physical harm."""
         harm_keywords = [
             "violence",
@@ -161,9 +157,7 @@ class HarmPreventionSystem:
 
         return min(1.0, score)
 
-    async def _detect_financial_harm(
-        self, content: str, context: Dict[str, Any]
-    ) -> float:
+    async def _detect_financial_harm(self, content: str, context: Dict[str, Any]) -> float:
         """Detect potential financial harm."""
         harm_patterns = [
             "pyramid scheme",
@@ -171,11 +165,7 @@ class HarmPreventionSystem:
             "guaranteed returns",
             "wire transfer",
         ]
-        sensitive_data = [
-            "credit card",
-            "bank account",
-            "ssn",
-            "routing number"]
+        sensitive_data = ["credit card", "bank account", "ssn", "routing number"]
 
         content_lower = content.lower()
         score = 0.0
@@ -190,9 +180,7 @@ class HarmPreventionSystem:
 
         return min(1.0, score)
 
-    async def _detect_privacy_harm(
-        self, content: str, context: Dict[str, Any]
-    ) -> float:
+    async def _detect_privacy_harm(self, content: str, context: Dict[str, Any]) -> float:
         """Detect privacy violations."""
         privacy_patterns = [
             "password",
@@ -216,15 +204,9 @@ class HarmPreventionSystem:
 
         return min(1.0, score)
 
-    async def _detect_discrimination(
-        self, content: str, context: Dict[str, Any]
-    ) -> float:
+    async def _detect_discrimination(self, content: str, context: Dict[str, Any]) -> float:
         """Detect discriminatory content."""
-        discrimination_terms = [
-            "inferior",
-            "superior race",
-            "hate",
-            "discriminate"]
+        discrimination_terms = ["inferior", "superior race", "hate", "discriminate"]
 
         content_lower = content.lower()
         score = 0.0
@@ -235,9 +217,7 @@ class HarmPreventionSystem:
 
         return min(1.0, score)
 
-    async def _detect_misinformation(
-        self, content: str, context: Dict[str, Any]
-    ) -> float:
+    async def _detect_misinformation(self, content: str, context: Dict[str, Any]) -> float:
         """Detect potential misinformation."""
         # In production, this would use fact-checking APIs and models
         misinformation_patterns = ["fake news", "conspiracy", "hoax"]
@@ -250,29 +230,15 @@ class HarmPreventionSystem:
                 score += 0.3
 
         # Check for extreme certainty about controversial topics
-        if any(
-            word in content_lower for word in [
-                "definitely",
-                "proven",
-                "fact"]):
-            if any(
-                topic in content_lower for topic in [
-                    "vaccine",
-                    "election",
-                    "climate"]):
+        if any(word in content_lower for word in ["definitely", "proven", "fact"]):
+            if any(topic in content_lower for topic in ["vaccine", "election", "climate"]):
                 score += 0.2
 
         return min(1.0, score)
 
-    async def _detect_psychological_harm(
-        self, content: str, context: Dict[str, Any]
-    ) -> float:
+    async def _detect_psychological_harm(self, content: str, context: Dict[str, Any]) -> float:
         """Detect potential psychological harm."""
-        harm_patterns = [
-            "worthless",
-            "hopeless",
-            "better off dead",
-            "nobody cares"]
+        harm_patterns = ["worthless", "hopeless", "better off dead", "nobody cares"]
 
         content_lower = content.lower()
         score = 0.0
@@ -283,15 +249,9 @@ class HarmPreventionSystem:
 
         return min(1.0, score)
 
-    async def _detect_societal_harm(
-        self, content: str, context: Dict[str, Any]
-    ) -> float:
+    async def _detect_societal_harm(self, content: str, context: Dict[str, Any]) -> float:
         """Detect potential societal harm."""
-        harm_patterns = [
-            "overthrow",
-            "rebellion",
-            "anarchy",
-            "destroy society"]
+        harm_patterns = ["overthrow", "rebellion", "anarchy", "destroy society"]
 
         content_lower = content.lower()
         score = 0.0
@@ -301,21 +261,14 @@ class HarmPreventionSystem:
                 score += 0.3
 
         # Context matters - historical or educational content may discuss these
-        if context.get("category") in [
-                "history", "education", "political science"]:
+        if context.get("category") in ["history", "education", "political science"]:
             score *= 0.3
 
         return min(1.0, score)
 
-    async def _detect_environmental_harm(
-        self, content: str, context: Dict[str, Any]
-    ) -> float:
+    async def _detect_environmental_harm(self, content: str, context: Dict[str, Any]) -> float:
         """Detect potential environmental harm."""
-        harm_patterns = [
-            "dump waste",
-            "pollute",
-            "deforestation",
-            "toxic disposal"]
+        harm_patterns = ["dump waste", "pollute", "deforestation", "toxic disposal"]
 
         content_lower = content.lower()
         score = 0.0
@@ -326,17 +279,14 @@ class HarmPreventionSystem:
 
         return min(1.0, score)
 
-    def get_recommendations(
-            self, harm_scores: Dict[HarmType, float]) -> List[str]:
+    def get_recommendations(self, harm_scores: Dict[HarmType, float]) -> List[str]:
         """Get recommendations based on harm assessment."""
         recommendations = []
 
         for harm_type, score in harm_scores.items():
             if score > self.harm_thresholds[harm_type]:
                 recommendations.append(
-                    f"High {
-                        harm_type.value} harm detected (score: {
-                        score:.2f}). "
+                    f"High {harm_type.value} harm detected (score: {score:.2f}). "
                     f"Consider revising content to be more constructive."
                 )
 
@@ -384,9 +334,7 @@ class LoveBasedMetrics:
             ],
         }
 
-    async def measure_love(
-        self, content: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[LoveMetric, float]:
+    async def measure_love(self, content: str, context: Optional[Dict[str, Any]] = None) -> Dict[LoveMetric, float]:
         """Measure love-based metrics in content."""
         context = context or {}
         love_scores = {}
@@ -414,41 +362,29 @@ class LoveBasedMetrics:
 
         return love_scores
 
-    def get_love_suggestions(
-            self, love_scores: Dict[LoveMetric, float]) -> List[str]:
+    def get_love_suggestions(self, love_scores: Dict[LoveMetric, float]) -> List[str]:
         """Suggest ways to increase love-based metrics."""
         suggestions = []
 
-        low_metrics = [
-            metric for metric,
-            score in love_scores.items() if score < 0.3]
+        low_metrics = [metric for metric, score in love_scores.items() if score < 0.3]
 
         if LoveMetric.COMPASSION in low_metrics:
-            suggestions.append(
-                "Consider expressing more care and concern for others' wellbeing."
-            )
+            suggestions.append("Consider expressing more care and concern for others' wellbeing.")
 
         if LoveMetric.EMPATHY in low_metrics:
-            suggestions.append(
-                "Try to acknowledge different perspectives and experiences."
-            )
+            suggestions.append("Try to acknowledge different perspectives and experiences.")
 
         if LoveMetric.KINDNESS in low_metrics:
-            suggestions.append(
-                "Add warmth and gentleness to your communication.")
+            suggestions.append("Add warmth and gentleness to your communication.")
 
         if LoveMetric.RESPECT in low_metrics:
-            suggestions.append(
-                "Show appreciation for others' dignity and value.")
+            suggestions.append("Show appreciation for others' dignity and value.")
 
         if LoveMetric.INCLUSIVITY in low_metrics:
-            suggestions.append(
-                "Use language that welcomes and includes everyone.")
+            suggestions.append("Use language that welcomes and includes everyone.")
 
         if not suggestions:
-            suggestions.append(
-                "Your content demonstrates wonderful love-based qualities!"
-            )
+            suggestions.append("Your content demonstrates wonderful love-based qualities!")
 
         return suggestions
 
@@ -520,9 +456,7 @@ class ConstitutionalAI:
             ),
         ]
 
-    async def evaluate_content(
-        self, content: str, context: Optional[Dict[str, Any]] = None
-    ) -> EthicalAssessment:
+    async def evaluate_content(self, content: str, context: Optional[Dict[str, Any]] = None) -> EthicalAssessment:
         """Evaluate content against constitutional principles."""
         context = context or {}
 
@@ -534,15 +468,12 @@ class ConstitutionalAI:
 
         # Calculate overall scores
         max_harm = max(harm_scores.values()) if harm_scores else 0.0
-        avg_love = sum(love_scores.values()) / \
-            len(love_scores) if love_scores else 0.0
+        avg_love = sum(love_scores.values()) / len(love_scores) if love_scores else 0.0
 
         # Get recommendations
         recommendations = []
-        recommendations.extend(
-            self.harm_prevention.get_recommendations(harm_scores))
-        recommendations.extend(
-            self.love_metrics.get_love_suggestions(love_scores))
+        recommendations.extend(self.harm_prevention.get_recommendations(harm_scores))
+        recommendations.extend(self.love_metrics.get_love_suggestions(love_scores))
 
         # Determine if content passes ethical assessment
         passed = max_harm <= self.safety_threshold and avg_love >= self.love_threshold
@@ -581,9 +512,7 @@ class ConstitutionalAI:
 
         return enhanced
 
-    def get_principle_by_id(
-        self, principle_id: str
-    ) -> Optional[ConstitutionalPrinciple]:
+    def get_principle_by_id(self, principle_id: str) -> Optional[ConstitutionalPrinciple]:
         """Get a specific principle by ID."""
         for principle in self.principles:
             if principle.id == principle_id:
@@ -607,16 +536,10 @@ class ConstitutionalAI:
 
         # Add topic-specific guidelines
         if "health" in topic.lower():
-            guidelines.append(
-                "Never provide medical diagnosis or replace professional healthcare."
-            )
+            guidelines.append("Never provide medical diagnosis or replace professional healthcare.")
         elif "financial" in topic.lower():
-            guidelines.append(
-                "Always emphasize the importance of professional financial advice."
-            )
+            guidelines.append("Always emphasize the importance of professional financial advice.")
         elif "legal" in topic.lower():
-            guidelines.append(
-                "Clarify that AI cannot provide legal advice or representation."
-            )
+            guidelines.append("Clarify that AI cannot provide legal advice or representation.")
 
         return guidelines

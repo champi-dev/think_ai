@@ -66,9 +66,7 @@ class IndexedStorageBackend:
 
                 # Track changes for index rebuild
                 index_name = self._get_index_name(key)
-                self.changes_since_rebuild[index_name] = (
-                    self.changes_since_rebuild.get(index_name, 0) + 1
-                )
+                self.changes_since_rebuild[index_name] = self.changes_since_rebuild.get(index_name, 0) + 1
 
                 # Check if rebuild needed
                 if self.changes_since_rebuild[index_name] >= self.rebuild_threshold:
@@ -100,9 +98,7 @@ class IndexedStorageBackend:
                 scan_size = end - start
 
                 # Update metrics
-                self.metrics["average_scan_size"] = (
-                    0.9 * self.metrics["average_scan_size"] + 0.1 * scan_size
-                )
+                self.metrics["average_scan_size"] = 0.9 * self.metrics["average_scan_size"] + 0.1 * scan_size
 
                 # Scan only the predicted range
                 result = await self._scan_range(key, start, end)
@@ -174,9 +170,7 @@ class IndexedStorageBackend:
 
             # Track change
             index_name = self._get_index_name(key)
-            self.changes_since_rebuild[index_name] = (
-                self.changes_since_rebuild.get(index_name, 0) + 1
-            )
+            self.changes_since_rebuild[index_name] = self.changes_since_rebuild.get(index_name, 0) + 1
 
         return success
 
@@ -217,24 +211,15 @@ class IndexedStorageBackend:
 
     def get_metrics(self) -> Dict[str, Any]:
         """Get performance metrics."""
-        total_accesses = (
-            self.metrics["index_hits"]
-            + self.metrics["index_misses"]
-            + self.metrics["fallback_scans"]
-        )
+        total_accesses = self.metrics["index_hits"] + self.metrics["index_misses"] + self.metrics["fallback_scans"]
 
-        hit_rate = (self.metrics["index_hits"] /
-                    total_accesses if total_accesses > 0 else 0)
+        hit_rate = self.metrics["index_hits"] / total_accesses if total_accesses > 0 else 0
 
         return {
             "total_accesses": total_accesses,
             "index_hit_rate": hit_rate,
             "average_scan_size": self.metrics["average_scan_size"],
-            "fallback_rate": (
-                self.metrics["fallback_scans"] / total_accesses
-                if total_accesses > 0
-                else 0
-            ),
+            "fallback_rate": (self.metrics["fallback_scans"] / total_accesses if total_accesses > 0 else 0),
             "indexes_loaded": len(self.index_manager.list_indexes()),
         }
 
@@ -265,10 +250,7 @@ class IndexedStorageBackend:
                     index_type="auto",
                 )
 
-                logger.info(
-                    f"Created index {index_name} with {
-                        len(keys)} keys"
-                )
+                logger.info(f"Created index {index_name} with {len(keys)} keys")
 
     async def _rebuild_index(self, index_name: str) -> None:
         """Rebuild a learned index with current data."""
@@ -293,10 +275,7 @@ class IndexedStorageBackend:
                 # Reset change counter
                 self.changes_since_rebuild[index_name] = 0
 
-                logger.info(
-                    f"Rebuilt index {index_name} with {
-                        len(keys)} keys"
-                )
+                logger.info(f"Rebuilt index {index_name} with {len(keys)} keys")
 
         except Exception as e:
             logger.exception(f"Failed to rebuild index {index_name}: {e}")
@@ -375,11 +354,7 @@ class IndexedStorageBackend:
 
     def _get_index_name(self, key: str) -> str:
         """Get index name for a key based on prefix."""
-        prefix = (
-            key[: self.index_prefix_length]
-            if len(key) >= self.index_prefix_length
-            else key
-        )
+        prefix = key[: self.index_prefix_length] if len(key) >= self.index_prefix_length else key
 
         return f"prefix_{prefix}"
 

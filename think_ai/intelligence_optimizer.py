@@ -68,8 +68,7 @@ class IntelligenceOptimizer:
         self.optimizations_applied = []
         self.colombian_mode = True
 
-        logger.info(
-            "🇨🇴 Intelligence Optimizer initialized - ¡Dale que vamos tarde!")
+        logger.info("🇨🇴 Intelligence Optimizer initialized - ¡Dale que vamos tarde!")
 
     async def optimize_intelligence(self) -> IntelligenceMetrics:
         """Apply intelligence optimizations."""
@@ -86,11 +85,7 @@ class IntelligenceOptimizer:
 
         # Calculate metrics
         improvement = self.current_intelligence - self.baseline_intelligence
-        ratio = (
-            improvement / self.baseline_intelligence
-            if self.baseline_intelligence > 0
-            else 0
-        )
+        ratio = improvement / self.baseline_intelligence if self.baseline_intelligence > 0 else 0
 
         metrics = IntelligenceMetrics(
             baseline_score=self.baseline_intelligence,
@@ -100,11 +95,7 @@ class IntelligenceOptimizer:
             colombian_enhancement=self.colombian_mode,
         )
 
-        logger.info(
-            f"✅ Intelligence optimized: {
-                self.baseline_intelligence} → {
-                self.current_intelligence}"
-        )
+        logger.info(f"✅ Intelligence optimized: {self.baseline_intelligence} → {self.current_intelligence}")
         logger.info(f"🇨🇴 Colombian boost: {ratio * 100:.1f}% improvement!")
 
         return metrics
@@ -161,17 +152,14 @@ class IntelligenceOptimizer:
         return {
             "baseline_intelligence": self.baseline_intelligence,
             "current_intelligence": self.current_intelligence,
-            "total_improvement": self.current_intelligence -
-            self.baseline_intelligence,
+            "total_improvement": self.current_intelligence - self.baseline_intelligence,
             "improvement_percentage": (
-                (self.current_intelligence -
-                 self.baseline_intelligence) /
-                self.baseline_intelligence) *
-            100,
+                (self.current_intelligence - self.baseline_intelligence) / self.baseline_intelligence
+            )
+            * 100,
             "optimizations_applied": self.optimizations_applied,
             "colombian_mode": self.colombian_mode,
-            "optimization_count": len(
-                self.optimizations_applied),
+            "optimization_count": len(self.optimizations_applied),
         }
 
 
@@ -183,9 +171,7 @@ class ModelOptimizer:
         self.optimizations = []
         logger.info("🚀 Model Optimizer ready for Colombian-style optimization!")
 
-    async def optimize_model_performance(
-        self, model_config: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def optimize_model_performance(self, model_config: Dict[str, Any]) -> Dict[str, Any]:
         """Optimize model performance."""
         optimized_config = model_config.copy()
 
@@ -205,8 +191,7 @@ class ModelOptimizer:
         optimized_config["dale_que_vamos_tarde_mode"] = True
         self.optimizations.append("Colombian Performance Boost")
 
-        logger.info(
-            f"🇨🇴 Model optimized with {len(self.optimizations)} techniques!")
+        logger.info(f"🇨🇴 Model optimized with {len(self.optimizations)} techniques!")
 
         return optimized_config
 
@@ -219,8 +204,7 @@ class KnowledgeOptimizer:
         self.knowledge_base = {}
         self.optimization_metrics = {}
 
-    async def optimize_knowledge_retrieval(
-            self, queries: List[str]) -> Dict[str, Any]:
+    async def optimize_knowledge_retrieval(self, queries: List[str]) -> Dict[str, Any]:
         """Optimize knowledge retrieval patterns."""
         # Hash-based O(1) knowledge lookup
         optimized_results = {}
@@ -239,10 +223,7 @@ class KnowledgeOptimizer:
 
             optimized_results[query_hash] = result
 
-        logger.info(
-            f"🧠 Optimized knowledge retrieval for {
-                len(queries)} queries in O(1) time!"
-        )
+        logger.info(f"🧠 Optimized knowledge retrieval for {len(queries)} queries in O(1) time!")
 
         return {
             "results": optimized_results,

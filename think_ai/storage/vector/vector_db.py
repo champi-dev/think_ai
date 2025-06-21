@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-from ..utils.logging import get_logger
+from ...utils.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -31,16 +31,12 @@ class VectorDB(ABC):
         pass
 
     @abstractmethod
-    async def add_vectors(
-        self, vectors: List[np.ndarray], ids: List[str], metadata: List[Dict[str, Any]]
-    ) -> None:
+    async def add_vectors(self, vectors: List[np.ndarray], ids: List[str], metadata: List[Dict[str, Any]]) -> None:
         """Add vectors to the database."""
         pass
 
     @abstractmethod
-    async def search(
-        self, query_vector: np.ndarray, top_k: int = 10
-    ) -> List[VectorSearchResult]:
+    async def search(self, query_vector: np.ndarray, top_k: int = 10) -> List[VectorSearchResult]:
         """Search for similar vectors."""
         pass
 
@@ -70,39 +66,27 @@ class InMemoryVectorDB(VectorDB):
         self._initialized = True
         logger.info(f"Initialized in-memory vector DB (dim={self.dimension})")
 
-    async def add_vectors(
-        self, vectors: List[np.ndarray], ids: List[str], metadata: List[Dict[str, Any]]
-    ) -> None:
+    async def add_vectors(self, vectors: List[np.ndarray], ids: List[str], metadata: List[Dict[str, Any]]) -> None:
         """Add vectors to memory."""
         if not self._initialized:
             await self.initialize()
 
         for vector, vector_id, meta in zip(vectors, ids, metadata):
             if len(vector) != self.dimension:
-                raise ValueError(
-                    f"Vector dimension mismatch: expected {
-                        self.dimension}, got {
-                        len(vector)}"
-                )
+                raise ValueError(f"Vector dimension mismatch: expected {self.dimension}, got {len(vector)}")
 
             self.vectors[vector_id] = vector.copy()
             self.metadata[vector_id] = meta.copy()
 
         logger.debug(f"Added {len(vectors)} vectors to in-memory DB")
 
-    async def search(
-        self, query_vector: np.ndarray, top_k: int = 10
-    ) -> List[VectorSearchResult]:
+    async def search(self, query_vector: np.ndarray, top_k: int = 10) -> List[VectorSearchResult]:
         """Search for similar vectors using cosine similarity."""
         if not self._initialized:
             await self.initialize()
 
         if len(query_vector) != self.dimension:
-            raise ValueError(
-                f"Query vector dimension mismatch: expected {
-                    self.dimension}, got {
-                    len(query_vector)}"
-            )
+            raise ValueError(f"Query vector dimension mismatch: expected {self.dimension}, got {len(query_vector)}")
 
         if not self.vectors:
             return []
@@ -181,24 +165,16 @@ class FaissVectorDB(VectorDB):
                 raise ValueError(f"Unsupported index type: {self.index_type}")
 
             self._initialized = True
-            logger.info(
-                f"Initialized FAISS vector DB (dim={
-                    self.dimension}, type={
-                    self.index_type})"
-            )
+            logger.info(f"Initialized FAISS vector DB (dim={self.dimension}, type={self.index_type})")
 
         except ImportError:
-            logger.warning(
-                "FAISS not available, falling back to in-memory implementation"
-            )
+            logger.warning("FAISS not available, falling back to in-memory implementation")
             # Fallback to in-memory
             self._fallback = InMemoryVectorDB(self.dimension)
             await self._fallback.initialize()
             self._initialized = True
 
-    async def add_vectors(
-        self, vectors: List[np.ndarray], ids: List[str], metadata: List[Dict[str, Any]]
-    ) -> None:
+    async def add_vectors(self, vectors: List[np.ndarray], ids: List[str], metadata: List[Dict[str, Any]]) -> None:
         """Add vectors to FAISS index."""
         if not self._initialized:
             await self.initialize()
@@ -221,9 +197,7 @@ class FaissVectorDB(VectorDB):
 
         logger.debug(f"Added {len(vectors)} vectors to FAISS DB")
 
-    async def search(
-        self, query_vector: np.ndarray, top_k: int = 10
-    ) -> List[VectorSearchResult]:
+    async def search(self, query_vector: np.ndarray, top_k: int = 10) -> List[VectorSearchResult]:
         """Search using FAISS index."""
         if not self._initialized:
             await self.initialize()
@@ -242,10 +216,7 @@ class FaissVectorDB(VectorDB):
         for score, idx in zip(scores[0], indices[0]):
             if idx >= 0 and idx in self.id_map:
                 vector_id = self.id_map[idx]
-                result = VectorSearchResult(
-                    id=vector_id,
-                    score=float(score),
-                    metadata=self.metadata[vector_id])
+                result = VectorSearchResult(id=vector_id, score=float(score), metadata=self.metadata[vector_id])
                 results.append(result)
 
         return results
@@ -261,8 +232,7 @@ class FaissVectorDB(VectorDB):
 
         # Note: FAISS doesn't support efficient deletion
         # In production, you'd rebuild the index periodically
-        logger.warning(
-            "FAISS deletion is not efficient - consider rebuilding index")
+        logger.warning("FAISS deletion is not efficient - consider rebuilding index")
 
     async def get_vector_count(self) -> int:
         """Get total number of vectors."""

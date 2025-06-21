@@ -47,10 +47,10 @@ except ImportError:
     StoppingCriteria = transformers.StoppingCriteria
     StoppingCriteriaList = transformers.StoppingCriteriaList
 
-from ..consciousness.principles import ConstitutionalAI
-from ..core.config import ModelConfig
-from ..utils.complexity_detector import detect_complexity
-from ..utils.logging import get_logger
+from ...consciousness.principles import ConstitutionalAI
+from ...core.config import ModelConfig
+from ...utils.complexity_detector import detect_complexity
+from ...utils.logging import get_logger
 from .response_cache import response_cache
 from .types import GenerationConfig, ModelResponse
 

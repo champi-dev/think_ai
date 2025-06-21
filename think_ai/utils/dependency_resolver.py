@@ -37,8 +37,7 @@ class ThinkAIDependencyResolver:
             # Try importing the real package first
             return importlib.import_module(package_name)
         except ImportError:
-            logger.info(
-                f"🇨🇴 {package_name} not available, using Think AI alternative - ¡Dale que vamos tarde!")
+            logger.info(f"🇨🇴 {package_name} not available, using Think AI alternative - ¡Dale que vamos tarde!")
 
             if package_name in self.fallback_providers:
                 fallback = self.fallback_providers[package_name]()
@@ -48,8 +47,7 @@ class ThinkAIDependencyResolver:
                 sys.modules[package_name] = fallback
                 return fallback
             else:
-                logger.warning(
-                    f"No Think AI alternative available for {package_name}")
+                logger.warning(f"No Think AI alternative available for {package_name}")
                 raise ImportError(f"No fallback available for {package_name}")
 
     def _provide_chromadb_fallback(self) -> Any:
@@ -60,8 +58,7 @@ class ThinkAIDependencyResolver:
 
             def __init__(self):
                 self.collections = {}
-                logger.info(
-                    "🚀 Think AI ChromaDB initialized - O(1) performance!")
+                logger.info("🚀 Think AI ChromaDB initialized - O(1) performance!")
 
             def create_collection(self, name: str, **kwargs):
                 from types import SimpleNamespace
@@ -69,9 +66,7 @@ class ThinkAIDependencyResolver:
                 collection = SimpleNamespace()
                 collection.name = name
                 collection.vectors = {}
-                collection.add = lambda ids, embeddings, **kw: logger.info(
-                    f"✅ Added {len(ids)} vectors to {name}"
-                )
+                collection.add = lambda ids, embeddings, **kw: logger.info(f"✅ Added {len(ids)} vectors to {name}")
                 collection.query = lambda embeddings, n_results=10, **kw: {
                     "ids": [["mock_id"]],
                     "distances": [[0.1]],
@@ -106,22 +101,17 @@ class ThinkAIDependencyResolver:
                 self.dimension = dimension
                 self.vectors = []
                 self.ntotal = 0
-                logger.info(
-                    f"🚀 Think AI FAISS index created (dim={dimension})")
+                logger.info(f"🚀 Think AI FAISS index created (dim={dimension})")
 
             def add(self, vectors: np.ndarray):
                 self.vectors.extend(vectors)
                 self.ntotal += len(vectors)
-                logger.info(
-                    f"✅ Added {
-                        len(vectors)} vectors with O(1) performance"
-                )
+                logger.info(f"✅ Added {len(vectors)} vectors with O(1) performance")
 
             def search(self, query_vectors: np.ndarray, k: int):
                 # Mock search with O(1) performance
                 distances = np.random.random((1, min(k, self.ntotal)))
-                indices = np.arange(min(k, self.ntotal),
-                                    dtype=np.int64).reshape(1, -1)
+                indices = np.arange(min(k, self.ntotal), dtype=np.int64).reshape(1, -1)
                 logger.info(f"🇨🇴 Search completed in O(1) time - ¡Qué chimba!")
                 return distances, indices
 
@@ -213,13 +203,9 @@ class ThinkAIDependencyResolver:
             """Think AI optimized dotenv with O(1) operations."""
 
             @staticmethod
-            def load_dotenv(
-                dotenv_path=None, stream=None, verbose=False, override=False
-            ):
+            def load_dotenv(dotenv_path=None, stream=None, verbose=False, override=False):
                 """Load environment variables from .env file."""
-                logger.info(
-                    "🇨🇴 Think AI dotenv: Loading environment variables - ¡Dale que vamos tarde!"
-                )
+                logger.info("🇨🇴 Think AI dotenv: Loading environment variables - ¡Dale que vamos tarde!")
 
                 if dotenv_path is None:
                     dotenv_path = ".env"
@@ -229,33 +215,24 @@ class ThinkAIDependencyResolver:
                         with open(dotenv_path, "r") as f:
                             for line in f:
                                 line = line.strip()
-                                if line and not line.startswith(
-                                        "#") and "=" in line:
+                                if line and not line.startswith("#") and "=" in line:
                                     key, value = line.split("=", 1)
                                     key = key.strip()
                                     value = value.strip().strip("'\"")
                                     if override or key not in os.environ:
                                         os.environ[key] = value
-                        logger.info(
-                            f"✅ Environment variables loaded from {dotenv_path}")
+                        logger.info(f"✅ Environment variables loaded from {dotenv_path}")
                     else:
-                        logger.debug(
-                            f"🇨🇴 No .env file found at {dotenv_path}, using defaults")
+                        logger.debug(f"🇨🇴 No .env file found at {dotenv_path}, using defaults")
                     return True
                 except Exception as e:
                     logger.warning(f"Failed to load .env file: {e}")
                     return False
 
             @staticmethod
-            def find_dotenv(
-                filename=".env", raise_error_if_not_found=False, usecwd=False
-            ):
+            def find_dotenv(filename=".env", raise_error_if_not_found=False, usecwd=False):
                 """Find .env file in current directory."""
-                current_dir = (
-                    os.getcwd()
-                    if usecwd
-                    else os.path.dirname(os.path.abspath(__file__))
-                )
+                current_dir = os.getcwd() if usecwd else os.path.dirname(os.path.abspath(__file__))
                 dotenv_path = os.path.join(current_dir, filename)
 
                 if os.path.exists(dotenv_path):
@@ -277,11 +254,9 @@ class ThinkAIDependencyResolver:
                         with open(dotenv_path, "r") as f:
                             for line in f:
                                 line = line.strip()
-                                if line and not line.startswith(
-                                        "#") and "=" in line:
+                                if line and not line.startswith("#") and "=" in line:
                                     key, value = line.split("=", 1)
-                                    values[key.strip()] = value.strip().strip(
-                                        "'\"")
+                                    values[key.strip()] = value.strip().strip("'\"")
                 except Exception:
                     pass
 
@@ -303,26 +278,18 @@ class ThinkAIDependencyResolver:
             """Think AI optimized Hugging Face Hub with Colombian enhancement."""
 
             @staticmethod
-            def snapshot_download(
-                    repo_id,
-                    revision=None,
-                    cache_dir=None,
-                    **kwargs):
+            def snapshot_download(repo_id, revision=None, cache_dir=None, **kwargs):
                 """Mock model download for CI environments."""
-                logger.info(
-                    f"🇨🇴 Think AI HF Hub: Mock downloading {repo_id} - ¡Dale que vamos tarde!")
+                logger.info(f"🇨🇴 Think AI HF Hub: Mock downloading {repo_id} - ¡Dale que vamos tarde!")
                 # Return a fake local path for CI
                 mock_path = "/tmp/think_ai_mock_models"
                 os.makedirs(mock_path, exist_ok=True)
                 return mock_path
 
             @staticmethod
-            def hf_hub_download(
-                repo_id, filename, revision=None, cache_dir=None, **kwargs
-            ):
+            def hf_hub_download(repo_id, filename, revision=None, cache_dir=None, **kwargs):
                 """Mock file download for CI environments."""
-                logger.info(
-                    f"🇨🇴 Think AI HF Hub: Mock downloading {filename} from {repo_id}")
+                logger.info(f"🇨🇴 Think AI HF Hub: Mock downloading {filename} from {repo_id}")
                 # Return a fake file path
                 mock_dir = "/tmp/think_ai_mock_models"
                 os.makedirs(mock_dir, exist_ok=True)
@@ -333,13 +300,9 @@ class ThinkAIDependencyResolver:
                 return mock_file
 
             @staticmethod
-            def login(
-                    token=None,
-                    add_to_git_credential=False,
-                    new_session=True):
+            def login(token=None, add_to_git_credential=False, new_session=True):
                 """Mock login for CI environments."""
-                logger.info(
-                    "🇨🇴 Think AI HF Hub: Mock login successful - ¡Qué chimba!")
+                logger.info("🇨🇴 Think AI HF Hub: Mock login successful - ¡Qué chimba!")
                 return True
 
             @staticmethod
@@ -390,13 +353,11 @@ class ThinkAIDependencyResolver:
             @staticmethod
             def from_pretrained(model_name, **kwargs):
                 """Mock model loading for CI environments."""
-                logger.info(
-                    f"🇨🇴 Think AI Transformers: Mock loading {model_name} - ¡Dale que vamos tarde!")
+                logger.info(f"🇨🇴 Think AI Transformers: Mock loading {model_name} - ¡Dale que vamos tarde!")
 
                 # Create a mock model
                 model = SimpleNamespace()
-                model.config = SimpleNamespace(
-                    hidden_size=768, vocab_size=50257)
+                model.config = SimpleNamespace(hidden_size=768, vocab_size=50257)
                 model.eval = lambda: None
                 model.to = lambda device: model
                 model.forward = lambda *args, **kwargs: SimpleNamespace(
@@ -411,15 +372,13 @@ class ThinkAIDependencyResolver:
             @staticmethod
             def from_pretrained(tokenizer_name, **kwargs):
                 """Mock tokenizer loading for CI environments."""
-                logger.info(
-                    f"🇨🇴 Think AI Transformers: Mock loading tokenizer {tokenizer_name}")
+                logger.info(f"🇨🇴 Think AI Transformers: Mock loading tokenizer {tokenizer_name}")
 
                 tokenizer = SimpleNamespace()
                 tokenizer.pad_token_id = 0
                 tokenizer.eos_token_id = 50256
                 tokenizer.model_max_length = 1024
-                tokenizer.encode = lambda text, * \
-                    args, **kwargs: [101, 2054, 2003, 102]
+                tokenizer.encode = lambda text, *args, **kwargs: [101, 2054, 2003, 102]
                 tokenizer.decode = lambda ids, *args, **kwargs: "Mock decoded text"
                 tokenizer.__call__ = lambda text, *args, **kwargs: SimpleNamespace(
                     input_ids=np.array([[101, 2054, 2003, 102]]),
@@ -436,9 +395,7 @@ class ThinkAIDependencyResolver:
 
             def train(self):
                 logger.info("🚀 Think AI training completed in O(1) time")
-                return SimpleNamespace(
-                    global_step=1000, training_loss=0.1, metrics={"loss": 0.1}
-                )
+                return SimpleNamespace(global_step=1000, training_loss=0.1, metrics={"loss": 0.1})
 
             def evaluate(self):
                 return {"eval_loss": 0.1, "perplexity": 1.1}
@@ -449,8 +406,7 @@ class ThinkAIDependencyResolver:
             @staticmethod
             def from_pretrained(config_name, **kwargs):
                 """Mock config loading for CI environments."""
-                logger.info(
-                    f"🇨🇴 Think AI Transformers: Mock loading config {config_name}")
+                logger.info(f"🇨🇴 Think AI Transformers: Mock loading config {config_name}")
 
                 config = SimpleNamespace()
                 config.hidden_size = 768
@@ -470,24 +426,13 @@ class ThinkAIDependencyResolver:
                 self.load_in_8bit = kwargs.get("load_in_8bit", False)
                 self.load_in_4bit = kwargs.get("load_in_4bit", False)
                 self.llm_int8_threshold = kwargs.get("llm_int8_threshold", 6.0)
-                self.llm_int8_skip_modules = kwargs.get(
-                    "llm_int8_skip_modules", None)
-                self.llm_int8_enable_fp32_cpu_offload = kwargs.get(
-                    "llm_int8_enable_fp32_cpu_offload", False
-                )
-                self.llm_int8_has_fp16_weight = kwargs.get(
-                    "llm_int8_has_fp16_weight", False
-                )
-                self.bnb_4bit_compute_dtype = kwargs.get(
-                    "bnb_4bit_compute_dtype", None)
-                self.bnb_4bit_quant_type = kwargs.get(
-                    "bnb_4bit_quant_type", "fp4")
-                self.bnb_4bit_use_double_quant = kwargs.get(
-                    "bnb_4bit_use_double_quant", False
-                )
-                logger.info(
-                    "🇨🇴 Think AI BitsAndBytesConfig: Quantization ready - ¡Dale que vamos tarde!"
-                )
+                self.llm_int8_skip_modules = kwargs.get("llm_int8_skip_modules", None)
+                self.llm_int8_enable_fp32_cpu_offload = kwargs.get("llm_int8_enable_fp32_cpu_offload", False)
+                self.llm_int8_has_fp16_weight = kwargs.get("llm_int8_has_fp16_weight", False)
+                self.bnb_4bit_compute_dtype = kwargs.get("bnb_4bit_compute_dtype", None)
+                self.bnb_4bit_quant_type = kwargs.get("bnb_4bit_quant_type", "fp4")
+                self.bnb_4bit_use_double_quant = kwargs.get("bnb_4bit_use_double_quant", False)
+                logger.info("🇨🇴 Think AI BitsAndBytesConfig: Quantization ready - ¡Dale que vamos tarde!")
 
         class ThinkAITextStreamer:
             """Think AI optimized TextStreamer for streaming generation."""
@@ -496,8 +441,7 @@ class ThinkAIDependencyResolver:
                 """Initialize text streamer."""
                 self.tokenizer = tokenizer
                 self.skip_prompt = skip_prompt
-                self.skip_special_tokens = kwargs.get(
-                    "skip_special_tokens", True)
+                self.skip_special_tokens = kwargs.get("skip_special_tokens", True)
                 self.decode_kwargs = kwargs
                 self.token_cache = []
                 self.print_len = 0
@@ -533,8 +477,7 @@ class ThinkAIDependencyResolver:
 
             def __call__(self, input_ids, scores, **kwargs):
                 """Check if any stopping criteria is met."""
-                return any(criteria(input_ids, scores, **kwargs)
-                           for criteria in self)
+                return any(criteria(input_ids, scores, **kwargs) for criteria in self)
 
         # Create module with all necessary exports
         transformers_module = ModuleType("think_ai_transformers")
@@ -547,13 +490,10 @@ class ThinkAIDependencyResolver:
         transformers_module.StoppingCriteria = ThinkAIStoppingCriteria
         transformers_module.StoppingCriteriaList = ThinkAIStoppingCriteriaList
         transformers_module.Trainer = ThinkAITrainer
-        transformers_module.TrainingArguments = lambda **kwargs: SimpleNamespace(
-            **kwargs)
+        transformers_module.TrainingArguments = lambda **kwargs: SimpleNamespace(**kwargs)
 
         # Add commonly used constants
-        transformers_module.set_seed = lambda seed: logger.debug(
-            f"🇨🇴 Random seed set to {seed}"
-        )
+        transformers_module.set_seed = lambda seed: logger.debug(f"🇨🇴 Random seed set to {seed}")
 
         return transformers_module
 
@@ -604,9 +544,7 @@ class ThinkAIDependencyResolver:
                 mock_node = SimpleNamespace()
                 mock_node.element_id = "mock_id_123"
                 mock_node.labels = ["Knowledge"]
-                mock_node.__dict__.update(
-                    {"key": "mock_key", "content": "mock_content"}
-                )
+                mock_node.__dict__.update({"key": "mock_key", "content": "mock_content"})
                 mock_node.items = lambda: mock_node.__dict__.items()
                 return {
                     "k": mock_node,

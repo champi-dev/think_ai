@@ -17,9 +17,9 @@ from ..federated.federated_learning import FederatedLearningServer
 from ..graph.knowledge_graph import KnowledgeGraph
 from ..models.language_model import ModelOrchestrator
 from ..storage.base import StorageItem
-from ..storage.redis_cache import RedisCache
-from ..storage.scylla import ScyllaDBBackend
-from ..storage.vector_db import MilvusDB
+from ..storage.cache.redis_cache import RedisCache
+from ..storage.distributed.scylla import ScyllaDBBackend
+from ..storage.vector.vector_db import VectorDB as MilvusDB
 from ..utils.logging import get_logger
 
 logger = get_logger(__name__)

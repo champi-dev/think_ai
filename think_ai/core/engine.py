@@ -23,12 +23,12 @@ from ..core.config import Config
 from ..graph.knowledge_graph import GraphEnhancedEngine, KnowledgeGraph
 from ..models.embeddings import EmbeddingModel, create_embedding_model
 from ..storage.base import CachedStorageBackend, StorageBackend, StorageItem
-from ..storage.redis_cache import RedisCache
-from ..storage.vector_db import VectorDB, create_vector_db
+from ..storage.cache.redis_cache import RedisCache
+from ..storage.vector.vector_db import VectorDB, create_vector_db
 
 # Safe import with fallback for ScyllaDB
 try:
-    from ..storage.scylla import ScyllaDBBackend
+    from ..storage.distributed.scylla import ScyllaDBBackend
 
     SCYLLADB_AVAILABLE = True
 except ImportError:

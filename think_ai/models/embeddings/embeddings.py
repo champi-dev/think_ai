@@ -9,8 +9,8 @@ from typing import List, Optional
 import numpy as np
 import torch
 
-from ..core.config import ModelConfig
-from ..utils.logging import get_logger
+from ...core.config import ModelConfig
+from ...utils.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -42,9 +42,7 @@ class EmbeddingModel(ABC):
 class TransformerEmbeddings(EmbeddingModel):
     """Transformer-based embedding model using sentence-transformers."""
 
-    def __init__(
-            self,
-            model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+    def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
         """Initialize the transformer embeddings model."""
         self.model_name = model_name
         self.model = None
@@ -62,24 +60,16 @@ class TransformerEmbeddings(EmbeddingModel):
             from sentence_transformers import SentenceTransformer
 
             # Load model in executor to avoid blocking
-            self.model = await asyncio.get_event_loop().run_in_executor(
-                None, SentenceTransformer, self.model_name
-            )
+            self.model = await asyncio.get_event_loop().run_in_executor(None, SentenceTransformer, self.model_name)
 
             # Get embedding dimension
             self.dimension = self.model.get_sentence_embedding_dimension()
 
             self._initialized = True
-            logger.info(
-                f"Initialized embedding model: {
-                    self.model_name} (dim={
-                    self.dimension})"
-            )
+            logger.info(f"Initialized embedding model: {self.model_name} (dim={self.dimension})")
 
         except ImportError:
-            logger.warning(
-                "sentence-transformers not available, using fallback embeddings"
-            )
+            logger.warning("sentence-transformers not available, using fallback embeddings")
             self.model = None
             self.dimension = 384  # Standard embedding size
             self._initialized = True
@@ -97,9 +87,7 @@ class TransformerEmbeddings(EmbeddingModel):
             return [self._fallback_embedding(text) for text in texts]
 
         # Encode in executor to avoid blocking
-        embeddings = await asyncio.get_event_loop().run_in_executor(
-            None, self._encode_texts, texts
-        )
+        embeddings = await asyncio.get_event_loop().run_in_executor(None, self._encode_texts, texts)
 
         return [np.array(embedding) for embedding in embeddings]
 
@@ -187,12 +175,7 @@ class FastEmbeddings(EmbeddingModel):
             hashes.extend(hash_bytes)
 
         # Convert to floating point embedding
-        embedding = np.array(
-            [
-                (byte / 255.0 - 0.5) * 2  # Normalize to [-1, 1]
-                for byte in hashes[: self.dimension]
-            ]
-        )
+        embedding = np.array([(byte / 255.0 - 0.5) * 2 for byte in hashes[: self.dimension]])  # Normalize to [-1, 1]
 
         # Ensure exact dimension
         if len(embedding) < self.dimension:

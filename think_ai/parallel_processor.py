@@ -120,9 +120,14 @@ class ParallelProcessor:
             start_time = time.time()
 
             try:
-                # Set CPU affinity for this worker
-                p = psutil.Process()
-                p.cpu_affinity([worker_id % mp.cpu_count()])
+                # Set CPU affinity for this worker (Linux/Windows only)
+                try:
+                    p = psutil.Process()
+                    if hasattr(p, "cpu_affinity"):
+                        p.cpu_affinity([worker_id % mp.cpu_count()])
+                except (AttributeError, OSError):
+                    # cpu_affinity not available on macOS or in some environments
+                    pass
 
                 # Execute based on function type
                 if asyncio.iscoroutinefunction(func):
@@ -291,7 +296,7 @@ class ParallelProcessor:
             while True:
                 item = in_queue.get()
                 if item is None:
-                    out_task_task_queue.put(None)
+                    out_queue.put(None)
                     break
 
                 result = stage_func(item)
@@ -325,8 +330,8 @@ class ParallelProcessor:
     def shutdown(self) -> None:
         """Gracefully shutdown all workers and pools."""
         # Stop workers
-        for _task_queue in self.task_queues:
-            task_task_queue.put(None)
+        for task_queue in self.task_queues:
+            task_queue.put(None)
 
         for worker in self.workers:
             worker.join()

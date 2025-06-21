@@ -11,7 +11,7 @@ from redis.asyncio.cluster import RedisCluster
 from think_ai.core.config import RedisConfig
 from think_ai.utils.logging import get_logger
 
-from .base import StorageBackend, StorageItem
+from ..base import StorageBackend, StorageItem
 
 logger = get_logger(__name__)
 
