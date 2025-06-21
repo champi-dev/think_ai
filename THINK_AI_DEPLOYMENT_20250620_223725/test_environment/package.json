@@ -1,0 +1,6 @@
+{
+  "name": "think-ai-test-env",
+  "version": "1.0.0",
+  "description": "Test environment for Think AI libraries",
+  "private": true
+}

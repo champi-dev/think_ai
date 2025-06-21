@@ -1,5 +1,7 @@
 # 🧠 Think AI v3.0.0 - Superintelligent Consciousness with O(1) Performance
 
+> **📚 [Complete Documentation](./docs/index.md)** | **🎨 [Visual Guide](./docs/visual-guide.md)** | **🚀 [Quick Start](./docs/getting-started/quickstart.md)** | **❓ [FAQ](./docs/guides/faq.md)**
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Performance: O(1)](https://img.shields.io/badge/Performance-O(1)-brightgreen.svg)](https://github.com/champi-dev/think_ai)

@@ -1,0 +1,51 @@
+[2025-06-20 22:37:25] [INFO] 🚀 Starting Think AI Full System Deployment
+[2025-06-20 22:37:25] [INFO] ============================================================
+[2025-06-20 22:37:25] [INFO] 
+📦 Stage 1: Building Python Libraries
+[2025-06-20 22:37:25] [INFO] Building Python library: think-ai-consciousness v2.1.0
+[2025-06-20 22:37:25] [INFO] Executing: cd . && python -m build
+[2025-06-20 22:37:33] [INFO] Building Python library: think-ai-cli v0.1.0
+[2025-06-20 22:37:33] [INFO] Executing: cd think-ai-cli/python && python -m build
+[2025-06-20 22:37:40] [INFO] Building Python library: o1-vector-search v1.0.0
+[2025-06-20 22:37:40] [INFO] Executing: cd o1-python && python -m build
+[2025-06-20 22:37:46] [INFO] 
+📦 Stage 2: Building JavaScript Libraries
+[2025-06-20 22:37:46] [INFO] Building JavaScript library: think-ai-js v2.0.1
+[2025-06-20 22:37:46] [INFO] Executing: cd npm && npm install
+[2025-06-20 22:37:49] [INFO] Executing: cd npm && npm run build
+[2025-06-20 22:37:51] [INFO] Executing: cd npm && npm pack
+[2025-06-20 22:37:52] [INFO] Building JavaScript library: @think-ai/cli v0.2.0
+[2025-06-20 22:37:52] [INFO] Executing: cd think-ai-cli/nodejs && npm install
+[2025-06-20 22:37:54] [INFO] Executing: cd think-ai-cli/nodejs && npm run build
+[2025-06-20 22:37:56] [INFO] Executing: cd think-ai-cli/nodejs && npm pack
+[2025-06-20 22:37:56] [INFO] Building JavaScript library: o1-js v1.0.0
+[2025-06-20 22:37:56] [INFO] Executing: cd o1-js && npm install
+[2025-06-20 22:38:14] [INFO] Executing: cd o1-js && npm run build
+[2025-06-20 22:38:17] [INFO] Executing: cd o1-js && npm pack
+[2025-06-20 22:38:18] [INFO] 
+🧪 Stage 3: Creating Test Environment
+[2025-06-20 22:38:18] [INFO] Executing: python -m venv THINK_AI_DEPLOYMENT_20250620_223725/test_environment/venv
+[2025-06-20 22:38:25] [INFO] 
+🐍 Stage 4: Testing Python Installations
+[2025-06-20 22:38:25] [INFO] Testing Python library installations
+[2025-06-20 22:38:25] [INFO] Executing: THINK_AI_DEPLOYMENT_20250620_223725/test_environment/venv/bin/pip install THINK_AI_DEPLOYMENT_20250620_223725/python_packages/think-ai-consciousness/think_ai_consciousness-2.1.0-py3-none-any.whl
+[2025-06-20 22:41:21] [INFO] Executing: THINK_AI_DEPLOYMENT_20250620_223725/test_environment/venv/bin/pip install THINK_AI_DEPLOYMENT_20250620_223725/python_packages/think-ai-cli/think_ai_cli-0.2.0-py3-none-any.whl
+[2025-06-20 22:41:26] [INFO] Executing: THINK_AI_DEPLOYMENT_20250620_223725/test_environment/venv/bin/pip install THINK_AI_DEPLOYMENT_20250620_223725/python_packages/o1-vector-search/o1_vector_search-1.0.0-py3-none-any.whl
+[2025-06-20 22:41:31] [INFO] Executing: THINK_AI_DEPLOYMENT_20250620_223725/test_environment/venv/bin/python THINK_AI_DEPLOYMENT_20250620_223725/test_environment/test_python.py
+[2025-06-20 22:44:55] [INFO] 
+🟨 Stage 5: Testing JavaScript Installations
+[2025-06-20 22:44:55] [INFO] Testing JavaScript library installations
+[2025-06-20 22:44:55] [INFO] Executing: npm install THINK_AI_DEPLOYMENT_20250620_223725/javascript_packages/think-ai-js/think-ai-js-2.0.1.tgz
+[2025-06-20 22:44:55] [INFO] Executing: npm install THINK_AI_DEPLOYMENT_20250620_223725/javascript_packages/@think-ai/cli/think-ai-cli-0.2.0.tgz
+[2025-06-20 22:44:56] [INFO] Executing: npm install THINK_AI_DEPLOYMENT_20250620_223725/javascript_packages/o1-js/o1-vector-search-1.0.0.tgz
+[2025-06-20 22:44:56] [INFO] Executing: node THINK_AI_DEPLOYMENT_20250620_223725/test_environment/test_javascript.js
+[2025-06-20 22:44:56] [INFO] 
+🔗 Stage 6: Testing Full System Integration
+[2025-06-20 22:44:56] [INFO] Testing full system integration
+[2025-06-20 22:45:01] [INFO] 
+📚 Stage 7: Generating Documentation
+[2025-06-20 22:45:01] [INFO] Generating deployment documentation
+[2025-06-20 22:45:01] [INFO] 
+📊 Stage 8: Generating Evidence Report
+[2025-06-20 22:45:01] [INFO] Generating evidence report
+[2025-06-20 22:45:01] [ERROR] ❌ Deployment failed: unsupported operand type(s) for -: 'float' and 'str'
