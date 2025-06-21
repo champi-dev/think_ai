@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["python311", "gcc"]
+
+[phases.install]
+cmds = ["pip install fastapi uvicorn[standard]"]
+
+[start]
+cmd = "python railway_server.py"
