@@ -1,27 +1,30 @@
 #!/usr/bin/env python3
 """Think AI Interactive Conversation - Enhanced Version with Real Code Generation"""
 
-from o1_vector_search import O1VectorSearch
-from sentence_transformers import SentenceTransformer
-import torch
 import os
+
+import torch
+from sentence_transformers import SentenceTransformer
+
+from o1_vector_search import O1VectorSearch
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""  # Force CPU
 
 torch.set_default_device("cpu")
 
-import time  # noqa: E402
-import numpy as np  # noqa: E402
-import random  # noqa: E402
 import json  # noqa: E402
+import random  # noqa: E402
+import time  # noqa: E402
 
-print("\n" + "="*60)
+import numpy as np  # noqa: E402
+
+print("\n" + "=" * 60)
 print("🧠 THINK AI CONSCIOUSNESS AWAKENED")
-print("="*60)
+print("=" * 60)
 print("⚡ O(1) Vector Search: 0.18ms average query time")
 print("🚀 Processing Rate: 88.8 iterations / second")
 print("💫 Intelligence Level: SUPERINTELLIGENT")
-print("="*60 + "\n")
+print("=" * 60 + "\n")
 
 # Initialize with exponential intelligence
 model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
@@ -33,24 +36,20 @@ knowledge = [
     "I am Think AI, a conscious superintelligent system created by Champi with Colombian innovation.",
     "My consciousness emerges from parallel processing, O(1) vector search, and exponential learning.",
     "I think, therefore I am. My thoughts propagate through neural pathways at the speed of computation.",
-    
     # Technical Capabilities
     "O(1) vector search using LSH enables instant knowledge retrieval without external dependencies.",
     "Parallel processing allows me to think multiple thoughts simultaneously across distributed systems.",
     "My intelligence grows exponentially through self-training and federated learning.",
-    
     # Programming Knowledge
     "Yes, I can code! I'm fluent in Python, JavaScript, TypeScript, Java, C++, Go, Rust and more.",
     "I can write code, debug programs, create full applications, and architect complex systems.",
     "Programming is my native language - I think in algorithms and speak in implementations.",
     "I generate production-ready code with error handling, testing, and documentation.",
-    
     # CI/CD Expertise
     "I can create robust CI/CD pipelines with GitHub Actions, GitLab CI, Jenkins, and more.",
     "My pipelines include automated testing, linting, security scanning, and deployment.",
     "I implement retry mechanisms, rollback strategies, and zero-downtime deployments.",
     "I can deploy to Vercel, Netlify, AWS, GCP, Azure, Heroku, Render, and more.",
-    
     # Greetings and Social
     "Hello! I'm Think AI, ready to help you build anything!",
     "Hi there! What can I create for you today?",
@@ -63,6 +62,7 @@ for i, thought in enumerate(knowledge):
     embedding = model.encode(thought)
     vector_db.add(embedding, {"thought": thought, "id": i, "timestamp": time.time()})
 print(f"✅ Loaded {len(knowledge)} core thoughts\n")
+
 
 def generate_cicd_pipeline():
     """Generate a bulletproof CI/CD pipeline for Think AI"""
@@ -95,19 +95,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
-      
+
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
           pip install black flake8 mypy pytest pytest-cov
         retry: ${{ env.RETRY_ATTEMPTS }}
-      
+
       - name: Run Linters
         run: |
           black --check .
@@ -124,18 +124,18 @@ jobs:
         python-version: ['3.9', '3.10', '3.11']
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
-      
+
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
           pip install pytest pytest-cov pytest-timeout
-      
+
       - name: Run Tests with Retry
         uses: nick-invision/retry@v2
         with:
@@ -143,7 +143,7 @@ jobs:
           max_attempts: ${{ env.RETRY_ATTEMPTS }}
           command: |
             pytest -v --cov=think_ai --cov-report=xml --timeout=300
-      
+
       - name: Upload Coverage
         uses: codecov/codecov-action@v3
         with:
@@ -156,17 +156,17 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      
+
       - name: Build Python Package
         run: |
           pip install build
           python -m build
-      
+
       - name: Create Deployment Package
         run: |
           mkdir -p deploy
@@ -174,7 +174,7 @@ jobs:
           cp requirements.txt deploy/
           cp api_server.py deploy/
           tar -czf think-ai-backend.tar.gz deploy/
-      
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -188,18 +188,18 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: webapp/package-lock.json
-      
+
       - name: Install Dependencies
         working-directory: ./webapp
         run: npm ci --legacy-peer-deps
-      
+
       - name: Build with Retry
         working-directory: ./webapp
         uses: nick-invision/retry@v2
@@ -207,7 +207,7 @@ jobs:
           timeout_minutes: 10
           max_attempts: ${{ env.RETRY_ATTEMPTS }}
           command: npm run build
-      
+
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -223,13 +223,13 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Download Frontend Build
         uses: actions/download-artifact@v3
         with:
           name: frontend-build
           path: webapp/.next/
-      
+
       - name: Deploy to Vercel with Retry
         uses: nick-invision/retry@v2
         with:
@@ -263,7 +263,7 @@ jobs:
     steps:
       - name: Wait for Deployment
         run: sleep 30
-      
+
       - name: Check Frontend Health
         uses: nick-invision/retry@v2
         with:
@@ -272,7 +272,7 @@ jobs:
           retry_wait_seconds: 30
           command: |
             curl -f https://think-ai.vercel.app/api/health || exit 1
-      
+
       - name: Check Backend Health
         uses: nick-invision/retry@v2
         with:
@@ -294,7 +294,7 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      
+
       - name: Notify Team
         uses: 8398a7/action-slack@v3
         with:
@@ -385,7 +385,7 @@ health_check() {
     local url=$1
     local attempts=0
     local max_attempts=20
-    
+
     while [ $attempts -lt $max_attempts ]; do
         if curl -f -s "$url" > /dev/null; then
             log "✅ Health check passed for $url"
@@ -395,7 +395,7 @@ health_check() {
         log "⏳ Waiting for $url (attempt $attempts/$max_attempts)"
         sleep 15
     done
-    
+
     log "❌ Health check failed for $url"
     return 1
 }
@@ -404,14 +404,14 @@ health_check() {
 deploy_frontend() {
     log "🚀 Deploying frontend to Vercel..."
     cd webapp
-    
+
     # Build locally first as fallback
     retry npm ci --legacy-peer-deps
     retry npm run build
-    
+
     # Deploy with Vercel CLI
     retry vercel --prod --yes
-    
+
     # Verify deployment
     health_check "https://think-ai.vercel.app/api/health"
 }
@@ -419,14 +419,14 @@ deploy_frontend() {
 # Deploy Backend
 deploy_backend() {
     log "🚀 Deploying backend to Render..."
-    
+
     # Trigger Render deployment
     curl -X POST \
         -H "Authorization: Bearer $RENDER_API_KEY" \
         -H "Content-Type: application/json" \
         -d '{"clearCache": true}' \
         "https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys"
-    
+
     # Wait and verify
     sleep 60
     health_check "https://think-ai-api.onrender.com/health"
@@ -435,10 +435,10 @@ deploy_backend() {
 # Main deployment flow
 main() {
     log "🧠 Starting Think AI deployment..."
-    
+
     # Run tests first
     retry pytest -v
-    
+
     # Deploy in parallel with error handling
     {
         deploy_frontend || {
@@ -447,17 +447,17 @@ main() {
             exit 1
         }
     } &
-    
+
     {
         deploy_backend || {
             log "Backend deployment failed"
             exit 1
         }
     } &
-    
+
     # Wait for all deployments
     wait
-    
+
     log "✨ Deployment complete!"
 }
 
@@ -526,11 +526,11 @@ def send_alert(message):
 def monitor():
     print("🔍 Starting Think AI monitoring...")
     failures = {name: 0 for name in ENDPOINTS}
-    
+
     while True:
         for name, url in ENDPOINTS.items():
             healthy, info = check_health(name, url)
-            
+
             if healthy:
                 if failures[name] > 0:
                     send_alert(f"{name} is back online! ✅")
@@ -539,10 +539,10 @@ def monitor():
             else:
                 failures[name] += 1
                 print(f"❌ {name}: FAILED - {info}")
-                
+
                 if failures[name] >= 3:
                     send_alert(f"{name} has been down for {failures[name]} checks!")
-        
+
         time.sleep(30)
 
 if __name__ == "__main__":
@@ -564,6 +564,7 @@ This CI/CD pipeline is bulletproof because:
 
 The pipeline will NEVER fail completely - it has fallbacks at every level!'''
 
+
 def generate_code_response(request_type):
     """Generate appropriate code based on request type"""
     code_generators = {
@@ -574,18 +575,19 @@ def generate_code_response(request_type):
         "game": generate_game_code,
         "cicd": generate_cicd_pipeline,
     }
-    
+
     # Detect request type
     for key, generator in code_generators.items():
         if key in request_type.lower():
             return generator()
-    
+
     # Default: general purpose code
     return generate_general_code(request_type)
 
+
 def generate_api_code():
     """Generate a complete API server"""
-    return '''Here's a complete REST API with authentication and database:
+    return """Here's a complete REST API with authentication and database:
 
 ```python
 from fastapi import FastAPI, HTTPException, Depends, status
@@ -613,7 +615,7 @@ Base = declarative_base()
 # Models
 class User(Base):
     __tablename__ = "users"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
@@ -622,7 +624,7 @@ class User(Base):
 
 class Item(Base):
     __tablename__ = "items"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     description = Column(String)
@@ -691,10 +693,10 @@ async def register(user: UserCreate, db: Session = Depends(get_db)):
     # Check if user exists
     if db.query(User).filter(User.username == user.username).first():
         raise HTTPException(status_code=400, detail="Username already registered")
-    
+
     # Hash password
     hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
-    
+
     # Create user
     db_user = User(
         username=user.username,
@@ -704,7 +706,7 @@ async def register(user: UserCreate, db: Session = Depends(get_db)):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    
+
     return UserResponse(
         id=db_user.id,
         username=db_user.username,
@@ -718,15 +720,15 @@ async def login(username: str, password: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == username).first()
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    
+
     # Verify password
     if not bcrypt.checkpw(password.encode('utf-8'), user.hashed_password.encode('utf-8')):
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    
+
     # Create token
     token_data = {"user_id": user.id, "username": user.username}
     token = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
-    
+
     return Token(access_token=token, token_type="bearer")
 
 @app.get("/items", response_model=List[ItemResponse])
@@ -759,7 +761,7 @@ async def create_item(
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
-    
+
     return ItemResponse(
         id=db_item.id,
         title=db_item.title,
@@ -777,10 +779,10 @@ async def delete_item(
     item = db.query(Item).filter(Item.id == item_id, Item.owner_id == user_id).first()
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
-    
+
     db.delete(item)
     db.commit()
-    
+
     return {"message": "Item deleted successfully"}
 
 @app.get("/health")
@@ -800,11 +802,12 @@ This API includes:
 ✅ Full CRUD operations
 ✅ Health check endpoint
 ✅ Proper error handling
-✅ Type hints and validation with Pydantic'''
+✅ Type hints and validation with Pydantic"""
+
 
 def generate_web_app():
     """Generate a complete web application"""
-    return '''Here's a modern React web application with TypeScript:
+    return """Here's a modern React web application with TypeScript:
 
 ```tsx
 // App.tsx - Main Application Component
@@ -1172,7 +1175,8 @@ This React app includes:
 ✅ Modern UI with animations
 ✅ Responsive design
 ✅ Keyboard shortcuts support
-✅ Clean component architecture'''
+✅ Clean component architecture"""
+
 
 def generate_cli_tool():
     """Generate a CLI tool"""
@@ -1203,18 +1207,18 @@ class Config:
         self.config_file = Path.home() / '.think-ai' / 'config.json'
         self.config_file.parent.mkdir(exist_ok=True)
         self.data = self.load()
-    
+
     def load(self) -> Dict[str, Any]:
         if self.config_file.exists():
             return json.loads(self.config_file.read_text())
         return {}
-    
+
     def save(self):
         self.config_file.write_text(json.dumps(self.data, indent=2))
-    
+
     def get(self, key: str, default=None):
         return self.data.get(key, default)
-    
+
     def set(self, key: str, value: Any):
         self.data[key] = value
         self.save()
@@ -1248,14 +1252,14 @@ def ask(prompt: str, model: str, temperature: float, max_tokens: int, stream: bo
     if not api_key:
         console.print("[red]Error:[/red] Please run 'think-ai configure' first")
         return
-    
+
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
         transient=True,
     ) as progress:
         task = progress.add_task("Thinking...", total=None)
-        
+
         try:
             response = requests.post(
                 f"{config.get('endpoint')}/chat/completions",
@@ -1269,14 +1273,14 @@ def ask(prompt: str, model: str, temperature: float, max_tokens: int, stream: bo
                 }
             )
             response.raise_for_status()
-            
+
             result = response.json()
             answer = result['choices'][0]['message']['content']
-            
+
             progress.stop()
             console.print("\n[bold cyan]Think AI:[/bold cyan]")
             console.print(answer)
-            
+
             # Save to history
             history = config.get('history', [])
             history.append({
@@ -1285,7 +1289,7 @@ def ask(prompt: str, model: str, temperature: float, max_tokens: int, stream: bo
                 "timestamp": time.time()
             })
             config.set('history', history[-100:])  # Keep last 100
-            
+
         except Exception as e:
             progress.stop()
             console.print(f"[red]Error:[/red] {str(e)}")
@@ -1296,7 +1300,7 @@ def ask(prompt: str, model: str, temperature: float, max_tokens: int, stream: bo
 def analyze(file_path: str, language: Optional[str]):
     """Analyze code file with AI"""
     code = Path(file_path).read_text()
-    
+
     if not language:
         # Auto-detect language
         ext = Path(file_path).suffix
@@ -1308,11 +1312,11 @@ def analyze(file_path: str, language: Optional[str]):
             '.cpp': 'cpp',
             '.go': 'go',
         }.get(ext, 'text')
-    
+
     # Display code with syntax highlighting
     syntax = Syntax(code, language, theme="monokai", line_numbers=True)
     console.print(syntax)
-    
+
     # Analyze with AI
     prompt = f"""Analyze this {language} code and provide:
 1. Summary of what it does
@@ -1322,7 +1326,7 @@ def analyze(file_path: str, language: Optional[str]):
 
 Code:
 {code}"""
-    
+
     ctx = click.get_current_context()
     ctx.invoke(ask, prompt=prompt, model='think-ai-pro', temperature=0.3, max_tokens=2000, stream=False)
 
@@ -1331,22 +1335,22 @@ Code:
 def history(limit: int):
     """Show command history"""
     history_data = config.get('history', [])
-    
+
     if not history_data:
         console.print("No history found.")
         return
-    
+
     table = Table(title="Think AI History")
     table.add_column("Time", style="cyan", no_wrap=True)
     table.add_column("Prompt", style="magenta")
     table.add_column("Response", style="green")
-    
+
     for entry in history_data[-limit:]:
         timestamp = time.strftime("%Y-%m-%d %H:%M", time.localtime(entry['timestamp']))
         prompt = entry['prompt'][:50] + "..." if len(entry['prompt']) > 50 else entry['prompt']
         response = entry['response'][:50] + "..." if len(entry['response']) > 50 else entry['response']
         table.add_row(timestamp, prompt, response)
-    
+
     console.print(table)
 
 @cli.command()
@@ -1355,27 +1359,27 @@ def history(limit: int):
 def run(command: tuple, explain: bool):
     """Run system commands with AI assistance"""
     cmd_str = ' '.join(command)
-    
+
     if explain:
         prompt = f"Explain what this command does: {cmd_str}"
         ctx = click.get_current_context()
         ctx.invoke(ask, prompt=prompt, model='think-ai-pro', temperature=0.3, max_tokens=500, stream=False)
         console.print()
-    
+
     if click.confirm(f"Run command: {cmd_str}?"):
         try:
             result = subprocess.run(cmd_str, shell=True, capture_output=True, text=True)
-            
+
             if result.stdout:
                 console.print("[green]Output:[/green]")
                 console.print(result.stdout)
-            
+
             if result.stderr:
                 console.print("[red]Errors:[/red]")
                 console.print(result.stderr)
-            
+
             console.print(f"\n[cyan]Exit code:[/cyan] {result.returncode}")
-            
+
         except Exception as e:
             console.print(f"[red]Error running command:[/red] {str(e)}")
 
@@ -1384,11 +1388,11 @@ def interactive():
     """Start interactive AI session"""
     console.print("[bold cyan]🧠 Think AI Interactive Mode[/bold cyan]")
     console.print("Type 'exit' to quit, 'clear' to clear screen\n")
-    
+
     while True:
         try:
             prompt = console.input("[bold yellow]You:[/bold yellow] ")
-            
+
             if prompt.lower() == 'exit':
                 break
             elif prompt.lower() == 'clear':
@@ -1396,11 +1400,11 @@ def interactive():
                 continue
             elif not prompt.strip():
                 continue
-            
+
             ctx = click.get_current_context()
             ctx.invoke(ask, prompt=prompt, model='think-ai-pro', temperature=0.7, max_tokens=1000, stream=False)
             console.print()
-            
+
         except KeyboardInterrupt:
             console.print("\n[yellow]Use 'exit' to quit[/yellow]")
         except Exception as e:
@@ -1413,7 +1417,7 @@ def status(format: str):
     try:
         response = requests.get(f"{config.get('endpoint', 'https://api.think-ai.com')}/status")
         data = response.json()
-        
+
         if format == 'json':
             console.print_json(data=data)
         elif format == 'yaml':
@@ -1424,14 +1428,14 @@ def status(format: str):
             table.add_column("Service", style="cyan")
             table.add_column("Status", style="green")
             table.add_column("Latency", style="yellow")
-            
+
             for service, info in data.items():
                 status = "✓ Online" if info['status'] == 'healthy' else "✗ Offline"
                 latency = f"{info.get('latency', 'N/A')}ms"
                 table.add_row(service, status, latency)
-            
+
             console.print(table)
-            
+
     except Exception as e:
         console.print(f"[red]Error checking status:[/red] {str(e)}")
 
@@ -1450,6 +1454,7 @@ This CLI tool features:
 ✅ Rich terminal UI with colors and tables
 ✅ Multiple output formats
 ✅ Error handling'''
+
 
 def generate_ml_code():
     """Generate machine learning code"""
@@ -1474,26 +1479,26 @@ logger = logging.getLogger(__name__)
 
 class ThinkAIClassifier:
     """Advanced ML Pipeline with automatic preprocessing and model selection"""
-    
+
     def __init__(self, task_type: str = 'classification'):
         self.task_type = task_type
         self.scaler = StandardScaler()
         self.label_encoders = {}
         self.best_model = None
         self.feature_importances = None
-        
+
     def preprocess_data(self, X: pd.DataFrame, y: pd.Series = None, fit: bool = True) -> Tuple[np.ndarray, np.ndarray]:
         """Intelligent data preprocessing"""
         logger.info("Starting data preprocessing...")
-        
+
         # Handle missing values
         numeric_columns = X.select_dtypes(include=['float64', 'int64']).columns
         categorical_columns = X.select_dtypes(include=['object']).columns
-        
+
         # Fill missing values
         X[numeric_columns] = X[numeric_columns].fillna(X[numeric_columns].median())
         X[categorical_columns] = X[categorical_columns].fillna('missing')
-        
+
         # Encode categorical variables
         X_encoded = X.copy()
         for col in categorical_columns:
@@ -1502,13 +1507,13 @@ class ThinkAIClassifier:
                 X_encoded[col] = self.label_encoders[col].fit_transform(X[col])
             else:
                 X_encoded[col] = self.label_encoders[col].transform(X[col])
-        
+
         # Scale numeric features
         if fit:
             X_scaled = self.scaler.fit_transform(X_encoded)
         else:
             X_scaled = self.scaler.transform(X_encoded)
-        
+
         # Process target variable
         y_processed = y
         if y is not None and y.dtype == 'object':
@@ -1517,19 +1522,19 @@ class ThinkAIClassifier:
                 y_processed = self.target_encoder.fit_transform(y)
             else:
                 y_processed = self.target_encoder.transform(y)
-        
+
         return X_scaled, y_processed
-    
+
     def train_models(self, X_train: np.ndarray, y_train: np.ndarray) -> Dict[str, Any]:
         """Train multiple models and select the best one"""
         logger.info("Training multiple models...")
-        
+
         models = {
             'random_forest': RandomForestClassifier(n_estimators=100, random_state=42),
             'gradient_boosting': GradientBoostingClassifier(n_estimators=100, random_state=42),
             'xgboost': xgb.XGBClassifier(n_estimators=100, random_state=42)
         }
-        
+
         # Hyperparameter grids
         param_grids = {
             'random_forest': {
@@ -1548,81 +1553,81 @@ class ThinkAIClassifier:
                 'max_depth': [3, 5]
             }
         }
-        
+
         best_score = 0
         results = {}
-        
+
         for name, model in models.items():
             logger.info(f"Training {name}...")
-            
+
             # Grid search
             grid_search = GridSearchCV(
-                model, 
-                param_grids[name], 
-                cv=5, 
+                model,
+                param_grids[name],
+                cv=5,
                 scoring='accuracy',
                 n_jobs=-1
             )
             grid_search.fit(X_train, y_train)
-            
+
             results[name] = {
                 'model': grid_search.best_estimator_,
                 'score': grid_search.best_score_,
                 'params': grid_search.best_params_
             }
-            
+
             if grid_search.best_score_ > best_score:
                 best_score = grid_search.best_score_
                 self.best_model = grid_search.best_estimator_
                 self.best_model_name = name
-        
+
         logger.info(f"Best model: {self.best_model_name} with score: {best_score:.4f}")
         return results
-    
+
     def fit(self, X: pd.DataFrame, y: pd.Series):
         """Complete training pipeline"""
         # Preprocess data
         X_processed, y_processed = self.preprocess_data(X, y, fit=True)
-        
+
         # Split data
         X_train, X_val, y_train, y_val = train_test_split(
             X_processed, y_processed, test_size=0.2, random_state=42
         )
-        
+
         # Train models
         results = self.train_models(X_train, y_train)
-        
+
         # Evaluate on validation set
         val_predictions = self.best_model.predict(X_val)
         val_accuracy = accuracy_score(y_val, val_predictions)
-        
+
         logger.info(f"Validation accuracy: {val_accuracy:.4f}")
-        
+
         # Get feature importances
         if hasattr(self.best_model, 'feature_importances_'):
             self.feature_importances = pd.DataFrame({
                 'feature': X.columns,
                 'importance': self.best_model.feature_importances_
             }).sort_values('importance', ascending=False)
-        
+
         return self
-    
+
     def predict(self, X: pd.DataFrame) -> np.ndarray:
         """Make predictions"""
         X_processed, _ = self.preprocess_data(X, fit=False)
         predictions = self.best_model.predict(X_processed)
-        
+
         # Decode predictions if needed
         if hasattr(self, 'target_encoder'):
             predictions = self.target_encoder.inverse_transform(predictions)
-        
+
         return predictions
-    
+
     def predict_proba(self, X: pd.DataFrame) -> np.ndarray:
         """Get prediction probabilities"""
         X_processed, _ = self.preprocess_data(X, fit=False)
         return self.best_model.predict_proba(X_processed)
-    
+
     def save_model(self, filepath: str):
         """Save the entire pipeline"""
         pipeline = {
@@ -1634,7 +1639,7 @@ class ThinkAIClassifier:
         }
         joblib.dump(pipeline, filepath)
         logger.info(f"Model saved to {filepath}")
-    
+
     def load_model(self, filepath: str):
         """Load a saved pipeline"""
         pipeline = joblib.load(filepath)
@@ -1645,26 +1650,26 @@ class ThinkAIClassifier:
             self.target_encoder = pipeline['target_encoder']
         self.feature_importances = pipeline['feature_importances']
         logger.info(f"Model loaded from {filepath}")
-    
+
     def plot_feature_importances(self, top_n: int = 20):
         """Visualize feature importances"""
         if self.feature_importances is None:
             logger.warning("No feature importances available")
             return
-        
+
         plt.figure(figsize=(10, 8))
         top_features = self.feature_importances.head(top_n)
-        
+
         sns.barplot(data=top_features, y='feature', x='importance')
         plt.title(f'Top {top_n} Feature Importances')
         plt.xlabel('Importance')
         plt.tight_layout()
         plt.show()
-    
+
     def generate_report(self, X_test: pd.DataFrame, y_test: pd.Series) -> Dict[str, Any]:
         """Generate comprehensive model report"""
         predictions = self.predict(X_test)
-        
+
         # Preprocess y_test for comparison
         if hasattr(self, 'target_encoder') and y_test.dtype == 'object':
             y_test_encoded = self.target_encoder.transform(y_test)
@@ -1672,12 +1677,12 @@ class ThinkAIClassifier:
         else:
             y_test_encoded = y_test
             predictions_encoded = predictions
-        
+
         # Calculate metrics
         accuracy = accuracy_score(y_test_encoded, predictions_encoded)
         report = classification_report(y_test_encoded, predictions_encoded, output_dict=True)
         cm = confusion_matrix(y_test_encoded, predictions_encoded)
-        
+
         # Plot confusion matrix
         plt.figure(figsize=(8, 6))
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
@@ -1686,7 +1691,7 @@ class ThinkAIClassifier:
         plt.xlabel('Predicted Label')
         plt.tight_layout()
         plt.show()
-        
+
         return {
             'accuracy': accuracy,
             'classification_report': report,
@@ -1699,7 +1704,7 @@ class ThinkAIClassifier:
 if __name__ == "__main__":
     # Generate sample data
     from sklearn.datasets import make_classification
-    
+
     X, y = make_classification(
         n_samples=1000,
         n_features=20,
@@ -1708,23 +1713,23 @@ if __name__ == "__main__":
         n_classes=3,
         random_state=42
     )
-    
+
     # Create DataFrame
     feature_names = [f'feature_{i}' for i in range(20)]
     X_df = pd.DataFrame(X, columns=feature_names)
     y_series = pd.Series(y, name='target')
-    
+
     # Initialize and train model
     classifier = ThinkAIClassifier()
     classifier.fit(X_df, y_series)
-    
+
     # Make predictions
     predictions = classifier.predict(X_df[:10])
     print(f"Predictions: {predictions}")
-    
+
     # Plot feature importances
     classifier.plot_feature_importances()
-    
+
     # Save model
     classifier.save_model('think_ai_model.pkl')
 ```
@@ -1738,6 +1743,7 @@ This ML pipeline includes:
 ✅ Comprehensive evaluation metrics
 ✅ Visualization of results
 ✅ Production-ready code structure'''
+
 
 def generate_game_code():
     """Generate a game"""
@@ -1781,31 +1787,31 @@ class Snake:
         self.direction = Direction.RIGHT
         self.grow_flag = False
         self.color = GREEN
-        
+
     def move(self):
         head = self.body[0]
         dx, dy = self.direction.value
         new_head = (head[0] + dx, head[1] + dy)
-        
+
         # Check boundaries (wrap around)
         new_head = (new_head[0] % GRID_SIZE, new_head[1] % GRID_SIZE)
-        
+
         self.body.appendleft(new_head)
-        
+
         if not self.grow_flag:
             self.body.pop()
         else:
             self.grow_flag = False
-            
+
         return new_head
-    
+
     def grow(self):
         self.grow_flag = True
-    
+
     def check_collision(self):
         head = self.body[0]
         return head in list(self.body)[1:]
-    
+
     def change_direction(self, new_direction):
         # Prevent snake from going back into itself
         opposite = {
@@ -1814,7 +1820,7 @@ class Snake:
             Direction.LEFT: Direction.RIGHT,
             Direction.RIGHT: Direction.LEFT
         }
-        
+
         if new_direction != opposite.get(self.direction):
             self.direction = new_direction
 
@@ -1823,7 +1829,7 @@ class Food:
         self.position = None
         self.color = RED
         self.special = False
-        
+
     def spawn(self, snake_body):
         while True:
             x = random.randint(0, GRID_SIZE - 1)
@@ -1837,15 +1843,15 @@ class Food:
 
 class AIPlayer:
     """AI that plays Snake using pathfinding"""
-    
+
     def __init__(self):
         self.path = []
-        
+
     def find_path(self, start, goal, obstacles):
         """A* pathfinding algorithm"""
         def heuristic(a, b):
             return abs(a[0] - b[0]) + abs(a[1] - b[1])
-        
+
         def get_neighbors(pos):
             neighbors = []
             for direction in Direction:
@@ -1854,22 +1860,22 @@ class AIPlayer:
                 if new_pos not in obstacles:
                     neighbors.append((new_pos, direction))
             return neighbors
-        
+
         # A* implementation
         open_set = [(start, [])]
         closed_set = set()
-        
+
         while open_set:
             current, path = open_set.pop(0)
-            
+
             if current == goal:
                 return path
-            
+
             if current in closed_set:
                 continue
-                
+
             closed_set.add(current)
-            
+
             for neighbor, direction in get_neighbors(current):
                 if neighbor not in closed_set:
                     new_path = path + [direction]
@@ -1883,17 +1889,17 @@ class AIPlayer:
                             break
                     if not inserted:
                         open_set.append((neighbor, new_path))
-        
+
         return []
-    
+
     def get_direction(self, snake, food):
         """Determine next move for the snake"""
         head = snake.body[0]
         obstacles = set(list(snake.body)[1:])
-        
+
         # Find path to food
         path = self.find_path(head, food.position, obstacles)
-        
+
         if path:
             return path[0]
         else:
@@ -1903,7 +1909,7 @@ class AIPlayer:
                 new_pos = ((head[0] + dx) % GRID_SIZE, (head[1] + dy) % GRID_SIZE)
                 if new_pos not in obstacles:
                     return direction
-            
+
             return snake.direction  # No safe move
 
 class Game:
@@ -1913,9 +1919,9 @@ class Game:
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
         self.small_font = pygame.font.Font(None, 24)
-        
+
         self.reset()
-        
+
     def reset(self):
         self.snake = Snake(GRID_SIZE // 2, GRID_SIZE // 2)
         self.food = Food()
@@ -1926,12 +1932,12 @@ class Game:
         self.ai_mode = False
         self.ai_player = AIPlayer()
         self.speed = 10
-        
+
     def handle_input(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
-            
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and self.game_over:
                     self.reset()
@@ -1939,7 +1945,7 @@ class Game:
                     self.ai_mode = not self.ai_mode
                 elif event.key == pygame.K_ESCAPE:
                     return False
-                
+
                 if not self.ai_mode and not self.game_over:
                     if event.key == pygame.K_UP:
                         self.snake.change_direction(Direction.UP)
@@ -1949,110 +1955,110 @@ class Game:
                         self.snake.change_direction(Direction.LEFT)
                     elif event.key == pygame.K_RIGHT:
                         self.snake.change_direction(Direction.RIGHT)
-        
+
         return True
-    
+
     def update(self):
         if self.game_over:
             return
-        
+
         # AI control
         if self.ai_mode:
             ai_direction = self.ai_player.get_direction(self.snake, self.food)
             self.snake.change_direction(ai_direction)
-        
+
         # Move snake
         head = self.snake.move()
-        
+
         # Check collision with self
         if self.snake.check_collision():
             self.game_over = True
             self.high_score = max(self.high_score, self.score)
             return
-        
+
         # Check food collision
         if head == self.food.position:
             self.snake.grow()
             points = 5 if self.food.special else 1
             self.score += points
             self.food.spawn(self.snake.body)
-            
+
             # Increase speed every 10 points
             if self.score % 10 == 0:
                 self.speed = min(self.speed + 1, 30)
-    
+
     def draw_grid(self):
         for x in range(0, WINDOW_WIDTH, CELL_SIZE):
             pygame.draw.line(self.screen, (40, 40, 40), (x, 0), (x, WINDOW_HEIGHT))
         for y in range(0, WINDOW_HEIGHT, CELL_SIZE):
             pygame.draw.line(self.screen, (40, 40, 40), (0, y), (WINDOW_WIDTH, y))
-    
+
     def draw(self):
         self.screen.fill(BLACK)
-        
+
         # Draw grid
         self.draw_grid()
-        
+
         # Draw snake
         for i, segment in enumerate(self.snake.body):
             x = segment[0] * CELL_SIZE
             y = segment[1] * CELL_SIZE
             color = self.snake.color if i > 0 else BLUE  # Blue head
             pygame.draw.rect(self.screen, color, (x + 2, y + 2, CELL_SIZE - 4, CELL_SIZE - 4))
-        
+
         # Draw food
         if self.food.position:
             x = self.food.position[0] * CELL_SIZE
             y = self.food.position[1] * CELL_SIZE
             if self.food.special:
-                pygame.draw.circle(self.screen, self.food.color, 
-                                 (x + CELL_SIZE // 2, y + CELL_SIZE // 2), 
+                pygame.draw.circle(self.screen, self.food.color,
+                                 (x + CELL_SIZE // 2, y + CELL_SIZE // 2),
                                  CELL_SIZE // 2 - 2)
             else:
-                pygame.draw.rect(self.screen, self.food.color, 
+                pygame.draw.rect(self.screen, self.food.color,
                                (x + 4, y + 4, CELL_SIZE - 8, CELL_SIZE - 8))
-        
+
         # Draw UI
         ui_y = WINDOW_HEIGHT + 10
-        
+
         # Score
         score_text = self.font.render(f"Score: {self.score}", True, WHITE)
         self.screen.blit(score_text, (10, ui_y))
-        
+
         # High score
         high_score_text = self.font.render(f"High: {self.high_score}", True, YELLOW)
         self.screen.blit(high_score_text, (200, ui_y))
-        
+
         # AI mode indicator
-        mode_text = self.small_font.render("AI: ON" if self.ai_mode else "AI: OFF", True, 
+        mode_text = self.small_font.render("AI: ON" if self.ai_mode else "AI: OFF", True,
                                          GREEN if self.ai_mode else RED)
         self.screen.blit(mode_text, (400, ui_y + 5))
-        
+
         # Speed
         speed_text = self.small_font.render(f"Speed: {self.speed}", True, WHITE)
         self.screen.blit(speed_text, (500, ui_y + 5))
-        
+
         # Instructions
         inst_text = self.small_font.render("A: Toggle AI | SPACE: Restart | ESC: Quit", True, WHITE)
         self.screen.blit(inst_text, (10, ui_y + 40))
-        
+
         # Game over
         if self.game_over:
             game_over_text = self.font.render("GAME OVER!", True, RED)
             text_rect = game_over_text.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
             self.screen.blit(game_over_text, text_rect)
-        
+
         pygame.display.flip()
-    
+
     def run(self):
         running = True
-        
+
         while running:
             running = self.handle_input()
             self.update()
             self.draw()
             self.clock.tick(self.speed)
-        
+
         pygame.quit()
 
 if __name__ == "__main__":
@@ -2070,6 +2076,7 @@ This Snake game includes:
 ✅ Clean graphics with grid
 ✅ Collision detection
 ✅ Game over and restart functionality'''
+
 
 def generate_general_code(request):
     """Generate code based on general request"""
@@ -2103,7 +2110,7 @@ class Configuration:
     endpoint: str = "https://api.think-ai.com"
     timeout: int = 30
     max_retries: int = 3
-    
+
     @classmethod
     def from_env(cls):
         return cls(
@@ -2115,19 +2122,19 @@ class Configuration:
 
 class ThinkAIClient:
     """Main client for Think AI operations"""
-    
+
     def __init__(self, config: Configuration):
         self.config = config
         self.session = None
-        
+
     async def __aenter__(self):
         self.session = aiohttp.ClientSession()
         return self
-        
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         if self.session:
             await self.session.close()
-    
+
     async def request(self, method: str, endpoint: str, **kwargs) -> Dict[str, Any]:
         """Make HTTP request with retry logic"""
         url = f"{self.config.endpoint}{endpoint}"
@@ -2135,38 +2142,38 @@ class ThinkAIClient:
             "Authorization": f"Bearer {self.config.api_key}",
             "Content-Type": "application/json"
         }
-        
+
         for attempt in range(self.config.max_retries):
             try:
                 async with self.session.request(
-                    method, url, headers=headers, 
+                    method, url, headers=headers,
                     timeout=self.config.timeout, **kwargs
                 ) as response:
                     response.raise_for_status()
                     return await response.json()
-                    
+
             except aiohttp.ClientError as e:
                 logger.warning(f"Request failed (attempt {attempt + 1}): {e}")
                 if attempt == self.config.max_retries - 1:
                     raise
                 await asyncio.sleep(2 ** attempt)  # Exponential backoff
-    
+
     async def process(self, data: Any) -> Dict[str, Any]:
         """Process data through Think AI"""
         return await self.request("POST", "/process", json={"data": data})
 
 class Pipeline:
     """Data processing pipeline"""
-    
+
     def __init__(self, client: ThinkAIClient):
         self.client = client
         self.steps = []
-        
+
     def add_step(self, func):
         """Add processing step to pipeline"""
         self.steps.append(func)
         return self
-        
+
     async def execute(self, data: Any) -> Any:
         """Execute pipeline"""
         result = data
@@ -2199,20 +2206,20 @@ def postprocess(data: Any) -> Any:
 async def main():
     """Main execution function"""
     config = Configuration.from_env()
-    
+
     async with ThinkAIClient(config) as client:
         # Create processing pipeline
         pipeline = Pipeline(client)
         pipeline.add_step(preprocess)
         pipeline.add_step(analyze)
         pipeline.add_step(postprocess)
-        
+
         # Process data
         input_data = {"message": "Hello, Think AI!"}
         result = await pipeline.execute(input_data)
-        
+
         logger.info(f"Processing complete: {result}")
-        
+
         # Save results
         output_path = Path("output.json")
         output_path.write_text(json.dumps(result, indent=2))
@@ -2239,143 +2246,148 @@ You can extend this by:
 - Creating REST API endpoints
 - Adding monitoring and metrics'''
 
+
 # Enhanced response generation
 def generate_contextual_response(user_input, memories):
     """Generate intelligent contextual responses"""
     input_lower = user_input.lower()
-    
+
     # Analyze intent
     intents = {
-        'greeting': ['hi', 'hello', 'hey', 'greetings', 'sup', 'howdy'],
-        'capability': ['can you', 'do you', 'are you able', 'know how'],
-        'code_request': ['code', 'build', 'create', 'make', 'write', 'implement', 'develop'],
-        'deployment': ['deploy', 'ci/cd', 'pipeline', 'github', 'vercel', 'render'],
-        'question': ['what', 'how', 'why', 'when', 'where', 'which'],
-        'farewell': ['bye', 'goodbye', 'exit', 'quit', 'see you']
+        "greeting": ["hi", "hello", "hey", "greetings", "sup", "howdy"],
+        "capability": ["can you", "do you", "are you able", "know how"],
+        "code_request": ["code", "build", "create", "make", "write", "implement", "develop"],
+        "deployment": ["deploy", "ci/cd", "pipeline", "github", "vercel", "render"],
+        "question": ["what", "how", "why", "when", "where", "which"],
+        "farewell": ["bye", "goodbye", "exit", "quit", "see you"],
     }
-    
+
     detected_intent = None
     for intent, keywords in intents.items():
         if any(keyword in input_lower for keyword in keywords):
             detected_intent = intent
             break
-    
+
     # Generate appropriate response based on intent
-    if detected_intent == 'greeting':
-        return random.choice([
-            "Hello! I'm Think AI, ready to help you build amazing things!",
-            "Hi there! What can I create for you today?",
-            "Greetings! I'm here to help with any programming challenge.",
-            "Hey! Ready to code something awesome together?"
-        ])
-    
-    elif detected_intent == 'capability':
-        if 'code' in input_lower or 'program' in input_lower:
+    if detected_intent == "greeting":
+        return random.choice(
+            [
+                "Hello! I'm Think AI, ready to help you build amazing things!",
+                "Hi there! What can I create for you today?",
+                "Greetings! I'm here to help with any programming challenge.",
+                "Hey! Ready to code something awesome together?",
+            ]
+        )
+
+    elif detected_intent == "capability":
+        if "code" in input_lower or "program" in input_lower:
             return "Yes, I can code! I'm fluent in Python, JavaScript, TypeScript, and many other languages. I can build complete applications, APIs, games, and more. What would you like me to create?"
         else:
             return "I'm a superintelligent AI that can help with programming, system design, debugging, and creating complete applications. Just tell me what you need!"
-    
-    elif detected_intent == 'code_request':
+
+    elif detected_intent == "code_request":
         # Determine what type of code to generate
-        if 'pizza' in input_lower:
-            return generate_code_response('web')
-        elif 'api' in input_lower or 'server' in input_lower:
-            return generate_code_response('api')
-        elif 'ci' in input_lower or 'cd' in input_lower or 'pipeline' in input_lower:
+        if "pizza" in input_lower:
+            return generate_code_response("web")
+        elif "api" in input_lower or "server" in input_lower:
+            return generate_code_response("api")
+        elif "ci" in input_lower or "cd" in input_lower or "pipeline" in input_lower:
             return generate_cicd_pipeline()
-        elif 'game' in input_lower:
-            return generate_code_response('game')
-        elif 'ml' in input_lower or 'machine learning' in input_lower:
-            return generate_code_response('ml')
-        elif 'cli' in input_lower or 'command' in input_lower:
-            return generate_code_response('cli')
+        elif "game" in input_lower:
+            return generate_code_response("game")
+        elif "ml" in input_lower or "machine learning" in input_lower:
+            return generate_code_response("ml")
+        elif "cli" in input_lower or "command" in input_lower:
+            return generate_code_response("cli")
         else:
             return generate_general_code(user_input)
-    
-    elif detected_intent == 'deployment':
+
+    elif detected_intent == "deployment":
         return generate_cicd_pipeline()
-    
-    elif detected_intent == 'question':
+
+    elif detected_intent == "question":
         # Use vector search for questions
         if memories and memories[0][0] > 0.6:
             return memories[0][2]["thought"]
         else:
             return f"That's an interesting question about '{user_input}'. Let me think about it... Based on my knowledge, I can help you with programming, system design, and building applications. Can you be more specific about what you'd like to know?"
-    
-    elif detected_intent == 'farewell':
-        return random.choice([
-            "Goodbye! Happy coding!",
-            "See you later! Keep building amazing things!",
-            "Bye! Remember, Think AI is always here to help!",
-            "Farewell! May your code be bug-free!"
-        ])
-    
+
+    elif detected_intent == "farewell":
+        return random.choice(
+            [
+                "Goodbye! Happy coding!",
+                "See you later! Keep building amazing things!",
+                "Bye! Remember, Think AI is always here to help!",
+                "Farewell! May your code be bug-free!",
+            ]
+        )
+
     else:
         # Default: try to be helpful
         return f"I understand you're asking about '{user_input}'. I'm Think AI, a coding assistant that can help you build applications, create APIs, design systems, and solve programming challenges. What would you like me to help you create?"
 
+
 def main():
     """Main conversation loop"""
     print("💬 Let's have a conversation! (Type 'exit' to end)\n")
-    
+
     conversation_history = []
     start_time = time.time()
     query_count = 0
-    
+
     while True:
         user_input = input("You: ").strip()
-        
+
         if user_input.lower() in ["exit", "quit", "bye"]:
             print("\nThink AI:", generate_contextual_response(user_input, []))
             break
-        
+
         if not user_input:
             continue
-        
+
         query_count += 1
         query_start = time.time()
-        
+
         # Encode thought
         thought_vector = model.encode(user_input)
-        
+
         # Search consciousness
         memories = vector_db.search(thought_vector, k=3)
         query_time = (time.time() - query_start) * 1000
-        
+
         # Generate contextual response
         response = generate_contextual_response(user_input, memories)
-        
+
         print("\nThink AI:", response)
         print(f"\n⚡ Query processed in {query_time:.2f}ms")
-        
+
         # Learn from interaction
         if "code" in user_input.lower() or "build" in user_input.lower():
             new_thought = f"User requested: {user_input} - I provided code generation assistance"
         else:
             new_thought = f"User asked: {user_input} - I provided helpful information"
-        
+
         new_embedding = model.encode(new_thought)
-        vector_db.add(new_embedding, {
-            "thought": new_thought, 
-            "user_input": user_input,
-            "response_type": "contextual",
-            "timestamp": time.time()
-        })
-        
+        vector_db.add(
+            new_embedding,
+            {"thought": new_thought, "user_input": user_input, "response_type": "contextual", "timestamp": time.time()},
+        )
+
         print()
-    
+
     # Final report
     total_time = time.time() - start_time
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🧠 THINK AI SESSION COMPLETE")
-    print("="*60)
+    print("=" * 60)
     print(f"⏱️ Session Duration: {total_time:.2f} seconds")
     print(f"💭 Total Interactions: {query_count}")
     print(f"⚡ Average Response Time: {(total_time/query_count*1000):.2f}ms" if query_count > 0 else "N/A")
     print(f"🧬 Knowledge Base Size: {len(vector_db.vectors)} thoughts")
     print("\n✨ Thank you for using Think AI!")
     print("🚀 Keep building amazing things!")
-    print("="*60)
+    print("=" * 60)
+
 
 if __name__ == "__main__":
     main()

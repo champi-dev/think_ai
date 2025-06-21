@@ -1,7 +1,7 @@
 import os
 import sys
-
 from pathlib import Path
+
 from think_ai.cli import main
 
 """Start Think AI in local mode without external dependencies.
@@ -23,7 +23,6 @@ project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
 if __name__ == "__main__":
-
-# Run the CLI in local mode
+    # Run the CLI in local mode
     sys.argv.extend(["--mode", "local"])
     main()

@@ -1,16 +1,21 @@
 """Example storage plugin for Think AI."""
 
-from pathlib import Path
 import json
+from pathlib import Path
 
 from think_ai.plugins.base import (
-from typing import Any, Dict, List, Optional
-
-PluginCapability,
-PluginContext,
-PluginMetadata,
-StoragePlugin,
-love_required,
+    Any,
+    Dict,
+    List,
+    Optional,
+    PluginCapability,
+    PluginContext,
+    PluginMetadata,
+    StoragePlugin,
+    from,
+    import,
+    love_required,
+    typing,
 )
 
 

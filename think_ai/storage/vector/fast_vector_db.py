@@ -24,9 +24,7 @@ except ImportError:
     FAISS_AVAILABLE = False
     import logging
 
-    logging.getLogger(__name__).warning(
-        "FAISS not available, using NumPy fallback for vector operations"
-    )
+    logging.getLogger(__name__).warning("FAISS not available, using NumPy fallback for vector operations")
 
 
 @dataclass
@@ -165,8 +163,7 @@ class FastVectorDB:
                     if isinstance(self.numpy_vectors, list):
                         self.numpy_vectors.extend(vectors)
                     else:
-                        self.numpy_vectors = np.vstack(
-                            [self.numpy_vectors, vectors])
+                        self.numpy_vectors = np.vstack([self.numpy_vectors, vectors])
                 else:
                     self.numpy_vectors = vectors
 
@@ -195,9 +192,7 @@ class FastVectorDB:
             # Search for similar vectors
             if FAISS_AVAILABLE and self.index is not None:
                 # Use FAISS
-                scores, indices = self.index.search(
-                    query_vector.reshape(1, -1), top_k * 2
-                )
+                scores, indices = self.index.search(query_vector.reshape(1, -1), top_k * 2)
 
                 results = []
                 for score, idx in zip(scores[0], indices[0]):
@@ -217,9 +212,7 @@ class FastVectorDB:
                         break
             else:
                 # NumPy fallback
-                if not hasattr(
-                        self, "numpy_vectors") or len(
-                        self.numpy_vectors) == 0:
+                if not hasattr(self, "numpy_vectors") or len(self.numpy_vectors) == 0:
                     return []
 
                 # Compute cosine similarities
@@ -228,8 +221,7 @@ class FastVectorDB:
                 # Get top k indices
                 k = min(top_k * 2, len(similarities))
                 top_indices = np.argpartition(similarities, -k)[-k:]
-                top_indices = top_indices[np.argsort(
-                    similarities[top_indices])[::-1]]
+                top_indices = top_indices[np.argsort(similarities[top_indices])[::-1]]
 
                 results = []
                 for idx in top_indices:
@@ -268,9 +260,7 @@ class FastVectorDB:
                 idx = self.id_to_index[id_]
                 if hasattr(self, "vectors_mmap"):
                     vector = self.vectors_mmap[idx].copy()
-                    self._update_cache(
-                        id_, vector, self.metadata_cache.get(
-                            id_, {}))
+                    self._update_cache(id_, vector, self.metadata_cache.get(id_, {}))
                     return vector
 
             return None
@@ -291,17 +281,13 @@ class FastVectorDB:
             # Note: FAISS doesn't support deletion, so we mark and filter
             return True
 
-    def _update_cache(
-        self, id_: str, vector: np.ndarray, metadata: Dict[str, Any]
-    ) -> None:
+    def _update_cache(self, id_: str, vector: np.ndarray, metadata: Dict[str, Any]) -> None:
         """Update LRU cache with O(1) complexity."""
         # Remove oldest if cache is full
         if len(self.vector_cache) >= self.max_cache_size:
             self.vector_cache.popitem(last=False)
 
-        self.vector_cache[id_] = CachedVector(
-            id=id_, vector=vector, metadata=metadata, timestamp=time.time()
-        )
+        self.vector_cache[id_] = CachedVector(id=id_, vector=vector, metadata=metadata, timestamp=time.time())
 
     def _save_to_disk_async(self, vectors: np.ndarray, start_idx: int) -> None:
         """Save vectors to disk asynchronously."""
@@ -345,8 +331,10 @@ class FastVectorDB:
 
             # Save index mapping
             with open(self.index_map_file, "wb") as f:
-                pickle.dump({"id_to_index": self.id_to_index,
-                             "index_to_id": self.index_to_id}, f, )
+                pickle.dump(
+                    {"id_to_index": self.id_to_index, "index_to_id": self.index_to_id},
+                    f,
+                )
 
         # Run in background thread
         thread = threading.Thread(target=save, daemon=True)
@@ -357,9 +345,7 @@ class FastVectorDB:
         with self.lock:
             # Get non-deleted vectors
             active_ids = [
-                id_
-                for id_ in self.id_to_index
-                if not self.metadata_cache.get(id_, {}).get("_deleted", False)
+                id_ for id_ in self.id_to_index if not self.metadata_cache.get(id_, {}).get("_deleted", False)
             ]
 
             if len(active_ids) == len(self.id_to_index):
@@ -410,9 +396,7 @@ def add_vectors(
     db.add_vectors(vectors, ids, metadata)
 
 
-def search_vectors(
-    query: np.ndarray, top_k: int = 10
-) -> List[Tuple[str, float, Dict[str, Any]]]:
+def search_vectors(query: np.ndarray, top_k: int = 10) -> List[Tuple[str, float, Dict[str, Any]]]:
     """Search in global database."""
     db = get_fast_db()
     return db.search(query, top_k)
@@ -424,9 +408,4 @@ def get_vector(id_: str) -> Optional[np.ndarray]:
     return db.get_vector(id_)
 
 
-__all__ = [
-    "FastVectorDB",
-    "add_vectors",
-    "get_fast_db",
-    "get_vector",
-    "search_vectors"]
+__all__ = ["FastVectorDB", "add_vectors", "get_fast_db", "get_vector", "search_vectors"]

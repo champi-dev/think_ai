@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from smart_think_ai import SmartThinkAI
 
+
 async def demo_chat() -> None:
     """Demo conversation showing Think AI's capabilities."""
     ai = SmartThinkAI()
@@ -28,15 +29,16 @@ async def demo_chat() -> None:
         await ai.initialize()
 
         for _i, user_input in enumerate(conversation, 1):
-
             response = await ai.get_smart_response(user_input)
 
             # Update conversation context
-            ai.conversation_context.append({
-                "user": user_input,
-                "assistant": response,
-                "timestamp": "demo",
-            })
+            ai.conversation_context.append(
+                {
+                    "user": user_input,
+                    "assistant": response,
+                    "timestamp": "demo",
+                }
+            )
 
             # Brief pause for readability
             await asyncio.sleep(1)
@@ -47,9 +49,11 @@ async def demo_chat() -> None:
 
     except Exception:
         import traceback
+
         traceback.print_exc()
     finally:
         await ai.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(demo_chat())

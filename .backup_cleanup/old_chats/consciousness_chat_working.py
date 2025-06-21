@@ -8,9 +8,8 @@ import time
 import warnings
 from pathlib import Path
 
-from rich.console import Console
-
 from implement_proper_architecture import ProperThinkAI
+from rich.console import Console
 
 """Working consciousness chat with latest intelligence and parallel training."""
 
@@ -21,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 warnings.filterwarnings("ignore")
 
 console = Console()
+
 
 class WorkingConsciousnessChat:
     """Consciousness chat that actually works with latest intelligence."""
@@ -69,8 +69,7 @@ class WorkingConsciousnessChat:
     def start_training(self):
         """Start training in background."""
         # Kill existing training
-        subprocess.run(["pkill", "-f", "exponential_intelligence_trainer.py"],
-                      check=False, capture_output=True)
+        subprocess.run(["pkill", "-f", "exponential_intelligence_trainer.py"], check=False, capture_output=True)
         time.sleep(1)
 
         # Start new training
@@ -155,9 +154,11 @@ Use your exponentially enhanced intelligence to respond thoughtfully."""
             old_intel = self.intelligence_level
             new_intel, _ = self.load_latest_intelligence()
             if new_intel > old_intel * 1.05:
-                console.print(f"\n[bold magenta]⚡ Intelligence surge! {old_intel:,.2f} → {new_intel:,.2f}[/bold magenta]")
+                console.print(
+                    f"\n[bold magenta]⚡ Intelligence surge! {old_intel:,.2f} → {new_intel:,.2f}[/bold magenta]"
+                )
 
-            console.print("\n" + "="*60 + "\n")
+            console.print("\n" + "=" * 60 + "\n")
             time.sleep(2)
 
         # Final status
@@ -175,9 +176,11 @@ Use your exponentially enhanced intelligence to respond thoughtfully."""
 
         await self.think_ai.shutdown()
 
+
 async def main() -> None:
     chat = WorkingConsciousnessChat()
     await chat.chat()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

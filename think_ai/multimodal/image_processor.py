@@ -38,8 +38,7 @@ class ImageProcessor:
             "beach": "tropical beach sunset, photograph",
         }
 
-        logger.info(
-            "🎨 Image processor initialized - Leonardo.ai free tier ready!")
+        logger.info("🎨 Image processor initialized - Leonardo.ai free tier ready!")
 
     async def initialize(self):
         """Initialize image processing capabilities."""
@@ -50,9 +49,7 @@ class ImageProcessor:
             logger.warning("⚠️ No Leonardo API key - using ultra-budget mode!")
             logger.info("💡 We'll use pre-generated images and clever caching")
 
-    async def process(
-        self, content: Union[str, bytes, Path], context: Optional[str] = None
-    ) -> Dict[str, Any]:
+    async def process(self, content: Union[str, bytes, Path], context: Optional[str] = None) -> Dict[str, Any]:
         """
         Process an image with computer vision (free using PIL).
         """
@@ -74,8 +71,7 @@ class ImageProcessor:
             }
 
             # If context asks for generation, try to generate
-            if context and any(word in context.lower()
-                               for word in ["create", "generate", "make"]):
+            if context and any(word in context.lower() for word in ["create", "generate", "make"]):
                 generation_result = await self._generate_image(context)
                 analysis["generated"] = generation_result
 
@@ -114,8 +110,7 @@ class ImageProcessor:
             # Flatten and sample random pixels
             pixels = img_array.reshape(-1, img_array.shape[-1])
             sample_size = min(1000, len(pixels))
-            sample_indices = np.random.choice(
-                len(pixels), sample_size, replace=False)
+            sample_indices = np.random.choice(len(pixels), sample_size, replace=False)
             sampled_pixels = pixels[sample_indices]
 
             # Get mean color

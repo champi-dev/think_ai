@@ -38,9 +38,7 @@ class OfflineStorage(StorageBackend):
             return
 
         if not AIOSQLITE_AVAILABLE:
-            logger.warning(
-                "aiosqlite not available, OfflineStorage will use fallback mode"
-            )
+            logger.warning("aiosqlite not available, OfflineStorage will use fallback mode")
             self._initialized = True
             return
 
@@ -151,9 +149,7 @@ class OfflineStorage(StorageBackend):
     def _check_available(self):
         """Check if aiosqlite is available and raise appropriate error."""
         if not AIOSQLITE_AVAILABLE:
-            raise RuntimeError(
-                "OfflineStorage requires aiosqlite package to be installed"
-            )
+            raise RuntimeError("OfflineStorage requires aiosqlite package to be installed")
 
     @asynccontextmanager
     async def _get_connection(self):
@@ -192,10 +188,13 @@ class OfflineStorage(StorageBackend):
 
     async def get(self, key: str) -> Optional[StorageItem]:
         """Retrieve an item from offline storage."""
-        async with self._get_connection() as db, db.execute(
-            "SELECT * FROM storage WHERE key = ?",
-            (key,),
-        ) as cursor:
+        async with (
+            self._get_connection() as db,
+            db.execute(
+                "SELECT * FROM storage WHERE key = ?",
+                (key,),
+            ) as cursor,
+        ):
             row = await cursor.fetchone()
 
             if not row:
@@ -215,15 +214,16 @@ class OfflineStorage(StorageBackend):
 
     async def exists(self, key: str) -> bool:
         """Check if a key exists in offline storage."""
-        async with self._get_connection() as db, db.execute(
-            "SELECT 1 FROM storage WHERE key = ? LIMIT 1",
-            (key,),
-        ) as cursor:
+        async with (
+            self._get_connection() as db,
+            db.execute(
+                "SELECT 1 FROM storage WHERE key = ? LIMIT 1",
+                (key,),
+            ) as cursor,
+        ):
             return await cursor.fetchone() is not None
 
-    async def list_keys(
-        self, prefix: Optional[str] = None, limit: int = 100
-    ) -> List[str]:
+    async def list_keys(self, prefix: Optional[str] = None, limit: int = 100) -> List[str]:
         """List keys with optional prefix filter."""
         async with self._get_connection() as db:
             if prefix:
@@ -237,9 +237,7 @@ class OfflineStorage(StorageBackend):
                 rows = await cursor.fetchall()
                 return [row[0] for row in rows]
 
-    async def batch_get(self,
-                        keys: List[str]) -> Dict[str,
-                                                 Optional[StorageItem]]:
+    async def batch_get(self, keys: List[str]) -> Dict[str, Optional[StorageItem]]:
         """Retrieve multiple items by keys."""
         if not keys:
             return {}
@@ -319,8 +317,7 @@ class OfflineStorage(StorageBackend):
                 async for row in cursor:
                     yield row[0], self._row_to_item(row)  # row[0] is the key
 
-    async def search_text(
-            self, query: str, limit: int = 100) -> List[Dict[str, Any]]:
+    async def search_text(self, query: str, limit: int = 100) -> List[Dict[str, Any]]:
         """Full-text search using FTS5."""
         if not self.config.enable_fts:
             msg = "Full-text search is not enabled"
@@ -341,7 +338,6 @@ class OfflineStorage(StorageBackend):
             """,
                 (fts_query, limit),
             ) as cursor:
-
                 results = []
                 async for row in cursor:
                     item = self._row_to_item(row[:-1])  # Exclude rank column
@@ -355,20 +351,20 @@ class OfflineStorage(StorageBackend):
 
                 return results
 
-    async def get_unsynced_items(
-        self, limit: int = 100
-    ) -> List[Tuple[str, StorageItem]]:
+    async def get_unsynced_items(self, limit: int = 100) -> List[Tuple[str, StorageItem]]:
         """Get items that haven't been synced to online storage."""
-        async with self._get_connection() as db, db.execute(
-            """
+        async with (
+            self._get_connection() as db,
+            db.execute(
+                """
                 SELECT * FROM storage
                 WHERE synced = 0
                 ORDER BY updated_at DESC
                 LIMIT ?
             """,
-            (limit,),
-        ) as cursor:
-
+                (limit,),
+            ) as cursor,
+        ):
             items = []
             async for row in cursor:
                 items.append((row[0], self._row_to_item(row)))
@@ -401,9 +397,7 @@ class OfflineStorage(StorageBackend):
                 total_count = (await cursor.fetchone())[0]
 
             # Get unsynced count
-            async with db.execute(
-                "SELECT COUNT(*) FROM storage WHERE synced = 0"
-            ) as cursor:
+            async with db.execute("SELECT COUNT(*) FROM storage WHERE synced = 0") as cursor:
                 unsynced_count = (await cursor.fetchone())[0]
 
             # Get database size
@@ -496,9 +490,7 @@ class OfflineSyncManager:
                     break
 
             sync_stats["completed_at"] = datetime.utcnow()
-            sync_stats["duration_seconds"] = (
-                sync_stats["completed_at"] - sync_stats["started_at"]
-            ).total_seconds()
+            sync_stats["duration_seconds"] = (sync_stats["completed_at"] - sync_stats["started_at"]).total_seconds()
 
             # Record sync history
             self.sync_history.append(sync_stats)
@@ -527,8 +519,7 @@ class OfflineSyncManager:
                 items = await self.online.batch_get(keys)
 
                 # Filter out None values and prepare for offline storage
-                items_to_store = {
-                    k: v for k, v in items.items() if v is not None}
+                items_to_store = {k: v for k, v in items.items() if v is not None}
 
                 if items_to_store:
                     await self.offline.batch_put(items_to_store)
@@ -544,9 +535,7 @@ class OfflineSyncManager:
                 sync_stats["items_synced"] = count
 
             sync_stats["completed_at"] = datetime.utcnow()
-            sync_stats["duration_seconds"] = (
-                sync_stats["completed_at"] - sync_stats["started_at"]
-            ).total_seconds()
+            sync_stats["duration_seconds"] = (sync_stats["completed_at"] - sync_stats["started_at"]).total_seconds()
 
             return sync_stats
 
@@ -564,10 +553,7 @@ class OfflineSyncManager:
 
             # Prepare metadata
             keys = list(items.keys())
-            metadatas = [
-                {"key": key, "synced_from": "offline", **items[key].metadata}
-                for key in keys
-            ]
+            metadatas = [{"key": key, "synced_from": "offline", **items[key].metadata} for key in keys]
 
             # Store in vector database
             await self.vector_db.insert_vectors(
@@ -606,8 +592,7 @@ class OfflineSyncManager:
             return "no_data"
 
         recent_syncs = self.sync_history[-5:]
-        error_rate = sum(1 for s in recent_syncs if s.get(
-            "errors")) / len(recent_syncs)
+        error_rate = sum(1 for s in recent_syncs if s.get("errors")) / len(recent_syncs)
 
         if error_rate == 0:
             return "excellent"
@@ -720,14 +705,12 @@ class AdvancedOfflineManager:
 
     async def enable_offline_mode(self) -> None:
         """Enable full offline mode with local-first operation."""
-        logger.info(
-            "Enabling offline mode - all operations will be local-first")
+        logger.info("Enabling offline mode - all operations will be local-first")
         # Set flags for offline operation
         # In production, this would configure the entire system for offline
         # mode
 
-    async def prepare_for_offline(
-            self, prefetch_keys: List[str]) -> Dict[str, Any]:
+    async def prepare_for_offline(self, prefetch_keys: List[str]) -> Dict[str, Any]:
         """Prefetch content for offline usage."""
         results = {
             "prefetched": 0,

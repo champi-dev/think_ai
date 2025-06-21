@@ -42,8 +42,7 @@ class HeadlessBrowser:
             "doubleclick.net",
         ]
 
-        logger.info(
-            "🌐 Headless browser initialized - Internet access unlocked!")
+        logger.info("🌐 Headless browser initialized - Internet access unlocked!")
 
     async def initialize(self) -> None:
         """Start the browser engine."""
@@ -77,21 +76,20 @@ class HeadlessBrowser:
 
         except Exception as e:
             logger.exception(f"Browser init failed: {e}")
-            logger.info(
-                "💡 Install playwright: pip install playwright && playwright install chromium"
-            )
+            logger.info("💡 Install playwright: pip install playwright && playwright install chromium")
 
     async def _block_resources(self, route) -> None:
         """Block ads and unnecessary resources to save bandwidth."""
-        if any(
-            domain in route.request.url for domain in self.blocked_domains
-        ) or route.request.resource_type in ["image", "media", "font"]:
+        if any(domain in route.request.url for domain in self.blocked_domains) or route.request.resource_type in [
+            "image",
+            "media",
+            "font",
+        ]:
             await route.abort()
         else:
             await route.continue_()
 
-    async def search(self, query: str,
-                     engine: str = "duckduckgo") -> dict[str, Any]:
+    async def search(self, query: str, engine: str = "duckduckgo") -> dict[str, Any]:
         """Search the web for free!
         Returns top results without costing a penny.
         """
@@ -113,9 +111,7 @@ class HeadlessBrowser:
             page = await self.context.new_page()
 
             # Navigate to search engine
-            search_url = self.search_engines.get(
-                engine, self.search_engines["duckduckgo"]
-            )
+            search_url = self.search_engines.get(engine, self.search_engines["duckduckgo"])
             await page.goto(search_url + query.replace(" ", "+"))
 
             # Wait for results
@@ -191,9 +187,7 @@ class HeadlessBrowser:
                 "tip": "¿Será que se cayó el sitio? ¡Dale que vamos tarde!",
             }
 
-    async def _extract_search_results(
-        self, page: Page, engine: str
-    ) -> list[dict[str, str]]:
+    async def _extract_search_results(self, page: Page, engine: str) -> list[dict[str, str]]:
         """Extract search results from different engines."""
         results = []
 
@@ -210,16 +204,8 @@ class HeadlessBrowser:
                         results.append(
                             {
                                 "title": await title_elem.inner_text(),
-                                "snippet": (
-                                    await snippet_elem.inner_text()
-                                    if snippet_elem
-                                    else ""
-                                ),
-                                "url": (
-                                    await link_elem.get_attribute("href")
-                                    if link_elem
-                                    else ""
-                                ),
+                                "snippet": (await snippet_elem.inner_text() if snippet_elem else ""),
+                                "url": (await link_elem.get_attribute("href") if link_elem else ""),
                             }
                         )
 
@@ -234,11 +220,7 @@ class HeadlessBrowser:
                         results.append(
                             {
                                 "title": await title_elem.inner_text(),
-                                "snippet": (
-                                    await snippet_elem.inner_text()
-                                    if snippet_elem
-                                    else ""
-                                ),
+                                "snippet": (await snippet_elem.inner_text() if snippet_elem else ""),
                                 "url": "google.com",  # Google makes URLs tricky
                             }
                         )

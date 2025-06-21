@@ -160,11 +160,8 @@ class XTwitterBot:
         else:
             # Random tweet, avoiding recent ones
             all_tweets = self.tech_tweets + self.additional_tweets
-            available_tweets = [
-                t for t in all_tweets if t not in self.tweet_history[-20:]
-            ]
-            text = random.choice(
-                available_tweets if available_tweets else all_tweets)
+            available_tweets = [t for t in all_tweets if t not in self.tweet_history[-20:]]
+            text = random.choice(available_tweets if available_tweets else all_tweets)
 
         # Sometimes add hashtags
         if random.random() > 0.7:
@@ -183,8 +180,7 @@ class XTwitterBot:
             "language": "en",
         }
 
-    def generate_thread(
-            self, topic: str, length: int = 5) -> list[dict[str, Any]]:
+    def generate_thread(self, topic: str, length: int = 5) -> list[dict[str, Any]]:
         """Generate a thread of tweets.
 
         Args:
@@ -218,8 +214,7 @@ class XTwitterBot:
 
         return thread
 
-    def _generate_tech_thread(
-            self, topic: str, count: int) -> list[dict[str, Any]]:
+    def _generate_tech_thread(self, topic: str, count: int) -> list[dict[str, Any]]:
         """Generate tech thread content."""
         thread_content = []
 
@@ -252,14 +247,8 @@ class XTwitterBot:
         """
         # Analyze original tweet sentiment/content
         is_question = "?" in original_tweet
-        is_complaint = any(
-            word in original_tweet.lower()
-            for word in ["hate", "terrible", "awful", "worst"]
-        )
-        any(
-            word in original_tweet.lower()
-            for word in ["love", "great", "awesome", "best"]
-        )
+        is_complaint = any(word in original_tweet.lower() for word in ["hate", "terrible", "awful", "worst"])
+        any(word in original_tweet.lower() for word in ["love", "great", "awesome", "best"])
 
         template = random.choice(self.reply_templates)
 
@@ -293,16 +282,11 @@ class XTwitterBot:
 
         return {
             "text": reply,
-            "reply_to": (
-                original_tweet[:50] + "..."
-                if len(original_tweet) > 50
-                else original_tweet
-            ),
+            "reply_to": (original_tweet[:50] + "..." if len(original_tweet) > 50 else original_tweet),
             "timestamp": datetime.now().isoformat(),
         }
 
-    def generate_scheduled_content(
-            self, days: int = 7) -> list[dict[str, Any]]:
+    def generate_scheduled_content(self, days: int = 7) -> list[dict[str, Any]]:
         """Generate a week's worth of scheduled tweets."""
         scheduled = []
         current_time = datetime.now()
@@ -321,19 +305,12 @@ class XTwitterBot:
                 )
 
                 # Vary content type
-                content_type = random.choice(
-                    ["tweet", "tweet", "thread"]
-                )  # More single tweets
+                content_type = random.choice(["tweet", "tweet", "thread"])  # More single tweets
 
                 if content_type == "thread":
                     # Weekly thread
-                    topic = (
-                        random.choice(self.hot_topics)
-                        if hasattr(self, "hot_topics")
-                        else "coding"
-                    )
-                    content = self.generate_thread(
-                        topic, length=random.randint(3, 5))
+                    topic = random.choice(self.hot_topics) if hasattr(self, "hot_topics") else "coding"
+                    content = self.generate_thread(topic, length=random.randint(3, 5))
                 else:
                     content = [self.generate_tweet()]
 
@@ -362,9 +339,7 @@ class XTwitterBot:
             "Create tweet series on trending topics",
         ]
 
-    def analyze_tweet_performance(
-        self, tweet: dict[str, Any], metrics: dict[str, int]
-    ) -> dict[str, Any]:
+    def analyze_tweet_performance(self, tweet: dict[str, Any], metrics: dict[str, int]) -> dict[str, Any]:
         """Analyze why a tweet performed well/poorly.
 
         Args:
@@ -373,16 +348,11 @@ class XTwitterBot:
 
         """
         total_engagement = sum(metrics.values())
-        engagement_rate = total_engagement / \
-            max(metrics.get("impressions", 1), 1)
+        engagement_rate = total_engagement / max(metrics.get("impressions", 1), 1)
 
         analysis = {
             "engagement_rate": f"{engagement_rate * 100:.1f}%",
-            "performance": (
-                "viral"
-                if total_engagement > 1000
-                else "good" if total_engagement > 100 else "average"
-            ),
+            "performance": ("viral" if total_engagement > 1000 else "good" if total_engagement > 100 else "average"),
             "metrics": metrics,
         }
 
@@ -390,9 +360,7 @@ class XTwitterBot:
         if total_engagement > 100:
             analysis["why_it_worked"] = "Tech humor resonates with developers worldwide"
         else:
-            analysis["improvement"] = (
-                "Try adding more specific technical references or relatable scenarios"
-            )
+            analysis["improvement"] = "Try adding more specific technical references or relatable scenarios"
 
         return analysis
 

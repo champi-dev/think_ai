@@ -1,6 +1,7 @@
 """Quick test to verify all fixes are working."""
-from implement_proper_architecture import ProperThinkAI
 import asyncio
+
+from implement_proper_architecture import ProperThinkAI
 
 
 async def quick_test() -> None:

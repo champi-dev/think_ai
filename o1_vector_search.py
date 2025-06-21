@@ -1,8 +1,9 @@
 """Core O(1) Vector Search implementation"""
 
 import json
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
-from typing import List, Tuple, Dict, Any, Optional
 
 
 class O1VectorSearch:
@@ -12,9 +13,7 @@ class O1VectorSearch:
     Achieves constant-time similarity search through hash-based indexing.
     """
 
-    def __init__(
-        self, dim: int, num_hash_tables: int = 10, num_hash_functions: int = 8
-    ):
+    def __init__(self, dim: int, num_hash_tables: int = 10, num_hash_functions: int = 8):
         """
         Initialize O(1) Vector Search index.
 
@@ -52,9 +51,7 @@ class O1VectorSearch:
         hash_bits = (projected > 0).astype(int)
         return "".join(map(str, hash_bits))
 
-    def add(
-        self, vector: np.ndarray, metadata: Optional[Dict[str, Any]] = None
-    ) -> None:
+    def add(self, vector: np.ndarray, metadata: Optional[Dict[str, Any]] = None) -> None:
         """
         Add a vector to the index with O(1) complexity.
 
@@ -63,9 +60,7 @@ class O1VectorSearch:
             metadata: Optional metadata associated with the vector
         """
         if len(vector) != self.dim:
-            raise ValueError(
-                f"Vector dimension {len(vector)} doesn't match index dimension {self.dim}"
-            )
+            raise ValueError(f"Vector dimension {len(vector)} doesn't match index dimension {self.dim}")
 
         vector = np.asarray(vector, dtype=np.float32)
         idx = len(self.vectors)
@@ -83,9 +78,7 @@ class O1VectorSearch:
 
             self.hash_tables[table_idx][hash_key].append(idx)
 
-    def search(
-        self, query_vector: np.ndarray, k: int = 5
-    ) -> List[Tuple[float, np.ndarray, Dict[str, Any]]]:
+    def search(self, query_vector: np.ndarray, k: int = 5) -> List[Tuple[float, np.ndarray, Dict[str, Any]]]:
         """
         Search for k nearest neighbors in O(1) time.
 
@@ -97,9 +90,7 @@ class O1VectorSearch:
             List of tuples (distance, vector, metadata) sorted by distance
         """
         if len(query_vector) != self.dim:
-            raise ValueError(
-                f"Query dimension {len(query_vector)} doesn't match index dimension {self.dim}"
-            )
+            raise ValueError(f"Query dimension {len(query_vector)} doesn't match index dimension {self.dim}")
 
         query_vector = np.asarray(query_vector, dtype=np.float32)
         candidates = set()

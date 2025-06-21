@@ -9,10 +9,8 @@ import click
 from .benchmarks.performance import PerformanceBenchmark
 from .core.config import Config
 from .core.engine import ThinkAIEngine
-from .federated.federated_learning import (FederatedLearningClient,
-                                           FederatedLearningServer)
-from .storage.offline import (AdvancedOfflineManager, OfflineStorage,
-                              OfflineSyncManager)
+from .federated.federated_learning import FederatedLearningClient, FederatedLearningServer
+from .storage.offline import AdvancedOfflineManager, OfflineStorage, OfflineSyncManager
 from .utils.logging import configure_logging
 
 

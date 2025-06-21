@@ -4,9 +4,10 @@
 
 import os
 
-from config import HUGGINGFACE_API_KEY
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+from config import HUGGINGFACE_API_KEY
 
 os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
 
@@ -41,9 +42,7 @@ if torch.backends.mps.is_available():
     inputs = {k: v.to("mps") for k, v in inputs.items()}
 
 # Generate with minimal tokens
-outputs = model.generate(
-    inputs.input_ids, max_new_tokens=5, temperature=0.7, do_sample=True  # Just 5 tokens
-)
+outputs = model.generate(inputs.input_ids, max_new_tokens=5, temperature=0.7, do_sample=True)  # Just 5 tokens
 
 response = tokenizer.decode(outputs[0], skip_special_tokens=True)
 print(f"Response: {response}")

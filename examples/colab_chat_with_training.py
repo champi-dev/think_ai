@@ -9,8 +9,9 @@ import threading
 import time
 from pathlib import Path
 
-import think_ai
 from full_architecture_chat import FullArchitectureChat
+
+import think_ai
 from think_ai.utils.logging import get_logger
 
 # For Colab environment
@@ -240,6 +241,7 @@ try:
 # Install requirements if needed
                                                                                                                                     try:
 import think_ai
+
                                                                                                                                         except ImportError:
                                                                                                                                             print("📦 Installing requirements...")
                                                                                                                                             subprocess.run([sys.executable, "-m", "pip", "install",

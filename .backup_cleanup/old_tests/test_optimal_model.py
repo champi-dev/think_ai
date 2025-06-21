@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from think_ai.core.config import ModelConfig
 from think_ai.models.language_model import LanguageModel
 
+
 async def test_model_performance() -> None:
     """Test the configured model's performance."""
     # Load configuration
@@ -41,7 +42,6 @@ async def test_model_performance() -> None:
         ]
 
         for prompt in test_prompts:
-
             start_time = time.time()
             response = await model.generate(prompt, max_tokens=100)
             end_time = time.time()
@@ -77,6 +77,7 @@ async def test_model_performance() -> None:
             # Cleanup
             pass
 
+
 async def compare_with_gpt2() -> None:
     """Compare new model with current GPT-2."""
     # Load GPT-2 (current)
@@ -99,10 +100,12 @@ async def compare_with_gpt2() -> None:
 
     # New model response (simulate)
 
+
 async def main() -> None:
     """Run all tests."""
     await test_model_performance()
     await compare_with_gpt2()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

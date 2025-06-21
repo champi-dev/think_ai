@@ -1,17 +1,19 @@
 #! / usr / bin / env python3
 """Quantum Computing + AI Integration System - O(1) Quantum Intelligence"""
 
-import torch
-import os
-import numpy as np
-from typing import List, Dict, Tuple, Any
 import json
+import os
 from datetime import datetime
+from typing import Any, Dict, List, Tuple
+
+import numpy as np
+import torch
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 torch.set_default_device("cpu")
 
 from sentence_transformers import SentenceTransformer  # noqa: E402
+
 from o1_vector_search import O1VectorSearch  # noqa: E402
 
 

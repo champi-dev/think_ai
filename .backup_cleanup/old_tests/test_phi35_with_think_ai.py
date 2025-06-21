@@ -6,6 +6,7 @@ import time
 
 import httpx
 
+
 class Phi35ThinkAITest:
     """Test Phi-3.5 Mini with Think AI components."""
 
@@ -158,10 +159,12 @@ class Phi35ThinkAITest:
         self.stats["claude_needed"] * 0.015  # $0.015 per Claude query
         self.stats["total_queries"] * 0.015  # If all went to Claude
 
+
 async def main() -> None:
     """Run the test."""
     tester = Phi35ThinkAITest()
     await tester.run_test_suite()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

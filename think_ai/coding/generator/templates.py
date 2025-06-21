@@ -4,17 +4,15 @@
 PYTHON_TEMPLATES = {
     "class": '''class {name}:
     """{description}"""
-    
+
     def __init__(self{params}):
         """Initialize {name}."""
         {init_body}
-        
+
     {methods}''',
-    
     "function": '''def {name}({params}){return_type}:
     """{description}"""
     {body}''',
-    
     "async_function": '''async def {name}({params}){return_type}:
     """{description}"""
     {body}''',
@@ -22,7 +20,7 @@ PYTHON_TEMPLATES = {
 
 # Web templates
 WEB_TEMPLATES = {
-    "html": '''<!DOCTYPE html>
+    "html": """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,5 +31,5 @@ WEB_TEMPLATES = {
     {content}
     {scripts}
 </body>
-</html>''',
+</html>""",
 }

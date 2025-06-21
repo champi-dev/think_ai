@@ -20,6 +20,7 @@ from think_ai.persistence.eternal_memory import EternalMemory
 
 console = Console()
 
+
 async def chat() -> None:
     """Interactive chat with Think AI."""
     console.print("\n[bold cyan]🤖 Think AI - Full Distributed System Chat[/bold cyan]")
@@ -51,7 +52,9 @@ async def chat() -> None:
             if user_input.lower() == "exit":
                 break
             if user_input.lower() == "help":
-                console.print(Panel("""
+                console.print(
+                    Panel(
+                        """
 [bold]Available Commands:[/bold]
 • exit - Quit the chat
 • help - Show this help
@@ -61,7 +64,11 @@ async def chat() -> None:
 
 [bold]Just type normally to chat![/bold]
 The system will use all available services to respond.
-                """, title="Help", border_style="cyan"))
+                """,
+                        title="Help",
+                        border_style="cyan",
+                    )
+                )
                 continue
             if user_input == "/services":
                 console.print("\n[bold]Active Services:[/bold]")
@@ -155,6 +162,7 @@ The system will use all available services to respond.
         console.print("\n[yellow]Shutting down...[/yellow]")
         await system.shutdown()
         console.print("[green]✅ Thank you for chatting with Think AI![/green]")
+
 
 if __name__ == "__main__":
     with contextlib.suppress(KeyboardInterrupt):

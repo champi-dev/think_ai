@@ -13,6 +13,7 @@ from think_ai.engine.claude_internal_tool import ClaudeInternalTool
 from think_ai.engine.full_system import DistributedThinkAI
 from think_ai.persistence.eternal_memory import EternalMemory
 
+
 class EnhancedThinkAI:
     """Enhanced Think AI with better response generation."""
 
@@ -117,11 +118,13 @@ Improved response:"""
                 response = await self.process_enhanced(user_input)
 
                 # Log conversation
-                conversation_history.append({
-                    "user": user_input,
-                    "assistant": response,
-                    "timestamp": datetime.now().isoformat(),
-                })
+                conversation_history.append(
+                    {
+                        "user": user_input,
+                        "assistant": response,
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                )
 
                 # Store in eternal memory
                 await self.eternal_memory.log_consciousness_event(
@@ -157,11 +160,13 @@ Improved response:"""
 
                 item = StorageItem(
                     key=f"learned_fact_{datetime.now().timestamp()}",
-                    value=json.dumps({
-                        "fact": fact,
-                        "timestamp": datetime.now().isoformat(),
-                        "source": "user_teaching",
-                    }),
+                    value=json.dumps(
+                        {
+                            "fact": fact,
+                            "timestamp": datetime.now().isoformat(),
+                            "source": "user_teaching",
+                        }
+                    ),
                     metadata={"type": "learned_fact"},
                 )
 
@@ -198,6 +203,7 @@ Improved response:"""
         """Shutdown enhanced system."""
         await self.system.shutdown()
 
+
 async def test_enhanced_chat() -> None:
     """Test the enhanced Think AI system."""
     enhanced_ai = EnhancedThinkAI()
@@ -228,6 +234,7 @@ async def test_enhanced_chat() -> None:
     finally:
         await enhanced_ai.shutdown()
 
+
 async def main() -> None:
     """Main entry point."""
     import sys
@@ -243,6 +250,7 @@ async def main() -> None:
     else:
         # Test mode
         await test_enhanced_chat()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

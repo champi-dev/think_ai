@@ -5,9 +5,10 @@
 import os
 import time
 
-from config import HUGGINGFACE_API_KEY
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+from config import HUGGINGFACE_API_KEY
 
 os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
 

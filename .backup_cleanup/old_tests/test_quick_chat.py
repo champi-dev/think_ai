@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from chat_with_exponential_ai import ExponentialThinkAIChat
 
+
 async def test_single_query() -> None:
     """Test a single query."""
     chat = ExponentialThinkAIChat()
@@ -25,6 +26,7 @@ async def test_single_query() -> None:
             await chat.think_ai.system.shutdown()
         if chat.claude_api:
             await chat.claude_api.close()
+
 
 if __name__ == "__main__":
     asyncio.run(test_single_query())

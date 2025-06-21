@@ -45,10 +45,7 @@ class ArchitectureCache:
         config_str = json.dumps(config, sort_keys=True)
         return hashlib.sha256(config_str.encode()).hexdigest()
 
-    def _is_cache_valid(
-            self,
-            config_hash: str,
-            max_age_hours: int = 24) -> bool:
+    def _is_cache_valid(self, config_hash: str, max_age_hours: int = 24) -> bool:
         """Check if cache is valid based on config and age.
 
         O(1) complexity - direct file read and comparison.
@@ -82,9 +79,7 @@ class ArchitectureCache:
             logger.exception(f"Error validating cache: {e}")
             return False
 
-    async def save_architecture(
-        self, services: Dict[str, Any], config: Dict[str, Any]
-    ) -> bool:
+    async def save_architecture(self, services: Dict[str, Any], config: Dict[str, Any]) -> bool:
         """Save the initialized architecture to cache.
 
         O(1) complexity for metadata, O(n) for serialization where n is service count.
@@ -112,8 +107,7 @@ class ArchitectureCache:
                     serializable_services[name] = {
                         "type": "model_orchestrator",
                         "config": config.get("model", {}),
-                        "initialized": hasattr(service, "language_model")
-                        and service.language_model is not None,
+                        "initialized": hasattr(service, "language_model") and service.language_model is not None,
                     }
                 elif name in ["scylla", "redis", "milvus", "neo4j"]:
                     # For databases, save connection info only
@@ -151,9 +145,7 @@ class ArchitectureCache:
             logger.exception(f"Failed to save architecture cache: {e}")
             return False
 
-    async def load_architecture(
-        self, config: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+    async def load_architecture(self, config: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Load architecture from cache if valid.
 
         O(1) complexity when using memory cache, O(n) for disk load.
@@ -161,8 +153,7 @@ class ArchitectureCache:
         config_hash = self._compute_config_hash(config)
 
         # Check memory cache first (O(1))
-        if (self._cache_valid and self._memory_cache.get(
-                "metadata", {}).get("config_hash") == config_hash):
+        if self._cache_valid and self._memory_cache.get("metadata", {}).get("config_hash") == config_hash:
             logger.info("✅ Loading from memory cache (O(1))")
             return self._memory_cache["services"]
 

@@ -48,8 +48,7 @@ class ScyllaDBBackend(StorageBackend):
                 contact_points=self.config.hosts,
                 port=self.config.port,
                 auth_provider=auth_provider,
-                load_balancing_policy=TokenAwarePolicy(
-                    DCAwareRoundRobinPolicy()),
+                load_balancing_policy=TokenAwarePolicy(DCAwareRoundRobinPolicy()),
                 protocol_version=4,
             )
 
@@ -180,8 +179,7 @@ class ScyllaDBBackend(StorageBackend):
         rows = await self._execute_async(query, [key])
         return len(rows) > 0
 
-    async def list_keys(self, prefix: str | None = None,
-                        limit: int = 100) -> list[str]:
+    async def list_keys(self, prefix: str | None = None, limit: int = 100) -> list[str]:
         """List keys with optional prefix filter."""
         if prefix:
             # Use index table for prefix queries
@@ -193,9 +191,7 @@ class ScyllaDBBackend(StorageBackend):
         rows = await self._execute_async(query, [limit])
         return [row.key for row in rows]
 
-    async def batch_get(self,
-                        keys: list[str]) -> dict[str,
-                                                 StorageItem | None]:
+    async def batch_get(self, keys: list[str]) -> dict[str, StorageItem | None]:
         """Retrieve multiple items efficiently."""
         results = {}
 
@@ -326,9 +322,7 @@ class ScyllaDBBackend(StorageBackend):
             if isinstance(query, str):
                 statement = SimpleStatement(
                     query,
-                    consistency_level=getattr(
-                        ConsistencyLevel, self.config.consistency_level
-                    ),
+                    consistency_level=getattr(ConsistencyLevel, self.config.consistency_level),
                 )
             else:
                 statement = query

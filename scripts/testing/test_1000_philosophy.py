@@ -15,8 +15,8 @@ from pathlib import Path
 from typing import Any, Dict
 
 import psutil
-
 from implement_proper_architecture import ProperThinkAI
+
 from think_ai.utils.logging import get_logger
 
 sys.path.insert(0, str(Path(__file__).parent))

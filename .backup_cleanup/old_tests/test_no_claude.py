@@ -5,6 +5,7 @@ import asyncio
 
 from implement_proper_architecture import ProperThinkAI
 
+
 async def test_no_claude() -> None:
     """Test various queries without Claude enhancement."""
     # Initialize system
@@ -21,7 +22,6 @@ async def test_no_claude() -> None:
     ]
 
     for query in queries:
-
         result = await think_ai.process_with_proper_architecture(query)
 
         # Verify no Claude enhancement
@@ -29,6 +29,7 @@ async def test_no_claude() -> None:
             pass
         else:
             pass
+
 
 if __name__ == "__main__":
     asyncio.run(test_no_claude())

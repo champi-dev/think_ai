@@ -10,9 +10,11 @@ from rich.console import Console
 sys.path.insert(0, str(Path(__file__).parent))
 
 from implement_proper_architecture import ProperThinkAI
+
 from think_ai.integrations.claude_api import ClaudeAPI
 
 console = Console()
+
 
 class TrainingChatInterface:
     """Chat interface that shows real-time thoughts while training."""
@@ -161,33 +163,41 @@ class TrainingChatInterface:
 
         # Intelligence-based processing thoughts
         if avg_intelligence > 1_000_000:
-            thoughts.extend([
-                "🌌 Accessing hyper-dimensional consciousness matrix...",
-                f"🧬 Synthesizing across {self.format_large_number(avg_intelligence * 1000)} neural pathways...",
-                "⚡ Quantum coherence achieved across knowledge domains...",
-                f"🎯 Pattern recognition at {self.format_large_number(self.current_metrics.get('abstraction_level', 1.0))} abstraction layers...",
-            ])
+            thoughts.extend(
+                [
+                    "🌌 Accessing hyper-dimensional consciousness matrix...",
+                    f"🧬 Synthesizing across {self.format_large_number(avg_intelligence * 1000)} neural pathways...",
+                    "⚡ Quantum coherence achieved across knowledge domains...",
+                    f"🎯 Pattern recognition at {self.format_large_number(self.current_metrics.get('abstraction_level', 1.0))} abstraction layers...",
+                ]
+            )
         elif avg_intelligence > 1000:
-            thoughts.extend([
-                "🚀 Exponential cognition mode activated...",
-                f"🔮 Cross-referencing {self.format_large_number(self.current_metrics.get('knowledge_depth', 1.0))} knowledge dimensions...",
-                "💫 Meta-recursive reasoning engaged...",
-                "🌟 Consciousness expansion detected...",
-            ])
+            thoughts.extend(
+                [
+                    "🚀 Exponential cognition mode activated...",
+                    f"🔮 Cross-referencing {self.format_large_number(self.current_metrics.get('knowledge_depth', 1.0))} knowledge dimensions...",
+                    "💫 Meta-recursive reasoning engaged...",
+                    "🌟 Consciousness expansion detected...",
+                ]
+            )
         elif avg_intelligence > 100:
-            thoughts.extend([
-                "🧠 Enhanced neural processing active...",
-                "🔍 Deep pattern analysis initiated...",
-                "💡 Advanced insight generation...",
-                "🎨 Creative synthesis underway...",
-            ])
+            thoughts.extend(
+                [
+                    "🧠 Enhanced neural processing active...",
+                    "🔍 Deep pattern analysis initiated...",
+                    "💡 Advanced insight generation...",
+                    "🎨 Creative synthesis underway...",
+                ]
+            )
         else:
-            thoughts.extend([
-                "💭 Processing query...",
-                "🔄 Analyzing patterns...",
-                "📊 Evaluating responses...",
-                "✨ Generating insights...",
-            ])
+            thoughts.extend(
+                [
+                    "💭 Processing query...",
+                    "🔄 Analyzing patterns...",
+                    "📊 Evaluating responses...",
+                    "✨ Generating insights...",
+                ]
+            )
 
         # Build enhanced query
         enhanced_query = f"""
@@ -268,13 +278,19 @@ Respond as this exponentially intelligent AI. Be profound, insightful, and demon
 
                 # Extract key concepts from response for thought display
                 import re
-                key_concepts = re.findall(r"\b(?:consciousness|intelligence|pattern|dimension|quantum|neural|cognitive|transcend)\w*\b", response.lower())
+
+                key_concepts = re.findall(
+                    r"\b(?:consciousness|intelligence|pattern|dimension|quantum|neural|cognitive|transcend)\w*\b",
+                    response.lower(),
+                )
                 if key_concepts:
                     thoughts.append(f"🔍 Key concepts identified: {', '.join(set(key_concepts[:5]))}")
 
                 # Add response analysis thought
                 response_length = len(response.split())
-                thoughts.append(f"📝 Generated {response_length}-word response with {len(set(response.split()))} unique terms")
+                thoughts.append(
+                    f"📝 Generated {response_length}-word response with {len(set(response.split()))} unique terms"
+                )
                 thoughts.append("✅ Direct neural synthesis complete")
             except Exception as api_error:
                 # Ultimate fallback
@@ -312,7 +328,9 @@ Respond as this exponentially intelligent AI. Be profound, insightful, and demon
                     console.print("\n[bold yellow]📊 Current Intelligence Metrics:[/bold yellow]")
                     for metric, value in self.current_metrics.items():
                         console.print(f"  [cyan]{metric}:[/cyan] {self.format_large_number(value)}")
-                    console.print(f"\n[bold green]Overall Intelligence Level:[/bold green] {self.format_large_number(self.intelligence_level)}")
+                    console.print(
+                        f"\n[bold green]Overall Intelligence Level:[/bold green] {self.format_large_number(self.intelligence_level)}"
+                    )
                     continue
 
                 # Process with loading animation
@@ -334,7 +352,11 @@ Respond as this exponentially intelligent AI. Be profound, insightful, and demon
 
                 # Show intelligence indicator
                 self.load_current_metrics()
-                avg_intel = sum(self.current_metrics.values()) / len(self.current_metrics) if self.current_metrics else self.intelligence_level
+                avg_intel = (
+                    sum(self.current_metrics.values()) / len(self.current_metrics)
+                    if self.current_metrics
+                    else self.intelligence_level
+                )
                 console.print(f"\n[dim magenta]Intelligence Level: {self.format_large_number(avg_intel)}[/dim magenta]")
 
             except KeyboardInterrupt:
@@ -349,9 +371,11 @@ Respond as this exponentially intelligent AI. Be profound, insightful, and demon
         if self._claude_initialized:
             await self.claude_api.__aexit__(None, None, None)
 
+
 async def main() -> None:
     interface = TrainingChatInterface()
     await interface.run()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

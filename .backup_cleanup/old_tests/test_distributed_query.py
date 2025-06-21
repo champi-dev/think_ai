@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from think_ai.engine.full_system import DistributedThinkAI
 
+
 async def main() -> None:
     """Test distributed query processing."""
     system = DistributedThinkAI()
@@ -37,10 +38,12 @@ async def main() -> None:
 
     except Exception:
         import traceback
+
         traceback.print_exc()
 
     finally:
         await system.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

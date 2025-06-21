@@ -69,9 +69,7 @@ class VectorDBConfig:
 class OfflineStorageConfig:
     """Offline storage configuration using SQLite."""
 
-    db_path: Path = field(
-        default_factory=lambda: Path.home() / ".think_ai" / "offline.db"
-    )
+    db_path: Path = field(default_factory=lambda: Path.home() / ".think_ai" / "offline.db")
     enable_fts: bool = True
     cache_size_mb: int = 256
     wal_mode: bool = True
@@ -88,9 +86,7 @@ class ModelConfig:
     temperature: float = 0.7
     torch_dtype: str = "float32"
     offline_model_path: Optional[Path] = None
-    hf_token: Optional[str] = field(
-        default_factory=lambda: os.getenv("HF_TOKEN") or HUGGINGFACE_API_KEY
-    )
+    hf_token: Optional[str] = field(default_factory=lambda: os.getenv("HF_TOKEN") or HUGGINGFACE_API_KEY)
 
 
 @dataclass
@@ -141,12 +137,10 @@ class Config:
     scylla: ScyllaDBConfig = field(default_factory=ScyllaDBConfig)
     redis: RedisConfig = field(default_factory=RedisConfig)
     vector_db: VectorDBConfig = field(default_factory=VectorDBConfig)
-    offline_storage: OfflineStorageConfig = field(
-        default_factory=OfflineStorageConfig)
+    offline_storage: OfflineStorageConfig = field(default_factory=OfflineStorageConfig)
     model: ModelConfig = field(default_factory=ModelConfig)
     ui: UIConfig = field(default_factory=UIConfig)
-    consciousness: ConsciousnessConfig = field(
-        default_factory=ConsciousnessConfig)
+    consciousness: ConsciousnessConfig = field(default_factory=ConsciousnessConfig)
     graph_db: GraphDBConfig = field(default_factory=GraphDBConfig)
 
     # General settings
@@ -154,10 +148,7 @@ class Config:
     version: str = "0.1.0"
     debug: bool = False
     data_dir: Path = field(default_factory=lambda: Path.home() / ".think_ai")
-    log_dir: Path = field(
-        default_factory=lambda: Path.home() /
-        ".think_ai" /
-        "logs")
+    log_dir: Path = field(default_factory=lambda: Path.home() / ".think_ai" / "logs")
     max_tokens: int = 500  # Default max tokens for responses
 
     def __post_init__(self):
@@ -196,11 +187,7 @@ class Config:
             },
             "model": {
                 **vars(self.model),
-                "offline_model_path": (
-                    str(self.model.offline_model_path)
-                    if self.model.offline_model_path
-                    else None
-                ),
+                "offline_model_path": (str(self.model.offline_model_path) if self.model.offline_model_path else None),
             },
             "ui": vars(self.ui),
             "consciousness": vars(self.consciousness),

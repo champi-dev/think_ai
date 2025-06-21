@@ -7,13 +7,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+
 def setup_phi35_mini() -> None:
     """Configure Think AI to use Phi-3.5 Mini."""
     # Create optimized configuration
     config = {
         "system_mode": "full_distributed",
         "system_name": "Think AI with Phi-3.5",
-
         # Model configuration
         "model": {
             "name": "microsoft/Phi-3.5-mini-instruct",
@@ -28,7 +28,6 @@ def setup_phi35_mini() -> None:
             "low_cpu_mem_usage": True,
             "trust_remote_code": True,  # Required for Phi models
         },
-
         # Services configuration
         "scylladb": {
             "enabled": True,
@@ -36,27 +35,23 @@ def setup_phi35_mini() -> None:
             "port": 9042,
             "keyspace": "think_ai",
         },
-
         "redis": {
             "enabled": True,
             "host": "localhost",
             "port": 6379,
         },
-
         "vector_db": {
             "enabled": True,
             "provider": "milvus",
             "host": "localhost",
             "port": 19530,
         },
-
         "neo4j": {
             "enabled": True,
             "uri": "bolt://localhost:7687",
             "username": "neo4j",
             "password": "think_ai_2024",
         },
-
         # Claude integration
         "claude": {
             "enhancement_threshold": 0.8,  # Phi-3.5 is good, only use Claude when really needed
@@ -70,6 +65,7 @@ def setup_phi35_mini() -> None:
 
     with open("config/phi35_config.yaml", "w") as f:
         import yaml
+
         yaml.dump(config, f, default_flow_style=False)
 
     # Install dependencies
@@ -193,6 +189,7 @@ if "phi-3.5" in config.model_name.lower():
 
     with open("phi35_integration_notes.txt", "w") as f:
         f.write(integration_update)
+
 
 if __name__ == "__main__":
     setup_phi35_mini()

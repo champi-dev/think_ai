@@ -8,6 +8,7 @@ import httpx
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
+
 class ModelComparison:
     """Compare language models."""
 
@@ -59,7 +60,7 @@ class ModelComparison:
 
         elapsed = time.time() - start
         response = self.gpt2_tokenizer.decode(outputs[0], skip_special_tokens=True)
-        response = response[len(prompt):].strip()
+        response = response[len(prompt) :].strip()
 
         return {
             "text": response,
@@ -96,7 +97,6 @@ class ModelComparison:
         results = []
 
         for test in test_prompts:
-
             # Test Phi-3.5
             phi35_result = await self.test_phi35(test["prompt"])
 
@@ -107,13 +107,15 @@ class ModelComparison:
             phi35_quality = len(phi35_result["text"].split()) / max(1, phi35_result["tokens"])
             gpt2_quality = len(gpt2_result["text"].split()) / max(1, gpt2_result["tokens"])
 
-            results.append({
-                "category": test["category"],
-                "phi35_speed": phi35_result["tokens"] / phi35_result["time"],
-                "gpt2_speed": gpt2_result["tokens"] / gpt2_result["time"],
-                "phi35_quality": phi35_quality,
-                "gpt2_quality": gpt2_quality,
-            })
+            results.append(
+                {
+                    "category": test["category"],
+                    "phi35_speed": phi35_result["tokens"] / phi35_result["time"],
+                    "gpt2_speed": gpt2_result["tokens"] / gpt2_result["time"],
+                    "phi35_quality": phi35_quality,
+                    "gpt2_quality": gpt2_quality,
+                }
+            )
 
         # Summary
 
@@ -122,10 +124,12 @@ class ModelComparison:
         sum(r["phi35_quality"] for r in results) / len(results)
         sum(r["gpt2_quality"] for r in results) / len(results)
 
+
 async def main() -> None:
     """Run the comparison."""
     tester = ModelComparison()
     await tester.compare_models()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

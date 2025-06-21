@@ -125,7 +125,7 @@ class FastLanguageModel:
         batch_size = 3  # Process 3 words at a time
 
         for i in range(0, len(words), batch_size):
-            batch = words[i: i + batch_size]
+            batch = words[i : i + batch_size]
             if i == 0:
                 context = " ".join(batch)
             else:
@@ -155,7 +155,7 @@ class FastLanguageModel:
             )
 
             response = self.tokenizer.decode(
-                outputs[0][inputs["input_ids"].shape[1]:],
+                outputs[0][inputs["input_ids"].shape[1] :],
                 skip_special_tokens=True,
             )
 
@@ -184,7 +184,7 @@ class FastLanguageModel:
             )
 
             response = self.tokenizer.decode(
-                outputs[0][inputs["input_ids"].shape[1]:],
+                outputs[0][inputs["input_ids"].shape[1] :],
                 skip_special_tokens=True,
             )
 

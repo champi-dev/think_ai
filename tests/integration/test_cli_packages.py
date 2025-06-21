@@ -4,13 +4,11 @@ import json
 import os
 import subprocess
 import sys
-
-import pytest
 import tempfile
 
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+import pytest
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 class TestCLIPackages:
@@ -111,9 +109,7 @@ class TestCLIPackages:
                     """Test Node.js CLI can be installed."""
                     # Check if npm is available
                     try:
-                        subprocess.run(
-                            ["npm", "--version"], check=True, capture_output=True
-                        )
+                        subprocess.run(["npm", "--version"], check=True, capture_output=True)
                     except (subprocess.CalledProcessError, FileNotFoundError):
                         pytest.skip("npm not available")
 
@@ -203,9 +199,7 @@ class TestCLIPackages:
                                         ).catch(console.error);
                                     """
 
-                                    with tempfile.NamedTemporaryFile(
-                                        mode="w", suffix=".js", delete=False
-                                    ) as f:
+                                    with tempfile.NamedTemporaryFile(mode="w", suffix=".js", delete=False) as f:
                                         f.write(test_script)
                                         temp_path = f.name
 
@@ -218,10 +212,7 @@ class TestCLIPackages:
                                                 text=True,
                                             )
 
-                                            assert (
-                                                "All Node.js CLI tests passed!"
-                                                in result.stdout
-                                            )
+                                            assert "All Node.js CLI tests passed!" in result.stdout
                                         finally:
                                             os.unlink(temp_path)
 
@@ -253,9 +244,7 @@ class TestCLIPackages:
                                                     text=True,
                                                 )
 
-                                                python_results = json.loads(
-                                                    result.stdout
-                                                )
+                                                python_results = json.loads(result.stdout)
                                                 assert len(python_results) > 0
 
                                                 # Verify structure
@@ -263,44 +252,39 @@ class TestCLIPackages:
                                                 assert "text" in python_results[0]
                                                 assert "metadata" in python_results[0]
 
-                                                @pytest.mark.performance
-                                                def test_cli_performance(self) -> None:
-                                                    """Test CLI performance."""
-                                                    # Test Python CLI performance
-                                                    python_script = """
-                                                    import sys
-                                                    import time
-                                                    sys.path.insert(0,
-                                                        "think-ai-cli/python")
-                                                    from think_ai_cli import ThinkAICLI
+    @pytest.mark.performance
+    def test_cli_performance(self) -> None:
+        """Test CLI performance."""
+        # Test Python CLI performance
+        python_script = """
+import sys
+import time
+sys.path.insert(0, "think-ai-cli/python")
+from think_ai_cli import ThinkAICLI
 
-                                                    cli = ThinkAICLI(
-                                                        )
+cli = ThinkAICLI()
 
-                                                    # Add items
-                                                    start = time.time(
-                                                        )
+# Add items
+start = time.time()
 for i in range(100):
     cli.add(f"Item {i}", {"index": i})
-    add_time = time.time() - start
+add_time = time.time() - start
 
-    # Search items
-    start = time.time()
+# Search items
+start = time.time()
 for i in range(20):
     cli.search(f"Item {i}", k=5)
-    search_time = time.time() - start
+search_time = time.time() - start
 
-    print(
-        f"Python CLI - Add rate: {100/add_time: .2f} items/sec")
-    print(
-        f"Python CLI - Search rate: {20/search_time: .2f} queries/sec")
-    """
+print(f"Python CLI - Add rate: {100/add_time:.2f} items/sec")
+print(f"Python CLI - Search rate: {20/search_time:.2f} queries/sec")
+"""
 
-    result = subprocess.run(
-        [sys.executable, "-c", python_script],
-        check=False,
-        capture_output=True,
-        text=True,
-    )
+        result = subprocess.run(
+            [sys.executable, "-c", python_script],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
 
-    assert result.returncode == 0
+        assert result.returncode == 0

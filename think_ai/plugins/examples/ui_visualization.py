@@ -7,8 +7,7 @@ from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Button, DataTable, Sparkline, Static
 
-from think_ai.plugins.base import (PluginCapability, PluginContext,
-                                   PluginMetadata, UIComponentPlugin)
+from think_ai.plugins.base import PluginCapability, PluginContext, PluginMetadata, UIComponentPlugin
 
 logger = logging.getLogger(__name__)
 

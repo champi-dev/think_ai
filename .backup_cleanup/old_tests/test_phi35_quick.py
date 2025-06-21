@@ -11,6 +11,7 @@ import contextlib
 
 from implement_proper_architecture import ProperThinkAI
 
+
 async def quick_test() -> None:
     """Quick integration test."""
     # Initialize
@@ -39,6 +40,7 @@ async def quick_test() -> None:
     # Cleanup
     with contextlib.suppress(Exception):
         await think_ai.system.initializer.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(quick_test())

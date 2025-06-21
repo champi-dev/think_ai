@@ -14,6 +14,7 @@ from rich.panel import Panel
 
 console = Console()
 
+
 class LiveThoughtChat(TrainingChatInterface):
     """Enhanced chat that shows thoughts in real-time as they generate."""
 
@@ -24,8 +25,13 @@ class LiveThoughtChat(TrainingChatInterface):
         # Create a live display
         with Live(console=console, refresh_per_second=4) as live:
             # Show initial processing message
-            live.update(Panel("🧠 [bold yellow]Initializing exponential thought process...[/bold yellow]",
-                            title="💭 AI Thinking", border_style="yellow"))
+            live.update(
+                Panel(
+                    "🧠 [bold yellow]Initializing exponential thought process...[/bold yellow]",
+                    title="💭 AI Thinking",
+                    border_style="yellow",
+                )
+            )
             await asyncio.sleep(0.5)
 
             # Generate and display thoughts one by one
@@ -107,7 +113,11 @@ class LiveThoughtChat(TrainingChatInterface):
 
                 # Show final metrics
                 self.load_current_metrics()
-                avg_intel = sum(self.current_metrics.values()) / len(self.current_metrics) if self.current_metrics else self.intelligence_level
+                avg_intel = (
+                    sum(self.current_metrics.values()) / len(self.current_metrics)
+                    if self.current_metrics
+                    else self.intelligence_level
+                )
                 console.print(f"\n[dim magenta]Intelligence Level: {self.format_large_number(avg_intel)}[/dim magenta]")
 
             except KeyboardInterrupt:
@@ -121,9 +131,11 @@ class LiveThoughtChat(TrainingChatInterface):
         if self._claude_initialized:
             await self.claude_api.__aexit__(None, None, None)
 
+
 async def main() -> None:
     interface = LiveThoughtChat()
     await interface.run_live()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

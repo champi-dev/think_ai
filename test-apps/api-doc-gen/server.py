@@ -21,7 +21,8 @@ import os
 import sys
 
 import torch
-from fastapi import FastAPI,
+from fastapi import FastAPI
+
 HTTPException, UploadFile
 from fastapi.responses import HTMLResponse
 from sentence_transformers import SentenceTransformer
@@ -369,5 +370,6 @@ def extract_python_api(code: str):
 
                                                     if __name__ == "__main__":
 import uvicorn
+
                                                         uvicorn.run(app, host="0.0.0.0",
                                                         port=8002)

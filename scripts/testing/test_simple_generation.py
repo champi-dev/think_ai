@@ -1,9 +1,8 @@
 """Test simplest possible Qwen generation to find the bottleneck."""
 import time
 
-from transformers import AutoModelForCausalLM
-from transformers import AutoTokenizer
 import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 def test_simple_generation() -> None:

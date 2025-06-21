@@ -12,6 +12,7 @@ from think_ai.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
+
 async def main() -> None:
     """Run full system test."""
     system = DistributedThinkAI()
@@ -47,10 +48,12 @@ async def main() -> None:
 
     except Exception:
         import traceback
+
         traceback.print_exc()
 
     finally:
         await system.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

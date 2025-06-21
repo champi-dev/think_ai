@@ -9,10 +9,12 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+
 def check_system_compatibility():
     """Check if system meets requirements."""
     # Check RAM
     import psutil
+
     ram_gb = psutil.virtual_memory().total / (1024**3)
 
     # Check for Apple Silicon
@@ -26,6 +28,7 @@ def check_system_compatibility():
     disk_usage.free / (1024**3)
 
     return ram_gb >= 4  # Minimum 4GB for small models
+
 
 def install_optimal_model() -> None:
     """Install and configure the optimal model."""
@@ -90,6 +93,7 @@ claude:
     # Test model loading
     test_model_loading(selected["name"])
 
+
 def test_model_loading(model_name) -> None:
     """Test if the model can be loaded."""
     try:
@@ -104,6 +108,7 @@ def test_model_loading(model_name) -> None:
     except Exception:
         pass
 
+
 def setup_ollama_alternative() -> None:
     """Setup Ollama as an alternative."""
     use_ollama = input("\nSetup Ollama? [y/N]: ").strip().lower() == "y"
@@ -111,6 +116,7 @@ def setup_ollama_alternative() -> None:
     if use_ollama:
         os.system("brew install ollama")
         os.system("ollama pull phi3:3.5")
+
 
 def main() -> None:
     """Main setup process."""
@@ -122,6 +128,7 @@ def main() -> None:
     setup_ollama = input("\n\nSetup Ollama as alternative? [y/N]: ").strip().lower() == "y"
     if setup_ollama:
         setup_ollama_alternative()
+
 
 if __name__ == "__main__":
     main()

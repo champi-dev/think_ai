@@ -2,9 +2,9 @@
 
 """Comprehensive system test showing all components working together."""
 
-from datetime import datetime
 import asyncio
 import json
+from datetime import datetime
 
 from think_ai.consciousness.awareness import ConsciousnessFramework
 from think_ai.engine.full_system import FullSystemInitializer

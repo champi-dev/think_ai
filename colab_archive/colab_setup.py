@@ -194,6 +194,7 @@ def fix_nvidia_corruption() -> None:
 """Test critical imports."""
                                                                             try:
 import torch
+
                                                                                 if torch.cuda.is_available():
                                                                                     pass
                                                                             else:

@@ -31,7 +31,7 @@ for i in range(5):
     logger.info(f"Processing step {i + 1}/5", progress=f"{(i + 1)*20}%")
     time.sleep(0.5)
 
-# Test 5: Error handling
+    # Test 5: Error handling
 
     try:
         msg = "Test error for logging"
@@ -39,6 +39,6 @@ for i in range(5):
     except Exception as e:
         logger.error("Caught an error", error=str(e), exc_info=True)
 
-# Test 6: Run the built - in test
+        # Test 6: Run the built - in test
 
         test_logging()

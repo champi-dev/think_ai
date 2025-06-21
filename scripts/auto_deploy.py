@@ -4,18 +4,16 @@ Auto-deployment script for Think AI
 Deploys to Vercel, PyPI, Docker Hub when CI passes
 """
 
-import os
-import sys
-import subprocess
 import json
 import logging
+import os
+import subprocess
+import sys
 from pathlib import Path
 from typing import Dict, List, Tuple
 
 # Setup logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("auto_deploy")
 
 # Load environment variables
@@ -86,9 +84,7 @@ class AutoDeployer:
         creds["pypi"] = bool(os.getenv("PYPI_TOKEN") or os.getenv("TWINE_PASSWORD"))
 
         # Docker Hub
-        creds["docker"] = bool(
-            os.getenv("DOCKER_TOKEN") or os.getenv("DOCKER_PASSWORD")
-        )
+        creds["docker"] = bool(os.getenv("DOCKER_TOKEN") or os.getenv("DOCKER_PASSWORD"))
 
         # NPM
         creds["npm"] = bool(os.getenv("NPM_TOKEN"))
@@ -105,9 +101,7 @@ class AutoDeployer:
 
         try:
             # Install Vercel CLI if needed
-            subprocess.run(
-                ["npm", "install", "-g", "vercel"], check=True, capture_output=True
-            )
+            subprocess.run(["npm", "install", "-g", "vercel"], check=True, capture_output=True)
 
             # Deploy
             env = os.environ.copy()
@@ -122,9 +116,7 @@ class AutoDeployer:
             )
 
             if result.returncode == 0:
-                logger.info(
-                    f"✅ Deployed to Vercel: {self.deploy_config['vercel']['domain']}"
-                )
+                logger.info(f"✅ Deployed to Vercel: {self.deploy_config['vercel']['domain']}")
                 return True
             else:
                 logger.error(f"❌ Vercel deployment failed: {result.stderr}")
@@ -196,9 +188,7 @@ class AutoDeployer:
                 logger.info(f"✅ Published to PyPI: think-ai=={self.version}")
                 return True
             else:
-                logger.error(
-                    f"❌ PyPI deployment failed with return code: {upload_process.returncode}"
-                )
+                logger.error(f"❌ PyPI deployment failed with return code: {upload_process.returncode}")
                 return False
 
         except Exception as e:

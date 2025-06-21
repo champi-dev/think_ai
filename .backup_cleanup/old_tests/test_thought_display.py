@@ -13,6 +13,7 @@ from think_ai.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
+
 async def test_thought_display() -> None:
     """Test that thoughts are displayed fully."""
     # Test 1: Test thought optimizer consolidation
@@ -46,7 +47,6 @@ async def test_thought_display() -> None:
     # Check if consolidated thoughts contain full text
     for thought in compressed:
         if thought.get("type") == "compressed_insight":
-
             # Verify it contains the full text
             if len(thought["thought"]) > 500:
                 pass
@@ -98,6 +98,7 @@ async def test_thought_display() -> None:
         pass
     else:
         pass
+
 
 if __name__ == "__main__":
     asyncio.run(test_thought_display())

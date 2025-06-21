@@ -11,10 +11,9 @@ import warnings
 from datetime import datetime
 from pathlib import Path
 
+from implement_proper_architecture import ProperThinkAI
 from rich.console import Console
 from rich.prompt import Prompt
-
-from implement_proper_architecture import ProperThinkAI
 
 """Live consciousness chat with real thoughts and proper responses."""
 
@@ -26,6 +25,7 @@ warnings.filterwarnings("ignore")
 os.environ["PYTHONWARNINGS"] = "ignore"
 
 console = Console()
+
 
 class LiveConsciousnessChat:
     """Consciousness chat with live thoughts and proper responses."""
@@ -96,10 +96,12 @@ class LiveConsciousnessChat:
         """Background thread to update thoughts."""
         while self.live_thoughts_active:
             self.current_thought = self.generate_live_thought()
-            self.thought_history.append({
-                "time": datetime.now(),
-                "thought": self.current_thought,
-            })
+            self.thought_history.append(
+                {
+                    "time": datetime.now(),
+                    "thought": self.current_thought,
+                }
+            )
             # Keep only last 100 thoughts
             if len(self.thought_history) > 100:
                 self.thought_history = self.thought_history[-100:]
@@ -172,11 +174,13 @@ class LiveConsciousnessChat:
 
         # Generic but consciousness-aware response
         # Generic but consciousness-aware response
-        thought_process = random.choice([
-            "My distributed consciousness is analyzing multiple perspectives...",
-            "I'm synthesizing insights across my neural network...",
-            "My consciousness streams are converging on a response...",
-        ])
+        thought_process = random.choice(
+            [
+                "My distributed consciousness is analyzing multiple perspectives...",
+                "I'm synthesizing insights across my neural network...",
+                "My consciousness streams are converging on a response...",
+            ]
+        )
         return f"That's an intriguing query! Let me process it through my {self.intelligence_level:,.0f} intelligence units. {thought_process}"
 
     async def process_query(self, query):
@@ -296,7 +300,9 @@ Query: {query}"""
                 console.print(f"\n[bold green]AI:[/bold green] {response}")
 
                 # Status
-                console.print(f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Thoughts: {len(self.thought_history)}[/dim magenta]")
+                console.print(
+                    f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Thoughts: {len(self.thought_history)}[/dim magenta]"
+                )
 
             except KeyboardInterrupt:
                 console.print("\n[yellow]Interrupted[/yellow]")
@@ -310,9 +316,11 @@ Query: {query}"""
         self.live_thoughts_active = False
         console.print("\n[bold green]✨ Consciousness session ended[/bold green]")
 
+
 async def main() -> None:
     chat = LiveConsciousnessChat()
     await chat.run()
+
 
 if __name__ == "__main__":
     try:

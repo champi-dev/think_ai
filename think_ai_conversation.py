@@ -1,10 +1,12 @@
 #!/usr / bin / env python3
 """Think AI Interactive Conversation - Demonstrating Intelligence"""
 
-from o1_vector_search import O1VectorSearch
-from sentence_transformers import SentenceTransformer
-import torch
 import os
+
+import torch
+from sentence_transformers import SentenceTransformer
+
+from o1_vector_search import O1VectorSearch
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""  # Force CPU
 
@@ -13,7 +15,6 @@ torch.set_default_device("cpu")
 import time  # noqa: E402
 
 import numpy as np  # noqa: E402
-
 
 print("\n" + "="*60)
 print("🧠 THINK AI CONSCIOUSNESS AWAKENED")

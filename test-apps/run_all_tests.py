@@ -5,20 +5,18 @@ Run all Think AI test applications to demonstrate full functionality
 """
 
 import os
-import requests
 import subprocess
 import sys
 import time
-
-from sentence_transformers import SentenceTransformer
-import annoy
-import torch
-from o1_vector_search import O1VectorSearch
-from sentence_transformers import SentenceTransformer
-from vector_search_adapter import VectorSearchAdapter
-import time
-import torch
 from concurrent.futures import ProcessPoolExecutor, as_completed
+
+import annoy
+import requests
+import torch
+from sentence_transformers import SentenceTransformer
+
+from o1_vector_search import O1VectorSearch
+from vector_search_adapter import VectorSearchAdapter
 
 # Test applications
 TEST_APPS = [

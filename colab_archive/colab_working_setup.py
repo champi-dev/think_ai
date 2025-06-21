@@ -28,9 +28,7 @@ def install_working_services():
 
     # 3. Milvus - Use pymilvus with local storage
     print("\n📦 Installing Milvus with local storage...")
-    subprocess.run(
-        [sys.executable, "-m", "pip", "install", "pymilvus>=2.3.0"], check=False
-    )
+    subprocess.run([sys.executable, "-m", "pip", "install", "pymilvus>=2.3.0"], check=False)
 
     # Create Milvus wrapper for local storage
     milvus_wrapper = '''
@@ -270,9 +268,7 @@ def main():
 
     # Install Python dependencies
     print("\n📦 Installing Python dependencies...")
-    subprocess.run(
-        [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False
-    )
+    subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False)
 
     # Test services
     print("\n🔍 Testing services...")
@@ -283,9 +279,7 @@ def main():
         print("✅ Redis: WORKING")
 
     # Test Neo4j
-    result = subprocess.run(
-        ["nc", "-zv", "localhost", "7687"], capture_output=True, text=True
-    )
+    result = subprocess.run(["nc", "-zv", "localhost", "7687"], capture_output=True, text=True)
     if "succeeded" in result.stderr:
         print("✅ Neo4j: WORKING")
 

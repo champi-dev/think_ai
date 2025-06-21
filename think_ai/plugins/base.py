@@ -108,9 +108,7 @@ class Plugin(ABC):
     async def check_ethical_compliance(self, content: Any) -> bool:
         """Check if content meets ethical standards."""
         if self._context and self._context.constitutional_ai:
-            assessment = await self._context.constitutional_ai.evaluate_content(
-                str(content)
-            )
+            assessment = await self._context.constitutional_ai.evaluate_content(str(content))
             return assessment.passed
         return True  # Pass by default if no AI available
 
@@ -119,8 +117,7 @@ class StoragePlugin(Plugin):
     """Base class for storage backend plugins."""
 
     @abstractmethod
-    async def store(self, key: str, value: Any,
-                    metadata: dict[str, Any]) -> bool:
+    async def store(self, key: str, value: Any, metadata: dict[str, Any]) -> bool:
         """Store data."""
 
     @abstractmethod
@@ -132,8 +129,7 @@ class StoragePlugin(Plugin):
         """Delete data."""
 
     @abstractmethod
-    async def list_keys(self, prefix: str | None = None,
-                        limit: int = 100) -> list[str]:
+    async def list_keys(self, prefix: str | None = None, limit: int = 100) -> list[str]:
         """List keys with optional prefix."""
 
 
@@ -157,9 +153,7 @@ class QueryProcessorPlugin(Plugin):
     """Base class for query processing plugins."""
 
     @abstractmethod
-    async def process_query(
-        self, query: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_query(self, query: str, context: dict[str, Any]) -> dict[str, Any]:
         """Process a query and return results."""
 
     @abstractmethod
@@ -183,9 +177,7 @@ class ConsciousnessPlugin(Plugin):
     """Base class for consciousness module plugins."""
 
     @abstractmethod
-    async def process_consciousness_state(
-        self, state: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_consciousness_state(self, state: dict[str, Any]) -> dict[str, Any]:
         """Process consciousness state."""
 
     @abstractmethod
@@ -264,9 +256,7 @@ def love_required(func):
         # Validate result if possible
         if hasattr(self, "validate_love_metrics"):
             if not await self.validate_love_metrics(str(result)):
-                logger.warning(
-                    f"Operation result may not be love-aligned: {func.__name__}"
-                )
+                logger.warning(f"Operation result may not be love-aligned: {func.__name__}")
 
         return result
 

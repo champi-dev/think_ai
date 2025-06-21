@@ -1,21 +1,21 @@
-import aiohttp
 import asyncio
 import hashlib
 import logging
-import matplotlib.pyplot as plt
-import nest_asyncio
-import numpy as np
-import pandas as pd
 import time
-
-from IPython import get_ipython
 from collections import defaultdict, deque
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum, auto
-from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
 from typing import Any, Dict, List, Optional
+
+import aiohttp
+import matplotlib.pyplot as plt
+import nest_asyncio
+import numpy as np
+import pandas as pd
+from IPython import get_ipython
+from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
 
 #! / usr / bin / env python
 
@@ -716,4 +716,3 @@ class ServiceStatus(Enum):
                                                                                                                                                                 for services in service_registry._services.values():
                                                                                                                                                                     for _service in services:
                                                                                                                                                                         pass
-

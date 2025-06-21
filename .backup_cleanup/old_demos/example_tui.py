@@ -6,6 +6,7 @@ import sys
 from think_ai.core.config import Config
 from think_ai.ui.app import run_ui
 
+
 def main() -> None:
     """Run the Think AI Terminal UI example."""
     try:
@@ -19,6 +20,7 @@ def main() -> None:
         sys.exit(0)
     except Exception:
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

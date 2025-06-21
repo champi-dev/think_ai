@@ -4,34 +4,35 @@ Full Build System for Think AI
 Generates C binaries, JS/Python packages, and Render deployment
 """
 
-import os
-import sys
 import json
+import os
 import shutil
 import subprocess
+import sys
 import time
 from pathlib import Path
 from typing import Dict, List, Optional
+
 
 class ThinkAIBuilder:
     def __init__(self):
         self.root_dir = Path.cwd()
         self.dist_dir = self.root_dir / "dist"
         self.build_dir = self.root_dir / "build"
-        
+
         # Create directories
         self.dist_dir.mkdir(exist_ok=True)
         self.build_dir.mkdir(exist_ok=True)
-        
+
         print("🚀 Think AI Full Build System")
         print("=" * 40)
-    
+
     def build_c_binaries(self):
         """Compile Think AI core to C using Cython"""
         print("\n📦 Building C binaries...")
-        
+
         # Create C extension setup
-        setup_content = '''
+        setup_content = """
 from setuptools import setup, Extension
 from Cython.Build import cythonize
 import numpy as np
@@ -57,46 +58,42 @@ setup(
     }),
     zip_safe=False
 )
-'''
-        
+"""
+
         setup_file = self.build_dir / "setup_c.py"
         setup_file.write_text(setup_content)
-        
+
         # Build C extensions
         try:
-            subprocess.run([
-                sys.executable, str(setup_file), 
-                "build_ext", "--inplace",
-                f"--build-lib={self.dist_dir}/lib"
-            ], check=True, cwd=self.build_dir)
+            subprocess.run(
+                [sys.executable, str(setup_file), "build_ext", "--inplace", f"--build-lib={self.dist_dir}/lib"],
+                check=True,
+                cwd=self.build_dir,
+            )
             print("✅ C binaries built successfully")
         except:
             print("⚠️  Cython not available, using pure Python")
             # Fallback to bundling Python files
             self._bundle_python_fallback()
-    
+
     def _bundle_python_fallback(self):
         """Bundle Python files if C compilation fails"""
         lib_dir = self.dist_dir / "lib"
         lib_dir.mkdir(exist_ok=True)
-        
+
         # Copy core Think AI modules
         if (self.root_dir / "think_ai").exists():
-            shutil.copytree(
-                self.root_dir / "think_ai",
-                lib_dir / "think_ai",
-                dirs_exist_ok=True
-            )
-    
+            shutil.copytree(self.root_dir / "think_ai", lib_dir / "think_ai", dirs_exist_ok=True)
+
     def build_webapp(self):
         """Build web application with API"""
         print("\n🌐 Building webapp...")
-        
+
         webapp_dir = self.dist_dir / "webapp"
         webapp_dir.mkdir(exist_ok=True)
-        
+
         # Create optimized API server
-        api_content = '''
+        api_content = """
 import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../lib'))
@@ -156,12 +153,12 @@ async def health():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
-'''
-        
+"""
+
         (webapp_dir / "app.py").write_text(api_content)
-        
+
         # Create static frontend
-        frontend_content = '''
+        frontend_content = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -193,30 +190,30 @@ if __name__ == "__main__":
                 body: JSON.stringify({question})
             });
             const data = await response.json();
-            document.getElementById('response').innerHTML = 
+            document.getElementById('response').innerHTML =
                 `<strong>Answer:</strong> ${data.answer}<br>
                  <strong>Confidence:</strong> ${(data.confidence * 100).toFixed(1)}%`;
         }
     </script>
 </body>
 </html>
-'''
-        
+"""
+
         static_dir = webapp_dir / "static"
         static_dir.mkdir(exist_ok=True)
         (static_dir / "index.html").write_text(frontend_content)
-        
+
         print("✅ Webapp built successfully")
-    
+
     def update_packages(self):
         """Update JS and Python packages"""
         print("\n📚 Updating packages...")
-        
+
         # Update Python package
         py_pkg_dir = self.dist_dir / "python-package"
         py_pkg_dir.mkdir(exist_ok=True)
-        
-        setup_py = '''
+
+        setup_py = """
 from setuptools import setup, find_packages
 
 setup(
@@ -239,54 +236,42 @@ setup(
         "License :: OSI Approved :: MIT License",
     ]
 )
-'''
-        
+"""
+
         (py_pkg_dir / "setup.py").write_text(setup_py)
         shutil.copy(self.root_dir / "README.md", py_pkg_dir / "README.md")
-        
+
         # Copy library files
         if (self.dist_dir / "lib" / "think_ai").exists():
-            shutil.copytree(
-                self.dist_dir / "lib" / "think_ai",
-                py_pkg_dir / "think_ai",
-                dirs_exist_ok=True
-            )
-        
+            shutil.copytree(self.dist_dir / "lib" / "think_ai", py_pkg_dir / "think_ai", dirs_exist_ok=True)
+
         # Update JS package
         js_pkg_dir = self.dist_dir / "js-package"
         js_pkg_dir.mkdir(exist_ok=True)
-        
+
         package_json = {
             "name": "@think-ai/core",
             "version": "2.0.0",
             "description": "Think AI JavaScript SDK",
             "main": "index.js",
             "types": "index.d.ts",
-            "scripts": {
-                "build": "tsc",
-                "test": "jest"
-            },
+            "scripts": {"build": "tsc", "test": "jest"},
             "keywords": ["ai", "think-ai", "machine-learning"],
             "author": "Think AI Team",
             "license": "MIT",
-            "dependencies": {
-                "axios": "^1.4.0"
-            },
-            "devDependencies": {
-                "@types/node": "^20.0.0",
-                "typescript": "^5.0.0"
-            }
+            "dependencies": {"axios": "^1.4.0"},
+            "devDependencies": {"@types/node": "^20.0.0", "typescript": "^5.0.0"},
         }
-        
+
         (js_pkg_dir / "package.json").write_text(json.dumps(package_json, indent=2))
-        
+
         # Create JS SDK
-        js_sdk = '''
+        js_sdk = """
 class ThinkAI {
     constructor(apiUrl = '/') {
         this.apiUrl = apiUrl.replace(/\/$/, '');
     }
-    
+
     async think(question, context = null) {
         const response = await fetch(`${this.apiUrl}/think`, {
             method: 'POST',
@@ -295,7 +280,7 @@ class ThinkAI {
         });
         return response.json();
     }
-    
+
     async health() {
         const response = await fetch(`${this.apiUrl}/health`);
         return response.json();
@@ -303,12 +288,12 @@ class ThinkAI {
 }
 
 module.exports = ThinkAI;
-'''
-        
+"""
+
         (js_pkg_dir / "index.js").write_text(js_sdk)
-        
+
         # TypeScript definitions
-        ts_defs = '''
+        ts_defs = """
 export interface ThinkResponse {
     answer: string;
     confidence: number;
@@ -320,21 +305,21 @@ export class ThinkAI {
     think(question: string, context?: string): Promise<ThinkResponse>;
     health(): Promise<{status: string, model: string}>;
 }
-'''
-        
+"""
+
         (js_pkg_dir / "index.d.ts").write_text(ts_defs)
-        
+
         print("✅ Packages updated successfully")
-    
+
     def create_render_config(self):
         """Create Render deployment configuration"""
         print("\n🚢 Creating Render configuration...")
-        
+
         render_dir = self.dist_dir / "render-deploy"
         render_dir.mkdir(exist_ok=True)
-        
+
         # Dockerfile for Render
-        dockerfile = '''
+        dockerfile = """
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -359,16 +344,16 @@ EXPOSE 8000
 
 # Run the app
 CMD ["python", "/app/webapp/app.py"]
-'''
-        
+"""
+
         (render_dir / "Dockerfile").write_text(dockerfile)
-        
+
         # Copy dist contents
         shutil.copytree(self.dist_dir / "lib", render_dir / "lib", dirs_exist_ok=True)
         shutil.copytree(self.dist_dir / "webapp", render_dir / "webapp", dirs_exist_ok=True)
-        
+
         # render.yaml
-        render_yaml = '''
+        render_yaml = """
 services:
   - type: web
     name: think-ai
@@ -378,26 +363,26 @@ services:
       - key: PYTHON_UNBUFFERED
         value: "1"
     autoDeploy: false
-'''
-        
+"""
+
         (render_dir / "render.yaml").write_text(render_yaml)
-        
+
         print("✅ Render configuration created")
         print(f"\n📁 Deployment ready at: {render_dir}")
-    
+
     def build_all(self):
         """Build everything"""
         start_time = time.time()
-        
+
         self.build_c_binaries()
         self.build_webapp()
         self.update_packages()
         self.create_render_config()
-        
+
         elapsed = time.time() - start_time
         print(f"\n✨ Build completed in {elapsed:.2f}s")
         print(f"📦 Distribution ready in: {self.dist_dir}")
-        
+
         # List contents
         print("\n📋 Build artifacts:")
         for item in sorted(self.dist_dir.rglob("*")):

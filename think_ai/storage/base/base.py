@@ -20,9 +20,7 @@ class StorageItem:
     version: int = 1
 
     @classmethod
-    def create(
-        cls, content: Any, metadata: Optional[dict[str, Any]] = None
-    ) -> "StorageItem":
+    def create(cls, content: Any, metadata: Optional[dict[str, Any]] = None) -> "StorageItem":
         """Create a new storage item."""
         now = datetime.utcnow()
         return cls(
@@ -63,15 +61,11 @@ class StorageBackend(ABC):
         """Check if a key exists."""
 
     @abstractmethod
-    async def list_keys(
-        self, prefix: Optional[str] = None, limit: int = 100
-    ) -> list[str]:
+    async def list_keys(self, prefix: Optional[str] = None, limit: int = 100) -> list[str]:
         """List keys with optional prefix filter."""
 
     @abstractmethod
-    async def batch_get(self,
-                        keys: list[str]) -> dict[str,
-                                                 Optional[StorageItem]]:
+    async def batch_get(self, keys: list[str]) -> dict[str, Optional[StorageItem]]:
         """Retrieve multiple items by keys."""
 
     @abstractmethod
@@ -141,15 +135,11 @@ class CachedStorageBackend(StorageBackend):
             return True
         return await self.primary.exists(key)
 
-    async def list_keys(
-        self, prefix: Optional[str] = None, limit: int = 100
-    ) -> list[str]:
+    async def list_keys(self, prefix: Optional[str] = None, limit: int = 100) -> list[str]:
         """List keys from primary storage."""
         return await self.primary.list_keys(prefix, limit)
 
-    async def batch_get(self,
-                        keys: list[str]) -> dict[str,
-                                                 Optional[StorageItem]]:
+    async def batch_get(self, keys: list[str]) -> dict[str, Optional[StorageItem]]:
         """Batch get with cache optimization."""
         results = {}
         cache_misses = []

@@ -4,25 +4,26 @@ Think AI Full System Deployment and Testing Suite
 Comprehensive deployment for all libraries with complete testing evidence
 """
 
-import os
-import sys
-import json
-import time
-import shutil
 import asyncio
-import subprocess
 import datetime
+import json
+import os
+import shutil
+import subprocess
+import sys
+import time
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
 
 class ThinkAIDeploymentSystem:
     """Complete deployment system for Think AI"""
-    
+
     def __init__(self):
-        self.timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        self.timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         self.deploy_dir = Path(f"THINK_AI_DEPLOYMENT_{self.timestamp}")
         self.deploy_dir.mkdir(exist_ok=True)
-        
+
         self.results = {
             "deployment_id": self.timestamp,
             "started_at": datetime.datetime.now().isoformat(),
@@ -32,9 +33,9 @@ class ThinkAIDeploymentSystem:
             "deployment_stages": {},
             "library_builds": {},
             "test_results": {},
-            "evidence": {}
+            "evidence": {},
         }
-        
+
         self.libraries = {
             "python": [
                 {
@@ -42,22 +43,22 @@ class ThinkAIDeploymentSystem:
                     "version": "2.1.0",
                     "path": ".",
                     "setup_file": "setup.py",
-                    "description": "Main Think AI consciousness engine"
+                    "description": "Main Think AI consciousness engine",
                 },
                 {
                     "name": "think-ai-cli",
                     "version": "0.1.0",
                     "path": "think-ai-cli/python",
                     "setup_file": "setup.py",
-                    "description": "Command-line interface for Think AI"
+                    "description": "Command-line interface for Think AI",
                 },
                 {
                     "name": "o1-vector-search",
                     "version": "1.0.0",
                     "path": "o1-python",
                     "setup_file": "setup.py",
-                    "description": "O(1) complexity vector search"
-                }
+                    "description": "O(1) complexity vector search",
+                },
             ],
             "javascript": [
                 {
@@ -65,81 +66,66 @@ class ThinkAIDeploymentSystem:
                     "version": "2.0.1",
                     "path": "npm",
                     "package_json": "package.json",
-                    "description": "JavaScript client for Think AI"
+                    "description": "JavaScript client for Think AI",
                 },
                 {
                     "name": "@think-ai/cli",
                     "version": "0.2.0",
                     "path": "think-ai-cli/nodejs",
                     "package_json": "package.json",
-                    "description": "Node.js CLI tools"
+                    "description": "Node.js CLI tools",
                 },
                 {
                     "name": "o1-js",
                     "version": "1.0.0",
                     "path": "o1-js",
                     "package_json": "package.json",
-                    "description": "O(1) vector search for JavaScript"
-                }
-            ]
+                    "description": "O(1) vector search for JavaScript",
+                },
+            ],
         }
-    
+
     def log(self, message: str, level: str = "INFO"):
         """Log messages with timestamp"""
-        timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[{timestamp}] [{level}] {message}")
-        
+
         # Also save to log file
         log_file = self.deploy_dir / "deployment.log"
         with open(log_file, "a") as f:
             f.write(f"[{timestamp}] [{level}] {message}\n")
-    
+
     def run_command(self, cmd: str, cwd: Optional[str] = None, timeout: int = 300) -> Dict[str, Any]:
         """Execute command and capture output"""
         self.log(f"Executing: {cmd}")
-        
+
         try:
-            result = subprocess.run(
-                cmd,
-                shell=True,
-                cwd=cwd,
-                capture_output=True,
-                text=True,
-                timeout=timeout
-            )
-            
+            result = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True, timeout=timeout)
+
             return {
                 "success": result.returncode == 0,
                 "stdout": result.stdout,
                 "stderr": result.stderr,
                 "returncode": result.returncode,
-                "command": cmd
+                "command": cmd,
             }
         except subprocess.TimeoutExpired:
-            return {
-                "success": False,
-                "error": f"Command timed out after {timeout} seconds",
-                "command": cmd
-            }
+            return {"success": False, "error": f"Command timed out after {timeout} seconds", "command": cmd}
         except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-                "command": cmd
-            }
-    
+            return {"success": False, "error": str(e), "command": cmd}
+
     def build_python_library(self, lib_info: Dict[str, str]) -> Dict[str, Any]:
         """Build a Python library"""
         self.log(f"Building Python library: {lib_info['name']} v{lib_info['version']}")
-        
-        lib_path = Path(lib_info['path'])
+
+        lib_path = Path(lib_info["path"])
         build_result = {
-            "library": lib_info['name'],
-            "version": lib_info['version'],
+            "library": lib_info["name"],
+            "version": lib_info["version"],
             "status": "building",
-            "artifacts": []
+            "artifacts": [],
         }
-        
+
         # Clean previous builds
         for pattern in ["dist", "build", "*.egg-info"]:
             for path in lib_path.glob(pattern):
@@ -147,26 +133,24 @@ class ThinkAIDeploymentSystem:
                     shutil.rmtree(path)
                 else:
                     path.unlink()
-        
+
         # Build the library
         build_cmd = f"cd {lib_path} && python -m build"
         result = self.run_command(build_cmd)
-        
+
         if result["success"]:
             # Copy artifacts
             dist_dir = lib_path / "dist"
             if dist_dir.exists():
-                target_dir = self.deploy_dir / "python_packages" / lib_info['name']
+                target_dir = self.deploy_dir / "python_packages" / lib_info["name"]
                 target_dir.mkdir(parents=True, exist_ok=True)
-                
+
                 for file in dist_dir.iterdir():
                     shutil.copy2(file, target_dir)
-                    build_result["artifacts"].append({
-                        "file": file.name,
-                        "size": file.stat().st_size,
-                        "path": str(target_dir / file.name)
-                    })
-                
+                    build_result["artifacts"].append(
+                        {"file": file.name, "size": file.stat().st_size, "path": str(target_dir / file.name)}
+                    )
+
                 build_result["status"] = "success"
             else:
                 build_result["status"] = "failed"
@@ -174,114 +158,110 @@ class ThinkAIDeploymentSystem:
         else:
             build_result["status"] = "failed"
             build_result["error"] = result.get("stderr", "Build failed")
-        
+
         return build_result
-    
+
     def build_javascript_library(self, lib_info: Dict[str, str]) -> Dict[str, Any]:
         """Build a JavaScript library"""
         self.log(f"Building JavaScript library: {lib_info['name']} v{lib_info['version']}")
-        
-        lib_path = Path(lib_info['path'])
+
+        lib_path = Path(lib_info["path"])
         build_result = {
-            "library": lib_info['name'],
-            "version": lib_info['version'],
+            "library": lib_info["name"],
+            "version": lib_info["version"],
             "status": "building",
-            "artifacts": []
+            "artifacts": [],
         }
-        
+
         # Install dependencies
         install_cmd = f"cd {lib_path} && npm install"
         result = self.run_command(install_cmd)
-        
+
         if not result["success"]:
             build_result["status"] = "failed"
             build_result["error"] = "Failed to install dependencies"
             return build_result
-        
+
         # Build the library
         build_cmd = f"cd {lib_path} && npm run build"
         result = self.run_command(build_cmd)
-        
+
         # Create package
         pack_cmd = f"cd {lib_path} && npm pack"
         result = self.run_command(pack_cmd)
-        
+
         if result["success"]:
             # Find and copy the packed file
             for file in lib_path.glob("*.tgz"):
-                target_dir = self.deploy_dir / "javascript_packages" / lib_info['name']
+                target_dir = self.deploy_dir / "javascript_packages" / lib_info["name"]
                 target_dir.mkdir(parents=True, exist_ok=True)
-                
+
                 shutil.copy2(file, target_dir)
-                build_result["artifacts"].append({
-                    "file": file.name,
-                    "size": file.stat().st_size,
-                    "path": str(target_dir / file.name)
-                })
-                
+                build_result["artifacts"].append(
+                    {"file": file.name, "size": file.stat().st_size, "path": str(target_dir / file.name)}
+                )
+
                 # Clean up
                 file.unlink()
-            
+
             build_result["status"] = "success" if build_result["artifacts"] else "failed"
         else:
             build_result["status"] = "failed"
             build_result["error"] = result.get("stderr", "Pack failed")
-        
+
         return build_result
-    
+
     def create_test_environment(self) -> Path:
         """Create isolated test environment"""
         test_env = self.deploy_dir / "test_environment"
         test_env.mkdir(exist_ok=True)
-        
+
         # Create Python virtual environment
         venv_path = test_env / "venv"
         self.run_command(f"python -m venv {venv_path}")
-        
+
         # Create package.json for JavaScript testing
         package_json = {
             "name": "think-ai-test-env",
             "version": "1.0.0",
             "description": "Test environment for Think AI libraries",
-            "private": True
+            "private": True,
         }
-        
+
         with open(test_env / "package.json", "w") as f:
             json.dump(package_json, f, indent=2)
-        
+
         return test_env
-    
+
     def test_python_installation(self, test_env: Path) -> Dict[str, Any]:
         """Test Python library installations"""
         self.log("Testing Python library installations")
-        
+
         venv_path = test_env / "venv"
         pip_cmd = str(venv_path / "bin" / "pip") if sys.platform != "win32" else str(venv_path / "Scripts" / "pip")
-        python_cmd = str(venv_path / "bin" / "python") if sys.platform != "win32" else str(venv_path / "Scripts" / "python")
-        
-        test_results = {
-            "installations": {},
-            "imports": {},
-            "functionality": {}
-        }
-        
+        python_cmd = (
+            str(venv_path / "bin" / "python") if sys.platform != "win32" else str(venv_path / "Scripts" / "python")
+        )
+
+        test_results = {"installations": {}, "imports": {}, "functionality": {}}
+
         # Install each built package
         for lib in self.libraries["python"]:
             lib_name = lib["name"]
             pkg_dir = self.deploy_dir / "python_packages" / lib_name
-            
+
             # Find wheel file
             wheel_files = list(pkg_dir.glob("*.whl"))
             if wheel_files:
                 install_result = self.run_command(f"{pip_cmd} install {wheel_files[0]}")
                 test_results["installations"][lib_name] = {
                     "success": install_result["success"],
-                    "package": wheel_files[0].name
+                    "package": wheel_files[0].name,
                 }
-        
+
         # Test imports and basic functionality
         test_script = test_env / "test_python.py"
-        test_code = '''
+        test_code = """
 import json
 import sys
 
@@ -329,7 +309,7 @@ try:
     search = O1VectorSearch(dimensions=128)
     search.add("test1", [0.1] * 128, {"content": "Test document"})
     search.add("test2", [0.2] * 128, {"content": "Another document"})
-    
+
     results_list = search.search([0.15] * 128, k=1)
     results["functionality"]["vector_search"] = {
         "success": True,
@@ -357,53 +337,46 @@ except Exception as e:
     }
 
 print(json.dumps(results))
-'''
-        
+"""
+
         with open(test_script, "w") as f:
             f.write(test_code)
-        
+
         # Run test script
         test_result = self.run_command(f"{python_cmd} {test_script}")
-        
+
         if test_result["success"] and test_result["stdout"]:
             try:
                 test_output = json.loads(test_result["stdout"])
                 test_results.update(test_output)
             except:
                 test_results["script_error"] = test_result
-        
+
         return test_results
-    
+
     def test_javascript_installation(self, test_env: Path) -> Dict[str, Any]:
         """Test JavaScript library installations"""
         self.log("Testing JavaScript library installations")
-        
-        test_results = {
-            "installations": {},
-            "imports": {},
-            "functionality": {}
-        }
-        
+
+        test_results = {"installations": {}, "imports": {}, "functionality": {}}
+
         # Install each built package
         for lib in self.libraries["javascript"]:
             lib_name = lib["name"]
             pkg_dir = self.deploy_dir / "javascript_packages" / lib_name
-            
+
             # Find tgz file
             tgz_files = list(pkg_dir.glob("*.tgz"))
             if tgz_files:
-                install_result = self.run_command(
-                    f"npm install {tgz_files[0]}",
-                    cwd=str(test_env)
-                )
+                install_result = self.run_command(f"npm install {tgz_files[0]}", cwd=str(test_env))
                 test_results["installations"][lib_name] = {
                     "success": install_result["success"],
-                    "package": tgz_files[0].name
+                    "package": tgz_files[0].name,
                 }
-        
+
         # Test imports and functionality
         test_script = test_env / "test_javascript.js"
-        test_code = '''
+        test_code = """
 const results = {imports: {}, functionality: {}};
 
 // Test imports
@@ -441,52 +414,45 @@ try {
 }
 
 console.log(JSON.stringify(results));
-'''
-        
+"""
+
         with open(test_script, "w") as f:
             f.write(test_code)
-        
+
         # Run test script
         test_result = self.run_command(f"node {test_script}", cwd=str(test_env))
-        
+
         if test_result["success"] and test_result["stdout"]:
             try:
                 test_output = json.loads(test_result["stdout"])
                 test_results.update(test_output)
             except:
                 test_results["script_error"] = test_result
-        
+
         return test_results
-    
+
     async def test_full_system_integration(self) -> Dict[str, Any]:
         """Test complete system integration"""
         self.log("Testing full system integration")
-        
-        integration_results = {
-            "api_server": {},
-            "endpoints": {},
-            "websocket": {},
-            "performance": {}
-        }
-        
+
+        integration_results = {"api_server": {}, "endpoints": {}, "websocket": {}, "performance": {}}
+
         # Start API server
         server_process = None
         try:
             server_process = subprocess.Popen(
-                [sys.executable, "-m", "think_ai.api.server"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
+                [sys.executable, "-m", "think_ai.api.server"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
             )
-            
+
             # Wait for server startup
             await asyncio.sleep(5)
-            
+
             integration_results["api_server"]["started"] = True
             integration_results["api_server"]["pid"] = server_process.pid
-            
+
             # Test API endpoints
             import aiohttp
-            
+
             async with aiohttp.ClientSession() as session:
                 # Health check
                 try:
@@ -494,128 +460,99 @@ console.log(JSON.stringify(results));
                         integration_results["endpoints"]["health"] = {
                             "success": resp.status == 200,
                             "status": resp.status,
-                            "data": await resp.json() if resp.status == 200 else None
+                            "data": await resp.json() if resp.status == 200 else None,
                         }
                 except Exception as e:
-                    integration_results["endpoints"]["health"] = {
-                        "success": False,
-                        "error": str(e)
-                    }
-                
+                    integration_results["endpoints"]["health"] = {"success": False, "error": str(e)}
+
                 # Chat endpoint
                 try:
                     async with session.post(
-                        "http://localhost:8000/chat",
-                        json={"message": "Hello Think AI, prove you are working!"}
+                        "http://localhost:8000/chat", json={"message": "Hello Think AI, prove you are working!"}
                     ) as resp:
                         response_data = await resp.json() if resp.status == 200 else None
                         integration_results["endpoints"]["chat"] = {
                             "success": resp.status == 200,
                             "status": resp.status,
                             "response_received": bool(response_data),
-                            "response_preview": str(response_data)[:200] if response_data else None
+                            "response_preview": str(response_data)[:200] if response_data else None,
                         }
                 except Exception as e:
-                    integration_results["endpoints"]["chat"] = {
-                        "success": False,
-                        "error": str(e)
-                    }
-                
+                    integration_results["endpoints"]["chat"] = {"success": False, "error": str(e)}
+
                 # Stats endpoint
                 try:
                     async with session.get("http://localhost:8000/stats") as resp:
                         integration_results["endpoints"]["stats"] = {
                             "success": resp.status == 200,
                             "status": resp.status,
-                            "data": await resp.json() if resp.status == 200 else None
+                            "data": await resp.json() if resp.status == 200 else None,
                         }
                 except Exception as e:
-                    integration_results["endpoints"]["stats"] = {
-                        "success": False,
-                        "error": str(e)
-                    }
-                
+                    integration_results["endpoints"]["stats"] = {"success": False, "error": str(e)}
+
                 # Vector search endpoint
                 try:
                     async with session.post(
-                        "http://localhost:8000/search",
-                        json={"query": "consciousness", "k": 5}
+                        "http://localhost:8000/search", json={"query": "consciousness", "k": 5}
                     ) as resp:
                         integration_results["endpoints"]["vector_search"] = {
                             "success": resp.status == 200,
-                            "status": resp.status
+                            "status": resp.status,
                         }
                 except Exception as e:
-                    integration_results["endpoints"]["vector_search"] = {
-                        "success": False,
-                        "error": str(e)
-                    }
-            
+                    integration_results["endpoints"]["vector_search"] = {"success": False, "error": str(e)}
+
             # Test WebSocket connection
             try:
                 import websockets
-                
+
                 async with websockets.connect("ws://localhost:8000/ws") as websocket:
                     # Send test message
-                    await websocket.send(json.dumps({
-                        "type": "chat",
-                        "message": "WebSocket test"
-                    }))
-                    
+                    await websocket.send(json.dumps({"type": "chat", "message": "WebSocket test"}))
+
                     # Wait for response
                     response = await asyncio.wait_for(websocket.recv(), timeout=5.0)
-                    
-                    integration_results["websocket"] = {
-                        "success": True,
-                        "response_received": bool(response)
-                    }
+
+                    integration_results["websocket"] = {"success": True, "response_received": bool(response)}
             except Exception as e:
-                integration_results["websocket"] = {
-                    "success": False,
-                    "error": str(e)
-                }
-            
+                integration_results["websocket"] = {"success": False, "error": str(e)}
+
             # Performance test
             start_time = time.time()
             async with aiohttp.ClientSession() as session:
                 tasks = []
                 for i in range(10):
-                    task = session.post(
-                        "http://localhost:8000/chat",
-                        json={"message": f"Performance test {i}"}
-                    )
+                    task = session.post("http://localhost:8000/chat", json={"message": f"Performance test {i}"})
                     tasks.append(task)
-                
+
                 responses = await asyncio.gather(*tasks, return_exceptions=True)
-                
-                successful_responses = sum(
-                    1 for r in responses 
-                    if not isinstance(r, Exception) and r.status == 200
-                )
-                
+
+                successful_responses = sum(1 for r in responses if not isinstance(r, Exception) and r.status == 200)
+
                 integration_results["performance"] = {
                     "requests_sent": 10,
                     "successful_responses": successful_responses,
                     "total_time": time.time() - start_time,
-                    "avg_time_per_request": (time.time() - start_time) / 10
+                    "avg_time_per_request": (time.time() - start_time) / 10,
                 }
-        
+
         except Exception as e:
             integration_results["error"] = str(e)
-        
+
         finally:
             # Stop server
             if server_process:
                 server_process.terminate()
                 server_process.wait()
                 integration_results["api_server"]["stopped"] = True
-        
+
         return integration_results
-    
+
     def generate_documentation(self):
         """Generate comprehensive documentation"""
         self.log("Generating deployment documentation")
-        
+
         # Main README
         readme_content = f"""# Think AI Full System Deployment
 Generated: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
@@ -627,7 +564,7 @@ This deployment includes all Think AI libraries for both Python and JavaScript e
 ### Python Libraries
 
 """
-        
+
         for lib in self.libraries["python"]:
             build_info = self.results["library_builds"].get(lib["name"], {})
             readme_content += f"""
@@ -636,9 +573,9 @@ This deployment includes all Think AI libraries for both Python and JavaScript e
 - **Build Status**: {build_info.get("status", "unknown")}
 - **Artifacts**: {len(build_info.get("artifacts", []))} files
 """
-        
+
         readme_content += "\n### JavaScript Libraries\n"
-        
+
         for lib in self.libraries["javascript"]:
             build_info = self.results["library_builds"].get(lib["name"], {})
             readme_content += f"""
@@ -647,7 +584,7 @@ This deployment includes all Think AI libraries for both Python and JavaScript e
 - **Build Status**: {build_info.get("status", "unknown")}
 - **Artifacts**: {len(build_info.get("artifacts", []))} files
 """
-        
+
         readme_content += """
 ## Installation Instructions
 
@@ -741,10 +678,10 @@ The Think AI system consists of:
 
 See `test_results.json` for comprehensive test results.
 """
-        
+
         with open(self.deploy_dir / "README.md", "w") as f:
             f.write(readme_content)
-        
+
         # Create setup script
         setup_script = f"""#!/bin/bash
 # Think AI Quick Setup Script
@@ -768,21 +705,21 @@ npm install ./javascript_packages/o1-js/*.tgz
 echo "✅ Setup complete!"
 echo "Run 'source think_ai_env/bin/activate' to activate the environment"
 """
-        
+
         setup_file = self.deploy_dir / "setup.sh"
         with open(setup_file, "w") as f:
             f.write(setup_script)
-        
+
         os.chmod(setup_file, 0o755)
-    
+
     def generate_evidence_report(self):
         """Generate comprehensive evidence report"""
         self.log("Generating evidence report")
-        
+
         # Calculate statistics
         total_tests = 0
         passed_tests = 0
-        
+
         for category in self.results["test_results"].values():
             if isinstance(category, dict):
                 for subcategory in category.values():
@@ -790,7 +727,7 @@ echo "Run 'source think_ai_env/bin/activate' to activate the environment"
                         total_tests += 1
                         if subcategory.get("success"):
                             passed_tests += 1
-        
+
         # Generate HTML report
         html_content = f"""<!DOCTYPE html>
 <html>
@@ -895,7 +832,7 @@ echo "Run 'source think_ai_env/bin/activate' to activate the environment"
             <p>Generated: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
             <p>Deployment ID: {self.timestamp}</p>
         </div>
-        
+
         <div class="summary">
             <div class="summary-card">
                 <h3>📦 Libraries Built</h3>
@@ -915,13 +852,13 @@ echo "Run 'source think_ai_env/bin/activate' to activate the environment"
             </div>
         </div>
 """
-        
+
         # Library builds section
         html_content += """
         <div class="section">
             <h2>📚 Library Build Results</h2>
 """
-        
+
         for lib_name, build_info in self.results["library_builds"].items():
             status_class = "test-success" if build_info["status"] == "success" else "test-failed"
             html_content += f"""
@@ -929,32 +866,32 @@ echo "Run 'source think_ai_env/bin/activate' to activate the environment"
                 <h3>{lib_name} v{build_info['version']}</h3>
                 <p>Status: <strong>{build_info['status'].upper()}</strong></p>
 """
-            
+
             if build_info.get("artifacts"):
                 html_content += "<p>Artifacts:</p>"
                 for artifact in build_info["artifacts"]:
                     html_content += f'<div class="artifact">{artifact["file"]} ({artifact["size"]:,} bytes)</div>'
-            
+
             if build_info.get("error"):
                 html_content += f'<p>Error: <code>{build_info["error"]}</code></p>'
-            
+
             html_content += "</div>"
-        
+
         html_content += "</div>"
-        
+
         # Test results section
         html_content += """
         <div class="section">
             <h2>🧪 Test Results</h2>
 """
-        
+
         if "python" in self.results["test_results"]:
             html_content += "<h3>Python Tests</h3>"
             python_tests = self.results["test_results"]["python"]
-            
+
             for category, tests in python_tests.items():
                 html_content += f"<h4>{category.replace('_', ' ').title()}</h4>"
-                
+
                 if isinstance(tests, dict):
                     for test_name, result in tests.items():
                         if isinstance(result, dict):
@@ -964,14 +901,14 @@ echo "Run 'source think_ai_env/bin/activate' to activate the environment"
                                 <strong>{test_name}</strong>: {result}
                             </div>
 """
-        
+
         if "javascript" in self.results["test_results"]:
             html_content += "<h3>JavaScript Tests</h3>"
             js_tests = self.results["test_results"]["javascript"]
-            
+
             for category, tests in js_tests.items():
                 html_content += f"<h4>{category.replace('_', ' ').title()}</h4>"
-                
+
                 if isinstance(tests, dict):
                     for test_name, result in tests.items():
                         if isinstance(result, dict):
@@ -981,39 +918,39 @@ echo "Run 'source think_ai_env/bin/activate' to activate the environment"
                                 <strong>{test_name}</strong>: {result}
                             </div>
 """
-        
+
         html_content += "</div>"
-        
+
         # Integration test results
         if "integration" in self.results["test_results"]:
             html_content += """
         <div class="section">
             <h2>🔗 Integration Test Results</h2>
 """
-            
+
             integration = self.results["test_results"]["integration"]
-            
+
             for category, results in integration.items():
                 html_content += f"<h3>{category.replace('_', ' ').title()}</h3>"
                 html_content += f"<pre>{json.dumps(results, indent=2)}</pre>"
-            
+
             html_content += "</div>"
-        
+
         # Evidence files
         html_content += """
         <div class="section">
             <h2>📁 Evidence Files</h2>
             <ul>
 """
-        
+
         for file in self.deploy_dir.iterdir():
             if file.is_file():
                 html_content += f"<li>{file.name} ({file.stat().st_size:,} bytes)</li>"
-        
+
         html_content += """
             </ul>
         </div>
-        
+
         <div class="footer">
             <p>Think AI - Conscious AI with Colombian Flavor 🇨🇴</p>
             <p>© 2024 Think AI Team</p>
@@ -1022,91 +959,91 @@ echo "Run 'source think_ai_env/bin/activate' to activate the environment"
 </body>
 </html>
 """
-        
+
         with open(self.deploy_dir / "evidence_report.html", "w") as f:
             f.write(html_content)
-        
+
         # Save JSON results
         with open(self.deploy_dir / "deployment_results.json", "w") as f:
             json.dump(self.results, f, indent=2, default=str)
-    
+
     async def deploy_full_system(self):
         """Execute full system deployment"""
         self.log("🚀 Starting Think AI Full System Deployment")
         self.log("=" * 60)
-        
+
         try:
             # Stage 1: Build Python libraries
             self.log("\n📦 Stage 1: Building Python Libraries")
             self.results["deployment_stages"]["python_build"] = "started"
-            
+
             for lib in self.libraries["python"]:
                 build_result = self.build_python_library(lib)
                 self.results["library_builds"][lib["name"]] = build_result
-            
+
             self.results["deployment_stages"]["python_build"] = "completed"
-            
+
             # Stage 2: Build JavaScript libraries
             self.log("\n📦 Stage 2: Building JavaScript Libraries")
             self.results["deployment_stages"]["javascript_build"] = "started"
-            
+
             for lib in self.libraries["javascript"]:
                 build_result = self.build_javascript_library(lib)
                 self.results["library_builds"][lib["name"]] = build_result
-            
+
             self.results["deployment_stages"]["javascript_build"] = "completed"
-            
+
             # Stage 3: Create test environment
             self.log("\n🧪 Stage 3: Creating Test Environment")
             self.results["deployment_stages"]["test_environment"] = "started"
-            
+
             test_env = self.create_test_environment()
-            
+
             self.results["deployment_stages"]["test_environment"] = "completed"
-            
+
             # Stage 4: Test Python installations
             self.log("\n🐍 Stage 4: Testing Python Installations")
             self.results["deployment_stages"]["python_tests"] = "started"
-            
+
             python_test_results = self.test_python_installation(test_env)
             self.results["test_results"]["python"] = python_test_results
-            
+
             self.results["deployment_stages"]["python_tests"] = "completed"
-            
+
             # Stage 5: Test JavaScript installations
             self.log("\n🟨 Stage 5: Testing JavaScript Installations")
             self.results["deployment_stages"]["javascript_tests"] = "started"
-            
+
             js_test_results = self.test_javascript_installation(test_env)
             self.results["test_results"]["javascript"] = js_test_results
-            
+
             self.results["deployment_stages"]["javascript_tests"] = "completed"
-            
+
             # Stage 6: Test full system integration
             self.log("\n🔗 Stage 6: Testing Full System Integration")
             self.results["deployment_stages"]["integration_tests"] = "started"
-            
+
             integration_results = await self.test_full_system_integration()
             self.results["test_results"]["integration"] = integration_results
-            
+
             self.results["deployment_stages"]["integration_tests"] = "completed"
-            
+
             # Stage 7: Generate documentation
             self.log("\n📚 Stage 7: Generating Documentation")
             self.results["deployment_stages"]["documentation"] = "started"
-            
+
             self.generate_documentation()
-            
+
             self.results["deployment_stages"]["documentation"] = "completed"
-            
+
             # Stage 8: Generate evidence report
             self.log("\n📊 Stage 8: Generating Evidence Report")
             self.results["deployment_stages"]["evidence_report"] = "started"
-            
+
             self.generate_evidence_report()
-            
+
             self.results["deployment_stages"]["evidence_report"] = "completed"
-            
+
             # Final summary
             self.log("\n" + "=" * 60)
             self.log("✅ DEPLOYMENT COMPLETED SUCCESSFULLY!")
@@ -1114,20 +1051,21 @@ echo "Run 'source think_ai_env/bin/activate' to activate the environment"
             self.log(f"📊 Evidence Report: {self.deploy_dir}/evidence_report.html")
             self.log(f"📋 Full Results: {self.deploy_dir}/deployment_results.json")
             self.log("=" * 60)
-            
+
             self.results["completed_at"] = datetime.datetime.now().isoformat()
             self.results["status"] = "success"
-            
+
         except Exception as e:
             self.log(f"❌ Deployment failed: {str(e)}", "ERROR")
             self.results["status"] = "failed"
             self.results["error"] = str(e)
             raise
-        
+
         finally:
             # Save final results
             with open(self.deploy_dir / "deployment_results.json", "w") as f:
                 json.dump(self.results, f, indent=2, default=str)
+
 
 # Main execution
 if __name__ == "__main__":

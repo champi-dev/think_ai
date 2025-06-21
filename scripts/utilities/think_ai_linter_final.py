@@ -4,11 +4,11 @@
 
 import ast
 import os
-import sys
 import re
+import sys
 from pathlib import Path
-from typing import List, Dict, Optional
 from textwrap import dedent
+from typing import Dict, List, Optional
 
 
 class PythonFormatter:
@@ -75,9 +75,7 @@ class PythonFormatter:
             # but ensure it's a multiple of indent_size
             if i in node_lines:
                 # Round to nearest indent level
-                indent_level = (
-                    round(original_indent / self.indent_size) * self.indent_size
-                )
+                indent_level = round(original_indent / self.indent_size) * self.indent_size
                 formatted.append(" " * indent_level + stripped)
             else:
                 # For non-AST lines (like comments between code), preserve original
@@ -126,9 +124,7 @@ class PythonFormatter:
         """Check if line starts with dedent keyword"""
         keywords = ["elif", "else", "except", "finally", "case"]
         for kw in keywords:
-            if line.startswith(kw) and (
-                len(line) == len(kw) or line[len(kw) :].lstrip().startswith(":")
-            ):
+            if line.startswith(kw) and (len(line) == len(kw) or line[len(kw) :].lstrip().startswith(":")):
                 return True
         return False
 
@@ -186,15 +182,9 @@ def main():
     """Main CLI entry point"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Think AI Python Formatter - Correct Python formatting"
-    )
-    parser.add_argument(
-        "paths", nargs="*", default=["."], help="Files or directories to process"
-    )
-    parser.add_argument(
-        "--check", action="store_true", help="Check only, don't modify files"
-    )
+    parser = argparse.ArgumentParser(description="Think AI Python Formatter - Correct Python formatting")
+    parser.add_argument("paths", nargs="*", default=["."], help="Files or directories to process")
+    parser.add_argument("--check", action="store_true", help="Check only, don't modify files")
     parser.add_argument("--fix", action="store_true", help="Fix issues (format files)")
 
     args = parser.parse_args()
@@ -216,9 +206,7 @@ def main():
         filepath_str = str(filepath)
 
         # Skip virtual environments and caches
-        if any(
-            part in filepath_str for part in [".venv", "venv", "__pycache__", ".git"]
-        ):
+        if any(part in filepath_str for part in [".venv", "venv", "__pycache__", ".git"]):
             continue
 
         if args.check:

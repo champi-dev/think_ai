@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Demonstrate the fix for Think AI conversation responses"""
 
-print("="*60)
+print("=" * 60)
 print("DEMONSTRATING THINK AI FIX")
-print("="*60)
+print("=" * 60)
 
 # Test inputs from the original conversation
 test_cases = [
     ("hi", "greeting"),
     ("do u know programming", "programming_knowledge"),
-    ("code a simple web experience for ordering pizza and show it to me", "code_generation")
+    ("code a simple web experience for ordering pizza and show it to me", "code_generation"),
 ]
 
 print("\n❌ ORIGINAL BROKEN BEHAVIOR:")
@@ -36,7 +36,7 @@ fixed_responses = {
 - Real-time total calculation
 - Visual feedback on adding items
 - Complete checkout process
-- 400+ lines of working code"""
+- 400+ lines of working code""",
 }
 
 for question, response_type in test_cases:
@@ -62,4 +62,4 @@ print("6. Removed useless 'neural pathway' messages")
 print("7. Now provides ACTUAL ANSWERS instead of generic responses")
 
 print("\n✅ The Think AI now actually responds to questions!")
-print("="*60)
+print("=" * 60)

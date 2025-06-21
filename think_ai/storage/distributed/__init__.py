@@ -1,6 +1,6 @@
 """Distributed storage implementations."""
 
-from .scylla import ScyllaDB
 from .indexed_storage import IndexedStorage
+from .scylla import ScyllaDB
 
-__all__ = ['ScyllaDB', 'IndexedStorage']
+__all__ = ["ScyllaDB", "IndexedStorage"]

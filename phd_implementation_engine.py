@@ -1,18 +1,20 @@
 #! / usr / bin / env python3
 """PhD Implementation Engine - Transform research concepts into working O(1) code"""
 
-import torch
-import os
 import json
+import os
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
+import torch
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 torch.set_default_device("cpu")
 
-from sentence_transformers import SentenceTransformer  # noqa: E402
 import numpy as np  # noqa: E402
+from sentence_transformers import SentenceTransformer  # noqa: E402
+
 from o1_vector_search import O1VectorSearch  # noqa: E402
 
 
@@ -472,5 +474,6 @@ import time
 
                                                                                                                                                 if __name__ = = "__main__":
 import sys
+
                                                                                                                                                     engine = PhDImplementationEngine()
                                                                                                                                                     engine.run_all_implementations()

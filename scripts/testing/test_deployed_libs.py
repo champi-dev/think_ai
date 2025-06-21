@@ -6,11 +6,9 @@ Test deployed Think AI libraries
 
 import sys
 
-from think_ai import Config
-from think_ai import Config, ThinkAIEngine
-from think_ai import ThinkAIEngine
-from think_ai.utils.complexity_detector import detect_complexity
 import think_ai
+from think_ai import Config, ThinkAIEngine
+from think_ai.utils.complexity_detector import detect_complexity
 
 
 def test_imports():

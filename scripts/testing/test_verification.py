@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from implement_proper_architecture import ProperThinkAI
+
 from think_ai.utils.logging import get_logger
 
 # Add project root to path

@@ -1,18 +1,26 @@
-from datetime import datetime, timedelta
-import time
-
 import json
+import time
 from collections import defaultdict
+from datetime import datetime, timedelta
+
 from think_ai.plugins.base import (
-from typing import Any, Dict, List
-
-"""Example analytics plugin for Think AI."""
-
-Plugin,
-PluginCapability,
-PluginContext,
-PluginMetadata,
-plugin_event,
+    AI.""",
+    Any,
+    Dict,
+    List,
+    Plugin,
+    PluginCapability,
+    PluginContext,
+    PluginMetadata,
+    Think,
+    """Example,
+    analytics,
+    for,
+    from,
+    import,
+    plugin,
+    plugin_event,
+    typing,
 )
 
 

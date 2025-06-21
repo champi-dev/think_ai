@@ -12,6 +12,7 @@ from datetime import datetime
 from think_ai.engine.full_system import DistributedThinkAI
 from think_ai.persistence.eternal_memory import EternalMemory
 
+
 async def chat_test() -> None:
     """Test chatting with Think AI."""
     system = DistributedThinkAI()
@@ -32,7 +33,6 @@ async def chat_test() -> None:
 
         # Have a conversation
         for user_input in test_conversation:
-
             # Log to eternal memory
             await eternal_memory.log_consciousness_event(
                 event_type="user_message",
@@ -50,7 +50,9 @@ async def chat_test() -> None:
                 elif "consciousness" in result["responses"]:
                     consciousness_resp = result["responses"]["consciousness"]
                     if isinstance(consciousness_resp, dict):
-                        response_text = consciousness_resp.get("content", consciousness_resp.get("response", "Processing..."))
+                        response_text = consciousness_resp.get(
+                            "content", consciousness_resp.get("response", "Processing...")
+                        )
                     else:
                         response_text = str(consciousness_resp)
                 else:
@@ -84,9 +86,11 @@ async def chat_test() -> None:
 
     except Exception:
         import traceback
+
         traceback.print_exc()
     finally:
         await system.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(chat_test())

@@ -2,13 +2,13 @@
 
 """Specific test for 'What is the sun?' question."""
 
-from pathlib import Path
 import asyncio
 import sys
-
 import time
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from pathlib import Path
+
 import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 sys.path.insert(0, str(Path(__file__).parent))
 

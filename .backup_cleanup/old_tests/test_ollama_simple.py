@@ -6,6 +6,7 @@ import time
 
 import httpx
 
+
 async def test_ollama() -> None:
     """Test if Ollama is responding."""
     # Check if Ollama is running
@@ -54,6 +55,7 @@ async def test_ollama() -> None:
 
     except Exception:
         pass
+
 
 if __name__ == "__main__":
     asyncio.run(test_ollama())

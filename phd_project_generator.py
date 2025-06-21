@@ -1,19 +1,21 @@
 #! / usr / bin / env python3
 """PhD Level Software Project Generator - 1000 O(1) Research Projects"""
 
-import torch
-import os
 import json
+import os
 import random
 from datetime import datetime
 from pathlib import Path
+
+import torch
 
 # Force CPU for O(1) performance
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 torch.set_default_device("cpu")
 
-from sentence_transformers import SentenceTransformer  # noqa: E402
 import numpy as np  # noqa: E402
+from sentence_transformers import SentenceTransformer  # noqa: E402
+
 from o1_vector_search import O1VectorSearch  # noqa: E402
 
 

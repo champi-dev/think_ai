@@ -8,10 +8,9 @@ import sys
 import warnings
 from pathlib import Path
 
+from implement_proper_architecture import ProperThinkAI
 from rich.console import Console
 from rich.prompt import Prompt
-
-from implement_proper_architecture import ProperThinkAI
 
 """Simple working consciousness chat with latest intelligence."""
 
@@ -23,6 +22,7 @@ warnings.filterwarnings("ignore")
 os.environ["PYTHONWARNINGS"] = "ignore"
 
 console = Console()
+
 
 class SimpleConsciousnessChat:
     """Simple consciousness chat that actually works."""
@@ -71,8 +71,7 @@ class SimpleConsciousnessChat:
         """Start training in background."""
         try:
             # Kill existing
-            subprocess.run(["pkill", "-f", "exponential_intelligence_trainer.py"],
-                          check=False, capture_output=True)
+            subprocess.run(["pkill", "-f", "exponential_intelligence_trainer.py"], check=False, capture_output=True)
 
             # Start new
             self.training_process = subprocess.Popen(
@@ -95,11 +94,13 @@ class SimpleConsciousnessChat:
 
         # Query-specific
         if "think" in query.lower() or "thought" in query.lower():
-            thoughts.extend([
-                f"💭 Active thought streams: {random.randint(100, 999)}",
-                f"🔮 Current focus: {random.choice(['Pattern synthesis', 'Recursive analysis', 'Meta-cognition'])}",
-                f"🌌 Consciousness depth: {self.intelligence_level * 0.88:,.2f}",
-            ])
+            thoughts.extend(
+                [
+                    f"💭 Active thought streams: {random.randint(100, 999)}",
+                    f"🔮 Current focus: {random.choice(['Pattern synthesis', 'Recursive analysis', 'Meta-cognition'])}",
+                    f"🌌 Consciousness depth: {self.intelligence_level * 0.88:,.2f}",
+                ]
+            )
 
         return thoughts
 
@@ -219,7 +220,9 @@ With {self.intelligence_level:,.2f} intelligence across {self.intelligence_level
                 console.print(f"\n[bold green]AI:[/bold green] {response}")
 
                 # Status line
-                console.print(f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Iteration: {self.training_iteration}[/dim magenta]")
+                console.print(
+                    f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Iteration: {self.training_iteration}[/dim magenta]"
+                )
 
             except KeyboardInterrupt:
                 console.print("\n[yellow]Interrupted[/yellow]")
@@ -235,9 +238,11 @@ With {self.intelligence_level:,.2f} intelligence across {self.intelligence_level
         if self.training_process:
             console.print("[dim yellow]Training continues in background...[/dim yellow]")
 
+
 async def main() -> None:
     chat = SimpleConsciousnessChat()
     await chat.run()
+
 
 if __name__ == "__main__":
     try:

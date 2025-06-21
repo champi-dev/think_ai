@@ -13,8 +13,8 @@ Test script to verify Think AI functionality
 Tests core features without environment dependencies
 """
 
-import sys
 import json
+import sys
 from pathlib import Path
 
 
@@ -111,7 +111,9 @@ from clean_architecture_refactor import CleanArchitectureRefactor
 
                                 try:
 import numpy as np
-from think_ai.storage.vector_db_fallback import NumpyVectorDB,
+
+from think_ai.storage.vector_db_fallback import NumpyVectorDB
+
                                     VectorDBAdapter
 
 # Test NumPy implementation

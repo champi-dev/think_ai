@@ -9,9 +9,7 @@ import pytest
 
 from o1_vector_search import O1VectorSearch
 
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 class TestO1VectorSearch:

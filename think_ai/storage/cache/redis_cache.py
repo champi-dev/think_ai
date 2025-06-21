@@ -105,8 +105,7 @@ class RedisCache(StorageBackend):
         """Check if a key exists in cache."""
         return await self.client.exists(self._make_key(key)) > 0
 
-    async def list_keys(self, prefix: str | None = None,
-                        limit: int = 100) -> list[str]:
+    async def list_keys(self, prefix: str | None = None, limit: int = 100) -> list[str]:
         """List keys with optional prefix filter."""
         if prefix:
             # Use sorted set for prefix queries
@@ -143,9 +142,7 @@ class RedisCache(StorageBackend):
 
         return keys[:limit]
 
-    async def batch_get(self,
-                        keys: list[str]) -> dict[str,
-                                                 StorageItem | None]:
+    async def batch_get(self, keys: list[str]) -> dict[str, StorageItem | None]:
         """Retrieve multiple items efficiently using pipeline."""
         if not keys:
             return {}
@@ -203,9 +200,7 @@ class RedisCache(StorageBackend):
                     start_rank = rank
 
             # Get keys from sorted set
-            keys = await self.client.zrange(
-                index_key, start_rank, start_rank + limit - 1
-            )
+            keys = await self.client.zrange(index_key, start_rank, start_rank + limit - 1)
 
             for key_bytes in keys:
                 key = key_bytes.decode("utf-8")
@@ -253,9 +248,7 @@ class RedisCache(StorageBackend):
             "used_memory_human": memory_info.get("used_memory_human", "N/A"),
             "used_memory_bytes": memory_info.get("used_memory", 0),
             "connected_clients": info.get("connected_clients", 0),
-            "total_connections_received": stats_info.get(
-                "total_connections_received", 0
-            ),
+            "total_connections_received": stats_info.get("total_connections_received", 0),
             "total_commands_processed": stats_info.get("total_commands_processed", 0),
             "instantaneous_ops_per_sec": stats_info.get("instantaneous_ops_per_sec", 0),
             "keyspace_hits": stats_info.get("keyspace_hits", 0),

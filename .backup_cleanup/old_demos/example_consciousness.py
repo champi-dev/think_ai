@@ -1,18 +1,17 @@
 """Example demonstrating consciousness-aware features of Think AI."""
-from think_ai import Config
-from think_ai import ThinkAIEngine
-from think_ai.consciousness.awareness import ConsciousnessFramework
-from think_ai.consciousness.principles import ConstitutionalAI
-from think_ai.consciousness.principles import HarmPreventionSystem
-from think_ai.consciousness.principles import LoveBasedMetrics
-from think_ai.utils.logging import configure_logging
 import asyncio
+
+from think_ai import Config, ThinkAIEngine
+from think_ai.consciousness.awareness import ConsciousnessFramework
+from think_ai.consciousness.principles import ConstitutionalAI, HarmPreventionSystem, LoveBasedMetrics
+from think_ai.utils.logging import configure_logging
 
 ConstitutionalAI,
 HarmPreventionSystem,
 LoveBasedMetrics,
 )
 from think_ai.utils.logging import configure_logging
+
 
 async def main() -> None:
     """Demonstrate consciousness-aware AI capabilities."""

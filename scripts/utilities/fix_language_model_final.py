@@ -93,19 +93,12 @@ def fix_language_model():
 
         # Fix specific problematic lines
         if "O(1) complexity using direct" in stripped:
-            fixed_lines.append(
-                "        O(1) complexity using direct attribute access and conditional logic.\n"
-            )
+            fixed_lines.append("        O(1) complexity using direct attribute access and conditional logic.\n")
             i += 1
             continue
 
         # Fix method body indentation
-        if (
-            in_method
-            and stripped
-            and not stripped.startswith("class ")
-            and not stripped.startswith("@")
-        ):
+        if in_method and stripped and not stripped.startswith("class ") and not stripped.startswith("@"):
             # Determine proper indentation
             if stripped.startswith("#"):
                 fixed_lines.append(" " * (method_indent + 4) + stripped + "\n")

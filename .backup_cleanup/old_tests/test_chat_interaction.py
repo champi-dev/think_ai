@@ -12,6 +12,7 @@ import contextlib
 from think_ai.engine.full_system import DistributedThinkAI
 from think_ai.persistence.eternal_memory import EternalMemory
 
+
 async def test_chat_system() -> None:
     """Test the chat system with various queries."""
     system = DistributedThinkAI()
@@ -32,7 +33,6 @@ async def test_chat_system() -> None:
 
         # Test each query
         for i, query in enumerate(test_queries, 1):
-
             # Log query
             await eternal_memory.log_consciousness_event(
                 event_type="test_query",
@@ -45,7 +45,6 @@ async def test_chat_system() -> None:
 
                 # Display responses
                 for response in result["responses"].values():
-
                     if isinstance(response, dict):
                         if "content" in response or "response" in response:
                             pass
@@ -61,7 +60,6 @@ async def test_chat_system() -> None:
                     pass
 
             except Exception:
-
                 # Try consciousness only as fallback
                 if "consciousness" in services:
                     with contextlib.suppress(Exception):
@@ -121,9 +119,11 @@ async def test_chat_system() -> None:
 
     except Exception:
         import traceback
+
         traceback.print_exc()
     finally:
         await system.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(test_chat_system())

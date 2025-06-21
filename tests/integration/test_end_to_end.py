@@ -8,9 +8,7 @@ import pytest
 # Skip these tests as the structure has changed
 pytestmark = pytest.mark.skip(reason="System structure changed, needs rewrite")
 
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 class TestEndToEnd:

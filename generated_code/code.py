@@ -2,11 +2,11 @@
 
 
 def main() -> None:
-# TODO: Implement the requested functionality
+    # TODO: Implement the requested functionality
 
-
-# Add your code here
+    # Add your code here
     pass
+
 
 if __name__ == "__main__":
     main()

@@ -18,6 +18,7 @@ from think_ai.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
+
 class SystemTester:
     """Comprehensive system testing suite."""
 
@@ -52,6 +53,7 @@ class SystemTester:
         except Exception as e:
             self._log_failure("System Test", f"Fatal error: {e}")
             import traceback
+
             traceback.print_exc()
         finally:
             await self._cleanup()
@@ -109,11 +111,13 @@ class SystemTester:
             # Test 3: Batch operations
             batch_items = []
             for i in range(5):
-                batch_items.append(StorageItem(
-                    key=f"batch_test_{i}",
-                    value=f"Batch value {i}",
-                    metadata={"batch": True},
-                ))
+                batch_items.append(
+                    StorageItem(
+                        key=f"batch_test_{i}",
+                        value=f"Batch value {i}",
+                        metadata={"batch": True},
+                    )
+                )
 
             await scylla.put_batch(batch_items)
             self._log_success("ScyllaDB Batch", "Batch write successful")
@@ -149,6 +153,7 @@ class SystemTester:
 
             # Test 2: Collection exists
             from pymilvus import utility
+
             if utility.has_collection("think_ai_knowledge"):
                 self._log_success("Milvus Collection", "think_ai_knowledge exists")
             else:
@@ -356,21 +361,27 @@ class SystemTester:
         # Save report
         report_path = Path("test_report.json")
         with open(report_path, "w") as f:
-            json.dump({
-                "timestamp": datetime.now().isoformat(),
-                "results": self.test_results,
-                "pass_rate": pass_rate,
-            }, f, indent=2)
+            json.dump(
+                {
+                    "timestamp": datetime.now().isoformat(),
+                    "results": self.test_results,
+                    "pass_rate": pass_rate,
+                },
+                f,
+                indent=2,
+            )
 
     async def _cleanup(self) -> None:
         """Clean up after tests."""
         if self.system:
             await self.system.shutdown()
 
+
 async def main() -> None:
     """Run comprehensive system test."""
     tester = SystemTester()
     await tester.run_all_tests()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

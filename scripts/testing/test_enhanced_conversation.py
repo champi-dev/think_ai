@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Test script to demonstrate Think AI Enhanced code generation"""
 
-import sys
 import io
+import sys
 from contextlib import redirect_stdout
+
 from think_ai_conversation_enhanced import *
 
 # Test queries from the user's example
@@ -14,11 +15,11 @@ test_queries = [
     "did u code?",
     "create a pizza ordering web app",
     "build me an API server with authentication",
-    "make a machine learning model"
+    "make a machine learning model",
 ]
 
 print("🧪 TESTING THINK AI ENHANCED - DEMONSTRATING REAL CODE GENERATION")
-print("="*80)
+print("=" * 80)
 
 # Initialize Think AI components
 model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
@@ -33,18 +34,18 @@ for i, thought in enumerate(knowledge):
 for i, query in enumerate(test_queries):
     print(f"\n{'='*80}")
     print(f"TEST {i+1}: {query}")
-    print("="*80)
-    
+    print("=" * 80)
+
     # Process query
     thought_vector = model.encode(query)
     memories = vector_db.search(thought_vector, k=3)
-    
+
     # Generate response
     response = generate_contextual_response(query, memories)
-    
+
     print(f"\nThink AI Response:")
-    print("-"*80)
-    
+    print("-" * 80)
+
     # For long responses, show first 1000 chars
     if len(response) > 1000:
         print(response[:1000])
@@ -53,14 +54,14 @@ for i, query in enumerate(test_queries):
         print(f"✅ RESPONSE LENGTH: {len(response)} characters")
     else:
         print(response)
-    
+
     print()
 
-print("\n" + "="*80)
+print("\n" + "=" * 80)
 print("🎯 TEST SUMMARY")
-print("="*80)
+print("=" * 80)
 print("✅ All queries processed successfully")
 print("✅ Code generation confirmed for programming requests")
 print("✅ CI/CD pipeline generated when requested")
 print("✅ Multiple types of code (web apps, APIs, ML) can be generated")
-print("="*80)
+print("=" * 80)

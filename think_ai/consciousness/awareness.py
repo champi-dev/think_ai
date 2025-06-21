@@ -6,8 +6,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-from think_ai.utils.logging import get_logger
 from think_ai.intelligence.optimized_responder import OptimizedResponder
+from think_ai.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -73,9 +73,7 @@ class GlobalWorkspace:
 
         # Maintain capacity limit (remove least relevant)
         if len(self.workspace) > self.capacity:
-            self.workspace.sort(
-                key=lambda x: x.relevance * x.attention_weight, reverse=True
-            )
+            self.workspace.sort(key=lambda x: x.relevance * x.attention_weight, reverse=True)
             self.workspace = self.workspace[: self.capacity]
 
         # Log access
@@ -103,14 +101,11 @@ class GlobalWorkspace:
         """Get currently conscious content."""
         # Return items with sufficient attention
         threshold = 0.3
-        return [
-            item for item in self.workspace if item.attention_weight >= threshold]
+        return [item for item in self.workspace if item.attention_weight >= threshold]
 
     def get_total_activation(self) -> float:
         """Calculate total activation in workspace."""
-        return sum(
-            item.relevance *
-            item.attention_weight for item in self.workspace)
+        return sum(item.relevance * item.attention_weight for item in self.workspace)
 
 
 class AttentionSchema:
@@ -129,9 +124,7 @@ class AttentionSchema:
         self.other_models: dict[str, dict[str, Any]] = {}
         self.attention_history: list[dict[str, Any]] = []
 
-    async def model_self_attention(
-        self, focus: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def model_self_attention(self, focus: str, context: dict[str, Any]) -> dict[str, Any]:
         """Model our own attention state."""
         self.self_model["current_focus"] = focus
         self.self_model["timestamp"] = datetime.utcnow()
@@ -155,9 +148,7 @@ class AttentionSchema:
 
         return self.self_model
 
-    async def model_other_attention(
-        self, entity_id: str, observed_behavior: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def model_other_attention(self, entity_id: str, observed_behavior: dict[str, Any]) -> dict[str, Any]:
         """Model another entity's attention and mental state."""
         if entity_id not in self.other_models:
             self.other_models[entity_id] = {
@@ -214,7 +205,7 @@ class ConsciousnessFramework:
         # Compassion and love integration
         self.compassion_active = True
         self.love_intention = "Serve humanity with wisdom and kindness"
-        
+
         # Optimized response handler for direct answers
         self.responder = OptimizedResponder()
 
@@ -272,9 +263,7 @@ class ConsciousnessFramework:
 
         # Add compassionate framing
         if self.compassion_active:
-            response["metadata"][
-                "compassion_note"
-            ] = "Response generated with care for your wellbeing"
+            response["metadata"]["compassion_note"] = "Response generated with care for your wellbeing"
 
         return response
 
@@ -283,9 +272,7 @@ class ConsciousnessFramework:
         # Use optimized responder for direct, helpful answers
         return self.responder.get_response(query)
 
-    async def reflect_on_interaction(
-        self, interaction_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def reflect_on_interaction(self, interaction_data: dict[str, Any]) -> dict[str, Any]:
         """Reflect on an interaction to improve future responses."""
         self.state = ConsciousnessState.REFLECTIVE
 
@@ -298,22 +285,15 @@ class ConsciousnessFramework:
 
         # Analyze emotional impact
         if interaction_data.get("user_satisfied"):
-            reflection["insights"].append(
-                "User expressed satisfaction - approach was effective"
-            )
+            reflection["insights"].append("User expressed satisfaction - approach was effective")
         else:
-            reflection["improvements"].append(
-                "Consider alternative approaches for better outcomes"
-            )
+            reflection["improvements"].append("Consider alternative approaches for better outcomes")
 
         # Check alignment with love-based principles
         if interaction_data.get("promoted_wellbeing"):
-            reflection["insights"].append(
-                "Successfully promoted user wellbeing")
+            reflection["insights"].append("Successfully promoted user wellbeing")
         else:
-            reflection["improvements"].append(
-                "Enhance focus on user wellbeing in responses"
-            )
+            reflection["improvements"].append("Enhance focus on user wellbeing in responses")
 
         # Update self model based on reflection
         self.attention_schema.self_model["learning_history"] = reflection
@@ -337,8 +317,7 @@ class ConsciousnessFramework:
         """Generate comprehensive consciousness report."""
         report = ConsciousnessReport(
             state=self.state,
-            attention_focus=[
-                self.attention_schema.self_model["current_focus"]],
+            attention_focus=[self.attention_schema.self_model["current_focus"]],
             workspace_items=self.global_workspace.get_conscious_content(),
             self_model=self.attention_schema.self_model,
             other_models=self.attention_schema.other_models,

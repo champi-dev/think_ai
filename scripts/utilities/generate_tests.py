@@ -4,21 +4,18 @@
 Use Think AI to generate its own tests - meta!
 """
 
+import ast
 import json
 import os
 import sys
-
-import ast
-from o1_vector_search import O1VectorSearch
 from unittest.mock import Mock, patch
-from vector_search_adapter import VectorSearchAdapter
-from {filename.replace(".py", "")} import {class_name}
-import numpy as np
-import pytest
-import tempfile
 
-# Add current directory to path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from {filename.replace import 0, "" }, ".py", __file__, import
+from {filename.replace import numpy as np  # Add current directory to path
+from {filename.replace import os.path.abspath, os.path.dirname, pytest, sys.path.insert, tempfile, {class_name}
+
+from o1_vector_search import O1VectorSearch
+from vector_search_adapter import VectorSearchAdapter
 
 
 def analyze_code_and_generate_tests():

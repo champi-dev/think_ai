@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from implement_proper_architecture import ProperThinkAI
 
+
 async def test_full_integration() -> None:
     """Test that Phi-3.5 Mini is properly integrated."""
     # Initialize system
@@ -43,23 +44,26 @@ async def test_full_integration() -> None:
     results = []
 
     for _i, test in enumerate(test_cases, 1):
-
         start = time.time()
         result = await think_ai.process_with_proper_architecture(test["query"])
         elapsed = time.time() - start
 
         # Check if Phi-3.5 was used
-        if (result["source"] == "distributed" and test["expected_source"] == "distributed") or result["source"] == test["expected_source"]:
+        if (result["source"] == "distributed" and test["expected_source"] == "distributed") or result["source"] == test[
+            "expected_source"
+        ]:
             pass
         else:
             pass
 
-        results.append({
-            "test": test["description"],
-            "source": result["source"],
-            "time": elapsed,
-            "success": result["source"] == test["expected_source"],
-        })
+        results.append(
+            {
+                "test": test["description"],
+                "source": result["source"],
+                "time": elapsed,
+                "success": result["source"] == test["expected_source"],
+            }
+        )
 
     # Summary
 
@@ -74,6 +78,7 @@ async def test_full_integration() -> None:
 
     # Cleanup
     await think_ai.system.stop()
+
 
 if __name__ == "__main__":
     asyncio.run(test_full_integration())

@@ -2,19 +2,18 @@
 
 """Chat using FULL Think AI architecture with guaranteed responses."""
 
-from datetime import datetime
-from pathlib import Path
 import asyncio
 import json
 import os
 import random
 import re
+import signal
+import subprocess
 import sys
 import time
-
 from datetime import datetime
-import subprocess
-import signal
+from pathlib import Path
+
 from implement_proper_architecture import ProperThinkAI
 from rich.console import Console
 from rich.prompt import Prompt

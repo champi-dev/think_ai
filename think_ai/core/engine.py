@@ -78,39 +78,30 @@ class ThinkAIEngine:
         try:
             # Check if local dev mode is enabled
             use_local_storage = (
-                hasattr(self.config, "offline_storage")
-                and self.config.offline_storage.db_path.name == "free_tier.db"
+                hasattr(self.config, "offline_storage") and self.config.offline_storage.db_path.name == "free_tier.db"
             ) or self.config.model.device == "cpu"
 
             if use_local_storage:
                 # Use offline storage for free tier / local development
                 if not OFFLINE_STORAGE_AVAILABLE:
-                    logger.warning(
-                        "OfflineStorage not available, skipping storage initialization for CI/testing"
-                    )
+                    logger.warning("OfflineStorage not available, skipping storage initialization for CI/testing")
                     self.storage = None
                 else:
                     logger.info("Initializing offline SQLite storage...")
-                    primary_storage = OfflineStorage(
-                        self.config.offline_storage)
+                    primary_storage = OfflineStorage(self.config.offline_storage)
                     await primary_storage.initialize()
                     self.storage = primary_storage
                     logger.info("✅ Offline storage initialized")
             else:
                 # Initialize ScyllaDB primary storage
                 if not SCYLLADB_AVAILABLE:
-                    logger.warning(
-                        "ScyllaDB not available, falling back to offline storage"
-                    )
+                    logger.warning("ScyllaDB not available, falling back to offline storage")
                     if OFFLINE_STORAGE_AVAILABLE:
-                        primary_storage = OfflineStorage(
-                            self.config.offline_storage)
+                        primary_storage = OfflineStorage(self.config.offline_storage)
                         await primary_storage.initialize()
                         self.storage = primary_storage
                     else:
-                        logger.warning(
-                            "No storage backends available, skipping storage initialization"
-                        )
+                        logger.warning("No storage backends available, skipping storage initialization")
                         self.storage = None
                 else:
                     logger.info("Initializing ScyllaDB backend...")
@@ -123,9 +114,7 @@ class ThinkAIEngine:
                     await self.cache.initialize()
 
                     # Create cached storage backend
-                    self.storage = CachedStorageBackend(
-                        primary=scylla_backend, cache=self.cache
-                    )
+                    self.storage = CachedStorageBackend(primary=scylla_backend, cache=self.cache)
 
                 # Initialize optional components (skip for local mode)
                 if not use_local_storage:
@@ -146,16 +135,13 @@ class ThinkAIEngine:
                         password=self.config.graph_db.password,
                     )
                     await self.knowledge_graph.initialize()
-                    self.graph_engine = GraphEnhancedEngine(
-                        self.knowledge_graph)
+                    self.graph_engine = GraphEnhancedEngine(self.knowledge_graph)
                 else:
                     logger.info("Skipping external services for local mode")
 
             # Initialize embedding model (lightweight for local)
             logger.info("Initializing embedding model...")
-            self.embedding_model = create_embedding_model(
-                model_type="transformer", use_cache=True
-            )
+            self.embedding_model = create_embedding_model(model_type="transformer", use_cache=True)
             await self.embedding_model.initialize()
 
             # Initialize consciousness framework
@@ -165,11 +151,8 @@ class ThinkAIEngine:
 
             # Initialize language model for local processing
             if use_local_storage:
-                logger.info(
-                    "Initializing language model for local processing...")
-                self.language_model = LanguageModel(
-                    config=self.config.model,
-                    constitutional_ai=self.constitutional_ai)
+                logger.info("Initializing language model for local processing...")
+                self.language_model = LanguageModel(config=self.config.model, constitutional_ai=self.constitutional_ai)
                 # Note: We'll initialize the language model on first use to
                 # save startup time
                 logger.info("Language model ready for lazy initialization")
@@ -209,9 +192,7 @@ class ThinkAIEngine:
         self._initialized = False
         logger.info("Think AI Engine shutdown complete")
 
-    async def store_knowledge(
-        self, key: str, content: Any, metadata: Optional[Dict[str, Any]] = None
-    ) -> str:
+    async def store_knowledge(self, key: str, content: Any, metadata: Optional[Dict[str, Any]] = None) -> str:
         """Store knowledge in the system."""
         if not self._initialized:
             raise RuntimeError("Engine not initialized")
@@ -220,9 +201,7 @@ class ThinkAIEngine:
         if self.constitutional_ai:
             assessment = await self.constitutional_ai.evaluate_content(str(content))
             if not assessment.passed:
-                logger.warning(
-                    f"Content failed ethical assessment: {assessment.recommendations}"
-                )
+                logger.warning(f"Content failed ethical assessment: {assessment.recommendations}")
                 # Enhance with love if possible
                 content = await self.constitutional_ai.enhance_with_love(str(content))
 
@@ -261,9 +240,7 @@ class ThinkAIEngine:
             try:
                 # Extract concepts (simplified - production would use NLP)
                 concepts = self._extract_concepts(str(content))
-                await self.graph_engine.store_with_concepts(
-                    key, str(content), metadata or {}, concepts
-                )
+                await self.graph_engine.store_with_concepts(key, str(content), metadata or {}, concepts)
             except Exception as e:
                 logger.error(f"Failed to store in knowledge graph: {e}")
 
@@ -290,9 +267,7 @@ class ThinkAIEngine:
 
         return None
 
-    async def query_knowledge(
-        self, query: str, limit: int = 10, use_semantic_search: bool = True
-    ) -> QueryResult:
+    async def query_knowledge(self, query: str, limit: int = 10, use_semantic_search: bool = True) -> QueryResult:
         """Query knowledge using various methods."""
         if not self._initialized:
             raise RuntimeError("Engine not initialized")
@@ -355,9 +330,7 @@ class ThinkAIEngine:
                     key = result.get("key")
                     if key:
                         # Get related knowledge
-                        related = await self.knowledge_graph.find_related_knowledge(
-                            key, limit=3
-                        )
+                        related = await self.knowledge_graph.find_related_knowledge(key, limit=3)
                         result["related_knowledge"] = related
 
                         # Get knowledge context
@@ -380,11 +353,7 @@ class ThinkAIEngine:
                 "method": (
                     "semantic_search"
                     if use_semantic_search and results
-                    else (
-                        "prefix_search"
-                        if query.startswith("prefix:")
-                        else "exact_match"
-                    )
+                    else ("prefix_search" if query.startswith("prefix:") else "exact_match")
                 ),
                 "limit": limit,
                 "use_semantic_search": use_semantic_search,
@@ -420,10 +389,7 @@ class ThinkAIEngine:
                 embeddings = await self.embedding_model.embed_texts(texts)
 
                 # Prepare metadata
-                metadatas = [
-                    {"key": key, "type": "content", **(metadata or {})}
-                    for key in items.keys()
-                ]
+                metadatas = [{"key": key, "type": "content", **(metadata or {})} for key in items.keys()]
 
                 # Store in vector database
                 await self.vector_db.insert_vectors(
@@ -457,9 +423,7 @@ class ThinkAIEngine:
         # Add vector database stats
         if self.vector_db:
             try:
-                vector_stats = await self.vector_db.get_collection_stats(
-                    self.config.vector_db.collection_name
-                )
+                vector_stats = await self.vector_db.get_collection_stats(self.config.vector_db.collection_name)
                 stats["vector_db"] = vector_stats
             except Exception as e:
                 logger.error(f"Failed to get vector DB stats: {e}")
@@ -495,25 +459,18 @@ class ThinkAIEngine:
                 "type": "scylla_with_redis_cache",
             }
         except Exception as e:
-            health["components"]["storage"] = {
-                "status": "unhealthy", "error": str(e)}
+            health["components"]["storage"] = {"status": "unhealthy", "error": str(e)}
             health["status"] = "unhealthy"
 
         # Check vector DB health
         if self.vector_db:
             try:
                 # Try to get collection stats as health check
-                stats = await self.vector_db.get_collection_stats(
-                    self.config.vector_db.collection_name
-                )
+                stats = await self.vector_db.get_collection_stats(self.config.vector_db.collection_name)
                 health["components"]["vector_db"] = {
                     "status": "healthy",
                     "provider": self.config.vector_db.provider,
-                    "vectors": stats.get(
-                        "num_vectors",
-                        stats.get(
-                            "num_entities",
-                            0)),
+                    "vectors": stats.get("num_vectors", stats.get("num_entities", 0)),
                 }
             except Exception as e:
                 health["components"]["vector_db"] = {
@@ -558,15 +515,7 @@ class ThinkAIEngine:
 
         words = re.findall(r"\b\w{4,}\b", content.lower())
         # Filter common words
-        stop_words = {
-            "that",
-            "this",
-            "with",
-            "from",
-            "have",
-            "been",
-            "were",
-            "their"}
+        stop_words = {"that", "this", "with", "from", "have", "been", "were", "their"}
         concepts = [w for w in words if w not in stop_words]
 
         # Return unique concepts

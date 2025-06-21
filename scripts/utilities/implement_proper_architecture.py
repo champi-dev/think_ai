@@ -2,29 +2,28 @@
 
 """Implement proper architecture usage - making all components work together."""
 
-from datetime import datetime
-from pathlib import Path
 import asyncio
 import json
 import re
 import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-from think_ai.models.language_model import GenerationConfig
-from think_ai.models.language_model import GenerationConfig
-from think_ai.models.language_model import GenerationConfig
-from config import ENABLE_CLAUDE_ENHANCEMENT
-from think_ai.models.response_cache import response_cache
+import numpy as np
 from colab_logging import get_colab_logger, setup_colab_logging
-from think_ai.utils.logging import get_logger
+
+from config import ENABLE_CLAUDE_ENHANCEMENT
 from think_ai.cache import get_architecture_cache
 from think_ai.coding.autonomous_coder import AutonomousCoder
 from think_ai.coding.code_executor import SafeCodeExecutor
 from think_ai.engine.full_system import DistributedThinkAI
+from think_ai.models.language_model import GenerationConfig
+from think_ai.models.response_cache import response_cache
 from think_ai.persistence.eternal_memory import EternalMemory
 from think_ai.persistence.shared_knowledge import initialize_shared_knowledge, shared_knowledge
 from think_ai.storage.base import StorageItem
-from typing import Any, Dict, List, Optional
-import numpy as np
+from think_ai.utils.logging import get_logger
 
 sys.path.insert(0, str(Path(__file__).parent))
 

@@ -1,12 +1,14 @@
 #!/usr / bin / env python3
 """Scientific verification of O(1) performance claims"""
 
-import time
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import stats
 import json
+import time
 from datetime import datetime
+
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
+
 from o1_vector_search import O1VectorSearch
 
 
@@ -24,6 +26,7 @@ class ScientificVerifier:
         def _get_hardware_info(self):
 """Get system information"""
 import platform
+
 import psutil
 
             return {

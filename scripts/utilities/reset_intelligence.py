@@ -108,6 +108,7 @@ async def reset_scylladb() - > None:
 
 # Create fresh intelligence file
 import json
+
                                                 initial_data = {
                                                 "intelligence": 0,
                                                 "neural_pathways": 0,

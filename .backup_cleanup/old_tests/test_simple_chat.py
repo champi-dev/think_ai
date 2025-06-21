@@ -11,6 +11,7 @@ import contextlib
 
 from implement_proper_architecture import ProperThinkAI
 
+
 async def test_chat() -> None:
     """Test Think AI responses."""
     ai = ProperThinkAI()
@@ -23,12 +24,12 @@ async def test_chat() -> None:
     ]
 
     for query in queries:
-
         with contextlib.suppress(Exception):
             await ai.process_with_proper_architecture(query)
 
     # Cleanup
     await ai.system.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(test_chat())

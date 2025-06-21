@@ -1,13 +1,14 @@
 #!/usr / bin / env python3
 """Think AI - Rewritten with O(1) Libraries Only"""
 
-from o1_vector_search import O1VectorSearch  # Our O(1) library
+import hashlib
+import json
 import os
 import time
-import json
-import hashlib
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from o1_vector_search import O1VectorSearch  # Our O(1) library
 
 # Force CPU for pure O(1) performance
 os.environ["CUDA_VISIBLE_DEVICES"] = ""

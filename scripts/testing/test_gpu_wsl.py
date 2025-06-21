@@ -9,10 +9,7 @@ print("🔍 GPU Detection Test for WSL")
 print("=" * 50)
 
 # Check if we're in WSL
-is_wsl = (
-    os.path.exists("/proc/version")
-    and "microsoft" in open("/proc/version").read().lower()
-)
+is_wsl = os.path.exists("/proc/version") and "microsoft" in open("/proc/version").read().lower()
 print(f"Running in WSL: {is_wsl}")
 
 # Check WSL GPU passthrough
@@ -27,9 +24,7 @@ cuda_check = subprocess.run(["which", "nvcc"], capture_output=True, text=True)
 if cuda_check.returncode == 0:
     print(f"✅ CUDA found: {cuda_check.stdout.strip()}")
     # Get CUDA version
-    cuda_version = subprocess.run(
-        [cuda_check.stdout.strip(), "--version"], capture_output=True, text=True
-    )
+    cuda_version = subprocess.run([cuda_check.stdout.strip(), "--version"], capture_output=True, text=True)
     if cuda_version.returncode == 0:
         print(cuda_version.stdout.split("\n")[-2])
 else:

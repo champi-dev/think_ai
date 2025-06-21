@@ -2,4 +2,4 @@
 
 from .optimized_responder import OptimizedResponder
 
-__all__ = ['OptimizedResponder']
+__all__ = ["OptimizedResponder"]

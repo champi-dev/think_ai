@@ -8,9 +8,7 @@ import pytest
 # Skip these tests as they require running web servers
 pytestmark = pytest.mark.skip(reason="Requires web servers to be running")
 
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 class TestWebApplications:

@@ -2,21 +2,22 @@
 
 """Run all Think AI tests in parallel with optimal resource allocation."""
 
-from datetime import datetime
-from pathlib import Path
 import asyncio
 import json
+import multiprocessing as mp
 import os
 import resource
+import signal
 import sys
 import time
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict
+
+import psutil
+from {config["module"]} import {config["function"]}
 
 from think_ai.utils.logging import get_logger
-from typing import Any, Dict
-from {config["module"]} import {config["function"]}
-import multiprocessing as mp
-import psutil
-import signal
 
 sys.path.insert(0, str(Path(__file__).parent))
 

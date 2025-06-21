@@ -2,23 +2,24 @@
 
 """Launch Think AI with background training - chat while tests run."""
 
-from datetime import datetime
-from pathlib import Path
 import asyncio
 import json
 import os
+import signal
 import subprocess
 import sys
 import threading
 import time
+from datetime import datetime
+from pathlib import Path
+from typing import Dict
 
 from full_architecture_chat import FullArchitectureChat
 from rich.console import Console
 from rich.prompt import Prompt
 from rich.table import Table
+
 from think_ai.utils.logging import get_logger
-from typing import Dict
-import signal
 
 sys.path.insert(0, str(Path(__file__).parent))
 

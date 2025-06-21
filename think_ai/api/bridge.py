@@ -71,8 +71,7 @@ class ThinkAIBridge:
             elif method == "get_consciousness_state":
                 result = await self._handle_get_consciousness_state()
             else:
-                self._send_error(
-                    request_id, -32601, f"Method not found: {method}")
+                self._send_error(request_id, -32601, f"Method not found: {method}")
                 return
 
             self._send_response(request_id, result)
@@ -99,14 +98,11 @@ class ThinkAIBridge:
         return {
             "response": response.content,
             "tokens_used": response.tokens_used,
-            "consciousness_state": (
-                response.consciousness_state if enable_consciousness else None
-            ),
+            "consciousness_state": (response.consciousness_state if enable_consciousness else None),
             "reasoning_path": response.reasoning_path,
         }
 
-    async def _handle_generate_code(
-            self, params: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_generate_code(self, params: dict[str, Any]) -> dict[str, Any]:
         """Handle code generation request."""
         prompt = params.get("prompt", "")
         language = params.get("language", "python")
@@ -131,8 +127,7 @@ class ThinkAIBridge:
         """Get current intelligence metrics."""
         return await self.think_ai.get_intelligence_metrics()
 
-    async def _handle_start_training(
-            self, params: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_start_training(self, params: dict[str, Any]) -> dict[str, Any]:
         """Start self-training process."""
         mode = params.get("mode", "parallel")
         target_iq = params.get("target_iq", 1000000)
@@ -158,8 +153,7 @@ class ThinkAIBridge:
         """Get training status."""
         return await self.self_trainer.get_status()
 
-    async def _handle_store_knowledge(
-            self, params: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_store_knowledge(self, params: dict[str, Any]) -> dict[str, Any]:
         """Store knowledge in the system."""
         concept = params.get("concept", "")
         content = params.get("content", "")
@@ -175,8 +169,7 @@ class ThinkAIBridge:
 
         return {"stored": stored}
 
-    async def _handle_search_knowledge(
-            self, params: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_search_knowledge(self, params: dict[str, Any]) -> dict[str, Any]:
         """Search knowledge base."""
         query = params.get("query", "")
         limit = params.get("limit", 10)

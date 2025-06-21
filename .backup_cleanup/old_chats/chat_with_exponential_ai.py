@@ -11,10 +11,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from implement_proper_architecture import ProperThinkAI
+
 from think_ai.integrations.claude_api import ClaudeAPI
 from think_ai.utils.logging import get_logger
 
 logger = get_logger(__name__)
+
 
 class ExponentialThinkAIChat:
     """Chat interface that uses the exponentially trained intelligence."""
@@ -71,14 +73,13 @@ class ExponentialThinkAIChat:
 
         # If response needs enhancement or intelligence is high, use Claude
         needs_enhancement = (
-            self.intelligence_level > 2 or
-            base_response.get("response", "") == "NEEDS_ENHANCEMENT" or
-            "Based on my distributed knowledge:" in base_response.get("response", "") or
-            len(base_response.get("response", "")) < 100
+            self.intelligence_level > 2
+            or base_response.get("response", "") == "NEEDS_ENHANCEMENT"
+            or "Based on my distributed knowledge:" in base_response.get("response", "")
+            or len(base_response.get("response", "")) < 100
         )
 
         if needs_enhancement:
-
             # Create an enhanced prompt that leverages the training
             enhanced_prompt = f"""
 You are Think AI with {self.intelligence_level:.2f}x enhanced intelligence.
@@ -197,11 +198,12 @@ Your response should clearly show the exponential intelligence enhancement.
             if self.claude_api:
                 await self.claude_api.close()
 
+
 async def main() -> None:
     """Run the exponentially enhanced chat."""
     chat = ExponentialThinkAIChat()
     await chat.run()
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     asyncio.run(main())

@@ -65,8 +65,7 @@ class ParallelProcessor:
 
         # Async event loop for coroutines
         self.loop = asyncio.new_event_loop()
-        self.async_thread = threading.Thread(
-            target=self._run_event_loop, daemon=True)
+        self.async_thread = threading.Thread(target=self._run_event_loop, daemon=True)
         self.async_thread.start()
 
         # Work stealing queues
@@ -154,9 +153,7 @@ class ParallelProcessor:
                     )
                 )
 
-    def map_parallel(
-        self, func: Callable, items: list[Any], batch_size: int | None = None
-    ) -> list[Any]:
+    def map_parallel(self, func: Callable, items: list[Any], batch_size: int | None = None) -> list[Any]:
         """Map function over items in parallel with automatic batching.
         Uses work stealing for optimal load balancing.
         """
@@ -170,7 +167,7 @@ class ParallelProcessor:
         # Create tasks
         tasks = []
         for i in range(0, len(items), batch_size):
-            batch = items[i: i + batch_size]
+            batch = items[i : i + batch_size]
             task_id = f"batch_{i}_{i + batch_size}"
 
             # Wrap function to process batch
@@ -199,9 +196,7 @@ class ParallelProcessor:
 
         return final_results[: len(items)]
 
-    def parallel_gpu_map(
-        self, func: Callable, tensors: list[torch.Tensor]
-    ) -> list[torch.Tensor]:
+    def parallel_gpu_map(self, func: Callable, tensors: list[torch.Tensor]) -> list[torch.Tensor]:
         """Map function over tensors using all available GPUs.
         Implements data parallelism with automatic device assignment.
         """
@@ -220,19 +215,14 @@ class ParallelProcessor:
 
         # Process in parallel
         futures = []
-        with concurrent.futures.ThreadPoolExecutor(
-            max_workers=self.gpu_count
-        ) as executor:
-            for tensor, device_id in zip(
-                    tensors, device_assignments, strict=False):
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.gpu_count) as executor:
+            for tensor, device_id in zip(tensors, device_assignments, strict=False):
                 future = executor.submit(gpu_wrapper, tensor, device_id)
                 futures.append(future)
 
         return [future.result() for future in futures]
 
-    def create_shared_array(
-        self, shape: tuple, dtype: np.dtype = np.float32
-    ) -> np.ndarray:
+    def create_shared_array(self, shape: tuple, dtype: np.dtype = np.float32) -> np.ndarray:
         """Create a shared memory array for zero-copy data transfer between processes."""
         size = np.prod(shape) * np.dtype(dtype).itemsize
         shm = shared_memory.SharedMemory(create=True, size=size)
@@ -244,9 +234,7 @@ class ParallelProcessor:
 
         return array
 
-    def parallel_reduce(
-        self, func: Callable, items: list[Any], initializer: Any = None
-    ) -> Any:
+    def parallel_reduce(self, func: Callable, items: list[Any], initializer: Any = None) -> Any:
         """Parallel reduction with work stealing.
         Implements tree-based reduction for O(log n) complexity.
         """
@@ -254,8 +242,7 @@ class ParallelProcessor:
             return initializer
 
         if len(items) == 1:
-            return items[0] if initializer is None else func(
-                initializer, items[0])
+            return items[0] if initializer is None else func(initializer, items[0])
 
         # Tree-based reduction
         while len(items) > 1:
@@ -281,10 +268,7 @@ class ParallelProcessor:
 
         return result
 
-    def parallel_pipeline(
-            self,
-            stages: list[Callable],
-            items: list[Any]) -> list[Any]:
+    def parallel_pipeline(self, stages: list[Callable], items: list[Any]) -> list[Any]:
         """Execute pipeline stages in parallel with streaming.
         Each stage processes items as they become available.
         """
@@ -381,8 +365,4 @@ def parallelize(batch_size: int | None = None):
     return decorator
 
 
-__all__ = [
-    "ParallelProcessor",
-    "TaskResult",
-    "parallel_processor",
-    "parallelize"]
+__all__ = ["ParallelProcessor", "TaskResult", "parallel_processor", "parallelize"]

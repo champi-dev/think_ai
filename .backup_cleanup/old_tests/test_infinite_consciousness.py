@@ -10,8 +10,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 import contextlib
 
 from implement_proper_architecture import ProperThinkAI
+
 from think_ai.consciousness.infinite_mind import InfiniteMind
 from think_ai.consciousness.thought_optimizer import ThoughtOptimizer
+
 
 async def test_infinite_consciousness() -> None:
     """Test the infinite consciousness system."""
@@ -72,6 +74,7 @@ async def test_infinite_consciousness() -> None:
     # Cleanup
     with contextlib.suppress(Exception):
         await think_ai.system.initializer.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(test_infinite_consciousness())

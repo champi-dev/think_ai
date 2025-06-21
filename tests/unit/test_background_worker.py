@@ -9,9 +9,7 @@ import pytest
 
 from background_worker import BackgroundWorker, ParallelVectorDB
 
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 class TestBackgroundWorker:
@@ -162,9 +160,7 @@ class TestParallelVectorDB:
         documents = [{"id": f"doc_{i}", "content": f"content_{i}"} for i in range(10)]
 
         # Mock worker methods
-        parallel_db.worker.submit_task = Mock(
-            side_effect=lambda x: f"task_{len(x['documents'])}"
-        )
+        parallel_db.worker.submit_task = Mock(side_effect=lambda x: f"task_{len(x['documents'])}")
         parallel_db.worker.get_result = Mock(return_value={"status": "success"})
 
         parallel_db.parallel_index(documents, batch_size=5)

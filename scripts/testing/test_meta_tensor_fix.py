@@ -2,15 +2,16 @@
 
 """Test script to verify meta tensor fix for Qwen model loading."""
 
-from pathlib import Path
 import asyncio
 import sys
-
 import traceback
+from pathlib import Path
+
+import torch
+
 from think_ai.core.config import ModelConfig
 from think_ai.models.language_model import GenerationConfig, LanguageModel
 from think_ai.utils.logging import get_logger
-import torch
 
 sys.path.insert(0, str(Path(__file__).parent))
 

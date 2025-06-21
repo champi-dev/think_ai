@@ -8,11 +8,10 @@ import asyncio
 import sys
 from pathlib import Path
 
-from rich.console import Console
-from rich.prompt import Prompt
-
 from full_architecture_chat import FullArchitectureChat
 from implement_proper_architecture import ProperThinkAI
+from rich.console import Console
+from rich.prompt import Prompt
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -113,9 +112,7 @@ class HybridChat(FullArchitectureChat):
     async def initialize_hybrid(self) -> None:
         """Initialize with available services."""
         console.print("\n🔧 Initializing Hybrid Mode...", style="yellow")
-        console.print(
-            "✅ Using: Redis (cache) + Neo4j (knowledge graph)", style="green"
-        )
+        console.print("✅ Using: Redis (cache) + Neo4j (knowledge graph)", style="green")
         console.print("🔄 Mocking: ScyllaDB + Milvus", style="yellow")
 
         # Initialize with custom config

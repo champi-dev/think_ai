@@ -4,6 +4,7 @@ import re
 import time
 from datetime import datetime
 
+
 def extract_latest_metrics(log_content):
     """Extract the latest training metrics from log content."""
     # Find the latest directive number
@@ -15,7 +16,7 @@ def extract_latest_metrics(log_content):
     directive_num = int(latest_directive.group(1))
 
     # Find the intelligence level
-    intel_match = re.search(r"Current Intelligence Level: ([\d.]+)", log_content[latest_directive.start():])
+    intel_match = re.search(r"Current Intelligence Level: ([\d.]+)", log_content[latest_directive.start() :])
     intel_level = float(intel_match.group(1)) if intel_match else None
 
     # Find the latest metrics JSON
@@ -42,6 +43,7 @@ def extract_latest_metrics(log_content):
         "metrics": metrics,
         "recent_errors": error_matches[-5:] if error_matches else [],
     }
+
 
 def monitor_training() -> None:
     """Monitor training progress for 5 minutes."""
@@ -95,6 +97,7 @@ def monitor_training() -> None:
                     start_val = first_update["metrics"][key]
                     end_val = last_update["metrics"][key]
                     ((end_val - start_val) / start_val) * 100
+
 
 if __name__ == "__main__":
     monitor_training()

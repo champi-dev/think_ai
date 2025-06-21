@@ -123,14 +123,10 @@ def detect_complexity(question: str) -> tuple[int, str]:
         return (500, "phd")  # Cap at 500 max
 
     # Check for complex analysis keywords
-    complex_count = sum(
-        1 for keyword in COMPLEX_KEYWORDS if keyword in question_lower)
+    complex_count = sum(1 for keyword in COMPLEX_KEYWORDS if keyword in question_lower)
 
     # Special handling for specific complex topics
-    if any(
-        word in question_lower
-        for word in ["schrödinger", "schrodinger", "husserl", "navier-stokes"]
-    ):
+    if any(word in question_lower for word in ["schrödinger", "schrodinger", "husserl", "navier-stokes"]):
         return (500, "phd")  # Cap at 500 max
 
     # Check for sorting algorithm request specifically
@@ -145,13 +141,7 @@ def detect_complexity(question: str) -> tuple[int, str]:
     and_count = question_lower.count(" and ")
 
     # Calculate complexity score
-    complexity_score = (
-        word_count * 0.1
-        + complex_count * 10
-        + phd_count * 20
-        + question_marks * 5
-        + and_count * 3
-    )
+    complexity_score = word_count * 0.1 + complex_count * 10 + phd_count * 20 + question_marks * 5 + and_count * 3
 
     # Check for "meaning of life" type questions
     if "meaning of life" in question_lower or "purpose of existence" in question_lower:

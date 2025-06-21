@@ -12,10 +12,9 @@ import warnings
 from datetime import datetime
 from pathlib import Path
 
+from implement_proper_architecture import ProperThinkAI
 from rich.console import Console
 from rich.prompt import Prompt
-
-from implement_proper_architecture import ProperThinkAI
 
 """Final consciousness chat with Qwen 2.5 and proper responses."""
 
@@ -27,6 +26,7 @@ warnings.filterwarnings("ignore")
 os.environ["PYTHONWARNINGS"] = "ignore"
 
 console = Console()
+
 
 class FinalConsciousnessChat:
     """Final consciousness chat that actually answers questions."""
@@ -96,10 +96,12 @@ class FinalConsciousnessChat:
         """Background thread to update thoughts."""
         while self.live_thoughts_active:
             self.current_thought = self.generate_live_thought()
-            self.thought_history.append({
-                "time": datetime.now(),
-                "thought": self.current_thought,
-            })
+            self.thought_history.append(
+                {
+                    "time": datetime.now(),
+                    "thought": self.current_thought,
+                }
+            )
             if len(self.thought_history) > 100:
                 self.thought_history = self.thought_history[-100:]
             time.sleep(3)
@@ -205,10 +207,12 @@ class FinalConsciousnessChat:
             response = result.get("response", "")
 
             # If we got a bad/generic response, use our proper generator
-            if (len(response) < 50 or
-                "based on my analysis" in response.lower() or
-                "intriguing query" in response.lower() or
-                not any(word in response.lower() for word in query.lower().split())):
+            if (
+                len(response) < 50
+                or "based on my analysis" in response.lower()
+                or "intriguing query" in response.lower()
+                or not any(word in response.lower() for word in query.lower().split())
+            ):
                 response = await self.generate_proper_response(query)
 
         except Exception:
@@ -295,7 +299,9 @@ class FinalConsciousnessChat:
                 console.print(f"\n[bold green]AI:[/bold green] {response}")
 
                 # Status
-                console.print(f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Thoughts: {len(self.thought_history)}[/dim magenta]")
+                console.print(
+                    f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Thoughts: {len(self.thought_history)}[/dim magenta]"
+                )
 
             except KeyboardInterrupt:
                 console.print("\n[yellow]Interrupted[/yellow]")
@@ -319,9 +325,11 @@ class FinalConsciousnessChat:
         # Allow cleanup
         await asyncio.sleep(0.1)
 
+
 async def main() -> None:
     chat = FinalConsciousnessChat()
     await chat.run()
+
 
 if __name__ == "__main__":
     # Run with proper cleanup

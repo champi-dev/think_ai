@@ -170,11 +170,7 @@ class SpanishHandler:
                 "¡Obvio!",
                 "¡Sí, señor!",
             ],
-            "thinking": [
-                "A ver...",
-                "Déjame pensar...",
-                "Mira...",
-                "Bueno..."],
+            "thinking": ["A ver...", "Déjame pensar...", "Mira...", "Bueno..."],
             "enthusiasm": [
                 "¡Qué chévere!",
                 "¡Qué padre!",
@@ -204,8 +200,7 @@ class SpanishHandler:
             return "unknown"
 
         # Contar idiomas en las últimas interacciones
-        recent_languages = [item["language"]
-                            for item in self.conversation_memory[-5:]]
+        recent_languages = [item["language"] for item in self.conversation_memory[-5:]]
         spanish_count = recent_languages.count("spanish")
 
         if spanish_count >= 2:  # Si 2+ de las últimas 5 fueron en español
@@ -230,19 +225,12 @@ class SpanishHandler:
                 return True
 
         # 3. Análisis por peso de palabras
-        high_conf_count = sum(
-            1 for word in words if word in self.high_confidence_spanish
-        )
-        content_conf_count = sum(
-            1 for word in words if word in self.content_spanish_words
-        )
-        medium_conf_count = sum(
-            1 for word in words if word in self.medium_confidence_spanish
-        )
+        high_conf_count = sum(1 for word in words if word in self.high_confidence_spanish)
+        content_conf_count = sum(1 for word in words if word in self.content_spanish_words)
+        medium_conf_count = sum(1 for word in words if word in self.medium_confidence_spanish)
 
         # Calcular puntuación de confianza
-        confidence_score = ((high_conf_count * 4) +
-                            (content_conf_count * 2) + (medium_conf_count * 1))
+        confidence_score = (high_conf_count * 4) + (content_conf_count * 2) + (medium_conf_count * 1)
         total_words = len(words)
 
         if total_words == 0:
@@ -271,9 +259,7 @@ class SpanishHandler:
                 return True
             # Si estamos en contexto español y hay al menos una palabra
             # española
-            if context == "spanish_context" and (
-                medium_conf_count > 0 or content_conf_count > 0
-            ):
+            if context == "spanish_context" and (medium_conf_count > 0 or content_conf_count > 0):
                 return True
 
         return confidence_ratio >= threshold
@@ -283,36 +269,13 @@ class SpanishHandler:
         text_lower = text.lower()
 
         # Marcadores regionales
-        if any(
-            word in text_lower for word in [
-                "güey",
-                "órale",
-                "chido",
-                "neta",
-                "morro"]):
+        if any(word in text_lower for word in ["güey", "órale", "chido", "neta", "morro"]):
             return "mexico"
-        if any(
-            word in text_lower for word in [
-                "che",
-                "boludo",
-                "vos",
-                "laburo",
-                "pibe"]):
+        if any(word in text_lower for word in ["che", "boludo", "vos", "laburo", "pibe"]):
             return "argentina"
-        if any(
-            word in text_lower for word in [
-                "parce",
-                "bacano",
-                "chimba",
-                "parcero"]):
+        if any(word in text_lower for word in ["parce", "bacano", "chimba", "parcero"]):
             return "colombia"
-        if any(
-            word in text_lower for word in [
-                "weon",
-                "cachai",
-                "po",
-                "fome",
-                "pololo"]):
+        if any(word in text_lower for word in ["weon", "cachai", "po", "fome", "pololo"]):
             return "chile"
 
         return "general"
@@ -348,10 +311,7 @@ class SpanishHandler:
         query_lower = query.lower()
         return any(keyword in query_lower for keyword in harmful_keywords)
 
-    def generate_spanish_response(
-            self,
-            query: str,
-            context: dict | None = None) -> str:
+    def generate_spanish_response(self, query: str, context: dict | None = None) -> str:
         """Genera una respuesta en español apropiada."""
         query_lower = query.lower()
         region = self.detect_region(query)
@@ -402,10 +362,7 @@ class SpanishHandler:
             }
             return responses.get(region, responses["general"])
 
-        if any(
-            word in query_lower
-            for word in ["bien", "muy bien", "excelente", "genial", "perfecto"]
-        ):
+        if any(word in query_lower for word in ["bien", "muy bien", "excelente", "genial", "perfecto"]):
             responses = {
                 "general": "¡Qué bueno saber que estás bien! Me alegra mucho. ¿En qué puedo ayudarte hoy?",
                 "mexico": "¡Qué padre, carnal! Me da mucho gusto. ¿En qué te puedo echar la mano?",
@@ -436,11 +393,7 @@ class SpanishHandler:
             return responses.get(region, responses["general"])
 
         # Respuestas específicas a temas comunes (antes del catch-all)
-        if (
-            "continua" in query_lower
-            or "continúa" in query_lower
-            or "sigue" in query_lower
-        ):
+        if "continua" in query_lower or "continúa" in query_lower or "sigue" in query_lower:
             responses = {
                 "general": "¡Por supuesto! Continúo con el tema. ¿Qué te gustaría que desarrolle más específicamente?",
                 "mexico": "¡Órale, claro que sí! Sigo con el tema, carnal. ¿Qué quieres que te explique más a fondo?",
@@ -460,11 +413,7 @@ class SpanishHandler:
             }
             return responses.get(region, responses["general"])
 
-        if (
-            "cancion" in query_lower
-            or "música" in query_lower
-            or "musica" in query_lower
-        ):
+        if "cancion" in query_lower or "música" in query_lower or "musica" in query_lower:
             responses = {
                 "general": "¡Me encanta la música! ¿Te gustaría que te ayude a crear una canción, encontrar letras, o algo relacionado con música?",
                 "mexico": "¡Qué padre la música, güey! ¿Quieres que te ayude con una rola o algo así?",
@@ -480,9 +429,7 @@ class SpanishHandler:
 
         return None  # No es español o no tenemos respuesta específica
 
-    def _generate_contextual_response(
-        self, query: str, region: str, context: dict | None = None
-    ) -> str:
+    def _generate_contextual_response(self, query: str, region: str, context: dict | None = None) -> str:
         """Genera respuestas contextuales en español."""
         # Agregar marcadores regionales
         regional_markers = {
@@ -555,22 +502,13 @@ class SpanishHandler:
 
         # Japanese detection (basic hiragana/katakana/kanji)
         if any(
-            "\u3040" <= char <= "\u309f"
-            or "\u30a0" <= char <= "\u30ff"
-            or "\u4e00" <= char <= "\u9faf"
+            "\u3040" <= char <= "\u309f" or "\u30a0" <= char <= "\u30ff" or "\u4e00" <= char <= "\u9faf"
             for char in text
         ):
             return "japanese"
 
         # Portuguese detection
-        portuguese_words = [
-            "olá",
-            "oi",
-            "como está",
-            "obrigado",
-            "sim",
-            "não",
-            "tchau"]
+        portuguese_words = ["olá", "oi", "como está", "obrigado", "sim", "não", "tchau"]
         if any(word in text_lower for word in portuguese_words):
             return "portuguese"
 
@@ -591,15 +529,10 @@ class SpanishHandler:
         if language == "japanese":
             return "こんにちは！私はThink AIです。日本語でお手伝いできます。どのようにお手伝いしましょうか？"
         if language == "portuguese":
-            return (
-                "Olá! Eu sou Think AI e posso ajudá-lo em português. Como posso ajudar?"
-            )
+            return "Olá! Eu sou Think AI e posso ajudá-lo em português. Como posso ajudar?"
         return None
 
-    def translate_response(
-            self,
-            english_response: str,
-            region: str = "general") -> str:
+    def translate_response(self, english_response: str, region: str = "general") -> str:
         """Traduce una respuesta del inglés al español con sabor regional."""
         # This is a simplified translation - in production you'd use a proper translation service
         # For now, we'll provide some common translations

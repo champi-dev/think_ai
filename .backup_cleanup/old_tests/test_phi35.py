@@ -7,6 +7,7 @@ import time
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
+
 async def test_phi35() -> None:
     """Test Phi-3.5 Mini model."""
     # Quantization config
@@ -43,7 +44,6 @@ async def test_phi35() -> None:
     ]
 
     for prompt in prompts:
-
         messages = [{"role": "user", "content": prompt}]
         inputs = tokenizer.apply_chat_template(messages, return_tensors="pt")
 
@@ -65,6 +65,7 @@ async def test_phi35() -> None:
         gen_time = time.time() - start
         tokens = len(outputs[0]) - len(inputs[0])
         tokens / gen_time
+
 
 if __name__ == "__main__":
     asyncio.run(test_phi35())

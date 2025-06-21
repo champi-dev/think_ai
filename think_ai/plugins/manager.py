@@ -12,8 +12,7 @@ import pkg_resources
 
 from ..consciousness.principles import ConstitutionalAI
 from ..utils.logging import get_logger
-from .base import (Plugin, PluginCapability, PluginContext,
-                   PluginExecutionError, PluginLoadError, PluginMetadata)
+from .base import Plugin, PluginCapability, PluginContext, PluginExecutionError, PluginLoadError, PluginMetadata
 
 logger = get_logger(__name__)
 

@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from think_ai.engine.claude_internal_tool import ClaudeInternalTool
 from think_ai.engine.full_system import DistributedThinkAI
 
+
 async def main() -> None:
     """Demo the full system capabilities."""
     system = DistributedThinkAI()
@@ -53,7 +54,6 @@ async def main() -> None:
 
         # Demo 5: Claude Enhancement
         if claude_tool:
-
             knowledge = await claude_tool.consult_for_knowledge(
                 topic="distributed AI systems",
                 context={"focus": "benefits and architecture"},
@@ -66,10 +66,12 @@ async def main() -> None:
 
     except Exception:
         import traceback
+
         traceback.print_exc()
 
     finally:
         await system.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -4,84 +4,83 @@
 Optimized test runner using Think AI's caching and compression'
 """
 
-from pathlib import Path
 import hashlib
+import multiprocessing as mp
 import os
+import pickle
 import sys
 import time
+from concurrent.futures import ProcessPoolExecutor
+from pathlib import Path
 
 import lz4.frame
-import time
-from concurrent.futures import ProcessPoolExecutor
+import numpy as np
+import pytest
+
 from o1_vector_search import O1VectorSearch
 from vector_search_adapter import VectorSearchAdapter
-import lz4.frame
-import multiprocessing as mp
-import numpy as np
-import pickle
-import pytest
 
 # Add parent to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 class ThinkAITestRunner:
-"""Ultra-fast test runner with aggressive caching and compression"""
+    """Ultra-fast test runner with aggressive caching and compression"""
 
     def __init__(self):
         self.cache_dir = Path(".test_cache")
         self.cache_dir.mkdir(exist_ok = True)
         self.test_results = {}
 
-        def get_file_hash(self, filepath):
-"""Get hash of file content for cache invalidation"""
-            with open(filepath, 'rb') as f:
-                return hashlib.md5(f.read()).hexdigest()
+    def get_file_hash(self, filepath):
+        """Get hash of file content for cache invalidation"""
+        with open(filepath, 'rb') as f:
+            return hashlib.md5(f.read()).hexdigest()
 
-            def get_cache_key(self, test_file):
-"""Generate cache key for test file"""
-                file_hash = self.get_file_hash(test_file)
-                deps = []
+    def get_cache_key(self, test_file):
+        """Generate cache key for test file"""
+        file_hash = self.get_file_hash(test_file)
+        deps = []
 
-# Hash dependencies too
-                if "unit" in str(test_file):
-                    for dep in ["vector_search_adapter.py", "o1_vector_search.py", "background_worker.py"]:
-                        if os.path.exists(dep):
-                            deps.append(self.get_file_hash(dep))
+        # Hash dependencies too
+        if "unit" in str(test_file):
+            for dep in ["vector_search_adapter.py", "o1_vector_search.py", "background_worker.py"]:
+                if os.path.exists(dep):
+                    deps.append(self.get_file_hash(dep))
 
-                            return hashlib.md5(f"{file_hash}:{':'.join(deps)}".encode()).hexdigest()
+        return hashlib.md5(f"{file_hash}:{':'.join(deps)}".encode()).hexdigest()
 
-                        def load_cached_result(self, test_file):
-"""Load cached test result if valid"""
-                            cache_key = self.get_cache_key(test_file)
-                            cache_file = self.cache_dir / f"{cache_key}.lz4"
+    def load_cached_result(self, test_file):
+        """Load cached test result if valid"""
+        cache_key = self.get_cache_key(test_file)
+        cache_file = self.cache_dir / f"{cache_key}.lz4"
 
-                            if cache_file.exists():
-                                try:
-                                    with open(cache_file, 'rb') as f:
-                                        compressed = f.read()
-                                        data = pickle.loads(lz4.frame.decompress(compressed))
-                                        return data
-                                    except Exception:
-                                        pass
-                                    return None
+        if cache_file.exists():
+            try:
+                with open(cache_file, 'rb') as f:
+                    compressed = f.read()
+                    data = pickle.loads(lz4.frame.decompress(compressed))
+                    return data
+            except Exception:
+                pass
+        return None
 
-                                def save_cached_result(self, test_file, result):
-"""Save test result to cache with compression"""
-                                    cache_key = self.get_cache_key(test_file)
-                                    cache_file = self.cache_dir / f"{cache_key}.lz4"
+    def save_cached_result(self, test_file, result):
+        """Save test result to cache with compression"""
+        cache_key = self.get_cache_key(test_file)
+        cache_file = self.cache_dir / f"{cache_key}.lz4"
 
-                                    data = pickle.dumps(result)
-                                    compressed = lz4.frame.compress(data, compression_level = lz4.frame.COMPRESSIONLEVEL_MAX)
+        data = pickle.dumps(result)
+        compressed = lz4.frame.compress(data, compression_level=lz4.frame.COMPRESSIONLEVEL_MAX)
 
-                                    with open(cache_file, 'wb') as f:
-                                        f.write(compressed)
+        with open(cache_file, 'wb') as f:
+            f.write(compressed)
 
-                                        def run_test_isolated(self, test_file):
-"""Run test in isolated process"""
-# Check cache first
-                                            cached = self.load_cached_result(test_file)
-                                            if cached and not os.environ.get('FORCE_TEST'):
+    def run_test_isolated(self, test_file):
+        """Run test in isolated process"""
+        # Check cache first
+        cached = self.load_cached_result(test_file)
+        if cached and not os.environ.get('FORCE_TEST'):
                                                 print(f"✓ {test_file} (cached)")
                                                 return cached
 

@@ -12,8 +12,7 @@ from config import HUGGINGFACE_API_KEY
 
 from ..consciousness.awareness import ConsciousnessFramework
 from ..consciousness.principles import ConstitutionalAI
-from ..core.config import (ModelConfig, RedisConfig, ScyllaDBConfig,
-                           VectorDBConfig)
+from ..core.config import ModelConfig, RedisConfig, ScyllaDBConfig, VectorDBConfig
 from ..federated.federated_learning import FederatedLearningServer
 from ..graph.knowledge_graph import KnowledgeGraph
 from ..models.language_model import ModelOrchestrator

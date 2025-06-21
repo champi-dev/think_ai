@@ -136,9 +136,7 @@ def main() -> None:
     create_env()
 
     # Install Python deps
-    subprocess.run(
-        [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False
-    )
+    subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=False)
 
     # Wait for services
     time.sleep(10)
@@ -146,9 +144,7 @@ def main() -> None:
     # Test services
 
     # Test Redis
-    result = subprocess.run(
-        ["redis-cli", "ping"], check=False, capture_output=True, text=True
-    )
+    result = subprocess.run(["redis-cli", "ping"], check=False, capture_output=True, text=True)
     if "PONG" in result.stdout:
         pass
     else:

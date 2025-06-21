@@ -10,13 +10,12 @@ Comprehensive test of vector database libraries:
 
 import time
 
+import faiss
+import numpy as np
 import torch
 from neo4j import GraphDatabase
 from pymilvus import Collection, CollectionSchema, DataType, FieldSchema, connections, utility
 from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
-
 
     class VectorDatabaseTester:
 

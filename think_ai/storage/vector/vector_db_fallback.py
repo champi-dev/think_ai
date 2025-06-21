@@ -42,8 +42,7 @@ class NumpyVectorDB:
         # Use provided cache_dir or create a temporary directory that's
         # writable
         if cache_dir is None:
-            cache_dir = Path(tempfile.gettempdir()) / \
-                "think_ai_vectordb_fallback"
+            cache_dir = Path(tempfile.gettempdir()) / "think_ai_vectordb_fallback"
         self.cache_dir = Path(cache_dir)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
@@ -55,11 +54,7 @@ class NumpyVectorDB:
         # Load existing data if available
         self._load_from_disk()
 
-    def add(
-            self,
-            vectors: np.ndarray,
-            ids: List[str],
-            metadata: List[dict] = None):
+    def add(self, vectors: np.ndarray, ids: List[str], metadata: List[dict] = None):
         """Add vectors to the database."""
         if metadata is None:
             metadata = [{}] * len(ids)
@@ -78,8 +73,7 @@ class NumpyVectorDB:
         # Save to disk
         self._save_to_disk()
 
-    def search(self, query_vector: np.ndarray,
-               k: int = 10) -> List[VectorResult]:
+    def search(self, query_vector: np.ndarray, k: int = 10) -> List[VectorResult]:
         """Search for k nearest neighbors using cosine similarity."""
         if len(self.vectors) == 0:
             return []
@@ -125,10 +119,7 @@ class NumpyVectorDB:
 
     def _save_to_disk(self):
         """Save the database to disk."""
-        data = {
-            "vectors": self.vectors,
-            "ids": self.ids,
-            "metadata": self.metadata}
+        data = {"vectors": self.vectors, "ids": self.ids, "metadata": self.metadata}
 
         save_path = self.cache_dir / "numpy_vectors.pkl"
         with open(save_path, "wb") as f:
@@ -145,8 +136,7 @@ class NumpyVectorDB:
                     self.vectors = data.get("vectors", [])
                     self.ids = data.get("ids", [])
                     self.metadata = data.get("metadata", [])
-                    logger.info(
-                        f"Loaded {len(self.vectors)} vectors from disk")
+                    logger.info(f"Loaded {len(self.vectors)} vectors from disk")
             except Exception as e:
                 logger.warning(f"Failed to load vectors from disk: {e}")
 
@@ -158,36 +148,26 @@ class VectorDBAdapter:
         self.dimension = dimension
         # Use provided cache_dir or let individual DBs use their defaults
         if cache_dir is None:
-            cache_dir = Path(tempfile.gettempdir()) / \
-                "think_ai_vectordb_adapter"
+            cache_dir = Path(tempfile.gettempdir()) / "think_ai_vectordb_adapter"
         self.cache_dir = cache_dir
         self.db = None
 
         # Try to import and use faiss if available
         try:
-            self.db = FastVectorDB(
-                dimension=dimension, cache_dir=str(cache_dir), **kwargs
-            )
+            self.db = FastVectorDB(dimension=dimension, cache_dir=str(cache_dir), **kwargs)
             logger.info("Using FAISS vector database")
         except ImportError:
             logger.info("FAISS not available, using NumPy fallback")
-            self.db = NumpyVectorDB(
-                dimension=dimension,
-                cache_dir=str(cache_dir))
+            self.db = NumpyVectorDB(dimension=dimension, cache_dir=str(cache_dir))
 
-    def add(
-            self,
-            vectors: np.ndarray,
-            ids: List[str],
-            metadata: List[dict] = None):
+    def add(self, vectors: np.ndarray, ids: List[str], metadata: List[dict] = None):
         """Add vectors to the database."""
         if hasattr(self.db, "add"):
             return self.db.add(vectors, ids, metadata)
         elif hasattr(self.db, "add_vectors"):
             return self.db.add_vectors(vectors, ids, metadata)
         else:
-            raise AttributeError(
-                "Vector database does not support adding vectors")
+            raise AttributeError("Vector database does not support adding vectors")
 
     def search(self, query_vector: np.ndarray, k: int = 10):
         """Search for k nearest neighbors."""

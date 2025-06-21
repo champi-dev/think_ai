@@ -7,6 +7,7 @@ from typing import Optional
 
 from think_ai.integrations.claude_api import ClaudeAPI
 
+
 async def test_claude_api() -> Optional[bool]:
     """Test Claude API integration."""
     try:
@@ -27,6 +28,7 @@ async def test_claude_api() -> Optional[bool]:
     except Exception:
         return False
 
+
 async def main() -> None:
     """Main test function."""
     # Test Claude API
@@ -36,6 +38,7 @@ async def main() -> None:
         pass
     else:
         pass
+
 
 if __name__ == "__main__":
     asyncio.run(main())

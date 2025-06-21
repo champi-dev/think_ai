@@ -57,53 +57,35 @@ def fix_language_model():
                 elif next_line.strip() == "":
                     fixed_lines.append("\n")
                 elif next_line.strip().startswith("def get_valid_generation_params"):
-                    fixed_lines.append(
-                        "    def get_valid_generation_params(self) -> Dict[str, Any]:\n"
-                    )
+                    fixed_lines.append("    def get_valid_generation_params(self) -> Dict[str, Any]:\n")
                 elif '"""Return only valid generation parameters' in next_line:
-                    fixed_lines.append(
-                        '        """Return only valid generation parameters based on configuration.\n'
-                    )
+                    fixed_lines.append('        """Return only valid generation parameters based on configuration.\n')
                 elif "O(1) complexity using direct" in next_line:
                     fixed_lines.append("        \n")
-                    fixed_lines.append(
-                        "        O(1) complexity using direct attribute access and conditional logic.\n"
-                    )
+                    fixed_lines.append("        O(1) complexity using direct attribute access and conditional logic.\n")
                 elif next_line.strip() == '"""':
                     fixed_lines.append('        """\n')
                 elif next_line.strip().startswith("# Always include"):
-                    fixed_lines.append(
-                        "        # Always include these core parameters\n"
-                    )
+                    fixed_lines.append("        # Always include these core parameters\n")
                 elif next_line.strip().startswith("params = {"):
                     fixed_lines.append("        params = {\n")
                 elif "'max_new_tokens':" in next_line:
-                    fixed_lines.append(
-                        "            'max_new_tokens': self.max_tokens,\n"
-                    )
+                    fixed_lines.append("            'max_new_tokens': self.max_tokens,\n")
                 elif "'repetition_penalty':" in next_line:
-                    fixed_lines.append(
-                        "            'repetition_penalty': self.repetition_penalty,\n"
-                    )
+                    fixed_lines.append("            'repetition_penalty': self.repetition_penalty,\n")
                 elif "'do_sample':" in next_line:
                     fixed_lines.append("            'do_sample': self.do_sample\n")
                 elif next_line.strip() == "}":
                     fixed_lines.append("        }\n")
                 elif "# Only include sampling" in next_line:
                     fixed_lines.append("        \n")
-                    fixed_lines.append(
-                        "        # Only include sampling parameters when sampling is enabled\n"
-                    )
+                    fixed_lines.append("        # Only include sampling parameters when sampling is enabled\n")
                 elif "# This prevents transformers" in next_line:
-                    fixed_lines.append(
-                        "        # This prevents transformers warnings about unused parameters\n"
-                    )
+                    fixed_lines.append("        # This prevents transformers warnings about unused parameters\n")
                 elif next_line.strip() == "if self.do_sample:":
                     fixed_lines.append("        if self.do_sample:\n")
                 elif "params['temperature']" in next_line:
-                    fixed_lines.append(
-                        "            params['temperature'] = self.temperature\n"
-                    )
+                    fixed_lines.append("            params['temperature'] = self.temperature\n")
                 elif "params['top_p']" in next_line:
                     fixed_lines.append("            params['top_p'] = self.top_p\n")
                 elif "params['top_k']" in next_line:
@@ -125,11 +107,7 @@ def fix_language_model():
                 fixed_lines.append('    """Response from language model."""\n')
                 i += 1
             # Fix the class members
-            while (
-                i < len(lines)
-                and lines[i].strip()
-                and not lines[i].strip().startswith("class ")
-            ):
+            while i < len(lines) and lines[i].strip() and not lines[i].strip().startswith("class "):
                 member_line = lines[i].strip()
                 if member_line.startswith("text:"):
                     fixed_lines.append("    text: str\n")
@@ -148,9 +126,7 @@ def fix_language_model():
             i += 1
             # Fix docstring
             if i < len(lines) and '"""Stop generation' in lines[i]:
-                fixed_lines.append(
-                    '    """Stop generation if harmful content is detected."""\n'
-                )
+                fixed_lines.append('    """Stop generation if harmful content is detected."""\n')
                 i += 1
             continue
 
@@ -160,9 +136,7 @@ def fix_language_model():
             i += 1
             # Fix docstring
             if i < len(lines) and '"""3B parameter' in lines[i]:
-                fixed_lines.append(
-                    '    """3B parameter language model with consciousness integration."""\n'
-                )
+                fixed_lines.append('    """3B parameter language model with consciousness integration."""\n')
                 i += 1
             continue
 
@@ -172,9 +146,7 @@ def fix_language_model():
             i += 1
             # Fix docstring
             if i < len(lines) and '"""Orchestrate multiple' in lines[i]:
-                fixed_lines.append(
-                    '    """Orchestrate multiple models for enhanced capabilities."""\n'
-                )
+                fixed_lines.append('    """Orchestrate multiple models for enhanced capabilities."""\n')
                 i += 1
             continue
 
@@ -226,13 +198,9 @@ def fix_language_model():
             fixed_lines.append("        def load_model():\n")
             i += 1
             continue
-        elif (
-            "prompt = f" in stripped and "Based on the following knowledge:" in stripped
-        ):
+        elif "prompt = f" in stripped and "Based on the following knowledge:" in stripped:
             # Fix multiline f-string
-            fixed_lines.append(
-                '            prompt = f"""Based on the following knowledge:\n'
-            )
+            fixed_lines.append('            prompt = f"""Based on the following knowledge:\n')
             i += 1
             continue
         elif "prompt = f" in stripped and "Please provide a clear" in stripped:
@@ -251,9 +219,7 @@ def fix_language_model():
             continue
         elif "return f" in stripped and "You are Think AI" in stripped:
             # Fix multiline f-string
-            fixed_lines.append(
-                '        return f"""You are Think AI. Answer the question directly.\n'
-            )
+            fixed_lines.append('        return f"""You are Think AI. Answer the question directly.\n')
             i += 1
             continue
         elif "full_prompt = f" in stripped and "System: You are Think AI" in stripped:

@@ -7,6 +7,7 @@ import time
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+
 async def test_phi35_mac() -> None:
     """Test Phi-3.5 Mini model on macOS."""
     # Load model without quantization for macOS
@@ -42,7 +43,6 @@ async def test_phi35_mac() -> None:
         ]
 
         for prompt in prompts:
-
             messages = [{"role": "user", "content": prompt}]
             inputs = tokenizer.apply_chat_template(
                 messages,
@@ -77,6 +77,7 @@ async def test_phi35_mac() -> None:
 
     except Exception:
         pass
+
 
 if __name__ == "__main__":
     asyncio.run(test_phi35_mac())

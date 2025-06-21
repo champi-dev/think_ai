@@ -106,9 +106,7 @@ class MediumWriter:
 
         logger.info("✍️ Medium Writer initialized - Ready to drop heat!")
 
-    def generate_article(
-        self, topic: str, style: str = "costeno", word_count: int = 800
-    ) -> dict[str, Any]:
+    def generate_article(self, topic: str, style: str = "costeno", word_count: int = 800) -> dict[str, Any]:
         """Generate a Medium article that goes viral.
 
         Args:
@@ -126,8 +124,7 @@ class MediumWriter:
             "suggestion": 'Use "costeno" or "gen_alpha" broky!',
         }
 
-    def _generate_costeno_article(
-            self, topic: str, word_count: int) -> dict[str, Any]:
+    def _generate_costeno_article(self, topic: str, word_count: int) -> dict[str, Any]:
         """Generate article in Costeño Spanish."""
         # Pick templates
         intro = random.choice(self.costeno_templates["intro"])
@@ -135,15 +132,15 @@ class MediumWriter:
         conclusion = random.choice(self.costeno_templates["conclusion"])
 
         # Generate content
-        title = (
-            f"¡Ey Marica! Te Explico {topic} Como Si Fueras de 5 Años (Pero En Serio)")
+        title = f"¡Ey Marica! Te Explico {topic} Como Si Fueras de 5 Años (Pero En Serio)"
 
         subtitle = random.choice(
             [
                 f"O cómo {topic} va a cambiar tu vida y ni cuenta te has dado",
                 f"La verdad sobre {topic} que nadie te quiere contar",
                 f"Por qué {topic} es más importante que el aire acondicionado en Barranquilla",
-            ])
+            ]
+        )
 
         # Build article
         article_parts = [
@@ -180,8 +177,7 @@ class MediumWriter:
 
             content = body.format(
                 explanation=random.choice(explanations),
-                analogy=random.choice(
-                    self.costeno_analogies),
+                analogy=random.choice(self.costeno_analogies),
                 fact=random.choice(facts),
                 technical_detail=f"el algoritmo de {topic} usa redes neuronales",
                 simple_explanation="la máquina aprende solita como un pelao' curioso",
@@ -199,7 +195,9 @@ class MediumWriter:
                     f"¿Sabes cuál es la diferencia entre {topic} y un político? Que {topic} sí cumple lo que promete. 🍿",
                     f"Mi abuela entiende más de {topic} que algunos ingenieros que conozco. Y eso que ella todavía manda mensajes por carta.",
                     f"{topic} es como el vallenato: no todos lo entienden, pero cuando lo pillas, no puedes parar.",
-                ]))
+                ]
+            )
+        )
 
         # Add conclusion
         article_parts.append("\n\n## ¿Y Ahora Qué?\n")
@@ -222,7 +220,9 @@ class MediumWriter:
                     "¿Te gustó? Dale a ese botón de aplaudir como si fuera champeta a todo volumen. 👏",
                     "Si aprendiste algo, compártelo. Si no, también, que la risa también cuenta. 🍿",
                     "Sígueme pa' más contenido así. O no, tú verás, pero después no digas que no te avisé.",
-                ]))
+                ]
+            )
+        )
 
         # Add tags
         tags = ["Spanish", "Tech", "Colombia", "AI", topic.replace(" ", "")]
@@ -237,9 +237,7 @@ class MediumWriter:
             "word_count": len(" ".join(article_parts).split()),
         }
 
-    def _generate_gen_alpha_article(
-        self, topic: str, word_count: int
-    ) -> dict[str, Any]:
+    def _generate_gen_alpha_article(self, topic: str, word_count: int) -> dict[str, Any]:
         """Generate article in Gen Alpha English."""
         # Pick templates
         intro = random.choice(self.gen_alpha_templates["intro"])
@@ -254,7 +252,8 @@ class MediumWriter:
                 f"A chaotic deep dive into why {topic} hits different in 2024",
                 f"POV: You finally understand {topic} (you're welcome bestie)",
                 f"Why {topic} is giving main character energy in tech right now",
-            ])
+            ]
+        )
 
         # Build article
         article_parts = [
@@ -291,8 +290,7 @@ class MediumWriter:
 
             content = body.format(
                 explanation=random.choice(explanations),
-                analogy=random.choice(
-                    self.gen_alpha_analogies),
+                analogy=random.choice(self.gen_alpha_analogies),
                 fact=random.choice(facts),
                 technical_detail=f"{topic} uses neural networks and machine learning",
                 simple_explanation="the computer learns like how you learned TikTok dances",
@@ -310,11 +308,12 @@ class MediumWriter:
                     f"Me: *explains {topic}*\nThem: 'So it's like AI?'\nMe: *sighs in binary* 🤖",
                     f"{topic} developers: 'It's not that complicated'\nAlso {topic}: *requires PhD to understand* 📚",
                     f"Nobody:\nAbsolutely nobody:\n{topic}: 'I'm about to end this whole industry's career' 💅",
-                ]))
+                ]
+            )
+        )
 
         # Add conclusion
-        article_parts.append(
-            "\n\n## Final Thoughts (Stream Taylor's Version)\n")
+        article_parts.append("\n\n## Final Thoughts (Stream Taylor's Version)\n")
 
         conclusion_content = conclusion.format(
             topic=topic,
@@ -335,18 +334,12 @@ class MediumWriter:
                     "Follow for more chaotic tech content. Or don't. I'm not your mom. 💅",
                     "Share this with that friend who still thinks AI is just Siri. They need help fr.",
                     "Drop a comment if you're ready to be part of the future. NPCs need not apply.",
-                ]))
+                ]
+            )
+        )
 
         # Add tags
-        tags = [
-            "Tech",
-            "AI",
-            "Future",
-            "GenZ",
-            topic.replace(
-                " ",
-                ""),
-            "Innovation"]
+        tags = ["Tech", "AI", "Future", "GenZ", topic.replace(" ", ""), "Innovation"]
 
         return {
             "title": title,
@@ -358,9 +351,7 @@ class MediumWriter:
             "word_count": len(" ".join(article_parts).split()),
         }
 
-    def generate_article_series(
-        self, topic: str, parts: int = 3
-    ) -> list[dict[str, Any]]:
+    def generate_article_series(self, topic: str, parts: int = 3) -> list[dict[str, Any]]:
         """Generate a series of articles on a topic.
         Mix of Costeño and Gen Alpha for maximum reach.
         """

@@ -69,9 +69,7 @@ class ClaudeInterface:
 
         # 2. Smart context selection
         if context:
-            relevant_context = await self._select_relevant_context(
-                compressed_query, context
-            )
+            relevant_context = await self._select_relevant_context(compressed_query, context)
             optimization_report["optimizations"].append(
                 {
                     "type": "context_filtering",
@@ -99,10 +97,7 @@ class ClaudeInterface:
         optimized_prompt = "\n".join(prompt_parts)
         optimization_report["final_length"] = len(optimized_prompt)
         optimization_report["reduction_percentage"] = (
-            (
-                optimization_report["original_length"]
-                - optimization_report["final_length"]
-            )
+            (optimization_report["original_length"] - optimization_report["final_length"])
             / optimization_report["original_length"]
             * 100
         )
@@ -211,9 +206,7 @@ class ClaudeInterface:
 
         # Estimate cost (Claude pricing approximation)
         # Assuming ~$0.01 per 1K tokens for simplicity
-        report["metadata"]["estimated_cost"] = (
-            report["metadata"]["total_tokens_used"] / 1000 * 0.01
-        )
+        report["metadata"]["estimated_cost"] = report["metadata"]["total_tokens_used"] / 1000 * 0.01
 
         # Save tokens through optimizations
         if self.token_usage["saved"] > 0:
@@ -243,10 +236,7 @@ class ClaudeInterface:
         suggestions = []
 
         # Analyze conversation patterns
-        total_tokens = sum(
-            self._estimate_tokens(msg.get("content", ""))
-            for msg in conversation_history
-        )
+        total_tokens = sum(self._estimate_tokens(msg.get("content", "")) for msg in conversation_history)
 
         # 1. Context window optimization
         if total_tokens > self.max_context_size:
@@ -272,9 +262,7 @@ class ClaudeInterface:
             )
 
         # 3. Verbosity analysis
-        avg_message_length = (
-            total_tokens /
-            len(conversation_history) if conversation_history else 0)
+        avg_message_length = total_tokens / len(conversation_history) if conversation_history else 0
         if avg_message_length > 100:
             suggestions.append(
                 {
@@ -369,11 +357,7 @@ class ClaudeInterface:
             complexity += 0.3
 
         # Technical terms
-        technical_terms = [
-            "algorithm",
-            "implementation",
-            "architecture",
-            "framework"]
+        technical_terms = ["algorithm", "implementation", "architecture", "framework"]
         for term in technical_terms:
             if term in query.lower():
                 complexity += 0.1
@@ -404,8 +388,7 @@ class ClaudeInterface:
 
                     # Simple similarity check
                     cached_query = cached_data.get("query", "")
-                    similarity = self._calculate_simple_similarity(
-                        query, cached_query)
+                    similarity = self._calculate_simple_similarity(query, cached_query)
 
                     if similarity > 0.7:
                         cached.append(
@@ -421,19 +404,22 @@ class ClaudeInterface:
 
         return sorted(cached, key=lambda x: x["similarity"], reverse=True)
 
-    async def _find_matching_template(
-            self, query: str) -> Optional[Dict[str, Any]]:
+    async def _find_matching_template(self, query: str) -> Optional[Dict[str, Any]]:
         """Find matching template response."""
-        templates = [{"pattern": "what is",
-                      "template": "Definition: {topic} is [provide concise definition based on context]",
-                      },
-                     {"pattern": "how to",
-                      "template": "Steps: 1) [First step] 2) [Second step] 3) [Final step]",
-                      },
-                     {"pattern": "difference between",
-                      "template": "Key differences: • {item1}: [characteristic] • {item2}: [characteristic]",
-                      },
-                     ]
+        templates = [
+            {
+                "pattern": "what is",
+                "template": "Definition: {topic} is [provide concise definition based on context]",
+            },
+            {
+                "pattern": "how to",
+                "template": "Steps: 1) [First step] 2) [Second step] 3) [Final step]",
+            },
+            {
+                "pattern": "difference between",
+                "template": "Key differences: • {item1}: [characteristic] • {item2}: [characteristic]",
+            },
+        ]
 
         query_lower = query.lower()
         for template in templates:
@@ -460,7 +446,7 @@ class ClaudeInterface:
             # Check for repeated phrases (5+ words)
             words = content.split()
             for i in range(len(words) - 4):
-                phrase = " ".join(words[i: i + 5])
+                phrase = " ".join(words[i : i + 5])
                 if phrase in seen_phrases:
                     repetitions.append(phrase)
                 seen_phrases.add(phrase)
@@ -497,8 +483,7 @@ class ClaudeInterface:
         ]
 
         # Assess complexity
-        avg_msg_length = sum(len(msg.get("content", ""))
-                             for msg in messages) / len(messages)
+        avg_msg_length = sum(len(msg.get("content", "")) for msg in messages) / len(messages)
         if avg_msg_length > 500:
             analysis["complexity_level"] = "high"
         elif avg_msg_length > 200:

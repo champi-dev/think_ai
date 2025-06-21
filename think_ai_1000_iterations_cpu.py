@@ -1,11 +1,13 @@
 #! / usr / bin / env python3
 """Think AI 1000 iterations test - show message every 10 seconds"""
 
-from o1_vector_search import O1VectorSearch
-from sentence_transformers import SentenceTransformer
-from datetime import datetime
-import torch
 import os
+from datetime import datetime
+
+import torch
+from sentence_transformers import SentenceTransformer
+
+from o1_vector_search import O1VectorSearch
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""  # Force CPU
 
@@ -15,7 +17,6 @@ import random  # noqa: E402
 import time  # noqa: E402
 
 import numpy as np  # noqa: E402
-
 
 print("🤖 Think AI 1000 Iterations Test Starting...")
 print("📊 Will show progress every 10 seconds")

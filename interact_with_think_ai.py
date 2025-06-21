@@ -10,7 +10,8 @@ try:
 
     # Ask about deployment
     response = cli.chat(
-        "How do I redeploy this Think AI application to production? Please provide step-by-step instructions.")
+        "How do I redeploy this Think AI application to production? Please provide step-by-step instructions."
+    )
     print("Think AI Response:")
     print("=" * 50)
     print(response)
@@ -25,8 +26,7 @@ except Exception as e:
 
     try:
         response = requests.post(
-            "http://localhost:8000/api/v1/chat",
-            json={"message": "How do I redeploy this Think AI application?"}
+            "http://localhost:8000/api/v1/chat", json={"message": "How do I redeploy this Think AI application?"}
         )
         if response.status_code == 200:
             print("API Response:", response.json())

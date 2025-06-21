@@ -96,9 +96,7 @@ class ThinkAI:
         query_embedding = self.model.encode([query])
         faiss.normalize_L2(query_embedding)
 
-        scores, indices = self.index.search(
-            query_embedding.astype("float32"), min(k, len(self.code_snippets))
-        )
+        scores, indices = self.index.search(query_embedding.astype("float32"), min(k, len(self.code_snippets)))
 
         results = []
         for score, idx in zip(scores[0], indices[0]):

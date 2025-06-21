@@ -8,6 +8,7 @@ from typing import Optional
 
 import yaml
 
+
 def check_ollama_installed():
     """Check if Ollama is installed."""
     try:
@@ -16,6 +17,7 @@ def check_ollama_installed():
     except FileNotFoundError:
         return False
 
+
 def install_ollama() -> Optional[bool]:
     """Install Ollama on macOS."""
     try:
@@ -23,6 +25,7 @@ def install_ollama() -> Optional[bool]:
         return True
     except subprocess.CalledProcessError:
         return False
+
 
 def setup_ollama_phi35() -> None:
     """Setup Phi-3.5 with Ollama."""
@@ -40,6 +43,7 @@ def setup_ollama_phi35() -> None:
     # Start Ollama service
     subprocess.Popen(["ollama", "serve"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     import time
+
     time.sleep(2)  # Give it time to start
 
     # Pull Phi-3.5 model
@@ -52,7 +56,8 @@ def setup_ollama_phi35() -> None:
     with contextlib.suppress(Exception):
         subprocess.run(
             ["ollama", "run", "phi3:mini", 'Say "Hello, Think AI!" in one sentence.'],
-            check=False, capture_output=True,
+            check=False,
+            capture_output=True,
             text=True,
             timeout=30,
         )
@@ -202,6 +207,7 @@ asyncio.run(test())
     with open("test_ollama_integration.py", "w") as f:
         f.write(test_script)
     os.chmod("test_ollama_integration.py", 0o755)
+
 
 if __name__ == "__main__":
     setup_ollama_phi35()

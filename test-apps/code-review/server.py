@@ -17,9 +17,7 @@ from sentence_transformers import SentenceTransformer
 
 from vector_search_adapter import VectorSearchAdapter
 
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 torch.set_default_device("cpu")
 app = FastAPI()

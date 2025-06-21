@@ -55,8 +55,7 @@ class SentenceTransformerEmbedding(EmbeddingModel):
             logger.info("Embedding model initialized successfully")
 
         except ImportError:
-            logger.warning(
-                "sentence-transformers not available, using fallback")
+            logger.warning("sentence-transformers not available, using fallback")
             self.model = None
             self._initialized = True
         except Exception as e:
@@ -112,7 +111,6 @@ class SentenceTransformerEmbedding(EmbeddingModel):
         return embedding
 
 
-def create_embedding_model(
-        model_name: str = "all-MiniLM-L6-v2") -> EmbeddingModel:
+def create_embedding_model(model_name: str = "all-MiniLM-L6-v2") -> EmbeddingModel:
     """Create an embedding model instance."""
     return SentenceTransformerEmbedding(model_name)

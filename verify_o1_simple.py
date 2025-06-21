@@ -1,11 +1,13 @@
 #!/usr / bin / env python3
 """Simplified O(1) performance verification without plotting"""
 
+import json
 import time
+from datetime import datetime
+
 import numpy as np
 from scipy import stats
-import json
-from datetime import datetime
+
 from o1_vector_search import O1VectorSearch
 
 

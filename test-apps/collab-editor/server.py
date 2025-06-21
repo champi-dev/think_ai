@@ -23,7 +23,8 @@ import sys
 from typing import Optional
 
 import torch
-from fastapi import FastAPI, WebSocket,
+from fastapi import FastAPI, WebSocket
+
     WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from sentence_transformers import SentenceTransformer

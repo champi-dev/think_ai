@@ -4,18 +4,18 @@ O(1) performance through in-memory hash-based storage
 """
 
 import asyncio
-from typing import List, Any
 from contextlib import asynccontextmanager
+from typing import Any, List
 
 
 class Connection:
     """Think AI optimized async SQLite connection."""
-    
+
     def __init__(self, database: str):
         self.database = database
         self.tables = {}  # O(1) hash-based table storage
         print(f"🇨🇴 AsyncSQLite connected to {database} - ¡Dale que vamos tarde!")
-    
+
     async def execute(self, sql: str, parameters: tuple = ()):
         """Execute SQL with O(1) hash-based operations."""
         # Mock SQL execution for O(1) performance
@@ -28,11 +28,11 @@ class Connection:
         elif "PRAGMA" in sql.upper():
             print("🔧 Pragma executed with Colombian optimization")
         return MockCursor()
-    
+
     async def commit(self):
         """Commit with O(1) performance."""
         print("✅ Transaction committed in O(1) time")
-    
+
     async def close(self):
         """Close connection."""
         print("🇨🇴 Connection closed - ¡Hasta luego!")
@@ -40,10 +40,10 @@ class Connection:
 
 class MockCursor:
     """Mock cursor for compatibility."""
-    
+
     def fetchall(self):
         return []
-    
+
     def fetchone(self):
         return None
 

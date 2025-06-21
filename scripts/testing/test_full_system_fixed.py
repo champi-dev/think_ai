@@ -8,11 +8,12 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 import traceback
-from think_ai_cli.core_annoy import ThinkAI
+
 import annoy
 import numpy as np
-import tempfile
+from think_ai_cli.core_annoy import ThinkAI
 
 
 def test_annoy():

@@ -17,9 +17,7 @@ class PluginRegistry:
     """Central registry for Think AI plugins."""
 
     def __init__(self, registry_path: Optional[Path] = None) -> None:
-        self.registry_path = (
-            registry_path or Path.home() / ".think_ai" / "plugin_registry.json"
-        )
+        self.registry_path = registry_path or Path.home() / ".think_ai" / "plugin_registry.json"
         self.registry: Dict[str, Dict[str, Any]] = {}
         self.load_registry()
 
@@ -29,8 +27,7 @@ class PluginRegistry:
             try:
                 with open(self.registry_path) as f:
                     self.registry = json.load(f)
-                logger.info(
-                    f"Loaded {len(self.registry)} plugins from registry")
+                logger.info(f"Loaded {len(self.registry)} plugins from registry")
             except Exception as e:
                 logger.exception(f"Failed to load registry: {e}")
                 self.registry = {}
@@ -121,9 +118,7 @@ class PluginRegistry:
 
             # Filter by capability
             if capability:
-                capabilities = [
-                    PluginCapability(c) for c in metadata.get(
-                        "capabilities", [])]
+                capabilities = [PluginCapability(c) for c in metadata.get("capabilities", [])]
                 if capability not in capabilities:
                     continue
 
@@ -195,15 +190,12 @@ class PluginRegistry:
             reverse=True,
         )
 
-        return [{"plugin_id": plugin_id, **info}
-                for plugin_id, info in plugins[:limit]]
+        return [{"plugin_id": plugin_id, **info} for plugin_id, info in plugins[:limit]]
 
     def get_verified_plugins(self) -> List[Dict[str, Any]]:
         """Get verified plugins."""
         return [
-            {"plugin_id": plugin_id, **info}
-            for plugin_id, info in self.registry.items()
-            if info.get("verified", False)
+            {"plugin_id": plugin_id, **info} for plugin_id, info in self.registry.items() if info.get("verified", False)
         ]
 
     def verify_plugin(self, plugin_id: str, verified: bool = True) -> bool:

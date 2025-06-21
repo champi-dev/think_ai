@@ -166,9 +166,7 @@ from transformers import (
             and not line.startswith("    async def")
         ):
             if in_class:
-                fixed_lines.append(
-                    "    " + stripped
-                )  # Ensure proper method indentation
+                fixed_lines.append("    " + stripped)  # Ensure proper method indentation
             else:
                 fixed_lines.append(stripped)
             continue

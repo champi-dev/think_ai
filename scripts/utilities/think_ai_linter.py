@@ -6,7 +6,7 @@ import os
 import sys
 import time
 from pathlib import Path
-from typing import List, Tuple, Dict, Any
+from typing import Any, Dict, List, Tuple
 
 # Try to import formatting libraries
 try:
@@ -32,9 +32,7 @@ class ThinkAILinter:
         self.warnings = []
         self.fixes_applied = 0
 
-    def lint_and_format_file(
-        self, filepath: str, fix: bool = False
-    ) -> Tuple[List[str], List[str], int]:
+    def lint_and_format_file(self, filepath: str, fix: bool = False) -> Tuple[List[str], List[str], int]:
         """Lint and optionally format a Python file"""
         self.errors = []
         self.warnings = []
@@ -142,11 +140,7 @@ class ThinkAILinter:
                 continue
 
             # Comments and strings at module level
-            if (
-                stripped.startswith("#")
-                or stripped.startswith('"""')
-                or stripped.startswith("'''")
-            ):
+            if stripped.startswith("#") or stripped.startswith('"""') or stripped.startswith("'''"):
                 fixed_lines.append(stripped)
                 continue
 
@@ -156,10 +150,7 @@ class ThinkAILinter:
                 continue
 
             # Handle dedent keywords
-            if any(
-                stripped.startswith(kw)
-                for kw in ["elif", "else:", "except:", "finally:"]
-            ):
+            if any(stripped.startswith(kw) for kw in ["elif", "else:", "except:", "finally:"]):
                 if indent_level > 0:
                     indent_level -= 1
 
@@ -169,10 +160,7 @@ class ThinkAILinter:
             # Handle indent
             if stripped.endswith(":") and not stripped.startswith("#"):
                 indent_level += 1
-            elif any(
-                stripped.startswith(kw)
-                for kw in ["return", "break", "continue", "pass", "raise"]
-            ):
+            elif any(stripped.startswith(kw) for kw in ["return", "break", "continue", "pass", "raise"]):
                 if indent_level > 0:
                     indent_level -= 1
 
@@ -202,9 +190,7 @@ class ThinkAILinter:
         for node in ast.walk(tree):
             if isinstance(node, ast.ClassDef):
                 if not node.name[0].isupper():
-                    self.warnings.append(
-                        f"Class '{node.name}' should start with uppercase"
-                    )
+                    self.warnings.append(f"Class '{node.name}' should start with uppercase")
             elif isinstance(node, ast.FunctionDef):
                 if node.name.startswith("__") and node.name.endswith("__"):
                     continue  # Magic methods are fine
@@ -216,13 +202,9 @@ class ThinkAILinter:
         for node in ast.walk(tree):
             if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
                 if not ast.get_docstring(node):
-                    self.warnings.append(
-                        f"{node.__class__.__name__} '{node.name}' missing docstring"
-                    )
+                    self.warnings.append(f"{node.__class__.__name__} '{node.name}' missing docstring")
 
-    def lint_directory(
-        self, directory: str, fix: bool = False, exclude_dirs: List[str] = None
-    ):
+    def lint_directory(self, directory: str, fix: bool = False, exclude_dirs: List[str] = None):
         """Lint all Python files in a directory"""
         exclude_dirs = exclude_dirs or [
             ".git",
@@ -273,12 +255,8 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Think AI Linter with Formatting")
-    parser.add_argument(
-        "path", nargs="?", default=".", help="File or directory to lint"
-    )
-    parser.add_argument(
-        "--fix", action="store_true", help="Auto-fix issues and format code"
-    )
+    parser.add_argument("path", nargs="?", default=".", help="File or directory to lint")
+    parser.add_argument("--fix", action="store_true", help="Auto-fix issues and format code")
     parser.add_argument("--exclude", nargs="*", help="Directories to exclude")
 
     args = parser.parse_args()

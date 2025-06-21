@@ -5,6 +5,7 @@ import asyncio
 
 from chat_with_exponential_ai import ExponentialThinkAIChat
 
+
 async def test_responses() -> None:
     """Test various queries to see responses."""
     chat = ExponentialThinkAIChat()
@@ -20,7 +21,6 @@ async def test_responses() -> None:
         ]
 
         for query in test_queries:
-
             await chat.process_with_exponential_intelligence(query)
 
     finally:
@@ -28,6 +28,7 @@ async def test_responses() -> None:
             await chat.think_ai.system.shutdown()
         if chat.claude_api:
             await chat.claude_api.close()
+
 
 if __name__ == "__main__":
     asyncio.run(test_responses())

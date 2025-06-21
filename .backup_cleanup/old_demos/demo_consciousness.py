@@ -11,12 +11,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+from implement_proper_architecture import ProperThinkAI
 from rich.console import Console
 
-from implement_proper_architecture import ProperThinkAI
 from think_ai.consciousness.infinite_mind import InfiniteMind
 
 console = Console()
+
 
 async def demo() -> None:
     """Demonstrate consciousness with latest intelligence."""
@@ -104,7 +105,9 @@ Query: {query}"""
                 if new_scores:
                     new_score = float(new_scores[-1])
                     if new_score > latest_score:
-                        console.print(f"\n[bold magenta]⚡ Intelligence increased! {latest_score:.2f} → {new_score:.2f}[/bold magenta]")
+                        console.print(
+                            f"\n[bold magenta]⚡ Intelligence increased! {latest_score:.2f} → {new_score:.2f}[/bold magenta]"
+                        )
                         latest_score = new_score
         except Exception:
             pass
@@ -119,6 +122,7 @@ Query: {query}"""
 
     # Cleanup
     await think_ai.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(demo())

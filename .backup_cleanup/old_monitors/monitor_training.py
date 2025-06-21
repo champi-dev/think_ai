@@ -5,6 +5,7 @@ import re
 import time
 from pathlib import Path
 
+
 def monitor_training() -> None:
     """Monitor training progress from log file."""
     log_file = Path("training.log")
@@ -68,6 +69,7 @@ def monitor_training() -> None:
             break
         except Exception:
             time.sleep(5)
+
 
 if __name__ == "__main__":
     monitor_training()

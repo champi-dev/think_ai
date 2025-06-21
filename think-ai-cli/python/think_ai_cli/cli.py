@@ -28,9 +28,7 @@ def search(query, number, language) -> None:
         results = ai.search(query, k=number)
 
     if not results:
-        console.print(
-            "[yellow]No results found. Try adding some code first with 'think add'[/yellow]"
-        )
+        console.print("[yellow]No results found. Try adding some code first with 'think add'[/yellow]")
         return
 
     console.print(f"\n[bold]Found {len(results)} similar code patterns:[/bold]\n")
@@ -89,9 +87,7 @@ def generate(prompt, language, output) -> None:
         generated_code = ai.generate_code(prompt, language)
 
     syntax = Syntax(generated_code, language, theme="monokai", line_numbers=True)
-    console.print(
-        Panel(syntax, title=f"Generated {language} code", border_style="green")
-    )
+    console.print(Panel(syntax, title=f"Generated {language} code", border_style="green"))
 
     if output:
         with open(output, "w") as f:
@@ -128,9 +124,7 @@ def analyze(file) -> None:
     if analysis["similar_patterns"]:
         console.print("\n[bold]Similar patterns found:[/bold]")
         for pattern in analysis["similar_patterns"]:
-            console.print(
-                f"  • {pattern['description']} ({pattern['similarity']} similar)"
-            )
+            console.print(f"  • {pattern['description']} ({pattern['similarity']} similar)")
 
     # Suggestions
     if analysis["suggestions"]:
@@ -144,9 +138,7 @@ def stats() -> None:
     """Show knowledge base statistics."""
     stats = ai.get_stats()
 
-    console.print(
-        Panel("[bold]Think AI Knowledge Base Statistics[/bold]", border_style="cyan")
-    )
+    console.print(Panel("[bold]Think AI Knowledge Base Statistics[/bold]", border_style="cyan"))
 
     table = Table()
     table.add_column("Metric", style="cyan")
@@ -180,8 +172,7 @@ def interactive() -> None:
     """Start interactive mode."""
     console.print(
         Panel(
-            "[bold]Think AI Interactive Mode[/bold]\n"
-            "Commands: search, add, generate, analyze, stats, help, exit",
+            "[bold]Think AI Interactive Mode[/bold]\n" "Commands: search, add, generate, analyze, stats, help, exit",
             border_style="cyan",
         )
     )
@@ -207,9 +198,7 @@ Commands:
                 query = command[7:]
                 results = ai.search(query, k=3)
                 for i, (score, code, meta) in enumerate(results, 1):
-                    console.print(
-                        f"\n{i}. {meta['description']} ({score*100:.1f}% match)"
-                    )
+                    console.print(f"\n{i}. {meta['description']} ({score*100:.1f}% match)")
                     console.print(
                         Syntax(
                             code[:200] + "..." if len(code) > 200 else code,
@@ -225,9 +214,7 @@ Commands:
                 stats = ai.get_stats()
                 console.print(f"Snippets: {stats['total_snippets']}")
             else:
-                console.print(
-                    "[red]Unknown command. Type 'help' for available commands.[/red]"
-                )
+                console.print("[red]Unknown command. Type 'help' for available commands.[/red]")
 
         except KeyboardInterrupt:
             console.print("\n[yellow]Use 'exit' to quit[/yellow]")

@@ -107,14 +107,10 @@ class MockTorch:
                 return self
 
             def float16(self):
-                return Parameter(
-                    self.data.float16() if hasattr(
-                        self.data, "float16") else self.data)
+                return Parameter(self.data.float16() if hasattr(self.data, "float16") else self.data)
 
             def float(self):
-                return Parameter(
-                    self.data.float() if hasattr(
-                        self.data, "float") else self.data)
+                return Parameter(self.data.float() if hasattr(self.data, "float") else self.data)
 
     @staticmethod
     def tensor(data, dtype=None):
@@ -145,9 +141,7 @@ try:
 
     TORCH_AVAILABLE = True
 except ImportError:
-    warnings.warn(
-        "Torch not available, using minimal fallback for Think AI", UserWarning
-    )
+    warnings.warn("Torch not available, using minimal fallback for Think AI", UserWarning)
     torch = MockTorch()
     TORCH_AVAILABLE = False
 

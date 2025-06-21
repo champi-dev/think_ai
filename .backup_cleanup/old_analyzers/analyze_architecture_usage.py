@@ -13,6 +13,7 @@ from datetime import datetime
 from think_ai.engine.full_system import DistributedThinkAI
 from think_ai.integrations.claude_api import ClaudeAPI
 
+
 async def analyze_system_usage() -> None:
     """Analyze what components are actually being used."""
     system = DistributedThinkAI()
@@ -70,6 +71,7 @@ async def analyze_system_usage() -> None:
         # Store knowledge
         try:
             from think_ai.storage.base import StorageItem
+
             knowledge = {
                 "fact": "Consciousness involves self-awareness",
                 "source": "philosophy",
@@ -95,6 +97,7 @@ async def analyze_system_usage() -> None:
 
     finally:
         await system.shutdown()
+
 
 async def demonstrate_proper_usage() -> None:
     """Show how the system SHOULD work with all components."""
@@ -153,6 +156,7 @@ Provide a comprehensive response that leverages this knowledge."""
     finally:
         await claude.close()
         await system.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(analyze_system_usage())

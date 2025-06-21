@@ -7,6 +7,7 @@ import sys
 import time
 
 from implement_proper_architecture import ProperThinkAI
+
 from think_ai.cache import get_architecture_cache
 
 

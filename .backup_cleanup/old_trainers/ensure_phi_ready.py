@@ -7,6 +7,7 @@ from typing import Optional
 
 import requests
 
+
 def ensure_ollama_running() -> Optional[bool]:
     """Make sure Ollama is running."""
     try:
@@ -17,6 +18,7 @@ def ensure_ollama_running() -> Optional[bool]:
         subprocess.Popen(["ollama", "serve"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         time.sleep(3)
         return True
+
 
 def warm_up_phi() -> Optional[bool]:
     """Warm up Phi-3.5 with a test query."""
@@ -41,11 +43,10 @@ def warm_up_phi() -> Optional[bool]:
     except Exception:
         return False
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     if ensure_ollama_running():
         if warm_up_phi():
             pass
         else:
             pass
-

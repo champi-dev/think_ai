@@ -6,6 +6,7 @@ import time
 
 import httpx
 
+
 class OllamaModel:
     """Simple Ollama wrapper for testing."""
 
@@ -52,6 +53,7 @@ class OllamaModel:
             except Exception:
                 return None
 
+
 async def main() -> None:
     """Test Ollama Phi-3.5 Mini."""
     model = OllamaModel()
@@ -72,6 +74,7 @@ async def main() -> None:
 
     for prompt in test_prompts:
         await model.generate(prompt)
+
 
 if __name__ == "__main__":
     asyncio.run(main())

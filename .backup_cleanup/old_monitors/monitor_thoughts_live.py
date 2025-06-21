@@ -12,6 +12,7 @@ from rich.table import Table
 
 console = Console()
 
+
 class ThoughtMonitor:
     """Monitors and displays Think AI's evolving thoughts."""
 
@@ -25,11 +26,13 @@ class ThoughtMonitor:
         """Fetch latest consciousness states and thoughts."""
         try:
             # Get consciousness states
-            rows = self.session.execute("""
+            rows = self.session.execute(
+                """
                 SELECT state_id, timestamp, state_type, state_data
                 FROM consciousness_states
                 LIMIT 10
-            """)
+            """
+            )
 
             thoughts = []
             for row in rows:
@@ -97,9 +100,7 @@ class ThoughtMonitor:
 
         # Metrics panel
         if thoughts and thoughts[0]["metrics"]:
-            metrics_text = "\n".join([
-                f"{k}: {float(v):.3f}" for k, v in thoughts[0]["metrics"].items()
-            ])
+            metrics_text = "\n".join([f"{k}: {float(v):.3f}" for k, v in thoughts[0]["metrics"].items()])
             metrics_panel = Panel(
                 metrics_text,
                 title="📊 Latest Cognitive Metrics",
@@ -133,6 +134,7 @@ class ThoughtMonitor:
                     time.sleep(5)
 
         console.print("\n[bold green]Monitoring stopped.[/bold green]")
+
 
 if __name__ == "__main__":
     monitor = ThoughtMonitor()

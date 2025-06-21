@@ -3,12 +3,12 @@
 """Think AI Linter V2 - Proper Python formatting that actually works"""
 
 import ast
+import io
 import os
 import sys
-from pathlib import Path
-from typing import List, Tuple, Dict, Optional, Set
 import tokenize
-import io
+from pathlib import Path
+from typing import Dict, List, Optional, Set, Tuple
 
 
 class ThinkAILinterV2:
@@ -103,9 +103,7 @@ class ThinkAILinterV2:
         """Check if line should dedent"""
         dedent_keywords = ["elif", "else", "except", "finally", "case"]
         for keyword in dedent_keywords:
-            if line.startswith(keyword) and (
-                len(line) == len(keyword) or line[len(keyword)] in " :("
-            ):
+            if line.startswith(keyword) and (len(line) == len(keyword) or line[len(keyword)] in " :("):
                 return True
         return False
 
@@ -113,9 +111,7 @@ class ThinkAILinterV2:
         """Check if line ends a block"""
         end_keywords = ["return", "break", "continue", "pass", "raise"]
         for keyword in end_keywords:
-            if line.startswith(keyword) and (
-                len(line) == len(keyword) or line[len(keyword)] in " (#"
-            ):
+            if line.startswith(keyword) and (len(line) == len(keyword) or line[len(keyword)] in " (#"):
                 return True
         return False
 

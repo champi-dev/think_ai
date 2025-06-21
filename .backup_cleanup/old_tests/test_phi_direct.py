@@ -5,6 +5,7 @@ import time
 
 import requests
 
+
 def test_phi(prompt, max_tokens=50) -> None:
     """Test Phi-3.5 with a prompt."""
     start_time = time.time()
@@ -39,10 +40,9 @@ def test_phi(prompt, max_tokens=50) -> None:
     except Exception:
         pass
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     # Test queries
     test_phi("Hello", max_tokens=20)
     test_phi("What is love?", max_tokens=50)
     test_phi("Question: What is 2+2?\nAnswer:", max_tokens=10)
-

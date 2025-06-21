@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from implement_proper_architecture import ProperThinkAI
 
+
 async def chat() -> None:
     """Simple chat with the enhanced AI."""
     think_ai = ProperThinkAI()
@@ -60,6 +61,7 @@ async def chat() -> None:
             break
         except Exception:
             pass
+
 
 if __name__ == "__main__":
     asyncio.run(chat())

@@ -11,6 +11,7 @@ from typing import Optional
 project_dir = Path(__file__).parent
 sys.path.insert(0, str(project_dir))
 
+
 async def test_setup() -> Optional[bool]:
     """Test Think AI setup components."""
     try:
@@ -38,8 +39,10 @@ async def test_setup() -> Optional[bool]:
 
     except Exception:
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def main() -> None:
     """Main test function."""
@@ -49,6 +52,7 @@ async def main() -> None:
         pass
     else:
         sys.exit(1)
+
 
 if __name__ == "__main__":
     asyncio.run(main())

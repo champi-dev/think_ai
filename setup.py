@@ -3,6 +3,7 @@ Setup configuration for PyPI.
 """
 
 import os
+
 from setuptools import find_packages, setup
 
 # Read the README file
