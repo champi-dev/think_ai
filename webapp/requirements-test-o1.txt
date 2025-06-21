@@ -1,0 +1,5 @@
+# Test requirements for O(1) cache demonstration
+fastapi==0.108.0
+uvicorn==0.25.0
+pydantic==2.10.5
+numpy==1.26.4
