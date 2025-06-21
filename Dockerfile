@@ -31,5 +31,5 @@ ENV THINK_AI_CACHE_EVERYTHING=true
 # Expose port
 EXPOSE 8080
 
-# Start the application
-CMD ["python", "think_ai_full.py"]
+# Start the application with transformers fix
+CMD ["python", "fix_transformers.py"]

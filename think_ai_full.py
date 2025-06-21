@@ -10,6 +10,9 @@ from pathlib import Path
 os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
 os.environ["TRANSFORMERS_OFFLINE"] = "0"
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+# Fix for transformers docstring error
+os.environ["TRANSFORMERS_VERBOSITY"] = "error"
+os.environ["TRANSFORMERS_NO_ADVISORY_WARNINGS"] = "1"
 
 # Configure logging
 logging.basicConfig(
@@ -28,6 +31,12 @@ try:
     from fastapi import FastAPI, HTTPException
     from fastapi.middleware.cors import CORSMiddleware
     from pydantic import BaseModel
+
+    # Import warnings handler
+    import warnings
+
+    warnings.filterwarnings("ignore", category=FutureWarning)
+    warnings.filterwarnings("ignore", category=UserWarning)
 
     from think_ai.api.endpoints import router as api_router
 
