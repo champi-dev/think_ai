@@ -1,14 +1,16 @@
 [phases.setup]
-nixPkgs = ["python311", "gcc"]
+nixPkgs = ["python311", "gcc", "python311Packages.pip"]
+aptPkgs = ["python3-pip"]
 
 [phases.install]
-cmds = ["echo 'Skipping npm install'"]
+cmds = ["python3 --version", "pip3 --version", "pip3 install -r requirements.txt"]
 
 [phases.build]
-cmds = ["pip install -r requirements.txt"]
+cmds = ["echo 'Build phase complete'"]
 
 [start]
-cmd = "python -u simple_server.py"
+cmd = "python3 -u simple_server.py"
 
 [variables]
 NIXPACKS_PYTHON_VERSION = "3.11"
+NIXPACKS_DISABLE_CACHE = "1"
