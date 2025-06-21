@@ -39,9 +39,10 @@ cmd = "export THINK_AI_O1_MODE=true && export THINK_AI_COLOMBIAN_MODE=true && ex
 
 # Railway-specific optimizations
 [deploy]
-startupTimeoutSeconds = 30  # We only need 10 seconds
-healthcheckPath = "/health"
-healthcheckTimeoutSeconds = 5
+startupTimeoutSeconds = 300  # 5 minutes to start
+# Disable health checks for now
+# healthcheckPath = "/health"
+# healthcheckTimeoutSeconds = 5
 
 # Cache persistence configuration
 [[mounts]]
