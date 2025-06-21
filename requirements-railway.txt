@@ -1,20 +1,6 @@
 # Minimal requirements for Railway deployment
-# No ML libraries, no vector DBs, just core functionality
+# Ultra-minimal - just FastAPI
 
-# Core async and logging
-asyncio-throttle==1.0.2
-structlog==24.1.0
-python-dotenv==1.0.1
-
-# Web framework
+# Web framework only
 fastapi==0.108.0
 uvicorn[standard]==0.25.0
-aiofiles==23.2.1
-
-# Basic computation (required for hash-based embeddings)
-numpy==1.26.0
-
-# Utilities
-pyyaml==6.0.1
-click==8.1.7
-psutil==5.9.6
