@@ -14,9 +14,6 @@
     "production": {
       "build": {
         "buildCommand": "echo 'Using optimized Dockerfile'"
-      },
-      "deploy": {
-        "startCommand": "/usr/local/bin/think-ai --host 0.0.0.0 --port 8080"
       }
     }
   }
