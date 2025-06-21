@@ -3,11 +3,14 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy simple server (no dependencies needed!)
-COPY simple_server.py .
+# Copy files
+COPY simple_server.py start.sh ./
+
+# Make executable
+RUN chmod +x start.sh simple_server.py
 
 # Railway sets PORT env var
 EXPOSE 8080
 
-# Run server
-CMD ["python", "simple_server.py"]
+# Use start script
+CMD ["./start.sh"]

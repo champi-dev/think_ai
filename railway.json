@@ -9,5 +9,12 @@
     "healthcheckPath": "/health",
     "healthcheckTimeout": 60,
     "restartPolicyMaxRetries": 10
+  },
+  "environments": {
+    "production": {
+      "variables": {
+        "BINARY_MODE": null
+      }
+    }
   }
 }
