@@ -3,8 +3,9 @@
   "build": {
     "builder": "DOCKERFILE",
     "buildArgs": {
-      "BASE_IMAGE": "devsarmico/think-ai-base:latest"
-    }
+      "BASE_IMAGE": "devsarmico/think-ai-base:optimized"
+    },
+    "dockerfilePath": "Dockerfile"
   },
   "deploy": {
     "numReplicas": 1,

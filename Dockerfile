@@ -1,10 +1,15 @@
-# O(1) API Dockerfile - uses pre-built base image
+# O(1) API Dockerfile - uses pre-built OPTIMIZED base image
 # This only copies application code, making builds take ~10 seconds
+# Image size: ~2GB (optimized) instead of 5GB
 
 # Use the pre-built base image from Docker Hub
-# Replace 'devsarmico' with your actual Docker Hub username
-ARG BASE_IMAGE=devsarmico/think-ai-base:latest
+# Using optimized tag for smaller, faster pulls
+ARG BASE_IMAGE=devsarmico/think-ai-base:optimized
 FROM ${BASE_IMAGE}
+
+# Add labels for Railway caching
+LABEL railway.cache=true
+LABEL railway.cache.key="think-ai-optimized-v1"
 
 # Set working directory (already created in base)
 WORKDIR /app

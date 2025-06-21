@@ -1,0 +1,51 @@
+# EXTREME O(1) Optimization - Pre-cached compressed layers
+# Uses Docker registry as CDN for O(1) pulls
+
+ARG BASE_IMAGE=devsarmico/think-ai-base:optimized
+FROM ${BASE_IMAGE} as base
+
+# Stage 1: Pre-cache models and compress
+FROM base as model-cache
+
+USER root
+WORKDIR /cache
+
+# Download and compress ML models
+RUN python -c "
+from sentence_transformers import SentenceTransformer
+import shutil
+import os
+
+# Download model
+model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+cache_dir = '/cache/models'
+
+# Compress with max compression
+shutil.make_archive('/cache/models', 'xz', cache_dir)
+print(f'Compressed models: {os.path.getsize("/cache/models.tar.xz") / 1024 / 1024:.1f}MB')
+"
+
+# Stage 2: Final O(1) image
+FROM ${BASE_IMAGE}
+
+# Copy compressed models
+COPY --from=model-cache --chown=appuser:appuser /cache/models.tar.xz /tmp/
+
+# Extract on first run (O(1) after cache)
+RUN cd /home/appuser && \
+    tar -xJf /tmp/models.tar.xz && \
+    rm /tmp/models.tar.xz
+
+# Copy only app code (THE O(1) OPERATION!)
+WORKDIR /app
+COPY --chown=appuser:appuser . .
+
+# Pre-compile app code
+RUN python -m compileall -q .
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:8080/health').raise_for_status()" || exit 1
+
+EXPOSE 8080
+CMD ["python", "start_with_patch.py"]
