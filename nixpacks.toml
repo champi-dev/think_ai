@@ -19,29 +19,8 @@ PYTHONUNBUFFERED = "1"
 [phases.install]
 # O(1) installation - no network calls, pure local operations
 cmds = [
-    # Check if we have the ultra cache
-    '''
-    if [ -f "$O1_CACHE_DIR/bundles/ultra-bundle-*.tar.xz" ]; then
-        echo "🚀 O(1) Ultra Cache detected - initiating 10-second deployment"
-        
-        # Make deployment script executable
-        chmod +x o1_ultra_deploy.sh
-        
-        # Run O(1) deployment
-        ./o1_ultra_deploy.sh
-    else
-        echo "⚠️  No O(1) cache found - building cache first..."
-        
-        # Install minimal requirements for cache builder
-        pip install --no-cache-dir pip-tools pipdeptree
-        
-        # Build the ultra cache
-        python o1_ultra_cache.py --requirements requirements-full.txt
-        
-        # Now deploy with O(1) performance
-        ./o1_ultra_deploy.sh
-    fi
-    ''',
+    # Single line command to avoid Dockerfile parsing issues
+    "if [ -f \"$O1_CACHE_DIR/bundles/ultra-bundle-*.tar.xz\" ]; then echo '🚀 O(1) Ultra Cache detected' && chmod +x o1_ultra_deploy.sh && ./o1_ultra_deploy.sh; else echo '⚠️ No cache found - building first' && pip install --no-cache-dir pip-tools pipdeptree && python o1_ultra_cache.py --requirements requirements-full.txt && ./o1_ultra_deploy.sh; fi"
 ]
 
 # Watch only the requirements file for changes
@@ -53,12 +32,7 @@ cmds = ["echo '✅ O(1) build complete - all dependencies cached'"]
 
 [start]
 # Start with Think AI optimizations enabled
-cmd = '''
-export THINK_AI_O1_MODE=true && \
-export THINK_AI_COLOMBIAN_MODE=true && \
-export THINK_AI_CACHE_EVERYTHING=true && \
-python think_ai_full.py
-'''
+cmd = "export THINK_AI_O1_MODE=true && export THINK_AI_COLOMBIAN_MODE=true && export THINK_AI_CACHE_EVERYTHING=true && python think_ai_full.py"
 
 # Railway-specific optimizations
 [deploy]
