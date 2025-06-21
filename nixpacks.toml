@@ -13,7 +13,10 @@ cmds = [
     "echo 'Setting up Think AI directories...'",
     "mkdir -p /tmp/think_ai/models",
     "mkdir -p /tmp/think_ai/cache",
-    "mkdir -p /tmp/think_ai/data"
+    "mkdir -p /tmp/think_ai/data",
+    "echo 'Removing old files...'",
+    "rm -f simple_server.py || true",
+    "ls -la"
 ]
 
 [start]
@@ -24,3 +27,4 @@ NIXPACKS_PYTHON_VERSION = "3.11"
 NIXPACKS_DISABLE_CACHE = "1"
 HF_HOME = "/tmp/hf_cache"
 TRANSFORMERS_CACHE = "/tmp/transformers_cache"
+BINARY_MODE = "false"
