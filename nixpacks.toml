@@ -2,24 +2,15 @@
 nixPkgs = ["python311", "gcc", "python311Packages.pip", "python311Packages.virtualenv", "git"]
 
 [phases.install]
-# Optimized installation with local pre-built cache
+# Optimized installation with dependency caching
 cmds = [
     "python3 -m venv /opt/venv",
     ". /opt/venv/bin/activate && pip install --upgrade pip setuptools wheel",
-    # Check if pre-built cache exists
-    '''
-    if [ -f "railway-cache/install_from_cache.sh" ]; then
-        echo "🚀 Using pre-built local cache for O(1) installation!"
-        . /opt/venv/bin/activate && ./railway-cache/install_from_cache.sh
-    else
-        echo "⚠️  No cache found, falling back to standard installation"
-        . /opt/venv/bin/activate && pip wheel -r requirements-full.txt --wheel-dir=/tmp/wheels
-        . /opt/venv/bin/activate && pip install -r requirements-full.txt --find-links=/tmp/wheels --prefer-binary
-    fi
-    '''
+    # Single line command with proper escaping
+    ". /opt/venv/bin/activate && if [ -f railway-cache/install_from_cache.sh ]; then echo '🚀 Using pre-built local cache for O(1) installation!' && ./railway-cache/install_from_cache.sh; else echo '⚠️  No cache found, falling back to standard installation' && pip wheel -r requirements-full.txt --wheel-dir=/tmp/wheels && pip install -r requirements-full.txt --find-links=/tmp/wheels --prefer-binary; fi"
 ]
 # Cache this phase when requirements haven't changed
-dependsOn = ["requirements-full.txt", "railway-cache/manifests/requirements.hash"]
+dependsOn = ["requirements-full.txt"]
 
 [phases.build]
 cmds = [
