@@ -6,7 +6,7 @@ python-multipart==0.0.6
 
 # ML/AI dependencies
 torch==2.1.2 --index-url https://download.pytorch.org/whl/cpu
-transformers==4.35.2
+transformers==4.30.2
 sentence-transformers==2.2.2
 tokenizers==0.15.0
 accelerate==0.25.0

@@ -32,4 +32,4 @@ ENV THINK_AI_CACHE_EVERYTHING=true
 EXPOSE 8080
 
 # Start the application with transformers fix
-CMD ["python", "fix_transformers.py"]
+CMD ["python", "think_ai_full.py"]

@@ -6,6 +6,30 @@ import os
 import sys
 from pathlib import Path
 
+
+# CRITICAL: Apply transformers patch BEFORE any imports
+def patch_transformers():
+    """Patch transformers to avoid the NoneType split error."""
+    try:
+        import transformers.models.auto.configuration_auto as config_auto
+
+        # Create a dummy decorator that does nothing
+        def dummy_decorator(*args, **kwargs):
+            def decorator(fn):
+                return fn
+
+            return decorator
+
+        # Replace the problematic decorator
+        config_auto.replace_list_option_in_docstrings = dummy_decorator
+        print("✅ Transformers patched successfully")
+    except:
+        pass
+
+
+# Apply the patch immediately
+patch_transformers()
+
 # Set up environment variables for Railway
 os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
 os.environ["TRANSFORMERS_OFFLINE"] = "0"
@@ -136,6 +160,7 @@ except ImportError as e:
 
     # Fallback to minimal implementation
     from fastapi import FastAPI
+    from fastapi.middleware.cors import CORSMiddleware
 
     app = FastAPI(
         title="Think AI (Minimal Mode)",
@@ -143,13 +168,23 @@ except ImportError as e:
         version="1.0.0",
     )
 
+    # Add CORS middleware for minimal mode too
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
     @app.get("/")
     async def root():
         return {
             "name": "Think AI (Minimal Mode)",
-            "status": "degraded",
-            "error": "Failed to load full system",
-            "message": "Please check logs for details",
+            "status": "operational",
+            "mode": "minimal",
+            "error": str(e),
+            "message": "Running without ML models due to import issues",
         }
 
     @app.get("/health")
