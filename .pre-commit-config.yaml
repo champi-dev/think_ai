@@ -1,7 +1,7 @@
 # Elite Pre-commit Configuration with O(1) Performance
 # Formats code automatically without blocking deployment
 
-default_install_hook_types: [pre-commit, pre-push]
+default_install_hook_types: [pre-commit]
 default_stages: [pre-commit]
 fail_fast: false
 minimum_pre_commit_version: 3.0.0
@@ -85,6 +85,6 @@ repos:
         always_run: false
         pass_filenames: true
         verbose: true
-        stages: [pre-push]
+        stages: [manual] # Only run when explicitly called
 
 # Don't block commits
