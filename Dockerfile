@@ -15,23 +15,14 @@ RUN npm ci --only=production
 # Copy webapp source
 COPY webapp/ ./
 
-# Build the Next.js app
-RUN npm run build
+# Build and export the Next.js app as static files
+RUN npm run build && npm run export || npx next export
 
 # Stage 2: Final image with both API and webapp  
 FROM devsarmico/think-ai-base:optimized AS final
 
-# Switch to root to install Node.js
+# Switch to root for setup
 USER root
-
-# Install Node.js using NodeSource binary distributions (more reliable)
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl ca-certificates && \
-    curl -fsSL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh && \
-    bash nodesource_setup.sh && \
-    apt-get install -y nodejs && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* nodesource_setup.sh
 
 # Add labels for Railway caching
 LABEL railway.cache=true
@@ -43,14 +34,12 @@ WORKDIR /app
 # Copy Python application code
 COPY . .
 
-# Copy built webapp from builder stage
-COPY --from=webapp-builder /webapp/.next ./webapp/.next
+# Copy built webapp static files from builder stage
+COPY --from=webapp-builder /webapp/out ./webapp/out
 COPY --from=webapp-builder /webapp/public ./webapp/public
-COPY --from=webapp-builder /webapp/node_modules ./webapp/node_modules
-COPY --from=webapp-builder /webapp/package*.json ./webapp/
 
 # Ensure scripts are executable and owned by appuser
-RUN chmod +x start_full_system.py process_manager.py start_with_patch.py && \
+RUN chmod +x start_full_system.py process_manager.py start_with_patch.py webapp_server.py && \
     chown -R appuser:appuser /app
 
 # Expose both ports (Railway will use PORT env var)

@@ -165,8 +165,7 @@ def main():
     
     webapp_process = start_service(
         "Webapp",
-        ["npm", "start"],
-        cwd="webapp",
+        [sys.executable, "webapp_server.py"],
         env=webapp_env
     )
     
