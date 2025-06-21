@@ -12,7 +12,7 @@ cmds = [
 cmds = ["echo 'Build phase complete'"]
 
 [start]
-cmd = "/opt/venv/bin/python -u simple_server.py"
+cmd = "/opt/venv/bin/python -u think_ai_minimal.py"
 
 [variables]
 NIXPACKS_PYTHON_VERSION = "3.11"
