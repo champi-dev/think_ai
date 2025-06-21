@@ -17,13 +17,13 @@ PYTHONDONTWRITEBYTECODE = "1"
 PYTHONUNBUFFERED = "1"
 
 [phases.install]
-# O(1) installation - no network calls, pure local operations
+# O(1) installation - fallback to standard install if no cache
 cmds = [
     # Create virtual environment first
     "python3 -m venv /opt/venv",
     ". /opt/venv/bin/activate && pip install --upgrade pip setuptools wheel",
-    # Then run O(1) cache check and installation
-    ". /opt/venv/bin/activate && if [ -f \"$O1_CACHE_DIR/bundles/ultra-bundle-*.tar.xz\" ]; then echo '🚀 O(1) Ultra Cache detected' && chmod +x o1_ultra_deploy.sh && ./o1_ultra_deploy.sh; else echo '⚠️ No cache found - building first' && pip install --no-cache-dir pip-tools pipdeptree && python o1_ultra_cache.py --requirements requirements-full.txt && ./o1_ultra_deploy.sh; fi"
+    # Check for O(1) cache or fallback to standard installation
+    ". /opt/venv/bin/activate && if [ -d \"$O1_CACHE_DIR/bundles\" ] && ls $O1_CACHE_DIR/bundles/ultra-bundle-*.tar.xz 1> /dev/null 2>&1; then echo '🚀 O(1) Ultra Cache detected - extracting...' && tar -xJf $O1_CACHE_DIR/bundles/ultra-bundle-*.tar.xz -C /tmp/ && find /tmp/wheels -name '*.whl' | xargs pip install --no-deps --no-index; else echo '⚠️ No O(1) cache found - using standard installation' && pip install -r requirements-full.txt; fi"
 ]
 
 # Watch only the requirements file for changes
