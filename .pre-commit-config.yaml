@@ -94,5 +94,6 @@ repos:
       - id: bandit
         args: ['-r', 'think_ai/', '--skip=B101,B601', '--severity-level=medium']
         files: \.py$
+        pass_filenames: false
         stages: [pre-push]
 # Don't block commits
