@@ -39,6 +39,10 @@ yarn-error.log*
 .next/
 out/
 dist/
+webapp/node_modules/
+webapp/.next/
+webapp/out/
+webapp/dist/
 
 # IDE
 .idea
@@ -86,7 +90,7 @@ test_*.py
 *.spec.js
 
 # O(1) Build Optimizations - Exclude heavy directories
-webapp/
+# webapp/ - NEEDED for build, don't exclude!
 examples/
 notebooks/
 scripts/
