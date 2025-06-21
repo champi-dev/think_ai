@@ -1,35 +1,28 @@
-# O(1) Dockerfile for 10-second Railway deployments
-FROM python:3.11-slim
+# O(1) API Dockerfile - uses pre-built base image
+# This only copies application code, making builds take ~10 seconds
 
-# Install only essential system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+# Use the pre-built base image from Docker Hub
+# Replace 'devsarmico' with your actual Docker Hub username
+ARG BASE_IMAGE=devsarmico/think-ai-base:latest
+FROM ${BASE_IMAGE}
 
+# Set working directory (already created in base)
 WORKDIR /app
 
-# Create virtual environment
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# CRITICAL: Copy and install requirements FIRST for Docker layer caching
-# This ensures requirements are only reinstalled when requirements-full.txt changes
-COPY requirements-full.txt .
-RUN pip install --upgrade pip setuptools wheel && \
-    pip install -r requirements-full.txt
-
-# Copy application code AFTER requirements
-# This way, code changes don't invalidate the requirements cache layer
+# Copy only application code - this is the O(1) operation
+# Dependencies are already installed in the base image
 COPY . .
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-ENV THINK_AI_O1_MODE=true
-ENV THINK_AI_COLOMBIAN_MODE=true
-ENV THINK_AI_CACHE_EVERYTHING=true
+# Ensure the transformers fix is applied
+RUN python -c "import os; os.system('ls -la')"
 
-# Expose port
+# Expose the API port
 EXPOSE 8080
 
-# Start the application with transformers fix
+# Health check for Railway
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:8080/health').raise_for_status()" || exit 1
+
+# Start the API server
+# The transformers patch is applied within think_ai_full.py
 CMD ["python", "think_ai_full.py"]
