@@ -8,9 +8,7 @@
     "numReplicas": 1,
     "healthcheckPath": "/health",
     "healthcheckTimeout": 30,
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 3,
-    "region": "us-west1"
+    "restartPolicyMaxRetries": 10
   },
   "environments": {
     "production": {
@@ -18,7 +16,7 @@
         "buildCommand": "echo 'Using optimized Dockerfile'"
       },
       "deploy": {
-        "startCommand": "/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"
+        "startCommand": "/usr/local/bin/think-ai --host 0.0.0.0 --port 8080"
       }
     }
   }

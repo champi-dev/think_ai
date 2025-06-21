@@ -7,7 +7,7 @@ WORKDIR /deps
 
 # Copy and install Python dependencies
 COPY requirements-fast.txt .
-RUN --mount=type=cache,id=railway-think-ai-pip,target=/root/.cache/pip \
+RUN --mount=type=cache,id=think-ai-railway-pip,target=/root/.cache/pip \
     pip install --user --no-warn-script-location -r requirements-fast.txt
 
 # Stage 2: Node.js webapp build
@@ -15,9 +15,9 @@ FROM node:20-alpine AS webapp-builder
 WORKDIR /webapp
 
 # Copy webapp files
-COPY webapp/package*.json ./
-RUN --mount=type=cache,id=railway-think-ai-npm,target=/root/.npm \
-    npm ci
+COPY webapp/package.json ./
+RUN --mount=type=cache,id=think-ai-railway-npm,target=/root/.npm \
+    npm install
 
 COPY webapp/ ./
 RUN npm run build
@@ -27,7 +27,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install runtime dependencies and Node.js
-RUN --mount=type=cache,id=railway-apt,target=/var/cache/apt \
+RUN --mount=type=cache,id=think-ai-railway-apt,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
     curl \
     supervisor \
