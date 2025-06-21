@@ -1,43 +1,17 @@
-# Lightweight Dockerfile for Think AI on Railway
-# Uses minimal dependencies and built-in lightweight alternatives
-
+# Ultra-minimal Dockerfile for Railway
 FROM python:3.11-slim
-
-# Set environment for lightweight mode
-ENV PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    THINK_AI_MODE=lightweight \
-    PORT=8080
 
 WORKDIR /app
 
-# Install only minimal system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy minimal requirements
+# Install dependencies
 COPY requirements-railway.txt .
+RUN pip install --no-cache-dir -r requirements-railway.txt
 
-# Install build dependencies, Python packages, then remove build deps
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    python3-dev \
-    && pip install --no-cache-dir -r requirements-railway.txt \
-    && apt-get purge -y gcc python3-dev \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy only the server file
+# Copy server
 COPY railway_server.py .
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:${PORT}/health || exit 1
+# Railway sets PORT env var
+EXPOSE 8080
 
-# Expose Railway's required port
-EXPOSE ${PORT}
-
-# Start server
+# Run server
 CMD ["python", "railway_server.py"]
