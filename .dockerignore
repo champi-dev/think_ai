@@ -85,6 +85,26 @@ test_*.py
 *.test.js
 *.spec.js
 
+# O(1) Build Optimizations - Exclude heavy directories
+webapp/
+examples/
+notebooks/
+scripts/
+benchmarks/
+plugins/
+servers/
+deployment/
+generated_code/
+
+# Exclude all cache and build directories
+.o1-ultra-cache/
+.o1-demo-cache/
+railway-cache/
+O1_*
+o1_*
+*.tar.xz
+*.whl
+
 # Build artifacts
 build/
 *.egg-info/
