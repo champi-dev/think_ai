@@ -24,4 +24,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 
 # Start the API server
 # The transformers patch is applied within think_ai_full.py
-CMD ["python", "think_ai_full.py"]
+CMD ["python", "start_with_patch.py"]

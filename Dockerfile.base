@@ -25,10 +25,13 @@ COPY requirements-full.txt /tmp/requirements-full.txt
 # This is the time-consuming step that we do ONCE
 RUN pip install --no-cache-dir -r /tmp/requirements-full.txt
 
+# Copy and run transformers fix
+COPY fix_transformers_base.py /tmp/
+RUN python /tmp/fix_transformers_base.py
+
 # Download model files during build (optional but recommended)
 # This pre-caches the models to avoid download during runtime
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')" || true
-RUN python -c "from transformers import AutoModel, AutoTokenizer; AutoTokenizer.from_pretrained('microsoft/phi-2'); AutoModel.from_pretrained('microsoft/phi-2')" || true
 
 # Final stage - slim image with pre-installed dependencies
 FROM python:3.11-slim
