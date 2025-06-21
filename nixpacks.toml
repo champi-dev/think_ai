@@ -14,9 +14,12 @@ cmds = [
     "mkdir -p /tmp/think_ai/models",
     "mkdir -p /tmp/think_ai/cache",
     "mkdir -p /tmp/think_ai/data",
-    "echo 'Removing old files...'",
-    "rm -f simple_server.py || true",
-    "ls -la"
+    "echo 'Verifying deployment files...'",
+    "if [ -f simple_server.py ]; then echo 'ERROR: simple_server.py found!' && exit 1; fi",
+    "if [ ! -f think_ai_full.py ]; then echo 'ERROR: think_ai_full.py not found!' && exit 1; fi",
+    "echo 'Files in current directory:'",
+    "ls -la",
+    "echo 'Starting with think_ai_full.py'"
 ]
 
 [start]
@@ -25,6 +28,7 @@ cmd = "/opt/venv/bin/python -u think_ai_full.py"
 [variables]
 NIXPACKS_PYTHON_VERSION = "3.11"
 NIXPACKS_DISABLE_CACHE = "1"
+NIXPACKS_NO_CACHE = "true"
 HF_HOME = "/tmp/hf_cache"
 TRANSFORMERS_CACHE = "/tmp/transformers_cache"
 BINARY_MODE = "false"

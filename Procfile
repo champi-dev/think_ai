@@ -1,1 +1,1 @@
-web: python simple_server.py
+web: python think_ai_full.py
