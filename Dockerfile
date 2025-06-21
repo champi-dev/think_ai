@@ -18,20 +18,20 @@ COPY webapp/ ./
 # Build the Next.js app
 RUN npm run build
 
-# Stage 2: Copy Node.js from official image
-FROM node:18-slim AS node-provider
-
-# Stage 3: Final image with both API and webapp  
+# Stage 2: Final image with both API and webapp  
 FROM devsarmico/think-ai-base:optimized AS final
 
 # Switch to root to install Node.js
 USER root
 
-# Copy Node.js from the official Node image
-COPY --from=node-provider /usr/local/bin/node /usr/local/bin/
-COPY --from=node-provider /usr/local/lib/node_modules /usr/local/lib/node_modules
-RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
-    ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+# Install Node.js using NodeSource binary distributions (more reliable)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl ca-certificates && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh && \
+    bash nodesource_setup.sh && \
+    apt-get install -y nodejs && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* nodesource_setup.sh
 
 # Add labels for Railway caching
 LABEL railway.cache=true
