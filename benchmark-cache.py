@@ -240,7 +240,7 @@ Generated: {self.results['timestamp']}
 - **Complexity**: {model['complexity']}
 """
 
-        evidence += f"""
+        evidence += """
 
 ## Detailed Benchmark Results
 
@@ -270,7 +270,7 @@ Full results saved to: {report_path}
         with open(evidence_path, "w") as f:
             f.write(evidence)
 
-        print(f"\n📊 Reports generated:")
+        print("\n📊 Reports generated:")
         print(f"  - {report_path}")
         print(f"  - {evidence_path}")
 
