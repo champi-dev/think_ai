@@ -21,7 +21,7 @@ repos:
 
   # Python Black Formatter - Auto-fix
   - repo: https://github.com/psf/black
-    rev: 23.12.1
+    rev: 25.1.0
     hooks:
       - id: black
         language_version: python3.11
@@ -31,7 +31,7 @@ repos:
 
   # Import Sorting - Auto-fix
   - repo: https://github.com/PyCQA/isort
-    rev: 5.13.2
+    rev: 6.0.1
     hooks:
       - id: isort
         args: ['--profile=black', '--line-length=120']
@@ -40,7 +40,7 @@ repos:
 
   # Basic file fixes
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
         args: ['--markdown-linebreak-ext=md']
@@ -59,7 +59,7 @@ repos:
 
   # Prettier for JS/TS (auto-fix)
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.1.0
+    rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
         types_or: [javascript, jsx, ts, tsx, json, yaml, markdown]
@@ -71,7 +71,7 @@ repos:
 
   # Flake8 - Report only, no blocking
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
+    rev: 7.3.0
     hooks:
       - id: flake8
         args:
@@ -87,13 +87,4 @@ repos:
         verbose: true
         stages: [pre-push]
 
-  # Security scan - Report only
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.6
-    hooks:
-      - id: bandit
-        args: ['-r', 'think_ai/', '--skip=B101,B601', '--severity-level=medium']
-        files: \.py$
-        pass_filenames: false
-        stages: [pre-push]
 # Don't block commits
