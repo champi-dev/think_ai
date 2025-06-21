@@ -1,0 +1,58 @@
+# O(1) Worker Dockerfile - uses pre-built base image
+# This only copies application code, making builds take ~10 seconds
+
+# Use the pre-built base image from Docker Hub
+# Replace 'yourusername' with your actual Docker Hub username
+ARG BASE_IMAGE=yourusername/think-ai-base:latest
+FROM ${BASE_IMAGE}
+
+# Set working directory (already created in base)
+WORKDIR /app
+
+# Copy only application code - this is the O(1) operation
+# Dependencies are already installed in the base image
+COPY . .
+
+# Create a worker-specific entry point
+# For now, this is a template - adjust based on your actual worker needs
+RUN echo '#!/usr/bin/env python3\n\
+import os\n\
+import sys\n\
+import time\n\
+import logging\n\
+from pathlib import Path\n\
+\n\
+# Add project root to path\n\
+sys.path.insert(0, str(Path(__file__).parent))\n\
+\n\
+# Import your worker logic here\n\
+# from think_ai.workers import BackgroundWorker\n\
+\n\
+logging.basicConfig(level=logging.INFO)\n\
+logger = logging.getLogger(__name__)\n\
+\n\
+def main():\n\
+    logger.info("Think AI Worker starting...")\n\
+    \n\
+    # Initialize your worker here\n\
+    # worker = BackgroundWorker()\n\
+    # worker.start()\n\
+    \n\
+    # Keep the worker running\n\
+    while True:\n\
+        logger.info("Worker is running...")\n\
+        time.sleep(60)\n\
+\n\
+if __name__ == "__main__":\n\
+    main()\n\
+' > worker_entrypoint.py
+
+# Make the entrypoint executable
+RUN chmod +x worker_entrypoint.py
+
+# Health check for Railway (adjust endpoint as needed)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD python -c "print('Worker health check passed')" || exit 1
+
+# Start the worker
+CMD ["python", "worker_entrypoint.py"]

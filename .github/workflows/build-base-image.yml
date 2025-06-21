@@ -1,0 +1,81 @@
+name: Build and Push Base Image
+
+on:
+  push:
+    paths:
+      - 'requirements-full.txt'
+      - 'Dockerfile.base'
+    branches:
+      - main
+  workflow_dispatch:  # Allow manual triggering
+
+env:
+  DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
+  IMAGE_NAME: think-ai-base
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Generate version tags
+        id: tags
+        run: |
+          VERSION=$(date +%Y%m%d-%H%M%S)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "version_tag=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${VERSION}" >> $GITHUB_OUTPUT
+          echo "latest_tag=${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_OUTPUT
+
+      - name: Build and push base image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.base
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ steps.tags.outputs.version_tag }}
+            ${{ steps.tags.outputs.latest_tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Update railway.json with new image
+        run: |
+          # Update railway.json with the new base image tag
+          sed -i 's|"BASE_IMAGE": ".*"|"BASE_IMAGE": "${{ steps.tags.outputs.latest_tag }}"|g' railway.json
+          sed -i 's|"BASE_IMAGE": ".*"|"BASE_IMAGE": "${{ steps.tags.outputs.latest_tag }}"|g' railway.api.json
+          sed -i 's|"BASE_IMAGE": ".*"|"BASE_IMAGE": "${{ steps.tags.outputs.latest_tag }}"|g' railway.worker.json
+
+      - name: Commit updated configs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update base image to ${{ steps.tags.outputs.version_tag }}"
+          file_pattern: "railway*.json"
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: base-image-${{ steps.tags.outputs.version }}
+          release_name: Base Image ${{ steps.tags.outputs.version }}
+          body: |
+            New base image built with updated dependencies.
+            
+            Docker Hub Image: `${{ steps.tags.outputs.latest_tag }}`
+            Version Tag: `${{ steps.tags.outputs.version_tag }}`
+            
+            This base image includes all dependencies from requirements-full.txt and enables O(1) deployments.
+          draft: false
+          prerelease: false

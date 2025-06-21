@@ -13,9 +13,12 @@
     "restartPolicyMaxRetries": 3,
     "healthcheckPath": "/health",
     "healthcheckTimeout": 10,
+    "region": "us-west1",
     "environmentVariables": {
       "PORT": "8080",
-      "PYTHONUNBUFFERED": "1"
+      "THINK_AI_MODE": "api",
+      "PYTHONUNBUFFERED": "1",
+      "HF_HUB_DISABLE_TELEMETRY": "1"
     }
   }
 }
