@@ -1,0 +1,33 @@
+{
+  "category": "Structure",
+  "name": "docker_files",
+  "passed": true,
+  "details": "Docker files found: 4/4",
+  "evidence": {
+    "Dockerfile": {
+      "exists": true,
+      "lines": 71,
+      "has_from": true,
+      "has_cmd": true
+    },
+    "docker-compose.yml": {
+      "exists": true,
+      "lines": 105,
+      "has_from": true,
+      "has_cmd": true
+    },
+    "Dockerfile.cached": {
+      "exists": true,
+      "lines": 105,
+      "has_from": true,
+      "has_cmd": true
+    },
+    "Dockerfile.compressed": {
+      "exists": true,
+      "lines": 76,
+      "has_from": true,
+      "has_cmd": true
+    }
+  },
+  "timestamp": "2025-06-20T13:30:38.112977"
+}

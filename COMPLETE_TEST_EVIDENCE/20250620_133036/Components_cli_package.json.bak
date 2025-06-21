@@ -1,0 +1,19 @@
+{
+  "category": "Components",
+  "name": "cli_package",
+  "passed": true,
+  "details": "CLI package has 4 modules",
+  "evidence": {
+    "pyproject_toml": true,
+    "setup_py": true,
+    "package_dir": true,
+    "modules": [
+      "__init__.py",
+      "core_annoy.py",
+      "core.py",
+      "cli.py"
+    ],
+    "module_count": 4
+  },
+  "timestamp": "2025-06-20T13:30:42.410307"
+}

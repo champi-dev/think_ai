@@ -1,0 +1,14 @@
+{
+  "category": "Performance",
+  "name": "performance_test",
+  "passed": false,
+  "details": "Performance test failed to run",
+  "timestamp": "2025-06-20T13:27:31.451342",
+  "evidence": {
+    "success": false,
+    "stdout": "",
+    "stderr": "/bin/sh: 15: Syntax error: \"(\" unexpected\n",
+    "returncode": 2,
+    "command": "python3 -c \"\nimport time\nimport sys\n\ntry:\n    from think_ai_cli import ThinkAI\nexcept ImportError:\n    from think_ai_cli.core_annoy import ThinkAI\n\nai = ThinkAI()\n\n# Add 100 code snippets\nstart = time.time()\nfor i in range(100):\n    ai.add_code(f\"def func_{i}(): return {i}\", \"python\", f\"Function {i}\")\nadd_time = time.time() - start\n\n# Search performance\nstart = time.time()\nresults = ai.search(\"function that returns\", k=10)\nsearch_time = time.time() - start\n\nprint(f\"Add 100 items: {add_time:.3f}s\")\nprint(f\"Search time: {search_time:.3f}s\")\nprint(f\"Search results: {len(results)}\")\n\""
+  }
+}

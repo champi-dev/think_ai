@@ -1,0 +1,14 @@
+{
+  "category": "Core_API",
+  "name": "api_tests",
+  "passed": false,
+  "details": "Failed to run API tests",
+  "timestamp": "2025-06-20T13:27:31.382912",
+  "evidence": {
+    "success": false,
+    "stdout": "{\"error\": \"No module named 'think_ai_cli'\", \"tests\": []}\n",
+    "stderr": "",
+    "returncode": 1,
+    "command": "python3 FULL_TEST_EVIDENCE/20250620_132729/core_api_test.py"
+  }
+}

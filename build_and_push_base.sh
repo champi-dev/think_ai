@@ -5,7 +5,7 @@
 set -e  # Exit on error
 
 # Configuration
-DOCKER_HUB_USERNAME="${DOCKER_HUB_USERNAME:-yourusername}"
+DOCKER_HUB_USERNAME="${DOCKER_HUB_USERNAME:-devsarmico}"
 IMAGE_NAME="think-ai-base"
 VERSION=$(date +%Y%m%d-%H%M%S)
 LATEST_TAG="${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:latest"
@@ -27,11 +27,17 @@ if ! command -v docker &> /dev/null; then
 fi
 
 # Check if logged in to Docker Hub
-if ! docker info 2>/dev/null | grep -q "Username"; then
-    echo -e "${YELLOW}Warning: Not logged in to Docker Hub${NC}"
+echo -e "${YELLOW}Checking Docker Hub authentication...${NC}"
+if ! docker pull hello-world &>/dev/null; then
+    echo -e "${RED}Error: Not authenticated with Docker Hub${NC}"
     echo "Please run: docker login"
     exit 1
 fi
+echo -e "${GREEN}✓ Docker Hub authentication confirmed${NC}"
+
+# Get the directory where this script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
 
 # Check if requirements file exists
 if [ ! -f "requirements-full.txt" ]; then

@@ -1,0 +1,41 @@
+{
+  "name": "o1-vector-search",
+  "version": "1.0.0",
+  "description": "O(1) Vector Search - Instant similarity search with LSH",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "vector-search",
+    "o1",
+    "lsh",
+    "similarity-search",
+    "machine-learning",
+    "ai",
+    "instant-search"
+  ],
+  "author": "Think AI Lab",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/champi-dev/o1-vector-search"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

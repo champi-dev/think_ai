@@ -1,0 +1,12 @@
+{
+  "name": "think-ai-test",
+  "version": "1.0.0",
+  "description": "Test Think AI JS packages",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "think-ai-js": "file:../../npm/think-ai-js-2.0.1.tgz"
+  }
+}

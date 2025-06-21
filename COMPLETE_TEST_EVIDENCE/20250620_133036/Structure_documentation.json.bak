@@ -1,0 +1,113 @@
+{
+  "category": "Structure",
+  "name": "documentation",
+  "passed": true,
+  "details": "Found 2130 documentation files",
+  "evidence": {
+    "total_docs": 2130,
+    "readme_exists": true,
+    "docs": {
+      "test_results.md": {
+        "lines": 51,
+        "chars": 1704,
+        "has_headers": true
+      },
+      "SETUP.md": {
+        "lines": 60,
+        "chars": 1176,
+        "has_headers": true
+      },
+      "SHARED_KNOWLEDGE_GUIDE.md": {
+        "lines": 199,
+        "chars": 5623,
+        "has_headers": true
+      },
+      "RESTART_GUIDE.md": {
+        "lines": 37,
+        "chars": 823,
+        "has_headers": true
+      },
+      "DEPLOYMENT_COMPLETE.md": {
+        "lines": 47,
+        "chars": 1264,
+        "has_headers": true
+      },
+      "RESTART_NOW.md": {
+        "lines": 31,
+        "chars": 550,
+        "has_headers": true
+      },
+      "META_TENSOR_FIX.md": {
+        "lines": 63,
+        "chars": 1745,
+        "has_headers": true
+      },
+      "GENERATION_OPTIMIZATION.md": {
+        "lines": 78,
+        "chars": 1807,
+        "has_headers": true
+      },
+      "EVIDENCE_OF_CODE_GENERATION.md": {
+        "lines": 68,
+        "chars": 2277,
+        "has_headers": true
+      },
+      "QWEN_WORKING_EVIDENCE.md": {
+        "lines": 87,
+        "chars": 2545,
+        "has_headers": true
+      },
+      "EVIDENCE.md": {
+        "lines": 175,
+        "chars": 4810,
+        "has_headers": true
+      },
+      "QUICK_FIX.md": {
+        "lines": 27,
+        "chars": 556,
+        "has_headers": true
+      },
+      "README-v2.md": {
+        "lines": 456,
+        "chars": 9590,
+        "has_headers": true
+      },
+      "O1_BENCHMARK_RESULTS.md": {
+        "lines": 143,
+        "chars": 4286,
+        "has_headers": true
+      },
+      "EVIDENCE_REPORT.md": {
+        "lines": 128,
+        "chars": 3830,
+        "has_headers": true
+      },
+      "DEPLOYMENT.md": {
+        "lines": 143,
+        "chars": 3880,
+        "has_headers": true
+      },
+      "SYSTEM_EVIDENCE.md": {
+        "lines": 135,
+        "chars": 4333,
+        "has_headers": true
+      },
+      "BDFL.md": {
+        "lines": 67,
+        "chars": 2624,
+        "has_headers": true
+      },
+      "RELEASE_NOTES_v2.2.0.md": {
+        "lines": 121,
+        "chars": 3098,
+        "has_headers": true
+      },
+      "FINAL_OPTIMIZATIONS.md": {
+        "lines": 75,
+        "chars": 1809,
+        "has_headers": true
+      }
+    }
+  },
+  "timestamp": "2025-06-20T13:30:39.805048"
+}

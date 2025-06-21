@@ -1,0 +1,19 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
+  "globals": {
+    "NodeJS": "readonly",
+    "HeadersInit": "readonly",
+    "React": "readonly"
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-undef": "off",
+    "react/no-unescaped-entities": "off"
+  }
+}

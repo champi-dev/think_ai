@@ -1,0 +1,207 @@
+{
+  "deployment_id": "20250620_223725",
+  "started_at": "2025-06-20T22:37:25.785729",
+  "platform": "darwin",
+  "python_version": "3.11.6 (main, Nov 10 2023, 13:30:33) [Clang 13.0.0 (clang-1300.0.29.3)]",
+  "deployment_stages": {
+    "python_build": "completed",
+    "javascript_build": "completed",
+    "test_environment": "completed",
+    "python_tests": "completed",
+    "javascript_tests": "completed",
+    "integration_tests": "completed",
+    "documentation": "completed",
+    "evidence_report": "started"
+  },
+  "library_builds": {
+    "think-ai-consciousness": {
+      "library": "think-ai-consciousness",
+      "version": "2.1.0",
+      "status": "success",
+      "artifacts": [
+        {
+          "file": "think_ai_consciousness-2.1.0-py3-none-any.whl",
+          "size": 262055,
+          "path": "THINK_AI_DEPLOYMENT_20250620_223725/python_packages/think-ai-consciousness/think_ai_consciousness-2.1.0-py3-none-any.whl"
+        },
+        {
+          "file": "think_ai_consciousness-2.1.0.tar.gz",
+          "size": 230061,
+          "path": "THINK_AI_DEPLOYMENT_20250620_223725/python_packages/think-ai-consciousness/think_ai_consciousness-2.1.0.tar.gz"
+        }
+      ]
+    },
+    "think-ai-cli": {
+      "library": "think-ai-cli",
+      "version": "0.1.0",
+      "status": "success",
+      "artifacts": [
+        {
+          "file": "think_ai_cli-0.2.0-py3-none-any.whl",
+          "size": 10735,
+          "path": "THINK_AI_DEPLOYMENT_20250620_223725/python_packages/think-ai-cli/think_ai_cli-0.2.0-py3-none-any.whl"
+        },
+        {
+          "file": "think_ai_cli-0.2.0.tar.gz",
+          "size": 9618,
+          "path": "THINK_AI_DEPLOYMENT_20250620_223725/python_packages/think-ai-cli/think_ai_cli-0.2.0.tar.gz"
+        }
+      ]
+    },
+    "o1-vector-search": {
+      "library": "o1-vector-search",
+      "version": "1.0.0",
+      "status": "success",
+      "artifacts": [
+        {
+          "file": "o1_vector_search-1.0.0-py3-none-any.whl",
+          "size": 4748,
+          "path": "THINK_AI_DEPLOYMENT_20250620_223725/python_packages/o1-vector-search/o1_vector_search-1.0.0-py3-none-any.whl"
+        },
+        {
+          "file": "o1_vector_search-1.0.0.tar.gz",
+          "size": 4419,
+          "path": "THINK_AI_DEPLOYMENT_20250620_223725/python_packages/o1-vector-search/o1_vector_search-1.0.0.tar.gz"
+        }
+      ]
+    },
+    "think-ai-js": {
+      "library": "think-ai-js",
+      "version": "2.0.1",
+      "status": "success",
+      "artifacts": [
+        {
+          "file": "think-ai-js-2.0.1.tgz",
+          "size": 9918,
+          "path": "THINK_AI_DEPLOYMENT_20250620_223725/javascript_packages/think-ai-js/think-ai-js-2.0.1.tgz"
+        }
+      ]
+    },
+    "@think-ai/cli": {
+      "library": "@think-ai/cli",
+      "version": "0.2.0",
+      "status": "success",
+      "artifacts": [
+        {
+          "file": "think-ai-cli-0.2.0.tgz",
+          "size": 8586,
+          "path": "THINK_AI_DEPLOYMENT_20250620_223725/javascript_packages/@think-ai/cli/think-ai-cli-0.2.0.tgz"
+        }
+      ]
+    },
+    "o1-js": {
+      "library": "o1-js",
+      "version": "1.0.0",
+      "status": "success",
+      "artifacts": [
+        {
+          "file": "o1-vector-search-1.0.0.tgz",
+          "size": 3131,
+          "path": "THINK_AI_DEPLOYMENT_20250620_223725/javascript_packages/o1-js/o1-vector-search-1.0.0.tgz"
+        }
+      ]
+    }
+  },
+  "test_results": {
+    "python": {
+      "installations": {
+        "think-ai-consciousness": {
+          "success": true,
+          "package": "think_ai_consciousness-2.1.0-py3-none-any.whl"
+        },
+        "think-ai-cli": {
+          "success": true,
+          "package": "think_ai_cli-0.2.0-py3-none-any.whl"
+        },
+        "o1-vector-search": {
+          "success": true,
+          "package": "o1_vector_search-1.0.0-py3-none-any.whl"
+        }
+      },
+      "imports": {
+        "think-ai-consciousness": {
+          "success": false,
+          "error": "unterminated string literal (detected at line 224) (engine.py, line 224)"
+        },
+        "think-ai-cli": {
+          "success": false,
+          "error": "cannot import name 'cached_download' from 'huggingface_hub' (/Users/champi/Development/Think_AI/THINK_AI_DEPLOYMENT_20250620_223725/test_environment/venv/lib/python3.11/site-packages/huggingface_hub/__init__.py)"
+        },
+        "o1-vector-search": {
+          "success": true,
+          "version": "1.0.0"
+        }
+      },
+      "functionality": {
+        "think_ai_chat": {
+          "success": false,
+          "error": "unterminated string literal (detected at line 224) (engine.py, line 224)"
+        },
+        "vector_search": {
+          "success": false,
+          "error": "O1VectorSearch.__init__() got an unexpected keyword argument 'dimensions'"
+        },
+        "cli": {
+          "success": false,
+          "output": ""
+        }
+      }
+    },
+    "javascript": {
+      "installations": {
+        "think-ai-js": {
+          "success": false,
+          "package": "think-ai-js-2.0.1.tgz"
+        },
+        "@think-ai/cli": {
+          "success": false,
+          "package": "think-ai-cli-0.2.0.tgz"
+        },
+        "o1-js": {
+          "success": false,
+          "package": "o1-vector-search-1.0.0.tgz"
+        }
+      },
+      "imports": {},
+      "functionality": {}
+    },
+    "integration": {
+      "api_server": {
+        "started": true,
+        "pid": 24665,
+        "stopped": true
+      },
+      "endpoints": {
+        "health": {
+          "success": false,
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        },
+        "chat": {
+          "success": false,
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        },
+        "stats": {
+          "success": false,
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        },
+        "vector_search": {
+          "success": false,
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      "websocket": {
+        "success": false,
+        "error": "No module named 'websockets'"
+      },
+      "performance": {
+        "requests_sent": 10,
+        "successful_responses": 0,
+        "total_time": 0.005334138870239258,
+        "avg_time_per_request": 0.0005335092544555664
+      }
+    }
+  },
+  "evidence": {},
+  "status": "failed",
+  "error": "unsupported operand type(s) for -: 'float' and 'str'"
+}

@@ -1,0 +1,10 @@
+{
+  "category": "Environment",
+  "name": "packages_list",
+  "passed": true,
+  "details": "Listed 65 packages",
+  "timestamp": "2025-06-20T13:27:30.302847",
+  "evidence": {
+    "packages_saved": "FULL_TEST_EVIDENCE/20250620_132729/installed_packages.txt"
+  }
+}

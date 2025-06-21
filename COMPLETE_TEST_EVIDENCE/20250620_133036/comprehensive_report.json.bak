@@ -1,0 +1,1248 @@
+{
+  "timestamp": "2025-06-20T13:30:36.085204",
+  "system_info": {
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "python_version": "3.12.3",
+    "hostname": "DESKTOP-NOKRIK0",
+    "cwd": "/home/champi/development/think_ai",
+    "user": "root",
+    "cpu_count": 6,
+    "memory_gb": "unknown"
+  },
+  "tests": [
+    {
+      "category": "Structure",
+      "name": "project_structure",
+      "passed": true,
+      "details": "Found 7/7 directories",
+      "evidence": {
+        "found": [
+          "think_ai",
+          "tests",
+          "webapp",
+          "think-ai-cli",
+          ".github/workflows",
+          "kubernetes",
+          "scripts"
+        ],
+        "missing": []
+      },
+      "timestamp": "2025-06-20T13:30:36.087037"
+    },
+    {
+      "category": "Structure",
+      "name": "python_files",
+      "passed": false,
+      "details": "Checked 13498 Python files, 33 errors",
+      "evidence": {
+        "total_files": 13498,
+        "valid": 17,
+        "errors": [
+          {
+            "file": "test_mistral_direct.py",
+            "error": "  File \"test_mistral_direct.py\", line 17\n    async def test_mistral() - > None:\n                             ^\nSyntaxError: expected ':'\n"
+          },
+          {
+            "file": "quick_fix_test.py",
+            "error": "Sorry: IndentationError: expected an indented block after function definition on line 6 (quick_fix_test.py, line 7)"
+          },
+          {
+            "file": "train_all_languages.py",
+            "error": "Sorry: IndentationError: expected an indented block after function definition on line 246 (train_all_languages.py, line 247)"
+          },
+          {
+            "file": "test_response_fix.py",
+            "error": "  File \"test_response_fix.py\", line 13\n    async def test_responses() - > None:\n                               ^\nSyntaxError: expected ':'\n"
+          },
+          {
+            "file": "launch_with_background_training.py",
+            "error": "Sorry: IndentationError: expected an indented block after class definition on line 29 (launch_with_background_training.py, line 30)"
+          },
+          {
+            "file": "train_million_times.py",
+            "error": "Sorry: IndentationError: expected an indented block after function definition on line 24 (train_million_times.py, line 25)"
+          },
+          {
+            "file": "COLAB_FULL_SYSTEM_REAL.py",
+            "error": "Sorry: IndentationError: expected an indented block after class definition on line 61 (COLAB_FULL_SYSTEM_REAL.py, line 62)"
+          },
+          {
+            "file": "test_simple_generation.py",
+            "error": "Sorry: IndentationError: expected an indented block after function definition on line 9 (test_simple_generation.py, line 10)"
+          },
+          {
+            "file": "test_indentation.py",
+            "error": "  File \"test_indentation.py\", line 18\n    except BaseException:\n    ^^^^^^\nSyntaxError: invalid syntax\n"
+          },
+          {
+            "file": "test_deployment.py",
+            "error": "  File \"test_deployment.py\", line 27\n    if detected ! = \"english\":\n                ^\nSyntaxError: invalid syntax\n"
+          }
+        ]
+      },
+      "timestamp": "2025-06-20T13:30:38.112070"
+    },
+    {
+      "category": "Structure",
+      "name": "requirements",
+      "passed": true,
+      "details": "Found 4/4 requirement files",
+      "evidence": {
+        "requirements.txt": {
+          "exists": true,
+          "size": 889,
+          "lines": 43
+        },
+        "requirements-fast.txt": {
+          "exists": true,
+          "size": 988,
+          "lines": 45
+        },
+        "webapp/package.json": {
+          "exists": true,
+          "size": 1047,
+          "lines": 40
+        },
+        "think-ai-cli/python/pyproject.toml": {
+          "exists": true,
+          "size": 1537,
+          "lines": 57
+        }
+      },
+      "timestamp": "2025-06-20T13:30:38.112657"
+    },
+    {
+      "category": "Structure",
+      "name": "docker_files",
+      "passed": true,
+      "details": "Docker files found: 4/4",
+      "evidence": {
+        "Dockerfile": {
+          "exists": true,
+          "lines": 71,
+          "has_from": true,
+          "has_cmd": true
+        },
+        "docker-compose.yml": {
+          "exists": true,
+          "lines": 105,
+          "has_from": true,
+          "has_cmd": true
+        },
+        "Dockerfile.cached": {
+          "exists": true,
+          "lines": 105,
+          "has_from": true,
+          "has_cmd": true
+        },
+        "Dockerfile.compressed": {
+          "exists": true,
+          "lines": 76,
+          "has_from": true,
+          "has_cmd": true
+        }
+      },
+      "timestamp": "2025-06-20T13:30:38.112977"
+    },
+    {
+      "category": "Structure",
+      "name": "ci_cd_pipelines",
+      "passed": true,
+      "details": "Found 6 CI/CD workflows",
+      "evidence": {
+        "ci-cd.yml": {
+          "lines": 164,
+          "has_on": true,
+          "has_jobs": true,
+          "triggers": [
+            "push",
+            "pull_request"
+          ]
+        },
+        "ci.yml": {
+          "lines": 154,
+          "has_on": true,
+          "has_jobs": true,
+          "triggers": [
+            "push",
+            "pull_request"
+          ]
+        },
+        "think-ai-robust-ci.yml": {
+          "lines": 369,
+          "has_on": true,
+          "has_jobs": true,
+          "triggers": [
+            "push",
+            "pull_request",
+            "schedule"
+          ]
+        },
+        "test-deps.yml": {
+          "lines": 59,
+          "has_on": true,
+          "has_jobs": true,
+          "triggers": [
+            "push",
+            "pull_request"
+          ]
+        },
+        "think-ai-ci.yml": {
+          "lines": 170,
+          "has_on": true,
+          "has_jobs": true,
+          "triggers": [
+            "push",
+            "pull_request"
+          ]
+        },
+        "publish.yml": {
+          "lines": 84,
+          "has_on": true,
+          "has_jobs": true,
+          "triggers": [
+            "push"
+          ]
+        }
+      },
+      "timestamp": "2025-06-20T13:30:38.113614"
+    },
+    {
+      "category": "Structure",
+      "name": "kubernetes_configs",
+      "passed": true,
+      "details": "Found 4 Kubernetes configurations",
+      "evidence": {
+        "deployment.yaml": {
+          "lines": 244,
+          "has_apiVersion": true,
+          "has_kind": true,
+          "kinds": [
+            "Namespace",
+            "ConfigMap",
+            "Deployment",
+            "Service",
+            "PersistentVolumeClaim",
+            "PersistentVolumeClaim",
+            "HorizontalPodAutoscaler",
+            "Deployment",
+            "Secret"
+          ]
+        },
+        "ingress.yaml": {
+          "lines": 194,
+          "has_apiVersion": true,
+          "has_kind": true,
+          "kinds": [
+            "Ingress",
+            "Service",
+            "ClusterIssuer",
+            "NetworkPolicy",
+            "Service"
+          ]
+        },
+        "storage.yaml": {
+          "lines": 341,
+          "has_apiVersion": true,
+          "has_kind": true,
+          "kinds": [
+            "Service",
+            "StatefulSet",
+            "Service",
+            "Deployment",
+            "PersistentVolumeClaim",
+            "Service",
+            "StatefulSet",
+            "Service",
+            "Deployment",
+            "PersistentVolumeClaim"
+          ]
+        },
+        "monitoring.yaml": {
+          "lines": 337,
+          "has_apiVersion": true,
+          "has_kind": true,
+          "kinds": [
+            "Service",
+            "ConfigMap",
+            "Deployment",
+            "PersistentVolumeClaim",
+            "ServiceAccount",
+            "ClusterRole",
+            "ClusterRoleBinding",
+            "ClusterRole",
+            "Service",
+            "ConfigMap",
+            "ConfigMap",
+            "ConfigMap",
+            "Deployment",
+            "PersistentVolumeClaim"
+          ]
+        }
+      },
+      "timestamp": "2025-06-20T13:30:38.114161"
+    },
+    {
+      "category": "Structure",
+      "name": "test_files",
+      "passed": true,
+      "details": "Found 4087 test files",
+      "evidence": {
+        "total_test_files": 4087,
+        "test_directories": [
+          "venv/lib/python3.12/site-packages/sympy/series/tests",
+          "tests/unit",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_40966",
+          "venv/lib/python3.12/site-packages/sympy/solvers/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_40589",
+          "venv/lib/python3.12/site-packages/sympy/physics/hep/tests",
+          "venv/lib/python3.12/site-packages/torch/testing/_internal/distributed/rpc",
+          "venv/lib/python3.12/site-packages/sympy/strategies/tests",
+          "venv/lib/python3.12/site-packages/scipy/linalg/tests",
+          "venv/lib/python3.12/site-packages/torch/utils/benchmark/examples",
+          "venv/lib/python3.12/site-packages/setuptools/_distutils/tests/compat",
+          "venv/lib/python3.12/site-packages/sympy/codegen/tests",
+          "venv/lib/python3.12/site-packages/sympy/solvers/diophantine/tests",
+          "venv/lib/python3.12/site-packages/setuptools/tests",
+          "venv/lib/python3.12/site-packages/sympy/parsing/tests",
+          "venv/lib/python3.12/site-packages/scipy/io/tests",
+          "venv/lib/python3.12/site-packages/sympy/physics/control/tests",
+          "venv/lib/python3.12/site-packages/sympy/categories/tests",
+          "venv/lib/python3.12/site-packages/sklearn/cluster/tests",
+          "venv/lib/python3.12/site-packages/sympy/concrete/tests",
+          "venv/lib/python3.12/site-packages/sklearn/inspection/_plot/tests",
+          "venv/lib/python3.12/site-packages/accelerate/test_utils/scripts",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_42074",
+          "venv/lib/python3.12/site-packages/numpy/core/tests/examples/cython",
+          "venv/lib/python3.12/site-packages/annotated_types",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/traversal/tests",
+          "venv/lib/python3.12/site-packages/sympy/functions/special/tests",
+          "venv/lib/python3.12/site-packages/sympy/assumptions/tests",
+          "venv/lib/python3.12/site-packages/sympy/multipledispatch/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_62",
+          "venv/lib/python3.12/site-packages/sympy/matrices/expressions/tests",
+          "webapp",
+          "venv/lib/python3.12/site-packages/sklearn/decomposition/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_1",
+          "venv/lib/python3.12/site-packages/sympy/functions/combinatorial/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/tree/tests",
+          "venv/lib/python3.12/site-packages/sympy/utilities/tests",
+          "venv/lib/python3.12/site-packages/networkx/utils/tests",
+          "venv/lib/python3.12/site-packages/sklearn/semi_supervised/tests",
+          ".backup_cleanup/old_tests",
+          "venv/lib/python3.12/site-packages/setuptools/tests/config/downloads",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/approximation/tests",
+          "venv/lib/python3.12/site-packages/scipy/special/tests",
+          "venv/lib/python3.12/site-packages/numpy/testing/tests",
+          "venv/lib/python3.12/site-packages/sympy/matrices/tests",
+          "venv/lib/python3.12/site-packages/sklearn/frozen/tests",
+          "venv/lib/python3.12/site-packages/networkx/readwrite/json_graph/tests",
+          "venv/lib/python3.12/site-packages/numpy/linalg/tests",
+          "venv/lib/python3.12/site-packages/numpy/matrixlib/tests",
+          "venv/lib/python3.12/site-packages/scipy/sparse/linalg/tests",
+          "venv/lib/python3.12/site-packages/sympy/polys/agca/tests",
+          "venv/lib/python3.12/site-packages/sympy/ntheory/tests",
+          "venv/lib/python3.12/site-packages/psutil/tests",
+          "venv/lib/python3.12/site-packages/numpy/tests",
+          "venv/lib/python3.12/site-packages/scipy/sparse/linalg/_eigen/tests",
+          "venv/lib/python3.12/site-packages/scipy/differentiate/tests",
+          "venv/lib/python3.12/site-packages/regex",
+          "venv/lib/python3.12/site-packages/sympy/physics/units/tests",
+          "venv/lib/python3.12/site-packages/sympy/polys/domains/tests",
+          "venv/lib/python3.12/site-packages/nltk/test/unit",
+          "venv/lib/python3.12/site-packages/setuptools/tests/compat",
+          "venv/lib/python3.12/site-packages/scipy/cluster/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/connectivity/tests",
+          "venv/lib/python3.12/site-packages/websocket/tests",
+          "venv/lib/python3.12/site-packages/torch/testing/_internal/distributed/_shard",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_40675",
+          "venv/lib/python3.12/site-packages/scipy/stats",
+          "venv/lib/python3.12/site-packages/sympy/stats/sampling/tests",
+          "venv/lib/python3.12/site-packages/sympy/geometry/tests",
+          "venv/lib/python3.12/site-packages/numpy/core/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/operators/tests",
+          "venv/lib/python3.12/site-packages/numpy/array_api/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/coloring/tests",
+          "venv/lib/python3.12/site-packages/scipy/signal/tests",
+          "venv/lib/python3.12/site-packages/networkx/tests",
+          "venv/lib/python3.12/site-packages/sympy/functions/elementary/tests",
+          "venv/lib/python3.12/site-packages/networkx/readwrite/tests",
+          "venv/lib/python3.12/site-packages/scipy/io/arff/tests",
+          "venv/lib/python3.12/site-packages/sklearn/experimental/tests",
+          "venv/lib/python3.12/site-packages/scipy/constants/tests",
+          "venv/lib/python3.12/site-packages/importlib_resources/tests",
+          "tests/integration",
+          ".",
+          "venv/lib/python3.12/site-packages/sympy/physics/vector/tests",
+          "venv/lib/python3.12/site-packages/scipy/optimize/_trustregion_constr/tests",
+          "venv/lib/python3.12/site-packages/numpy/polynomial/tests",
+          "venv/lib/python3.12/site-packages/sympy/physics/biomechanics/tests",
+          "venv/lib/python3.12/site-packages/aiosqlite/tests",
+          "venv/lib/python3.12/site-packages/sympy/polys/matrices/tests",
+          "venv/lib/python3.12/site-packages/sympy/plotting/pygletplot/tests",
+          "venv/lib/python3.12/site-packages/sklearn/cross_decomposition/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/components/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/flow/tests",
+          "venv/lib/python3.12/site-packages/sklearn/feature_selection/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests",
+          "venv/lib/python3.12/site-packages/sympy/printing/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_40945",
+          "venv/lib/python3.12/site-packages/sympy/external/tests",
+          "venv/lib/python3.12/site-packages/setuptools/_distutils/compilers/C/tests",
+          "venv/lib/python3.12/site-packages/sympy/physics/continuum_mechanics/tests",
+          "venv/lib/python3.12/site-packages/scipy/sparse/linalg/_eigen/lobpcg/tests",
+          "venv/lib/python3.12/site-packages/networkx/generators/tests",
+          "venv/lib/python3.12/site-packages/sympy/unify/tests",
+          "venv/lib/python3.12/site-packages/torch/fx/passes/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_3",
+          "venv/lib/python3.12/site-packages/mpmath/tests",
+          "venv/lib/python3.12/site-packages/numpy/typing/tests",
+          "venv/lib/python3.12/site-packages/sklearn/model_selection/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/bipartite/tests",
+          "venv/lib/python3.12/site-packages/sympy/physics/optics/tests",
+          "venv/lib/python3.12/site-packages/scipy/fft/tests",
+          "venv/lib/python3.12/site-packages/scipy/sparse/linalg/_dsolve/tests",
+          "venv/lib/python3.12/site-packages/sympy/utilities/_compilation/tests",
+          "venv/lib/python3.12/site-packages/sklearn/gaussian_process/tests",
+          "venv/lib/python3.12/site-packages/sklearn/inspection/tests",
+          "venv/lib/python3.12/site-packages/torch/testing/_internal/distributed/rpc/examples",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/minors/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/community/tests",
+          "venv/lib/python3.12/site-packages/scipy/ndimage/tests",
+          "venv/lib/python3.12/site-packages/scipy/sparse/linalg/_isolve/tests",
+          "venv/lib/python3.12/site-packages/sympy/physics/quantum/tests",
+          "venv/lib/python3.12/site-packages/sklearn/neighbors/tests",
+          "venv/lib/python3.12/site-packages/numpy/_pyinstaller",
+          "venv/lib/python3.12/site-packages/scipy/integrate/_ivp/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_61",
+          "tests",
+          "venv/lib/python3.12/site-packages/sympy/solvers/ode/tests",
+          "venv/lib/python3.12/site-packages/scipy/optimize/tests",
+          "venv/lib/python3.12/site-packages/scipy/spatial/tests",
+          "venv/lib/python3.12/site-packages/sympy/liealgebras/tests",
+          "venv/lib/python3.12/site-packages/sympy/diffgeom/tests",
+          "venv/lib/python3.12/site-packages/sklearn/_loss/tests",
+          "venv/lib/python3.12/site-packages/torch/testing/_internal/distributed",
+          "venv/lib/python3.12/site-packages/numpy/typing/tests/data/pass",
+          "venv/lib/python3.12/site-packages/sklearn/compose/tests",
+          "venv/lib/python3.12/site-packages/numpy/compat/tests",
+          "venv/lib/python3.12/site-packages/sklearn/metrics/tests",
+          "venv/lib/python3.12/site-packages/scipy/io/matlab/tests",
+          "venv/lib/python3.12/site-packages/sympy/polys/tests",
+          "venv/lib/python3.12/site-packages/scipy/interpolate/tests",
+          "venv/lib/python3.12/site-packages/numpy/ma/tests",
+          "venv/lib/python3.12/site-packages/scipy/io/_harwell_boeing/tests",
+          "venv/lib/python3.12/site-packages/sympy/physics/tests",
+          "venv/lib/python3.12/site-packages/numpy/f2py/tests",
+          "venv/lib/python3.12/site-packages/sympy/algebras/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/link_analysis/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/shortest_paths/tests",
+          "venv/lib/python3.12/site-packages/sympy/testing/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/assortativity/tests",
+          "venv/lib/python3.12/site-packages/sympy/interactive/tests",
+          ".backup_cleanup/old_analyzers",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/tests",
+          "venv/lib/python3.12/site-packages/scipy/datasets/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_2",
+          "venv/lib/python3.12/site-packages/sympy/vector/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_42585",
+          "venv/lib/python3.12/site-packages/sklearn/impute/tests",
+          "venv/lib/python3.12/site-packages/sklearn/linear_model/tests",
+          "venv/lib/python3.12/site-packages/scipy/spatial/transform/tests",
+          "venv/lib/python3.12/site-packages/scipy/fft/_pocketfft/tests",
+          "venv/lib/python3.12/site-packages/sympy/logic/tests",
+          "venv/lib/python3.12/site-packages/scipy/stats/tests",
+          "venv/lib/python3.12/site-packages/setuptools/tests/integration",
+          "venv/lib/python3.12/site-packages/scipy/sparse/csgraph/tests",
+          "venv/lib/python3.12/site-packages/importlib_resources/tests/compat",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data",
+          "venv/lib/python3.12/site-packages/sniffio/_tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/centrality/tests",
+          "venv/lib/python3.12/site-packages/sklearn/tests",
+          "venv/lib/python3.12/site-packages/networkx/drawing/tests",
+          "venv/lib/python3.12/site-packages/sklearn/mixture/tests",
+          "venv/lib/python3.12/site-packages/sympy/discrete/tests",
+          "venv/lib/python3.12/site-packages/sklearn/utils/tests",
+          "venv/lib/python3.12/site-packages/sympy/printing/pretty/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_1119",
+          "venv/lib/python3.12/site-packages/sympy/strategies/branch/tests",
+          "venv/lib/python3.12/site-packages/sklearn/feature_extraction/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_1590",
+          "venv/lib/python3.12/site-packages/sklearn/linear_model/_glm/tests",
+          "venv/lib/python3.12/site-packages/numpy/lib/tests",
+          "venv/lib/python3.12/site-packages/scipy/sparse/tests",
+          "venv/lib/python3.12/site-packages/sympy/physics/mechanics/tests",
+          "venv/lib/python3.12/site-packages/sklearn/neural_network/tests",
+          "venv/lib/python3.12/site-packages/sklearn/tree/tests",
+          "venv/lib/python3.12/site-packages/sklearn/metrics/_plot/tests",
+          "venv/lib/python3.12/site-packages/numpy/fft/tests",
+          "venv/lib/python3.12/site-packages/networkx/algorithms/isomorphism/tests",
+          "venv/lib/python3.12/site-packages/networkx/linalg/tests",
+          "venv/lib/python3.12/site-packages/sympy/plotting/tests",
+          "venv/lib/python3.12/site-packages/sympy/polys/numberfields/tests",
+          "venv/lib/python3.12/site-packages/scipy/integrate/tests",
+          "venv/lib/python3.12/site-packages/sympy/calculus/tests",
+          "venv/lib/python3.12/site-packages/sympy/combinatorics/tests",
+          "venv/lib/python3.12/site-packages/joblib/test",
+          "venv/lib/python3.12/site-packages/scipy/fftpack/tests",
+          "venv/lib/python3.12/site-packages/sklearn/manifold/tests",
+          "venv/lib/python3.12/site-packages/numpy/random/tests/data",
+          "venv/lib/python3.12/site-packages/sympy/core/tests",
+          "venv/lib/python3.12/site-packages/sympy/holonomic/tests",
+          "venv/lib/python3.12/site-packages/sympy/tensor/array/tests",
+          "venv/lib/python3.12/site-packages/pkg_resources/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_561",
+          "venv/lib/python3.12/site-packages/sklearn/cluster/_hdbscan/tests",
+          "venv/lib/python3.12/site-packages/scipy/odr/tests",
+          "venv/lib/python3.12/site-packages/fsspec/tests/abstract",
+          "venv/lib/python3.12/site-packages/sympy/stats/tests",
+          "venv/lib/python3.12/site-packages/sympy/simplify/tests",
+          "venv/lib/python3.12/site-packages/pkg_resources/tests/data/my-test-package-source",
+          "venv/lib/python3.12/site-packages/nltk/test/unit/lm",
+          "venv/lib/python3.12/site-packages/sympy/crypto/tests",
+          "venv/lib/python3.12/site-packages/sympy/sets/tests",
+          "venv/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/tests",
+          "venv/lib/python3.12/site-packages/networkx/classes/tests",
+          "venv/lib/python3.12/site-packages/sympy/sandbox/tests",
+          "venv/lib/python3.12/site-packages/sklearn/covariance/tests",
+          "FULL_TEST_EVIDENCE/20250620_132729",
+          "venv/lib/python3.12/site-packages/scipy/special/tests/data",
+          "venv/lib/python3.12/site-packages/sympy/integrals/tests",
+          "venv/lib/python3.12/site-packages/setuptools/tests/config",
+          "venv/lib/python3.12/site-packages/sklearn/ensemble/tests",
+          "venv/lib/python3.12/site-packages/sympy/plotting/intervalmath/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml/id_292",
+          ".backup_cleanup/old_chats",
+          "venv/lib/python3.12/site-packages/scipy/stats/tests/data",
+          "venv/lib/python3.12/site-packages/torch/_inductor",
+          "venv/lib/python3.12/site-packages/torch/testing/_internal/distributed/rpc/jit",
+          "venv/lib/python3.12/site-packages/numpy/core/tests/examples/limited_api",
+          "venv/lib/python3.12/site-packages/torch/testing/_internal/distributed/nn/api",
+          "venv/lib/python3.12/site-packages/accelerate/test_utils/scripts/external_deps",
+          "venv/lib/python3.12/site-packages/scipy/_lib/tests",
+          "venv/lib/python3.12/site-packages/sklearn/svm/tests",
+          "venv/lib/python3.12/site-packages/sklearn/datasets/tests/data/openml",
+          "venv/lib/python3.12/site-packages/pip/_vendor/colorama/tests",
+          "venv/lib/python3.12/site-packages/sympy/tensor/array/expressions/tests",
+          "venv/lib/python3.12/site-packages/torch/_dynamo",
+          "venv/lib/python3.12/site-packages/sklearn/preprocessing/tests",
+          "venv/lib/python3.12/site-packages/nltk/test/unit/translate",
+          "venv/lib/python3.12/site-packages/scipy/sparse/linalg/_eigen/arpack/tests",
+          "venv/lib/python3.12/site-packages/setuptools/_distutils/tests",
+          "venv/lib/python3.12/site-packages/sympy/tensor/tests",
+          "venv/lib/python3.12/site-packages/sklearn/metrics/cluster/tests",
+          "venv/lib/python3.12/site-packages/sklearn/utils/_repr_html/tests",
+          "venv/lib/python3.12/site-packages/numpy/random/tests"
+        ],
+        "sample_files": [
+          "test_mistral_direct.py",
+          "test_enhanced_api.py",
+          "test_response_fix.py",
+          "test_deps_installation.py",
+          "test_simple_generation.py",
+          "test_indentation.py",
+          "test_deployment.py",
+          "test_1000_self_training.py",
+          "test_vector_databases.py",
+          "test_sun_question.py"
+        ]
+      },
+      "timestamp": "2025-06-20T13:30:39.132799"
+    },
+    {
+      "category": "Structure",
+      "name": "documentation",
+      "passed": true,
+      "details": "Found 2130 documentation files",
+      "evidence": {
+        "total_docs": 2130,
+        "readme_exists": true,
+        "docs": {
+          "test_results.md": {
+            "lines": 51,
+            "chars": 1704,
+            "has_headers": true
+          },
+          "SETUP.md": {
+            "lines": 60,
+            "chars": 1176,
+            "has_headers": true
+          },
+          "SHARED_KNOWLEDGE_GUIDE.md": {
+            "lines": 199,
+            "chars": 5623,
+            "has_headers": true
+          },
+          "RESTART_GUIDE.md": {
+            "lines": 37,
+            "chars": 823,
+            "has_headers": true
+          },
+          "DEPLOYMENT_COMPLETE.md": {
+            "lines": 47,
+            "chars": 1264,
+            "has_headers": true
+          },
+          "RESTART_NOW.md": {
+            "lines": 31,
+            "chars": 550,
+            "has_headers": true
+          },
+          "META_TENSOR_FIX.md": {
+            "lines": 63,
+            "chars": 1745,
+            "has_headers": true
+          },
+          "GENERATION_OPTIMIZATION.md": {
+            "lines": 78,
+            "chars": 1807,
+            "has_headers": true
+          },
+          "EVIDENCE_OF_CODE_GENERATION.md": {
+            "lines": 68,
+            "chars": 2277,
+            "has_headers": true
+          },
+          "QWEN_WORKING_EVIDENCE.md": {
+            "lines": 87,
+            "chars": 2545,
+            "has_headers": true
+          },
+          "EVIDENCE.md": {
+            "lines": 175,
+            "chars": 4810,
+            "has_headers": true
+          },
+          "QUICK_FIX.md": {
+            "lines": 27,
+            "chars": 556,
+            "has_headers": true
+          },
+          "README-v2.md": {
+            "lines": 456,
+            "chars": 9590,
+            "has_headers": true
+          },
+          "O1_BENCHMARK_RESULTS.md": {
+            "lines": 143,
+            "chars": 4286,
+            "has_headers": true
+          },
+          "EVIDENCE_REPORT.md": {
+            "lines": 128,
+            "chars": 3830,
+            "has_headers": true
+          },
+          "DEPLOYMENT.md": {
+            "lines": 143,
+            "chars": 3880,
+            "has_headers": true
+          },
+          "SYSTEM_EVIDENCE.md": {
+            "lines": 135,
+            "chars": 4333,
+            "has_headers": true
+          },
+          "BDFL.md": {
+            "lines": 67,
+            "chars": 2624,
+            "has_headers": true
+          },
+          "RELEASE_NOTES_v2.2.0.md": {
+            "lines": 121,
+            "chars": 3098,
+            "has_headers": true
+          },
+          "FINAL_OPTIMIZATIONS.md": {
+            "lines": 75,
+            "chars": 1809,
+            "has_headers": true
+          }
+        }
+      },
+      "timestamp": "2025-06-20T13:30:39.805048"
+    },
+    {
+      "category": "Structure",
+      "name": "scripts",
+      "passed": true,
+      "details": "Found 38 shell scripts",
+      "evidence": {
+        "total_scripts": 38,
+        "scripts": {
+          "run_all_tests.sh": {
+            "lines": 135,
+            "executable": true,
+            "has_shebang": true
+          },
+          "launch_consciousness_with_training.sh": {
+            "lines": 16,
+            "executable": true,
+            "has_shebang": true
+          },
+          "cleannb.sh": {
+            "lines": 0,
+            "executable": false,
+            "has_shebang": false
+          },
+          "publish.sh": {
+            "lines": 77,
+            "executable": true,
+            "has_shebang": true
+          },
+          "publish_packages.sh": {
+            "lines": 238,
+            "executable": true,
+            "has_shebang": true
+          },
+          "deploy_v2.sh": {
+            "lines": 84,
+            "executable": true,
+            "has_shebang": true
+          },
+          "vercel-build.sh": {
+            "lines": 31,
+            "executable": true,
+            "has_shebang": true
+          },
+          "run_webapp.sh": {
+            "lines": 65,
+            "executable": true,
+            "has_shebang": true
+          },
+          "squash_commits.sh": {
+            "lines": 62,
+            "executable": true,
+            "has_shebang": true
+          },
+          "install_service.sh": {
+            "lines": 92,
+            "executable": true,
+            "has_shebang": true
+          },
+          "run_offline.sh": {
+            "lines": 14,
+            "executable": true,
+            "has_shebang": true
+          },
+          "launch_consciousness.sh": {
+            "lines": 96,
+            "executable": true,
+            "has_shebang": true
+          },
+          "run_tests.sh": {
+            "lines": 43,
+            "executable": true,
+            "has_shebang": true
+          },
+          "cleanup_tests.sh": {
+            "lines": 41,
+            "executable": true,
+            "has_shebang": true
+          },
+          "test_ci_deps.sh": {
+            "lines": 61,
+            "executable": true,
+            "has_shebang": true
+          },
+          "setup_services.sh": {
+            "lines": 114,
+            "executable": true,
+            "has_shebang": true
+          },
+          "npm/publish.sh": {
+            "lines": 42,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/deploy-fast.sh": {
+            "lines": 164,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/init_databases.sh": {
+            "lines": 142,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/docker-hypercache.sh": {
+            "lines": 227,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/setup.sh": {
+            "lines": 60,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/install_webapp_services.sh": {
+            "lines": 62,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/install_hooks.sh": {
+            "lines": 41,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/setup_local.sh": {
+            "lines": 38,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/preinstall-deps.sh": {
+            "lines": 84,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/cache-deps.sh": {
+            "lines": 147,
+            "executable": true,
+            "has_shebang": true
+          },
+          "scripts/install_docker_mac.sh": {
+            "lines": 97,
+            "executable": true,
+            "has_shebang": true
+          },
+          ".backup_cleanup/old_monitors/monitor_claude_training.sh": {
+            "lines": 28,
+            "executable": true,
+            "has_shebang": true
+          },
+          ".backup_cleanup/old_monitors/start_chat_with_phi.sh": {
+            "lines": 32,
+            "executable": true,
+            "has_shebang": true
+          },
+          ".backup_cleanup/old_monitors/start_full_system.sh": {
+            "lines": 125,
+            "executable": true,
+            "has_shebang": true
+          },
+          ".backup_cleanup/old_monitors/start_think_ai_phi35.sh": {
+            "lines": 89,
+            "executable": true,
+            "has_shebang": true
+          },
+          ".backup_cleanup/old_monitors/start_infinite_consciousness.sh": {
+            "lines": 51,
+            "executable": true,
+            "has_shebang": true
+          },
+          ".backup_cleanup/old_monitors/start_check_and_run.sh": {
+            "lines": 51,
+            "executable": true,
+            "has_shebang": true
+          },
+          "venv/lib/python3.12/site-packages/tqdm/completion.sh": {
+            "lines": 19,
+            "executable": true,
+            "has_shebang": true
+          },
+          "node_modules/jake/bin/bash_completion.sh": {
+            "lines": 41,
+            "executable": true,
+            "has_shebang": true
+          },
+          "node_modules/exit/test/fixtures/create-files.sh": {
+            "lines": 8,
+            "executable": true,
+            "has_shebang": true
+          },
+          "webapp/node_modules/damerau-levenshtein/scripts/update-changelog.sh": {
+            "lines": 21,
+            "executable": true,
+            "has_shebang": false
+          },
+          "webapp/node_modules/jake/bin/bash_completion.sh": {
+            "lines": 41,
+            "executable": true,
+            "has_shebang": true
+          }
+        }
+      },
+      "timestamp": "2025-06-20T13:30:40.135586"
+    },
+    {
+      "category": "Structure",
+      "name": "config_files",
+      "passed": true,
+      "details": "Found 3695 configuration files",
+      "evidence": {
+        "total_configs": 3695,
+        "by_type": {
+          ".json": 3442,
+          ".yaml": 18,
+          ".yml": 228,
+          ".toml": 2,
+          ".ini": 4,
+          ".conf": 1
+        },
+        "sample_files": [
+          "multilingual_training_results.json",
+          "think_ai_cocoder_test_results.json",
+          "shared_knowledge.json",
+          "hyperspeed_results.json",
+          "background_tests.json",
+          "package-lock.json",
+          "test_evidence.json",
+          "package.json",
+          "feynman_training_results.json",
+          "spanish_training_results.json",
+          "self_training_results_20250619_120524.json",
+          "system_verification_results.json",
+          "think_ai_exponential_logs_exponential_session_1750433149.json",
+          "test_results_20250618_161126.json",
+          "vercel.json",
+          "superintelligence_knowledge.json",
+          "js_library_test_results.json",
+          "tsconfig.json",
+          "npm/package.json",
+          "npm/tsconfig.json"
+        ]
+      },
+      "timestamp": "2025-06-20T13:30:42.135944"
+    },
+    {
+      "category": "Components",
+      "name": "webapp",
+      "passed": true,
+      "details": "Webapp has 11 components",
+      "evidence": {
+        "package_json": true,
+        "next_config": true,
+        "pages_or_app": false,
+        "public_dir": true,
+        "node_modules": true,
+        "component_count": 11
+      },
+      "timestamp": "2025-06-20T13:30:42.395898"
+    },
+    {
+      "category": "Components",
+      "name": "api_server",
+      "passed": true,
+      "details": "Found 2 API server files",
+      "evidence": {
+        "api_server.py": {
+          "exists": true,
+          "lines": 40,
+          "has_fastapi": true,
+          "has_uvicorn": true
+        },
+        "api_server_lightweight.py": {
+          "exists": true,
+          "lines": 82,
+          "has_fastapi": true,
+          "has_uvicorn": true
+        },
+        "think_ai_api_server.py": {
+          "exists": false
+        }
+      },
+      "timestamp": "2025-06-20T13:30:42.396242"
+    },
+    {
+      "category": "Components",
+      "name": "think_ai_package",
+      "passed": true,
+      "details": "Think AI has 86 Python files, 28590 lines",
+      "evidence": {
+        "init_file": true,
+        "modules": [
+          "__main__.py",
+          "__init__.py",
+          "parallel_processor.py",
+          "intelligence_optimizer.py",
+          "cli.py",
+          "system_config.py",
+          "config/cost_optimization.py",
+          "internet/browser.py",
+          "graph/knowledge_graph.py",
+          "graph/__init__.py",
+          "api/__init__.py",
+          "api/bridge.py",
+          "consciousness/__init__.py",
+          "consciousness/infinite_mind.py",
+          "consciousness/principles.py",
+          "consciousness/thought_optimizer.py",
+          "consciousness/awareness.py",
+          "persistence/eternal_memory.py",
+          "persistence/shared_knowledge.py",
+          "cli/__init__.py",
+          "cli/main.py",
+          "models/embeddings.py",
+          "models/__init__.py",
+          "models/types.py",
+          "models/fast_language_model.py",
+          "models/language_model.py",
+          "models/embeddings_fixed.py",
+          "models/response_cache.py",
+          "models/parallel_model_pool.py",
+          "music/__init__.py",
+          "music/music_player.py",
+          "language/spanish_handler.py",
+          "language/__init__.py",
+          "engine/full_system.py",
+          "social/medium_writer.py",
+          "social/social_manager.py",
+          "social/x_twitter_bot.py",
+          "social/comedian.py",
+          "utils/complexity_detector.py",
+          "utils/__init__.py",
+          "utils/torch_fallback.py",
+          "utils/gpu_detector.py",
+          "utils/logging.py",
+          "utils/dependency_resolver.py",
+          "intelligence/self_trainer.py",
+          "storage/vector_db.py",
+          "storage/__init__.py",
+          "storage/base.py",
+          "storage/vector_db_fallback.py",
+          "storage/scylla.py",
+          "storage/redis_cache.py",
+          "storage/learned_index.py",
+          "storage/offline.py",
+          "storage/fast_vector_db.py",
+          "storage/indexed_storage.py",
+          "storage/vector_db_http.py",
+          "multimodal/__init__.py",
+          "multimodal/processor.py",
+          "multimodal/image_processor.py",
+          "coding/__init__.py",
+          "coding/code_generator.py",
+          "coding/autonomous_project_builder.py",
+          "coding/code_executor.py",
+          "coding/parallel_autonomous_coder.py",
+          "coding/autonomous_coder.py",
+          "plugins/registry.py",
+          "plugins/__init__.py",
+          "plugins/base.py",
+          "plugins/manager.py",
+          "plugins/installer.py",
+          "plugins/testing.py",
+          "cache/__init__.py",
+          "cache/architecture_cache.py",
+          "federated/__init__.py",
+          "federated/federated_learning.py",
+          "core/__init__.py",
+          "core/engine.py",
+          "core/background_service.py",
+          "core/think_ai_eternal.py",
+          "core/config.py",
+          "benchmarks/__init__.py",
+          "benchmarks/performance.py",
+          "integrations/__init__.py",
+          "integrations/claude_api.py",
+          "integrations/claude_interface.py",
+          "plugins/examples/ui_visualization.py"
+        ],
+        "total_files": 86,
+        "total_lines": 28590
+      },
+      "timestamp": "2025-06-20T13:30:42.409934"
+    },
+    {
+      "category": "Components",
+      "name": "cli_package",
+      "passed": true,
+      "details": "CLI package has 4 modules",
+      "evidence": {
+        "pyproject_toml": true,
+        "setup_py": true,
+        "package_dir": true,
+        "modules": [
+          "__init__.py",
+          "core_annoy.py",
+          "core.py",
+          "cli.py"
+        ],
+        "module_count": 4
+      },
+      "timestamp": "2025-06-20T13:30:42.410307"
+    },
+    {
+      "category": "Repository",
+      "name": "git_repository",
+      "passed": true,
+      "details": "On branch 'main' with 64 commits",
+      "evidence": {
+        "modified_files": 48,
+        "current_branch": "main",
+        "has_remote": true,
+        "commit_count": 64
+      },
+      "timestamp": "2025-06-20T13:30:42.428068"
+    },
+    {
+      "category": "Repository",
+      "name": "security_files",
+      "passed": true,
+      "details": "Found 3/4 security files",
+      "evidence": {
+        ".gitignore": {
+          "exists": true,
+          "lines": 113
+        },
+        ".dockerignore": {
+          "exists": true,
+          "lines": 29
+        },
+        ".env.example": {
+          "exists": true,
+          "lines": 12
+        },
+        "SECURITY.md": {
+          "exists": false
+        }
+      },
+      "timestamp": "2025-06-20T13:30:42.428664"
+    },
+    {
+      "category": "Quality",
+      "name": "linter_files",
+      "passed": true,
+      "details": "Found 3 linter configurations",
+      "evidence": {
+        ".pre-commit-config.yaml": {
+          "exists": true,
+          "size": 410
+        },
+        "pyproject.toml": {
+          "exists": false
+        },
+        ".flake8": {
+          "exists": false
+        },
+        ".pylintrc": {
+          "exists": false
+        },
+        "think_ai_linter.py": {
+          "exists": true,
+          "size": 10595
+        },
+        "think_ai_linter_enhanced.py": {
+          "exists": true,
+          "size": 9485
+        }
+      },
+      "timestamp": "2025-06-20T13:30:42.428899"
+    },
+    {
+      "category": "Quality",
+      "name": "performance_files",
+      "passed": true,
+      "details": "Found 15 performance test files",
+      "evidence": {
+        "total_files": 15,
+        "files": [
+          "verify_o1_performance.py",
+          "performance_benchmark.py",
+          "think_ai_performance_test.py",
+          "test_cache_performance.py",
+          "build/lib/think_ai/benchmarks/performance.py",
+          "venv/lib/python3.12/site-packages/accelerate/test_utils/scripts/external_deps/test_performance.py",
+          "think_ai/benchmarks/performance.py",
+          "performance_benchmark.py",
+          ".backup_cleanup/old_analyzers/benchmark.py",
+          "venv/lib/python3.12/site-packages/torch/_functorch/benchmark_utils.py",
+          "venv/lib/python3.12/site-packages/torch/_inductor/wrapper_benchmark.py",
+          "venv/lib/python3.12/site-packages/torch/utils/throughput_benchmark.py",
+          "venv/lib/python3.12/site-packages/torch/_inductor/runtime/benchmarking.py",
+          "venv/lib/python3.12/site-packages/torch/_inductor/codegen/rocm/rocm_benchmark_request.py",
+          "venv/lib/python3.12/site-packages/torch/utils/benchmark/examples/op_benchmark.py"
+        ]
+      },
+      "timestamp": "2025-06-20T13:30:43.108706"
+    },
+    {
+      "category": "Quality",
+      "name": "dependency_resolver",
+      "passed": true,
+      "details": "Found 3 dependency resolver files",
+      "evidence": {
+        "think_ai/utils/dependency_resolver.py": {
+          "exists": true,
+          "has_install_function": false,
+          "has_fallback": true
+        },
+        "think_ai/utils/torch_fallback.py": {
+          "exists": true,
+          "has_install_function": false,
+          "has_fallback": true
+        },
+        "test_deps_installation_fixed.py": {
+          "exists": true,
+          "has_install_function": true,
+          "has_fallback": false
+        }
+      },
+      "timestamp": "2025-06-20T13:30:43.109212"
+    },
+    {
+      "category": "Quality",
+      "name": "demo_files",
+      "passed": true,
+      "details": "Found 9 demo files",
+      "evidence": {
+        "total_demos": 9,
+        "demos": {
+          "demo_code_generation.py": {
+            "lines": 39,
+            "has_main": false,
+            "executable": false
+          },
+          "demo_enhanced_code_gen.py": {
+            "lines": 44,
+            "has_main": false,
+            "executable": false
+          },
+          ".backup_cleanup/old_demos/demo_full_system.py": {
+            "lines": 75,
+            "has_main": true,
+            "executable": true
+          },
+          ".backup_cleanup/old_demos/demo_interaction.py": {
+            "lines": 82,
+            "has_main": true,
+            "executable": false
+          },
+          ".backup_cleanup/old_demos/demo_consciousness.py": {
+            "lines": 124,
+            "has_main": true,
+            "executable": false
+          },
+          "rag_system_demo.py": {
+            "lines": 181,
+            "has_main": true,
+            "executable": false
+          },
+          ".backup_cleanup/old_chats/chat_demo.py": {
+            "lines": 55,
+            "has_main": true,
+            "executable": false
+          },
+          "venv/lib/python3.12/site-packages/nltk/twitter/twitter_demo.py": {
+            "lines": 306,
+            "has_main": true,
+            "executable": false
+          },
+          "venv/lib/python3.12/site-packages/nltk/sem/drt_glue_demo.py": {
+            "lines": 553,
+            "has_main": true,
+            "executable": false
+          }
+        }
+      },
+      "timestamp": "2025-06-20T13:30:43.758683"
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "passed": 19,
+    "failed": 1,
+    "duration": 7.674418210983276,
+    "success_rate": 95.0
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "test_run": "2025-06-17T17:26:15.176506",
+  "system": "Think AI v1.0.0",
+  "tests": {
+    "Core Modules": [
+      {
+        "test": "Core Imports",
+        "status": "FAILED",
+        "error": "cannot import name 'ThinkAIConfig' from 'think_ai.core.config' (/CODING_PROJECTS/think_ai/think_ai/core/config.py)"
+      },
+      {
+        "test": "Configuration System",
+        "status": "FAILED",
+        "error": "cannot access local variable 'ThinkAIConfig' where it is not associated with a value"
+      },
+      {
+        "test": "Logging System",
+        "status": "FAILED",
+        "error": "cannot access local variable 'setup_logger' where it is not associated with a value"
+      }
+    ],
+    "Consciousness": [
+      {
+        "test": "Consciousness Features",
+        "status": "FAILED",
+        "error": "cannot import name 'ConsciousnessPrinciples' from 'think_ai.consciousness.principles' (/CODING_PROJECTS/think_ai/think_ai/consciousness/principles.py)"
+      }
+    ],
+    "Storage": [
+      {
+        "test": "Storage Systems",
+        "status": "FAILED",
+        "error": "No module named 'aiosqlite'"
+      }
+    ],
+    "Plugins": [
+      {
+        "test": "Plugin Architecture",
+        "status": "FAILED",
+        "error": "cannot import name 'BasePlugin' from 'think_ai.plugins.base' (/CODING_PROJECTS/think_ai/think_ai/plugins/base.py)"
+      }
+    ]
+  }
+}
