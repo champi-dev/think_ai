@@ -1,8 +1,14 @@
 [phases.setup]
-nixPkgs = ["python311"]
+nixPkgs = ["python311", "gcc"]
+
+[phases.install]
+cmds = ["echo 'Skipping npm install'"]
 
 [phases.build]
 cmds = ["pip install -r requirements.txt"]
 
 [start]
 cmd = "python -u simple_server.py"
+
+[variables]
+NIXPACKS_PYTHON_VERSION = "3.11"
