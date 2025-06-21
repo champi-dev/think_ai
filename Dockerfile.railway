@@ -1,117 +1,47 @@
-# Elite multi-service Dockerfile for Think AI Full System
-# Optimized for O(1) build performance with intelligent caching
+# Lightweight Dockerfile for Think AI on Railway
+# Uses minimal dependencies and built-in lightweight alternatives
 
-# Stage 1: Python dependencies with memory optimization
-FROM python:3.11-slim AS python-deps
-WORKDIR /deps
-
-# Set pip memory constraints
-ENV PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PYTHONUNBUFFERED=1
-
-# Copy requirements
-COPY requirements-fast.txt .
-
-# Install core dependencies first (low memory)
-RUN pip install --user --no-warn-script-location \
-    asyncio-throttle==1.0.2 \
-    structlog==24.1.0 \
-    rich==13.7.1 \
-    python-dotenv==1.0.1 \
-    pyyaml==6.0.1 \
-    click==8.1.7 \
-    prompt-toolkit==3.0.43
-
-# Install database drivers
-RUN pip install --user --no-warn-script-location \
-    cassandra-driver==3.29.0 \
-    redis==5.0.1 \
-    neo4j==5.16.0
-
-# Install web framework
-RUN pip install --user --no-warn-script-location \
-    fastapi==0.108.0 \
-    uvicorn==0.25.0 \
-    aiofiles==23.2.1 \
-    httpx==0.25.2
-
-# Install vector DBs and utilities
-RUN pip install --user --no-warn-script-location \
-    chromadb>=0.4.0 \
-    qdrant-client>=1.7.0 \
-    psutil==5.9.6
-
-# Install ML dependencies separately (memory intensive)
-RUN pip install --user --no-warn-script-location \
-    numpy>=1.26.0 \
-    scikit-learn==1.3.2 \
-    safetensors>=0.4.1
-
-# Install torch with CPU-only to save memory
-RUN pip install --user --no-warn-script-location \
-    torch>=2.1.0 --index-url https://download.pytorch.org/whl/cpu
-
-# Install transformers and remaining ML libs
-RUN pip install --user --no-warn-script-location \
-    transformers>=4.36.0 \
-    sentence-transformers==2.2.2 \
-    accelerate>=0.25.0 \
-    optimum>=1.16.0
-
-# Stage 2: Node.js webapp build
-FROM node:20-alpine AS webapp-builder
-WORKDIR /webapp
-
-# Copy webapp files
-COPY webapp/package.json ./
-RUN npm install
-
-COPY webapp/ ./
-RUN npm run build
-
-# Stage 3: Runtime environment with both services
 FROM python:3.11-slim
+
+# Set environment for lightweight mode
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    THINK_AI_MODE=lightweight \
+    PORT=8080
+
 WORKDIR /app
 
-# Install runtime dependencies and Node.js
+# Install only minimal system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    supervisor \
-    nginx \
-    libgomp1 \
-    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Python dependencies from builder
-COPY --from=python-deps /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
+# Copy minimal requirements
+COPY requirements-railway.txt .
 
-# Copy Python application
+# Install build dependencies, Python packages, then remove build deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    python3-dev \
+    && pip install --no-cache-dir -r requirements-railway.txt \
+    && apt-get purge -y gcc python3-dev \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy application code
 COPY think_ai ./think_ai
-COPY servers ./servers
-COPY *.py ./
-COPY .env.example .env
+COPY start_lightweight.py .
 
-# Copy webapp from builder
-COPY --from=webapp-builder /webapp/.next ./webapp/.next
-COPY --from=webapp-builder /webapp/public ./webapp/public
-COPY --from=webapp-builder /webapp/package*.json ./webapp/
-COPY --from=webapp-builder /webapp/server.js ./webapp/
-COPY --from=webapp-builder /webapp/node_modules ./webapp/node_modules
+# Make startup script executable
+RUN chmod +x start_lightweight.py
 
-# Copy configuration files
-RUN mkdir -p /etc/supervisor/conf.d
-COPY deployment/supervisord.conf /etc/supervisor/conf.d/
-COPY deployment/nginx.conf /etc/nginx/
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:${PORT}/health || exit 1
 
 # Expose Railway's required port
-EXPOSE 8080
+EXPOSE ${PORT}
 
-# Health check with O(1) complexity
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/health || exit 1
-
-# Start supervisor to manage all services
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Start lightweight server
+CMD ["python", "start_lightweight.py"]
