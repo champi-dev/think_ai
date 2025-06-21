@@ -29,12 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy application code
-COPY think_ai ./think_ai
-COPY start_lightweight.py .
-
-# Make startup script executable
-RUN chmod +x start_lightweight.py
+# Copy only the server file
+COPY railway_server.py .
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
@@ -43,5 +39,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
 # Expose Railway's required port
 EXPOSE ${PORT}
 
-# Start lightweight server
-CMD ["python", "start_lightweight.py"]
+# Start server
+CMD ["python", "railway_server.py"]
