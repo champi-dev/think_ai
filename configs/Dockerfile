@@ -5,7 +5,7 @@ WORKDIR /deps
 
 # Cache pip packages
 COPY requirements-fast.txt .
-RUN --mount=type=cache,target=/root/.cache/pip \
+RUN --mount=type=cache,id=think-ai-pip-deps,target=/root/.cache/pip \
     pip install --user --no-warn-script-location -r requirements-fast.txt
 
 # Stage 2: Node.js dependency caching layer
@@ -14,7 +14,7 @@ WORKDIR /deps
 
 # Cache npm packages
 COPY package*.json ./
-RUN --mount=type=cache,target=/root/.npm \
+RUN --mount=type=cache,id=think-ai-npm-deps,target=/root/.npm \
     npm ci --only=production && \
     npm cache verify
 
@@ -23,8 +23,8 @@ FROM python:3.11-slim as builder
 WORKDIR /app
 
 # Install system dependencies (cached)
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,id=think-ai-apt-builder,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=think-ai-apt-lib-builder,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
@@ -39,7 +39,7 @@ ENV PATH=/root/.local/bin:$PATH
 COPY . .
 
 # Build Python package
-RUN --mount=type=cache,target=/root/.cache/pip \
+RUN --mount=type=cache,id=think-ai-pip-build,target=/root/.cache/pip \
     python setup.py bdist_wheel
 
 # Stage 4: Runtime with minimal footprint
@@ -47,8 +47,8 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install runtime dependencies only
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,id=think-ai-apt-runtime,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=think-ai-apt-lib-runtime,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*

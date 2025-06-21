@@ -1,0 +1,70 @@
+# Elite multi-service Dockerfile for Think AI Full System
+# Optimized for O(1) build performance with intelligent caching
+
+# Stage 1: Python dependencies with hash-based caching
+FROM python:3.11-slim AS python-deps
+WORKDIR /deps
+
+# Copy and install Python dependencies
+COPY requirements-fast.txt .
+RUN --mount=type=cache,id=railway-think-ai-pip,target=/root/.cache/pip \
+    pip install --user --no-warn-script-location -r requirements-fast.txt
+
+# Stage 2: Node.js webapp build
+FROM node:20-alpine AS webapp-builder
+WORKDIR /webapp
+
+# Copy webapp files
+COPY webapp/package*.json ./
+RUN --mount=type=cache,id=railway-think-ai-npm,target=/root/.npm \
+    npm ci
+
+COPY webapp/ ./
+RUN npm run build
+
+# Stage 3: Runtime environment with both services
+FROM python:3.11-slim
+WORKDIR /app
+
+# Install runtime dependencies and Node.js
+RUN --mount=type=cache,id=railway-apt,target=/var/cache/apt \
+    apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    supervisor \
+    nginx \
+    libgomp1 \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Python dependencies from builder
+COPY --from=python-deps /root/.local /root/.local
+ENV PATH=/root/.local/bin:$PATH
+
+# Copy Python application
+COPY think_ai ./think_ai
+COPY servers ./servers
+COPY *.py ./
+COPY .env.example .env
+
+# Copy webapp from builder
+COPY --from=webapp-builder /webapp/.next ./webapp/.next
+COPY --from=webapp-builder /webapp/public ./webapp/public
+COPY --from=webapp-builder /webapp/package*.json ./webapp/
+COPY --from=webapp-builder /webapp/server.js ./webapp/
+COPY --from=webapp-builder /webapp/node_modules ./webapp/node_modules
+
+# Copy configuration files
+RUN mkdir -p /etc/supervisor/conf.d
+COPY deployment/supervisord.conf /etc/supervisor/conf.d/
+COPY deployment/nginx.conf /etc/nginx/
+
+# Expose Railway's required port
+EXPOSE 8080
+
+# Health check with O(1) complexity
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
+
+# Start supervisor to manage all services
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

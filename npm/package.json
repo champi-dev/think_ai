@@ -1,6 +1,6 @@
 {
   "name": "think-ai-js",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Distributed AGI Architecture with exponential intelligence growth, O(1) complexity, and autonomous evolution",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

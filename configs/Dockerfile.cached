@@ -20,15 +20,15 @@ WORKDIR /deps
 COPY requirements-fast.txt ./
 
 # Install numpy first (many deps need it)
-RUN --mount=type=cache,target=/cache/pip \
+RUN --mount=type=cache,id=think-ai-numpy,target=/cache/pip \
     pip install --no-cache-dir numpy>=1.19.0
 
 # Install torch separately (very large)
-RUN --mount=type=cache,target=/cache/pip \
+RUN --mount=type=cache,id=think-ai-torch,target=/cache/pip \
     pip install --no-cache-dir torch>=1.9.0 --index-url https://download.pytorch.org/whl/cpu
 
 # Install transformers and sentence-transformers
-RUN --mount=type=cache,target=/cache/pip \
+RUN --mount=type=cache,id=think-ai-transformers,target=/cache/pip \
     pip install --no-cache-dir \
     transformers>=4.20.0 \
     sentence-transformers>=2.2.0
@@ -37,13 +37,13 @@ RUN --mount=type=cache,target=/cache/pip \
 FROM heavy-deps as medium-deps
 
 # Install ML/AI dependencies
-RUN --mount=type=cache,target=/cache/pip \
+RUN --mount=type=cache,id=think-ai-ml-deps,target=/cache/pip \
     pip install --no-cache-dir \
     scikit-learn>=1.0.0 \
     annoy>=1.17.0
 
 # Install web framework dependencies
-RUN --mount=type=cache,target=/cache/pip \
+RUN --mount=type=cache,id=think-ai-web-deps,target=/cache/pip \
     pip install --no-cache-dir \
     fastapi>=0.68.0 \
     uvicorn>=0.15.0 \
@@ -55,11 +55,11 @@ FROM medium-deps as all-deps
 
 # Copy and install all requirements
 COPY requirements-fast.txt ./
-RUN --mount=type=cache,target=/cache/pip \
+RUN --mount=type=cache,id=think-ai-all-reqs,target=/cache/pip \
     pip install --no-cache-dir -r requirements-fast.txt
 
 # Development dependencies
-RUN --mount=type=cache,target=/cache/pip \
+RUN --mount=type=cache,id=think-ai-dev-deps,target=/cache/pip \
     pip install --no-cache-dir \
     pytest>=7.0.0 \
     pytest-cov>=4.0.0 \

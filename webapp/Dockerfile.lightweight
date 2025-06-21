@@ -8,7 +8,7 @@ COPY package*.json ./
 COPY .npmrc ./
 
 # Install dependencies with cache mount
-RUN --mount=type=cache,target=/root/.npm \
+RUN --mount=type=cache,id=think-ai-webapp-npm,target=/root/.npm \
     npm ci --only=production
 
 # Stage 2: Builder

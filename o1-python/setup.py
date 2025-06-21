@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
     setup(
     name="o1-vector-search",
-    version="1.0.0",
+    version="1.1.0",
     author="Think AI Lab",
     author_email="hello@thinkai.dev",
     description="O(1) Vector Search - Instant similarity search with LSH",

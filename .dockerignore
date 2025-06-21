@@ -1,31 +1,96 @@
-# Ignore everything except what we need
-**
-!think_ai/
-!api_server_cpu.py
-!requirements.txt
-!requirements-fast.txt
-!package.json
-!package-lock.json
-!setup.py
-!.env.example
-!README.md
+# Elite .dockerignore for O(1) build performance
 
-# But still ignore these patterns
-**/__pycache__
-**/*.pyc
-**/.pytest_cache
-**/node_modules
-**/.git
-**/*.log
-**/.DS_Store
-**/*.sqlite
-**/*.db
-**/.env
-**/dist
-**/build
-**/*.egg-info
-**/coverage
-**/.coverage
-**/htmlcov
-**/.mypy_cache
-**/.ruff_cache
+# Version control
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.mypy_cache
+.hypothesis
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.next/
+out/
+dist/
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+*.db
+*.sqlite
+*.sqlite3
+logs/
+tmp/
+temp/
+THINK_AI_DEPLOYMENT_*/
+deployment_test_*/
+test_venv/
+
+# Documentation
+docs/_build/
+site/
+
+# Secrets
+.env
+.env.*
+!.env.example
+!.env.production
+
+# Test files
+test_*.py
+!tests/test_*.py
+*.test.js
+*.spec.js
+
+# Build artifacts
+build/
+*.egg-info/
+.eggs/
+wheels/
+*.egg
+
+# Keep deployment files
+!deployment/

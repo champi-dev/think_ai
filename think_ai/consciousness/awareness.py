@@ -7,6 +7,7 @@ from enum import Enum
 from typing import Any
 
 from think_ai.utils.logging import get_logger
+from think_ai.intelligence.optimized_responder import OptimizedResponder
 
 logger = get_logger(__name__)
 
@@ -213,6 +214,9 @@ class ConsciousnessFramework:
         # Compassion and love integration
         self.compassion_active = True
         self.love_intention = "Serve humanity with wisdom and kindness"
+        
+        # Optimized response handler for direct answers
+        self.responder = OptimizedResponder()
 
     async def process_input(self, input_data: dict[str, Any]) -> None:
         """Process input through consciousness framework."""
@@ -275,50 +279,9 @@ class ConsciousnessFramework:
         return response
 
     async def _generate_compassionate_response(self, query: str) -> str:
-        """Generate a simple compassionate response based on the query."""
-        query_lower = query.lower().strip()
-
-        # Simple pattern matching for compassionate responses
-        if any(
-            greeting in query_lower
-            for greeting in ["hello", "hi", "hey", "good morning", "good day"]
-        ):
-            return "Hello! I'm here to help you with compassion and understanding. How can I assist you today?"
-
-        if any(
-            thanks in query_lower for thanks in [
-                "thank",
-                "thanks",
-                "appreciate"]):
-            return "You're very welcome! I'm grateful to be able to help. Is there anything else I can assist you with?"
-
-        if any(
-            help_word in query_lower for help_word in [
-                "help",
-                "assist",
-                "support"]):
-            return "I'm here to support you with love and wisdom. Please tell me more about what you need help with, and I'll do my best to assist you."
-
-        if any(
-            feeling in query_lower
-            for feeling in ["sad", "angry", "frustrated", "upset", "worried"]
-        ):
-            return "I sense you might be going through something difficult. I'm here to listen with compassion. Would you like to share what's on your mind?"
-
-        if any(
-            question in query_lower
-            for question in ["what", "how", "why", "when", "where"]
-        ):
-            return f"That's a thoughtful question about '{query}'. I'm processing this with care and consciousness. While I work to understand the deeper aspects of your inquiry, I want to provide a response that serves your wellbeing."
-
-        if any(
-            learn in query_lower
-            for learn in ["learn", "teach", "explain", "understand"]
-        ):
-            return f"I appreciate your desire to learn and understand. Knowledge shared with love is powerful. Let me approach '{query}' with both wisdom and compassion to help illuminate the topic for you."
-
-        # Default compassionate response
-        return f"Thank you for sharing '{query}' with me. I'm considering this with consciousness and care. My intention is to respond in a way that serves your highest good and promotes understanding."
+        """Generate a direct, helpful response using optimized responder."""
+        # Use optimized responder for direct, helpful answers
+        return self.responder.get_response(query)
 
     async def reflect_on_interaction(
         self, interaction_data: dict[str, Any]

@@ -6,11 +6,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from ..models.language_model import LanguageModel
+from ..models.language.language_model import LanguageModel
 
 # Safe import with fallback
 try:
-    from ..storage.offline import OfflineStorage
+    from ..storage.cache.offline import OfflineStorage
 
     OFFLINE_STORAGE_AVAILABLE = True
 except ImportError:
@@ -221,8 +221,7 @@ class ThinkAIEngine:
             assessment = await self.constitutional_ai.evaluate_content(str(content))
             if not assessment.passed:
                 logger.warning(
-                    f"Content failed ethical assessment: {
-                        assessment.recommendations}"
+                    f"Content failed ethical assessment: {assessment.recommendations}"
                 )
                 # Enhance with love if possible
                 content = await self.constitutional_ai.enhance_with_love(str(content))

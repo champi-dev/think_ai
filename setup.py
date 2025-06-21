@@ -16,7 +16,7 @@ with open(req_file, encoding="utf-8") as fh:
 
 setup(
     name="think-ai-consciousness",
-    version="2.1.0",
+    version="2.2.0",
     author="Champi (BDFL)",
     author_email="danielsarcor@gmail.com",
     description="Distributed AGI Architecture with exponential intelligence growth, O(1) complexity, and autonomous evolution - Now with Google Colab support!",
