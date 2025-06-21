@@ -1,19 +1,26 @@
 [phases.setup]
-nixPkgs = ["python311", "gcc", "python311Packages.pip", "python311Packages.virtualenv"]
+nixPkgs = ["python311", "gcc", "python311Packages.pip", "python311Packages.virtualenv", "git"]
 
 [phases.install]
 cmds = [
     "python3 -m venv /opt/venv",
-    ". /opt/venv/bin/activate && pip install --upgrade pip",
-    ". /opt/venv/bin/activate && pip install -r requirements.txt"
+    ". /opt/venv/bin/activate && pip install --upgrade pip setuptools wheel",
+    ". /opt/venv/bin/activate && pip install -r requirements-full.txt --no-cache-dir"
 ]
 
 [phases.build]
-cmds = ["echo 'Build phase complete'"]
+cmds = [
+    "echo 'Setting up Think AI directories...'",
+    "mkdir -p /tmp/think_ai/models",
+    "mkdir -p /tmp/think_ai/cache",
+    "mkdir -p /tmp/think_ai/data"
+]
 
 [start]
-cmd = "/opt/venv/bin/python -u think_ai_minimal.py"
+cmd = "/opt/venv/bin/python -u think_ai_full.py"
 
 [variables]
 NIXPACKS_PYTHON_VERSION = "3.11"
 NIXPACKS_DISABLE_CACHE = "1"
+HF_HOME = "/tmp/hf_cache"
+TRANSFORMERS_CACHE = "/tmp/transformers_cache"

@@ -3,7 +3,10 @@
 import asyncio
 import logging
 
-# from safetensors.torch import load_file  # Optional
+try:
+    from safetensors.torch import load_file
+except ImportError:
+    load_file = None
 import os
 import time
 from typing import TYPE_CHECKING, Any, Dict, List, Optional
@@ -65,18 +68,14 @@ class LoveStoppingCriteria(StoppingCriteria):
         self.tokenizer = tokenizer
         self.harm_keywords = harm_keywords
 
-    def __call__(
-        self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs
-    ) -> bool:
+    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
         # Decode the generated text
-        generated_text = self.tokenizer.decode(
-            input_ids[0], skip_special_tokens=True)
+        generated_text = self.tokenizer.decode(input_ids[0], skip_special_tokens=True)
 
         # Check for harmful content
         for keyword in self.harm_keywords:
             if keyword.lower() in generated_text.lower():
-                logger.warning(
-                    f"Stopping generation due to harmful content: {keyword}")
+                logger.warning(f"Stopping generation due to harmful content: {keyword}")
                 return True
 
         return False
@@ -85,10 +84,7 @@ class LoveStoppingCriteria(StoppingCriteria):
 class LanguageModel:
     """3B parameter language model with consciousness integration."""
 
-    def __init__(
-            self,
-            config: ModelConfig,
-            constitutional_ai: Optional[ConstitutionalAI] = None):
+    def __init__(self, config: ModelConfig, constitutional_ai: Optional[ConstitutionalAI] = None):
         self.config = config
         self.constitutional_ai = constitutional_ai
         self.model = None
@@ -115,34 +111,22 @@ class LanguageModel:
         # Set transformers verbosity to reduce noise from expected warnings
         # We handle parameter validation correctly in
         # get_valid_generation_params
-        logging.getLogger(
-            "transformers.generation.utils").setLevel(logging.ERROR)
+        logging.getLogger("transformers.generation.utils").setLevel(logging.ERROR)
         if self._initialized:
             return
 
         try:
-            logger.info(
-                f"Initializing language model: {
-                    self.config.model_name}"
-            )
+            logger.info(f"Initializing language model: {self.config.model_name}")
 
             # Initialize tokenizer
             # Only pass token if it's valid (not None and not empty)'
-            tokenizer_kwargs = {
-                "trust_remote_code": True  # Allow remote code for models like Qwen
-            }
-            if (
-                self.config.hf_token
-                and self.config.hf_token.strip()
-                and self.config.hf_token != "${HF_TOKEN}"
-            ):
+            tokenizer_kwargs = {"trust_remote_code": True}  # Allow remote code for models like Qwen
+            if self.config.hf_token and self.config.hf_token.strip() and self.config.hf_token != "${HF_TOKEN}":
                 tokenizer_kwargs["token"] = self.config.hf_token
 
             self.tokenizer = await asyncio.get_event_loop().run_in_executor(
                 None,
-                lambda: AutoTokenizer.from_pretrained(
-                    self.config.model_name, **tokenizer_kwargs
-                ),
+                lambda: AutoTokenizer.from_pretrained(self.config.model_name, **tokenizer_kwargs),
             )
 
             # Set padding token
@@ -161,21 +145,14 @@ class LanguageModel:
                 device_map = None  # Don't use device_map for MPS'
                 # Use configured dtype or default to float16 for MPS
                 torch_dtype = (
-                    getattr(torch, self.config.torch_dtype)
-                    if hasattr(self.config, "torch_dtype")
-                    else torch.float16
+                    getattr(torch, self.config.torch_dtype) if hasattr(self.config, "torch_dtype") else torch.float16
                 )
             elif self.config.device == "cpu":
                 # CPU mode - respect configured dtype
-                logger.info(
-                    f"Using CPU mode with dtype: {
-                        self.config.torch_dtype}"
-                )
+                logger.info(f"Using CPU mode with dtype: {self.config.torch_dtype}")
                 device_map = None
                 torch_dtype = (
-                    getattr(torch, self.config.torch_dtype)
-                    if hasattr(self.config, "torch_dtype")
-                    else torch.float32
+                    getattr(torch, self.config.torch_dtype) if hasattr(self.config, "torch_dtype") else torch.float32
                 )
             else:
                 # Regular CUDA setup
@@ -187,27 +164,16 @@ class LanguageModel:
                         bnb_4bit_use_double_quant=True,
                     )
                 elif self.config.quantization == "int8":
-                    quantization_config = BitsAndBytesConfig(
-                        load_in_8bit=True, bnb_8bit_compute_dtype=torch.float16
-                    )
+                    quantization_config = BitsAndBytesConfig(load_in_8bit=True, bnb_8bit_compute_dtype=torch.float16)
                 device_map = self.config.device
                 # Use configured dtype or default to float16 for CUDA
                 torch_dtype = (
-                    getattr(torch, self.config.torch_dtype)
-                    if hasattr(self.config, "torch_dtype")
-                    else torch.float16
+                    getattr(torch, self.config.torch_dtype) if hasattr(self.config, "torch_dtype") else torch.float16
                 )
 
             # Load model
-            actual_dtype = (
-                "torch.float32"
-                if "qwen" in self.config.model_name.lower()
-                else str(torch_dtype)
-            )
-            logger.info(
-                f"Loading model weights (dtype: {actual_dtype}, device: {
-                    device_map or 'cpu'})..."
-            )
+            actual_dtype = "torch.float32" if "qwen" in self.config.model_name.lower() else str(torch_dtype)
+            logger.info(f"Loading model weights (dtype: {actual_dtype}, device: {device_map or 'cpu'})...")
 
             def load_model():
                 # For Qwen and smaller models, use simpler loading
@@ -232,7 +198,8 @@ class LanguageModel:
 
                         # Create model with config (empty weights)
                         model = AutoModelForCausalLM.from_config(
-                            config, torch_dtype=torch.float32, trust_remote_code=True)
+                            config, torch_dtype=torch.float32, trust_remote_code=True
+                        )
 
                         # Load the actual weights
 
@@ -251,35 +218,27 @@ class LanguageModel:
                         # Find the safetensors or bin files
                         weight_files = []
                         for file in os.listdir(model_path):
-                            if file.endswith(
-                                    ".safetensors") or file.endswith(".bin"):
-                                weight_files.append(
-                                    os.path.join(model_path, file))
+                            if file.endswith(".safetensors") or file.endswith(".bin"):
+                                weight_files.append(os.path.join(model_path, file))
 
                         if weight_files:
                             # Load weights from files
                             for weight_file in sorted(weight_files):
-                                if weight_file.endswith(".safetensors"):
+                                if weight_file.endswith(".safetensors") and load_file:
                                     state_dict = load_file(weight_file)
                                 else:
-                                    state_dict = torch.load(
-                                        weight_file, map_location="cpu"
-                                    )
+                                    state_dict = torch.load(weight_file, map_location="cpu")
 
                                 # Load into model
                                 model.load_state_dict(state_dict, strict=False)
-                                logger.info(
-                                    f"Loaded weights from {
-                                        os.path.basename(weight_file)}"
-                                )
+                                logger.info(f"Loaded weights from {os.path.basename(weight_file)}")
 
                         model.tie_weights()
                         logger.info("Qwen loaded with manually loaded weights")
                         return model
 
                     except Exception as e:
-                        logger.warning(
-                            f"Manual weight loading failed: {e}, falling back to standard loading")
+                        logger.warning(f"Manual weight loading failed: {e}, falling back to standard loading")
 
                     # Fallback to standard loading
                     model_kwargs = {
@@ -287,16 +246,10 @@ class LanguageModel:
                         "trust_remote_code": True,
                         "low_cpu_mem_usage": False,
                     }
-                    if (
-                        self.config.hf_token
-                        and self.config.hf_token.strip()
-                        and self.config.hf_token != "${HF_TOKEN}"
-                    ):
+                    if self.config.hf_token and self.config.hf_token.strip() and self.config.hf_token != "${HF_TOKEN}":
                         model_kwargs["token"] = self.config.hf_token
 
-                    model = AutoModelForCausalLM.from_pretrained(
-                        self.config.model_name, **model_kwargs
-                    )
+                    model = AutoModelForCausalLM.from_pretrained(self.config.model_name, **model_kwargs)
 
                     model.tie_weights()
                     logger.info("Qwen loaded with standard method")
@@ -309,23 +262,14 @@ class LanguageModel:
                         "tie_word_embeddings": False,
                         "use_cache": True,
                     }
-                    if (
-                        self.config.hf_token
-                        and self.config.hf_token.strip()
-                        and self.config.hf_token != "${HF_TOKEN}"
-                    ):
+                    if self.config.hf_token and self.config.hf_token.strip() and self.config.hf_token != "${HF_TOKEN}":
                         model_kwargs["token"] = self.config.hf_token
 
-                    model = AutoModelForCausalLM.from_pretrained(
-                        self.config.model_name, **model_kwargs
-                    )
+                    model = AutoModelForCausalLM.from_pretrained(self.config.model_name, **model_kwargs)
                     # Move to device after loading
                     if self.config.device == "cuda" and torch.cuda.is_available():
                         model = model.to("cuda")
-                    elif (
-                        self.config.device == "mps"
-                        and torch.backends.mps.is_available()
-                    ):
+                    elif self.config.device == "mps" and torch.backends.mps.is_available():
                         # For MPS, ensure model is in float32 or float16
                         model = model.to(torch.float16).to("mps")
                     return model
@@ -338,46 +282,30 @@ class LanguageModel:
                         "trust_remote_code": True,
                         "low_cpu_mem_usage": True,
                     }
-                    if (
-                        self.config.hf_token
-                        and self.config.hf_token.strip()
-                        and self.config.hf_token != "${HF_TOKEN}"
-                    ):
+                    if self.config.hf_token and self.config.hf_token.strip() and self.config.hf_token != "${HF_TOKEN}":
                         model_kwargs["token"] = self.config.hf_token
 
-                    return AutoModelForCausalLM.from_pretrained(
-                        self.config.model_name, **model_kwargs
-                    )
+                    return AutoModelForCausalLM.from_pretrained(self.config.model_name, **model_kwargs)
 
-            self.model = await asyncio.get_event_loop().run_in_executor(
-                None, load_model
-            )
+            self.model = await asyncio.get_event_loop().run_in_executor(None, load_model)
 
             # Validate model weights are properly loaded
             meta_tensors = self._check_and_fix_meta_tensors()
 
             if meta_tensors:
-                logger.error(
-                    f"Found {
-                        len(meta_tensors)} meta tensors after loading"
-                )
+                logger.error(f"Found {len(meta_tensors)} meta tensors after loading")
                 # Attempt to fix by reloading without low_cpu_mem_usage
                 if "qwen" in self.config.model_name.lower():
-                    logger.info(
-                        "Attempting to reload Qwen model to fix meta tensors..."
-                    )
+                    logger.info("Attempting to reload Qwen model to fix meta tensors...")
                     self.model = await self._reload_model_properly()
                     # Re-check after reload
                     meta_tensors = self._check_and_fix_meta_tensors()
                     if meta_tensors:
                         raise RuntimeError(
-                            f"Failed to load Qwen model properly. {
-                                len(meta_tensors)} meta tensors remain."
+                            f"Failed to load Qwen model properly. {len(meta_tensors)} meta tensors remain."
                         )
                 else:
-                    raise RuntimeError(
-                        f"Model has {
-                            len(meta_tensors)} meta tensors. Weights failed to load properly.")
+                    raise RuntimeError(f"Model has {len(meta_tensors)} meta tensors. Weights failed to load properly.")
 
             # Validate model is ready for inference
             self._validate_model_ready()
@@ -407,16 +335,14 @@ class LanguageModel:
 
         # Detect complexity and adjust max tokens
         max_tokens, complexity_level = detect_complexity(prompt)
-        logger.info(
-            f"Detected complexity: {complexity_level}, using max_tokens: {max_tokens}")
+        logger.info(f"Detected complexity: {complexity_level}, using max_tokens: {max_tokens}")
 
         config = generation_config or GenerationConfig()
         config.max_tokens = max_tokens  # Override with dynamic value
         start_time = time.time()
 
         # Check cache first for instant responses
-        if "qwen" in self.config.model_name.lower(
-        ) and response_cache.should_use_cache(prompt):
+        if "qwen" in self.config.model_name.lower() and response_cache.should_use_cache(prompt):
             cached_response = response_cache.get_cached_response(prompt)
             if cached_response:
                 logger.info(f"Using cached response for: {prompt[:30]}...")
@@ -432,13 +358,8 @@ class LanguageModel:
             assessment = await self.constitutional_ai.evaluate_content(prompt)
             if not assessment.passed:
                 # Use debug level for expected behavior, not warning
-                reason = (
-                    assessment.recommendations[0]
-                    if assessment.recommendations
-                    else "No specific reason"
-                )
-                logger.debug(
-                    f"Enhancing prompt for ethical alignment: {reason}")
+                reason = assessment.recommendations[0] if assessment.recommendations else "No specific reason"
+                logger.debug(f"Enhancing prompt for ethical alignment: {reason}")
                 prompt = await self.constitutional_ai.enhance_with_love(prompt)
 
         # Prepare prompt with system message
@@ -478,9 +399,7 @@ Answer: """
         # For CPU, keep tensors on CPU
 
         # Create stopping criteria
-        stopping_criteria = StoppingCriteriaList(
-            [LoveStoppingCriteria(self.tokenizer, self.harm_keywords)]
-        )
+        stopping_criteria = StoppingCriteriaList([LoveStoppingCriteria(self.tokenizer, self.harm_keywords)])
 
         # Generate
         try:
@@ -491,10 +410,7 @@ Answer: """
             log_parts = [f"max_tokens={generation_params['max_new_tokens']}"]
             if config.do_sample:
                 log_parts.append(f"temp={config.temperature}")
-            logger.info(
-                f"Starting generation with config: {
-                    ', '.join(log_parts)}"
-            )
+            logger.info(f"Starting generation with config: {', '.join(log_parts)}")
 
             with torch.no_grad():
                 if config.stream:
@@ -503,11 +419,7 @@ Answer: """
                     outputs = await asyncio.get_event_loop().run_in_executor(
                         None,
                         lambda: self.model.generate(
-                            (
-                                inputs.input_ids
-                                if hasattr(inputs, "input_ids")
-                                else inputs["input_ids"]
-                            ),
+                            (inputs.input_ids if hasattr(inputs, "input_ids") else inputs["input_ids"]),
                             attention_mask=(
                                 inputs.attention_mask
                                 if hasattr(inputs, "attention_mask")
@@ -524,21 +436,15 @@ Answer: """
                         outputs = await asyncio.wait_for(
                             asyncio.get_event_loop().run_in_executor(
                                 None,
-                                lambda: self._generate_optimized(
-                                    inputs, config, stopping_criteria
-                                ),
+                                lambda: self._generate_optimized(inputs, config, stopping_criteria),
                             ),
                             timeout=(
-                                120.0
-                                if "qwen" in self.config.model_name.lower()
-                                else 30.0
+                                120.0 if "qwen" in self.config.model_name.lower() else 30.0
                             ),  # Qwen needs more time on CPU
                         )
                     except asyncio.TimeoutError:
-                        timeout_duration = (
-                            120.0 if "qwen" in self.config.model_name.lower() else 30.0)
-                        logger.warning(
-                            f"Generation timed out after {timeout_duration} seconds")
+                        timeout_duration = 120.0 if "qwen" in self.config.model_name.lower() else 30.0
+                        logger.warning(f"Generation timed out after {timeout_duration} seconds")
                         # Return a simple fallback response
                         fallback_responses = {
                             "hello": "Hello! I'm Think AI, ready to help.",
@@ -549,39 +455,30 @@ Answer: """
                         for key, response in fallback_responses.items():
                             if key in prompt_lower:
                                 return ModelResponse(
-                                    text=response, tokens_generated=0, generation_time=10.0, metadata={
-                                        "timeout": True, "fallback": True}, )
+                                    text=response,
+                                    tokens_generated=0,
+                                    generation_time=10.0,
+                                    metadata={"timeout": True, "fallback": True},
+                                )
                         # Generic fallback
                         return ModelResponse(
                             text="Error generating response. Please try again.",
                             tokens_generated=0,
                             generation_time=30.0,
-                            metadata={
-                                "timeout": True,
-                                "fallback": True},
+                            metadata={"timeout": True, "fallback": True},
                         )
 
             # Decode output
-            input_ids = (
-                inputs.input_ids
-                if hasattr(inputs, "input_ids")
-                else inputs["input_ids"]
-            )
-            generated_ids = outputs[0][input_ids.shape[1]:]
-            generated_text = self.tokenizer.decode(
-                generated_ids, skip_special_tokens=True
-            )
+            input_ids = inputs.input_ids if hasattr(inputs, "input_ids") else inputs["input_ids"]
+            generated_ids = outputs[0][input_ids.shape[1] :]
+            generated_text = self.tokenizer.decode(generated_ids, skip_special_tokens=True)
 
             # Apply constitutional AI post-processing
             if self.constitutional_ai:
-                assessment = await self.constitutional_ai.evaluate_content(
-                    generated_text
-                )
+                assessment = await self.constitutional_ai.evaluate_content(generated_text)
                 if not assessment.passed:
                     logger.info("Generated text enhanced with love")
-                    generated_text = await self.constitutional_ai.enhance_with_love(
-                        generated_text
-                    )
+                    generated_text = await self.constitutional_ai.enhance_with_love(generated_text)
 
             generation_time = time.time() - start_time
 
@@ -592,9 +489,7 @@ Answer: """
                 metadata={
                     "model": self.config.model_name,
                     "temperature": config.temperature,
-                    "ethical_check": (
-                        "passed" if self.constitutional_ai else "not_checked"
-                    ),
+                    "ethical_check": ("passed" if self.constitutional_ai else "not_checked"),
                 },
             )
 
@@ -620,9 +515,7 @@ Answer: """
 
         return await self.generate(full_prompt, generation_config)
 
-    async def answer_question(
-        self, question: str, knowledge_context: Optional[List[str]] = None
-    ) -> ModelResponse:
+    async def answer_question(self, question: str, knowledge_context: Optional[List[str]] = None) -> ModelResponse:
         """Answer a question with optional knowledge context."""
         if knowledge_context:
             context_text = "\n".join(knowledge_context[:3])  # Top 3 pieces
@@ -641,10 +534,7 @@ Answer with care and accuracy:"""
 
         return await self.generate(prompt, config)
 
-    async def summarize(
-            self,
-            text: str,
-            max_length: int = 150) -> ModelResponse:
+    async def summarize(self, text: str, max_length: int = 150) -> ModelResponse:
         """Summarize text compassionately."""
         prompt = f"""Please provide a clear and compassionate summary of the following text in about {max_length} words:
 
@@ -652,15 +542,11 @@ Answer with care and accuracy:"""
 
 Summary:"""
 
-        config = GenerationConfig(
-            temperature=0.5, max_tokens=max_length * 2  # Tokens != words
-        )
+        config = GenerationConfig(temperature=0.5, max_tokens=max_length * 2)  # Tokens != words
 
         return await self.generate(prompt, config)
 
-    async def translate(
-        self, text: str, target_language: str, source_language: str = "auto"
-    ) -> ModelResponse:
+    async def translate(self, text: str, target_language: str, source_language: str = "auto") -> ModelResponse:
         """Translate text while preserving emotional tone."""
         prompt = f"""Translate the following text from {source_language} to {target_language}.
 Preserve the emotional tone and meaning:
@@ -681,10 +567,7 @@ Translation:"""
 
         # For simple queries, use minimal prompt for faster generation
         user_lower = user_input.lower()
-        if any(
-            word in user_lower
-            for word in ["hello", "hi", "hey", "what is the sun", "what is"]
-        ):
+        if any(word in user_lower for word in ["hello", "hi", "hey", "what is the sun", "what is"]):
             return f"{user_input}\nAnswer: "
 
         return f"""You are Think AI. Answer the question directly.
@@ -740,11 +623,7 @@ Answer: """
         if "qwen" in self.config.model_name.lower():
             # For Qwen, use ULTRA minimal settings for speed
             # Don't pass any config parameters since we override everything'
-            input_ids = (
-                inputs.input_ids
-                if hasattr(inputs, "input_ids")
-                else inputs["input_ids"]
-            )
+            input_ids = inputs.input_ids if hasattr(inputs, "input_ids") else inputs["input_ids"]
             input_length = input_ids.shape[1]
 
             # Adaptive token limits using O(1) threshold checks
@@ -753,18 +632,14 @@ Answer: """
             elif input_length < 20:  # Medium prompts
                 max_tokens = 25
             else:
-                max_tokens = min(
-                    config.max_tokens, 50
-                )  # Slightly more for better answers on CPU
+                max_tokens = min(config.max_tokens, 50)  # Slightly more for better answers on CPU
 
             # Qwen-specific optimized parameters - no config params passed
             # This avoids transformers warnings about unused parameters
             return self.model.generate(
                 input_ids,
                 attention_mask=(
-                    inputs.attention_mask
-                    if hasattr(inputs, "attention_mask")
-                    else inputs.get("attention_mask")
+                    inputs.attention_mask if hasattr(inputs, "attention_mask") else inputs.get("attention_mask")
                 ),
                 max_new_tokens=max_tokens,
                 min_new_tokens=1,  # Allow very short responses
@@ -779,15 +654,9 @@ Answer: """
             # For other models, use validated parameters
             generation_params = config.get_valid_generation_params()
             return self.model.generate(
-                (
-                    inputs.input_ids
-                    if hasattr(inputs, "input_ids")
-                    else inputs["input_ids"]
-                ),
+                (inputs.input_ids if hasattr(inputs, "input_ids") else inputs["input_ids"]),
                 attention_mask=(
-                    inputs.attention_mask
-                    if hasattr(inputs, "attention_mask")
-                    else inputs.get("attention_mask")
+                    inputs.attention_mask if hasattr(inputs, "attention_mask") else inputs.get("attention_mask")
                 ),
                 stopping_criteria=stopping_criteria,
                 pad_token_id=self.tokenizer.pad_token_id,
@@ -836,18 +705,12 @@ Answer: """
             "_fast_init": False,  # Disable fast initialization that might skip weights
         }
 
-        if (
-            self.config.hf_token
-            and self.config.hf_token.strip()
-            and self.config.hf_token != "${HF_TOKEN}"
-        ):
+        if self.config.hf_token and self.config.hf_token.strip() and self.config.hf_token != "${HF_TOKEN}":
             model_kwargs["token"] = self.config.hf_token
 
         model = await asyncio.get_event_loop().run_in_executor(
             None,
-            lambda: AutoModelForCausalLM.from_pretrained(
-                self.config.model_name, **model_kwargs
-            ),
+            lambda: AutoModelForCausalLM.from_pretrained(self.config.model_name, **model_kwargs),
         )
 
         # Ensure weights are tied
@@ -864,21 +727,17 @@ Answer: """
                     # Get the actual tensor from state dict
                     if name in state_dict and not state_dict[name].is_meta:
                         param.data = state_dict[name].detach().clone()
-                        logger.info(
-                            f"Materialized weight from state dict: {name}")
+                        logger.info(f"Materialized weight from state dict: {name}")
                     else:
                         # Last resort - initialize with zeros
-                        param.data = torch.zeros(
-                            param.shape, dtype=torch.float32)
-                        logger.warning(
-                            f"Zero-initialized missing weight: {name}")
+                        param.data = torch.zeros(param.shape, dtype=torch.float32)
+                        logger.warning(f"Zero-initialized missing weight: {name}")
         except Exception as e:
             logger.warning(f"Could not fix weights via state dict: {e}")
             # Manual initialization as last resort
             for name, param in model.named_parameters():
                 if param.is_meta:
-                    param.data = torch.zeros(
-                        param.shape, dtype=torch.float32) * 0.02
+                    param.data = torch.zeros(param.shape, dtype=torch.float32) * 0.02
                     logger.info(f"Zero-initialized missing weight: {name}")
 
         logger.info("Model reloaded with materialized weights")
@@ -897,12 +756,9 @@ Answer: """
             "generate": callable(getattr(self.model, "generate", None)),
         }
 
-        failed_checks = [
-            name for name,
-            passed in critical_checks.items() if not passed]
+        failed_checks = [name for name, passed in critical_checks.items() if not passed]
         if failed_checks:
-            raise RuntimeError(
-                f"Model failed critical checks: {failed_checks}")
+            raise RuntimeError(f"Model failed critical checks: {failed_checks}")
 
         # Validate embeddings are accessible - O(1)
         try:
@@ -920,8 +776,7 @@ Answer: """
             raise RuntimeError(f"Failed to validate embeddings: {e}")
 
         # Memory footprint check
-        param_count = sum(p.numel()
-                          for p in self.model.parameters() if not p.is_meta)
+        param_count = sum(p.numel() for p in self.model.parameters() if not p.is_meta)
         if param_count == 0:
             raise RuntimeError("Model has no materialized parameters")
 
@@ -939,26 +794,18 @@ Answer: """
                 "vocab_size": getattr(self.model.config, "vocab_size", None),
                 "hidden_size": getattr(self.model.config, "hidden_size", None),
                 "num_layers": getattr(self.model.config, "num_hidden_layers", None),
-                "max_position": getattr(
-                    self.model.config, "max_position_embeddings", None
-                ),
+                "max_position": getattr(self.model.config, "max_position_embeddings", None),
             }
             self._param_cache.update(config_dict)
 
         # Cache layer references for O(1) access to specific layers
-        if hasattr(
-                self.model,
-                "model") and hasattr(
-                self.model.model,
-                "layers"):
+        if hasattr(self.model, "model") and hasattr(self.model.model, "layers"):
             # For models like LLaMA/Qwen structure
             for idx, layer in enumerate(self.model.model.layers):
                 if idx < 5:  # Cache first 5 layers for quick access
                     self._layer_cache[f"layer_{idx}"] = layer
 
-        logger.info(
-            f"Built parameter cache with {len(self._param_cache)} params and {len(self._layer_cache)} layers"
-        )
+        logger.info(f"Built parameter cache with {len(self._param_cache)} params and {len(self._layer_cache)} layers")
 
 
 class ModelOrchestrator:
@@ -970,21 +817,17 @@ class ModelOrchestrator:
         self.embedding_model = None
         self.specialized_models: Dict[str, Any] = {}
 
-    async def initialize_models(
-        self, config: ModelConfig, constitutional_ai: ConstitutionalAI
-    ):
+    async def initialize_models(self, config: ModelConfig, constitutional_ai: ConstitutionalAI):
         """Initialize all models."""
         # Import here to avoid circular dependency
-        from .parallel_model_pool import ParallelModelPool
+        from .parallel_model_pool import ParallelModelPool  # noqa: F811
 
         # Initialize parallel model pool for better performance
-        self.model_pool = ParallelModelPool(
-            config, constitutional_ai, pool_size=2)
+        self.model_pool = ParallelModelPool(config, constitutional_ai, pool_size=2)
         await self.model_pool.initialize()
 
         # Keep single instance for compatibility
-        self.language_model = (
-            self.model_pool.instances[0].model if self.model_pool.instances else None)
+        self.language_model = self.model_pool.instances[0].model if self.model_pool.instances else None
 
         logger.info("Model orchestrator initialized with parallel pool")
 
