@@ -42,10 +42,10 @@ RUN --mount=type=cache,id=think-ai-pip-${DEPENDENCY_HASH},target=/cache/pip,shar
     set -ex
     # Use pip with aggressive caching
     pip install --cache-dir=/cache/pip --upgrade pip setuptools wheel
-    
+
     # Install all Python dependencies
     pip install --cache-dir=/cache/pip -r requirements.txt
-    
+
     # Pre-download and cache all models
     python -c "
 import os
@@ -60,7 +60,7 @@ pipeline('sentiment-analysis')
 torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', pretrained=True)
 print('✓ All models cached')
 "
-    
+
     # Create wheel cache for faster installs
     pip wheel --cache-dir=/cache/pip --wheel-dir=/cache/wheels -r requirements.txt
 EOF
@@ -82,14 +82,14 @@ RUN --mount=type=cache,id=think-ai-npm,target=/root/.npm,sharing=locked \
     npm config set prefer-offline true
     npm config set audit false
     npm config set fund false
-    
+
     # Install dependencies
     if [ -f yarn.lock ]; then
         yarn install --frozen-lockfile --cache-folder /root/.npm
     else
         npm ci --cache /root/.npm --prefer-offline
     fi
-    
+
     # Create tarball for faster extraction
     tar czf node_modules.tar.gz node_modules/
 EOF

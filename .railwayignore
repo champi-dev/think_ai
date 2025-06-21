@@ -1,0 +1,10 @@
+# Ignore all Dockerfiles
+**/Dockerfile*
+configs/
+webapp/
+# Keep only essential files
+!simple_server.py
+!requirements.txt
+!runtime.txt
+!Procfile
+!railway.json

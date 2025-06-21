@@ -27,10 +27,12 @@ class SimpleHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
-    print(f"Starting simple HTTP server on port {port}")
+    print(f"Starting simple HTTP server on port {port}", flush=True)
+    print(f"PORT environment variable: {os.environ.get('PORT', 'NOT SET')}", flush=True)
+    print(f"Python version: {os.sys.version}", flush=True)
 
     server = HTTPServer(("0.0.0.0", port), SimpleHandler)
-    print(f"Server listening on 0.0.0.0:{port}")
+    print(f"Server listening on 0.0.0.0:{port}", flush=True)
 
     try:
         server.serve_forever()
