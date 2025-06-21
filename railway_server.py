@@ -4,7 +4,7 @@
 import os
 import sys
 
-print(f"Starting Railway server...")
+print("Starting Railway server...")
 print(f"Python version: {sys.version}")
 print(f"PORT env var: {os.environ.get('PORT', 'NOT SET')}")
 
