@@ -1,15 +1,18 @@
 [phases.setup]
-nixPkgs = ["python311", "gcc", "python311Packages.pip"]
-aptPkgs = ["python3-pip"]
+nixPkgs = ["python311", "gcc", "python311Packages.pip", "python311Packages.virtualenv"]
 
 [phases.install]
-cmds = ["python3 --version", "pip3 --version", "pip3 install -r requirements.txt"]
+cmds = [
+    "python3 -m venv /opt/venv",
+    ". /opt/venv/bin/activate && pip install --upgrade pip",
+    ". /opt/venv/bin/activate && pip install -r requirements.txt"
+]
 
 [phases.build]
 cmds = ["echo 'Build phase complete'"]
 
 [start]
-cmd = "python3 -u simple_server.py"
+cmd = "/opt/venv/bin/python -u simple_server.py"
 
 [variables]
 NIXPACKS_PYTHON_VERSION = "3.11"
