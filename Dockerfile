@@ -1,32 +1,60 @@
-# O(1) API Dockerfile - uses pre-built OPTIMIZED base image
-# This only copies application code, making builds take ~10 seconds
-# Image size: ~2GB (optimized) instead of 5GB
+# Full System Dockerfile - builds both API and webapp
+# Uses pre-built optimized base image for Python dependencies
 
-# Use the pre-built base image from Docker Hub
-# Using optimized tag for smaller, faster pulls
+# Stage 1: Build the webapp
+FROM node:18-alpine AS webapp-builder
+
+WORKDIR /webapp
+
+# Copy webapp package files
+COPY webapp/package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy webapp source
+COPY webapp/ ./
+
+# Build the Next.js app
+RUN npm run build
+
+# Stage 2: Final image with both API and webapp
 ARG BASE_IMAGE=devsarmico/think-ai-base:optimized
 FROM ${BASE_IMAGE}
 
+# Install Node.js for running the webapp
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Add labels for Railway caching
 LABEL railway.cache=true
-LABEL railway.cache.key="think-ai-optimized-v1"
+LABEL railway.cache.key="think-ai-full-system-v1"
 
-# Set working directory (already created in base)
+# Set working directory
 WORKDIR /app
 
-# Copy only application code - this is the O(1) operation
-# Dependencies are already installed in the base image
+# Copy Python application code
 COPY . .
 
-# No need for test command - remove it
+# Copy built webapp from builder stage
+COPY --from=webapp-builder /webapp/.next ./webapp/.next
+COPY --from=webapp-builder /webapp/public ./webapp/public
+COPY --from=webapp-builder /webapp/node_modules ./webapp/node_modules
+COPY --from=webapp-builder /webapp/package*.json ./webapp/
 
-# Expose the API port
-EXPOSE 8080
+# Ensure scripts are executable
+RUN chmod +x start_full_system.py process_manager.py start_with_patch.py
 
-# Health check for Railway
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:8080/health').raise_for_status()" || exit 1
+# Expose both ports (Railway will use PORT env var)
+EXPOSE 8080 3000
 
-# Start the API server
-# The transformers patch is applied within think_ai_full.py
-CMD ["python", "start_with_patch.py"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:${PORT:-8080}/health || exit 1
+
+# Use the process manager to run both services
+CMD ["python", "process_manager.py"]

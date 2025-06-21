@@ -13,9 +13,14 @@
     "restartPolicyMaxRetries": 3,
     "healthcheckPath": "/health",
     "healthcheckTimeout": 10,
+    "startCommand": "python process_manager.py",
     "environmentVariables": {
-      "PORT": "8080",
-      "PYTHONUNBUFFERED": "1"
+      "PORT": "${{PORT}}",
+      "PYTHONUNBUFFERED": "1",
+      "NODE_ENV": "production",
+      "NEXT_PUBLIC_API_URL": "/api",
+      "API_PORT": "8080",
+      "WEBAPP_PORT": "3000"
     }
   }
 }
