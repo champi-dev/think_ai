@@ -13,8 +13,7 @@ WORKDIR /app
 # Dependencies are already installed in the base image
 COPY . .
 
-# Ensure the transformers fix is applied
-RUN python -c "import os; os.system('ls -la')"
+# No need for test command - remove it
 
 # Expose the API port
 EXPOSE 8080
