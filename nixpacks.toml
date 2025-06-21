@@ -2,11 +2,17 @@
 nixPkgs = ["python311", "gcc", "python311Packages.pip", "python311Packages.virtualenv", "git"]
 
 [phases.install]
+# Optimized installation with dependency caching
 cmds = [
     "python3 -m venv /opt/venv",
     ". /opt/venv/bin/activate && pip install --upgrade pip setuptools wheel",
-    ". /opt/venv/bin/activate && pip install -r requirements-full.txt --no-cache-dir"
+    # Cache wheels for faster rebuilds
+    ". /opt/venv/bin/activate && pip wheel -r requirements-full.txt --wheel-dir=/tmp/wheels",
+    # Install from cached wheels with --find-links for O(1) lookup
+    ". /opt/venv/bin/activate && pip install -r requirements-full.txt --find-links=/tmp/wheels --prefer-binary"
 ]
+# Cache this phase when requirements haven't changed
+dependsOn = ["requirements-full.txt"]
 
 [phases.build]
 cmds = [
@@ -27,8 +33,9 @@ cmd = "/opt/venv/bin/python -u think_ai_full.py"
 
 [variables]
 NIXPACKS_PYTHON_VERSION = "3.11"
-NIXPACKS_DISABLE_CACHE = "1"
-NIXPACKS_NO_CACHE = "true"
+# Enable caching for faster builds
+# NIXPACKS_DISABLE_CACHE = "1"  # Commented out to enable caching
+# NIXPACKS_NO_CACHE = "true"     # Commented out to enable caching
 HF_HOME = "/tmp/hf_cache"
 TRANSFORMERS_CACHE = "/tmp/transformers_cache"
 BINARY_MODE = "false"
