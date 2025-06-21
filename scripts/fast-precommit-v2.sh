@@ -12,7 +12,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 # Performance tracking
-PIPELINE_START=$(date +%s.%N 2>/dev/null || date +%s)
+PIPELINE_START=$(python3 -c "import time; print(time.time())" 2>/dev/null || date +%s)
 CACHE_DIR="${HOME}/.think_ai_fast_cache"
 mkdir -p "$CACHE_DIR"
 
@@ -57,12 +57,12 @@ TEST_PID=""
 if [ "$PY_COUNT" -gt 0 ]; then
     (
         echo -ne "${BLUE}Format Python...${NC} "
-        start=$(date +%s.%N 2>/dev/null || date +%s)
+        start=$(python3 -c "import time; print(time.time())" 2>/dev/null || echo "0")
         
         # Format only changed files
         echo "$PY_FILES" | xargs -I {} black {} --quiet --fast 2>/dev/null
         
-        end=$(date +%s.%N 2>/dev/null || date +%s)
+        end=$(python3 -c "import time; print(time.time())" 2>/dev/null || echo "1")
         duration=$(python3 -c "print(f'{$end - $start:.1f}')" 2>/dev/null || echo "0.1")
         echo -e "${GREEN}✓${NC} (${duration}s)"
     ) &
@@ -75,14 +75,14 @@ fi
 if [ "$JS_COUNT" -gt 0 ] && [ -f "webapp/package.json" ]; then
     (
         echo -ne "${BLUE}Format JS...${NC} "
-        start=$(date +%s.%N 2>/dev/null || date +%s)
+        start=$(python3 -c "import time; print(time.time())" 2>/dev/null || echo "0")
         
         # Format only changed files in webapp
         cd webapp
         echo "$JS_FILES" | grep "^webapp/" | sed 's|^webapp/||' | xargs npx prettier --write --loglevel error 2>/dev/null || true
         cd ..
         
-        end=$(date +%s.%N 2>/dev/null || date +%s)
+        end=$(python3 -c "import time; print(time.time())" 2>/dev/null || echo "1")
         duration=$(python3 -c "print(f'{$end - $start:.1f}')" 2>/dev/null || echo "0.1")
         echo -e "${GREEN}✓${NC} (${duration}s)"
     ) &
@@ -95,12 +95,12 @@ fi
 if [ "$PY_COUNT" -gt 0 ]; then
     (
         echo -ne "${BLUE}Quick Lint...${NC} "
-        start=$(date +%s.%N 2>/dev/null || date +%s)
+        start=$(python3 -c "import time; print(time.time())" 2>/dev/null || echo "0")
         
         # Basic syntax check only
         echo "$PY_FILES" | xargs -I {} python -m py_compile {} 2>/dev/null
         
-        end=$(date +%s.%N 2>/dev/null || date +%s)
+        end=$(python3 -c "import time; print(time.time())" 2>/dev/null || echo "1")
         duration=$(python3 -c "print(f'{$end - $start:.1f}')" 2>/dev/null || echo "0.1")
         echo -e "${GREEN}✓${NC} (${duration}s)"
     ) &
@@ -113,7 +113,7 @@ fi
 if [ "$PY_COUNT" -gt 0 ]; then
     (
         echo -ne "${BLUE}Smart Tests...${NC} "
-        start=$(date +%s.%N 2>/dev/null || date +%s)
+        start=$(python3 -c "import time; print(time.time())" 2>/dev/null || echo "0")
         
         # Extract module names from changed files
         MODULES=$(echo "$PY_FILES" | grep -E "^(think_ai|tests)/" | sed 's|/[^/]*\.py$||' | sort -u | head -5)
@@ -136,7 +136,7 @@ if [ "$PY_COUNT" -gt 0 ]; then
             fi
         fi
         
-        end=$(date +%s.%N 2>/dev/null || date +%s)
+        end=$(python3 -c "import time; print(time.time())" 2>/dev/null || echo "1")
         duration=$(python3 -c "print(f'{$end - $start:.1f}')" 2>/dev/null || echo "0.1")
         echo -e "${GREEN}✓${NC} (${duration}s)"
     ) &
@@ -153,7 +153,7 @@ FAILED=0
 [ -n "$TEST_PID" ] && wait $TEST_PID || FAILED=1
 
 # Final timing
-PIPELINE_END=$(date +%s.%N 2>/dev/null || date +%s)
+PIPELINE_END=$(python3 -c "import time; print(time.time())" 2>/dev/null || echo "2")
 DURATION=$(python3 -c "print(f'{$PIPELINE_END - $PIPELINE_START:.1f}')" 2>/dev/null || echo "2")
 
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
