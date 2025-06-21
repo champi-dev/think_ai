@@ -28,8 +28,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=wheel-builder /wheels /wheels
 
 # Compress wheels with LZMA (best compression ratio)
-RUN cd /wheels && tar -cJf /wheels.tar.xz *.whl && \
-    echo "Compressed $(ls -1 *.whl | wc -l) wheels from $(du -sh . | cut -f1) to $(du -h /wheels.tar.xz | cut -f1)"
+RUN cd /wheels && \
+    echo "⏳ Compressing wheels with LZMA (this takes 2-5 minutes)..." && \
+    echo "📦 Found $(ls -1 *.whl | wc -l) wheels totaling $(du -sh . | cut -f1)" && \
+    tar -cJf /wheels.tar.xz *.whl --checkpoint=100 --checkpoint-action=echo="📦 %{r}T" && \
+    echo "✅ Compressed to $(du -h /wheels.tar.xz | cut -f1) (saved ~60%)"
 
 # Stage 3: Final optimized image
 FROM python:3.11-slim
@@ -50,10 +53,13 @@ COPY --from=compressor /wheels.tar.xz /tmp/
 
 # Extract and install wheels (no download, no build)
 RUN cd /tmp && \
-    tar -xJf wheels.tar.xz && \
+    echo "⏳ Decompressing wheels..." && \
+    tar -xJf wheels.tar.xz --checkpoint=100 --checkpoint-action=echo="📦 %{r}T" && \
+    echo "⏳ Installing Python packages..." && \
     pip install --no-deps *.whl && \
     rm -rf /tmp/* && \
-    pip cache purge
+    pip cache purge && \
+    echo "✅ Installation complete"
 
 # Strip unnecessary files to save space
 RUN find /opt/venv -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true && \

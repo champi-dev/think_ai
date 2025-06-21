@@ -19,8 +19,7 @@ COPY webapp/ ./
 RUN npm run build
 
 # Stage 2: Final image with both API and webapp
-ARG BASE_IMAGE=devsarmico/think-ai-base:optimized
-FROM ${BASE_IMAGE}
+FROM devsarmico/think-ai-base:optimized AS final
 
 # Install Node.js for running the webapp
 RUN apt-get update && \
