@@ -4,7 +4,14 @@ import json
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from neo4j import AsyncDriver, AsyncGraphDatabase
+try:
+    from neo4j import AsyncDriver, AsyncGraphDatabase
+    NEO4J_AVAILABLE = True
+except ImportError:
+    # Neo4j is optional - provide dummy types
+    AsyncDriver = Any
+    AsyncGraphDatabase = None
+    NEO4J_AVAILABLE = False
 
 from think_ai.utils.logging import get_logger
 
@@ -54,6 +61,11 @@ class KnowledgeGraph:
         """Initialize Neo4j connection."""
         if self._initialized:
             return
+            
+        if not NEO4J_AVAILABLE:
+            logger.warning("Neo4j is not available. Knowledge graph functionality will be limited.")
+            self._initialized = True
+            return
 
         try:
             logger.info(f"Connecting to Neo4j at {self.uri} with username: {self.username}")
@@ -84,6 +96,13 @@ class KnowledgeGraph:
         if self.driver:
             await self.driver.close()
             self._initialized = False
+    
+    def _check_available(self) -> None:
+        """Check if Neo4j is available and initialized."""
+        if not NEO4J_AVAILABLE:
+            raise RuntimeError("Neo4j is not available. Please install neo4j package.")
+        if not self._initialized or not self.driver:
+            raise RuntimeError("Knowledge graph not initialized. Call initialize() first.")
 
     async def _create_indexes(self) -> None:
         """Create necessary indexes for performance."""
@@ -110,6 +129,8 @@ class KnowledgeGraph:
         metadata: Dict[str, Any],
     ) -> Node:
         """Create a knowledge node."""
+        self._check_available()
+        
         query = """
         CREATE (k:Knowledge {
             key: $key,
@@ -140,6 +161,8 @@ class KnowledgeGraph:
 
     async def create_concept_node(self, name: str, description: str = "") -> Node:
         """Create a concept node."""
+        self._check_available()
+        
         query = """
         MERGE (c:Concept {name: $name})
         ON CREATE SET c.description = $description, c.created_at = datetime()
@@ -171,6 +194,8 @@ class KnowledgeGraph:
         properties: Optional[Dict[str, Any]] = None,
     ) -> Relationship:
         """Create relationship between knowledge and concept."""
+        self._check_available()
+        
         query = (
             """
         MATCH (k:Knowledge {key: $knowledge_key})
@@ -208,6 +233,8 @@ class KnowledgeGraph:
         limit: int = 10,
     ) -> List[Dict[str, Any]]:
         """Find knowledge related through shared concepts."""
+        self._check_available()
+        
         query = """
         MATCH (k1:Knowledge {key: $key})-[:RELATES_TO]->(:Concept)<-[:RELATES_TO]-(k2:Knowledge)
         WHERE k1 <> k2
