@@ -193,8 +193,7 @@ class ThinkAIEternal:
     ) -> str:
         """Import and process Claude's response."""
         # Store for future use
-        conversation_id = f"claude_import_{
-            datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        conversation_id = f"claude_import_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
         messages = [
             {"role": "user", "content": query},

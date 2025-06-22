@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useThinkAIStore } from '../lib/store'
 import React from 'react'
@@ -7,6 +7,7 @@ export default function QueryInterfaceEnhanced() {
   const [query, setQuery] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { responses, addResponse } = useThinkAIStore()
+  const inputRef = useRef<HTMLInputElement>(null)
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -15,14 +16,12 @@ export default function QueryInterfaceEnhanced() {
     setIsLoading(true)
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/think`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/v1/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query,
-          enable_consciousness: true,
-          temperature: 0.7,
-          max_tokens: 50000 // Increased for code generation
+          message: query,
+          conversationId: Date.now().toString()
         })
       })
       
@@ -36,13 +35,15 @@ export default function QueryInterfaceEnhanced() {
         id: Date.now().toString(),
         query,
         response: data.response,
-        consciousness_state: data.consciousness_state,
-        has_code: data.has_code || false,
-        response_type: data.response_type || 'text',
+        consciousness_state: data.consciousness,
+        has_code: data.response.includes('```'),
+        response_type: 'text',
         timestamp: new Date()
       })
       
       setQuery('')
+      // Refocus input after clearing
+      inputRef.current?.focus()
     } catch (error) {
       console.error('Query failed:', error)
       addResponse({
@@ -106,6 +107,7 @@ export default function QueryInterfaceEnhanced() {
     <div className="space-y-4">
       <form onSubmit={handleSubmit} className="relative">
         <input
+          ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -116,8 +118,9 @@ export default function QueryInterfaceEnhanced() {
             }
           }}
           placeholder="Ask me to code something..."
-          className="w-full pl-4 pr-12 py-3 bg-black/30 border border-purple-500/20 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+          className="w-full pl-4 pr-14 py-3 bg-black/30 border border-purple-500/20 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
           disabled={isLoading}
+          autoFocus
         />
         
         <motion.button
@@ -125,7 +128,7 @@ export default function QueryInterfaceEnhanced() {
           disabled={isLoading || !query.trim()}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-purple-400 hover:text-purple-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-purple-400 hover:text-purple-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           {isLoading ? (
             <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">

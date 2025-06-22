@@ -1,0 +1,31 @@
+# Think AI v3.1.0 - Railway-optimized Dockerfile
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY think_ai_v3/requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the entire v3 directory
+COPY think_ai_v3/ ./think_ai_v3/
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV THINK_AI_COLOMBIAN=true
+ENV THINK_AI_MODEL=Qwen/Qwen2.5-Coder-1.5B
+
+# Expose port (Railway sets PORT env var)
+EXPOSE 8080
+
+# Run the application
+CMD ["python", "think_ai_v3/app.py"]

@@ -19,34 +19,33 @@ from .utils.logging import configure_logging
 @click.option('--offline', is_flag=True, help='Use offline storage mode')
 @click.pass_context
 def main(ctx, debug, offline):
+    """Think AI - Universal Knowledge Access System"""
+    # Configure logging
+    log_level = "DEBUG" if debug else "INFO"
+    logger = configure_logging(log_level=log_level)
 
-"""Think AI - Universal Knowledge Access System"""
-# Configure logging
-log_level = "DEBUG" if debug else "INFO"
- logger = configure_logging(log_level=log_level)
-
-# Create config
-  config = Config.from_env()
-   config.debug = debug
-
-# Store in context
+    # Create config
+    config = Config.from_env()
+    config.debug = debug
+    
+    # Store in context
     ctx.ensure_object(dict)
     ctx.obj['config'] = config
     ctx.obj['logger'] = logger
     ctx.obj['offline'] = offline
 
-    @main.command()
-    @click.pass_context
-    def init(ctx):
-"""Initialize Think AI system components."""
-config = ctx.obj['config']
- logger = ctx.obj['logger']
-
-  async def run_init():
-       logger.info("Initializing Think AI system...")
-
+@main.command()
+@click.pass_context
+def init(ctx):
+    """Initialize Think AI system components."""
+    config = ctx.obj['config']
+    logger = ctx.obj['logger']
+    
+    async def run_init():
+        logger.info("Initializing Think AI system...")
+        
         async with ThinkAIEngine(config) as engine:
-         # Perform health check
+            # Perform health check
             health = await engine.health_check()
 
             if health['status'] = = 'healthy':
@@ -125,8 +124,7 @@ config = ctx.obj['config']
             result = await engine.query_knowledge(query, limit=limit)
 
             logger.info(
-                f"✓ Query completed in {
-                    result.processing_time_ms:.2f}ms")
+                f"✓ Query completed in {result.processing_time_ms:.2f}ms")
             print(f"\nFound {len(result.results)} results for: {query}")
 
             for i, item in enumerate(result.results, 1):
@@ -260,10 +258,7 @@ config = ctx.obj['config']
                     print("\nSync completed:")
                     print(f" Items synced: {result['items_synced']}")
                     print(
-                        f" Duration: {
-                            result.get(
-                                'duration_seconds',
-                                0):.2f}s")
+                        f" Duration: {result.get('duration_seconds', 0):.2f}s")
                     if result.get('errors'):
                         print(f" Errors: {len(result['errors'])}")
 
@@ -280,11 +275,10 @@ config = ctx.obj['config']
                     print(f" Items uploaded: {result['items_uploaded']}")
                     print(f" Items downloaded: {result['items_downloaded']}")
                     print(
-                        f" Conflicts resolved: {
-                            result['conflicts_resolved']}")
+                        f" Conflicts resolved: {result['conflicts_resolved']}")
                     print(f" Success: {'Yes' if result['success'] else 'No'}")
 
-                elif action = = 'enable-offline':
+                elif action == 'enable-offline':
           # Enable offline mode
                     async with ThinkAIEngine(config) as engine:
                         sync_manager = OfflineSyncManager(
@@ -357,10 +351,9 @@ ctx.obj['config']
                 print(f" Data size: {update.data_size}")
                 print(f" Metrics: {update.metrics}")
                 print(
-                    f" Privacy budget remaining: {
-                        client.privacy_budget_remaining()}")
+                    f" Privacy budget remaining: {client.privacy_budget_remaining()}")
 
                 asyncio.run(run_federated())
 
-                if __name__ = = '__main__':
+if __name__ == '__main__':
                     main()

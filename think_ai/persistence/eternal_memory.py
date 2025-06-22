@@ -227,8 +227,7 @@ class EternalMemory:
 
             # Restore knowledge state
             logger.info(
-                f"Restored knowledge checkpoint from {
-                    checkpoint.get('timestamp')}"
+                f"Restored knowledge checkpoint from {checkpoint.get('timestamp')}"
             )
 
         except Exception as e:
@@ -325,8 +324,7 @@ class EternalMemory:
         try:
             emergency_file = (
                 self.memory_path
-                / f"emergency_sync_{
-                    datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
+                / f"emergency_sync_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
             )
             with open(emergency_file, "wb") as f:
                 pickle.dump(

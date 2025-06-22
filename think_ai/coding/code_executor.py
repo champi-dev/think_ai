@@ -180,8 +180,7 @@ class SafeCodeExecutor:
                 process.join()
                 return {
                     "success": False,
-                    "error": f"Code execution timed out after {
-                        self.timeout} seconds",
+                    "error": f"Code execution timed out after {self.timeout} seconds",
                     "type": "timeout",
                 }
 

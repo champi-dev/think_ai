@@ -2,7 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "Dockerfile"
+    "dockerfilePath": "Dockerfile.railway"
   },
   "deploy": {
     "numReplicas": 1,
@@ -10,14 +10,11 @@
     "restartPolicyMaxRetries": 3,
     "healthcheckPath": "/health",
     "healthcheckTimeout": 10,
-    "startCommand": "python process_manager.py",
+    "startCommand": "python think_ai_v3/app.py",
     "environmentVariables": {
-      "PORT": "${{PORT}}",
       "PYTHONUNBUFFERED": "1",
-      "NODE_ENV": "production",
-      "NEXT_PUBLIC_API_URL": "/api",
-      "API_PORT": "8080",
-      "WEBAPP_PORT": "3000"
+      "THINK_AI_COLOMBIAN": "true",
+      "THINK_AI_MODEL": "Qwen/Qwen2.5-Coder-1.5B"
     }
   }
 }

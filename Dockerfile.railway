@@ -1,0 +1,41 @@
+# Think AI v3.1.0 - Optimized for Railway
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies (minimal)
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY think_ai_v3/requirements.txt .
+
+# Install Python dependencies with caching
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY think_ai_v3/ ./think_ai_v3/
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV THINK_AI_COLOMBIAN=true
+ENV THINK_AI_MODEL=Qwen/Qwen2.5-Coder-1.5B
+ENV THINK_AI_ENV=production
+
+# Create necessary directories
+RUN mkdir -p /app/data /app/logs /app/models
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:${PORT:-8080}/health || exit 1
+
+# Use PORT environment variable from Railway
+EXPOSE ${PORT:-8080}
+
+# Start the application
+CMD ["python", "think_ai_v3/app.py"]

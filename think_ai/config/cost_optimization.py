@@ -163,9 +163,7 @@ class CostOptimizer:
         # Check budget
         if self.current_spending > self.budget_limit * 0.8:
             logger.warning(
-                f"Approaching budget limit: ${
-                    self.current_spending:.2f} of ${
-                    self.budget_limit:.2f}"
+                f"Approaching budget limit: ${self.current_spending:.2f} of ${self.budget_limit:.2f}"
             )
 
         return usage_entry

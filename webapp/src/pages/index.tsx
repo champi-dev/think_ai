@@ -19,7 +19,7 @@ export default function Home() {
   useEffect(() => {
     const logInterval = setInterval(async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/intelligence`)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/v1/intelligence`)
         if (response.ok) {
           const data = await response.json()
           console.log('🧠 Intelligence Metrics:', {

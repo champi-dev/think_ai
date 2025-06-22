@@ -7,7 +7,7 @@ import json
 import sys
 from typing import Any
 
-from think_ai.coding.code_generator import CodeGenerator
+# from think_ai.coding.code_generator import CodeGenerator
 from think_ai.core.think_ai_eternal import ThinkAIEternal
 from think_ai.intelligence.self_trainer import SelfTrainer
 from think_ai.storage.manager import StorageManager
@@ -32,7 +32,8 @@ class ThinkAIBridge:
             self.think_ai = ThinkAIEternal()
             self.think_ai.initialize()
 
-            self.code_generator = CodeGenerator()
+            # self.code_generator = CodeGenerator()
+            self.code_generator = None  # Temporarily disabled due to syntax errors
             self.self_trainer = SelfTrainer(self.think_ai)
 
         except Exception as e:

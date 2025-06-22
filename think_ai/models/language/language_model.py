@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional
 try:
     from huggingface_hub import snapshot_download
 except ImportError:
-    from ..utils.dependency_resolver import dependency_resolver
+    from ...utils.dependency_resolver import dependency_resolver
 
     huggingface_hub = dependency_resolver.resolve_dependency("huggingface_hub")
     snapshot_download = huggingface_hub.snapshot_download
@@ -23,7 +23,7 @@ except ImportError:
 try:
     import torch
 except ImportError:
-    from ..utils.torch_fallback import torch
+    from ...utils.torch_fallback import torch
 
 try:
     from transformers import (
@@ -36,7 +36,7 @@ try:
         TextStreamer,
     )
 except ImportError:
-    from ..utils.dependency_resolver import dependency_resolver
+    from ...utils.dependency_resolver import dependency_resolver
 
     transformers = dependency_resolver.resolve_dependency("transformers")
     AutoModelForCausalLM = transformers.AutoModelForCausalLM

@@ -1,1 +1,1 @@
-{"/_app":"pages/_app.js","/api/[...path]":"pages/api/[...path].js","/":"pages/index.html","/websocket-test":"pages/websocket-test.html","/_error":"pages/_error.js","/api/ws":"pages/api/ws.js","/_document":"pages/_document.js","/404":"pages/404.html"}
+{"/_app":"pages/_app.js","/":"pages/index.html","/test":"pages/test.html","/websocket-test":"pages/websocket-test.html","/api/[...path]":"pages/api/[...path].js","/_error":"pages/_error.js","/api/ws":"pages/api/ws.js","/_document":"pages/_document.js","/404":"pages/404.html"}

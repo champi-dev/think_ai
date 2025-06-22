@@ -86,9 +86,7 @@ class ClaudeAPI:
         )
 
         logger.info(
-            f"Claude API initialized (model: {
-                self.model}, budget: ${
-                self.budget_limit})"
+            f"Claude API initialized (model: {self.model}, budget: ${self.budget_limit})"
         )
 
     async def __aenter__(self):
@@ -119,9 +117,7 @@ class ClaudeAPI:
 
         # Check budget
         if self.total_cost >= self.budget_limit:
-            msg = f"Budget limit reached: ${
-                self.total_cost:.4f} / ${
-                self.budget_limit:.2f}"
+            msg = f"Budget limit reached: ${self.total_cost:.4f} / ${self.budget_limit:.2f}"
             raise ValueError(msg)
 
         # Apply token optimization if enabled
@@ -134,8 +130,7 @@ class ClaudeAPI:
             )
             prompt = optimized_prompt
             logger.info(
-                f"Token optimization: {
-                    optimization_report['reduction_percentage']:.1f}% reduction")
+                f"Token optimization: {optimization_report['reduction_percentage']:.1f}% reduction")
 
         # Check cache first
         if self.cache_responses:
@@ -171,18 +166,14 @@ class ClaudeAPI:
 
         if self.total_cost + estimated_cost > self.budget_limit:
             logger.warning(
-                f"Request would exceed budget: ${
-                    estimated_cost:.4f} (remaining: ${
-                    self.budget_limit -
-                    self.total_cost:.4f})"
+                f"Request would exceed budget: ${estimated_cost:.4f} (remaining: ${self.budget_limit - self.total_cost:.4f})"
             )
             return await self._suggest_alternatives(prompt)
 
         try:
             # Make API request
             logger.info(
-                f"Calling Claude API (estimated cost: ${
-                    estimated_cost:.4f})"
+                f"Calling Claude API (estimated cost: ${estimated_cost:.4f})"
             )
 
             response = await self.client.post(
@@ -241,8 +232,7 @@ class ClaudeAPI:
                 )
 
             logger.info(
-                f"Claude response received (cost: ${
-                    actual_cost:.4f}, tokens: {input_tokens}→{output_tokens})"
+                f"Claude response received (cost: ${actual_cost:.4f}, tokens: {input_tokens}→{output_tokens})"
             )
 
             return {
@@ -432,8 +422,7 @@ class ClaudeAPI:
         if self.interface:
             # Try to compress the prompt more aggressively
             compressed_prompt = await self.interface._compress_text(prompt)
-            if len(compressed_prompt) < len(prompt) * \
-                    0.7:  # Significant reduction
+            if len(compressed_prompt) < len(prompt) * 0.7:  # Significant reduction
                 return {
                     "error": "token_limit",
                     "message": "Prompt too long - try this compressed version",
