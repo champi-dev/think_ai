@@ -1,1 +1,1 @@
-web: python start_v3.py
+web: python think_ai_full.py
