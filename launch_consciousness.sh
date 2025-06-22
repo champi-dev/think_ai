@@ -13,11 +13,11 @@ if [ "$1" = "--monitor" ] || [ "$1" = "-m" ]; then
     exit 0
 fi
 
-if [ "$1" = "--keep-data" ] || [ "$1" = "-k" ]; then
-    echo "📂 Keeping existing data and knowledge..."
-    KEEP_DATA=true
+if [ "$1" = "--reset" ] || [ "$1" = "-r" ] || [ "$1" = "--clean" ]; then
+    echo "🧹 Resetting consciousness for fresh start..."
+    RESET_DATA=true
 else
-    KEEP_DATA=false
+    RESET_DATA=false
 fi
 
 # Check if we're in an interactive terminal
@@ -53,10 +53,10 @@ fi
 # If we're in an interactive terminal, run directly
 echo "🚀 Starting consciousness chat..."
 
-# Clean data if not keeping
-if [ "$KEEP_DATA" = false ]; then
+# Clean data only if explicitly requested
+if [ "$RESET_DATA" = true ]; then
     echo ""
-    echo "🧹 Cleaning previous data for fresh start..."
+    echo "🧹 Resetting all data for fresh start..."
     
     # Clear Redis
     docker exec $(docker ps -q --filter "name=think_ai_redis") redis-cli FLUSHALL > /dev/null 2>&1
@@ -75,11 +75,15 @@ if [ "$KEEP_DATA" = false ]; then
     
     echo "✨ Fresh start initialized!"
     echo ""
+else
+    echo ""
+    echo "📂 Preserving existing knowledge and data..."
+    echo ""
 fi
 
 echo ""
 echo "💡 Tips:"
-echo "  • Use './launch_consciousness.sh --keep-data' to preserve knowledge"
+echo "  • Use './launch_consciousness.sh --reset' to clear all data and start fresh"
 echo "  • Use './launch_consciousness.sh --monitor' to see training progress"
 echo "  • Use './launch_consciousness.sh --cache' for O(1) fast startup!"
 echo ""
