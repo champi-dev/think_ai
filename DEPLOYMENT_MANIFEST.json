@@ -1,0 +1,45 @@
+{
+  "version": "3.1.0",
+  "generated": "2025-06-22T02:48:40Z",
+  "git_commit": "c50130da20c049236a5d452fc353b6c50381ef71",
+  "git_branch": "main",
+  "components": {
+    "api": {
+      "path": "think_ai_v3/",
+      "entry": "app.py",
+      "port": 8080,
+      "endpoints": [
+        "/health",
+        "/api/v1/generate",
+        "/api/v1/chat",
+        "/api/v1/knowledge/*",
+        "/api/v1/intelligence",
+        "/api/v1/ws"
+      ]
+    },
+    "webapp": {
+      "path": "webapp/",
+      "framework": "Next.js",
+      "port": 3000
+    },
+    "models": {
+      "default": "Qwen/Qwen2.5-Coder-1.5B",
+      "supported": [
+        "Qwen/Qwen2.5-Coder-*",
+        "microsoft/phi-2",
+        "mistralai/Mistral-7B-*"
+      ]
+    }
+  },
+  "deployment_files": [
+    "railway.json",
+    "Dockerfile.railway",
+    "deploy_railway.sh",
+    "deploy_docker.sh"
+  ],
+  "bundles": [
+    "dist/think_ai-3.1.0-py3-none-any.whl",
+    "webapp_bundle.tar.gz",
+    "deployment_bundle.tar.gz"
+  ]
+}

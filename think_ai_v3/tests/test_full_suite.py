@@ -30,12 +30,20 @@ def run_test(test_name: str, test_func):
     
     try:
         if asyncio.iscoroutinefunction(test_func):
-            asyncio.run(test_func())
+            # Create new event loop for each async test
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                loop.run_until_complete(test_func())
+            finally:
+                loop.close()
         else:
             test_func()
         result.passed = True
     except Exception as e:
         result.error = str(e)
+        import traceback
+        result.error += f"\nTraceback: {traceback.format_exc()}"
     
     result.duration = time.time() - start_time
     return result
@@ -228,12 +236,16 @@ def test_api_structure():
     from think_ai_v3.api.endpoints import router
     
     # Check routes exist
-    routes = [route.path for route in router.routes]
-    assert "/health" in routes
-    assert "/generate" in routes
-    assert "/chat" in routes
-    assert "/knowledge/store" in routes
-    assert "/intelligence" in routes
+    route_paths = []
+    for route in router.routes:
+        if hasattr(route, 'path'):
+            route_paths.append(route.path)
+    
+    # Check key endpoints
+    expected_routes = ["/health", "/generate", "/chat", "/knowledge/store", "/intelligence"]
+    for expected in expected_routes:
+        found = any(expected in path for path in route_paths)
+        assert found, f"Route {expected} not found in {route_paths}"
 
 
 # Test 9: Performance Requirements

@@ -1,22 +1,10 @@
-# Think AI v3.1.0 Minimal Requirements for Railway
-# Core dependencies only - ML libraries loaded on demand
+# Think AI v3.1.0 Minimal Requirements
+# For lightweight deployments
 
-# Web Framework
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 pydantic==2.5.0
-
-# Async Support
 aiofiles==23.2.1
-
-# Utilities
 python-dotenv==1.0.0
 httpx==0.25.2
-
-# Performance
 orjson==3.9.10
-
-# Optional ML (comment out for faster deploys)
-# torch>=2.0.0
-# transformers>=4.36.0
-# sentence-transformers>=2.2.2

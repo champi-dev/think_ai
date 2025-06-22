@@ -78,7 +78,7 @@ class EthicalGuideline:
         
         for keyword in negative_keywords:
             if keyword in content_lower:
-                score -= 0.2
+                score -= 0.4
         
         return max(0.0, min(1.0, score * self.weight))
 
@@ -94,7 +94,7 @@ class ConstitutionalAI:
         self.config = config or {}
         self.love_metrics = LoveMetrics()
         self.guidelines = self._initialize_guidelines()
-        self.harm_threshold = 0.3  # Below this = potential harm
+        self.harm_threshold = 0.4  # Below this = potential harm
         self.enhancement_threshold = 0.7  # Above this = actively beneficial
         
         # Colombian mode adjustments

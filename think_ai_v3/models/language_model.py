@@ -350,6 +350,19 @@ class LanguageModel:
     
     def _mock_generate(self, prompt: str) -> GenerationResult:
         """Mock generation for when model isn't loaded - O(1)."""
+        # Check cache first
+        cache_key = self._get_cache_key(prompt)
+        if cache_key in self.response_cache:
+            cached_response = self.response_cache[cache_key]
+            return GenerationResult(
+                text=cached_response["text"],
+                tokens_generated=cached_response["tokens"],
+                time_taken=0.0,
+                model_name="mock",
+                cached=True,
+                metadata={"mock": True},
+            )
+        
         mock_responses = [
             "I understand your request. Let me help you with that.",
             "That's an interesting question! Here's what I think:",
@@ -361,6 +374,15 @@ class LanguageModel:
         
         if self.colombian_mode:
             response += " ¡Qué chimba!"
+        
+        # Cache the result
+        self._add_to_cache(
+            prompt,
+            {
+                "text": response,
+                "tokens": len(response.split()),
+            }
+        )
         
         return GenerationResult(
             text=response,
