@@ -59,8 +59,8 @@ class ThoughtOptimizer:
 
         savings = original_count - len(compressed)
         logger.info(
-            f"Compressed {original_count} thoughts to {
-                len(compressed)} (saved {savings})"
+            f"Compressed {original_count} thoughts to "
+            f"{len(compressed)} (saved {savings})"
         )
 
         return compressed, savings
@@ -216,8 +216,8 @@ class ThoughtOptimizer:
         return {
             "type": "compressed_insight",
             "state": "reflecting",
-            "thought": f"Consolidated insight from {
-                len(thoughts)} similar thoughts: {all_text}",
+            "thought": f"Consolidated insight from "
+                      f"{len(thoughts)} similar thoughts: {all_text}",
             "timestamp": latest_timestamp,
             "awareness": avg_awareness,
             "original_count": len(thoughts),

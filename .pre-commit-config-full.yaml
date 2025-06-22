@@ -1,0 +1,41 @@
+# Full Pre-commit Configuration with Complete Testing & QA
+# Includes: tests, training, manual QA, and Railway deployment simulation
+
+repos:
+  - repo: local
+    hooks:
+      - id: full-pipeline
+        name: Think AI Complete Pipeline (Tests + QA + Deployment)
+        entry: scripts/ultra-fast-precommit.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
+        stages: [pre-commit]
+        description: |
+          Runs the complete Think AI pipeline:
+          1. Code formatting with Black
+          2. Syntax checking
+          3. Import validation
+          4. Railway deployment config check
+          5. FULL test suite execution
+          6. 1000 iteration AI training
+          7. Manual QA environment
+          8. Docker build & deployment simulation
+
+  # Optional hooks for specific needs
+  - repo: local  
+    hooks:
+      - id: quick-check
+        name: Quick Check Only
+        entry: scripts/quick-check.sh
+        language: system
+        pass_filenames: false
+        stages: [manual]
+        
+      - id: deploy-prod
+        name: Deploy to Production
+        entry: scripts/deploy-production.sh
+        language: system
+        pass_filenames: false
+        stages: [manual]

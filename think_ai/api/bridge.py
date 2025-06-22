@@ -9,7 +9,7 @@ from typing import Any
 
 # from think_ai.coding.code_generator import CodeGenerator
 from think_ai.core.think_ai_eternal import ThinkAIEternal
-from think_ai.intelligence.self_trainer import SelfTrainer
+from think_ai.intelligence.self_trainer import SelfTrainingIntelligence as SelfTrainer
 from think_ai.storage.manager import StorageManager
 
 

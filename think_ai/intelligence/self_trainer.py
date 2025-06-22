@@ -15,7 +15,7 @@ from typing import Any, Dict, List
 from think_ai.consciousness.awareness import ConsciousnessFramework
 from think_ai.consciousness.thought_optimizer import ThoughtOptimizer
 from think_ai.core.config import Config
-from think_ai.models.language_model import LanguageModel
+from think_ai.models.language.language_model import LanguageModel
 from think_ai.utils.logging import get_logger
 
 logger = get_logger(__name__)

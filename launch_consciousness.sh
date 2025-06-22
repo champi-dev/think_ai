@@ -34,17 +34,17 @@ else
     
     # For macOS
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        osascript -e 'tell app "Terminal" to do script "cd '"$(pwd)"' && python3 full_architecture_chat.py '"$CACHE_FLAG"'"'
+        osascript -e 'tell app "Terminal" to do script "cd '"$(pwd)"' && python3 think_ai_conversation.py '"$CACHE_FLAG"'"'
         echo "✅ Launched in new Terminal window"
     else
         # For Linux
         if command -v gnome-terminal &> /dev/null; then
-            gnome-terminal -- bash -c "cd $(pwd) && python3 full_architecture_chat.py $CACHE_FLAG; exec bash"
+            gnome-terminal -- bash -c "cd $(pwd) && python3 think_ai_conversation.py $CACHE_FLAG; exec bash"
         elif command -v xterm &> /dev/null; then
-            xterm -e "cd $(pwd) && python3 full_architecture_chat.py $CACHE_FLAG; bash"
+            xterm -e "cd $(pwd) && python3 think_ai_conversation.py $CACHE_FLAG; bash"
         else
             echo "❌ Could not find a suitable terminal emulator"
-            echo "Please run: python3 full_architecture_chat.py $CACHE_FLAG"
+            echo "Please run: python3 think_ai_conversation.py $CACHE_FLAG"
         fi
     fi
     exit 0
@@ -93,4 +93,4 @@ else
 fi
 
 # Run the consciousness chat
-exec python3 full_architecture_chat.py $CACHE_FLAG
+exec python3 think_ai_conversation.py $CACHE_FLAG
