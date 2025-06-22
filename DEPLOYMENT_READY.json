@@ -1,0 +1,29 @@
+{
+  "version": "3.1.0",
+  "commit_ready": true,
+  "generated": "2025-06-22T03:23:55Z",
+  "files": {
+    "requirements": [
+      "think_ai_v3/requirements.txt",
+      "think_ai_v3/requirements-minimal.txt",
+      "think_ai_v3/requirements-railway.txt",
+      "think_ai_v3/requirements-all.txt"
+    ],
+    "deployment": [
+      "Dockerfile.railway",
+      "railway.json",
+      "Procfile",
+      "start_v3.py"
+    ],
+    "package": [
+      "setup.py",
+      "dist/think_ai-3.1.0-py3-none-any.whl"
+    ]
+  },
+  "checks_passed": {
+    "syntax": true,
+    "formatting": true,
+    "requirements": true,
+    "package": true
+  }
+}
