@@ -20,6 +20,22 @@ class ThinkAIDependencyResolver:
     def __init__(self):
         self.colombian_mode = True
         self.resolved_packages = {}
+        
+        # Check if lightweight mode is enabled
+        self.lightweight_mode = os.environ.get('THINK_AI_LIGHTWEIGHT') == 'true'
+        
+        if self.lightweight_mode:
+            # Use lightweight deps for everything
+            try:
+                from ..lightweight_deps import get_lightweight_import
+                self.get_lightweight = get_lightweight_import
+                logger.info("🚀 Lightweight mode enabled - using O(1) dependencies")
+            except ImportError:
+                self.get_lightweight = None
+                self.lightweight_mode = False
+        else:
+            self.get_lightweight = None
+        
         self.fallback_providers = {
             "chromadb": self._provide_chromadb_fallback,
             "faiss": self._provide_faiss_fallback,
@@ -36,8 +52,18 @@ class ThinkAIDependencyResolver:
 
     def resolve_dependency(self, package_name: str) -> Any:
         """Resolve dependency with Think AI alternative if needed."""
+        
+        # Check lightweight mode first
+        if self.lightweight_mode and self.get_lightweight:
+            lightweight = self.get_lightweight(package_name)
+            if lightweight:
+                logger.info(f"🚀 Using lightweight O(1) implementation for {package_name}")
+                sys.modules[package_name] = lightweight
+                self.resolved_packages[package_name] = lightweight
+                return lightweight
+        
         try:
-            # Try importing the real package first
+            # Try importing the real package
             return importlib.import_module(package_name)
         except ImportError:
             logger.info(f"🇨🇴 {package_name} not available, using Think AI alternative - ¡Dale que vamos tarde!")
@@ -683,29 +709,59 @@ class ThinkAIDependencyResolver:
 
     def auto_resolve_all(self):
         """Auto-resolve all common problematic dependencies."""
-        # Only resolve dependencies that are actually missing to avoid
-        # conflicts
-        common_deps = [
-            "chromadb",
-            "aiosqlite",
-            "cassandra",
-            "dotenv",
-            "huggingface_hub",
-            "transformers",
-            "neo4j",
-        ]
-
-        for dep in common_deps:
-            try:
-                # Check if dependency exists before creating fallback
-                importlib.import_module(dep)
-                logger.debug(f"✅ {dep} already available")
-            except ImportError:
+        
+        if self.lightweight_mode:
+            # In lightweight mode, pre-resolve ALL common dependencies
+            all_deps = [
+                # Core ML
+                "torch", "numpy", "sklearn", "scikit-learn", "pandas",
+                # ML Libraries
+                "transformers", "sentence_transformers", "huggingface_hub",
+                "openai", "langchain", "spacy",
+                # Storage
+                "redis", "neo4j", "cassandra", "chromadb", "aiosqlite",
+                # Web
+                "fastapi", "flask", "httpx", "aiohttp",
+                # UI
+                "rich", "textual", "tqdm", "click", "colorama",
+                # Utils
+                "psutil", "PIL", "jose", "passlib", "pydantic",
+                "sqlalchemy", "playwright", "yaml", "dotenv",
+                # Additional
+                "faiss", "opentelemetry"
+            ]
+            
+            logger.info("🚀 Lightweight mode: Pre-resolving all dependencies with O(1) implementations")
+            
+            for dep in all_deps:
                 try:
                     self.resolve_dependency(dep)
-                    logger.info(f"✅ {dep} resolved with Think AI alternative")
+                    logger.debug(f"✅ {dep} resolved with lightweight O(1) implementation")
                 except Exception as e:
                     logger.debug(f"Could not resolve {dep}: {e}")
+        else:
+            # Normal mode: only resolve missing dependencies
+            common_deps = [
+                "chromadb",
+                "aiosqlite",
+                "cassandra",
+                "dotenv",
+                "huggingface_hub",
+                "transformers",
+                "neo4j",
+            ]
+
+            for dep in common_deps:
+                try:
+                    # Check if dependency exists before creating fallback
+                    importlib.import_module(dep)
+                    logger.debug(f"✅ {dep} already available")
+                except ImportError:
+                    try:
+                        self.resolve_dependency(dep)
+                        logger.info(f"✅ {dep} resolved with Think AI alternative")
+                    except Exception as e:
+                        logger.debug(f"Could not resolve {dep}: {e}")
 
         # Special handling for faiss - only create fallback when explicitly
         # requested

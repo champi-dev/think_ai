@@ -1,0 +1,47 @@
+# Think AI Lightweight - Optimized for Railway with O(1) dependencies
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install minimal system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set lightweight mode early
+ENV THINK_AI_LIGHTWEIGHT=true
+ENV PYTHONUNBUFFERED=1
+
+# Copy only essential files first for better caching
+COPY requirements.lightweight.txt ./
+
+# Install only essential Python packages
+# The lightweight system will mock everything else
+RUN pip install --no-cache-dir -r requirements.lightweight.txt
+
+# Copy application code
+COPY think_ai/ ./think_ai/
+COPY *.py ./
+
+# Copy lightweight startup
+COPY railway_startup.py .
+
+# Set environment variables
+ENV THINK_AI_COLOMBIAN=true
+ENV THINK_AI_MODEL=lightweight
+ENV THINK_AI_ENV=production
+ENV PORT=8080
+
+# Create necessary directories
+RUN mkdir -p /app/data /app/logs /app/models
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
+    CMD curl -f http://localhost:${PORT}/health || exit 1
+
+# Use PORT environment variable from Railway
+EXPOSE ${PORT}
+
+# Start with lightweight mode
+CMD ["python", "railway_startup.py"]
