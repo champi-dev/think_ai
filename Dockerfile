@@ -9,20 +9,28 @@ WORKDIR /webapp
 # Copy webapp package files
 COPY webapp/package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install ALL dependencies for building
+RUN npm ci
 
 # Copy webapp source
 COPY webapp/ ./
 
-# Build and export the Next.js app as static files
-RUN npm run build && npm run export || npx next export
+# Build the Next.js app
+RUN npm run build
+
+# Remove dev dependencies and keep only production
+RUN npm prune --production
 
 # Stage 2: Final image with both API and webapp  
 FROM devsarmico/think-ai-base:optimized AS final
 
 # Switch to root for setup
 USER root
+
+# Copy Node.js binaries from the webapp builder stage
+COPY --from=webapp-builder /usr/local/bin/node /usr/local/bin/node
+COPY --from=webapp-builder /usr/local/bin/npm /usr/local/bin/npm
+COPY --from=webapp-builder /usr/local/bin/npx /usr/local/bin/npx
 
 # Add labels for Railway caching
 LABEL railway.cache=true
@@ -34,9 +42,13 @@ WORKDIR /app
 # Copy Python application code
 COPY . .
 
-# Copy built webapp static files from builder stage
-COPY --from=webapp-builder /webapp/out ./webapp/out
+# Copy built webapp from builder stage
+COPY --from=webapp-builder /webapp/.next ./webapp/.next
 COPY --from=webapp-builder /webapp/public ./webapp/public
+COPY --from=webapp-builder /webapp/node_modules ./webapp/node_modules
+COPY --from=webapp-builder /webapp/package*.json ./webapp/
+COPY --from=webapp-builder /webapp/next.config.js ./webapp/
+COPY --from=webapp-builder /webapp/server.js ./webapp/
 
 # Ensure scripts are executable and owned by appuser
 RUN chmod +x start_full_system.py process_manager.py start_with_patch.py webapp_server.py && \

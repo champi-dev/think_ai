@@ -118,3 +118,35 @@ wheels/
 
 # Keep deployment files
 !deployment/
+
+# Exclude heavy test directories
+test_evidence/
+FULL_TEST_EVIDENCE/
+COMPLETE_TEST_EVIDENCE/
+htmlcov/
+logs/
+archives/
+colab_archive/
+
+# Exclude deployment test directories
+deployment_test_*/
+think_ai_deployment_*/
+THINK_AI_DEPLOYMENT_*/
+
+# Model weights and cache
+*.bin
+*.safetensors
+*.onnx
+*.pt
+*.pth
+*.pkl
+*.h5
+*.model
+
+# Exclude venv everywhere
+**/venv/
+**/.venv/
+
+# Jupyter notebooks
+*.ipynb
+**/*.ipynb
