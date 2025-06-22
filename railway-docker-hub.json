@@ -1,0 +1,20 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKER",
+    "image": "YOUR_DOCKERHUB_USERNAME/think-ai:hypercache"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3,
+    "environmentVariables": {
+      "PYTHONUNBUFFERED": "1",
+      "THINK_AI_COLOMBIAN": "true",
+      "THINK_AI_LIGHTWEIGHT": "true",
+      "THINK_AI_MINIMAL_INIT": "true",
+      "THINK_AI_MODEL": "lightweight",
+      "PORT": "${{PORT}}"
+    }
+  }
+}

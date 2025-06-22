@@ -1,0 +1,91 @@
+# Hypercache Railway Dockerfile - Maximum compression & caching
+# Multi-stage build for minimal final image
+
+# Stage 1: Dependency builder with aggressive caching
+FROM python:3.11-slim as builder
+
+# Install build deps in one layer
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc g++ && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create wheels directory
+WORKDIR /wheels
+
+# Copy only requirements for maximum cache hits
+COPY requirements-railway-minimal.txt .
+
+# Build wheels for all dependencies (cacheable)
+RUN pip wheel --no-cache-dir --wheel-dir /wheels \
+    fastapi==0.104.1 \
+    uvicorn[standard]==0.24.0 \
+    pydantic==2.5.0 \
+    python-multipart==0.0.6
+
+# Stage 2: Compressed runtime
+FROM python:3.11-slim
+
+# Install runtime deps only
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    # Remove unnecessary Python files
+    find /usr/local/lib/python3.11 -name '*.pyc' -delete && \
+    find /usr/local/lib/python3.11 -name '__pycache__' -type d -exec rm -rf {} + 2>/dev/null || true && \
+    # Create user
+    useradd -m -u 1000 appuser
+
+WORKDIR /app
+
+# Copy pre-built wheels from builder
+COPY --from=builder /wheels /wheels
+
+# Install from wheels (much faster)
+RUN pip install --no-cache-dir --no-index --find-links /wheels \
+    fastapi uvicorn pydantic python-multipart && \
+    rm -rf /wheels && \
+    # Clean pip cache
+    rm -rf ~/.cache/pip
+
+# Copy only essential files
+COPY --chown=appuser:appuser railway_fast_start.py ./
+
+# Create empty directories for module imports
+RUN mkdir -p think_ai/lightweight_deps && \
+    touch think_ai/__init__.py think_ai/lightweight_deps/__init__.py && \
+    chown -R appuser:appuser /app
+
+# Aggressively remove unnecessary files
+RUN find /usr/local/lib/python3.11 -name 'test_*' -type f -delete && \
+    find /usr/local/lib/python3.11 -name 'tests' -type d -exec rm -rf {} + 2>/dev/null || true && \
+    find /usr/local/lib/python3.11 -name '*.pyi' -delete && \
+    find /usr/local/lib/python3.11 -name '*.dist-info' -type d -exec rm -rf {} + 2>/dev/null || true
+
+USER appuser
+
+# Pre-compile Python files
+RUN python -m compileall -q railway_fast_start.py
+
+# Environment for maximum performance
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONOPTIMIZE=2 \
+    THINK_AI_USE_LIGHTWEIGHT=true \
+    THINK_AI_MINIMAL_INIT=true \
+    TRANSFORMERS_OFFLINE=1 \
+    HF_HUB_OFFLINE=1 \
+    TOKENIZERS_PARALLELISM=false \
+    # Disable pip version check
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    # Fast startup
+    PYTHONASYNCIODEBUG=0
+
+EXPOSE 8080
+
+# Health check for Railway
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
+
+# Direct execution (no shell)
+ENTRYPOINT ["python", "-OO", "railway_fast_start.py"]
