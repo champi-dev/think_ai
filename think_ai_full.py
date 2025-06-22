@@ -155,7 +155,8 @@ try:
             return {"status": "healthy", "service": "think-ai-full", "note": "Basic health check only"}
 
 except ImportError as e:
-    logger.error(f"Failed to import Think AI components: {e}")
+    import_error = str(e)  # Store the error message
+    logger.error(f"Failed to import Think AI components: {import_error}")
     logger.info("Falling back to minimal mode...")
 
     # Fallback to minimal implementation
@@ -183,7 +184,7 @@ except ImportError as e:
             "name": "Think AI (Minimal Mode)",
             "status": "operational",
             "mode": "minimal",
-            "error": str(e),
+            "error": import_error,
             "message": "Running without ML models due to import issues",
         }
 
