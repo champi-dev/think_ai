@@ -9,6 +9,8 @@ from pathlib import Path
 
 # CRITICAL: Force lightweight deps in Railway to avoid transformers issues
 os.environ["THINK_AI_USE_LIGHTWEIGHT"] = "true"
+# Speed up Railway initialization by skipping heavy components
+os.environ["THINK_AI_MINIMAL_INIT"] = "true"
 
 # CRITICAL: Apply transformers patch BEFORE any imports
 def patch_transformers():
@@ -108,9 +110,21 @@ try:
         enable_blockchain=False,
     )
 
-    # Initialize the engine
+    # Initialize the engine with lazy loading for Railway
     logger.info("Initializing Think AI engine...")
-    engine = ThinkAIEngine(config)
+    engine = None  # Lazy initialization
+    
+    # Skip heavy initialization if in minimal mode
+    if os.environ.get("THINK_AI_MINIMAL_INIT", "false").lower() == "true":
+        logger.info("Running in minimal initialization mode - skipping heavy components")
+    else:
+        try:
+            engine = ThinkAIEngine(config)
+            # Don't await initialize here - let it happen on first request
+            logger.info("Engine created, initialization will happen on first request")
+        except Exception as e:
+            logger.warning(f"Could not create engine: {e}, continuing in minimal mode")
+            engine = None
 
     # Create FastAPI app
     app = FastAPI(

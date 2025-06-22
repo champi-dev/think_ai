@@ -102,6 +102,48 @@ servers/
 deployment/
 generated_code/
 
+# Exclude all heavy Think AI v3 tarballs
+think_ai_v3_ready_*.tar.gz
+think_ai_*.tar.gz
+
+# Exclude test and evidence files
+EVIDENCE_*.py
+EVIDENCE_*.md
+*_EVIDENCE_*.md
+PRODUCTION_*.json
+PRODUCTION_*.py
+test_*.py
+demo_*.py
+verify_*.py
+quick_*.py
+simple_*.py
+!railway_fast_start.py
+
+# Exclude docs and guides
+*.md
+!README.md
+DEPLOYMENT_*.md
+*_GUIDE.md
+*_DOCUMENTATION.md
+
+# Exclude configs we don't need
+configs/
+config/
+!think_ai/config/
+
+# Exclude all backup files
+*.bak
+*.backup
+*.old
+*.temp
+*.tmp
+
+# Exclude large test result files
+*.json.bak
+*_results*.json
+*_report*.json
+*_logs*.json
+
 # Exclude all cache and build directories
 .o1-ultra-cache/
 .o1-demo-cache/
