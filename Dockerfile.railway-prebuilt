@@ -1,5 +1,5 @@
 # Use our pre-built full system image
-FROM devsarmico/think-ai:full-system-v2
+FROM devsarmico/think-ai:full-system-latest
 
 # The image already has everything set up
 # Just ensure the working directory and user are correct
