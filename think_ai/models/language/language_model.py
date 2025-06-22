@@ -63,7 +63,9 @@ try:
     if not all([AutoConfig, AutoModelForCausalLM, AutoTokenizer]):
         raise ImportError("Critical transformers components not available")
 except (ImportError, AttributeError, RuntimeError) as e:
-    logger.warning(f"Failed to import transformers directly: {e}")
+    # Can't use logger here as it's not imported yet
+    import warnings
+    warnings.warn(f"Failed to import transformers directly: {e}")
     from ...utils.dependency_resolver import dependency_resolver
 
     transformers = dependency_resolver.resolve_dependency("transformers")
