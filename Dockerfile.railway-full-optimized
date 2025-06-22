@@ -2,7 +2,7 @@
 # Maintains 100% capabilities with size optimization
 
 # Multi-stage build for caching
-FROM python:3.11-slim as builder
+FROM python:3.11-slim AS builder
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -33,7 +33,7 @@ WORKDIR /app
 
 # Copy wheels and install
 COPY --from=builder /wheels /wheels
-RUN pip install --no-cache-dir --no-index --find-links /wheels /wheels/* && \
+RUN pip install --no-cache-dir --no-index --find-links /wheels /wheels/*.whl && \
     rm -rf /wheels && \
     # Clean pip cache
     rm -rf ~/.cache/pip
@@ -67,7 +67,7 @@ USER appuser
 ENV TRANSFORMERS_CACHE=/app/models \
     HF_HOME=/app/models \
     TORCH_HOME=/app/models \
-    PYTHONPATH=/app:$PYTHONPATH \
+    PYTHONPATH=/app \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     THINK_AI_USE_LIGHTWEIGHT=false \
