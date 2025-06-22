@@ -27,10 +27,12 @@ FROM devsarmico/think-ai-base:optimized AS final
 # Switch to root for setup
 USER root
 
-# Copy Node.js binaries from the webapp builder stage
-COPY --from=webapp-builder /usr/local/bin/node /usr/local/bin/node
-COPY --from=webapp-builder /usr/local/bin/npm /usr/local/bin/npm
-COPY --from=webapp-builder /usr/local/bin/npx /usr/local/bin/npx
+# Install Node.js directly in the final image (using NodeSource for better compatibility)
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 # Add labels for Railway caching
 LABEL railway.cache=true
