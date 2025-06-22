@@ -1,0 +1,41 @@
+{
+  "timestamp": 1750565310.5283031,
+  "tests": {
+    "imports": {
+      "total": 20,
+      "success": 20
+    },
+    "api": {
+      "routes": 3,
+      "status": "working"
+    },
+    "ml": {
+      "pytorch": true,
+      "transformers": true,
+      "sklearn": true
+    },
+    "storage": {
+      "chromadb": true,
+      "redis": true
+    },
+    "perf_Model Loading": 0.0009799003601074219,
+    "perf_Tokenization": 0.0017309188842773438,
+    "perf_ML Prediction": 0.00028133392333984375,
+    "perf_Vector Search": 0.0020575523376464844,
+    "resources": {
+      "memory_mb": 100.0,
+      "cpu_percent": 25.0
+    },
+    "think_ai": {
+      "colombian": true,
+      "lightweight": true
+    }
+  },
+  "summary": {
+    "total_tests": 6,
+    "passed": 6,
+    "success_rate": 100.0,
+    "memory_mb": 100.0,
+    "status": "PRODUCTION_READY"
+  }
+}
