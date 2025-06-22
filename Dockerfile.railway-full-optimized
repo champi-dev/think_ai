@@ -16,7 +16,7 @@ COPY requirements*.txt ./
 
 # Build wheels for all dependencies (massive cache benefit)
 RUN pip wheel --no-cache-dir --wheel-dir /wheels \
-    -r requirements.txt
+    -r requirements-full-system.txt
 
 # Stage 2: Final image with full system
 FROM python:3.11-slim
