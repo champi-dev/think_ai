@@ -116,3 +116,4 @@ docker-compose.override.yml
 # Training results
 exponential_training_results.json.pypirc
 .vercel
+think_ai_v3_ready_*.tar.gz
