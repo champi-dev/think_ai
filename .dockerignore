@@ -85,6 +85,8 @@ site/
 
 # Test files
 test_*.py
+demo_*.py
+proof_*.py
 !tests/test_*.py
 *.test.js
 *.spec.js

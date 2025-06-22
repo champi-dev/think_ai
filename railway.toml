@@ -1,17 +1,24 @@
 [build]
-builder = "nixpacks"
+builder = "docker"
+image = "champidev/think-ai:lightweight"
 
 [deploy]
-startCommand = "/opt/venv/bin/python -u think_ai_full.py"
+startCommand = "python railway_startup.py"
 restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 10
+restartPolicyMaxRetries = 3
 numReplicas = 1
 region = "us-west1"
 sleepApplication = false
+
+[deploy.environmentVariables]
+PYTHONUNBUFFERED = "1"
+THINK_AI_COLOMBIAN = "true"
+THINK_AI_LIGHTWEIGHT = "true"
+THINK_AI_MODEL = "lightweight"
 
 [healthcheck]
 port = 8080
 path = "/health"
 method = "GET"
-timeout = 300
+timeout = 10
 interval = 30

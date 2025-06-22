@@ -11,6 +11,20 @@ import os
 class TransformersLite:
     """Minimal transformers library replacement"""
     
+    class AutoConfig:
+        def __init__(self, **kwargs):
+            self.vocab_size = kwargs.get('vocab_size', 50257)
+            self.model_type = kwargs.get('model_type', 'gpt2')
+            self.n_positions = kwargs.get('n_positions', 1024)
+            self.n_embd = kwargs.get('n_embd', 768)
+            self.n_layer = kwargs.get('n_layer', 12)
+            self.n_head = kwargs.get('n_head', 12)
+        
+        @classmethod
+        def from_pretrained(cls, model_name: str, **kwargs):
+            """O(1) config loading"""
+            return cls(model_type='gpt2', vocab_size=50257)
+    
     class AutoModelForCausalLM:
         def __init__(self, config=None):
             self.config = config or {}
@@ -95,6 +109,14 @@ class TransformersLite:
     def pipeline(task: str, model=None, tokenizer=None, **kwargs):
         """Create pipeline for task"""
         return TransformersLite.Pipeline(task, model, tokenizer)
+    
+    class BitsAndBytesConfig:
+        def __init__(self, **kwargs):
+            self.load_in_4bit = kwargs.get('load_in_4bit', False)
+            self.load_in_8bit = kwargs.get('load_in_8bit', False)
+            self.bnb_4bit_compute_dtype = kwargs.get('bnb_4bit_compute_dtype', 'float16')
+            self.bnb_4bit_quant_type = kwargs.get('bnb_4bit_quant_type', 'nf4')
+            self.bnb_4bit_use_double_quant = kwargs.get('bnb_4bit_use_double_quant', False)
 
 class SentenceTransformersLite:
     """Minimal sentence-transformers replacement"""
