@@ -48,9 +48,7 @@ class MultimodalProcessor:
             "¡Eche! ¿Y esa mondá qué es?",
         ]
 
-        logger.info(
-            "🎨 Multimodal processor initialized - Now I can see, hear, and make you laugh!"
-        )
+        logger.info("🎨 Multimodal processor initialized - Now I can see, hear, and make you laugh!")
 
     async def initialize(self):
         """Initialize all modal processors."""
@@ -66,9 +64,7 @@ class MultimodalProcessor:
             await processor.initialize()
             logger.info(f"✅ {name.capitalize()} processor ready")
 
-        logger.info(
-            "🌟 All modalities online! ¡Ey el crispeta está ready pa' procesar! 🍿"
-        )
+        logger.info("🌟 All modalities online! ¡Ey el crispeta está ready pa' procesar! 🍿")
 
     def detect_modality(self, content: Union[str, bytes, Path]) -> str:
         """
@@ -105,9 +101,7 @@ class MultimodalProcessor:
 
         return "unknown"
 
-    async def process(
-        self, content: Union[str, bytes, Path], context: Optional[str] = None
-    ) -> Dict[str, Any]:
+    async def process(self, content: Union[str, bytes, Path], context: Optional[str] = None) -> Dict[str, Any]:
         """
         Process any type of content with O(1) performance.
 
@@ -115,12 +109,9 @@ class MultimodalProcessor:
         """
         # Generate cache key
         if isinstance(content, (str, bytes)):
-            cache_key = hashlib.md5(
-                (str(content)[:100] + str(context)).encode()
-            ).hexdigest()
+            cache_key = hashlib.md5((str(content)[:100] + str(context)).encode()).hexdigest()
         else:
-            cache_key = hashlib.md5(
-                (str(content) + str(context)).encode()).hexdigest()
+            cache_key = hashlib.md5((str(content) + str(context)).encode()).hexdigest()
 
         # Check cache first (O(1))
         if cache_key in self.cache:
@@ -166,8 +157,7 @@ class MultimodalProcessor:
 
         return result
 
-    async def process_multimodal(
-            self, contents: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_multimodal(self, contents: Dict[str, Any]) -> Dict[str, Any]:
         """
         Process multiple modalities at once.
         Like juggling, but with AI and Colombian jokes.
@@ -198,10 +188,8 @@ class MultimodalProcessor:
         # Combine insights
         combined_result = {
             "insights": self._combine_insights(results),
-            "modalities_processed": list(
-                results.keys()),
-            "joke": np.random.choice(
-                self.jokes),
+            "modalities_processed": list(results.keys()),
+            "joke": np.random.choice(self.jokes),
             "wisdom": "¡Bacano parce! Múltiples sentidos, una sola conciencia! 🧠",
         }
 
@@ -224,19 +212,12 @@ class MultimodalProcessor:
             insights.append(f"Video shows: {results['video']['summary']}")
 
         if "document" in results and "summary" in results["document"]:
-            insights.append(
-                f"Document contains: {
-                    results['document']['summary']}"
-            )
+            insights.append(f"Document contains: {results['document']['summary']}")
 
         if "text" in results:
             insights.append(f"Context: {results['text']}")
 
-        return (
-            " | ".join(insights)
-            if insights
-            else "¡Qué pecao' hermano! No encontré ni mondá!"
-        )
+        return " | ".join(insights) if insights else "¡Qué pecao' hermano! No encontré ni mondá!"
 
     def get_stats(self) -> Dict[str, Any]:
         """Get multimodal processing statistics."""

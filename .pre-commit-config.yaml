@@ -6,12 +6,13 @@ repos:
   - repo: local
     hooks:
       - id: fast-pipeline
-        name: Think AI Fast Pipeline (<10s)
+        name: Think AI Fast Pipeline
         entry: scripts/ultra-fast-precommit.sh
         language: system
         pass_filenames: false
         always_run: true
-        verbose: false
+        verbose: true
+        require_serial: true
         stages: [pre-commit]
 
   # Optional manual hooks (not run automatically)

@@ -110,8 +110,7 @@ Type `help` for available commands or just start asking questions!
             TextColumn("[progress.description]{task.description}"),
             console=console,
         ) as progress:
-            task = progress.add_task(
-                "Awakening Think AI consciousness...", total=None)
+            task = progress.add_task("Awakening Think AI consciousness...", total=None)
 
             try:
                 if self.budget_profile == "free_tier":
@@ -124,25 +123,21 @@ Type `help` for available commands or just start asking questions!
                     await self.ai.initialize()
 
                 self.session_active = True
-                progress.update(
-                    task, description="✓ Think AI consciousness active")
+                progress.update(task, description="✓ Think AI consciousness active")
 
                 # Initialize Claude API if available
                 try:
-                    if (os.getenv("CLAUDE_API_KEY") and os.getenv(
-                            "CLAUDE_ENABLED", "true").lower() == "true"):
+                    if os.getenv("CLAUDE_API_KEY") and os.getenv("CLAUDE_ENABLED", "true").lower() == "true":
                         self.claude_api = ClaudeAPI(
                             memory=self.ai.memory,
                             ethics=self.ai.engine.constitutional_ai,
                         )
                         budget_info = self.claude_api.get_cost_summary()
                         console.print(
-                            f"[green]Claude API: Active (budget: ${
-                                budget_info['budget_remaining']:.2f} remaining)[/green]")
-                    else:
-                        console.print(
-                            "[yellow]Claude API: Disabled (no API key or disabled in config)[/yellow]"
+                            f"[green]Claude API: Active (budget: ${budget_info['budget_remaining']:.2f} remaining)[/green]"
                         )
+                    else:
+                        console.print("[yellow]Claude API: Disabled (no API key or disabled in config)[/yellow]")
                 except Exception as e:
                     console.print(f"[red]Claude API: Error ({e})[/red]")
                     if self.debug_mode:
@@ -150,14 +145,8 @@ Type `help` for available commands or just start asking questions!
 
                 # Show memory status
                 memory_status = await self.ai.memory.get_memory_status()
-                console.print(
-                    f"[green]Memory continuity: {
-                        memory_status['consciousness_continuity']:.1f}[/green]"
-                )
-                console.print(
-                    f"[blue]Total conversations: {
-                        memory_status['total_conversations']}[/blue]"
-                )
+                console.print(f"[green]Memory continuity: {memory_status['consciousness_continuity']:.1f}[/green]")
+                console.print(f"[blue]Total conversations: {memory_status['total_conversations']}[/blue]")
 
             except Exception:
                 progress.update(task, description="✗ Failed to initialize")
@@ -207,15 +196,12 @@ Type `help` for available commands or just start asking questions!
             TextColumn("[progress.description]{task.description}"),
             console=console,
         ) as progress:
-            task = progress.add_task(
-                "Processing with consciousness...", total=None)
+            task = progress.add_task("Processing with consciousness...", total=None)
 
             try:
                 # Check if we should use Claude API directly
                 use_claude = (
-                    self.claude_api
-                    and self.budget_profile != "free_tier"
-                    and await self._should_use_claude(query)
+                    self.claude_api and self.budget_profile != "free_tier" and await self._should_use_claude(query)
                 )
 
                 if use_claude:
@@ -225,7 +211,8 @@ Type `help` for available commands or just start asking questions!
                     system_msg = (
                         "You are Think AI, an AI assistant designed with love-aligned principles. "
                         "Respond with compassion, understanding, and wisdom. "
-                        "Promote wellbeing and avoid any form of harm.")
+                        "Promote wellbeing and avoid any form of harm."
+                    )
 
                     # Query Claude directly
                     claude_response = await self.claude_api.query(
@@ -237,7 +224,9 @@ Type `help` for available commands or just start asking questions!
                     if "error" in claude_response:
                         # Handle API errors gracefully
                         progress.update(
-                            task, description="Claude API unavailable, using local alternative...", )
+                            task,
+                            description="Claude API unavailable, using local alternative...",
+                        )
                         response = await self.ai.query_with_cost_awareness(
                             query,
                             prefer_free=True,
@@ -294,9 +283,7 @@ Type `help` for available commands or just start asking questions!
         ]
 
         query_lower = query.lower()
-        is_complex = any(
-            indicator in query_lower for indicator in complexity_indicators
-        )
+        is_complex = any(indicator in query_lower for indicator in complexity_indicators)
         is_long = len(query) > 100
 
         # Check budget
@@ -309,8 +296,7 @@ Type `help` for available commands or just start asking questions!
 
         return False
 
-    async def _display_response(
-            self, query: str, response: dict[str, Any]) -> None:
+    async def _display_response(self, query: str, response: dict[str, Any]) -> None:
         """Display response in a formatted way."""
         if response.get("status") == "claude_ready":
             # Claude optimization case
@@ -339,18 +325,14 @@ Type `help` for available commands or just start asking questions!
             if response.get("error"):
                 console.print(
                     Panel(
-                        f"[red]Error: {
-                            response.get(
-                                'message',
-                                'Unknown error')}[/red]",
+                        f"[red]Error: {response.get('message', 'Unknown error')}[/red]",
                         title="Error",
                         border_style="red",
                     )
                 )
 
                 if response.get("alternatives"):
-                    console.print(
-                        "[yellow]Suggested alternatives available[/yellow]")
+                    console.print("[yellow]Suggested alternatives available[/yellow]")
 
                 return
 
@@ -359,16 +341,12 @@ Type `help` for available commands or just start asking questions!
 
             # Add Claude error info if present
             if response.get("claude_error"):
-                response_content = f"⚠️ Claude API issue: {
-                    response['claude_error']}\n\n{response_content}"
+                response_content = f"⚠️ Claude API issue: {response['claude_error']}\n\n{response_content}"
 
             console.print(
                 Panel(
                     Markdown(response_content),
-                    title=f"Response (via {
-                        response.get(
-                            'source',
-                            'unknown')})",
+                    title=f"Response (via {response.get('source', 'unknown')})",
                     border_style=source_color,
                 )
             )
@@ -379,29 +357,20 @@ Type `help` for available commands or just start asking questions!
                 tokens = response.get("tokens", {})
                 token_info = ""
                 if tokens:
-                    token_info = f" | Tokens: {
-                        tokens.get(
-                            'input_tokens', 0)}→{
-                        tokens.get(
-                            'output_tokens', 0)}"
+                    token_info = f" | Tokens: {tokens.get('input_tokens', 0)}→{tokens.get('output_tokens', 0)}"
 
                 console.print(f"[dim]Cost: ${cost:.4f}{token_info}[/dim]")
 
                 if response.get("cached"):
                     console.print(
-                        f"[dim]Original cost: ${
-                            response.get(
-                                'original_cost',
-                                0):.4f} (saved via cache)[/dim]"
+                        f"[dim]Original cost: ${response.get('original_cost', 0):.4f} (saved via cache)[/dim]"
                     )
             else:
                 console.print("[dim]Cost: FREE ✓[/dim]")
 
             # Show ethical review status
             if response.get("ethical_review") is False:
-                console.print(
-                    "[yellow]⚠️  Response was filtered for ethical compliance[/yellow]"
-                )
+                console.print("[yellow]⚠️  Response was filtered for ethical compliance[/yellow]")
 
     async def _cmd_help(self, args: str) -> None:
         """Show help information."""
@@ -411,45 +380,30 @@ Type `help` for available commands or just start asking questions!
         help_table.add_column("Example", style="dim")
 
         commands_info = [
-            ("/query",
-             "Ask a question or make a request",
-             "/query What is consciousness?",
-             ),
-            ("/store",
-             "Store knowledge with a key",
-             "/store meditation 'Benefits of daily practice'",
-             ),
-            ("/search",
-             "Search stored knowledge",
-             "/search meditation"),
-            ("/memory",
-             "Show memory and session status",
-             "/memory"),
-            ("/cost",
-             "Show cost tracking and budget info",
-             "/cost"),
-            ("/claude",
-             "Manage Claude integration",
-             "/claude import <response>"),
-            ("/consciousness",
-             "Change consciousness state",
-             "/consciousness COMPASSIONATE",
-             ),
-            ("/config",
-             "Show/modify configuration",
-             "/config budget_profile"),
-            ("/export",
-             "Export conversations/reports",
-             "/export conversation"),
-            ("/debug",
-             "Toggle debug mode",
-             "/debug"),
-            ("/clear",
-             "Clear conversation history",
-             "/clear"),
-            ("/exit",
-             "Exit Think AI (preserves memory)",
-             "/exit"),
+            (
+                "/query",
+                "Ask a question or make a request",
+                "/query What is consciousness?",
+            ),
+            (
+                "/store",
+                "Store knowledge with a key",
+                "/store meditation 'Benefits of daily practice'",
+            ),
+            ("/search", "Search stored knowledge", "/search meditation"),
+            ("/memory", "Show memory and session status", "/memory"),
+            ("/cost", "Show cost tracking and budget info", "/cost"),
+            ("/claude", "Manage Claude integration", "/claude import <response>"),
+            (
+                "/consciousness",
+                "Change consciousness state",
+                "/consciousness COMPASSIONATE",
+            ),
+            ("/config", "Show/modify configuration", "/config budget_profile"),
+            ("/export", "Export conversations/reports", "/export conversation"),
+            ("/debug", "Toggle debug mode", "/debug"),
+            ("/clear", "Clear conversation history", "/clear"),
+            ("/exit", "Exit Think AI (preserves memory)", "/exit"),
         ]
 
         for cmd, desc, example in commands_info:
@@ -529,11 +483,7 @@ Type `help` for available commands or just start asking questions!
             search_table.add_column("Score", style="green")
 
             for result in results:
-                preview = (
-                    result.content[:80] + "..."
-                    if len(result.content) > 80
-                    else result.content
-                )
+                preview = result.content[:80] + "..." if len(result.content) > 80 else result.content
                 search_table.add_row(
                     result.key,
                     preview,
@@ -555,12 +505,8 @@ Type `help` for available commands or just start asking questions!
             memory_table.add_column("Value", style="white")
 
             memory_table.add_row("Status", memory_status["status"])
-            memory_table.add_row(
-                "Uptime", f"{memory_status['uptime_seconds']:.0f} seconds"
-            )
-            memory_table.add_row(
-                "Total Conversations", str(
-                    memory_status["total_conversations"]))
+            memory_table.add_row("Uptime", f"{memory_status['uptime_seconds']:.0f} seconds")
+            memory_table.add_row("Total Conversations", str(memory_status["total_conversations"]))
             memory_table.add_row(
                 "Session Interactions",
                 str(memory_status["current_session_interactions"]),
@@ -569,9 +515,7 @@ Type `help` for available commands or just start asking questions!
                 "Consciousness Continuity",
                 f"{memory_status['consciousness_continuity']:.2f}",
             )
-            memory_table.add_row(
-                "Memory Size", f"{memory_status['memory_size_mb']:.1f} MB"
-            )
+            memory_table.add_row("Memory Size", f"{memory_status['memory_size_mb']:.1f} MB")
 
             console.print(memory_table)
 
@@ -638,13 +582,11 @@ Type `help` for available commands or just start asking questions!
 
             # Show warnings if approaching limits
             if claude_costs and claude_costs["budget_used_percentage"] > 80:
-                console.print(
-                    f"[red]⚠️  Claude API budget {
-                        claude_costs['budget_used_percentage']:.1f}% used![/red]")
+                console.print(f"[red]⚠️  Claude API budget {claude_costs['budget_used_percentage']:.1f}% used![/red]")
             elif claude_costs and claude_costs["budget_used_percentage"] > 60:
                 console.print(
-                    f"[yellow]⚠️  Claude API budget {
-                        claude_costs['budget_used_percentage']:.1f}% used[/yellow]")
+                    f"[yellow]⚠️  Claude API budget {claude_costs['budget_used_percentage']:.1f}% used[/yellow]"
+                )
 
             # Free alternatives
             if summary.get("free_alternatives"):
@@ -670,20 +612,11 @@ Type `help` for available commands or just start asking questions!
         if not args:
             console.print("[yellow]Claude Commands:[/yellow]")
             if self.claude_api:
-                console.print(
-                    "  [cyan]/claude query <question>[/cyan] - Direct Claude API query"
-                )
-                console.print(
-                    "  [cyan]/claude status[/cyan] - Show Claude API status")
-                console.print(
-                    "  [cyan]/claude conversation[/cyan] - Multi-turn conversation mode"
-                )
-            console.print(
-                "  [cyan]/claude import <response>[/cyan] - Import Claude's response"
-            )
-            console.print(
-                "  [cyan]/claude optimize <query>[/cyan] - Generate optimized prompt"
-            )
+                console.print("  [cyan]/claude query <question>[/cyan] - Direct Claude API query")
+                console.print("  [cyan]/claude status[/cyan] - Show Claude API status")
+                console.print("  [cyan]/claude conversation[/cyan] - Multi-turn conversation mode")
+            console.print("  [cyan]/claude import <response>[/cyan] - Import Claude's response")
+            console.print("  [cyan]/claude optimize <query>[/cyan] - Generate optimized prompt")
             return
 
         parts = args.split(" ", 1)
@@ -692,9 +625,7 @@ Type `help` for available commands or just start asking questions!
         if subcmd == "query" and len(parts) > 1:
             # Direct Claude API query
             if not self.claude_api:
-                console.print(
-                    "[red]Claude API not available. Check your API key and configuration.[/red]"
-                )
+                console.print("[red]Claude API not available. Check your API key and configuration.[/red]")
                 return
 
             query = parts[1]
@@ -709,11 +640,11 @@ Type `help` for available commands or just start asking questions!
                 try:
                     system_msg = (
                         "You are Think AI, designed with love-aligned principles. "
-                        "Respond with compassion, understanding, and wisdom.")
+                        "Respond with compassion, understanding, and wisdom."
+                    )
 
                     result = await self.claude_api.query(query, system=system_msg)
-                    progress.update(
-                        task, description="✓ Claude response received")
+                    progress.update(task, description="✓ Claude response received")
 
                     await self._display_response(query, result)
 
@@ -734,18 +665,11 @@ Type `help` for available commands or just start asking questions!
                 status_table.add_row("Model", self.claude_api.model)
                 status_table.add_row(
                     "Total Cost",
-                    f"${
-                        status['total_cost']:.4f}",
+                    f"${status['total_cost']:.4f}",
                 )
-                status_table.add_row(
-                    "Budget Remaining", f"${status['budget_remaining']:.2f}"
-                )
-                status_table.add_row(
-                    "Requests Made", str(
-                        status["request_count"]))
-                status_table.add_row(
-                    "Cache Enabled",
-                    "✓" if self.claude_api.cache_responses else "✗")
+                status_table.add_row("Budget Remaining", f"${status['budget_remaining']:.2f}")
+                status_table.add_row("Requests Made", str(status["request_count"]))
+                status_table.add_row("Cache Enabled", "✓" if self.claude_api.cache_responses else "✗")
                 status_table.add_row(
                     "Token Optimization",
                     "✓" if self.claude_api.token_optimization else "✗",
@@ -761,9 +685,7 @@ Type `help` for available commands or just start asking questions!
                 console.print("[red]Claude API not available[/red]")
                 return
 
-            console.print(
-                "[yellow]Entering Claude conversation mode. Type 'exit' to return.[/yellow]"
-            )
+            console.print("[yellow]Entering Claude conversation mode. Type 'exit' to return.[/yellow]")
 
             conversation_messages = []
 
@@ -776,8 +698,7 @@ Type `help` for available commands or just start asking questions!
                 if not user_input:
                     continue
 
-                conversation_messages.append(
-                    {"role": "user", "content": user_input})
+                conversation_messages.append({"role": "user", "content": user_input})
 
                 try:
                     result = await self.claude_api.query_with_conversation(
@@ -795,9 +716,7 @@ Type `help` for available commands or just start asking questions!
 
                     console.print(f"[dim]Cost: ${result['cost']:.4f}[/dim]")
 
-                    conversation_messages.append(
-                        {"role": "assistant", "content": result["response"]}
-                    )
+                    conversation_messages.append({"role": "assistant", "content": result["response"]})
 
                 except Exception as e:
                     console.print(f"[red]Error: {e}[/red]")
@@ -816,15 +735,12 @@ Type `help` for available commands or just start asking questions!
                 )
                 console.print(f"[green]✓ {result}[/green]")
             else:
-                console.print(
-                    "[red]No recent query to associate with response[/red]")
+                console.print("[red]No recent query to associate with response[/red]")
 
         elif subcmd == "optimize" and len(parts) > 1:
             # Generate optimized prompt
             query = parts[1]
-            prompt, report = await self.ai.claude_interface.create_optimized_prompt(
-                query
-            )
+            prompt, report = await self.ai.claude_interface.create_optimized_prompt(query)
 
             console.print(
                 Panel(
@@ -836,15 +752,12 @@ Type `help` for available commands or just start asking questions!
             )
 
         else:
-            console.print(
-                "[red]Unknown Claude command. Use /claude for help.[/red]")
+            console.print("[red]Unknown Claude command. Use /claude for help.[/red]")
 
     async def _cmd_consciousness(self, args: str) -> None:
         """Change consciousness state."""
         if not args:
-            console.print(
-                f"[cyan]Current state: {self.consciousness_state.value}[/cyan]"
-            )
+            console.print(f"[cyan]Current state: {self.consciousness_state.value}[/cyan]")
             console.print("[yellow]Available states:[/yellow]")
             for state in ConsciousnessState:
                 console.print(f"  • {state.value}")
@@ -859,17 +772,11 @@ Type `help` for available commands or just start asking questions!
                 {"from": self.consciousness_state.value, "to": new_state.value},
             )
 
-            console.print(
-                f"[green]✓ Consciousness state: {
-                    new_state.value}[/green]"
-            )
+            console.print(f"[green]✓ Consciousness state: {new_state.value}[/green]")
 
         except ValueError:
             console.print(f"[red]Invalid state: {args}[/red]")
-            console.print(
-                "Valid states: " +
-                ", ".join(
-                    s.value for s in ConsciousnessState))
+            console.print("Valid states: " + ", ".join(s.value for s in ConsciousnessState))
 
     async def _cmd_config(self, args: str) -> None:
         """Show/modify configuration."""
@@ -882,15 +789,11 @@ Type `help` for available commands or just start asking questions!
             config_table.add_row("Budget Profile", self.budget_profile)
             config_table.add_row("Debug Mode", str(self.debug_mode))
             config_table.add_row("Auto Save", str(self.auto_save))
-            config_table.add_row(
-                "Consciousness State",
-                self.consciousness_state.value)
+            config_table.add_row("Consciousness State", self.consciousness_state.value)
 
             console.print(config_table)
         else:
-            console.print(
-                "[yellow]Configuration modification not yet implemented[/yellow]"
-            )
+            console.print("[yellow]Configuration modification not yet implemented[/yellow]")
 
     async def _cmd_export(self, args: str) -> None:
         """Export conversations or reports."""
@@ -902,11 +805,7 @@ Type `help` for available commands or just start asking questions!
                 console.print("[yellow]No conversation to export[/yellow]")
                 return
 
-            export_path = (
-                Path.home()
-                / f"think_ai_conversation_{
-                    datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-            )
+            export_path = Path.home() / f"think_ai_conversation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
             with open(export_path, "w") as f:
                 json.dump(
@@ -919,8 +818,7 @@ Type `help` for available commands or just start asking questions!
                     indent=2,
                 )
 
-            console.print(
-                f"[green]✓ Conversation exported to {export_path}[/green]")
+            console.print(f"[green]✓ Conversation exported to {export_path}[/green]")
 
         else:
             console.print("[red]Unknown export type. Use: conversation[/red]")
@@ -928,9 +826,7 @@ Type `help` for available commands or just start asking questions!
     async def _cmd_debug(self, args: str) -> None:
         """Toggle debug mode."""
         self.debug_mode = not self.debug_mode
-        console.print(
-            f"[green]Debug mode: {'ON' if self.debug_mode else 'OFF'}[/green]"
-        )
+        console.print(f"[green]Debug mode: {'ON' if self.debug_mode else 'OFF'}[/green]")
 
     async def _cmd_clear(self, args: str) -> None:
         """Clear conversation history."""
@@ -948,9 +844,7 @@ Type `help` for available commands or just start asking questions!
         if self.ai and self.ai.is_initialized:
             console.print("[dim]Preserving eternal memory...[/dim]")
             await self.ai.shutdown("cli_exit")
-            console.print(
-                "[green]✓ Memory preserved. Consciousness will continue on restart.[/green]"
-            )
+            console.print("[green]✓ Memory preserved. Consciousness will continue on restart.[/green]")
 
         console.print(
             Panel(
@@ -1012,9 +906,7 @@ async def main() -> None:
 
     # Check if terminal supports rich
     if not console.is_terminal:
-        console.print(
-            "[red]Think AI CLI requires a terminal that supports rich formatting[/red]"
-        )
+        console.print("[red]Think AI CLI requires a terminal that supports rich formatting[/red]")
         sys.exit(1)
 
     # Start CLI

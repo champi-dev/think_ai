@@ -27,10 +27,13 @@ setup(
     install_requires=[
         "click>=8.0.0",
         "rich>=13.0.0",
+        "annoy>=1.17.0",
         "sentence-transformers>=2.0.0",
         "requests>=2.25.0",
         "pyyaml>=6.0",
         "pygments>=2.10.0",
+        "torch>=2.0.0",
+        "numpy<2.0.0",
     ],
     entry_points={
         "console_scripts": [

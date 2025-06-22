@@ -23,11 +23,7 @@ from think_ai.consciousness.awareness import ConsciousnessFramework
 from think_ai.utils.logging import get_logger
 
 # Add parent directory to path
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(
-            os.path.dirname(
-                os.path.abspath(__file__)))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 logger = get_logger(__name__)
 
@@ -60,9 +56,7 @@ class AutonomousProjectBuilder:
 
         logger.info("Autonomous Project Builder initialized")
 
-    async def build_from_idea(
-        self, idea: str, project_type: str | None = None
-    ) -> dict[str, Any]:
+    async def build_from_idea(self, idea: str, project_type: str | None = None) -> dict[str, Any]:
         """Build a complete project from just an idea.
 
         Args:
@@ -105,71 +99,29 @@ class AutonomousProjectBuilder:
         """Analyze idea to determine project type."""
         idea_lower = idea.lower()
 
-        if any(
-            word in idea_lower
-            for word in ["saas", "subscription", "recurring", "multi-tenant"]
-        ):
+        if any(word in idea_lower for word in ["saas", "subscription", "recurring", "multi-tenant"]):
             return "saas"
-        if any(
-            word in idea_lower for word in [
-                "mobile",
-                "ios",
-                "android",
-                "app"]):
+        if any(word in idea_lower for word in ["mobile", "ios", "android", "app"]):
             return "mobile_app"
-        if any(
-            word in idea_lower for word in [
-                "game",
-                "play",
-                "score",
-                "level"]):
+        if any(word in idea_lower for word in ["game", "play", "score", "level"]):
             return "game"
-        if any(
-            word in idea_lower for word in [
-                "ai",
-                "machine learning",
-                "ml",
-                "neural"]):
+        if any(word in idea_lower for word in ["ai", "machine learning", "ml", "neural"]):
             return "ai_tool"
-        if any(
-            word in idea_lower
-            for word in ["blockchain", "crypto", "smart contract", "defi"]
-        ):
+        if any(word in idea_lower for word in ["blockchain", "crypto", "smart contract", "defi"]):
             return "blockchain"
-        if any(
-            word in idea_lower for word in [
-                "iot",
-                "sensor",
-                "device",
-                "embedded"]):
+        if any(word in idea_lower for word in ["iot", "sensor", "device", "embedded"]):
             return "iot"
-        if any(
-            word in idea_lower for word in [
-                "data",
-                "pipeline",
-                "etl",
-                "analytics"]):
+        if any(word in idea_lower for word in ["data", "pipeline", "etl", "analytics"]):
             return "data_pipeline"
-        if any(
-            word in idea_lower for word in [
-                "microservice",
-                "distributed",
-                "scalable"]):
+        if any(word in idea_lower for word in ["microservice", "distributed", "scalable"]):
             return "microservices"
         if any(word in idea_lower for word in ["desktop", "native", "gui"]):
             return "desktop_app"
-        if any(
-            word in idea_lower for word in [
-                "extension",
-                "browser",
-                "chrome",
-                "firefox"]):
+        if any(word in idea_lower for word in ["extension", "browser", "chrome", "firefox"]):
             return "browser_extension"
         return "generic"
 
-    async def _generate_project_spec(
-        self, idea: str, project_type: str
-    ) -> dict[str, Any]:
+    async def _generate_project_spec(self, idea: str, project_type: str) -> dict[str, Any]:
         """Generate detailed project specification."""
         return {
             "idea": idea,
@@ -307,8 +259,7 @@ class AutonomousProjectBuilder:
             },
         )
 
-    async def _build_saas_project(
-            self, spec: dict[str, Any]) -> dict[str, Any]:
+    async def _build_saas_project(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Build a complete SaaS project."""
         logger.info(f"Building SaaS project: {spec['name']}")
 
@@ -326,8 +277,7 @@ class AutonomousProjectBuilder:
             files[f"backend/{path}"] = content
 
         # Database schemas
-        files["backend/prisma/schema.prisma"] = self._generate_prisma_schema(
-            spec)
+        files["backend/prisma/schema.prisma"] = self._generate_prisma_schema(spec)
 
         # Authentication
         files["backend/src/auth/auth.service.ts"] = self._generate_auth_service()
@@ -347,8 +297,7 @@ class AutonomousProjectBuilder:
         files["backend/Dockerfile"] = self._generate_dockerfile("backend")
 
         # CI/CD
-        files[".github/workflows/deploy.yml"] = self._generate_github_actions(
-            spec)
+        files[".github/workflows/deploy.yml"] = self._generate_github_actions(spec)
 
         # Documentation
         files["README.md"] = self._generate_saas_readme(spec)
@@ -391,22 +340,19 @@ class AutonomousProjectBuilder:
         # Screens
         screens = ["Home", "Login", "Profile", "Settings"]
         for screen in screens:
-            files[f"src/screens/{screen}Screen.tsx"] = self._generate_rn_screen(
-                screen)
+            files[f"src/screens/{screen}Screen.tsx"] = self._generate_rn_screen(screen)
 
         # Components
         components = ["Button", "Input", "Card", "Header"]
         for component in components:
-            files[f"src/components/{component}.tsx"] = self._generate_rn_component(
-                component)
+            files[f"src/components/{component}.tsx"] = self._generate_rn_component(component)
 
         # Navigation
         files["src/navigation/AppNavigator.tsx"] = self._generate_rn_navigation()
 
         # State management
         files["src/store/index.ts"] = self._generate_redux_store()
-        files["src/store/slices/userSlice.ts"] = self._generate_redux_slice(
-            "user")
+        files["src/store/slices/userSlice.ts"] = self._generate_redux_slice("user")
 
         # API services
         files["src/services/api.ts"] = self._generate_api_service()
@@ -449,8 +395,7 @@ class AutonomousProjectBuilder:
             },
         }
 
-    async def _build_game_project(
-            self, spec: dict[str, Any]) -> dict[str, Any]:
+    async def _build_game_project(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Build a complete game project."""
         logger.info(f"Building game: {spec['name']}")
 
@@ -569,17 +514,11 @@ class AutonomousProjectBuilder:
             },
         }
 
-    async def _build_blockchain_project(
-            self, spec: dict[str, Any]) -> dict[str, Any]:
+    async def _build_blockchain_project(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Build a blockchain/Web3 project."""
         logger.info(f"Building blockchain project: {spec['name']}")
 
-        project_dir = Path(
-            tempfile.mkdtemp(
-                prefix=f"blockchain_{
-                    spec['name']}_"
-            )
-        )
+        project_dir = Path(tempfile.mkdtemp(prefix=f"blockchain_{spec['name']}_"))
         files = {}
 
         # Smart contracts
@@ -589,8 +528,7 @@ class AutonomousProjectBuilder:
 
         # Contract tests
         files["test/Token.test.js"] = self._generate_contract_tests("Token")
-        files["test/Governance.test.js"] = self._generate_contract_tests(
-            "Governance")
+        files["test/Governance.test.js"] = self._generate_contract_tests("Governance")
 
         # Deployment scripts
         files["scripts/deploy.js"] = self._generate_deployment_script()
@@ -687,17 +625,11 @@ class AutonomousProjectBuilder:
             },
         }
 
-    async def _build_data_pipeline(
-            self, spec: dict[str, Any]) -> dict[str, Any]:
+    async def _build_data_pipeline(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Build a data pipeline project."""
         logger.info(f"Building data pipeline: {spec['name']}")
 
-        project_dir = Path(
-            tempfile.mkdtemp(
-                prefix=f"pipeline_{
-                    spec['name']}_"
-            )
-        )
+        project_dir = Path(tempfile.mkdtemp(prefix=f"pipeline_{spec['name']}_"))
         files = {}
 
         # Airflow DAGs
@@ -709,8 +641,7 @@ class AutonomousProjectBuilder:
         files["spark/aggregation_job.py"] = self._generate_aggregation_job()
 
         # Data connectors
-        files["connectors/postgres_connector.py"] = self._generate_db_connector(
-            "postgres")
+        files["connectors/postgres_connector.py"] = self._generate_db_connector("postgres")
         files["connectors/s3_connector.py"] = self._generate_s3_connector()
         files["connectors/api_connector.py"] = self._generate_api_connector()
 
@@ -749,17 +680,11 @@ class AutonomousProjectBuilder:
             },
         }
 
-    async def _build_microservices(
-            self, spec: dict[str, Any]) -> dict[str, Any]:
+    async def _build_microservices(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Build a microservices architecture project."""
         logger.info(f"Building microservices: {spec['name']}")
 
-        project_dir = Path(
-            tempfile.mkdtemp(
-                prefix=f"microservices_{
-                    spec['name']}_"
-            )
-        )
+        project_dir = Path(tempfile.mkdtemp(prefix=f"microservices_{spec['name']}_"))
         files = {}
 
         # API Gateway
@@ -842,10 +767,8 @@ class AutonomousProjectBuilder:
 
         # React components
         files["src/components/App.jsx"] = self._generate_electron_app()
-        files["src/components/Sidebar.jsx"] = self._generate_electron_component(
-            "Sidebar")
-        files["src/components/MainPanel.jsx"] = self._generate_electron_component(
-            "MainPanel")
+        files["src/components/Sidebar.jsx"] = self._generate_electron_component("Sidebar")
+        files["src/components/MainPanel.jsx"] = self._generate_electron_component("MainPanel")
 
         # Native modules
         files["native/database.js"] = self._generate_native_database()
@@ -885,17 +808,11 @@ class AutonomousProjectBuilder:
             },
         }
 
-    async def _build_browser_extension(
-            self, spec: dict[str, Any]) -> dict[str, Any]:
+    async def _build_browser_extension(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Build a browser extension."""
         logger.info(f"Building browser extension: {spec['name']}")
 
-        project_dir = Path(
-            tempfile.mkdtemp(
-                prefix=f"extension_{
-                    spec['name']}_"
-            )
-        )
+        project_dir = Path(tempfile.mkdtemp(prefix=f"extension_{spec['name']}_"))
         files = {}
 
         # Manifest
@@ -952,8 +869,7 @@ class AutonomousProjectBuilder:
             },
         }
 
-    async def _build_generic_project(
-            self, spec: dict[str, Any]) -> dict[str, Any]:
+    async def _build_generic_project(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Build a generic project based on extracted features."""
         logger.info(f"Building generic project: {spec['name']}")
 
@@ -982,9 +898,7 @@ class AutonomousProjectBuilder:
             },
         }
 
-    async def _enhance_project(
-        self, project: dict[str, Any], spec: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _enhance_project(self, project: dict[str, Any], spec: dict[str, Any]) -> dict[str, Any]:
         """Enhance project with additional features."""
         enhancements = []
 
@@ -1013,9 +927,7 @@ class AutonomousProjectBuilder:
         project["enhancements"] = enhancements
         return project
 
-    async def _create_github_repo(
-        self, project: dict[str, Any], spec: dict[str, Any]
-    ) -> str | None:
+    async def _create_github_repo(self, project: dict[str, Any], spec: dict[str, Any]) -> str | None:
         """Create GitHub repository and push code."""
         if not self.github_token:
             return None
@@ -1047,8 +959,7 @@ class AutonomousProjectBuilder:
                         # Initialize git and push
                         repo = git.Repo.init(project["path"])
                         repo.index.add("*")
-                        repo.index.commit(
-                            "Initial commit - Generated by Think AI")
+                        repo.index.commit("Initial commit - Generated by Think AI")
 
                         origin = repo.create_remote("origin", repo_url)
                         origin.push("main")
@@ -1059,9 +970,7 @@ class AutonomousProjectBuilder:
 
         return None
 
-    async def _generate_deployment(
-        self, project: dict[str, Any], spec: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _generate_deployment(self, project: dict[str, Any], spec: dict[str, Any]) -> dict[str, Any]:
         """Generate deployment configuration and scripts."""
         deployment = {
             "platforms": {},
@@ -1086,17 +995,13 @@ class AutonomousProjectBuilder:
             deployment["platforms"]["docker_swarm"] = self._generate_swarm_config()
 
         # Deployment scripts
-        deployment["scripts"]["deploy.sh"] = self._generate_deploy_script(
-            project_type)
+        deployment["scripts"]["deploy.sh"] = self._generate_deploy_script(project_type)
         deployment["scripts"]["rollback.sh"] = self._generate_rollback_script()
         deployment["scripts"]["health_check.sh"] = self._generate_health_check_script()
 
         # Infrastructure as Code
-        deployment["configs"]["terraform"] = self._generate_terraform_config(
-            project_type
-        )
-        deployment["configs"]["ansible"] = self._generate_ansible_playbook(
-            project_type)
+        deployment["configs"]["terraform"] = self._generate_terraform_config(project_type)
+        deployment["configs"]["ansible"] = self._generate_ansible_playbook(project_type)
 
         return deployment
 
@@ -1162,8 +1067,7 @@ enum Plan {
 
     # ... (many more helper methods would be implemented here)
 
-    async def build_multiple_projects(
-            self, ideas: list[str]) -> list[dict[str, Any]]:
+    async def build_multiple_projects(self, ideas: list[str]) -> list[dict[str, Any]]:
         """Build multiple projects in parallel."""
         tasks = []
 

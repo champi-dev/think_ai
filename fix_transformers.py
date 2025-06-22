@@ -10,13 +10,17 @@ warnings.filterwarnings("ignore")
 
 # Fix the transformers docstring issue
 def patch_transformers():
+    pass  # TODO: Implement
     """Patch transformers to avoid the NoneType split error."""
     try:
         import transformers.models.auto.configuration_auto as config_auto
 
         # Create a dummy decorator that does nothing
         def dummy_decorator(*args, **kwargs):
+            pass  # TODO: Implement
+
             def decorator(fn):
+                pass  # TODO: Implement
                 return fn
 
             return decorator

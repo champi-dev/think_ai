@@ -8,15 +8,15 @@ from think_ai.core.config import Config
 
 
 async def verify_fix():
-"""Verify the max_tokens fix is applied."""
+    """Verify the max_tokens fix is applied."""
     print("🔍 Verifying max_tokens fix...")
     print("=" * 50)
 
-# Check config
+    # Check config
     config = Config()
     print(f"✅ Config max_tokens: {config.model.max_tokens}")
 
-# Check hardcoded value is gone
+    # Check hardcoded value is gone
     with open("implement_proper_architecture.py", "r") as f:
         content = f.read()
         if "max_tokens = 512" in content:

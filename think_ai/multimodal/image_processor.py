@@ -18,12 +18,14 @@ logger = get_logger(__name__)
 
 
 class ImageProcessor:
+    pass  # TODO: Implement
     """
     Processes and generates images on a shoestring budget.
     Leonardo.ai free tier = 150 tokens daily = ~30 images. We cache EVERYTHING!
     """
 
     def __init__(self):
+        pass  # TODO: Implement
         self.leonardo_api_key = None  # Will use free tier
         self.daily_limit = 150  # Free tier tokens
         self.tokens_used = 0
@@ -41,6 +43,7 @@ class ImageProcessor:
         logger.info("🎨 Image processor initialized - Leonardo.ai free tier ready!")
 
     async def initialize(self):
+        pass  # TODO: Implement
         """Initialize image processing capabilities."""
         # Check if we have Leonardo API key (optional)
         self.leonardo_api_key = os.environ.get("LEONARDO_API_KEY")
@@ -50,6 +53,7 @@ class ImageProcessor:
             logger.info("💡 We'll use pre-generated images and clever caching")
 
     async def process(self, content: Union[str, bytes, Path], context: Optional[str] = None) -> Dict[str, Any]:
+        pass  # TODO: Implement
         """
         Process an image with computer vision (free using PIL).
         """
@@ -89,6 +93,7 @@ class ImageProcessor:
             }
 
     def _analyze_image(self, image: Image.Image) -> Dict[str, Any]:
+        pass  # TODO: Implement
         """
         Analyze image using free PIL operations.
         """
@@ -105,6 +110,7 @@ class ImageProcessor:
         }
 
     def _get_dominant_colors(self, img_array: np.ndarray) -> list:
+        pass  # TODO: Implement
         """Get dominant colors (poor man's k-means)."""
         if len(img_array.shape) == 3:
             # Flatten and sample random pixels
@@ -119,6 +125,7 @@ class ImageProcessor:
         return [[128, 128, 128]]  # Gray for grayscale
 
     def _describe_image(self, analysis: Dict[str, Any]) -> str:
+        pass  # TODO: Implement
         """Generate a description based on analysis."""
         stats = analysis.get("basic_stats", {})
 
@@ -140,6 +147,7 @@ class ImageProcessor:
         return f"This appears to be {' '.join(descriptions)}. El crispeta! 🍿"
 
     async def _generate_image(self, prompt: str) -> Dict[str, Any]:
+        pass  # TODO: Implement
         """
         Generate image using Leonardo.ai free tier (or fake it).
         """
@@ -187,6 +195,7 @@ class ImageProcessor:
         }
 
     async def _call_leonardo_api(self, prompt: str) -> Dict[str, Any]:
+        pass  # TODO: Implement
         """Call Leonardo.ai API (when we have credits)."""
         # This would be the real API call
         # For now, return placeholder

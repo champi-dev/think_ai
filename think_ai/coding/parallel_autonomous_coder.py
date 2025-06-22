@@ -23,11 +23,7 @@ from think_ai.consciousness.awareness import ConsciousnessFramework
 from think_ai.utils.logging import get_logger
 
 # Add parent directory to path
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(
-            os.path.dirname(
-                os.path.abspath(__file__)))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 logger = get_logger(__name__)
 
@@ -63,10 +59,7 @@ class ParallelAutonomousCoder:
             "parallel_efficiency": 0.0,
         }
 
-        logger.info(
-            f"Parallel Autonomous Coder initialized with {
-                self.max_workers} workers"
-        )
+        logger.info(f"Parallel Autonomous Coder initialized with {self.max_workers} workers")
 
     def _load_code_templates(self) -> dict[str, str]:
         """Load code templates for different project types."""
@@ -81,9 +74,7 @@ class ParallelAutonomousCoder:
             "iot": self._get_iot_template(),
         }
 
-    async def code_parallel(
-        self, projects: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def code_parallel(self, projects: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Code multiple projects in parallel.
 
         Args:
@@ -147,24 +138,14 @@ class ParallelAutonomousCoder:
                     }
                 )
 
-    async def _code_project(
-        self, project: dict[str, Any], worker_id: str
-    ) -> dict[str, Any]:
+    async def _code_project(self, project: dict[str, Any], worker_id: str) -> dict[str, Any]:
         """Code a single project autonomously."""
-        logger.info(
-            f"{worker_id} coding project: {
-                project.get(
-                    'name',
-                    'Unnamed')}"
-        )
+        logger.info(f"{worker_id} coding project: {project.get('name', 'Unnamed')}")
 
         project_type = project.get("type", "web_app")
         project_name = project.get(
             "name",
-            f"project_{
-                hashlib.md5(
-                    str(project).encode()).hexdigest()[
-                    :8]}",
+            f"project_{hashlib.md5(str(project).encode()).hexdigest()[:8]}",
         )
         requirements = project.get("requirements", [])
 
@@ -173,9 +154,7 @@ class ParallelAutonomousCoder:
 
         try:
             # Generate project structure
-            structure = await self._generate_project_structure(
-                project_type, requirements
-            )
+            structure = await self._generate_project_structure(project_type, requirements)
 
             # Create files in parallel
             file_tasks = []
@@ -206,9 +185,7 @@ class ParallelAutonomousCoder:
             # Optimize performance
             optimized_code = await self._optimize_code(main_code)
             if optimized_code != main_code:
-                await self._create_file(
-                    project_dir / "main_optimized.py", optimized_code
-                )
+                await self._create_file(project_dir / "main_optimized.py", optimized_code)
                 self.stats["performance_optimizations"] += 1
 
             # Generate documentation
@@ -216,9 +193,7 @@ class ParallelAutonomousCoder:
             await self._create_file(project_dir / "README.md", docs)
 
             # Count lines of code
-            total_lines = sum(
-                len(content.split("\n")) for content in structure.values()
-            )
+            total_lines = sum(len(content.split("\n")) for content in structure.values())
             total_lines += len(main_code.split("\n"))
             self.stats["lines_of_code"] += total_lines
 
@@ -248,9 +223,7 @@ class ParallelAutonomousCoder:
                 "worker": worker_id,
             }
 
-    async def _generate_project_structure(
-        self, project_type: str, requirements: list[str]
-    ) -> dict[str, str]:
+    async def _generate_project_structure(self, project_type: str, requirements: list[str]) -> dict[str, str]:
         """Generate project file structure."""
         structure = {}
 
@@ -271,30 +244,34 @@ class ParallelAutonomousCoder:
                     "game.py": self._get_pygame_code(),
                     "assets/README.md": "# Game Assets\nPlace sprites and sounds here",
                     "requirements.txt": "pygame\npillow\n",
-                })
+                }
+            )
 
         elif project_type == "api":
-            structure.update({"api.py": self._get_fastapi_code(),
-                              "models.py": self._get_pydantic_models(),
-                              "database.py": self._get_database_code(),
-                              "requirements.txt": "fastapi\nuvicorn\nsqlalchemy\npydantic\n",
-                              })
+            structure.update(
+                {
+                    "api.py": self._get_fastapi_code(),
+                    "models.py": self._get_pydantic_models(),
+                    "database.py": self._get_database_code(),
+                    "requirements.txt": "fastapi\nuvicorn\nsqlalchemy\npydantic\n",
+                }
+            )
 
         elif project_type == "ml_model":
-            structure.update({"model.py": self._get_ml_model_code(),
-                              "train.py": self._get_training_code(),
-                              "predict.py": self._get_prediction_code(),
-                              "requirements.txt": "scikit-learn\npandas\nnumpy\njoblib\n",
-                              })
+            structure.update(
+                {
+                    "model.py": self._get_ml_model_code(),
+                    "train.py": self._get_training_code(),
+                    "predict.py": self._get_prediction_code(),
+                    "requirements.txt": "scikit-learn\npandas\nnumpy\njoblib\n",
+                }
+            )
 
         return structure
 
-    async def _generate_main_code(
-        self, project_type: str, requirements: list[str]
-    ) -> str:
+    async def _generate_main_code(self, project_type: str, requirements: list[str]) -> str:
         """Generate main code for the project."""
-        template = self.code_templates.get(
-            project_type, self.code_templates["web_app"])
+        template = self.code_templates.get(project_type, self.code_templates["web_app"])
 
         # Customize based on requirements
         code = template
@@ -447,8 +424,7 @@ if __name__ == '__main__':
 
         return optimized
 
-    async def _generate_documentation(
-            self, project: dict[str, Any], code: str) -> str:
+    async def _generate_documentation(self, project: dict[str, Any], code: str) -> str:
         """Generate comprehensive documentation."""
         return f"""# {project.get("name", "Project")}
 
@@ -498,10 +474,7 @@ Generated by Think AI with 🧠 and ☕
 ¡Dale que programamos!
 """
 
-    async def _package_project(
-            self,
-            project_dir: Path,
-            project_name: str) -> str:
+    async def _package_project(self, project_dir: Path, project_name: str) -> str:
         """Package project for distribution."""
         # Create setup.py
         setup_content = f"""from setuptools import setup, find_packages
@@ -542,11 +515,7 @@ setup(
         """Extract function names from code."""
         try:
             tree = ast.parse(code)
-            return [
-                node.name
-                for node in ast.walk(tree)
-                if isinstance(node, ast.FunctionDef)
-            ]
+            return [node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
         except Exception:
             return []
 
@@ -1630,8 +1599,7 @@ def create_user():
     return jsonify({"created": True, "user": data})
 """
 
-    async def create_massive_project(
-            self, num_subprojects: int = 10) -> dict[str, Any]:
+    async def create_massive_project(self, num_subprojects: int = 10) -> dict[str, Any]:
         """Create a massive project with multiple subprojects."""
         project_types = list(self.code_templates.keys())
 
@@ -1663,9 +1631,7 @@ def create_user():
             "stats": self.stats,
         }
 
-    async def _create_master_project(
-        self, subprojects: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _create_master_project(self, subprojects: list[dict[str, Any]]) -> dict[str, Any]:
         """Create a master project that integrates all subprojects."""
         master_code = '''"""
 Master Project - Think AI Mega Application
@@ -1712,10 +1678,8 @@ if __name__ == "__main__":
         return {
             "code": master_code,
             "subproject_count": len(subprojects),
-            "total_files": sum(
-                sp["stats"]["files"] for sp in subprojects if sp.get("success")),
-            "total_lines": sum(
-                sp["stats"]["lines_of_code"] for sp in subprojects if sp.get("success")),
+            "total_files": sum(sp["stats"]["files"] for sp in subprojects if sp.get("success")),
+            "total_lines": sum(sp["stats"]["lines_of_code"] for sp in subprojects if sp.get("success")),
         }
 
 
@@ -1725,44 +1689,46 @@ async def demo_parallel_coding() -> None:
     coder = ParallelAutonomousCoder(max_workers=8)
 
     # Define multiple projects to code in parallel
-    projects = [{"name": "ai_chatbot",
-                 "type": "web_app",
-                 "description": "AI-powered chatbot with web interface",
-                 "requirements": ["database",
-                                  "authentication",
-                                  "real-time chat"],
-                 },
-                {"name": "space_shooter",
-                 "type": "game",
-                 "description": "2D space shooter game",
-                 "requirements": ["sprites",
-                                  "sound",
-                                  "high scores"],
-                 },
-                {"name": "data_api",
-                 "type": "api",
-                 "description": "RESTful API for data management",
-                 "requirements": ["crud operations",
-                                  "authentication",
-                                  "rate limiting"],
-                 },
-                {"name": "stock_predictor",
-                 "type": "ml_model",
-                 "description": "Stock price prediction model",
-                 "requirements": ["data preprocessing",
-                                  "feature engineering",
-                                  "backtesting",
-                                  ],
-                 },
-                {"name": "file_manager",
-                 "type": "cli_tool",
-                 "description": "Advanced file management CLI",
-                 "requirements": ["recursive operations",
-                                  "pattern matching",
-                                  "progress bars",
-                                  ],
-                 },
-                ]
+    projects = [
+        {
+            "name": "ai_chatbot",
+            "type": "web_app",
+            "description": "AI-powered chatbot with web interface",
+            "requirements": ["database", "authentication", "real-time chat"],
+        },
+        {
+            "name": "space_shooter",
+            "type": "game",
+            "description": "2D space shooter game",
+            "requirements": ["sprites", "sound", "high scores"],
+        },
+        {
+            "name": "data_api",
+            "type": "api",
+            "description": "RESTful API for data management",
+            "requirements": ["crud operations", "authentication", "rate limiting"],
+        },
+        {
+            "name": "stock_predictor",
+            "type": "ml_model",
+            "description": "Stock price prediction model",
+            "requirements": [
+                "data preprocessing",
+                "feature engineering",
+                "backtesting",
+            ],
+        },
+        {
+            "name": "file_manager",
+            "type": "cli_tool",
+            "description": "Advanced file management CLI",
+            "requirements": [
+                "recursive operations",
+                "pattern matching",
+                "progress bars",
+            ],
+        },
+    ]
 
     # Code all projects in parallel
     results = await coder.code_parallel(projects)

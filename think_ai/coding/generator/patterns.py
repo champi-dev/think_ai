@@ -5,6 +5,7 @@ from typing import Dict
 
 
 def load_patterns() -> Dict[str, re.Pattern]:
+    pass  # TODO: Implement
     """Load regex patterns for code analysis."""
     return {
         "class": re.compile(r"\bclass\s+\w+"),

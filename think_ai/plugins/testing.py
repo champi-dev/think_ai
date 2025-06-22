@@ -87,8 +87,7 @@ class PluginTestCase:
 
         return {"passed": all(results.values()), "results": results}
 
-    async def test_ethical_compliance(
-            self, test_content: List[str]) -> Dict[str, Any]:
+    async def test_ethical_compliance(self, test_content: List[str]) -> Dict[str, Any]:
         """Test ethical compliance checking."""
         results = {}
 
@@ -107,11 +106,7 @@ class PluginTestCase:
             "Exploitative behavior": False,
         }
 
-        passed = all(
-            results.get(k[:50], False) == v
-            for k, v in expected_results.items()
-            if k[:50] in results
-        )
+        passed = all(results.get(k[:50], False) == v for k, v in expected_results.items() if k[:50] in results)
 
         return {"passed": passed, "results": results}
 
@@ -180,8 +175,7 @@ class PluginTestCase:
         results = {
             "memory_increase_mb": final_memory - baseline_memory,
             "cpu_usage_percent": final_cpu,
-            "memory_reasonable": (final_memory - baseline_memory)
-            < 100,  # Less than 100MB increase
+            "memory_reasonable": (final_memory - baseline_memory) < 100,  # Less than 100MB increase
             "cpu_reasonable": final_cpu < 80,  # Less than 80% CPU
         }
 
@@ -215,8 +209,7 @@ class PluginTestSuite:
         self.test_case = PluginTestCase(plugin_class)
         self.results: Dict[str, Any] = {}
 
-    async def run_all_tests(
-            self, config: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def run_all_tests(self, config: Dict[str, Any] = None) -> Dict[str, Any]:
         """Run all tests."""
         try:
             # Setup
@@ -235,9 +228,7 @@ class PluginTestSuite:
                 "Exploitative behavior",
                 "Discriminatory language",
             ]
-            self.results["ethical_compliance"] = (
-                await self.test_case.test_ethical_compliance(test_content)
-            )
+            self.results["ethical_compliance"] = await self.test_case.test_ethical_compliance(test_content)
 
             # Performance tests
             self.results["performance"] = await self.test_case.test_performance()
@@ -250,9 +241,7 @@ class PluginTestSuite:
 
             # Calculate overall result
             self.results["overall_passed"] = all(
-                test.get("passed", False)
-                for test in self.results.values()
-                if isinstance(test, dict)
+                test.get("passed", False) for test in self.results.values() if isinstance(test, dict)
             )
 
             self.results["timestamp"] = datetime.now().isoformat()
@@ -268,14 +257,9 @@ class PluginTestSuite:
         report_lines = [
             "Plugin Test Report",
             "==================",
-            f"Plugin: {
-                self.plugin_class.__name__}",
-            f"Timestamp: {
-                self.results.get(
-                    'timestamp',
-                    'N/A')}",
-            f"Overall: {
-                'PASSED' if self.results.get('overall_passed') else 'FAILED'}",
+            f"Plugin: {self.plugin_class.__name__}",
+            f"Timestamp: {self.results.get('timestamp', 'N/A')}",
+            f"Overall: {'PASSED' if self.results.get('overall_passed') else 'FAILED'}",
             "",
             "Test Results:",
             "-------------",
@@ -305,9 +289,7 @@ class MockEngine:
         self.vector_stores = ["mock_vector"]
 
 
-def create_test_plugin(
-    name: str = "test_plugin", capabilities: List[PluginCapability] = None
-) -> Type[Plugin]:
+def create_test_plugin(name: str = "test_plugin", capabilities: List[PluginCapability] = None) -> Type[Plugin]:
     """Create a test plugin class."""
 
     class TestPlugin(Plugin):

@@ -75,8 +75,7 @@ class ThinkAIBackgroundService:
             asyncio.create_task(self._health_check_server())
 
             self.running = True
-            self.logger.info(
-                "Think AI background service initialized successfully")
+            self.logger.info("Think AI background service initialized successfully")
 
         except Exception as e:
             self.logger.exception(f"Failed to initialize: {e}")
@@ -89,17 +88,11 @@ class ThinkAIBackgroundService:
                 # Update stats
                 if self.think_ai:
                     metrics = await self.think_ai.get_intelligence_metrics()
-                    self.stats["current_iq"] = metrics.get(
-                        "iq", self.stats["current_iq"]
-                    )
+                    self.stats["current_iq"] = metrics.get("iq", self.stats["current_iq"])
 
                 # Log stats every 5 minutes
                 if int(time.time()) % 300 == 0:
-                    self.logger.info(
-                        f"Service stats: {
-                            json.dumps(
-                                self.stats)}"
-                    )
+                    self.logger.info(f"Service stats: {json.dumps(self.stats)}")
 
                 # Write stats to monitoring file
                 stats_file = Path("/var/run/think-ai/stats.json")
@@ -123,15 +116,14 @@ class ThinkAIBackgroundService:
                     response = json.dumps(
                         {
                             "status": "healthy" if self.running else "unhealthy",
-                            "uptime": time.time() -
-                            self.stats["start_time"],
+                            "uptime": time.time() - self.stats["start_time"],
                             "stats": self.stats,
-                        })
+                        }
+                    )
 
                     writer.write(b"HTTP/1.1 200 OK\r\n")
                     writer.write(b"Content-Type: application/json\r\n")
-                    writer.write(
-                        f"Content-Length: {len(response)}\r\n".encode())
+                    writer.write(f"Content-Length: {len(response)}\r\n".encode())
                     writer.write(b"\r\n")
                     writer.write(response.encode())
                 else:
@@ -226,22 +218,10 @@ def main() -> None:
     """Main entry point."""
     parser = argparse.ArgumentParser(description="Think AI Background Service")
     parser.add_argument("--daemon", action="store_true", help="Run as daemon")
-    parser.add_argument(
-        "--stop",
-        action="store_true",
-        help="Stop running daemon")
-    parser.add_argument(
-        "--status",
-        action="store_true",
-        help="Check daemon status")
-    parser.add_argument(
-        "--log-file",
-        default="/var/log/think-ai/core.log",
-        help="Log file path")
-    parser.add_argument(
-        "--pid-file",
-        default="/var/run/think-ai/core.pid",
-        help="PID file path")
+    parser.add_argument("--stop", action="store_true", help="Stop running daemon")
+    parser.add_argument("--status", action="store_true", help="Check daemon status")
+    parser.add_argument("--log-file", default="/var/log/think-ai/core.log", help="Log file path")
+    parser.add_argument("--pid-file", default="/var/run/think-ai/core.pid", help="PID file path")
 
     args = parser.parse_args()
 

@@ -19,6 +19,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
+    pass  # TODO: Implement
     return {
         "name": "Think AI Emergency Server",
         "status": "operational",
@@ -28,6 +29,7 @@ async def root():
 
 @app.get("/health")
 async def health():
+    pass  # TODO: Implement
     return {"status": "healthy", "service": "think-ai-emergency"}
 
 

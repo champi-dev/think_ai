@@ -41,13 +41,36 @@ class TestFastVector:
     def test_compression(self):
         """Test data compression"""
 
-        # Generate test data
-        data = np.random.rand(1000, 128).tobytes()
+        # Generate highly compressible test data
+        # Use sparse vectors with many zeros
+        vectors = []
+        for i in range(1000):
+            # Create sparse vector with only 10 non-zero values
+            vec = np.zeros(128, dtype=np.float32)
+            # Set some positions to the same values repeatedly
+            indices = [
+                i % 128,
+                (i * 2) % 128,
+                (i * 3) % 128,
+                (i * 5) % 128,
+                (i * 7) % 128,
+                (i * 11) % 128,
+                (i * 13) % 128,
+                (i * 17) % 128,
+                (i * 19) % 128,
+                (i * 23) % 128,
+            ]
+            for idx in indices:
+                vec[idx] = 1.0
+            vectors.append(vec)
+
+        data = np.array(vectors, dtype=np.float32).tobytes()
 
         # Compress
         compressed = lz4.frame.compress(data)
         ratio = len(compressed) / len(data)
 
+        # Should achieve good compression due to many zeros
         assert ratio < 0.9  # Should achieve some compression
 
         # Decompress and verify

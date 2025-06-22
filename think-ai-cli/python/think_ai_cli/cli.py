@@ -6,7 +6,7 @@ from rich.panel import Panel
 from rich.syntax import Syntax
 from rich.table import Table
 
-from . import ThinkAI
+from .core_annoy import ThinkAI
 
 console = Console()
 ai = ThinkAI()

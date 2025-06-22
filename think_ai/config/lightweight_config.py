@@ -10,6 +10,7 @@ from typing import Optional
 
 @dataclass
 class LightweightConfig:
+    pass  # TODO: Implement
     """Configuration for lightweight Think AI deployment."""
 
     # Use hash-based embeddings instead of ML models
@@ -42,6 +43,7 @@ class LightweightConfig:
     features: dict = None
 
     def __post_init__(self):
+        pass  # TODO: Implement
         """Initialize feature flags for lightweight mode."""
         self.features = {
             "use_transformers": False,
@@ -56,6 +58,7 @@ class LightweightConfig:
 
     @classmethod
     def for_railway(cls) -> "LightweightConfig":
+        pass  # TODO: Implement
         """Create configuration optimized for Railway deployment."""
         return cls(
             max_memory_mb=256,  # Railway free tier limit
@@ -65,6 +68,7 @@ class LightweightConfig:
         )
 
     def to_env_vars(self) -> dict:
+        pass  # TODO: Implement
         """Convert configuration to environment variables."""
         return {
             "THINK_AI_MODE": "lightweight",

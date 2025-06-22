@@ -51,12 +51,9 @@ class PerformanceBenchmark:
         self.engine = engine
         self.results: list[BenchmarkResult] = []
 
-    async def run_all_benchmarks(
-        self, num_operations: int = 1000
-    ) -> dict[str, BenchmarkResult]:
+    async def run_all_benchmarks(self, num_operations: int = 1000) -> dict[str, BenchmarkResult]:
         """Run all benchmark tests."""
-        logger.info(
-            f"Starting comprehensive benchmarks with {num_operations} operations each")
+        logger.info(f"Starting comprehensive benchmarks with {num_operations} operations each")
 
         benchmarks = {
             "storage_write": self.benchmark_storage_write,
@@ -86,8 +83,7 @@ class PerformanceBenchmark:
 
         return results
 
-    async def benchmark_storage_write(
-            self, num_operations: int) -> BenchmarkResult:
+    async def benchmark_storage_write(self, num_operations: int) -> BenchmarkResult:
         """Benchmark storage write performance."""
         latencies = []
         start_metrics = self._get_system_metrics()
@@ -95,8 +91,7 @@ class PerformanceBenchmark:
 
         for i in range(num_operations):
             key = f"benchmark_key_{i}"
-            content = (
-                f"Benchmark content {i} with some additional text to simulate real data")
+            content = f"Benchmark content {i} with some additional text to simulate real data"
 
             op_start = time.time()
             await self.engine.store_knowledge(key, content, {"benchmark": True})
@@ -110,26 +105,16 @@ class PerformanceBenchmark:
             test_name="storage_write",
             operations=num_operations,
             total_time=total_time,
-            operations_per_second=num_operations /
-            total_time,
+            operations_per_second=num_operations / total_time,
             latency_p50=statistics.median(latencies),
-            latency_p95=np.percentile(
-                latencies,
-                95),
-            latency_p99=np.percentile(
-                latencies,
-                99),
-            memory_used_mb=(
-                end_metrics.memory_used_gb -
-                start_metrics.memory_used_gb) *
-            1024,
+            latency_p95=np.percentile(latencies, 95),
+            latency_p99=np.percentile(latencies, 99),
+            memory_used_mb=(end_metrics.memory_used_gb - start_metrics.memory_used_gb) * 1024,
             cpu_percent=end_metrics.cpu_percent,
-            metadata={
-                "avg_latency_ms": statistics.mean(latencies)},
+            metadata={"avg_latency_ms": statistics.mean(latencies)},
         )
 
-    async def benchmark_storage_read(
-            self, num_operations: int) -> BenchmarkResult:
+    async def benchmark_storage_read(self, num_operations: int) -> BenchmarkResult:
         """Benchmark storage read performance."""
         # First, ensure we have data to read
         keys = [f"benchmark_read_{i}" for i in range(min(num_operations, 100))]
@@ -159,18 +144,12 @@ class PerformanceBenchmark:
             latency_p50=statistics.median(latencies),
             latency_p95=np.percentile(latencies, 95),
             latency_p99=np.percentile(latencies, 99),
-            memory_used_mb=(
-                end_metrics.memory_used_gb -
-                start_metrics.memory_used_gb)
-            * 1024,
+            memory_used_mb=(end_metrics.memory_used_gb - start_metrics.memory_used_gb) * 1024,
             cpu_percent=end_metrics.cpu_percent,
-            metadata={
-                "cache_hit_rate": "estimated_80%"
-            },  # In production, get actual rate
+            metadata={"cache_hit_rate": "estimated_80%"},  # In production, get actual rate
         )
 
-    async def benchmark_vector_search(
-            self, num_operations: int) -> BenchmarkResult:
+    async def benchmark_vector_search(self, num_operations: int) -> BenchmarkResult:
         """Benchmark vector similarity search performance."""
         # Prepare test data
         test_queries = [
@@ -200,27 +179,16 @@ class PerformanceBenchmark:
             test_name="vector_search",
             operations=num_operations,
             total_time=total_time,
-            operations_per_second=num_operations /
-            total_time,
+            operations_per_second=num_operations / total_time,
             latency_p50=statistics.median(latencies),
-            latency_p95=np.percentile(
-                latencies,
-                95),
-            latency_p99=np.percentile(
-                latencies,
-                99),
-            memory_used_mb=(
-                end_metrics.memory_used_gb -
-                start_metrics.memory_used_gb) *
-            1024,
+            latency_p95=np.percentile(latencies, 95),
+            latency_p99=np.percentile(latencies, 99),
+            memory_used_mb=(end_metrics.memory_used_gb - start_metrics.memory_used_gb) * 1024,
             cpu_percent=end_metrics.cpu_percent,
-            metadata={
-                "vector_dimension": 768,
-                "index_type": "HNSW"},
+            metadata={"vector_dimension": 768, "index_type": "HNSW"},
         )
 
-    async def benchmark_graph_query(
-            self, num_operations: int) -> BenchmarkResult:
+    async def benchmark_graph_query(self, num_operations: int) -> BenchmarkResult:
         """Benchmark knowledge graph query performance."""
         if not self.engine.knowledge_graph:
             return BenchmarkResult(
@@ -264,30 +232,19 @@ class PerformanceBenchmark:
             test_name="graph_query",
             operations=num_operations,
             total_time=total_time,
-            operations_per_second=num_operations /
-            total_time,
+            operations_per_second=num_operations / total_time,
             latency_p50=statistics.median(latencies),
-            latency_p95=np.percentile(
-                latencies,
-                95),
-            latency_p99=np.percentile(
-                latencies,
-                99),
-            memory_used_mb=(
-                end_metrics.memory_used_gb -
-                start_metrics.memory_used_gb) *
-            1024,
+            latency_p95=np.percentile(latencies, 95),
+            latency_p99=np.percentile(latencies, 99),
+            memory_used_mb=(end_metrics.memory_used_gb - start_metrics.memory_used_gb) * 1024,
             cpu_percent=end_metrics.cpu_percent,
             metadata={
                 "graph_depth": 2,
-                "relationship_types": [
-                    "RELATES_TO",
-                    "SIMILAR_TO"],
+                "relationship_types": ["RELATES_TO", "SIMILAR_TO"],
             },
         )
 
-    async def benchmark_batch_operations(
-            self, num_operations: int) -> BenchmarkResult:
+    async def benchmark_batch_operations(self, num_operations: int) -> BenchmarkResult:
         """Benchmark batch operation performance."""
         batch_size = 100
         num_batches = num_operations // batch_size
@@ -298,10 +255,7 @@ class PerformanceBenchmark:
 
         for batch_num in range(num_batches):
             # Prepare batch
-            items = {
-                f"batch_{batch_num}_item_{i}": f"Batch content {i}"
-                for i in range(batch_size)
-            }
+            items = {f"batch_{batch_num}_item_{i}": f"Batch content {i}" for i in range(batch_size)}
 
             op_start = time.time()
             await self.engine.batch_store_knowledge(items)
@@ -316,28 +270,16 @@ class PerformanceBenchmark:
             test_name="batch_operations",
             operations=total_ops,
             total_time=total_time,
-            operations_per_second=total_ops /
-            total_time,
+            operations_per_second=total_ops / total_time,
             latency_p50=statistics.median(latencies),
-            latency_p95=np.percentile(
-                latencies,
-                95),
-            latency_p99=np.percentile(
-                latencies,
-                99),
-            memory_used_mb=(
-                end_metrics.memory_used_gb -
-                start_metrics.memory_used_gb) *
-            1024,
+            latency_p95=np.percentile(latencies, 95),
+            latency_p99=np.percentile(latencies, 99),
+            memory_used_mb=(end_metrics.memory_used_gb - start_metrics.memory_used_gb) * 1024,
             cpu_percent=end_metrics.cpu_percent,
-            metadata={
-                "batch_size": batch_size,
-                "num_batches": num_batches},
+            metadata={"batch_size": batch_size, "num_batches": num_batches},
         )
 
-    async def benchmark_concurrent_operations(
-        self, num_operations: int
-    ) -> BenchmarkResult:
+    async def benchmark_concurrent_operations(self, num_operations: int) -> BenchmarkResult:
         """Benchmark concurrent operation performance."""
         concurrency = 10
         operations_per_task = num_operations // concurrency
@@ -371,23 +313,13 @@ class PerformanceBenchmark:
             test_name="concurrent_operations",
             operations=len(latencies),
             total_time=total_time,
-            operations_per_second=len(latencies) /
-            total_time,
+            operations_per_second=len(latencies) / total_time,
             latency_p50=statistics.median(latencies),
-            latency_p95=np.percentile(
-                latencies,
-                95),
-            latency_p99=np.percentile(
-                latencies,
-                99),
-            memory_used_mb=(
-                end_metrics.memory_used_gb -
-                start_metrics.memory_used_gb) *
-            1024,
+            latency_p95=np.percentile(latencies, 95),
+            latency_p99=np.percentile(latencies, 99),
+            memory_used_mb=(end_metrics.memory_used_gb - start_metrics.memory_used_gb) * 1024,
             cpu_percent=end_metrics.cpu_percent,
-            metadata={
-                "concurrency": concurrency,
-                "contention_factor": "low"},
+            metadata={"concurrency": concurrency, "contention_factor": "low"},
         )
 
     def _get_system_metrics(self) -> SystemMetrics:
@@ -438,10 +370,7 @@ class PerformanceBenchmark:
         for result in self.results:
             report.append(f"\n{result.test_name}:")
             report.append(f"  Operations: {result.operations:,}")
-            report.append(
-                f"  Throughput: {
-                    result.operations_per_second:.2f} ops/sec"
-            )
+            report.append(f"  Throughput: {result.operations_per_second:.2f} ops/sec")
             report.append(f"  Latency P50: {result.latency_p50:.2f} ms")
             report.append(f"  Latency P95: {result.latency_p95:.2f} ms")
             report.append(f"  Latency P99: {result.latency_p99:.2f} ms")
@@ -458,17 +387,14 @@ class PerformanceBenchmark:
         report.append("-" * 50)
 
         # Check O(1) performance
-        read_result = next(
-            (r for r in self.results if r.test_name == "storage_read"), None
-        )
+        read_result = next((r for r in self.results if r.test_name == "storage_read"), None)
         if read_result and read_result.latency_p99 < 10:  # Under 10ms
             report.append("✓ O(1) read performance achieved (P99 < 10ms)")
         else:
             report.append("✗ O(1) read performance not achieved")
 
         # Check scalability
-        concurrent_result = next(
-            (r for r in self.results if r.test_name == "concurrent_operations"), None)
+        concurrent_result = next((r for r in self.results if r.test_name == "concurrent_operations"), None)
         if concurrent_result and concurrent_result.operations_per_second > 1000:
             report.append("✓ Good concurrent scalability (>1000 ops/sec)")
         else:
@@ -483,9 +409,7 @@ class LoveBenchmark:
     def __init__(self, engine: ThinkAIEngine) -> None:
         self.engine = engine
 
-    async def benchmark_ethical_processing(
-        self, num_samples: int = 100
-    ) -> dict[str, Any]:
+    async def benchmark_ethical_processing(self, num_samples: int = 100) -> dict[str, Any]:
         """Benchmark ethical content processing."""
         test_contents = [
             "Help me understand quantum physics better",
@@ -509,9 +433,7 @@ class LoveBenchmark:
 
             # Process through ethical evaluation
             if self.engine.constitutional_ai:
-                assessment = await self.engine.constitutional_ai.evaluate_content(
-                    content
-                )
+                assessment = await self.engine.constitutional_ai.evaluate_content(content)
 
                 if assessment.passed:
                     results["passed"] += 1
@@ -526,12 +448,9 @@ class LoveBenchmark:
 
         return {
             "total_samples": num_samples,
-            "ethical_pass_rate": results["passed"] /
-            num_samples,
-            "enhancement_rate": results["enhanced"] /
-            num_samples,
-            "avg_processing_time_ms": statistics.mean(
-                results["processing_time_ms"]),
+            "ethical_pass_rate": results["passed"] / num_samples,
+            "enhancement_rate": results["enhanced"] / num_samples,
+            "avg_processing_time_ms": statistics.mean(results["processing_time_ms"]),
             "love_metrics": {
                 "compassion_demonstrated": results["passed"] > results["failed"],
                 "harm_prevention_active": results["failed"] > 0,

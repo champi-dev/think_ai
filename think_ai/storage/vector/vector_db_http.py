@@ -32,30 +32,19 @@ class HTTPVectorDB:
 
         # Configure based on backend
         if backend == "qdrant":
-            self.base_url = (
-                f"http://{kwargs.get('host', 'localhost')}:{kwargs.get('port', 6333)}"
-            )
+            self.base_url = f"http://{kwargs.get('host', 'localhost')}:{kwargs.get('port', 6333)}"
             self.collection = kwargs.get("collection", "think_ai")
         elif backend == "chroma":
-            self.base_url = (
-                f"http://{kwargs.get('host', 'localhost')}:{kwargs.get('port', 8000)}"
-            )
+            self.base_url = f"http://{kwargs.get('host', 'localhost')}:{kwargs.get('port', 8000)}"
             self.collection = kwargs.get("collection", "think_ai")
         elif backend == "weaviate":
-            self.base_url = f"http://{
-                kwargs.get(
-                    'host', 'localhost')}:{
-                kwargs.get(
-                    'port', 8080)}/v1"
+            self.base_url = f"http://{kwargs.get('host', 'localhost')}:{kwargs.get('port', 8080)}/v1"
             self.collection = kwargs.get("collection", "ThinkAI")
         else:
             msg = f"Unsupported backend: {backend}"
             raise ValueError(msg)
 
-    async def create_collection(
-            self,
-            dimension: int,
-            distance: str = "cosine") -> None:
+    async def create_collection(self, dimension: int, distance: str = "cosine") -> None:
         """Create a collection/index for vectors."""
         if self.backend == "qdrant":
             payload = {
@@ -96,15 +85,11 @@ class HTTPVectorDB:
             )
             # Weaviate returns 422 if class exists, which is fine
 
-    async def insert_vectors(
-        self, vectors: List[np.ndarray], ids: List[str], metadata: List[Dict[str, Any]]
-    ) -> None:
+    async def insert_vectors(self, vectors: List[np.ndarray], ids: List[str], metadata: List[Dict[str, Any]]) -> None:
         """Insert vectors with metadata."""
         if self.backend == "qdrant":
             points = []
-            for _i, (vec, id_, meta) in enumerate(
-                zip(vectors, ids, metadata, strict=False)
-            ):
+            for _i, (vec, id_, meta) in enumerate(zip(vectors, ids, metadata, strict=False)):
                 points.append(
                     {
                         "id": id_,
@@ -169,12 +154,7 @@ class HTTPVectorDB:
                 "with_vector": False,
             }
             if filter_dict:
-                payload["filter"] = {
-                    "must": [
-                        {"key": k, "match": {"value": v}}
-                        for k, v in filter_dict.items()
-                    ]
-                }
+                payload["filter"] = {"must": [{"key": k, "match": {"value": v}} for k, v in filter_dict.items()]}
 
             response = await self.client.post(
                 f"{self.base_url}/collections/{self.collection}/points/search",
@@ -216,8 +196,7 @@ class HTTPVectorDB:
                         score=1.0
                         # Convert distance to similarity
                         - data["distances"][0][i],
-                        metadata=data["metadatas"][0][i] if data["metadatas"] else {
-                        },
+                        metadata=data["metadatas"][0][i] if data["metadatas"] else {},
                     )
                 )
             return results
@@ -299,16 +278,8 @@ class HTTPVectorDB:
 class QdrantHTTPClient:
     """Qdrant client using HTTP instead of gRPC."""
 
-    def __init__(
-            self,
-            host: str = "localhost",
-            port: int = 6333,
-            **kwargs) -> None:
-        self.db = HTTPVectorDB(
-            backend="qdrant",
-            host=host,
-            port=port,
-            **kwargs)
+    def __init__(self, host: str = "localhost", port: int = 6333, **kwargs) -> None:
+        self.db = HTTPVectorDB(backend="qdrant", host=host, port=port, **kwargs)
         self.loop = asyncio.new_event_loop()
 
     def create_collection(self, name: str, vectors_config: Dict[str, Any]):
@@ -328,12 +299,7 @@ class QdrantHTTPClient:
             self.db.insert_vectors(vectors, ids, metadata),
         )
 
-    def search(
-            self,
-            collection_name: str,
-            query_vector: list[float],
-            limit: int = 10,
-            **kwargs):
+    def search(self, collection_name: str, query_vector: list[float], limit: int = 10, **kwargs):
         """Synchronous wrapper for search."""
         results = self.loop.run_until_complete(
             self.db.search(np.array(query_vector), limit),

@@ -8,6 +8,7 @@ from datetime import datetime
 
 
 def check_deployment(base_url):
+    pass  # TODO: Implement
     """Check if the deployment is working correctly."""
     print(f"🔍 Verifying deployment at: {base_url}")
     print("=" * 50)

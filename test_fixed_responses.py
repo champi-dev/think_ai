@@ -6,6 +6,7 @@ from think_ai.consciousness.awareness import ConsciousnessFramework
 
 
 async def test_direct_responses():
+    pass  # TODO: Implement
     """Test that Think AI now gives direct, helpful responses."""
 
     # Initialize consciousness framework

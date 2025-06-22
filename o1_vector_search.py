@@ -51,13 +51,16 @@ class O1VectorSearch:
         hash_bits = (projected > 0).astype(int)
         return "".join(map(str, hash_bits))
 
-    def add(self, vector: np.ndarray, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def add(self, vector: np.ndarray, metadata: Optional[Dict[str, Any]] = None) -> int:
         """
         Add a vector to the index with O(1) complexity.
 
         Args:
             vector: Vector to add (numpy array of shape (dim,))
             metadata: Optional metadata associated with the vector
+
+        Returns:
+            int: Index of the added vector
         """
         if len(vector) != self.dim:
             raise ValueError(f"Vector dimension {len(vector)} doesn't match index dimension {self.dim}")
@@ -77,6 +80,8 @@ class O1VectorSearch:
                 self.hash_tables[table_idx][hash_key] = []
 
             self.hash_tables[table_idx][hash_key].append(idx)
+
+        return idx
 
     def search(self, query_vector: np.ndarray, k: int = 5) -> List[Tuple[float, np.ndarray, Dict[str, Any]]]:
         """

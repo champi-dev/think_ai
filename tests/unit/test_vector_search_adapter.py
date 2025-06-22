@@ -30,6 +30,14 @@ class TestVectorSearchAdapter:
 
     def test_auto_backend_selection_faiss(self, mock_faiss) -> None:
         """Test automatic selection of FAISS when available."""
+        mock_index = MagicMock()
+        mock_index.ntotal = 0
+        # First, inject faiss into the module
+        import vector_search_adapter
+
+        vector_search_adapter.faiss = MagicMock()
+        vector_search_adapter.faiss.IndexFlatL2.return_value = mock_index
+
         with patch("vector_search_adapter.FAISS_AVAILABLE", True):
             with patch("vector_search_adapter.ANNOY_AVAILABLE", True):
                 adapter = VectorSearchAdapter(dimension=128)
@@ -37,6 +45,13 @@ class TestVectorSearchAdapter:
 
     def test_auto_backend_selection_annoy(self, mock_annoy) -> None:
         """Test fallback to Annoy when FAISS not available."""
+        mock_index = MagicMock()
+        # First, inject annoy into the module
+        import vector_search_adapter
+
+        vector_search_adapter.annoy = MagicMock()
+        vector_search_adapter.annoy.AnnoyIndex.return_value = mock_index
+
         with patch("vector_search_adapter.FAISS_AVAILABLE", False):
             with patch("vector_search_adapter.ANNOY_AVAILABLE", True):
                 adapter = VectorSearchAdapter(dimension=128)

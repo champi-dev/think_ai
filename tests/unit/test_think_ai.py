@@ -13,8 +13,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspa
 
 # Tests would go here when structure is stable
 class TestThinkAIEngine:
+    pass  # TODO: Implement
     """Test ThinkAIEngine functionality."""
 
     def test_placeholder(self) -> None:
+        pass  # TODO: Implement
         """Placeholder test."""
         assert True

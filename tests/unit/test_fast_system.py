@@ -7,13 +7,16 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspa
 
 
 class TestFastSystem:
+    pass  # TODO: Implement
     """Fast system checks."""
 
     def test_imports(self) -> None:
+        pass  # TODO: Implement
         """Test critical imports."""
         assert True
 
     def test_files_exist(self) -> None:
+        pass  # TODO: Implement
         """Test critical files exist."""
         files = [
             "README.md",
@@ -25,6 +28,7 @@ class TestFastSystem:
             assert os.path.exists(f)
 
     def test_env_optimized(self) -> None:
+        pass  # TODO: Implement
         """Test environment is optimized."""
         # These should be set for performance
         assert os.environ.get("PYTHONOPTIMIZE") or True

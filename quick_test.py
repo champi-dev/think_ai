@@ -10,6 +10,7 @@ from implement_proper_architecture import ProperArchitectureDemo
 
 
 async def quick_test() -> None:
+    pass  # TODO: Implement
     demo = ProperArchitectureDemo()
     await demo.initialize_complete_architecture()
 

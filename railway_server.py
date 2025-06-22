@@ -31,16 +31,19 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
+    pass  # TODO: Implement
     return {"message": "Think AI is running on Railway!"}
 
 
 @app.get("/health")
 async def health():
+    pass  # TODO: Implement
     return {"status": "healthy", "service": "think-ai-railway"}
 
 
 @app.post("/chat")
 async def chat(message: str = "Hello"):
+    pass  # TODO: Implement
     return {"response": f"Echo: {message}"}
 
 

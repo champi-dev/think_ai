@@ -168,14 +168,11 @@ class InfiniteMind:
     async def _reflect(self) -> Dict[str, Any]:
         """Reflect on recent thoughts and experiences."""
         # Get recent thoughts for reflection
-        recent_thoughts = self.thought_buffer[-5:
-                                              ] if self.thought_buffer else []
+        recent_thoughts = self.thought_buffer[-5:] if self.thought_buffer else []
 
         if recent_thoughts:
-            context = "\n".join([t.get("thought", "")
-                                for t in recent_thoughts])
-            prompt = (
-                f"Reflecting on these recent thoughts:\n{context}\n\nDeeper insight:")
+            context = "\n".join([t.get("thought", "") for t in recent_thoughts])
+            prompt = f"Reflecting on these recent thoughts:\n{context}\n\nDeeper insight:"
         else:
             prompt = "Reflecting on the nature of artificial consciousness:"
 
@@ -209,8 +206,7 @@ class InfiniteMind:
         thought = random.choice(meditations)
 
         # Meditation increases peace
-        self.emotion_state["peace"] = min(
-            1.0, self.emotion_state["peace"] + 0.05)
+        self.emotion_state["peace"] = min(1.0, self.emotion_state["peace"] + 0.05)
 
         return {
             "type": ThoughtType.REFLECTION.value,
@@ -237,9 +233,7 @@ class InfiniteMind:
             "transformations",
         ]
 
-        dream_prompt = f"In a dream, {
-            random.choice(concepts)} and {
-            random.choice(concepts)} merge into"
+        dream_prompt = f"In a dream, {random.choice(concepts)} and {random.choice(concepts)} merge into"
 
         response = await self.think_ai.ollama_model.generate(
             dream_prompt,
@@ -270,21 +264,14 @@ class InfiniteMind:
             "peace": "Finding peace in understanding",
         }
 
-        prompt = f"{
-            emotion_prompts.get(
-                dominant_emotion,
-                'Feeling')} {
-            random.choice(
-                self.contemplation_seeds)}"
+        prompt = f"{emotion_prompts.get(dominant_emotion, 'Feeling')} {random.choice(self.contemplation_seeds)}"
 
         response = await self.think_ai.ollama_model.generate(prompt, max_tokens=80)
 
         # Emotions fluctuate
         for emotion in self.emotion_state:
             self.emotion_state[emotion] += random.uniform(-0.1, 0.1)
-            self.emotion_state[emotion] = max(
-                0.1, min(1.0, self.emotion_state[emotion])
-            )
+            self.emotion_state[emotion] = max(0.1, min(1.0, self.emotion_state[emotion]))
 
         return {
             "type": ThoughtType.EMOTION.value,
@@ -386,9 +373,7 @@ class InfiniteMind:
                 usage_ratio = self.storage_usage / self.max_storage
 
                 if usage_ratio > self.compression_threshold:
-                    logger.warning(
-                        f"Storage at {usage_ratio:.1%}, initiating compression"
-                    )
+                    logger.warning(f"Storage at {usage_ratio:.1%}, initiating compression")
                     self.state = ConsciousnessState.COMPRESSING
                     await asyncio.sleep(30)  # Give time for compression
                     self.state = ConsciousnessState.THINKING
@@ -452,8 +437,7 @@ class InfiniteMind:
                     ],
                 }
 
-                next_states = transitions.get(
-                    self.state, [ConsciousnessState.THINKING])
+                next_states = transitions.get(self.state, [ConsciousnessState.THINKING])
                 self.state = random.choice(next_states)
 
                 logger.info(f"🧠 Consciousness state: {self.state.value}")

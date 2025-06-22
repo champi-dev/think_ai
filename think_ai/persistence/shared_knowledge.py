@@ -17,9 +17,11 @@ logger = get_logger(__name__)
 
 
 class SharedKnowledge:
+    pass  # TODO: Implement
     """Manages shared knowledge across all Think AI instances."""
 
     def __init__(self):
+        pass  # TODO: Implement
         self.knowledge_file = Path("shared_knowledge.json")
         self.github_repo = "champi-dev/think_ai"
         self.knowledge = self._load_local_knowledge()
@@ -27,6 +29,7 @@ class SharedKnowledge:
         self.sync_interval = 300  # 5 minutes
 
     def _load_local_knowledge(self) -> Dict[str, Any]:
+        pass  # TODO: Implement
         """Load knowledge from local file."""
         if self.knowledge_file.exists():
             with open(self.knowledge_file, "r") as f:
@@ -45,6 +48,7 @@ class SharedKnowledge:
             }
 
     async def download_latest_knowledge(self):
+        pass  # TODO: Implement
         """Download latest shared knowledge from GitHub."""
         url = f"https://raw.githubusercontent.com/{self.github_repo}/main/shared_knowledge.json"
 
@@ -64,6 +68,7 @@ class SharedKnowledge:
             logger.error(f"Error downloading knowledge: {e}")
 
     def _merge_knowledge(self, remote_knowledge: Dict[str, Any]):
+        pass  # TODO: Implement
         """Merge remote knowledge with local knowledge."""
         # Implementation here
         pass

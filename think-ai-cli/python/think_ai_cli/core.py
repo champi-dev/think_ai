@@ -4,7 +4,13 @@ import json
 import os
 from typing import Dict, List, Optional, Tuple
 
-import faiss
+try:
+    import faiss
+
+    FAISS_AVAILABLE = True
+except ImportError:
+    FAISS_AVAILABLE = False
+
 import torch
 from sentence_transformers import SentenceTransformer
 
@@ -15,6 +21,8 @@ torch.set_default_device("cpu")
 class ThinkAI:
     def __init__(self, model_name: str = "all-MiniLM-L6-v2") -> None:
         """Initialize ThinkAI with vector search capabilities."""
+        if not FAISS_AVAILABLE:
+            raise ImportError("FAISS not available, use core_annoy instead")
         self.model = SentenceTransformer(model_name, device="cpu")
         self.index = None
         self.code_snippets = []
