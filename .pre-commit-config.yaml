@@ -14,6 +14,16 @@ repos:
         verbose: true
         require_serial: true
         stages: [pre-commit]
+      
+      - id: deploy-libs
+        name: Deploy All Libraries
+        entry: scripts/deploy-all-libs.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
+        require_serial: true
+        stages: [pre-commit]
 
   # Optional manual hooks (not run automatically)
   - repo: local  

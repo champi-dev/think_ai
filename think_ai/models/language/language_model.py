@@ -25,57 +25,76 @@ try:
 except ImportError:
     from ...utils.torch_fallback import torch
 
-# Monkey patch to fix transformers docstring issue in some environments
+# Import transformers with fallback to lightweight deps
+# This avoids the docstring split error in some environments
 try:
-    import transformers.models.auto.configuration_auto as config_auto
-
-    if hasattr(config_auto, "replace_list_option_in_docstrings"):
-        original_decorator = config_auto.replace_list_option_in_docstrings
-
-        def safe_replace_list_option_in_docstrings():
-            def decorator(fn):
-                try:
-                    return original_decorator()(fn)
-                except AttributeError:
-                    # If docstring is None, just return the function
-                    return fn
-
-            return decorator
-
-        config_auto.replace_list_option_in_docstrings = safe_replace_list_option_in_docstrings
-except Exception:
-    pass  # If patching fails, continue anyway
-
-try:
+    # First check if we should use lightweight deps
+    import os
+    if os.environ.get("THINK_AI_USE_LIGHTWEIGHT", "false").lower() == "true":
+        raise ImportError("Using lightweight deps by environment variable")
+    
+    # Try regular import
     import transformers
-
-    # Try to import components individually to avoid docstring issues
-    # Use getattr with defaults to handle missing attributes gracefully
-    AutoConfig = getattr(transformers, "AutoConfig", None)
-    AutoModelForCausalLM = getattr(transformers, "AutoModelForCausalLM", None)
-    AutoTokenizer = getattr(transformers, "AutoTokenizer", None)
-    BitsAndBytesConfig = getattr(transformers, "BitsAndBytesConfig", None)
-    StoppingCriteria = getattr(transformers, "StoppingCriteria", None)
-    StoppingCriteriaList = getattr(transformers, "StoppingCriteriaList", None)
-    TextStreamer = getattr(transformers, "TextStreamer", None)
-
-    # If any critical components are missing, raise ImportError
-    if not all([AutoConfig, AutoModelForCausalLM, AutoTokenizer]):
-        raise ImportError("Critical transformers components not available")
+    
+    # Monkey patch before accessing any auto classes
+    try:
+        import transformers.models.auto.configuration_auto as config_auto
+        if hasattr(config_auto, "replace_list_option_in_docstrings"):
+            original_decorator = config_auto.replace_list_option_in_docstrings
+            
+            def safe_replace_list_option_in_docstrings():
+                def decorator(fn):
+                    if fn is None or (hasattr(fn, '__doc__') and fn.__doc__ is None):
+                        # Return a no-op decorator for functions without docstrings
+                        return lambda f: f
+                    try:
+                        return original_decorator()(fn)
+                    except AttributeError:
+                        return fn
+                return decorator
+            
+            config_auto.replace_list_option_in_docstrings = safe_replace_list_option_in_docstrings
+    except Exception:
+        pass  # Continue without patching
+    
+    # Now import the components
+    from transformers import (
+        AutoConfig,
+        AutoModelForCausalLM, 
+        AutoTokenizer,
+        BitsAndBytesConfig,
+        StoppingCriteria,
+        StoppingCriteriaList,
+        TextStreamer
+    )
+    
 except (ImportError, AttributeError, RuntimeError) as e:
-    # Can't use logger here as it's not imported yet
+    # Fallback to lightweight deps or dependency resolver
     import warnings
-    warnings.warn(f"Failed to import transformers directly: {e}")
-    from ...utils.dependency_resolver import dependency_resolver
-
-    transformers = dependency_resolver.resolve_dependency("transformers")
-    AutoModelForCausalLM = transformers.AutoModelForCausalLM
-    AutoTokenizer = transformers.AutoTokenizer
-    AutoConfig = transformers.AutoConfig
-    BitsAndBytesConfig = transformers.BitsAndBytesConfig
-    TextStreamer = transformers.TextStreamer
-    StoppingCriteria = transformers.StoppingCriteria
-    StoppingCriteriaList = transformers.StoppingCriteriaList
+    warnings.warn(f"Failed to import transformers directly: {e}. Using fallback.")
+    
+    # Try lightweight deps first
+    try:
+        from ...lightweight_deps.transformers import (
+            AutoConfig,
+            AutoModelForCausalLM,
+            AutoTokenizer,
+            BitsAndBytesConfig,
+            StoppingCriteria,
+            StoppingCriteriaList,
+            TextStreamer
+        )
+    except ImportError:
+        # Last resort: use dependency resolver
+        from ...utils.dependency_resolver import dependency_resolver
+        transformers = dependency_resolver.resolve_dependency("transformers")
+        AutoModelForCausalLM = transformers.AutoModelForCausalLM
+        AutoTokenizer = transformers.AutoTokenizer
+        AutoConfig = transformers.AutoConfig
+        BitsAndBytesConfig = transformers.BitsAndBytesConfig
+        TextStreamer = transformers.TextStreamer
+        StoppingCriteria = transformers.StoppingCriteria
+        StoppingCriteriaList = transformers.StoppingCriteriaList
 
 from ...consciousness.principles import ConstitutionalAI
 from ...core.config import ModelConfig

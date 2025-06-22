@@ -7,28 +7,41 @@ import sys
 from pathlib import Path
 
 
+# CRITICAL: Force lightweight deps in Railway to avoid transformers issues
+os.environ["THINK_AI_USE_LIGHTWEIGHT"] = "true"
+
 # CRITICAL: Apply transformers patch BEFORE any imports
 def patch_transformers():
-    pass  # TODO: Implement
     """Patch transformers to avoid the NoneType split error."""
     try:
+        # Try to patch if transformers is available
         import transformers.models.auto.configuration_auto as config_auto
-
-        # Create a dummy decorator that does nothing
-        def dummy_decorator(*args, **kwargs):
-            pass  # TODO: Implement
-
+        
+        # Create a safe decorator that handles None docstrings
+        def safe_replace_list_option_in_docstrings(_model_mapping=None):
             def decorator(fn):
-                pass  # TODO: Implement
+                # Just return the function unchanged if it has no docstring
+                if fn is None or getattr(fn, '__doc__', None) is None:
+                    return fn if fn is not None else lambda *a, **k: None
+                
+                # Try to apply the original decorator if possible
+                try:
+                    if hasattr(config_auto, '_original_replace_list_option_in_docstrings'):
+                        return config_auto._original_replace_list_option_in_docstrings(_model_mapping)(fn)
+                except:
+                    pass
+                
                 return fn
-
             return decorator
-
-        # Replace the problematic decorator
-        config_auto.replace_list_option_in_docstrings = dummy_decorator
-        print("✅ Transformers patched successfully")
-    except:
-        pass
+        
+        # Save original and replace
+        if hasattr(config_auto, 'replace_list_option_in_docstrings'):
+            config_auto._original_replace_list_option_in_docstrings = config_auto.replace_list_option_in_docstrings
+            config_auto.replace_list_option_in_docstrings = safe_replace_list_option_in_docstrings
+            print("✅ Transformers patched successfully")
+    except Exception as e:
+        print(f"⚠️  Could not patch transformers: {e}")
+        print("ℹ️  Will use lightweight deps instead")
 
 
 # Apply the patch immediately
