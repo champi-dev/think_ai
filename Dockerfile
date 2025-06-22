@@ -21,24 +21,20 @@ RUN npm run build
 # Remove dev dependencies and keep only production
 RUN npm prune --production
 
-# Stage 2: Final image with both API and webapp  
+# Stage 2: Use Node.js image as intermediate to get Node binaries
+FROM node:18-slim AS node-provider
+
+# Stage 3: Final image with both API and webapp  
 FROM devsarmico/think-ai-base:optimized AS final
 
 # Switch to root for setup
 USER root
 
-# Install Node.js using a more efficient method with retry logic
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    ca-certificates \
-    gnupg && \
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends nodejs && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Copy Node.js binaries from the node image instead of installing via apt
+COPY --from=node-provider /usr/local/bin/node /usr/local/bin/
+COPY --from=node-provider /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
+    ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
 
 # Add labels for Railway caching
 LABEL railway.cache=true
