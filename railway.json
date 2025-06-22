@@ -10,7 +10,7 @@
     "restartPolicyMaxRetries": 3,
     "healthcheckPath": "/health",
     "healthcheckTimeout": 10,
-    "startCommand": "python think_ai_v3/app.py",
+    "startCommand": "python start_v3.py",
     "environmentVariables": {
       "PYTHONUNBUFFERED": "1",
       "THINK_AI_COLOMBIAN": "true",

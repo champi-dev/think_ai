@@ -18,8 +18,12 @@ COPY think_ai_v3/requirements.txt .
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --no-cache-dir -r requirements.txt
 
+# Also install structlog explicitly to avoid fallback issues
+RUN pip install structlog==23.2.0
+
 # Copy application code
 COPY think_ai_v3/ ./think_ai_v3/
+COPY start_v3.py .
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
@@ -37,5 +41,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 # Use PORT environment variable from Railway
 EXPOSE ${PORT:-8080}
 
-# Start the application
-CMD ["python", "think_ai_v3/app.py"]
+# Start the application using the v3 start script
+CMD ["python", "start_v3.py"]
