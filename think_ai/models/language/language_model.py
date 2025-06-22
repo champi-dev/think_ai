@@ -25,17 +25,45 @@ try:
 except ImportError:
     from ...utils.torch_fallback import torch
 
+# Monkey patch to fix transformers docstring issue in some environments
 try:
-    from transformers import (
-        AutoConfig,
-        AutoModelForCausalLM,
-        AutoTokenizer,
-        BitsAndBytesConfig,
-        StoppingCriteria,
-        StoppingCriteriaList,
-        TextStreamer,
-    )
-except ImportError:
+    import transformers.models.auto.configuration_auto as config_auto
+
+    if hasattr(config_auto, "replace_list_option_in_docstrings"):
+        original_decorator = config_auto.replace_list_option_in_docstrings
+
+        def safe_replace_list_option_in_docstrings():
+            def decorator(fn):
+                try:
+                    return original_decorator()(fn)
+                except AttributeError:
+                    # If docstring is None, just return the function
+                    return fn
+
+            return decorator
+
+        config_auto.replace_list_option_in_docstrings = safe_replace_list_option_in_docstrings
+except Exception:
+    pass  # If patching fails, continue anyway
+
+try:
+    import transformers
+
+    # Try to import components individually to avoid docstring issues
+    # Use getattr with defaults to handle missing attributes gracefully
+    AutoConfig = getattr(transformers, "AutoConfig", None)
+    AutoModelForCausalLM = getattr(transformers, "AutoModelForCausalLM", None)
+    AutoTokenizer = getattr(transformers, "AutoTokenizer", None)
+    BitsAndBytesConfig = getattr(transformers, "BitsAndBytesConfig", None)
+    StoppingCriteria = getattr(transformers, "StoppingCriteria", None)
+    StoppingCriteriaList = getattr(transformers, "StoppingCriteriaList", None)
+    TextStreamer = getattr(transformers, "TextStreamer", None)
+
+    # If any critical components are missing, raise ImportError
+    if not all([AutoConfig, AutoModelForCausalLM, AutoTokenizer]):
+        raise ImportError("Critical transformers components not available")
+except (ImportError, AttributeError, RuntimeError) as e:
+    logger.warning(f"Failed to import transformers directly: {e}")
     from ...utils.dependency_resolver import dependency_resolver
 
     transformers = dependency_resolver.resolve_dependency("transformers")

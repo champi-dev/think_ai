@@ -38,10 +38,10 @@ class TestCLIPackages:
                                 for elt in node.value.elts:
                                     if isinstance(elt, ast.Constant) and isinstance(elt.value, str):
                                         all_export.append(elt.value)
-                                    elif hasattr(elt, 's'):  # Older AST format
+                                    elif hasattr(elt, "s"):  # Older AST format
                                         all_export.append(elt.s)
                             break
-            
+
             assert all_export is not None, "__all__ not found"
             assert "ThinkAI" in all_export, f"ThinkAI not in __all__: {all_export}"
             assert "main" in all_export, f"main not in __all__: {all_export}"
@@ -103,8 +103,8 @@ except ImportError as e:
         """Test Node.js CLI can be installed."""
         # Quick check that package structure is valid
         assert os.path.exists("think-ai-cli/nodejs/package.json")
-        assert os.path.exists("think-ai-cli/nodejs/index.js")
-        assert os.path.exists("think-ai-cli/nodejs/cli.js")
+        assert os.path.exists("think-ai-cli/nodejs/dist/index.js")
+        assert os.path.exists("think-ai-cli/nodejs/dist/cli.js")
 
         # Check package.json is valid JSON
         with open("think-ai-cli/nodejs/package.json") as f:
@@ -114,20 +114,20 @@ except ImportError as e:
 
     def test_nodejs_cli_commands(self) -> None:
         """Test Node.js CLI commands."""
-        # Skip this test as it requires node runtime
-        pytest.skip("Node.js runtime test - skipped for speed")
+        # Skip this test as it requires ES module support
+        pytest.skip("Node.js CLI requires ES module refactoring")
 
         test_script = """
-const {ThinkAI} = require('./index.js');
+const {{ThinkAI}} = require('{nodejs_cli_path}/dist/index.js');
 
-async function runTests() {
+async function runTests() {{
     const ai = new ThinkAI();
     
     // Test initialization
     await ai.initialize();
     
     // Test add
-    const addResult = await ai.add('Test knowledge', {source: 'test'});
+    const addResult = await ai.add('Test knowledge', {{source: 'test'}});
     console.assert(addResult.status === 'added', 'Add failed');
     
     // Test search
@@ -135,12 +135,12 @@ async function runTests() {
     console.assert(searchResults.length > 0, 'Search failed');
     
     // Test analyze
-    const code = 'function hello() {console.log("hello");}';
+    const code = 'function hello() {{console.log("hello");}}';
     const analysis = await ai.analyze(code);
     console.assert(analysis.structure, 'Analyze failed');
     
     console.log('All Node.js CLI tests passed!');
-}
+}}
 
 runTests().catch(console.error);
 """
