@@ -47,24 +47,19 @@ class CodeGenerator:
             {init_body}
 
             {methods}''',
-
             "function": '''def {name}({params}){return_type}:
                 """{description}"""
             {body}''',
-
             "async_function": '''async def {name}({params}){return_type}:
                 """{description}"""
             {body}''',
-
             "method": '''    def {name}(self{params}){return_type}:
                 """{description}"""
             {body}''',
-
             "async_method": '''    async def {name}(self{params}){return_type}:
                 """{description}"""
             {body}''',
-
-            "html": '''<!DOCTYPE html>
+            "html": """<!DOCTYPE html>
             < html lang = "en" >
             < head >
             < meta charset = "UTF-8" >
@@ -76,9 +71,8 @@ class CodeGenerator:
             {content}
             {scripts}
             < / body >
-            </html>''',
-
-            "react_component": '''import React{imports} from 'react';
+            </html>""",
+            "react_component": """import React{imports} from 'react';
 
             const {name} = ({props}) = > {{
             {state}
@@ -89,26 +83,24 @@ class CodeGenerator:
         );
         }};
 
-        export default {name};''',
-
-        "api_endpoint": '''@app.{method}('{path}')
+        export default {name};""",
+            "api_endpoint": '''@app.{method}('{path}')
         async def {name}({params}):
             """{description}"""
             {body}''',
-            }
+        }
 
     def _load_patterns(self) -> Dict[str, re.Pattern]:
         """Load regex patterns for code analysis."""
         return {
-            "function": re.compile(r'def\s+(\w+)\s*\(([^)]*)\)'),
-            "class": re.compile(r'class\s+(\w+)(?:\s*\(([^)]*)\))?:'),
-            "import": re.compile(r'(?:from\s+(\S+)\s+)?import\s+(.+)'),
-            "variable": re.compile(r'(\w+)\s *= \s*(.+)'),
-            "method_call": re.compile(r'(\w+)\.(\w+)\s*\('),
-            }
+            "function": re.compile(r"def\s+(\w+)\s*\(([^)]*)\)"),
+            "class": re.compile(r"class\s+(\w+)(?:\s*\(([^)]*)\))?:"),
+            "import": re.compile(r"(?:from\s+(\S+)\s+)?import\s+(.+)"),
+            "variable": re.compile(r"(\w+)\s *= \s*(.+)"),
+            "method_call": re.compile(r"(\w+)\.(\w+)\s*\("),
+        }
 
-    async def generate_from_description(
-        self, description: str, language: str = "python") -> Dict[str, str]:
+    async def generate_from_description(self, description: str, language: str = "python") -> Dict[str, str]:
         """Generate complete code from natural language description."""
         logger.info(f"Generating {language} code from description")
 
@@ -133,13 +125,7 @@ class CodeGenerator:
         """Analyze description to determine code type and requirements."""
         desc_lower = description.lower()
 
-        analysis = {
-            "type": "generic",
-            "features": [],
-            "framework": None,
-            "database": None,
-            "description": description
-        }
+        analysis = {"type": "generic", "features": [], "framework": None, "database": None, "description": description}
 
         # Detect type
         if any(word in desc_lower for word in ["web", "website", "webapp", "site"]):
@@ -186,8 +172,7 @@ class CodeGenerator:
 
         return analysis
 
-    async def _generate_web_app(
-        self, analysis: Dict[str, Any]) -> Dict[str, str]:
+    async def _generate_web_app(self, analysis: Dict[str, Any]) -> Dict[str, str]:
         """Generate a complete web application."""
         files = {}
 
@@ -196,27 +181,21 @@ class CodeGenerator:
 
         if framework == "flask":
             # Main app file
-            files["app.py"] = self._generate_flask_app(
-                analysis)
-            files["requirements.txt"] = self._generate_requirements(
-                ["flask"], analysis)
+            files["app.py"] = self._generate_flask_app(analysis)
+            files["requirements.txt"] = self._generate_requirements(["flask"], analysis)
 
             # Templates
-            files["templates/index.html"] = self._generate_html_template(
-                analysis)
+            files["templates/index.html"] = self._generate_html_template(analysis)
             files["templates/base.html"] = self._generate_base_template()
 
             # Static files
             files["static/style.css"] = self._generate_css()
-            files["static/script.js"] = self._generate_javascript(
-                analysis)
+            files["static/script.js"] = self._generate_javascript(analysis)
 
             # Database models if needed
             if "database" in analysis["features"]:
-                files["models.py"] = self._generate_models(
-                    analysis)
-                files["database.py"] = self._generate_database_setup(
-                    analysis)
+                files["models.py"] = self._generate_models(analysis)
+                files["database.py"] = self._generate_database_setup(analysis)
 
             # Authentication if needed
             if "authentication" in analysis["features"]:
@@ -226,70 +205,53 @@ class CodeGenerator:
 
         elif framework == "react":
             # React app structure
-            files["package.json"] = self._generate_package_json(
-                analysis)
-            files["src/App.js"] = self._generate_react_app(
-                analysis)
+            files["package.json"] = self._generate_package_json(analysis)
+            files["src/App.js"] = self._generate_react_app(analysis)
             files["src/index.js"] = self._generate_react_index()
             files["src/App.css"] = self._generate_react_css()
 
             # Components
-            files["src/components/Header.js"] = self._generate_react_component(
-                "Header")
-            files["src/components/Footer.js"] = self._generate_react_component(
-                "Footer")
+            files["src/components/Header.js"] = self._generate_react_component("Header")
+            files["src/components/Footer.js"] = self._generate_react_component("Footer")
 
             if "authentication" in analysis["features"]:
-                files["src/components/Login.js"] = self._generate_react_component(
-                    "Login", with_form=True)
-                files["src/components/Register.js"] = self._generate_react_component(
-                    "Register", with_form=True)
+                files["src/components/Login.js"] = self._generate_react_component("Login", with_form=True)
+                files["src/components/Register.js"] = self._generate_react_component("Register", with_form=True)
 
         # Add tests if requested
         if "testing" in analysis["features"]:
-            files["tests.py"] = self._generate_tests(
-                analysis)
+            files["tests.py"] = self._generate_tests(analysis)
 
         # Add README
-        files["README.md"] = self._generate_readme(
-            analysis)
+        files["README.md"] = self._generate_readme(analysis)
 
         self.generated_count += 1
         return files
 
-    async def _generate_api(
-        self, analysis: Dict[str, Any]) -> Dict[str, str]:
+    async def _generate_api(self, analysis: Dict[str, Any]) -> Dict[str, str]:
         """Generate a complete API."""
         files = {}
 
-        framework = analysis.get(
-            "framework", "fastapi")
+        framework = analysis.get("framework", "fastapi")
 
         if framework == "fastapi":
-            files["main.py"] = self._generate_fastapi_app(
-                analysis)
-            files["requirements.txt"] = self._generate_requirements(
-                ["fastapi", "uvicorn"], analysis)
-            files["models.py"] = self._generate_pydantic_models(
-                analysis)
+            files["main.py"] = self._generate_fastapi_app(analysis)
+            files["requirements.txt"] = self._generate_requirements(["fastapi", "uvicorn"], analysis)
+            files["models.py"] = self._generate_pydantic_models(analysis)
 
             if "database" in analysis["features"]:
-                files["database.py"] = self._generate_database_setup(
-                    analysis)
-                files["crud.py"] = self._generate_crud_operations(
-                    analysis)
+                files["database.py"] = self._generate_database_setup(analysis)
+                files["crud.py"] = self._generate_crud_operations(analysis)
 
             if "authentication" in analysis["features"]:
                 files["auth.py"] = self._generate_auth_api()
                 files["security.py"] = self._generate_security_module()
 
-        files["README.md"] = self._generate_api_readme(
-            analysis)
+        files["README.md"] = self._generate_api_readme(analysis)
 
         return files
 
-    async def _generate_script(
-        self, analysis: Dict[str, Any]) -> Dict[str, str]:
+    async def _generate_script(self, analysis: Dict[str, Any]) -> Dict[str, str]:
         """Generate a Python script."""
         files = {}
 
@@ -320,7 +282,7 @@ def main():
     # Process input
     input_path = Path(args.input)
     if not input_path.exists():
-        print(f"Error: {input_path} does not exist")
+        print(f"Error: {{input_path}} does not exist")
         return 1
     
     # Main logic here
@@ -334,7 +296,7 @@ def main():
 def process_file(file_path: Path, output: str, verbose: bool = False):
     """Process a single file."""
     if verbose:
-        print(f"Processing {file_path}")
+        print(f"Processing {{file_path}}")
     
     # Add processing logic here
     with open(file_path, 'r') as f:
@@ -348,7 +310,7 @@ def process_file(file_path: Path, output: str, verbose: bool = False):
         f.write(result)
     
     if verbose:
-        print(f"Output written to {output}")
+        print(f"Output written to {{output}}")
 
 def process_directory(dir_path: Path, output: str, verbose: bool = False):
     """Process all files in directory."""
@@ -377,40 +339,37 @@ def process_single_file(file_path: Path) -> str:
     try:
         with open(file_path, 'r') as f:
             content = f.read()
-            return f"{file_path}: {len(content)} bytes"
+            return f"{{file_path}}: {{len(content)}} bytes"
     except Exception as e:
-        return f"{file_path}: Error - {e}"
+        return f"{{file_path}}: Error - {{e}}"
 
 if __name__ == "__main__":
     sys.exit(main())
 '''
 
         files["script.py"] = script_content
-        files["requirements.txt"] = self._generate_requirements(
-            [], analysis)
-        
+        files["requirements.txt"] = self._generate_requirements([], analysis)
+
         if "testing" in analysis["features"]:
             files["test_script.py"] = self._generate_script_tests()
-        
+
         return files
 
-    async def _generate_class(
-        self, analysis: Dict[str, Any]) -> Dict[str, str]:
+    async def _generate_class(self, analysis: Dict[str, Any]) -> Dict[str, str]:
         """Generate a Python class."""
         # Extract class name from description
         words = analysis["description"].split()
-        class_name = "".join(
-            word.capitalize() for word in words[:2])
+        class_name = "".join(word.capitalize() for word in words[:2])
 
         class_code = self.templates["class"].format(
             name=class_name,
             description=analysis["description"],
             params=", name=None, **kwargs",
-    init_body='''        self.name = name or self.__class__.__name__
+            init_body="""        self.name = name or self.__class__.__name__
     self.created_at = datetime.now()
     self.attributes = kwargs
-    self._initialize()''',
-    methods='''    def _initialize(self):
+    self._initialize()""",
+            methods='''    def _initialize(self):
 """Initialize the object."""
     pass
 
@@ -435,12 +394,10 @@ def from_dict(cls, data):
     """Create from dictionary."""
     instance = cls(name = data.get("name"))
     instance.attributes = data.get("attributes", {})
-    return instance'''
-)
+    return instance''',
+        )
 
-        files = {
-            f"{class_name.lower()}.py": f"from datetime import datetime\n\n{class_code}"
-        }
+        files = {f"{class_name.lower()}.py": f"from datetime import datetime\n\n{class_code}"}
 
         return files
 
@@ -602,7 +559,9 @@ if __name__ == "__main__":
 
         files["game.py"] = game_code
         files["requirements.txt"] = "pygame>=2.0.0\n"
-        files["README.md"] = f"""# {analysis["description"]}
+        files[
+            "README.md"
+        ] = f"""# {analysis["description"]}
 
 A simple game created by Think AI.
 
@@ -642,7 +601,7 @@ if __name__ == "__main__":
             files["main.py"] = code
 
         elif language == "javascript":
-            code = f'''/**
+            code = f"""/**
  * {analysis["description"]}
  * Generated by Think AI
  */
@@ -653,7 +612,7 @@ function main() {{
 }}
 
 main();
-'''
+"""
             files["main.js"] = code
 
         elif language == "html":
@@ -661,7 +620,7 @@ main();
                 title=analysis["description"],
                 styles="<style>body { font-family: Arial, sans-serif; }</style>",
                 content=f"<h1>{analysis['description']}</h1>\n<p>Generated by Think AI</p>",
-                scripts=""
+                scripts="",
             )
             files["index.html"] = code
 
@@ -692,17 +651,17 @@ main();
 '''
 
         if "database" in analysis["features"]:
-            code += '''
+            code += """
 # Database configuration
         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize database
         init_db(app)
-'''
+"""
 
         if "authentication" in analysis["features"]:
-            code += '''
+            code += """
 # Authentication setup
         login_manager = LoginManager()
         login_manager.init_app(app)
@@ -710,7 +669,7 @@ main();
 
 # Register authentication blueprint
         app.register_blueprint(auth_bp, url_prefix = '/auth')
-'''
+"""
 
         code += '''
         @app.route('/')
@@ -787,13 +746,13 @@ main();
         features_html = ""
 
         if "authentication" in analysis["features"]:
-            features_html += '''
+            features_html += """
         < div class = "auth-section" >
         < a href = "/auth/login" > Login < / a > |
         < a href = "/auth/register" > Register < / a >
-        </div>'''
+        </div>"""
 
-        return f'''<!DOCTYPE html>'
+        return f"""<!DOCTYPE html>'
         < html lang = "en" >
         < head >
         < meta charset = "UTF-8" >
@@ -814,11 +773,11 @@ main();
 
         < script src = "/static/script.js" > < / script >
         < / body >
-        </html>'''
+        </html>"""
 
     def _generate_base_template(self) -> str:
         """Generate base template for template inheritance."""
-        return '''<!DOCTYPE html>
+        return """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -860,11 +819,11 @@ main();
 
 {% block extra_js %}{% endblock %}
 </body>
-</html>'''
+</html>"""
 
     def _generate_css(self) -> str:
         """Generate CSS styles."""
-        return '''/* Think AI Generated Styles */
+        return """/* Think AI Generated Styles */
 
 * {
     margin: 0;
@@ -1017,11 +976,11 @@ body {
     .container {
         padding: 10px;
     }
-}'''
+}"""
 
     def _generate_javascript(self, analysis: Dict[str, Any]) -> str:
         """Generate JavaScript code."""
-        js_code = '''// Think AI Generated JavaScript
+        js_code = """// Think AI Generated JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Think AI App loaded!'); // Initialize app
@@ -1070,10 +1029,10 @@ class App {
                 </div>
             `;
         }
-    }'''
+    }"""
 
         if "realtime" in analysis["features"]:
-            js_code += '''
+            js_code += """
 
     connectWebSocket() {
         const socket = io();
@@ -1093,9 +1052,9 @@ class App {
         if (updates) {
             updates.innerHTML += `<p>${data.message}</p>`;
         }
-    }'''
+    }"""
 
-        js_code += '''
+        js_code += """
 } // End of App class
 
 // Utility functions
@@ -1114,7 +1073,7 @@ function showNotification(message, type = 'info') {
     setTimeout(() => {
         notification.remove();
     }, 3000);
-}'''
+}"""
 
         return js_code
 
@@ -1308,7 +1267,7 @@ def logout():
 
     def _generate_login_template(self) -> str:
         """Generate login template."""
-        return '''{% extends "base.html" %}
+        return """{% extends "base.html" %}
 
 {% block title %}Login - Think AI{% endblock %}
 
@@ -1341,11 +1300,11 @@ def logout():
         </form>
     </div>
 </div>
-{% endblock %}'''
+{% endblock %}"""
 
     def _generate_register_template(self) -> str:
         """Generate registration template."""
-        return '''{% extends "base.html" %}
+        return """{% extends "base.html" %}
 
 {% block title %}Register - Think AI{% endblock %}
 
@@ -1382,15 +1341,11 @@ def logout():
         </form>
     </div>
 </div>
-{% endblock %}'''
+{% endblock %}"""
 
     def _generate_package_json(self, analysis: Dict[str, Any]) -> str:
         """Generate package.json for React app."""
-        dependencies = {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-scripts": "5.0.1"
-        }
+        dependencies = {"react": "^18.2.0", "react-dom": "^18.2.0", "react-scripts": "5.0.1"}
 
         if "authentication" in analysis["features"]:
             dependencies["react-router-dom"] = "^6.0.0"
@@ -1399,37 +1354,38 @@ def logout():
         if "realtime" in analysis["features"]:
             dependencies["socket.io-client"] = "^4.0.0"
 
-        return json.dumps({
-        "name": "think-ai-react-app",
-        "version": "0.1.0",
-        "private": True,
-        "dependencies": dependencies,
-        "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
-        },
-        "eslintConfig": {
-        "extends": ["react-app", "react-app/jest"]
-        },
-        "browserslist": {
-        "production": [">0.2%", "not dead", "not op_mini all"],
-        "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
-        }
-        }, indent=2)
+        return json.dumps(
+            {
+                "name": "think-ai-react-app",
+                "version": "0.1.0",
+                "private": True,
+                "dependencies": dependencies,
+                "scripts": {
+                    "start": "react-scripts start",
+                    "build": "react-scripts build",
+                    "test": "react-scripts test",
+                    "eject": "react-scripts eject",
+                },
+                "eslintConfig": {"extends": ["react-app", "react-app/jest"]},
+                "browserslist": {
+                    "production": [">0.2%", "not dead", "not op_mini all"],
+                    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"],
+                },
+            },
+            indent=2,
+        )
 
     def _generate_react_app(self, analysis: Dict[str, Any]) -> str:
         """Generate React App.js."""
         imports = ["import React, { useState, useEffect } from 'react';"]
         imports.append("import './App.css';")
-        
+
         if "authentication" in analysis["features"]:
             imports.append("import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';")
             imports.append("import Login from './components/Login';")
             imports.append("import Register from './components/Register';")
-        
-        code = f'''{chr(10).join(imports)}
+
+        code = f"""{chr(10).join(imports)}
 
 
 function App() {{
@@ -1467,32 +1423,32 @@ function App() {{
                         {{data && <p>{{data.message}}</p>}}
                     </div>
                 )}}
-'''
+"""
 
         if "authentication" in analysis["features"]:
-            code += '''
+            code += """
                 <Router>
                     <Routes>
                         <Route path="/login" element={{<Login />}} />
                         <Route path="/register" element={{<Register />}} />
                     </Routes>
                 </Router>
-'''
+"""
 
-        code += '''            </main>
+        code += """            </main>
 
             <Footer />
         </div>
     );
 }}
 
-export default App;'''
+export default App;"""
 
         return code
 
     def _generate_react_index(self) -> str:
         """Generate React index.js."""
-        return '''import React from 'react';
+        return """import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
@@ -1501,11 +1457,11 @@ root.render(
     <React.StrictMode>
         <App />
     </React.StrictMode>
-);'''
+);"""
 
     def _generate_react_css(self) -> str:
         """Generate React App.css."""
-        return '''.App {
+        return """.App {
     text-align: center;
     min-height: 100vh;
     display: flex;
@@ -1543,12 +1499,12 @@ button {
 
 button:hover {
     background-color: #4fa8c5;
-}'''
+}"""
 
     def _generate_react_component(self, name: str, with_form: bool = False) -> str:
         """Generate a React component."""
         if with_form:
-            jsx = '''        <div className="form-container">
+            jsx = """        <div className="form-container">
             <h2>{name}</h2>
             <form onSubmit={handleSubmit}>
                 <input
@@ -1567,21 +1523,21 @@ button:hover {
                 />
                 <button type="submit">Submit</button>
             </form>
-        </div>'''
+        </div>"""
 
-            state = '''const [username, setUsername] = useState('');
-const [password, setPassword] = useState('');'''
+            state = """const [username, setUsername] = useState('');
+const [password, setPassword] = useState('');"""
 
-            effects = '''
+            effects = """
 const handleSubmit = (e) => {
     e.preventDefault(); // Handle form submission
     console.log('Form submitted:', { username, password });
-};'''
+};"""
         else:
-            jsx = f'''        <div className="{name.lower()}">
+            jsx = f"""        <div className="{name.lower()}">
             <h2>{{name}}</h2>
             <p>This is the {{name}} component.</p>
-        </div>'''
+        </div>"""
             state = ""
             effects = ""
 
@@ -1591,7 +1547,7 @@ const handleSubmit = (e) => {
             props="{ name='" + name + "' }",
             state=state,
             effects=effects,
-            jsx=jsx
+            jsx=jsx,
         )
 
     def _generate_fastapi_app(self, analysis: Dict[str, Any]) -> str:
@@ -1636,10 +1592,10 @@ app.add_middleware(
 '''
 
         if "database" in analysis["features"]:
-            code += '''
+            code += """
 # Create database tables
 Base.metadata.create_all(bind=engine)
-'''
+"""
 
         code += '''
 # Root endpoint
@@ -2293,7 +2249,7 @@ def test_process_directory():
         """Generate README.md file."""
         features_list = "\n".join([f"- {feature.title()}" for feature in analysis["features"]])
 
-        return f'''# {analysis['description']}
+        return f"""# {analysis['description']}
 
 This project was automatically generated by Think AI.
 
@@ -2367,11 +2323,11 @@ MIT
 ---
 
 Generated with ❤️ by Think AI
-'''
+"""
 
     def _generate_api_readme(self, analysis: Dict[str, Any]) -> str:
         """Generate README for API project."""
-        return f'''# {analysis['description']}
+        return f"""# {analysis['description']}
 
 FastAPI application generated by Think AI.
 
@@ -2434,7 +2390,7 @@ Ready for deployment on:
 ---
 
 Generated by Think AI with 🧠 and ☕
-'''
+"""
 
     def generate_code_improvements(self, code: str, language: str = "python") -> str:
         """Generate improvements for existing code."""
@@ -2442,26 +2398,26 @@ Generated by Think AI with 🧠 and ☕
 
         if language == "python":
             # Check for missing docstrings
-            if 'def ' in code and '"""' not in code:
+            if "def " in code and '"""' not in code:
                 improvements.append("Add docstrings to functions")
-            
+
             # Check for type hints
-            if 'def ' in code and '->' not in code:
+            if "def " in code and "->" not in code:
                 improvements.append("Add type hints")
-            
+
             # Check for error handling
-            if 'try:' not in code and 'except' not in code:
+            if "try:" not in code and "except" not in code:
                 improvements.append("Add error handling")
-            
+
             # Check for logging
-            if 'logging' not in code and 'logger' not in code:
+            if "logging" not in code and "logger" not in code:
                 improvements.append("Add logging")
-            
+
             # Generate improved code
             improved_code = self._add_improvements(code, improvements)
-            
+
             return improved_code
-        
+
         return code
 
     def _add_improvements(self, code: str, improvements: List[str]) -> str:
@@ -2470,31 +2426,23 @@ Generated by Think AI with 🧠 and ☕
 
         if "Add docstrings" in improvements:
             # Add docstrings to functions
-            improved = re.sub(
-                r'def (\w+)\((.*?)\):',
-                r'def \1(\2):\n    """TODO: Add docstring."""',
-                improved
-            )
+            improved = re.sub(r"def (\w+)\((.*?)\):", r'def \1(\2):\n    """TODO: Add docstring."""', improved)
 
         if "Add type hints" in improvements:
             # Add basic type hints
-            improved = re.sub(
-                r'def (\w+)\((.*?)\):',
-                r'def \1(\2) -> None:',
-                improved
-            )
+            improved = re.sub(r"def (\w+)\((.*?)\):", r"def \1(\2) -> None:", improved)
 
         if "Add error handling" in improvements:
             # Wrap main code in try-except
-            lines = improved.split('\n')
-            main_index = next((i for i, line in enumerate(lines) if 'if __name__' in line), -1)
-            
+            lines = improved.split("\n")
+            main_index = next((i for i, line in enumerate(lines) if "if __name__" in line), -1)
+
             if main_index > 0:
                 lines.insert(main_index + 1, "    try:")
                 lines.append("    except Exception as e:")
                 lines.append('        logger.error(f"Error: {e}")')
                 lines.append("        sys.exit(1)")
-            improved = '\n'.join(lines)
+            improved = "\n".join(lines)
 
         if "Add logging" in improvements:
             # Add logging import and setup
@@ -2507,34 +2455,36 @@ Generated by Think AI with 🧠 and ☕
 async def demo_code_generator():
     """Demonstrate code generation."""
     generator = CodeGenerator()
-    
+
     # Generate different types of applications
     descriptions = [
         "Create a web application with user authentication and database",
         "Build a REST API for managing products with CRUD operations",
         "Make a simple game where players collect coins",
         "Create a Python script that processes CSV files",
-        "Build a task management system with real-time updates"
+        "Build a task management system with real-time updates",
     ]
-    
+
     for desc in descriptions:
         print(f"\n{'='*60}")
         print(f"Generating: {desc}")
-        print('=' * 60)
-        
+        print("=" * 60)
+
         files = await generator.generate_from_description(desc)
-        
+
         print(f"\nGenerated {len(files)} files:")
         for filename in sorted(files.keys()):
             print(f" - {filename}")
-        
+
         # Show a sample of the main file
-        main_file = next((f for f in files.keys() if 'main' in f or 'app' in f), None)
+        main_file = next((f for f in files.keys() if "main" in f or "app" in f), None)
         if main_file:
             print(f"\nSample from {main_file}:")
             print("-" * 40)
             print(files[main_file][:500] + "...")
 
+
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(demo_code_generator())

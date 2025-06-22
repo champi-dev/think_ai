@@ -4,13 +4,13 @@ import os
 import sys
 import time
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 import lz4.frame
 import numpy as np
 
 from o1_vector_search import O1VectorSearch
 from vector_search_adapter import VectorSearchAdapter
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 class TestFastVector:
