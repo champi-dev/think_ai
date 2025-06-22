@@ -1,0 +1,30 @@
+# Distroless approach - No OS, just Python
+FROM python:3.11-slim as builder
+
+WORKDIR /app
+COPY requirements-hypercache.txt .
+RUN pip install --no-cache-dir --target=/app fastapi uvicorn
+
+# Remove unnecessary files from dependencies
+RUN find /app -name "*.pyc" -delete && \
+    find /app -name "*.pyo" -delete && \
+    find /app -name "test*" -type d -exec rm -rf {} + 2>/dev/null || true && \
+    find /app -name "tests" -type d -exec rm -rf {} + 2>/dev/null || true && \
+    find /app -name "*.dist-info" -type d -exec rm -rf {} + 2>/dev/null || true && \
+    find /app -name "*.egg-info" -type d -exec rm -rf {} + 2>/dev/null || true
+
+COPY railway_fast_start.py .
+
+# Compile everything
+RUN python -m compileall -b /app
+
+# Use distroless Python image (much smaller)
+FROM gcr.io/distroless/python3-debian11
+
+WORKDIR /app
+COPY --from=builder /app /app
+
+ENV PYTHONPATH=/app
+EXPOSE 8080
+
+ENTRYPOINT ["python", "/app/railway_fast_start.pyc"]

@@ -1,0 +1,10 @@
+# Go binary Dockerfile - 5MB total
+FROM golang:1.21-alpine as builder
+WORKDIR /build
+COPY railway_fast_start.go .
+RUN go build -ldflags="-s -w" -o server railway_fast_start.go
+
+FROM scratch
+COPY --from=builder /build/server /
+EXPOSE 8080
+ENTRYPOINT ["/server"]

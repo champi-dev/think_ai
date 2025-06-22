@@ -42,14 +42,20 @@ try:
         if hasattr(config_auto, "replace_list_option_in_docstrings"):
             original_decorator = config_auto.replace_list_option_in_docstrings
             
-            def safe_replace_list_option_in_docstrings():
+            def safe_replace_list_option_in_docstrings(_model_mapping=None, use_model_types=None):
                 def decorator(fn):
                     if fn is None or (hasattr(fn, '__doc__') and fn.__doc__ is None):
                         # Return a no-op decorator for functions without docstrings
                         return lambda f: f
                     try:
-                        return original_decorator()(fn)
-                    except AttributeError:
+                        # Call original with all possible arguments
+                        if use_model_types is not None:
+                            return original_decorator(_model_mapping, use_model_types=use_model_types)(fn)
+                        elif _model_mapping is not None:
+                            return original_decorator(_model_mapping)(fn)
+                        else:
+                            return original_decorator()(fn)
+                    except (AttributeError, TypeError):
                         return fn
                 return decorator
             

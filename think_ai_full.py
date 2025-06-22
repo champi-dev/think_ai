@@ -8,9 +8,12 @@ from pathlib import Path
 
 
 # CRITICAL: Force lightweight deps in Railway to avoid transformers issues
-os.environ["THINK_AI_USE_LIGHTWEIGHT"] = "true"
-# Speed up Railway initialization by skipping heavy components
-os.environ["THINK_AI_MINIMAL_INIT"] = "true"
+# Only use lightweight if explicitly set in environment
+if os.environ.get("THINK_AI_USE_LIGHTWEIGHT", "false").lower() == "true":
+    os.environ["THINK_AI_USE_LIGHTWEIGHT"] = "true"
+# Only use minimal init if explicitly set
+if os.environ.get("THINK_AI_MINIMAL_INIT", "false").lower() == "true":
+    os.environ["THINK_AI_MINIMAL_INIT"] = "true"
 
 # CRITICAL: Apply transformers patch BEFORE any imports
 def patch_transformers():
