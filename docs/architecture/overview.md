@@ -36,17 +36,20 @@ Think of Think AI like a modern hospital:
 
 ## 🧩 Core Components
 
-### 1. API Gateway
-**What it does**: Entry point for all requests
+### 1. API Gateway & Process Manager
+**What it does**: Entry point for all requests with intelligent routing
 ```
-Client Request → API Gateway → Route to appropriate service
+Client Request → Process Manager → Route to appropriate service
 ```
 
 **Key features**:
+- Python-based reverse proxy (process_manager.py)
+- Routes /api/* to backend API (port 8080)
+- Routes /* to webapp (port 3000)
+- Single PORT exposure for Railway deployment
+- Health check monitoring
 - Request validation
-- Rate limiting
-- Authentication
-- Load balancing
+- Authentication handling
 
 ### 2. Consciousness Engine
 **What it does**: The "thinking" part of Think AI
@@ -104,7 +107,8 @@ Plugin Request → Load Plugin → Execute → Return Results
 ┌─────────────────────────────────────────┐
 │          Client Applications            │
 ├─────────────────────────────────────────┤
-│             API Gateway                 │
+│         Process Manager (Python)        │
+│     Routes to API & Web Services        │
 ├─────────────────────────────────────────┤
 │         Business Logic Layer            │
 │  ┌─────────────┐  ┌─────────────────┐  │
@@ -126,10 +130,11 @@ Plugin Request → Load Plugin → Execute → Return Results
 ### Layer Responsibilities
 
 #### 1. **Presentation Layer**
-- RESTful API
+- RESTful API (FastAPI)
 - WebSocket connections
-- GraphQL endpoint
+- Next.js web application
 - CLI interface
+- Process Manager routing
 
 #### 2. **Business Logic Layer**
 - Request processing
@@ -144,10 +149,12 @@ Plugin Request → Load Plugin → Execute → Return Results
 - Transaction management
 
 #### 4. **Infrastructure Layer**
-- Service discovery
-- Load balancing
-- Monitoring
+- Process management (process_manager.py)
+- Docker containerization
+- Railway deployment configuration
+- Health monitoring
 - Security
+- Optimized base image caching
 
 ## 🔄 Data Flow
 
@@ -187,19 +194,20 @@ final_response = {
 ```
 User Input
     ↓
-[API Gateway]
+[Process Manager] (Railway PORT)
     ↓
-[Load Balancer] → [Server Instance]
-    ↓
-[Request Handler]
-    ↓
-[Consciousness Engine] ← → [Vector Database]
-    ↓                          ↑
-[Plugin System]                │
-    ↓                          │
-[Response Generator] ← ← ← ← ← ┘
-    ↓
-[Client Response]
+[Route Decision]
+    ├───→ /api/* → [API Server :8080]
+    │                     ↓
+    │              [Consciousness Engine] ← → [Vector Database]
+    │                     ↓                          ↑
+    │              [Plugin System]                   │
+    │                     ↓                          │
+    │              [Response Generator] ← ← ← ← ← ← ┘
+    │                     ↓
+    └───→ /* → [Web App :3000]
+                      ↓
+              [Client Response]
 ```
 
 ## 🔗 Component Interactions
@@ -276,21 +284,23 @@ class PluginManager:
 
 #### 1. **Service Scaling**
 ```yaml
-# Kubernetes deployment example
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: think-ai-api
-spec:
-  replicas: 3  # Start with 3, scale as needed
-  template:
-    spec:
-      containers:
-      - name: api
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
+# Railway deployment with process manager
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "startCommand": "python process_manager.py",
+    "environmentVariables": {
+      "PORT": "${{PORT}}",
+      "API_PORT": "8080",
+      "WEBAPP_PORT": "3000"
+    }
+  }
+}
 ```
 
 #### 2. **Database Scaling**
@@ -383,12 +393,18 @@ class PrefetchManager:
 
 ## 🏛️ Architecture Patterns
 
-### 1. **Microservices Pattern**
-Each major component runs as independent service:
-- Consciousness Service
-- Vector DB Service
-- Training Service
-- Plugin Service
+### 1. **Multi-Service Container Pattern**
+All services run in a single container with process orchestration:
+- API Service (FastAPI on port 8080)
+- Web Service (Next.js on port 3000)
+- Process Manager (Python reverse proxy)
+- Shared resources and optimized caching
+
+**Benefits**:
+- Simplified deployment on Railway
+- Single PORT exposure
+- Efficient resource usage
+- Fast inter-service communication
 
 ### 2. **Event Sourcing**
 All state changes are stored as events:

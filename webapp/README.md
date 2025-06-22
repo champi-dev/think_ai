@@ -12,34 +12,26 @@ Award-winning web interface with stunning Three.js animations and real-time cons
 
 ## Quick Start
 
-### 1. Install Dependencies
+### Option 1: Full System (Recommended)
 
 ```bash
-# Go server dependencies
-cd server
-go mod download
+# Start both API and webapp with process manager
+python process_manager.py
 
-# Webapp dependencies
-cd ../webapp
-npm install
+# Or use the full system starter
+python start_full_system.py
 ```
 
-### 2. Start Services
+### Option 2: Individual Services
 
 ```bash
-# Start Think AI core services
-docker-compose up -d
+# Start API server
+python start_with_patch.py
 
-# Start Think AI background service
-python -m think_ai.core.background_service
-
-# Start Go API server
-cd server
-go run cmd/api/main.go
-
-# Start webapp development server
+# In another terminal, start webapp
 cd webapp
-npm run dev
+npm run dev  # Development
+npm start    # Production
 ```
 
 ### 3. Access the Application
@@ -48,23 +40,38 @@ Open http://localhost:3000 in your browser.
 
 ## Production Deployment
 
-### System Services
+### Railway Deployment (Recommended)
 
 ```bash
-# Install and enable services
-sudo ./scripts/install_webapp_services.sh
+# Deploy full system to Railway
+railway login
+railway link
+railway up
 
-# Services will auto-start on boot
-sudo systemctl status think-ai-core
-sudo systemctl status think-ai-api
+# The deployment includes:
+# - API server on internal port 8080
+# - Webapp on internal port 3000
+# - Process manager routing on Railway's PORT
 ```
 
-### Vercel Deployment
+### Docker Deployment
 
 ```bash
+# Build and run with Docker
+docker build -t think-ai:latest .
+docker run -p 8080:8080 think-ai:latest
+```
+
+### Manual Deployment
+
+```bash
+# Build webapp for production
 cd webapp
 npm run build
-vercel deploy --prod
+
+# Start production servers
+cd ..
+python process_manager.py
 ```
 
 ## Architecture
@@ -97,12 +104,25 @@ vercel deploy --prod
 
 ### Environment Variables
 
+#### Development
 Create `.env.local` in webapp directory:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8080
 NEXT_PUBLIC_WS_URL=ws://localhost:8080
 ```
+
+#### Production (Railway/Docker)
+Create `.env.production` in webapp directory:
+
+```env
+# Production environment variables for Railway deployment
+NEXT_PUBLIC_API_URL=/api/v1
+NEXT_PUBLIC_WS_URL=/api/v1/ws
+NODE_ENV=production
+```
+
+Note: In production, the webapp uses relative URLs to communicate with the API through the process manager's reverse proxy.
 
 ## Performance Optimizations
 

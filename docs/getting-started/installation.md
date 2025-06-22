@@ -100,12 +100,37 @@ pip install -r requirements-dev.txt
 Think of Docker as a pre-built house - everything's already set up:
 
 ```bash
-# Pull the image (download pre-built Think AI)
-docker pull thinkaiorg/think-ai:latest
+# Option 1: Use the optimized base image
+docker pull devsarmico/think-ai-base:optimized
 
-# Run it
-docker run -p 8000:8000 thinkaiorg/think-ai:latest
+# Option 2: Build and run the full system
+git clone https://github.com/champi-dev/think_ai.git
+cd think_ai
+docker build -t think-ai:latest .
+docker run -p 8080:8080 think-ai:latest
 ```
+
+### Method 5: Railway Deployment (Recommended for Production)
+
+Deploy the full system with one command:
+
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Deploy to Railway
+railway login
+railway link
+railway up
+
+# Your app will be live at https://your-app.railway.app
+```
+
+The Railway deployment includes:
+- API server with O(1) performance
+- Web interface with 3D visualizations
+- Process manager for optimal routing
+- Automatic health monitoring
 
 ## ✅ Verify Installation
 
@@ -207,13 +232,23 @@ Congratulations! Think AI is installed. Here's what to do next:
 ### 1. **Try Your First Conversation**
    → [Quick Start Tutorial](./quickstart.md)
 
-### 2. **Understand How It Works**
+### 2. **Run the Full System Locally**
+   ```bash
+   # Start both API and webapp
+   python process_manager.py
+   # Visit http://localhost:8080
+   ```
+
+### 3. **Understand How It Works**
    → [Core Concepts](./concepts.md)
 
-### 3. **Explore Features**
+### 4. **Explore Features**
    → [Basic Usage Guide](../guides/basic-usage.md)
 
-### 4. **Join the Community**
+### 5. **Deploy to Production**
+   → [Railway Deployment Guide](../../RAILWAY_DEPLOYMENT_GUIDE.md)
+
+### 6. **Join the Community**
    → [GitHub Discussions](https://github.com/champi-dev/think_ai/discussions)
 
 ## 📚 Related Documentation

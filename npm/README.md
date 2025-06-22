@@ -1,9 +1,12 @@
 # Think AI - NPM Package 🧠
 
+**Version:** 2.0.1 | **Last Updated:** December 22, 2024
+
 > Distributed AGI Architecture with exponential intelligence growth, O(1) complexity, and autonomous evolution
 
 [![npm version](https://img.shields.io/npm/v/think-ai-js.svg)](https://www.npmjs.com/package/think-ai-js)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Railway Deploy](https://img.shields.io/badge/Deploy-Railway-purple)](https://railway.app)
 
 ## 🆕 Version 2.0.0 Updates
 - ✅ **Exponential Intelligence Growth** - Self-training from 1,000 to 1,000,000+ IQ
@@ -71,7 +74,7 @@ await ai.startBackgroundTraining();
 
 ```typescript
 const ai = new ThinkAI({
-  serverUrl: 'http://localhost:8000',  // Think AI server
+  serverUrl: 'http://localhost:8080',  // Think AI server (updated port)
   colombianMode: true,                 // Enable Colombian expressions
   autoTrain: true,                     // Auto-start self-training
   enableWebSocket: true,               // Real-time updates
@@ -322,6 +325,23 @@ Think AI uses a distributed O(1) architecture for exponential growth:
 - Optional: GPU for enhanced performance (NVIDIA/AMD/Apple Silicon)
 - Optional: Claude API key for enhanced reasoning
 
+## Integration with Railway Deployment
+
+The npm package seamlessly integrates with Railway-deployed Think AI:
+
+```javascript
+// Environment-based configuration
+const ai = new ThinkAI({
+  serverUrl: process.env.THINK_AI_URL || 'http://localhost:8080',
+  apiKey: process.env.THINK_AI_API_KEY,
+  enableWebSocket: true
+});
+
+// Health check
+const health = await ai.checkHealth();
+console.log('Server status:', health.status);
+```
+
 ## Running Think AI Server
 
 ### Quick Start (Recommended)
@@ -331,9 +351,21 @@ Think AI uses a distributed O(1) architecture for exponential growth:
 git clone https://github.com/champi-dev/think_ai.git
 cd think_ai
 
-# Run with background training (5 parallel tests)
-python launch_with_background_training.py
-# Choose option 1 to start all tests and launch chat
+# Run full system with process manager
+python process_manager.py
+# Services available at http://localhost:8080
+```
+
+### Railway Deployment (Production)
+
+```bash
+# Deploy to Railway with one command
+railway login
+railway link
+railway up
+
+# Your instance will be available at:
+# https://your-app.railway.app
 ```
 
 ### Google Colab Deployment
@@ -346,15 +378,31 @@ python launch_with_background_training.py
 
 ### Production Deployment
 
+#### Railway (Recommended)
+```javascript
+// Configure client for Railway deployment
+const ai = new ThinkAI({
+  serverUrl: 'https://your-app.railway.app/api/v1',
+  enableWebSocket: true,
+  timeout: 30000
+});
+```
+
+#### Docker
 ```bash
-# Install system dependencies
-./scripts/install_databases.sh
+# Use optimized Docker image
+docker pull devsarmico/think-ai-base:optimized
+docker run -p 8080:8080 think-ai:latest
+```
 
-# Start all services
-docker-compose up -d
+#### Local Development
+```bash
+# Start with process manager
+python process_manager.py
 
-# Install as system service
-sudo python scripts/install_service.py
+# Or start individual services
+python start_with_patch.py  # API server
+cd webapp && npm start      # Web interface
 ```
 
 ## License
