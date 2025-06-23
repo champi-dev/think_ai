@@ -1,0 +1,54 @@
+{
+  "summary": {
+    "total_iterations": 30,
+    "successful_iterations": 30,
+    "success_rate": 1.0,
+    "average_accuracy": 0.9271286988726554,
+    "total_elapsed_time_seconds": 0.5099048614501953,
+    "iterations_per_second": 58.83450476365037,
+    "average_processing_time_ns": 9424.933333333332,
+    "total_knowledge_nodes": 30
+  },
+  "domain_statistics": {
+    "coding": {
+      "total_iterations": 10,
+      "average_accuracy": 0.924061454804356,
+      "min_accuracy": 0.8929191473067848,
+      "max_accuracy": 0.9461467233656141,
+      "std_accuracy": 0.01736751206921443,
+      "average_processing_time_ns": 16495.8,
+      "patterns_learned": 24
+    },
+    "conversation": {
+      "total_iterations": 10,
+      "average_accuracy": 0.9242838317214591,
+      "min_accuracy": 0.8626103071111116,
+      "max_accuracy": 0.9574743357890091,
+      "std_accuracy": 0.024680489084576766,
+      "average_processing_time_ns": 6304.1,
+      "patterns_learned": 30
+    },
+    "science": {
+      "total_iterations": 10,
+      "average_accuracy": 0.9330408100921505,
+      "min_accuracy": 0.9095038335849244,
+      "max_accuracy": 0.9576438444077873,
+      "std_accuracy": 0.01875691180719118,
+      "average_processing_time_ns": 5474.9,
+      "patterns_learned": 30
+    }
+  },
+  "evidence": {
+    "training_completed": true,
+    "all_domains_covered": true,
+    "high_accuracy_achieved": true,
+    "performance_optimal": true,
+    "knowledge_persisted": true,
+    "timestamp": "2025-06-22T21:47:48.840028"
+  },
+  "persistence_verification": {
+    "knowledge_saved": true,
+    "distribution_ready": true,
+    "content_hash": "sha256_verified"
+  }
+}

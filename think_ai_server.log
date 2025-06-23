@@ -44,3 +44,66 @@ INFO:     127.0.0.1:58522 - "POST /api/v1/generate HTTP/1.1" 200 OK
 INFO:     127.0.0.1:58525 - "POST /api/v1/generate HTTP/1.1" 200 OK
 INFO:     127.0.0.1:58527 - "POST /api/v1/generate HTTP/1.1" 200 OK
 INFO:     127.0.0.1:58529 - "POST /api/v1/generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     ('127.0.0.1', 58588) - "WebSocket /api/v1/ws" 403
+INFO:     connection rejected (403 Forbidden)
+INFO:     connection closed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58590 - "GET /api/v1/intelligence HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58590 - "POST /api/v1/chat HTTP/1.1" 404 Not Found
+INFO:     ('127.0.0.1', 58592) - "WebSocket /api/v1/ws" 403
+INFO:     connection rejected (403 Forbidden)
+INFO:     connection closed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58590 - "GET /api/v1/intelligence HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58598 - "GET /api/v1/intelligence HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     ('127.0.0.1', 58600) - "WebSocket /api/v1/ws" 403
+INFO:     connection rejected (403 Forbidden)
+INFO:     connection closed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58598 - "GET /api/v1/intelligence HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:58584 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59651 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59651 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+2025-06-22 21:51:53,225 - __main__ - WARNING - Health check failed: 'coroutine' object has no attribute 'get'
+INFO:     127.0.0.1:59651 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59657 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59657 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59657 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59657 - "OPTIONS /api/v1/generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59657 - "POST /api/v1/generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59657 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59662 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59662 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59668 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59668 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     ('127.0.0.1', 59672) - "WebSocket /api/v1/ws" 403
+INFO:     connection rejected (403 Forbidden)
+INFO:     connection closed
+INFO:     127.0.0.1:59676 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59676 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59680 - "OPTIONS /api/v1/chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59680 - "POST /api/v1/chat HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59676 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59680 - "GET /api/v1/intelligence HTTP/1.1" 404 Not Found
+INFO:     ('127.0.0.1', 59682) - "WebSocket /api/v1/ws" 403
+INFO:     connection rejected (403 Forbidden)
+INFO:     connection closed
+INFO:     127.0.0.1:59686 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:59686 - "HEAD /health HTTP/1.1" 405 Method Not Allowed
