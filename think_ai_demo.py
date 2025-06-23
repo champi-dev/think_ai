@@ -18,7 +18,7 @@ class ThinkAIDemo:
 
     def __init__(self):
         self.config = {
-            "model": "mistralai/Mistral-7B-v0.1",
+            "model": "Qwen/Qwen2.5-7B-Instruct",
             "app_name": "Think AI",
             "version": "2.1.0",
             "colombian_mode": True,

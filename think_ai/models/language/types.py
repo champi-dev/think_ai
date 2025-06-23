@@ -22,6 +22,7 @@ class GenerationConfig:
     pass  # TODO: Implement
     """Configuration for text generation."""
 
+    max_tokens: int = 200
     max_length: int = 200
     temperature: float = 0.7
     top_p: float = 0.9
@@ -34,11 +35,31 @@ class GenerationConfig:
     pad_token_id: Optional[int] = None
     eos_token_id: Optional[int] = None
     use_cache: bool = True
+    stream: bool = False
 
     # Colombian AI enhancements
     creativity_boost: float = 1.15  # 15% creativity increase
     cultural_awareness: bool = True
     warmth_factor: float = 0.95
+
+    def get_valid_generation_params(self) -> Dict[str, Any]:
+        """Get valid generation parameters for transformers."""
+        # Map common parameter names
+        params = {
+            "max_new_tokens": self.max_tokens,
+            "temperature": self.temperature,
+            "top_p": self.top_p,
+            "top_k": self.top_k,
+            "do_sample": self.do_sample,
+            "repetition_penalty": self.repetition_penalty,
+            "length_penalty": self.length_penalty,
+            "num_beams": self.num_beams,
+            "early_stopping": self.early_stopping,
+            "use_cache": self.use_cache,
+        }
+        
+        # Remove None values
+        return {k: v for k, v in params.items() if v is not None}
 
 
 @dataclass
@@ -47,13 +68,14 @@ class ModelResponse:
     """Response from language model."""
 
     text: str
-    prompt: str
     tokens_generated: int
-    generation_time_ms: float
+    generation_time: float
+    metadata: Dict[str, Any] = None
+    prompt: Optional[str] = None
+    generation_time_ms: Optional[float] = None
     cached: bool = False
     safety_score: Optional[float] = None
     love_score: Optional[float] = None
-    metadata: Dict[str, Any] = None
 
     def __post_init__(self):
         pass  # TODO: Implement

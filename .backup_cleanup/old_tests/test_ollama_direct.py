@@ -22,7 +22,6 @@ queries = [
 ]
 
 for query in queries:
-
     try:
         response = requests.post(
             "http://localhost:11434/api/generate",

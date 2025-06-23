@@ -4,6 +4,7 @@
 from flask import Flask, jsonify, render_template_string
 import sys
 from pathlib import Path
+
 sys.path.append(str(Path(__file__).parent.parent))
 
 from think_ai.consciousness.awareness import ConsciousnessFramework
@@ -40,20 +41,24 @@ DEMO_HTML = """
 </html>
 """
 
-@app.route('/')
+
+@app.route("/")
 def index():
     """Show consciousness status."""
     state = consciousness.get_state()
-    return render_template_string(DEMO_HTML, 
-        awareness=state.get('awareness_level', 0),
-        thoughts=state.get('thought_count', 0),
-        pathways=state.get('neural_pathways', 0)
+    return render_template_string(
+        DEMO_HTML,
+        awareness=state.get("awareness_level", 0),
+        thoughts=state.get("thought_count", 0),
+        pathways=state.get("neural_pathways", 0),
     )
 
-@app.route('/api/status')
+
+@app.route("/api/status")
 def status():
     """API endpoint for consciousness status."""
     return jsonify(consciousness.get_state())
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run(port=5000, debug=False)

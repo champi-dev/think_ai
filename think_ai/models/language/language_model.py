@@ -106,6 +106,7 @@ from ...consciousness.principles import ConstitutionalAI
 from ...core.config import ModelConfig
 from ...utils.complexity_detector import detect_complexity
 from ...utils.logging import get_logger
+from ...utils.progress import ModelLoadingProgress, progress_context
 from .response_cache import response_cache
 from .types import GenerationConfig, ModelResponse
 
@@ -258,17 +259,18 @@ class LanguageModel:
 
                         # Load the actual weights
 
-                        # Download model files
-                        model_path = snapshot_download(
-                            self.config.model_name,
-                            token=(
-                                self.config.hf_token
-                                if self.config.hf_token
-                                and self.config.hf_token.strip()
-                                and self.config.hf_token != "${HF_TOKEN}"
-                                else None
-                            ),
-                        )
+                        # Download model files with progress
+                        with ModelLoadingProgress.download_progress(self.config.model_name) as pbar:
+                            model_path = snapshot_download(
+                                self.config.model_name,
+                                token=(
+                                    self.config.hf_token
+                                    if self.config.hf_token
+                                    and self.config.hf_token.strip()
+                                    and self.config.hf_token != "${HF_TOKEN}"
+                                    else None
+                                ),
+                            )
 
                         # Find the safetensors or bin files
                         weight_files = []
@@ -277,16 +279,20 @@ class LanguageModel:
                                 weight_files.append(os.path.join(model_path, file))
 
                         if weight_files:
-                            # Load weights from files
-                            for weight_file in sorted(weight_files):
-                                if weight_file.endswith(".safetensors") and load_file:
-                                    state_dict = load_file(weight_file)
-                                else:
-                                    state_dict = torch.load(weight_file, map_location="cpu")
+                            # Load weights from files with progress
+                            with ModelLoadingProgress.weight_loading_progress(len(weight_files)) as pbar:
+                                for idx, weight_file in enumerate(sorted(weight_files)):
+                                    pbar.update(0, f"Loading {os.path.basename(weight_file)}...")
+                                    
+                                    if weight_file.endswith(".safetensors") and load_file:
+                                        state_dict = load_file(weight_file)
+                                    else:
+                                        state_dict = torch.load(weight_file, map_location="cpu")
 
-                                # Load into model
-                                model.load_state_dict(state_dict, strict=False)
-                                logger.info(f"Loaded weights from {os.path.basename(weight_file)}")
+                                    # Load into model
+                                    model.load_state_dict(state_dict, strict=False)
+                                    logger.info(f"Loaded weights from {os.path.basename(weight_file)}")
+                                    pbar.update(1)
 
                         model.tie_weights()
                         logger.info("Qwen loaded with manually loaded weights")

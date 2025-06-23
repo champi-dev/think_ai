@@ -1,0 +1,79 @@
+# Qwen Model Configuration for Think AI
+# This file demonstrates how to configure lightweight Qwen models for different tasks
+
+model:
+  # Provider configuration
+  providers:
+    ollama:
+      enabled: true
+      base_url: "http://localhost:11434"
+      timeout: 120
+    
+    huggingface:
+      enabled: true
+      device: "cpu"  # or "cuda" if GPU available
+      quantization: "int4"  # int4, int8, or null for full precision
+  
+  # Provider preference order (first available will be used)
+  provider_preference:
+    - ollama      # Preferred for better performance
+    - huggingface # Fallback if Ollama not available
+  
+  # Task-specific model recommendations
+  task_models:
+    # For general chat - ultra lightweight
+    chat_fast: "qwen2.5:0.5b"
+    chat_balanced: "qwen2.5:1.5b"
+    chat_quality: "qwen2.5:3b"
+    
+    # For coding tasks
+    coding_fast: "qwen2.5-coder:1.5b"
+    coding_balanced: "qwen2.5-coder:7b"
+    coding_quality: "qwen2.5-coder:32b"
+    
+    # For math problems
+    math: "qwen2.5-math:1.5b"
+    math_advanced: "qwen2.5-math:7b"
+    
+    # For multimodal (vision + text)
+    multimodal: "qwenvl2:2b"
+    multimodal_quality: "qwenvl2:7b"
+    
+    # For complex reasoning
+    reasoning: "qwen2.5:7b"
+    reasoning_advanced: "qwen2.5:14b"
+
+# Recommended Ollama models to install:
+# 
+# Minimal setup (fast responses):
+#   ollama pull qwen2.5:0.5b
+#   ollama pull qwen2.5:1.5b
+#   ollama pull qwen2.5-coder:1.5b
+#
+# Balanced setup (good quality + speed):
+#   ollama pull qwen2.5:3b
+#   ollama pull qwen2.5-coder:7b
+#   ollama pull qwen2.5-math:1.5b
+#
+# Quality setup (best results):
+#   ollama pull qwen2.5:7b
+#   ollama pull qwen2.5-coder:32b
+#   ollama pull qwen2.5-math:7b
+#   ollama pull qwenvl2:7b
+
+# Model characteristics:
+# 
+# qwen2.5:0.5b - Ultra fast, minimal resource usage, good for simple queries
+# qwen2.5:1.5b - Fast, lightweight, good general purpose chat
+# qwen2.5:3b - Balanced performance and quality
+# qwen2.5:7b - High quality responses, more resource intensive
+# 
+# qwen2.5-coder:1.5b - Fast code generation, good for simple scripts
+# qwen2.5-coder:7b - Excellent code quality, handles complex logic
+# qwen2.5-coder:32b - Best code generation, for production code
+# 
+# qwen2.5-math:1.5b - Quick math solutions, algebra and basic calculus
+# qwen2.5-math:7b - Advanced mathematics, proofs, and complex problems
+# 
+# qwenvl2:2b - Basic vision + text tasks
+# qwenvl2:7b - High quality multimodal understanding

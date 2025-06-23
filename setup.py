@@ -59,9 +59,10 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "think-ai=think_ai.cli:main",
-            "think-ai-chat=think_ai.cli:chat",
-            "think-ai-server=think_ai.server:run",
+            "think-ai=think_ai.cli_wrapper:main",
+            "think-ai-full=think_ai.cli_wrapper:full_cli",
+            "think-ai-chat=think_ai.cli_wrapper:simple_chat",
+            "think-ai-server=think_ai.cli_wrapper:server",
         ],
     },
     include_package_data=True,

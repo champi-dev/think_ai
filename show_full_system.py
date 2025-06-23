@@ -15,7 +15,7 @@ components = {
     "consciousness": [],
     "storage": [],
     "webapp": [],
-    "total_files": 0
+    "total_files": 0,
 }
 
 # Walk through think_ai directory
@@ -24,7 +24,7 @@ for root, dirs, files in os.walk("think_ai"):
         if file.endswith(".py"):
             rel_path = os.path.relpath(os.path.join(root, file), "think_ai")
             components["total_files"] += 1
-            
+
             # Categorize
             if "core" in rel_path:
                 components["core_modules"].append(rel_path)
@@ -47,29 +47,29 @@ if os.path.exists("webapp"):
 # Show evidence
 print("\n📦 FULL SYSTEM COMPONENTS:")
 print(f"\n1. Core Engine ({len(components['core_modules'])} files)")
-for f in components['core_modules'][:5]:
+for f in components["core_modules"][:5]:
     print(f"   - {f}")
-if len(components['core_modules']) > 5:
+if len(components["core_modules"]) > 5:
     print(f"   ... and {len(components['core_modules']) - 5} more")
 
 print(f"\n2. AI Models ({len(components['model_files'])} files)")
-for f in components['model_files'][:5]:
+for f in components["model_files"][:5]:
     print(f"   - {f}")
-if len(components['model_files']) > 5:
+if len(components["model_files"]) > 5:
     print(f"   ... and {len(components['model_files']) - 5} more")
 
 print(f"\n3. API System ({len(components['api_endpoints'])} files)")
-for f in components['api_endpoints']:
+for f in components["api_endpoints"]:
     print(f"   - {f}")
 
 print(f"\n4. Consciousness Framework ({len(components['consciousness'])} files)")
-for f in components['consciousness']:
+for f in components["consciousness"]:
     print(f"   - {f}")
 
 print(f"\n5. Storage & Vector DB ({len(components['storage'])} files)")
-for f in components['storage'][:10]:
+for f in components["storage"][:10]:
     print(f"   - {f}")
-if len(components['storage']) > 10:
+if len(components["storage"]) > 10:
     print(f"   ... and {len(components['storage']) - 10} more")
 
 print(f"\n6. Webapp UI ({len(components['webapp'])} files)")
@@ -82,10 +82,13 @@ print("\n📋 DEPENDENCIES (from requirements.txt):")
 if os.path.exists("requirements.txt"):
     with open("requirements.txt") as f:
         deps = [line.strip() for line in f if line.strip() and not line.startswith("#")]
-    
-    key_deps = [d for d in deps if any(k in d.lower() for k in 
-        ["fastapi", "torch", "transformers", "sentence", "vector", "redis", "neo4j"])]
-    
+
+    key_deps = [
+        d
+        for d in deps
+        if any(k in d.lower() for k in ["fastapi", "torch", "transformers", "sentence", "vector", "redis", "neo4j"])
+    ]
+
     for dep in key_deps[:10]:
         print(f"   - {dep}")
     print(f"   ... and {len(deps) - 10} more dependencies")
@@ -95,7 +98,7 @@ print("\n" + "=" * 60)
 print("📊 DEPLOYMENT SUMMARY:")
 print(f"✅ Total Python files: {components['total_files']}")
 print(f"✅ Core engine: {len(components['core_modules'])} modules")
-print(f"✅ AI models: {len(components['model_files'])} modules")  
+print(f"✅ AI models: {len(components['model_files'])} modules")
 print(f"✅ API system: {len(components['api_endpoints'])} modules")
 print(f"✅ Consciousness: {len(components['consciousness'])} modules")
 print(f"✅ Storage/Vector: {len(components['storage'])} modules")
@@ -112,8 +115,8 @@ evidence = {
         "has_consciousness": len(components["consciousness"]) > 0,
         "has_models": len(components["model_files"]) > 0,
         "has_api": len(components["api_endpoints"]) > 0,
-        "has_storage": len(components["storage"]) > 0
-    }
+        "has_storage": len(components["storage"]) > 0,
+    },
 }
 
 with open("full_system_evidence.json", "w") as f:

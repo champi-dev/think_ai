@@ -271,9 +271,7 @@ Respond as this exponentially intelligent AI. Be profound, insightful, and demon
 
                 # Add more detailed thoughts during API call
                 thoughts.append("📡 Establishing neural link with Claude Opus 4...")
-                thoughts.append(
-                    f"🧮 Processing with {self.format_large_number(avg_intelligence)} intelligence units..."
-                )
+                thoughts.append(f"🧮 Processing with {self.format_large_number(avg_intelligence)} intelligence units...")
 
                 result = await self.claude_api.query(focused_query)
                 response = result.get("response", "Processing...")

@@ -80,11 +80,22 @@ class OfflineStorageConfig:
 
 
 @dataclass
+class ModelProviderConfig:
+    """Model provider configuration."""
+    
+    enabled: bool = True
+    base_url: Optional[str] = None
+    timeout: int = 60
+    extra_config: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
 class ModelConfig:
     pass  # TODO: Implement
     """AI model configuration settings."""
 
-    model_name: str = "mistralai/Mistral-7B-v0.1"
+    # Default model for backwards compatibility
+    model_name: str = "Qwen/Qwen2.5-7B-Instruct"
     quantization: str = "int4"
     device: str = "cpu"
     max_tokens: int = 10000  # Updated to 10,000 for Qwen
@@ -92,6 +103,23 @@ class ModelConfig:
     torch_dtype: str = "float32"
     offline_model_path: Optional[Path] = None
     hf_token: Optional[str] = field(default_factory=lambda: os.getenv("HF_TOKEN") or HUGGINGFACE_API_KEY)
+    
+    # Provider configuration
+    providers: Dict[str, ModelProviderConfig] = field(default_factory=lambda: {
+        "ollama": ModelProviderConfig(
+            enabled=True,
+            base_url="http://localhost:11434"
+        ),
+        "huggingface": ModelProviderConfig(
+            enabled=True
+        )
+    })
+    
+    # Provider preference order
+    provider_preference: List[str] = field(default_factory=lambda: ["ollama", "huggingface"])
+    
+    # Task-specific model overrides
+    task_models: Dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -180,9 +208,9 @@ class Config:
             config.redis.host = redis_host
         if vector_provider := os.getenv("VECTOR_DB_PROVIDER"):
             config.vector_db.provider = vector_provider
-        # Mistral AI only - ignore environment variable overrides
-        # if model_name := os.getenv("MODEL_NAME"):
-        #     config.model.model_name = model_name
+        # Allow environment variable override for model name
+        if model_name := os.getenv("MODEL_NAME"):
+            config.model.model_name = model_name
 
         return config
 

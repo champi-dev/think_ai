@@ -17,6 +17,7 @@ from think_ai.consciousness.thought_optimizer import ThoughtOptimizer
 from think_ai.core.config import Config
 from think_ai.models.language.language_model import LanguageModel
 from think_ai.utils.logging import get_logger
+from think_ai.utils.progress import progress_context, O1ProgressBar
 
 logger = get_logger(__name__)
 
@@ -478,23 +479,38 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
         self.training_active = True
         logger.info("Starting continuous self-training...")
 
+        # Create progress bar for training
+        pbar = O1ProgressBar(description="Self-training in progress")
+
         while self.training_active:
             try:
+                # Update progress with current generation
+                pbar.update(0, f"Generation {self.generations_evolved + 1} - Reflecting...")
+                
                 # Self-reflection
                 await self._self_reflect()
 
+                pbar.update(0, f"Generation {self.generations_evolved + 1} - Synthesizing knowledge...")
+                
                 # Knowledge synthesis
                 await self._synthesize_knowledge()
 
+                pbar.update(0, f"Generation {self.generations_evolved + 1} - Recognizing patterns...")
+                
                 # Pattern recognition
                 await self._recognize_patterns()
 
+                pbar.update(0, f"Generation {self.generations_evolved + 1} - Evolving intelligence...")
+                
                 # Intelligence evolution
                 await self._evolve_intelligence()
 
                 self.generations_evolved += 1
 
-                # Log progress
+                # Update main progress every generation
+                pbar.update(0, f"Generation {self.generations_evolved}: Intel={self.intelligence_level:.2f}, Pathways={self.neural_pathways:,}")
+
+                # Log detailed progress
                 if self.generations_evolved % 100 == 0:
                     logger.info(
                         f"Generation {self.generations_evolved}: "
@@ -507,7 +523,10 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
 
             except Exception as e:
                 logger.error(f"Training error: {e}")
+                pbar.update(0, f"Training error: {str(e)}")
                 await asyncio.sleep(1)
+        
+        pbar.finish("Self-training stopped")
 
     async def _self_reflect(self):
         """Reflect on accumulated knowledge."""
@@ -568,6 +587,63 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
         # Adapt learning rate
         if self.wisdom_accumulated > 10:
             self.learning_rate *= 0.99  # Stabilize as wisdom increases
+
+    async def train_on_dataset(self, dataset: List[Dict[str, str]], epochs: int = 1):
+        """Train on a dataset with progress tracking."""
+        logger.info(f"Starting training on dataset with {len(dataset)} examples for {epochs} epochs")
+        
+        total_steps = len(dataset) * epochs
+        
+        with progress_context(total=total_steps, description="Training on dataset") as pbar:
+            for epoch in range(epochs):
+                pbar.update(0, f"Epoch {epoch + 1}/{epochs}")
+                
+                # Shuffle dataset
+                shuffled_data = dataset.copy()
+                random.shuffle(shuffled_data)
+                
+                for idx, example in enumerate(shuffled_data):
+                    # Extract query and expected response
+                    query = example.get('query', '')
+                    expected = example.get('response', '')
+                    
+                    # Generate response
+                    response = await self.generate_response(query)
+                    
+                    # Learn from interaction
+                    await self._learn_from_interaction(query, response)
+                    
+                    # Calculate simple similarity score
+                    similarity = self._calculate_similarity(response, expected)
+                    
+                    # Adjust learning based on similarity
+                    if similarity > 0.8:
+                        self.intelligence_level *= 1.001
+                    else:
+                        self.learning_rate *= 1.01  # Learn faster from mistakes
+                    
+                    # Update progress
+                    current_step = epoch * len(dataset) + idx + 1
+                    pbar.update(1, f"Epoch {epoch + 1}/{epochs} - Example {idx + 1}/{len(dataset)} - Similarity: {similarity:.2f}")
+                
+                # End of epoch summary
+                logger.info(f"Epoch {epoch + 1} complete. Intelligence: {self.intelligence_level:.2f}")
+        
+        logger.info(f"Training complete. Final intelligence: {self.intelligence_level:.2f}")
+    
+    def _calculate_similarity(self, response1: str, response2: str) -> float:
+        """Calculate simple similarity between two responses."""
+        # Simple word overlap similarity
+        words1 = set(response1.lower().split())
+        words2 = set(response2.lower().split())
+        
+        if not words1 or not words2:
+            return 0.0
+        
+        intersection = words1.intersection(words2)
+        union = words1.union(words2)
+        
+        return len(intersection) / len(union) if union else 0.0
 
     def get_metrics(self) -> Dict[str, Any]:
         """Get current intelligence metrics."""
