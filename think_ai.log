@@ -1,0 +1,18 @@
+2025-06-22 11:39:28,455 - think_ai.storage.vector.fast_vector_db - WARNING - FAISS not available, using NumPy fallback for vector operations
+✅ Transformers patched successfully
+2025-06-22 11:39:30 [debug    ] ✅ chromadb already available
+2025-06-22 11:39:30 [debug    ] ✅ aiosqlite already available
+2025-06-22 11:39:30 [debug    ] ✅ cassandra already available
+2025-06-22 11:39:30 [debug    ] ✅ dotenv already available
+2025-06-22 11:39:30 [debug    ] ✅ huggingface_hub already available
+2025-06-22 11:39:30 [debug    ] ✅ transformers already available
+2025-06-22 11:39:30 [debug    ] ✅ neo4j already available
+2025-06-22 11:39:30 [info     ] 🚀 Think AI Dependency Resolution complete - ¡Qué chimba!
+2025-06-22 11:39:33 [info     ] 🇨🇴 Intelligence Optimizer initialized - ¡Dale que vamos tarde!
+2025-06-22 11:39:33 [info     ] 🚀 Model Optimizer ready for Colombian-style optimization!
+2025-06-22 11:39:34,290 - __main__ - INFO - Successfully imported all Think AI components
+Traceback (most recent call last):
+  File "/Users/champi/Development/Think_AI/think_ai_full.py", line 96, in <module>
+    config = Config(
+             ^^^^^^^
+TypeError: Config.__init__() got an unexpected keyword argument 'model_name'

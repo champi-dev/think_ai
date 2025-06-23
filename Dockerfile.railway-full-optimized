@@ -45,14 +45,10 @@ COPY --chown=appuser:appuser . .
 RUN pip install -e . --no-deps
 
 # Pre-compile Python files for faster startup
-RUN python -m compileall -b think_ai && \
-    # Remove source .py files to save space (keep .pyc)
-    find think_ai -name "*.py" -not -name "__init__.py" -delete 2>/dev/null || true
+RUN python -m compileall -b think_ai
 
-# Remove unnecessary files
-RUN find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true && \
-    find . -name "*.pyc" -delete 2>/dev/null || true && \
-    find . -name "test_*.py" -delete 2>/dev/null || true && \
+# Remove unnecessary files but keep Python source files
+RUN find . -name "test_*.py" -delete 2>/dev/null || true && \
     find . -name "*.md" -not -name "README.md" -delete 2>/dev/null || true && \
     rm -rf tests/ docs/ scripts/testing/ examples/ .git/ && \
     rm -rf *.tar.gz *.bak *.old *.tmp

@@ -53,14 +53,40 @@ def launch_qa_environment_browser():
 
         # 1. Start main API server
         print(f"{BLUE}1️⃣  Starting API server on http://localhost:8080...{RESET}")
+        # Set up environment with proper Python path and Railway settings
+        env = os.environ.copy()
+        env["PYTHONPATH"] = str(Path(__file__).parent.parent)
+        env["PYTHONUNBUFFERED"] = "1"
+        env["THINK_AI_USE_LIGHTWEIGHT"] = "false"
+        env["THINK_AI_MINIMAL_INIT"] = "false"
+        env["THINK_AI_COLOMBIAN"] = "true"
+
         api_proc = subprocess.Popen(
-            [sys.executable, "think_ai_minimal.py"],
+            [sys.executable, "think_ai_full.py"],
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stderr=subprocess.STDOUT,  # Combine stderr with stdout
+            env=env,
             preexec_fn=os.setsid if sys.platform != "win32" else None,
         )
         processes.append(api_proc)
-        time.sleep(5)
+
+        # Check for errors in startup
+        print(f"{YELLOW}Checking API server startup...{RESET}")
+        time.sleep(3)
+
+        # Read first few lines of output to check for errors
+        try:
+            import select
+
+            if api_proc.stdout and select.select([api_proc.stdout], [], [], 0)[0]:
+                output = api_proc.stdout.read(1000).decode("utf-8", errors="ignore")
+                if output:
+                    print(f"{YELLOW}API Server Output:{RESET}")
+                    print(output[:500])  # Show first 500 chars
+        except:
+            pass
+
+        time.sleep(2)
 
         # 2. Start webapp (if exists)
         webapp_path = Path("webapp")
@@ -93,7 +119,7 @@ import json
 async def handle_health(request):
     return web.json_response({
         'status': 'healthy',
-        'service': 'think-ai-test',
+        'service': 'think-ai-full',
         'timestamp': str(asyncio.get_event_loop().time())
     })
 
@@ -282,10 +308,16 @@ if __name__ == '__main__':
                 <div id="api-health-result" class="result"></div>
                 
                 <div class="endpoint">
-                    <a href="http://localhost:8080/query?q=test" target="_blank">Query Endpoint</a>
-                    <button onclick="testEndpoint('http://localhost:8080/query?q=test', 'api-query-result')">Test</button>
+                    <a href="http://localhost:8080/" target="_blank">Root Endpoint</a>
+                    <button onclick="testEndpoint('http://localhost:8080/', 'api-root-result')">Test</button>
                 </div>
-                <div id="api-query-result" class="result"></div>
+                <div id="api-root-result" class="result"></div>
+                
+                <div class="endpoint">
+                    <a href="http://localhost:8080/api/v1/generate" target="_blank">Generate Endpoint</a>
+                    <button onclick="testGenerateEndpoint('api-generate-result')">Test</button>
+                </div>
+                <div id="api-generate-result" class="result"></div>
             </div>
             
             <div class="card">
@@ -316,7 +348,7 @@ if __name__ == '__main__':
         <div class="checklist">
             <h3>✅ QA Checklist</h3>
             <label><input type="checkbox" id="check1"> API server responds to health checks</label>
-            <label><input type="checkbox" id="check2"> Query endpoint returns valid results</label>
+            <label><input type="checkbox" id="check2"> Generate endpoint returns valid results</label>
             <label><input type="checkbox" id="check3"> Web interface loads without errors</label>
             <label><input type="checkbox" id="check4"> All critical endpoints are accessible</label>
             <label><input type="checkbox" id="check5"> No console errors in browser</label>
@@ -354,6 +386,42 @@ if __name__ == '__main__':
             try {
                 const start = Date.now();
                 const response = await fetch(url);
+                const time = Date.now() - start;
+                const data = await response.text();
+                
+                let displayData = data;
+                try {
+                    const json = JSON.parse(data);
+                    displayData = JSON.stringify(json, null, 2);
+                } catch (e) {}
+                
+                resultDiv.innerHTML = `<strong>Status:</strong> ${response.status} ${response.statusText}<br>
+                                      <strong>Time:</strong> ${time}ms<br>
+                                      <strong>Response:</strong><pre>${displayData}</pre>`;
+            } catch (e) {
+                resultDiv.innerHTML = `<strong style="color: #f44336;">Error:</strong> ${e.message}`;
+            }
+        }
+        
+        // Test generate endpoint with POST
+        async function testGenerateEndpoint(resultId) {
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.textContent = 'Testing...';
+            
+            try {
+                const start = Date.now();
+                const response = await fetch('http://localhost:8080/api/v1/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        prompt: 'Hello, test the Think AI system',
+                        max_length: 200,
+                        temperature: 0.7,
+                        colombian_mode: true
+                    })
+                });
                 const time = Date.now() - start;
                 const data = await response.text();
                 

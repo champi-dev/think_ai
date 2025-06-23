@@ -14,14 +14,14 @@ export default function QueryInterface() {
     setIsLoading(true)
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/v1/think`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/v1/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query,
-          enable_consciousness: true,
+          prompt: query,
+          max_length: 5000,
           temperature: 0.7,
-          max_tokens: 5000
+          colombian_mode: true
         })
       })
       
@@ -32,8 +32,8 @@ export default function QueryInterface() {
       const data = await response.json()
       
       // Handle different response structures
-      const responseText = data?.result?.response || data?.response || 'No response received'
-      const consciousnessState = data?.result?.consciousness_state || data?.consciousness_state || null
+      const responseText = data?.generated_text || data?.response || 'No response received'
+      const consciousnessState = null // Generate endpoint doesn't return consciousness state
       
       addResponse({
         id: Date.now().toString(),

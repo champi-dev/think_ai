@@ -29,7 +29,10 @@ app.prepare().then(() => {
     console.log('Client connected to WebSocket proxy')
     
     // Create connection to backend WebSocket
-    const backendWs = new WebSocket('ws://localhost:8080/api/v1/ws')
+    const backendUrl = process.env.NODE_ENV === 'production' 
+      ? `ws://${process.env.API_HOST || 'localhost'}:${process.env.API_PORT || 8080}/api/v1/ws`
+      : 'ws://localhost:8080/api/v1/ws'
+    const backendWs = new WebSocket(backendUrl)
     
     backendWs.on('open', () => {
       console.log('Connected to backend WebSocket')

@@ -141,7 +141,7 @@ class ThinkAIEngine:
 
             # Initialize embedding model (lightweight for local)
             logger.info("Initializing embedding model...")
-            self.embedding_model = create_embedding_model(model_type="transformer", use_cache=True)
+            self.embedding_model = create_embedding_model("sentence-transformers/all-MiniLM-L6-v2")
             await self.embedding_model.initialize()
 
             # Initialize consciousness framework

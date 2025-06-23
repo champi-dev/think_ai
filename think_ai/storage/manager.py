@@ -3,7 +3,7 @@
 from typing import Any, Dict, Optional
 import logging
 
-from .distributed.scylla import ScyllaStorage
+from .distributed.scylla import ScyllaDBBackend
 from .vector.vector_db import VectorDB
 from .cache.redis_cache import RedisCache
 
@@ -27,7 +27,7 @@ class StorageManager:
         """Initialize all storage backends."""
         try:
             # Initialize ScyllaDB
-            self.scylla = ScyllaStorage()
+            self.scylla = ScyllaDBBackend()
             await self.scylla.initialize()
 
             # Initialize Vector DB

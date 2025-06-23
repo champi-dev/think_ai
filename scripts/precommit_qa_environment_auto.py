@@ -40,7 +40,7 @@ def check_qa_environment():
     try:
         # Try to import and check if API can be loaded
         sys.path.insert(0, str(Path(__file__).parent.parent))
-        import think_ai_minimal
+        import think_ai_full
 
         print("✅ API module loads successfully")
         api_ready = True
@@ -50,7 +50,7 @@ def check_qa_environment():
     # Check critical files exist
     print("\n📁 Checking critical files...")
     critical_files = [
-        "think_ai_minimal.py",
+        "think_ai_full.py",
         "think_ai/core/engine.py",
         "think_ai/models/language/language_model.py",
         "railway.json",

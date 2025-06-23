@@ -18,6 +18,7 @@
       "TRANSFORMERS_CACHE": "/app/models",
       "HF_HOME": "/app/models",
       "TORCH_HOME": "/app/models",
+      "RAILWAY_ENVIRONMENT": "true",
       "PORT": "${{PORT}}"
     }
   }

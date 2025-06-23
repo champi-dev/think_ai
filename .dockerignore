@@ -29,6 +29,7 @@ venv/
 env/
 ENV/
 .venv
+think-ai-env/
 
 # Node
 node_modules/

@@ -15,32 +15,34 @@ if os.environ.get("THINK_AI_USE_LIGHTWEIGHT", "false").lower() == "true":
 if os.environ.get("THINK_AI_MINIMAL_INIT", "false").lower() == "true":
     os.environ["THINK_AI_MINIMAL_INIT"] = "true"
 
+
 # CRITICAL: Apply transformers patch BEFORE any imports
 def patch_transformers():
     """Patch transformers to avoid the NoneType split error."""
     try:
         # Try to patch if transformers is available
         import transformers.models.auto.configuration_auto as config_auto
-        
+
         # Create a safe decorator that handles None docstrings
         def safe_replace_list_option_in_docstrings(_model_mapping=None):
             def decorator(fn):
                 # Just return the function unchanged if it has no docstring
-                if fn is None or getattr(fn, '__doc__', None) is None:
+                if fn is None or getattr(fn, "__doc__", None) is None:
                     return fn if fn is not None else lambda *a, **k: None
-                
+
                 # Try to apply the original decorator if possible
                 try:
-                    if hasattr(config_auto, '_original_replace_list_option_in_docstrings'):
+                    if hasattr(config_auto, "_original_replace_list_option_in_docstrings"):
                         return config_auto._original_replace_list_option_in_docstrings(_model_mapping)(fn)
                 except:
                     pass
-                
+
                 return fn
+
             return decorator
-        
+
         # Save original and replace
-        if hasattr(config_auto, 'replace_list_option_in_docstrings'):
+        if hasattr(config_auto, "replace_list_option_in_docstrings"):
             config_auto._original_replace_list_option_in_docstrings = config_auto.replace_list_option_in_docstrings
             config_auto.replace_list_option_in_docstrings = safe_replace_list_option_in_docstrings
             print("✅ Transformers patched successfully")
@@ -73,6 +75,7 @@ sys.path.insert(0, str(project_root))
 try:
     # Import FastAPI components
     from typing import Any, Dict, List, Optional
+    from pathlib import Path
 
     from fastapi import FastAPI, HTTPException
     from fastapi.middleware.cors import CORSMiddleware
@@ -87,36 +90,26 @@ try:
     from think_ai.api.endpoints import router as api_router
 
     # Import Think AI components
-    from think_ai.config import Config
+    from think_ai.core.config import Config
     from think_ai.core.engine import ThinkAIEngine
 
     logger.info("Successfully imported all Think AI components")
 
     # Initialize Think AI with Railway-optimized config
-    config = Config(
-        # Use lightweight models for Railway
-        model_name="microsoft/phi-2",
-        embedding_model="sentence-transformers/all-MiniLM-L6-v2",
-        # Optimize for Railway's memory constraints
-        max_memory_mb=512,
-        enable_gpu=False,
-        batch_size=1,
-        # Use local storage
-        storage_path="/tmp/think_ai",
-        cache_enabled=True,
-        # API settings
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 8080)),
-        # Disable heavy features for initial deployment
-        enable_consciousness=False,
-        enable_quantum=False,
-        enable_blockchain=False,
-    )
+    config = Config()
+
+    # Configure for Railway deployment
+    config.model.model_name = os.environ.get("THINK_AI_MODEL", "Qwen/Qwen2.5-0.5B-Instruct")
+    config.model.device = "cpu"
+    config.model.max_tokens = 500
+    config.consciousness.enable_compassion_metrics = False  # Disable heavy features
+    config.data_dir = Path("/tmp/think_ai")
+    config.log_dir = Path("/tmp/think_ai/logs")
 
     # Initialize the engine with lazy loading for Railway
     logger.info("Initializing Think AI engine...")
     engine = None  # Lazy initialization
-    
+
     # Skip heavy initialization if in minimal mode
     if os.environ.get("THINK_AI_MINIMAL_INIT", "false").lower() == "true":
         logger.info("Running in minimal initialization mode - skipping heavy components")
@@ -143,8 +136,8 @@ try:
         allow_headers=["*"],
     )
 
-    # Include API routes
-    app.include_router(api_router, prefix="/api/v1")
+    # Include API routes (router already has /api/v1 prefix)
+    app.include_router(api_router)
 
     @app.get("/")
     async def root():
@@ -163,11 +156,12 @@ try:
                 "consciousness": False,  # Disabled for Railway
             },
             "endpoints": [
-                "/api/v1/chat",
-                "/api/v1/completions",
-                "/api/v1/embeddings",
-                "/api/v1/search",
-                "/api/v1/code/generate",
+                "/api/v1/health",
+                "/api/v1/knowledge/store",
+                "/api/v1/knowledge/query",
+                "/api/v1/generate",
+                "/api/v1/optimize/code",
+                "/api/v1/intelligence/status",
                 "/health",
             ],
         }

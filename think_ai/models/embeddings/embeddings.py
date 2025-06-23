@@ -60,7 +60,13 @@ class TransformerEmbeddings(EmbeddingModel):
             from sentence_transformers import SentenceTransformer
 
             # Load model in executor to avoid blocking
-            self.model = await asyncio.get_event_loop().run_in_executor(None, SentenceTransformer, self.model_name)
+            # Force CPU mode for Railway deployment
+            import os
+            device = 'cpu' if os.environ.get('RAILWAY_ENVIRONMENT') or not torch.cuda.is_available() else 'cuda'
+            self.model = await asyncio.get_event_loop().run_in_executor(
+                None, 
+                lambda: SentenceTransformer(self.model_name, device=device)
+            )
 
             # Get embedding dimension
             self.dimension = self.model.get_sentence_embedding_dimension()

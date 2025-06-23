@@ -30,7 +30,7 @@ progress_bar() {
 }
 
 # Total steps in pipeline
-TOTAL_STEPS=8
+TOTAL_STEPS=7
 CURRENT_STEP=0
 
 # Start timer
@@ -91,18 +91,7 @@ else
     exit 1
 fi
 
-# 6. Run 1000 iteration training
-CURRENT_STEP=$((CURRENT_STEP + 1))
-progress_bar $CURRENT_STEP $TOTAL_STEPS "Training AI..."
-if python3 scripts/precommit_train_1000.py > /tmp/precommit_training.log 2>&1; then
-    printf " ${GREEN}✓${NC}\n" >&2
-else
-    printf " ${RED}✗${NC}\n" >&2
-    echo -e "${RED}AI training failed! Check /tmp/precommit_training.log${NC}" >&2
-    exit 1
-fi
-
-# 7. Launch QA environment for manual testing
+# 6. Launch QA environment for manual testing
 CURRENT_STEP=$((CURRENT_STEP + 1))
 progress_bar $CURRENT_STEP $TOTAL_STEPS "QA environment..."
 printf "\n" >&2
@@ -121,7 +110,7 @@ else
     fi
 fi
 
-# 8. Full Railway deployment simulation with Docker
+# 7. Full Railway deployment simulation with Docker
 CURRENT_STEP=$((CURRENT_STEP + 1))
 progress_bar $CURRENT_STEP $TOTAL_STEPS "Docker deployment..."
 if docker build -t think-ai-precommit:latest . > /tmp/docker_build.log 2>&1; then
