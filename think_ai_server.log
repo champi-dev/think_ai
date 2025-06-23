@@ -1,0 +1,46 @@
+2025-06-22 19:29:02,112 - think_ai.storage.vector.fast_vector_db - WARNING - FAISS not available, using NumPy fallback for vector operations
+✅ Transformers patched successfully
+2025-06-22 19:29:02 [debug    ] ✅ chromadb already available
+2025-06-22 19:29:02 [debug    ] ✅ aiosqlite already available
+2025-06-22 19:29:02 [debug    ] ✅ cassandra already available
+2025-06-22 19:29:02 [debug    ] ✅ dotenv already available
+2025-06-22 19:29:02 [debug    ] ✅ huggingface_hub already available
+2025-06-22 19:29:02 [debug    ] ✅ transformers already available
+2025-06-22 19:29:02 [debug    ] ✅ neo4j already available
+2025-06-22 19:29:02 [info     ] 🚀 Think AI Dependency Resolution complete - ¡Qué chimba!
+2025-06-22 19:29:03 [info     ] 🇨🇴 Intelligence Optimizer initialized - ¡Dale que vamos tarde!
+2025-06-22 19:29:03 [info     ] 🚀 Model Optimizer ready for Colombian-style optimization!
+2025-06-22 19:29:04,001 - __main__ - INFO - Successfully imported all Think AI components
+2025-06-22 19:29:04,002 - __main__ - INFO - Initializing Think AI engine...
+2025-06-22 19:29:04,002 - __main__ - INFO - Engine created, initialization will happen on first request
+2025-06-22 19:29:04,028 - __main__ - INFO - Starting Think AI Full System on port 8080
+INFO:     Started server process [18107]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+2025-06-22 19:29:08,819 - __main__ - WARNING - Health check failed: 'coroutine' object has no attribute 'get'
+/Users/champi/Development/Think_AI/venv/lib/python3.11/site-packages/fastapi/routing.py:191: RuntimeWarning: coroutine 'ThinkAIEngine.health_check' was never awaited
+  return await dependant.call(**values)
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+INFO:     127.0.0.1:58408 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58451 - "POST /api/v1/generate HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:58463 - "POST /api/v1/generate HTTP/1.1" 422 Unprocessable Entity
+2025-06-22 19:30:40,129 - __main__ - WARNING - Health check failed: 'coroutine' object has no attribute 'get'
+INFO:     127.0.0.1:58518 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58520 - "GET / HTTP/1.1" 200 OK
+2025-06-22 19:30:40 [info     ] Initializing Think AI Engine...
+2025-06-22 19:30:40 [info     ] Initializing offline SQLite storage...
+2025-06-22 19:30:40 [info     ] Offline storage initialized at /Users/champi/.think_ai/offline.db
+2025-06-22 19:30:40 [info     ] ✅ Offline storage initialized
+2025-06-22 19:30:40 [info     ] Initializing embedding model...
+2025-06-22 19:30:40,143 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-06-22 19:30:42 [info     ] Initialized embedding model: sentence-transformers/all-MiniLM-L6-v2 (dim=384)
+2025-06-22 19:30:42 [info     ] Initializing consciousness framework...
+2025-06-22 19:30:42 [info     ] Initializing language model for local processing...
+2025-06-22 19:30:42 [info     ] Language model ready for lazy initialization
+2025-06-22 19:30:42 [debug    ] Broadcast item input_1750656642.393399 to global workspace
+2025-06-22 19:30:42 [info     ] Think AI Engine initialized successfully
+INFO:     127.0.0.1:58522 - "POST /api/v1/generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58525 - "POST /api/v1/generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58527 - "POST /api/v1/generate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58529 - "POST /api/v1/generate HTTP/1.1" 200 OK

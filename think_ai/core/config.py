@@ -87,7 +87,7 @@ class ModelConfig:
     model_name: str = "mistralai/Mistral-7B-v0.1"
     quantization: str = "int4"
     device: str = "cpu"
-    max_tokens: int = 5000
+    max_tokens: int = 10000  # Updated to 10,000 for Qwen
     temperature: float = 0.7
     torch_dtype: str = "float32"
     offline_model_path: Optional[Path] = None

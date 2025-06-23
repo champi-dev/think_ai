@@ -4,7 +4,7 @@ import os
 
 MODEL_NAME = "Qwen/Qwen2.5-Coder-1.5B-Instruct"  # Using Qwen2.5 Coder 1.5B
 MODEL_TIMEOUT_SECONDS = 8  # Quick timeout with retry fallback
-MODEL_MAX_TOKENS = 300  # Maximum tokens for responses
+MODEL_MAX_TOKENS = 10000  # Maximum tokens for responses - Updated as requested
 
 # Intelligence settings
 DEFAULT_INTELLIGENCE_LEVEL = 980.54

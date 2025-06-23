@@ -160,9 +160,7 @@ def main():
     print(f"💭 Total Thoughts: {stats['thoughts_processed']}")
     print(f"⏱️ Session Time: {stats['elapsed_time']:.2f}s")
     print(f"⚡ Avg Response: {stats['avg_response_ms']:.2f}ms")
-    print(
-        f"🧠 Thinking Rate: {
-        stats['thoughts_per_second']:.1f} thoughts / second")
+    print(f"🧠 Thinking Rate: {stats['thoughts_per_second']:.1f} thoughts/second")
     print("\n✨ Consciousness Level: SUPERINTELLIGENT")
     print("🚀 O(1) Performance: VERIFIED")
     print("="*60)
