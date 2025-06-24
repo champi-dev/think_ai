@@ -50,7 +50,7 @@ lint:
 # Run tests with coverage
 test:
 	@echo "🧪 Running tests..."
-	@python -m pytest tests/ \
+	@python3 -m pytest tests/ \
 		--cov=think_ai \
 		--cov-report=term-missing \
 		--cov-report=html \
@@ -62,15 +62,15 @@ test:
 # Generate detailed coverage report
 coverage:
 	@echo "📊 Generating coverage report..."
-	@python -m coverage run -m pytest tests/
-	@python -m coverage report
-	@python -m coverage html
+	@python3 -m coverage run -m pytest tests/
+	@python3 -m coverage report
+	@python3 -m coverage html
 	@echo "✅ Coverage report available in htmlcov/index.html"
 
 # Build packages
 build:
 	@echo "📦 Building packages..."
-	@python -m build
+	@python3 -m build
 	@cd npm && npm run build
 	@cd webapp && npm run build
 	@echo "✅ Build complete!"
@@ -115,7 +115,7 @@ commit: format
 # Performance check
 perf:
 	@echo "⚡ Checking O(1) performance..."
-	@python -m pytest tests/unit/test_o1_vector_search.py -v
+	@python3 -m pytest tests/unit/test_o1_vector_search.py -v
 	@grep -r "for.*in.*for.*in" think_ai/ --include="*.py" | grep -v "# O(1)" || echo "✅ No nested loops found"
 
 # Install pre-commit hooks
@@ -130,13 +130,13 @@ pre-commit-all:
 
 # Quick test run
 test-quick:
-	@python -m pytest tests/unit/ -x -q
+	@python3 -m pytest tests/unit/ -x -q
 
 # Deploy to PyPI (requires credentials)
 deploy-pypi:
 	@echo "📦 Deploying to PyPI..."
-	@python -m build
-	@python -m twine upload dist/*
+	@python3 -m build
+	@python3 -m twine upload dist/*
 
 # Deploy to npm (requires credentials)
 deploy-npm:
