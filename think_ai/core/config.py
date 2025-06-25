@@ -95,7 +95,7 @@ class ModelConfig:
     """AI model configuration settings."""
 
     # Default model for backwards compatibility
-    model_name: str = "Qwen/Qwen2.5-7B-Instruct"
+    model_name: str = "Qwen/Qwen2.5-0.5B-Instruct"
     quantization: str = "int4"
     device: str = "cpu"
     max_tokens: int = 10000  # Updated to 10,000 for Qwen

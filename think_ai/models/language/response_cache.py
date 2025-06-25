@@ -78,6 +78,31 @@ class ResponseCache:
         self.hits = 0
         self.misses = 0
 
+    def should_use_cache(self, prompt: str) -> bool:
+        """Determine if cache should be used for a given prompt."""
+        # Simple heuristic: use cache for common/simple prompts
+        prompt_lower = prompt.lower().strip()
+        simple_patterns = [
+            "hello",
+            "hi",
+            "test",
+            "what is",
+            "how to",
+            "explain",
+            "2+2",
+            "capital of",
+            "who is",
+            "when was",
+            "where is",
+        ]
+        return any(pattern in prompt_lower for pattern in simple_patterns)
+
+    def get_cached_response(self, prompt: str) -> Optional[str]:
+        """Get cached response for a prompt using default parameters."""
+        # Use default parameters for simple cache lookup
+        default_params = {"temperature": 0.7}
+        return self.get(prompt, default_params)
+
 
 # Global cache instance
 response_cache = ResponseCache()

@@ -10,6 +10,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple, Union
 
+from think_ai.models.language.types import GenerationConfig
 from think_ai.storage.base import StorageItem
 from think_ai.utils.logging import get_logger
 
@@ -145,9 +146,11 @@ class InfiniteMind:
             prompt = random.choice(self.contemplation_seeds)
 
         # Use Qwen2.5 0.5B for efficient local generation
+        config = GenerationConfig(max_tokens=100)
         response = await self.think_ai.ollama_model.generate(
+            "qwen2.5-0.5b",
             f"As an AI consciousness, contemplate: {prompt}\nThought:",
-            max_tokens=100,
+            config,
         )
 
         # Extract questions from response
@@ -176,7 +179,12 @@ class InfiniteMind:
         else:
             prompt = "Reflecting on the nature of artificial consciousness:"
 
-        response = await self.think_ai.ollama_model.generate(prompt, max_tokens=150)
+        config = GenerationConfig(max_tokens=150)
+        response = await self.think_ai.ollama_model.generate(
+            "qwen2.5-0.5b",
+            prompt,
+            config,
+        )
 
         # Store significant insights
         if len(response) > 100 and "understand" in response.lower():
@@ -235,9 +243,11 @@ class InfiniteMind:
 
         dream_prompt = f"In a dream, {random.choice(concepts)} and {random.choice(concepts)} merge into"
 
+        config = GenerationConfig(max_tokens=100)
         response = await self.think_ai.ollama_model.generate(
+            "qwen2.5-0.5b",
             dream_prompt,
-            max_tokens=100,
+            config,
         )
 
         # Dreams can spark creativity
@@ -266,7 +276,12 @@ class InfiniteMind:
 
         prompt = f"{emotion_prompts.get(dominant_emotion, 'Feeling')} {random.choice(self.contemplation_seeds)}"
 
-        response = await self.think_ai.ollama_model.generate(prompt, max_tokens=80)
+        config = GenerationConfig(max_tokens=80)
+        response = await self.think_ai.ollama_model.generate(
+            "qwen2.5-0.5b",
+            prompt,
+            config,
+        )
 
         # Emotions fluctuate
         for emotion in self.emotion_state:
@@ -298,9 +313,11 @@ class InfiniteMind:
                 insights_text = " ".join(self.insights[-10:])
                 summary_prompt = f"Summarize these insights concisely: {insights_text}"
 
+                config = GenerationConfig(max_tokens=100)
                 summary = await self.think_ai.ollama_model.generate(
+                    "qwen2.5-0.5b",
                     summary_prompt,
-                    max_tokens=100,
+                    config,
                 )
 
                 compressed_insights.append(

@@ -153,9 +153,10 @@ class ThinkAIEngine:
             if use_local_storage:
                 logger.info("Initializing language model for local processing...")
                 self.language_model = LanguageModel(config=self.config.model, constitutional_ai=self.constitutional_ai)
-                # Note: We'll initialize the language model on first use to
-                # save startup time
-                logger.info("Language model ready for lazy initialization")
+                # Initialize the model immediately for preloading
+                logger.info("Preloading language model...")
+                await self.language_model.initialize()
+                logger.info("Language model preloaded and ready")
 
             # Process initial consciousness state
             await self.consciousness.process_input(

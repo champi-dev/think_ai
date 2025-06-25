@@ -59,7 +59,7 @@ async def quick_train():
         if result.results:
             # Get the top result
             top_result = result.results[0]
-            response = top_result.get('content', 'No response')
+            response = top_result.get("content", "No response")
             logger.info(f"A: {response[:200]}...")
         else:
             logger.info("A: No results found")

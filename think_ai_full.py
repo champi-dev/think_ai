@@ -319,6 +319,25 @@ try:
         """Start background tasks on app startup."""
         asyncio.create_task(broadcast_updates())
 
+        # Preload language model for faster first request
+        if engine:
+            try:
+                logger.info("Preloading language model...")
+                await engine.initialize()
+                if hasattr(engine, "language_model") and engine.language_model:
+                    # Test the model with a simple prompt to ensure it's fully loaded
+                    test_prompt = "Hello"
+                    from think_ai.models.language.types import GenerationConfig
+
+                    test_config = GenerationConfig(max_tokens=1)
+                    await engine.language_model.generate(test_prompt, generation_config=test_config)
+                    logger.info(f"Successfully preloaded model: {engine.config.model.model_name}")
+                else:
+                    logger.warning("Language model not available for preloading")
+            except Exception as e:
+                logger.error(f"Failed to preload model: {e}")
+                # Continue anyway - model will be loaded on first request
+
 except ImportError as e:
     import_error = str(e)  # Store the error message
     logger.error(f"Failed to import Think AI components: {import_error}")
