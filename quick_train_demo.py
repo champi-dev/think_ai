@@ -54,9 +54,15 @@ async def quick_train():
     ]
 
     for question in test_questions:
-        result = await engine.process(question)
+        result = await engine.query_knowledge(question)
         logger.info(f"\nQ: {question}")
-        logger.info(f"A: {result.get('response', 'No response')[:200]}...")
+        if result.results:
+            # Get the top result
+            top_result = result.results[0]
+            response = top_result.get('content', 'No response')
+            logger.info(f"A: {response[:200]}...")
+        else:
+            logger.info("A: No results found")
 
     logger.info("\nQuick training complete! Full training available via train_massive_knowledge.py")
 

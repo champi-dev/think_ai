@@ -173,29 +173,30 @@ except:
         
         if [ $? -eq 0 ]; then
             # Extract and display the response
-            echo "$response" | python3 -c "
+            echo "$response" | python3 -c '
 import sys, json
 try:
     data = json.load(sys.stdin)
-    text = data.get('generated_text', data.get('response', 'No response'))
+    text = data.get("generated_text", data.get("response", "No response"))
     # Format the response nicely
-    if '```' in text:
+    if "```" in text:
         # Handle code blocks
-        lines = text.split('\\n')
+        lines = text.split("\n")
         in_code = False
         for line in lines:
-            if '```' in line:
+            if "```" in line:
                 in_code = not in_code
                 print(line)
             elif in_code:
-                print(f'    {line}')
+                print(f"    {line}")
             else:
                 print(line)
     else:
         print(text)
-except:
-    print('Error processing response. Please try again.')
-"
+except Exception as e:
+    print("Error processing response. Please try again.")
+    print(f"Debug: {e}")
+'
         else
             print_error "Failed to connect to API server."
         fi
