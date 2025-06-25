@@ -12,7 +12,7 @@ from pathlib import Path
 from contextlib import asynccontextmanager
 from typing import Optional
 
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -36,7 +36,6 @@ engine: Optional[ThinkAIEngine] = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    pass  # TODO: Implement
     """
     Manage application lifecycle - O(1) startup/shutdown.
     Handles engine initialization and cleanup.
@@ -102,8 +101,7 @@ app.include_router(router)
 
 # WebSocket endpoint
 @app.websocket("/api/v1/ws")
-async def websocket_route(websocket):
-    pass  # TODO: Implement
+async def websocket_route(websocket: WebSocket):
     """WebSocket endpoint for real-time updates."""
     await websocket_endpoint(websocket)
 
@@ -111,7 +109,6 @@ async def websocket_route(websocket):
 # Root endpoint
 @app.get("/")
 async def root():
-    pass  # TODO: Implement
     """Root endpoint with system info."""
     return {
         "name": "Think AI v3.1.0",
@@ -135,7 +132,6 @@ async def root():
 # Health check endpoint at root level too
 @app.get("/health")
 async def health():
-    pass  # TODO: Implement
     """Quick health check - O(1)."""
     if engine and engine.running:
         return {
