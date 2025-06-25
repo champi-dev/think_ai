@@ -1,0 +1,29 @@
+[package]
+name = "think-ai-linter"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# AST parsing
+syn = { version = "2", features = ["full", "visit", "extra-traits"] }
+quote = "1"
+proc-macro2 = "1"
+# File traversal
+walkdir = "2"
+# Pattern matching
+regex = "1"
+# O(1) operations
+ahash = "0.8"
+dashmap = "6"
+# CLI
+clap = { version = "4", features = ["derive"] }
+# Error handling
+anyhow = "1"
+thiserror = "1"
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+# Progress
+indicatif = "0.17"
+# Colored output
+colored = "2"

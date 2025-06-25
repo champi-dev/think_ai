@@ -42,12 +42,13 @@ class EmbeddingModel(ABC):
 class TransformerEmbeddings(EmbeddingModel):
     """Transformer-based embedding model using sentence-transformers."""
 
-    def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+    def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2", target_dimension: int = 768):
         """Initialize the transformer embeddings model."""
         self.model_name = model_name
         self.model = None
         self.tokenizer = None
         self.dimension = None
+        self.target_dimension = target_dimension
         self._initialized = False
 
     async def initialize(self) -> None:
@@ -77,7 +78,7 @@ class TransformerEmbeddings(EmbeddingModel):
         except ImportError:
             logger.warning("sentence-transformers not available, using fallback embeddings")
             self.model = None
-            self.dimension = 384  # Standard embedding size
+            self.dimension = self.target_dimension  # Use target dimension
             self._initialized = True
         except Exception as e:
             logger.error(f"Failed to initialize embedding model: {e}")
@@ -193,13 +194,14 @@ class FastEmbeddings(EmbeddingModel):
 
 def create_embedding_model(
     model_name: str = "sentence-transformers/all-MiniLM-L6-v2",
+    dimension: int = 768
 ) -> EmbeddingModel:
     """Create an embedding model instance."""
     try:
-        return TransformerEmbeddings(model_name)
+        return TransformerEmbeddings(model_name, target_dimension=dimension)
     except Exception:
         logger.warning("Falling back to fast embeddings")
-        return FastEmbeddings()
+        return FastEmbeddings(dimension=dimension)
 
 
 # Export main classes

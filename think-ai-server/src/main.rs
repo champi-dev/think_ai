@@ -23,9 +23,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     info!("Vector index initialized");
     
-    // Start HTTP server
-    let addr: SocketAddr = "127.0.0.1:8080".parse()?;
-    info!("Starting HTTP server on {}", addr);
+    // Start HTTP server with dynamic port
+    let addr: SocketAddr = "127.0.0.1:0".parse()?;
+    info!("Starting HTTP server with dynamic port allocation");
     
     // Run server in background
     let server_handle = tokio::spawn(

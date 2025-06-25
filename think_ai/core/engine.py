@@ -147,7 +147,10 @@ class ThinkAIEngine:
 
             # Initialize embedding model (lightweight for local)
             logger.info("Initializing embedding model...")
-            self.embedding_model = create_embedding_model("sentence-transformers/all-MiniLM-L6-v2")
+            self.embedding_model = create_embedding_model(
+                "sentence-transformers/all-MiniLM-L6-v2", 
+                dimension=self.config.vector_db.dimension
+            )
             await self.embedding_model.initialize()
 
             # Initialize consciousness framework
@@ -231,8 +234,7 @@ class ThinkAIEngine:
                 embedding = await self.embedding_model.embed_text(str(content))
 
                 # Store in vector database
-                await self.vector_db.insert_vectors(
-                    self.config.vector_db.collection_name,
+                await self.vector_db.add_vectors(
                     [embedding],
                     [key],
                     [{"key": key, "type": "content", **(metadata or {})}],
@@ -300,9 +302,7 @@ class ThinkAIEngine:
                 query_embedding = await self.embedding_model.embed_text(query)
 
                 # Search in vector database
-                vector_results = await self.vector_db.search(
-                    self.config.vector_db.collection_name, query_embedding, top_k=limit
-                )
+                vector_results = await self.vector_db.search(query_embedding, top_k=limit)
 
                 # Retrieve full items for each result
                 for vr in vector_results:
@@ -399,8 +399,7 @@ class ThinkAIEngine:
                 metadatas = [{"key": key, "type": "content", **(metadata or {})} for key in items.keys()]
 
                 # Store in vector database
-                await self.vector_db.insert_vectors(
-                    self.config.vector_db.collection_name,
+                await self.vector_db.add_vectors(
                     embeddings,
                     list(items.keys()),
                     metadatas,

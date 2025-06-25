@@ -26,7 +26,6 @@ pub trait Storage: Send + Sync {
 }
 
 /// Typed storage wrapper
-#[derive(Clone)]
 pub struct TypedStorage<T> {
     inner: Box<dyn Storage>,
     _phantom: std::marker::PhantomData<T>,

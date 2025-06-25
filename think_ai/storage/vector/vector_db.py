@@ -140,6 +140,15 @@ class InMemoryVectorDB(VectorDB):
             raise ValueError(f"Dimension mismatch: expected {self.dimension}, got {dimension}")
         logger.debug(f"Collection '{collection_name}' created (in-memory DB)")
 
+    async def get_collection_stats(self, collection_name: str) -> Dict[str, Any]:
+        """Get collection statistics."""
+        return {
+            "num_vectors": len(self.vectors),
+            "dimension": self.dimension,
+            "collection": collection_name,
+            "type": "in-memory"
+        }
+
     async def close(self) -> None:
         """Close the database (cleanup memory)."""
         self.vectors.clear()
@@ -259,6 +268,19 @@ class FaissVectorDB(VectorDB):
         if dimension != self.dimension:
             raise ValueError(f"Dimension mismatch: expected {self.dimension}, got {dimension}")
         logger.debug(f"Collection '{collection_name}' created (FAISS DB)")
+
+    async def get_collection_stats(self, collection_name: str) -> Dict[str, Any]:
+        """Get collection statistics."""
+        if hasattr(self, "_fallback"):
+            return await self._fallback.get_collection_stats(collection_name)
+            
+        return {
+            "num_vectors": self.index.ntotal if self.index else 0,
+            "dimension": self.dimension,
+            "collection": collection_name,
+            "type": "faiss",
+            "index_type": self.index_type
+        }
 
     async def close(self) -> None:
         """Close the database."""

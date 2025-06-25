@@ -18,3 +18,8 @@ im.workspace = true
 # Functional programming patterns
 futures = "0.3"
 either = "1.13"
+
+# Additional dependencies
+parking_lot.workspace = true
+uuid = { version = "1.17", features = ["v4"] }
+chrono = "0.4"

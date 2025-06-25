@@ -237,6 +237,14 @@ class Config:
         # Allow environment variable override for model name
         if model_name := os.getenv("MODEL_NAME"):
             config.model.model_name = model_name
+        
+        # Override Neo4j configuration with environment variables
+        if neo4j_uri := os.getenv("NEO4J_URI"):
+            config.graph_db.uri = neo4j_uri
+        if neo4j_username := os.getenv("NEO4J_USERNAME"):
+            config.graph_db.username = neo4j_username
+        if neo4j_password := os.getenv("NEO4J_PASSWORD"):
+            config.graph_db.password = neo4j_password
 
         return config
 

@@ -11,6 +11,8 @@ members = [
     "think-ai-cache",
     "think-ai-utils",
     "think-ai-server",
+    "think-ai-process-manager",
+    "think-ai-linter",
 ]
 
 [workspace.package]
