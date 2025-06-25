@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-06-24 08:52:18",
+  "summary": {
+    "total_tests": 6,
+    "passed": 5,
+    "failed": 1,
+    "success_rate": "83.3%"
+  },
+  "tests": [
+    {
+      "test": "Webapp Homepage",
+      "status": "\u2705 PASS",
+      "details": "Status: 200, Content includes 'Think AI': Yes"
+    },
+    {
+      "test": "API Health Check",
+      "status": "\u2705 PASS",
+      "details": "Status: 200, Response: {'status': 'healthy', 'service': 'think-ai-full', 'note': 'Basic health check only'}"
+    },
+    {
+      "test": "API Generate Endpoint",
+      "status": "\u2705 PASS",
+      "details": "Status: 200, Has response: No"
+    },
+    {
+      "test": "Static Assets",
+      "status": "\u2705 PASS",
+      "details": "Manifest: 200, Service Worker: 200"
+    },
+    {
+      "test": "Webapp API Proxy",
+      "status": "\u2705 PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "WebSocket Connection",
+      "status": "\u274c FAIL",
+      "details": "received 1005 (no status received [internal]); then sent 1005 (no status received [internal])"
+    }
+  ],
+  "conclusion": "\u26a0\ufe0f SOME TESTS FAILED"
+}

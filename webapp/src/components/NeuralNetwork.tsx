@@ -1,6 +1,7 @@
 import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { getPerformanceSettings, createFrameLimiter } from '../lib/performance'
 
 interface Node {
   position: THREE.Vector3
@@ -10,6 +11,8 @@ interface Node {
 export default function NeuralNetwork() {
   const groupRef = useRef<THREE.Group>(null)
   const linesRef = useRef<THREE.LineSegments>(null)
+  const perfSettings = getPerformanceSettings()
+  const frameLimiter = useMemo(() => createFrameLimiter(perfSettings.targetFPS), [perfSettings.targetFPS])
   
   const { nodes, linePositions } = useMemo(() => {
     const layerSizes = [5, 8, 12, 8, 5]
@@ -38,7 +41,7 @@ export default function NeuralNetwork() {
           const prevLayerSize = layerSizes[layerIndex - 1]
           
           for (let j = 0; j < prevLayerSize; j++) {
-            if (Math.random() > 0.3) {
+            if (Math.random() > (1 - perfSettings.neuralNetworkConnections)) {
               connections.push([nodeIndex, prevLayerStart + j])
               nodes[nodeIndex].connections.push(prevLayerStart + j)
             }
@@ -64,24 +67,26 @@ export default function NeuralNetwork() {
   }, [])
   
   useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.z += 0.001
-    }
-    
-    if (linesRef.current) {
-      const time = state.clock.elapsedTime
-      const material = linesRef.current.material as THREE.LineBasicMaterial
+    frameLimiter(() => {
+      if (groupRef.current) {
+        groupRef.current.rotation.z += 0.001 * perfSettings.animationSpeed
+      }
       
-      const hue = (Math.sin(time * 0.5) + 1) * 0.5
-      material.color.setHSL(hue, 0.7, 0.5)
-    }
+      if (linesRef.current && perfSettings.animationSpeed > 0) {
+        const time = state.clock.elapsedTime
+        const material = linesRef.current.material as THREE.LineBasicMaterial
+        
+        const hue = (Math.sin(time * 0.5 * perfSettings.animationSpeed) + 1) * 0.5
+        material.color.setHSL(hue, 0.7, 0.5)
+      }
+    })
   })
   
   return (
     <group ref={groupRef} position={[0, 0, -10]}>
       {nodes.map((node, i) => (
         <mesh key={i} position={node.position}>
-          <sphereGeometry args={[0.3, 16, 16]} />
+          <sphereGeometry args={[0.3, perfSettings.sphereSegments, perfSettings.sphereSegments]} />
           <meshPhongMaterial
             color="#ffffff"
             emissive="#6366f1"

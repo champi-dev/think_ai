@@ -9,4 +9,4 @@ config_auto.replace_list_option_in_docstrings = lambda *args, **kwargs: lambda f
 # Now start the actual application
 import os
 
-os.system("python think_ai_full.py")
+os.system("python3 think_ai_full.py")

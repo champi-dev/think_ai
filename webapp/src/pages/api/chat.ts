@@ -37,9 +37,9 @@ export default async function handler(
     
     // Transform response to match webapp expectations
     res.status(200).json({
-      response: data.response,
-      consciousness: data.consciousness,
-      ethics: data.ethics,
+      response: data.generated_text || data.response || 'No response generated',
+      consciousness: data.consciousness || {},
+      ethics: data.ethics || {},
       conversationId: data.conversation_id,
     })
   } catch (error) {

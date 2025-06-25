@@ -47,7 +47,6 @@ class GenerateRequest(BaseModel):
     prompt: str
     max_length: int = 200
     temperature: float = 0.7
-    colombian_mode: bool = True
 
 
 class OptimizeRequest(BaseModel):
@@ -168,28 +167,64 @@ async def query_knowledge(request: QueryRequest) -> Dict[str, Any]:
 @router.post("/generate")
 async def generate_text(request: GenerateRequest) -> Dict[str, Any]:
     pass  # TODO: Implement
-    """Generate text with Colombian AI enhancements."""
+    """Generate text using Think AI's distributed intelligence."""
     try:
         engine = await get_engine()
-
-        # Apply Colombian mode
-        prompt = request.prompt
-        if request.colombian_mode:
-            prompt = f"[Colombian AI Mode - ¡Dale que vamos tarde!] {prompt}"
-
-        # Simulate generation (would use actual model)
-        generated = f"Generated response for: {prompt[:50]}..."
-
+        
+        # First check pre-trained knowledge
+        from ..training.knowledge_loader import knowledge_loader
+        
+        # Load knowledge if not already loaded
+        if not hasattr(knowledge_loader, 'manifest'):
+            knowledge_loader.load_knowledge()
+        
+        # Try to get answer from pre-trained knowledge
+        generated_text = knowledge_loader.get_answer(request.prompt)
+        
+        if not generated_text:
+            # Use the actual Think AI engine with Qwen model
+            result = await engine.process(request.prompt)
+            
+            # The engine returns comprehensive responses with consciousness state
+            generated_text = result.get("response", "")
+            
+            # If no response from engine, fall back to knowledge query
+            if not generated_text:
+                # Query the distributed knowledge base
+                knowledge_results = await engine.query_knowledge(request.prompt, limit=5)
+                if knowledge_results.results:
+                    # Combine knowledge results into a response
+                    generated_text = f"Based on my knowledge: {knowledge_results.results[0].get('content', '')}"
+                else:
+                    # Use the language model directly
+                    generated_text = await engine._generate_with_model(request.prompt)
+        
+        # Add consciousness insights if available
+        consciousness_state = result.get("consciousness", {})
+        if consciousness_state.get("insights"):
+            generated_text += f"\n\nInsights: {consciousness_state['insights']}"
+        
+        # Import persistent intelligence
+        from ..training.persistent_intelligence import persistent_intelligence
+        
+        # Save this interaction for eternal learning
+        if generated_text:
+            persistent_intelligence.learn_from_interaction(
+                user_input=request.prompt,
+                ai_response=generated_text,
+                feedback=None  # Can be updated later
+            )
+        
         # O(1) cache for repeated prompts
-        prompt_hash = hashlib.md5(prompt.encode()).hexdigest()
+        prompt_hash = hashlib.md5(request.prompt.encode()).hexdigest()
 
         return {
             "success": True,
             "prompt": request.prompt,
-            "generated_text": generated,
-            "colombian_mode": request.colombian_mode,
+            "generated_text": generated_text,
             "prompt_hash": prompt_hash,
             "cached": False,  # Would check actual cache
+            "knowledge_growth": persistent_intelligence.get_growth_metrics()
         }
     except Exception as e:
         logger.error(f"Generation failed: {e}")
@@ -228,7 +263,7 @@ async def optimize_code(request: OptimizeRequest) -> Dict[str, Any]:
             "original_code": request.code[:100] + "...",
             "target_complexity": request.target_complexity,
             "optimizations": optimizations,
-            "colombian_optimization": "Speed boost with coffee algorithm ☕",
+            "optimization_status": "Ready for O(1) performance",
         }
     except Exception as e:
         logger.error(f"Code optimization failed: {e}")
@@ -241,6 +276,10 @@ async def intelligence_status() -> Dict[str, Any]:
     """Get current intelligence optimization status."""
     try:
         from ..intelligence_optimizer import intelligence_optimizer
+        from ..training.persistent_intelligence import persistent_intelligence
+        
+        # Get growth metrics
+        growth = persistent_intelligence.get_growth_metrics()
 
         return {
             "success": True,
@@ -249,14 +288,44 @@ async def intelligence_status() -> Dict[str, Any]:
             "improvement": "79.4%",
             "optimizations_applied": [
                 "O(1) caching",
-                "Colombian creativity boost",
                 "Exponential learning",
                 "Parallel processing",
+                "Advanced optimization"
             ],
-            "colombian_mode": "Active 🇨🇴",
+            "knowledge_growth": {
+                "total_knowledge": growth["total_knowledge"],
+                "unique_concepts": growth["unique_concepts"],
+                "interactions": growth["interactions"],
+                "learning_rate_per_minute": growth["learning_rate"],
+                "database_size_mb": round(growth["database_size_mb"], 2)
+            },
+            "message": f"Intelligence constantly growing: {growth['total_knowledge']:,} knowledge items"
         }
     except Exception as e:
         logger.error(f"Failed to get intelligence status: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/feedback")
+async def provide_feedback(prompt: str, response: str, feedback: str) -> Dict[str, Any]:
+    """Provide feedback on AI responses for continuous learning."""
+    try:
+        from ..training.persistent_intelligence import persistent_intelligence
+        
+        # Learn from feedback
+        persistent_intelligence.learn_from_interaction(
+            user_input=prompt,
+            ai_response=response,
+            feedback=feedback
+        )
+        
+        return {
+            "success": True,
+            "message": "Thank you for your feedback! I'm always learning.",
+            "knowledge_growth": persistent_intelligence.get_growth_metrics()
+        }
+    except Exception as e:
+        logger.error(f"Feedback processing failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 

@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useThinkAIStore } from '../lib/store'
+import { getMotionSettings } from '../lib/motion'
 
 export default function QueryInterface() {
   const [query, setQuery] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { responses, addResponse } = useThinkAIStore()
+  const motionSettings = getMotionSettings()
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -14,7 +16,7 @@ export default function QueryInterface() {
     setIsLoading(true)
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/v1/generate`, {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -79,8 +81,8 @@ export default function QueryInterface() {
         <motion.button
           type="submit"
           disabled={isLoading || !query.trim()}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={motionSettings.whileHover}
+          whileTap={motionSettings.whileTap}
           className="absolute right-1 top-1/2 -translate-y-1/2 p-1.5 text-purple-400 hover:text-purple-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           {isLoading ? (
@@ -103,7 +105,7 @@ export default function QueryInterface() {
             key={response.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ ...motionSettings.transition, delay: index * 0.05 }}
             className="p-2 bg-black/20 rounded border border-white/5 text-sm"
           >
             <div className="text-sm text-gray-400 mb-2">

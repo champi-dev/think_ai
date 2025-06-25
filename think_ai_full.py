@@ -77,9 +77,12 @@ try:
     from typing import Any, Dict, List, Optional
     from pathlib import Path
 
-    from fastapi import FastAPI, HTTPException
+    from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
     from fastapi.middleware.cors import CORSMiddleware
+    from fastapi.websockets import WebSocketState
     from pydantic import BaseModel
+    import asyncio
+    import json
 
     # Import warnings handler
     import warnings
@@ -94,6 +97,48 @@ try:
     from think_ai.core.engine import ThinkAIEngine
 
     logger.info("Successfully imported all Think AI components")
+
+    # WebSocket Connection Manager
+    class ConnectionManager:
+        """Manages WebSocket connections for real-time updates."""
+        
+        def __init__(self):
+            self.active_connections: set[WebSocket] = set()
+            self.connection_stats = {"total_connections": 0, "messages_sent": 0}
+        
+        async def connect(self, websocket: WebSocket):
+            await websocket.accept()
+            self.active_connections.add(websocket)
+            self.connection_stats["total_connections"] += 1
+            logger.info(f"WebSocket connected. Active: {len(self.active_connections)}")
+        
+        def disconnect(self, websocket: WebSocket):
+            self.active_connections.discard(websocket)
+            logger.info(f"WebSocket disconnected. Active: {len(self.active_connections)}")
+        
+        async def broadcast(self, message: Dict[str, Any]):
+            if not self.active_connections:
+                return
+            
+            message_str = json.dumps(message)
+            disconnected = set()
+            
+            for connection in self.active_connections:
+                try:
+                    if connection.client_state == WebSocketState.CONNECTED:
+                        await connection.send_text(message_str)
+                        self.connection_stats["messages_sent"] += 1
+                    else:
+                        disconnected.add(connection)
+                except Exception as e:
+                    logger.error(f"Error sending message: {e}")
+                    disconnected.add(connection)
+            
+            for conn in disconnected:
+                self.disconnect(conn)
+
+    # Global connection manager
+    manager = ConnectionManager()
 
     # Initialize Think AI with Railway-optimized config
     config = Config()
@@ -183,6 +228,85 @@ try:
             # If health check fails, still return healthy to pass Railway checks
             logger.warning(f"Health check failed: {e}")
             return {"status": "healthy", "service": "think-ai-full", "note": "Basic health check only"}
+
+    @app.websocket("/api/v1/ws")
+    async def websocket_endpoint(websocket: WebSocket):
+        """WebSocket endpoint for real-time updates."""
+        await manager.connect(websocket)
+        try:
+            while True:
+                # Keep connection alive and handle incoming messages
+                try:
+                    data = await websocket.receive_text()
+                    message = json.loads(data)
+                    
+                    if message.get("type") == "ping":
+                        await websocket.send_text(json.dumps({"type": "pong"}))
+                    
+                    # Send initial data
+                    elif message.get("type") == "init":
+                        # Send mock consciousness update
+                        await websocket.send_text(json.dumps({
+                            "type": "consciousness_update",
+                            "attention_focus": "Initializing neural pathways",
+                            "consciousness_flow": 50,
+                            "awareness_level": 0.75,
+                            "workspace_activity": list(range(10)),
+                            "global_broadcast": "aware"
+                        }))
+                        
+                        # Send mock intelligence update
+                        await websocket.send_text(json.dumps({
+                            "type": "intelligence_update",
+                            "iq": 125,
+                            "consciousness_level": 0.75,
+                            "knowledge_count": 1000,
+                            "training_cycles": 100,
+                            "neural_pathways": 750,
+                            "synaptic_strength": 0.85
+                        }))
+                        
+                except WebSocketDisconnect:
+                    break
+                except Exception as e:
+                    logger.error(f"WebSocket error: {e}")
+                    await asyncio.sleep(1)
+                    
+        finally:
+            manager.disconnect(websocket)
+    
+    # Background task for periodic updates
+    async def broadcast_updates():
+        """Send periodic updates to all connected WebSocket clients."""
+        while True:
+            await asyncio.sleep(2)
+            
+            # Mock consciousness update
+            await manager.broadcast({
+                "type": "consciousness_update",
+                "attention_focus": "Processing consciousness stream",
+                "consciousness_flow": 50 + (hash(str(asyncio.get_event_loop().time())) % 50),
+                "awareness_level": 0.7 + (hash(str(asyncio.get_event_loop().time())) % 30) / 100,
+                "workspace_activity": list(range(10 + hash(str(asyncio.get_event_loop().time())) % 10)),
+                "global_broadcast": "aware"
+            })
+            
+            # Mock intelligence update
+            await manager.broadcast({
+                "type": "intelligence_update",
+                "iq": 120 + (hash(str(asyncio.get_event_loop().time())) % 30),
+                "consciousness_level": 0.7 + (hash(str(asyncio.get_event_loop().time())) % 30) / 100,
+                "knowledge_count": 1000 + hash(str(asyncio.get_event_loop().time())) % 500,
+                "training_cycles": 100 + hash(str(asyncio.get_event_loop().time())) % 50,
+                "neural_pathways": 700 + hash(str(asyncio.get_event_loop().time())) % 300,
+                "synaptic_strength": 0.8 + (hash(str(asyncio.get_event_loop().time())) % 20) / 100
+            })
+    
+    # Start background update task
+    @app.on_event("startup")
+    async def startup_event():
+        """Start background tasks on app startup."""
+        asyncio.create_task(broadcast_updates())
 
 except ImportError as e:
     import_error = str(e)  # Store the error message

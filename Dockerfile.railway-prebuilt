@@ -13,4 +13,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
 EXPOSE 8080
 
 # Run the FULL system
-CMD ["python", "think_ai_full.py"]
+CMD ["python3", "process_manager.py"]

@@ -9,17 +9,19 @@ import NeuralNetwork from '../components/NeuralNetwork'
 import QueryInterfaceEnhanced from '../components/QueryInterfaceEnhanced'
 import IntelligenceDashboard from '../components/IntelligenceDashboard'
 import { useThinkAIStore } from '../lib/store'
+import { getPerformanceSettings } from '../lib/performance'
 
 export default function Home() {
   const [socket, setSocket] = useState<WebSocket | null>(null)
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const { setConsciousnessState, setIntelligenceMetrics } = useThinkAIStore()
+  const perfSettings = getPerformanceSettings()
 
   // Log intelligence metrics periodically
   useEffect(() => {
     const logInterval = setInterval(async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/v1/intelligence`)
+        const response = await fetch('/api/intelligence')
         if (response.ok) {
           const data = await response.json()
           console.log('🧠 Intelligence Metrics:', {
@@ -46,7 +48,10 @@ export default function Home() {
       console.log('Connecting to WebSocket...')
       
       // Connect to the API server WebSocket endpoint
-      const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080/api/v1/ws'
+      // Use dynamic URL that works in both development and production
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+      const host = window.location.host
+      const wsUrl = process.env.NEXT_PUBLIC_WS_URL || `${protocol}//${host}/api/v1/ws`
       
       ws = new WebSocket(wsUrl)
       
@@ -122,7 +127,7 @@ export default function Home() {
       <div className="fixed inset-0 z-0">
         <Canvas
           camera={{ position: [0, 0, 30], fov: 75 }}
-          gl={{ antialias: true, alpha: true }}
+          gl={{ antialias: perfSettings.antialias, alpha: true }}
         >
           <color attach="background" args={['#000000']} />
           <fog attach="fog" args={['#000000', 10, 100]} />
@@ -131,9 +136,9 @@ export default function Home() {
           <pointLight position={[10, 10, 10]} intensity={0.5} />
           <pointLight position={[-10, -10, -10]} intensity={0.5} color="#6366f1" />
           
-          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+          <Stars radius={100} depth={50} count={perfSettings.particleCount} factor={4} saturation={0} fade speed={perfSettings.animationSpeed} />
           
-          <Float speed={1} rotationIntensity={1} floatIntensity={2}>
+          <Float speed={perfSettings.animationSpeed} rotationIntensity={perfSettings.animationSpeed} floatIntensity={perfSettings.animationSpeed * 2}>
             <ConsciousnessVisualization />
           </Float>
           
@@ -148,19 +153,21 @@ export default function Home() {
             rotateSpeed={0.4}
           />
           
-          <EffectComposer>
-            <Bloom
-              intensity={0.5}
-              luminanceThreshold={0.2}
-              luminanceSmoothing={0.9}
-              height={300}
-            />
-            <ChromaticAberration
-              offset={new Vector2(0.0005, 0.0012)}
-              radialModulation={false}
-              modulationOffset={0}
-            />
-          </EffectComposer>
+          {perfSettings.postProcessing && (
+            <EffectComposer>
+              <Bloom
+                intensity={0.5}
+                luminanceThreshold={0.2}
+                luminanceSmoothing={0.9}
+                height={300}
+              />
+              <ChromaticAberration
+                offset={new Vector2(0.0005, 0.0012)}
+                radialModulation={false}
+                modulationOffset={0}
+              />
+            </EffectComposer>
+          )}
         </Canvas>
       </div>
 

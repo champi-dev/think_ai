@@ -45,7 +45,7 @@ class ReverseProxyHandler(BaseHTTPRequestHandler):
         if self.path.startswith("/api/") or self.path == "/health":
             # Route to API server
             target_host = "localhost"
-            target_port = 8080
+            target_port = 8081
         else:
             # Route to webapp
             target_host = "localhost"
@@ -134,10 +134,10 @@ def main():
 
     # Use progress bar for startup
     with progress_context(total=3, description="Starting Think AI services") as pbar:
-        # Start the API server on internal port 8080
+        # Start the API server on internal port 8081
         api_env = os.environ.copy()
-        api_env["PORT"] = "8080"
-        api_process = start_service("API", [sys.executable, "start_with_patch.py"], env=api_env, progress_bar=pbar)
+        api_env["PORT"] = "8081"
+        api_process = start_service("API", [sys.executable, "think_ai_full.py"], env=api_env, progress_bar=pbar)
         
         # Wait for API to start
         for i in range(5):
@@ -149,7 +149,7 @@ def main():
         webapp_env = os.environ.copy()
         webapp_env["PORT"] = "3000"
         webapp_env["NODE_ENV"] = "production"
-        webapp_env["NEXT_PUBLIC_API_URL"] = "http://localhost:8080"
+        webapp_env["NEXT_PUBLIC_API_URL"] = "http://localhost:8081"
         
         webapp_process = start_service("Webapp", ["npm", "start"], cwd="webapp", env=webapp_env, progress_bar=pbar)
         

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useThinkAIStore } from '../lib/store'
+import { getMotionSettings } from '../lib/motion'
 import React from 'react'
 
 export default function QueryInterfaceEnhanced() {
@@ -8,6 +9,7 @@ export default function QueryInterfaceEnhanced() {
   const [isLoading, setIsLoading] = useState(false)
   const { responses, addResponse } = useThinkAIStore()
   const inputRef = useRef<HTMLInputElement>(null)
+  const motionSettings = getMotionSettings()
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -16,7 +18,7 @@ export default function QueryInterfaceEnhanced() {
     setIsLoading(true)
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/v1/chat`, {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -34,9 +36,9 @@ export default function QueryInterfaceEnhanced() {
       addResponse({
         id: Date.now().toString(),
         query,
-        response: data.response,
+        response: data.response || 'No response received',
         consciousness_state: data.consciousness,
-        has_code: data.response.includes('```'),
+        has_code: data.response ? data.response.includes('```') : false,
         response_type: 'text',
         timestamp: new Date()
       })
@@ -126,8 +128,8 @@ export default function QueryInterfaceEnhanced() {
         <motion.button
           type="submit"
           disabled={isLoading || !query.trim()}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={motionSettings.whileHover}
+          whileTap={motionSettings.whileTap}
           className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-purple-400 hover:text-purple-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           {isLoading ? (
@@ -150,7 +152,7 @@ export default function QueryInterfaceEnhanced() {
               key={response.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ ...motionSettings.transition, delay: index * 0.05 }}
               className="p-4 bg-black/20 rounded-lg border border-white/10"
             >
               <div className="flex items-center justify-between mb-2">

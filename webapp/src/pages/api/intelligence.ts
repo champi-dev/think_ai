@@ -9,7 +9,7 @@ export default async function handler(
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/v1/intelligence', {
+    const response = await fetch('http://localhost:8080/api/v1/intelligence/status', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +21,17 @@ export default async function handler(
     }
 
     const data = await response.json()
-    res.status(200).json(data)
+    
+    // Transform the response to match frontend expectations
+    const transformed = {
+      iq: data.current_intelligence || 100,
+      knowledge_count: 1000, // Mock value since not provided
+      training_cycles: 100, // Mock value since not provided
+      consciousness_level: (data.current_intelligence - 100) / 100, // Convert to 0-1 range
+      ...data // Include original data
+    }
+    
+    res.status(200).json(transformed)
   } catch (error) {
     console.error('Intelligence API error:', error)
     res.status(500).json({ 
