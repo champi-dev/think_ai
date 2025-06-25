@@ -24,6 +24,35 @@ except ImportError:
 load_dotenv()
 
 
+def _get_default_device() -> str:
+    """Detect the best available device (cuda/mps/cpu)."""
+    # Check if explicitly set
+    device = os.getenv("THINK_AI_DEVICE")
+    if device:
+        return device
+
+    # Try to detect CUDA
+    try:
+        import torch
+
+        if torch.cuda.is_available():
+            return "cuda"
+        elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+            return "mps"
+    except ImportError:
+        pass
+
+    # Default to CPU
+    return "cpu"
+
+
+def _get_default_dtype() -> str:
+    """Get default dtype based on device."""
+    device = _get_default_device()
+    # Use float16 for GPU, float32 for CPU
+    return "float16" if device in ["cuda", "mps"] else "float32"
+
+
 @dataclass
 class ScyllaDBConfig:
     pass  # TODO: Implement
@@ -95,12 +124,12 @@ class ModelConfig:
     """AI model configuration settings."""
 
     # Default model for backwards compatibility
-    model_name: str = "Qwen/Qwen2.5-0.5B-Instruct"
+    model_name: str = "Qwen/Qwen2.5-3B-Instruct"
     quantization: str = "int4"
-    device: str = "cpu"
-    max_tokens: int = 10000  # Updated to 10,000 for Qwen
+    device: str = field(default_factory=_get_default_device)
+    max_tokens: int = 5000  # Updated to 5,000 for Qwen 3B
     temperature: float = 0.7
-    torch_dtype: str = "float32"
+    torch_dtype: str = field(default_factory=_get_default_dtype)
     offline_model_path: Optional[Path] = None
     hf_token: Optional[str] = field(default_factory=lambda: os.getenv("HF_TOKEN") or HUGGINGFACE_API_KEY)
 
