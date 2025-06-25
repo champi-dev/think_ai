@@ -134,6 +134,19 @@ class InMemoryVectorDB(VectorDB):
         """Get total number of vectors."""
         return len(self.vectors)
 
+    async def create_collection(self, collection_name: str, dimension: int) -> None:
+        """Create a collection (no-op for in-memory DB)."""
+        if dimension != self.dimension:
+            raise ValueError(f"Dimension mismatch: expected {self.dimension}, got {dimension}")
+        logger.debug(f"Collection '{collection_name}' created (in-memory DB)")
+
+    async def close(self) -> None:
+        """Close the database (cleanup memory)."""
+        self.vectors.clear()
+        self.metadata.clear()
+        self._initialized = False
+        logger.debug("In-memory vector DB closed")
+
 
 class FaissVectorDB(VectorDB):
     """FAISS-based vector database for high performance."""
@@ -240,6 +253,23 @@ class FaissVectorDB(VectorDB):
             return await self._fallback.get_vector_count()
 
         return self.index.ntotal if self.index else 0
+
+    async def create_collection(self, collection_name: str, dimension: int) -> None:
+        """Create a collection (no-op for FAISS)."""
+        if dimension != self.dimension:
+            raise ValueError(f"Dimension mismatch: expected {self.dimension}, got {dimension}")
+        logger.debug(f"Collection '{collection_name}' created (FAISS DB)")
+
+    async def close(self) -> None:
+        """Close the database."""
+        if hasattr(self, "_fallback"):
+            return await self._fallback.close()
+        
+        self.index = None
+        self.id_map.clear()
+        self.metadata.clear()
+        self._initialized = False
+        logger.debug("FAISS vector DB closed")
 
 
 def create_vector_db(dimension: int, db_type: str = "memory") -> VectorDB:

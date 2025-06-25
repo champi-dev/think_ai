@@ -1,0 +1,34 @@
+[package]
+name = "think-ai-vector"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+think-ai-utils = { path = "../think-ai-utils" }
+tokio.workspace = true
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+ahash.workspace = true
+dashmap.workspace = true
+parking_lot.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+# Math and vector operations
+nalgebra = "0.33"
+ndarray = "0.16"
+num-traits = "0.2"
+
+# Random number generation
+rand = "0.8"
+rand_chacha = "0.3"
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "o1_performance"
+harness = false

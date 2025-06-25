@@ -39,7 +39,11 @@ class SqliteFallbackConnection:
 
     async def __aenter__(self):
         loop = asyncio.get_event_loop()
-        self._executor = loop._default_executor
+        try:
+            self._executor = loop._default_executor
+        except AttributeError:
+            # uvloop doesn't expose _default_executor, use None instead
+            self._executor = None
         await loop.run_in_executor(self._executor, self._connect)
         return self
 

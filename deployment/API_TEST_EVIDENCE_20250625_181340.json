@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-06-25T18:13:42.828026",
+  "api_base": "http://localhost:8888",
+  "tests": {
+    "health_check": {
+      "status_code": 200,
+      "response": {
+        "status": "operational",
+        "ai": "dynamic_o1",
+        "thought_evolution": 0
+      },
+      "success": true
+    },
+    "chat_responses": [
+      {
+        "message": "Hello AI",
+        "response": "My quantum thoughts suggest considering this further.",
+        "response_time_ms": 0.009,
+        "api_total_time_ms": 2.370119094848633,
+        "thought_evolution": 1,
+        "success": true
+      },
+      {
+        "message": "What is consciousness?",
+        "response": "Processing with consciousness level 38%...",
+        "response_time_ms": 0.008,
+        "api_total_time_ms": 2.4805068969726562,
+        "thought_evolution": 2,
+        "success": true
+      },
+      {
+        "message": "Explain O(1) complexity",
+        "response": "Fascinating! My hash-based cognition sees 3 dimensions here.",
+        "response_time_ms": 0.009,
+        "api_total_time_ms": 2.2346973419189453,
+        "thought_evolution": 3,
+        "success": true
+      },
+      {
+        "message": "Generate a haiku",
+        "response": "This triggers 25 parallel insights in my network.",
+        "response_time_ms": 0.008,
+        "api_total_time_ms": 2.256631851196289,
+        "thought_evolution": 4,
+        "success": true
+      },
+      {
+        "message": "\u00bfHablas espa\u00f1ol?",
+        "response": "Processing with consciousness level 3%...",
+        "response_time_ms": 0.008,
+        "api_total_time_ms": 2.4352073669433594,
+        "thought_evolution": 5,
+        "success": true
+      }
+    ],
+    "load_test": {
+      "requests": 50,
+      "avg_ms": 2.348141670227051,
+      "min_ms": 2.1958351135253906,
+      "max_ms": 2.66265869140625,
+      "success": true
+    }
+  }
+}

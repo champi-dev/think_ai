@@ -120,7 +120,7 @@ class ThinkAIEngine:
                 if not use_local_storage:
                     # Initialize vector database
                     logger.info("Initializing vector database...")
-                    self.vector_db = create_vector_db(self.config.vector_db)
+                    self.vector_db = create_vector_db(self.config.vector_db.dimension, self.config.vector_db.provider)
                     await self.vector_db.initialize()
                     await self.vector_db.create_collection(
                         self.config.vector_db.collection_name,
@@ -128,14 +128,20 @@ class ThinkAIEngine:
                     )
 
                     # Initialize knowledge graph
-                    logger.info("Initializing knowledge graph...")
-                    self.knowledge_graph = KnowledgeGraph(
-                        uri=self.config.graph_db.uri,
-                        username=self.config.graph_db.username,
-                        password=self.config.graph_db.password,
-                    )
-                    await self.knowledge_graph.initialize()
-                    self.graph_engine = GraphEnhancedEngine(self.knowledge_graph)
+                    try:
+                        logger.info("Initializing knowledge graph...")
+                        self.knowledge_graph = KnowledgeGraph(
+                            uri=self.config.graph_db.uri,
+                            username=self.config.graph_db.username,
+                            password=self.config.graph_db.password,
+                        )
+                        await self.knowledge_graph.initialize()
+                        self.graph_engine = GraphEnhancedEngine(self.knowledge_graph)
+                    except Exception as e:
+                        logger.warning(f"Knowledge graph initialization failed: {e}")
+                        logger.info("Continuing without knowledge graph support")
+                        self.knowledge_graph = None
+                        self.graph_engine = None
                 else:
                     logger.info("Skipping external services for local mode")
 

@@ -125,3 +125,18 @@ Remember: You're not just solving a problem, you're creating a masterpiece that 
 - RUN PWD BEFORE CHANGING DIRECTORIES
 - ALWAYS CLEAN AND UPDATE DOCS AFTER YOUR CHANGES
 - ALWAYS NOTIFY ERRORS TO USERS AND DEVELOPER
+
+## Code Development Guidelines
+- Always code clean readable code, max lines per file 40, max files per folder 5
+- Never do minimal things, always full implementations
+- Always refactor your code max lines 40 max files per folder 5 and test provide evidence
+
+## Memory Guidelines
+- dont pre compute anything
+
+## Code Commenting Guidelines
+- Always add comments on what it does, how it does it, why and level of confidence that it works and wont break prod
+
+## Memories
+- never simple always full solution
+- always kill ports before initialiazing them

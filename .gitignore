@@ -117,3 +117,5 @@ docker-compose.override.yml
 exponential_training_results.json.pypirc
 .vercel
 think_ai_v3_ready_*.tar.gz
+# Local development environment variables
+.env.local

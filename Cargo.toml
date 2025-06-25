@@ -1,0 +1,51 @@
+[workspace]
+resolver = "2"
+members = [
+    "think-ai-core",
+    "think-ai-vector",
+    "think-ai-http",
+    "think-ai-storage",
+    "think-ai-cli",
+    "think-ai-consciousness",
+    "think-ai-coding",
+    "think-ai-cache",
+    "think-ai-utils",
+    "think-ai-server",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Think AI Rust Team"]
+license = "MIT"
+repository = "https://github.com/think-ai/think-ai-rust"
+
+[workspace.dependencies]
+# Core dependencies
+tokio = { version = "1.43", features = ["full"] }
+async-trait = "0.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+anyhow = "1.0"
+
+# Functional programming libraries
+im = "15"  # Immutable data structures
+itertools = "0.13"
+rayon = "1.10"  # Data parallelism
+
+# Performance and O(1) operations
+ahash = "0.8"  # Fast hash algorithm
+dashmap = "6.1"  # Concurrent hashmap
+parking_lot = "0.12"  # Fast mutex
+
+# Logging and metrics
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "std"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

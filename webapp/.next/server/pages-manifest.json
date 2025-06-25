@@ -1,5 +1,1 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js"
-}
+{"/_app":"pages/_app.js","/_error":"pages/_error.js","/api/chat":"pages/api/chat.js","/api/[...path]":"pages/api/[...path].js","/api/intelligence":"pages/api/intelligence.js","/":"pages/index.html","/test":"pages/test.html","/websocket-test":"pages/websocket-test.html","/api/ws":"pages/api/ws.js","/_document":"pages/_document.js","/404":"pages/404.html"}

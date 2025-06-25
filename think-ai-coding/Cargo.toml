@@ -1,0 +1,21 @@
+[package]
+name = "think-ai-coding"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+think-ai-core = { path = "../think-ai-core" }
+think-ai-utils = { path = "../think-ai-utils" }
+tokio.workspace = true
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+# Code parsing and generation
+syn = { version = "2.0", features = ["full", "extra-traits"] }
+quote = "1.0"
+proc-macro2 = "1.0"
