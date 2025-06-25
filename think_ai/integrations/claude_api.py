@@ -43,28 +43,19 @@ class ClaudeAPI:
         # Configuration from environment
         self.model = os.getenv("CLAUDE_MODEL", "claude-opus-4-20250514")
         self.max_tokens = int(os.getenv("CLAUDE_MAX_TOKENS", "4096"))
-        self.cost_per_input_token = float(
-            os.getenv("CLAUDE_COST_PER_INPUT_TOKEN", "0.000015")
-        )
-        self.cost_per_output_token = float(
-            os.getenv("CLAUDE_COST_PER_OUTPUT_TOKEN", "0.000075")
-        )
+        self.cost_per_input_token = float(os.getenv("CLAUDE_COST_PER_INPUT_TOKEN", "0.000015"))
+        self.cost_per_output_token = float(os.getenv("CLAUDE_COST_PER_OUTPUT_TOKEN", "0.000075"))
 
         # Features
         self.enabled = os.getenv("CLAUDE_ENABLED", "true").lower() == "true"
         self.budget_limit = float(os.getenv("CLAUDE_BUDGET_LIMIT", "10.0"))
-        self.token_optimization = (
-            os.getenv("CLAUDE_TOKEN_OPTIMIZATION", "true").lower() == "true"
-        )
-        self.cache_responses = (
-            os.getenv("CLAUDE_CACHE_RESPONSES", "true").lower() == "true"
-        )
+        self.token_optimization = os.getenv("CLAUDE_TOKEN_OPTIMIZATION", "true").lower() == "true"
+        self.cache_responses = os.getenv("CLAUDE_CACHE_RESPONSES", "true").lower() == "true"
 
         # Components
         self.memory = memory
         self.ethics = ethics
-        self.interface = ClaudeInterface(
-            memory, ethics) if memory and ethics else None
+        self.interface = ClaudeInterface(memory, ethics) if memory and ethics else None
 
         # Cost tracking
         self.total_cost = 0.0
@@ -85,9 +76,7 @@ class ClaudeAPI:
             },
         )
 
-        logger.info(
-            f"Claude API initialized (model: {self.model}, budget: ${self.budget_limit})"
-        )
+        logger.info(f"Claude API initialized (model: {self.model}, budget: ${self.budget_limit})")
 
     async def __aenter__(self):
         return self
@@ -125,12 +114,9 @@ class ClaudeAPI:
             optimize_tokens = self.token_optimization
 
         if optimize_tokens and self.interface:
-            optimized_prompt, optimization_report = (
-                await self.interface.create_optimized_prompt(prompt)
-            )
+            optimized_prompt, optimization_report = await self.interface.create_optimized_prompt(prompt)
             prompt = optimized_prompt
-            logger.info(
-                f"Token optimization: {optimization_report['reduction_percentage']:.1f}% reduction")
+            logger.info(f"Token optimization: {optimization_report['reduction_percentage']:.1f}% reduction")
 
         # Check cache first
         if self.cache_responses:
@@ -160,9 +146,7 @@ class ClaudeAPI:
             request_data["system"] = system
 
         # Estimate cost before request
-        estimated_cost = await self._estimate_cost(
-            prompt, max_tokens or self.max_tokens
-        )
+        estimated_cost = await self._estimate_cost(prompt, max_tokens or self.max_tokens)
 
         if self.total_cost + estimated_cost > self.budget_limit:
             logger.warning(
@@ -172,9 +156,7 @@ class ClaudeAPI:
 
         try:
             # Make API request
-            logger.info(
-                f"Calling Claude API (estimated cost: ${estimated_cost:.4f})"
-            )
+            logger.info(f"Calling Claude API (estimated cost: ${estimated_cost:.4f})")
 
             response = await self.client.post(
                 "https://api.anthropic.com/v1/messages",
@@ -194,10 +176,7 @@ class ClaudeAPI:
             input_tokens = usage.get("input_tokens", 0)
             output_tokens = usage.get("output_tokens", 0)
 
-            actual_cost = (
-                input_tokens * self.cost_per_input_token
-                + output_tokens * self.cost_per_output_token
-            )
+            actual_cost = input_tokens * self.cost_per_input_token + output_tokens * self.cost_per_output_token
 
             # Update cost tracking
             self.total_cost += actual_cost
@@ -231,9 +210,7 @@ class ClaudeAPI:
                     },
                 )
 
-            logger.info(
-                f"Claude response received (cost: ${actual_cost:.4f}, tokens: {input_tokens}→{output_tokens})"
-            )
+            logger.info(f"Claude response received (cost: ${actual_cost:.4f}, tokens: {input_tokens}→{output_tokens})")
 
             return {
                 "response": content,
@@ -246,18 +223,14 @@ class ClaudeAPI:
             }
 
         except httpx.HTTPStatusError as e:
-            logger.exception(
-                f"Claude API error: {e.response.status_code} - {e.response.text}"
-            )
+            logger.exception(f"Claude API error: {e.response.status_code} - {e.response.text}")
 
             if e.response.status_code == 429:
                 # Rate limited - suggest waiting
                 return {
                     "error": "rate_limited",
                     "message": "Claude API rate limit reached. Please wait before trying again.",
-                    "retry_after": e.response.headers.get(
-                        "retry-after",
-                        "60"),
+                    "retry_after": e.response.headers.get("retry-after", "60"),
                 }
             if e.response.status_code == 400:
                 # Bad request - likely token limit
@@ -330,15 +303,9 @@ class ClaudeAPI:
             "total_cost": self.total_cost,
             "session_cost": self.session_cost,
             "budget_limit": self.budget_limit,
-            "budget_used_percentage": (
-                (self.total_cost / self.budget_limit * 100)
-                if self.budget_limit > 0
-                else 0
-            ),
+            "budget_used_percentage": ((self.total_cost / self.budget_limit * 100) if self.budget_limit > 0 else 0),
             "request_count": self.request_count,
-            "average_cost_per_request": (
-                self.total_cost / self.request_count if self.request_count > 0 else 0
-            ),
+            "average_cost_per_request": (self.total_cost / self.request_count if self.request_count > 0 else 0),
             "budget_remaining": max(0, self.budget_limit - self.total_cost),
         }
 
@@ -348,10 +315,7 @@ class ClaudeAPI:
         estimated_input_tokens = len(prompt) // 4
         estimated_output_tokens = min(max_tokens, 500)  # Conservative estimate
 
-        return (
-            estimated_input_tokens * self.cost_per_input_token
-            + estimated_output_tokens * self.cost_per_output_token
-        )
+        return estimated_input_tokens * self.cost_per_input_token + estimated_output_tokens * self.cost_per_output_token
 
     async def _check_cache(self, prompt: str) -> Optional[Dict[str, Any]]:
         """Check if prompt has cached response."""

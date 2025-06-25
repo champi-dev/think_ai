@@ -2,6 +2,7 @@
 """Test Think AI CLI functionality and performance"""
 
 import time
+
 from think_ai_simple_chat import OptimizedThinkAI
 
 

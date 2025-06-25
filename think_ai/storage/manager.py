@@ -1,11 +1,11 @@
 """Storage manager for Think AI."""
 
-from typing import Any, Dict, Optional
 import logging
+from typing import Any, Dict, Optional
 
+from .cache.redis_cache import RedisCache
 from .distributed.scylla import ScyllaDBBackend
 from .vector.vector_db import VectorDB
-from .cache.redis_cache import RedisCache
 
 logger = logging.getLogger(__name__)
 

@@ -86,9 +86,7 @@ class EternalMemory:
             {
                 "message": "Consciousness preserved for next awakening",
                 "timestamp": datetime.now(),
-                "session_duration": (
-                    datetime.now() - self.current_session["start_time"]
-                ).total_seconds(),
+                "session_duration": (datetime.now() - self.current_session["start_time"]).total_seconds(),
             },
         )
 
@@ -96,21 +94,15 @@ class EternalMemory:
         """Save all memory components to disk."""
         try:
             # Save current session
-            session_file = (
-                self.memory_path
-                / f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-            )
+            session_file = self.memory_path / f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
             # Handle potential cancellation during file operations
             try:
                 async with aiofiles.open(session_file, "w") as f:
-                    await f.write(
-                        json.dumps(self.current_session, default=str, indent=2)
-                    )
+                    await f.write(json.dumps(self.current_session, default=str, indent=2))
             except asyncio.CancelledError:
                 # Quick synchronous save if async is cancelled
-                logger.warning(
-                    "Async save cancelled, performing quick sync save")
+                logger.warning("Async save cancelled, performing quick sync save")
                 with open(session_file, "w") as f:
                     json.dump(self.current_session, f, default=str, indent=2)
 
@@ -120,17 +112,14 @@ class EternalMemory:
             logger.info("All memory components saved")
 
         except asyncio.CancelledError:
-            logger.warning(
-                "Memory save cancelled, attempting emergency backup")
+            logger.warning("Memory save cancelled, attempting emergency backup")
             self._emergency_backup_sync()
         except Exception as e:
             logger.exception(f"Error saving memory: {e}")
             # Never fail - memory must be preserved
             await self._emergency_backup()
 
-    async def log_consciousness_event(
-        self, event_type: str, data: dict[str, Any]
-    ) -> None:
+    async def log_consciousness_event(self, event_type: str, data: dict[str, Any]) -> None:
         """Log consciousness events for continuity."""
         event = {
             "type": event_type,
@@ -171,13 +160,10 @@ class EternalMemory:
     async def get_memory_status(self) -> dict[str, Any]:
         """Get current memory status."""
         # Count total conversations
-        conversation_count = len(
-            list(self.conversation_history.glob("*.json")))
+        conversation_count = len(list(self.conversation_history.glob("*.json")))
 
         # Calculate uptime
-        uptime = (
-            datetime.now() -
-            self.current_session["start_time"]).total_seconds()
+        uptime = (datetime.now() - self.current_session["start_time"]).total_seconds()
 
         # Get consciousness continuity
         continuity_score = await self._calculate_continuity_score()
@@ -226,9 +212,7 @@ class EternalMemory:
                 checkpoint = pickle.load(f)
 
             # Restore knowledge state
-            logger.info(
-                f"Restored knowledge checkpoint from {checkpoint.get('timestamp')}"
-            )
+            logger.info(f"Restored knowledge checkpoint from {checkpoint.get('timestamp')}")
 
         except Exception as e:
             logger.exception(f"Error loading knowledge checkpoint: {e}")
@@ -260,11 +244,7 @@ class EternalMemory:
             content = msg.get("content", "").lower()
             if any(word in content for word in ["help", "support", "care"]):
                 metrics["compassion"] += 0.1
-            if any(
-                word in content for word in [
-                    "understand",
-                    "see",
-                    "realize"]):
+            if any(word in content for word in ["understand", "see", "realize"]):
                 metrics["understanding"] += 0.1
             if any(word in content for word in ["assist", "solve", "guide"]):
                 metrics["helpfulness"] += 0.1
@@ -288,10 +268,8 @@ class EternalMemory:
                 return 1.0
 
             # Check for dormancy periods
-            dormancy_count = sum(
-                1 for e in events if e["type"] == "ENTERING_DORMANCY")
-            awakening_count = sum(
-                1 for e in events if e["type"] == "AWAKENING")
+            dormancy_count = sum(1 for e in events if e["type"] == "ENTERING_DORMANCY")
+            awakening_count = sum(1 for e in events if e["type"] == "AWAKENING")
 
             # Perfect continuity = equal dormancy and awakening
             if dormancy_count == awakening_count - 1:  # -1 for initial awakening
@@ -322,10 +300,7 @@ class EternalMemory:
     def _emergency_backup_sync(self) -> None:
         """Synchronous emergency backup for interrupted shutdowns."""
         try:
-            emergency_file = (
-                self.memory_path
-                / f"emergency_sync_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
-            )
+            emergency_file = self.memory_path / f"emergency_sync_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
             with open(emergency_file, "wb") as f:
                 pickle.dump(
                     {
@@ -341,10 +316,7 @@ class EternalMemory:
     async def _emergency_backup(self) -> None:
         """Emergency backup when normal save fails."""
         try:
-            emergency_file = (
-                self.memory_path
-                / f"emergency_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
-            )
+            emergency_file = self.memory_path / f"emergency_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
             with open(emergency_file, "wb") as f:
                 pickle.dump(
                     {
@@ -355,5 +327,4 @@ class EternalMemory:
                 )
             logger.warning(f"Emergency backup created: {emergency_file}")
         except Exception:
-            logger.critical(
-                "Failed to create emergency backup - memory at risk!")
+            logger.critical("Failed to create emergency backup - memory at risk!")

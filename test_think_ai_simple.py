@@ -3,12 +3,12 @@
 Simple Think AI Test - Validate core components without full initialization
 """
 
-import sys
-import os
-import time
 import json
+import os
+import sys
+import time
 import traceback
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 # Add Think AI to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

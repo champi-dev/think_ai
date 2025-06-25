@@ -1,126 +1,133 @@
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Stars, Float } from '@react-three/drei'
-import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing'
-import { Vector2 } from 'three'
-import { motion } from 'framer-motion'
-import { useEffect, useState, useRef } from 'react'
-import ConsciousnessVisualization from '../components/ConsciousnessVisualization'
-import NeuralNetwork from '../components/NeuralNetwork'
-import QueryInterfaceEnhanced from '../components/QueryInterfaceEnhanced'
-import IntelligenceDashboard from '../components/IntelligenceDashboard'
-import { useThinkAIStore } from '../lib/store'
-import { getPerformanceSettings } from '../lib/performance'
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Stars, Float } from "@react-three/drei";
+import {
+  EffectComposer,
+  Bloom,
+  ChromaticAberration,
+} from "@react-three/postprocessing";
+import { Vector2 } from "three";
+import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import ConsciousnessVisualization from "../components/ConsciousnessVisualization";
+import NeuralNetwork from "../components/NeuralNetwork";
+import QueryInterfaceEnhanced from "../components/QueryInterfaceEnhanced";
+import IntelligenceDashboard from "../components/IntelligenceDashboard";
+import { useThinkAIStore } from "../lib/store";
+import { getPerformanceSettings } from "../lib/performance";
 
 export default function Home() {
-  const [socket, setSocket] = useState<WebSocket | null>(null)
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const { setConsciousnessState, setIntelligenceMetrics } = useThinkAIStore()
-  const perfSettings = getPerformanceSettings()
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { setConsciousnessState, setIntelligenceMetrics } = useThinkAIStore();
+  const perfSettings = getPerformanceSettings();
 
   // Log intelligence metrics periodically
   useEffect(() => {
     const logInterval = setInterval(async () => {
       try {
-        const response = await fetch('/api/intelligence')
+        const response = await fetch("/api/intelligence");
         if (response.ok) {
-          const data = await response.json()
-          console.log('🧠 Intelligence Metrics:', {
+          const data = await response.json();
+          console.log("🧠 Intelligence Metrics:", {
             iq: data.iq,
             knowledge: data.knowledge_count,
             training_cycles: data.training_cycles,
-            consciousness: `${(data.consciousness_level * 100).toFixed(1)}%`
-          })
+            consciousness: `${(data.consciousness_level * 100).toFixed(1)}%`,
+          });
         }
       } catch (error) {
         // Silently fail - don't clutter console with errors
       }
-    }, 5000)
-    
-    return () => clearInterval(logInterval)
-  }, [])
+    }, 5000);
+
+    return () => clearInterval(logInterval);
+  }, []);
 
   useEffect(() => {
-    let ws: WebSocket | null = null
-    let reconnectAttempts = 0
-    const maxReconnectAttempts = 5
-    
+    let ws: WebSocket | null = null;
+    let reconnectAttempts = 0;
+    const maxReconnectAttempts = 5;
+
     const connectWebSocket = () => {
-      console.log('Connecting to WebSocket...')
-      
+      console.log("Connecting to WebSocket...");
+
       // Connect to the API server WebSocket endpoint
       // Use dynamic URL that works in both development and production
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-      const host = window.location.host
-      const wsUrl = process.env.NEXT_PUBLIC_WS_URL || `${protocol}//${host}/api/v1/ws`
-      
-      ws = new WebSocket(wsUrl)
-      
+      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+      const host = window.location.host;
+      const wsUrl =
+        process.env.NEXT_PUBLIC_WS_URL || `${protocol}//${host}/api/v1/ws`;
+
+      ws = new WebSocket(wsUrl);
+
       ws.onopen = () => {
-        console.log('WebSocket connected')
-        setSocket(ws)
-        reconnectAttempts = 0
-      }
-      
+        console.log("WebSocket connected");
+        setSocket(ws);
+        reconnectAttempts = 0;
+      };
+
       ws.onmessage = async (event) => {
         try {
           let messageData;
-          
+
           // Handle both text and blob data
           if (event.data instanceof Blob) {
-            const text = await event.data.text()
-            messageData = JSON.parse(text)
+            const text = await event.data.text();
+            messageData = JSON.parse(text);
           } else {
-            messageData = JSON.parse(event.data)
+            messageData = JSON.parse(event.data);
           }
-          
+
           // Handle consciousness state updates (direct format from Python API)
           if (messageData.attention_focus && messageData.consciousness_flow) {
-            setConsciousnessState(messageData)
-          } 
+            setConsciousnessState(messageData);
+          }
           // Handle wrapped messages
-          else if (messageData.type === 'consciousness_update') {
-            setConsciousnessState(messageData.payload || messageData.data)
-          } else if (messageData.type === 'intelligence_update') {
-            setIntelligenceMetrics(messageData.payload || messageData.data)
+          else if (messageData.type === "consciousness_update") {
+            setConsciousnessState(messageData.payload || messageData.data);
+          } else if (messageData.type === "intelligence_update") {
+            setIntelligenceMetrics(messageData.payload || messageData.data);
           }
           // Handle intelligence data
           else if (messageData.iq && messageData.consciousness_level) {
-            setIntelligenceMetrics(messageData)
+            setIntelligenceMetrics(messageData);
           }
         } catch (error) {
-          console.error('Failed to parse WebSocket message:', error)
+          console.error("Failed to parse WebSocket message:", error);
         }
-      }
-      
+      };
+
       ws.onerror = (error) => {
-        console.error('WebSocket error:', error)
-      }
-      
+        console.error("WebSocket error:", error);
+      };
+
       ws.onclose = () => {
-        console.log('WebSocket disconnected')
-        setSocket(null)
-        
+        console.log("WebSocket disconnected");
+        setSocket(null);
+
         // Attempt to reconnect
         if (reconnectAttempts < maxReconnectAttempts) {
-          reconnectAttempts++
-          console.log(`Reconnecting... (attempt ${reconnectAttempts}/${maxReconnectAttempts})`)
-          const delay = Math.min(5000 * reconnectAttempts, 30000) // Exponential backoff up to 30 seconds
-          reconnectTimeoutRef.current = setTimeout(connectWebSocket, delay)
+          reconnectAttempts++;
+          console.log(
+            `Reconnecting... (attempt ${reconnectAttempts}/${maxReconnectAttempts})`,
+          );
+          const delay = Math.min(5000 * reconnectAttempts, 30000); // Exponential backoff up to 30 seconds
+          reconnectTimeoutRef.current = setTimeout(connectWebSocket, delay);
         }
-      }
-    }
-    
-    connectWebSocket()
-    
+      };
+    };
+
+    connectWebSocket();
+
     return () => {
       if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current)
+        clearTimeout(reconnectTimeoutRef.current);
       }
       if (ws) {
-        ws.close()
+        ws.close();
       }
-    }
-  }, [setConsciousnessState, setIntelligenceMetrics])
+    };
+  }, [setConsciousnessState, setIntelligenceMetrics]);
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
@@ -129,21 +136,37 @@ export default function Home() {
           camera={{ position: [0, 0, 30], fov: 75 }}
           gl={{ antialias: perfSettings.antialias, alpha: true }}
         >
-          <color attach="background" args={['#000000']} />
-          <fog attach="fog" args={['#000000', 10, 100]} />
-          
+          <color attach="background" args={["#000000"]} />
+          <fog attach="fog" args={["#000000", 10, 100]} />
+
           <ambientLight intensity={0.1} />
           <pointLight position={[10, 10, 10]} intensity={0.5} />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#6366f1" />
-          
-          <Stars radius={100} depth={50} count={perfSettings.particleCount} factor={4} saturation={0} fade speed={perfSettings.animationSpeed} />
-          
-          <Float speed={perfSettings.animationSpeed} rotationIntensity={perfSettings.animationSpeed} floatIntensity={perfSettings.animationSpeed * 2}>
+          <pointLight
+            position={[-10, -10, -10]}
+            intensity={0.5}
+            color="#6366f1"
+          />
+
+          <Stars
+            radius={100}
+            depth={50}
+            count={perfSettings.particleCount}
+            factor={4}
+            saturation={0}
+            fade
+            speed={perfSettings.animationSpeed}
+          />
+
+          <Float
+            speed={perfSettings.animationSpeed}
+            rotationIntensity={perfSettings.animationSpeed}
+            floatIntensity={perfSettings.animationSpeed * 2}
+          >
             <ConsciousnessVisualization />
           </Float>
-          
+
           <NeuralNetwork />
-          
+
           <OrbitControls
             enablePan={true}
             enableZoom={true}
@@ -152,7 +175,7 @@ export default function Home() {
             panSpeed={0.5}
             rotateSpeed={0.4}
           />
-          
+
           {perfSettings.postProcessing && (
             <EffectComposer>
               <Bloom
@@ -172,7 +195,6 @@ export default function Home() {
       </div>
 
       <div className="relative z-10">
-
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 0.8, y: 0 }}
@@ -187,5 +209,5 @@ export default function Home() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

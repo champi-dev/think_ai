@@ -27,8 +27,9 @@ if __name__ == "__main__":
 
     # Import and run the main app
     try:
-        from think_ai_full import app
         import uvicorn
+
+        from think_ai_full import app
 
         # Get port from environment or default
         port = int(os.environ.get("PORT", 8000))
@@ -67,8 +68,8 @@ if __name__ == "__main__":
             return {"status": "healthy", "mode": "lightweight"}
 
         # Start minimal server
-        from http.server import HTTPServer, BaseHTTPRequestHandler
         import json
+        from http.server import BaseHTTPRequestHandler, HTTPServer
 
         class LightweightHandler(BaseHTTPRequestHandler):
             pass  # TODO: Implement

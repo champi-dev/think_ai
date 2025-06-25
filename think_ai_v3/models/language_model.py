@@ -5,11 +5,12 @@ Formatter-proof implementation
 """
 
 import asyncio
-import time
 import hashlib
 import logging
-from typing import Any, Dict, List, Optional, Union, AsyncGenerator
+import time
 from dataclasses import dataclass, field
+from typing import Any, AsyncGenerator, Dict, List, Optional, Union
+
 import torch
 
 logger = logging.getLogger(__name__)
@@ -284,8 +285,9 @@ class LanguageModel:
     async def _stream_generate(self, prompt: str, params: Dict[str, Any]) -> AsyncGenerator[str, None]:
         """Streaming generation - yields tokens as generated."""
         try:
-            from transformers import TextIteratorStreamer
             import threading
+
+            from transformers import TextIteratorStreamer
 
             # Tokenize
             inputs = self.tokenizer(

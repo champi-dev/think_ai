@@ -3,16 +3,16 @@ Lightweight utility library replacements
 System, auth, and data validation with O(1) operations
 """
 
-import os
-import sys
-import json
-import hashlib
-import time
 import base64
-from typing import Any, Dict, List, Optional, Type, Union
-from dataclasses import dataclass, field, fields
-import subprocess
+import hashlib
+import json
 import multiprocessing
+import os
+import subprocess
+import sys
+import time
+from dataclasses import dataclass, field, fields
+from typing import Any, Dict, List, Optional, Type, Union
 
 
 class PsutilLite:

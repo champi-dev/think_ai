@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 try:
     from neo4j import AsyncDriver, AsyncGraphDatabase
+
     NEO4J_AVAILABLE = True
 except ImportError:
     # Neo4j is optional - provide dummy types
@@ -61,7 +62,7 @@ class KnowledgeGraph:
         """Initialize Neo4j connection."""
         if self._initialized:
             return
-            
+
         if not NEO4J_AVAILABLE:
             logger.warning("Neo4j is not available. Knowledge graph functionality will be limited.")
             self._initialized = True
@@ -96,7 +97,7 @@ class KnowledgeGraph:
         if self.driver:
             await self.driver.close()
             self._initialized = False
-    
+
     def _check_available(self) -> None:
         """Check if Neo4j is available and initialized."""
         if not NEO4J_AVAILABLE:
@@ -130,7 +131,7 @@ class KnowledgeGraph:
     ) -> Node:
         """Create a knowledge node."""
         self._check_available()
-        
+
         query = """
         CREATE (k:Knowledge {
             key: $key,
@@ -162,7 +163,7 @@ class KnowledgeGraph:
     async def create_concept_node(self, name: str, description: str = "") -> Node:
         """Create a concept node."""
         self._check_available()
-        
+
         query = """
         MERGE (c:Concept {name: $name})
         ON CREATE SET c.description = $description, c.created_at = datetime()
@@ -195,7 +196,7 @@ class KnowledgeGraph:
     ) -> Relationship:
         """Create relationship between knowledge and concept."""
         self._check_available()
-        
+
         query = (
             """
         MATCH (k:Knowledge {key: $knowledge_key})
@@ -234,7 +235,7 @@ class KnowledgeGraph:
     ) -> List[Dict[str, Any]]:
         """Find knowledge related through shared concepts."""
         self._check_available()
-        
+
         query = """
         MATCH (k1:Knowledge {key: $key})-[:RELATES_TO]->(:Concept)<-[:RELATES_TO]-(k2:Knowledge)
         WHERE k1 <> k2

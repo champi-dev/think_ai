@@ -12,17 +12,17 @@ import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Any, Tuple
+from typing import Any, Dict, List, Tuple
 
 import numpy as np
 
 from training_framework import (
-    TrainingOrchestrator,
     CodingCurriculumGenerator,
     ConversationTrainingGenerator,
-    ScienceKnowledgeGenerator,
     KnowledgePersistenceSystem,
+    ScienceKnowledgeGenerator,
     TrainingExample,
+    TrainingOrchestrator,
     TrainingResult,
     create_training_system,
 )

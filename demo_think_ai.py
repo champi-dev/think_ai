@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Demo script for Think AI CLI features"""
 
-from think_ai_simple_chat import OptimizedThinkAI, ThinkAICLI
 import time
+
+from think_ai_simple_chat import OptimizedThinkAI, ThinkAICLI
 
 
 def demo_cli_features():

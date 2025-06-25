@@ -2,8 +2,9 @@
 """Test script for Think AI v3.1.0"""
 
 import asyncio
-import httpx
 import json
+
+import httpx
 
 
 async def test_api():

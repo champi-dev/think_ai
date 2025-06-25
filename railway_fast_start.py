@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Ultra-fast Railway startup script - minimal initialization."""
 
+import json
 import os
 import sys
-import json
-from typing import Dict, Any
+from typing import Any, Dict
 
 # Force all optimizations
 os.environ["THINK_AI_USE_LIGHTWEIGHT"] = "true"
@@ -18,10 +18,10 @@ print("⚡ Ultra-fast Railway startup initiated...")
 
 # Minimal FastAPI setup
 try:
+    import uvicorn
     from fastapi import FastAPI
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import JSONResponse
-    import uvicorn
 
     # Create minimal app
     app = FastAPI(title="Think AI Railway", description="Optimized for fast startup", version="3.0.0")
@@ -135,7 +135,7 @@ except Exception as e:
     print(f"❌ Fast start failed: {e}")
 
     # Ultra-minimal HTTP server fallback
-    from http.server import HTTPServer, BaseHTTPRequestHandler
+    from http.server import BaseHTTPRequestHandler, HTTPServer
 
     class MinimalHandler(BaseHTTPRequestHandler):
         def do_GET(self):

@@ -30,21 +30,23 @@ except ImportError:
 try:
     # First check if we should use lightweight deps
     import os
+
     if os.environ.get("THINK_AI_USE_LIGHTWEIGHT", "false").lower() == "true":
         raise ImportError("Using lightweight deps by environment variable")
-    
+
     # Try regular import
     import transformers
-    
+
     # Monkey patch before accessing any auto classes
     try:
         import transformers.models.auto.configuration_auto as config_auto
+
         if hasattr(config_auto, "replace_list_option_in_docstrings"):
             original_decorator = config_auto.replace_list_option_in_docstrings
-            
+
             def safe_replace_list_option_in_docstrings(_model_mapping=None, use_model_types=None):
                 def decorator(fn):
-                    if fn is None or (hasattr(fn, '__doc__') and fn.__doc__ is None):
+                    if fn is None or (hasattr(fn, "__doc__") and fn.__doc__ is None):
                         # Return a no-op decorator for functions without docstrings
                         return lambda f: f
                     try:
@@ -57,28 +59,30 @@ try:
                             return original_decorator()(fn)
                     except (AttributeError, TypeError):
                         return fn
+
                 return decorator
-            
+
             config_auto.replace_list_option_in_docstrings = safe_replace_list_option_in_docstrings
     except Exception:
         pass  # Continue without patching
-    
+
     # Now import the components
     from transformers import (
         AutoConfig,
-        AutoModelForCausalLM, 
+        AutoModelForCausalLM,
         AutoTokenizer,
         BitsAndBytesConfig,
         StoppingCriteria,
         StoppingCriteriaList,
-        TextStreamer
+        TextStreamer,
     )
-    
+
 except (ImportError, AttributeError, RuntimeError) as e:
     # Fallback to lightweight deps or dependency resolver
     import warnings
+
     warnings.warn(f"Failed to import transformers directly: {e}. Using fallback.")
-    
+
     # Try lightweight deps first
     try:
         from ...lightweight_deps.transformers import (
@@ -88,11 +92,12 @@ except (ImportError, AttributeError, RuntimeError) as e:
             BitsAndBytesConfig,
             StoppingCriteria,
             StoppingCriteriaList,
-            TextStreamer
+            TextStreamer,
         )
     except ImportError:
         # Last resort: use dependency resolver
         from ...utils.dependency_resolver import dependency_resolver
+
         transformers = dependency_resolver.resolve_dependency("transformers")
         AutoModelForCausalLM = transformers.AutoModelForCausalLM
         AutoTokenizer = transformers.AutoTokenizer
@@ -283,7 +288,7 @@ class LanguageModel:
                             with ModelLoadingProgress.weight_loading_progress(len(weight_files)) as pbar:
                                 for idx, weight_file in enumerate(sorted(weight_files)):
                                     pbar.update(0, f"Loading {os.path.basename(weight_file)}...")
-                                    
+
                                     if weight_file.endswith(".safetensors") and load_file:
                                         state_dict = load_file(weight_file)
                                     else:

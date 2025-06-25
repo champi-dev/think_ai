@@ -6,19 +6,19 @@ Demonstrates recursive improvement and Colombian AI enhancement.
 
 import asyncio
 import json
+
+# Import Think AI components for self-optimization
+import sys
 import time
 from pathlib import Path
 from typing import Dict, List, Tuple
 
-# Import Think AI components for self-optimization
-import sys
-
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
+    from think_ai.consciousness.principles import ConstitutionalAI
     from think_ai.intelligence_optimizer import IntelligenceOptimizer
     from think_ai.parallel_processor import ParallelProcessor, parallelize
-    from think_ai.consciousness.principles import ConstitutionalAI
 
     THINK_AI_AVAILABLE = True
 except ImportError:

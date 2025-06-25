@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """Process manager for running multiple services on Railway with a single PORT."""
 
+import json
+import logging
 import os
-import sys
 import subprocess
+import sys
 import threading
 import time
-import logging
-from http.server import HTTPServer, BaseHTTPRequestHandler
 from http.client import HTTPConnection
-from urllib.parse import urlparse, parse_qs
-import json
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import parse_qs, urlparse
+
 from think_ai.utils.progress import O1ProgressBar, progress_context
 
 # Configure logging
@@ -105,7 +106,7 @@ class ReverseProxyHandler(BaseHTTPRequestHandler):
 def start_service(name, command, cwd=None, env=None, progress_bar=None):
     """Start a service in the background."""
     logger.info(f"Starting {name}...")
-    
+
     if progress_bar:
         progress_bar.update(0, f"Starting {name}...")
 
@@ -138,38 +139,38 @@ def main():
         api_env = os.environ.copy()
         api_env["PORT"] = "8081"
         api_process = start_service("API", [sys.executable, "think_ai_full.py"], env=api_env, progress_bar=pbar)
-        
+
         # Wait for API to start
         for i in range(5):
             time.sleep(1)
             if i == 4:
                 pbar.update(1, "API server started")
-        
+
         # Start the webapp on internal port 3000
         webapp_env = os.environ.copy()
         webapp_env["PORT"] = "3000"
         webapp_env["NODE_ENV"] = "production"
         webapp_env["NEXT_PUBLIC_API_URL"] = "http://localhost:8081"
-        
+
         webapp_process = start_service("Webapp", ["npm", "start"], cwd="webapp", env=webapp_env, progress_bar=pbar)
-        
+
         # Wait for webapp to start
         for i in range(10):
             time.sleep(1)
             if i == 9:
                 pbar.update(1, "Webapp started")
-        
+
         # Start the reverse proxy on the main Railway port
         logger.info(f"Starting reverse proxy on port {main_port}")
         httpd = HTTPServer(("0.0.0.0", main_port), ReverseProxyHandler)
-        
+
         # Start proxy in a thread
         proxy_thread = threading.Thread(target=httpd.serve_forever)
         proxy_thread.daemon = True
         proxy_thread.start()
-        
+
         pbar.update(1, "Reverse proxy started")
-    
+
     logger.info("All services started successfully!")
     logger.info(f"System accessible at: http://0.0.0.0:{main_port}")
 

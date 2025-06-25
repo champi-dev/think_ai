@@ -59,46 +59,56 @@ class CostOptimizer:
 
     def get_free_alternatives(self, task_type: str) -> list[dict[str, Any]]:
         """Get free alternatives for common tasks."""
-        alternatives = {"text_generation": [{"name": "Local Phi-2",
-                                             "description": "Microsoft's 2.7B parameter model",
-                                             "quality": 0.7,
-                                             "cost": 0.0,
-                                             "setup": "Already included in Think AI",
-                                             },
-                                            {"name": "Cached Responses",
-                                             "description": "Use previously generated similar responses",
-                                             "quality": 0.8,
-                                             "cost": 0.0,
-                                             "setup": "Automatic",
-                                             },
-                                            ],
-                        "embeddings": [{"name": "Local Sentence Transformers",
-                                        "description": "all-MiniLM-L6-v2 runs locally",
-                                        "quality": 0.85,
-                                        "cost": 0.0,
-                                        "setup": "Already included",
-                                        },
-                                       ],
-                        "claude_conversation": [{"name": "Think AI Assistant",
-                                                 "description": "Use Think AI's consciousness system instead",
-                                                 "quality": 0.6,
-                                                 "cost": 0.0,
-                                                 "setup": "Built-in alternative",
-                                                 },
-                                                {"name": "Template Responses",
-                                                 "description": "Pre-written responses for common queries",
-                                                 "quality": 0.5,
-                                                 "cost": 0.0,
-                                                 "setup": "Automatic",
-                                                 },
-                                                {"name": "Community Models",
-                                                 "description": "Use Hugging Face free inference API",
-                                                 "quality": 0.65,
-                                                 "cost": 0.0,
-                                                 "setup": "Requires HF account (free)",
-                                                 },
-                                                ],
-                        }
+        alternatives = {
+            "text_generation": [
+                {
+                    "name": "Local Phi-2",
+                    "description": "Microsoft's 2.7B parameter model",
+                    "quality": 0.7,
+                    "cost": 0.0,
+                    "setup": "Already included in Think AI",
+                },
+                {
+                    "name": "Cached Responses",
+                    "description": "Use previously generated similar responses",
+                    "quality": 0.8,
+                    "cost": 0.0,
+                    "setup": "Automatic",
+                },
+            ],
+            "embeddings": [
+                {
+                    "name": "Local Sentence Transformers",
+                    "description": "all-MiniLM-L6-v2 runs locally",
+                    "quality": 0.85,
+                    "cost": 0.0,
+                    "setup": "Already included",
+                },
+            ],
+            "claude_conversation": [
+                {
+                    "name": "Think AI Assistant",
+                    "description": "Use Think AI's consciousness system instead",
+                    "quality": 0.6,
+                    "cost": 0.0,
+                    "setup": "Built-in alternative",
+                },
+                {
+                    "name": "Template Responses",
+                    "description": "Pre-written responses for common queries",
+                    "quality": 0.5,
+                    "cost": 0.0,
+                    "setup": "Automatic",
+                },
+                {
+                    "name": "Community Models",
+                    "description": "Use Hugging Face free inference API",
+                    "quality": 0.65,
+                    "cost": 0.0,
+                    "setup": "Requires HF account (free)",
+                },
+            ],
+        }
 
         return alternatives.get(task_type, [])
 
@@ -162,9 +172,7 @@ class CostOptimizer:
 
         # Check budget
         if self.current_spending > self.budget_limit * 0.8:
-            logger.warning(
-                f"Approaching budget limit: ${self.current_spending:.2f} of ${self.budget_limit:.2f}"
-            )
+            logger.warning(f"Approaching budget limit: ${self.current_spending:.2f} of ${self.budget_limit:.2f}")
 
         return usage_entry
 
@@ -174,9 +182,7 @@ class CostOptimizer:
             "total_spent": self.current_spending,
             "budget_limit": self.budget_limit,
             "budget_used_percentage": (
-                (self.current_spending / self.budget_limit * 100)
-                if self.budget_limit > 0
-                else 0
+                (self.current_spending / self.budget_limit * 100) if self.budget_limit > 0 else 0
             ),
             "by_service": {},
             "by_day": {},
@@ -197,12 +203,8 @@ class CostOptimizer:
         # Calculate savings from optimizations
         for config in self.strategies.values():
             if config["enabled"]:
-                potential_original = self.current_spending / (
-                    1 - config["savings_potential"]
-                )
-                breakdown["optimization_savings"] += (
-                    potential_original - self.current_spending
-                )
+                potential_original = self.current_spending / (1 - config["savings_potential"])
+                breakdown["optimization_savings"] += potential_original - self.current_spending
 
         return breakdown
 
@@ -249,26 +251,19 @@ class CostOptimizer:
             },
         }
 
-        op_estimate = estimates.get(
-            operation_type, {
-                "base": 0, "multiplier": 1})
+        op_estimate = estimates.get(operation_type, {"base": 0, "multiplier": 1})
         estimated_cost = op_estimate["base"] * op_estimate["multiplier"]
 
         # Apply optimization discounts
         for config in self.strategies.values():
             if config["enabled"]:
-                estimated_cost *= (
-                    1 - config["savings_potential"] * 0.5
-                )  # Partial savings
+                estimated_cost *= 1 - config["savings_potential"] * 0.5  # Partial savings
 
         return {
             "estimated_cost": estimated_cost,
             "with_optimizations": estimated_cost,
-            "without_optimizations": op_estimate["base"] *
-            op_estimate["multiplier"],
-            "savings": op_estimate["base"] *
-            op_estimate["multiplier"] -
-            estimated_cost,
+            "without_optimizations": op_estimate["base"] * op_estimate["multiplier"],
+            "savings": op_estimate["base"] * op_estimate["multiplier"] - estimated_cost,
         }
 
     def save_cost_entry(self, entry: dict[str, Any]) -> None:

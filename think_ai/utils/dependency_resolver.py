@@ -729,6 +729,7 @@ class ThinkAIDependencyResolver:
         except ImportError:
             # Fallback to basic implementation
             from types import ModuleType
+
             import numpy as np
 
             class MockSentenceTransformer:

@@ -5,24 +5,24 @@ Demonstrates all functionalities with solid evidence
 """
 
 import asyncio
-import time
 import hashlib
 import json
-import sys
 import os
-from typing import Dict, List, Any
+import sys
+import time
 import traceback
+from typing import Any, Dict, List
 
 # Add Think AI to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Import all Think AI components
 try:
-    from think_ai import ThinkAIEngine, Config, parallel_processor, parallelize
-    from think_ai.intelligence_optimizer import IntelligenceOptimizer, intelligence_optimizer
-    from think_ai.parallel_processor import ParallelProcessor
+    from think_ai import Config, ThinkAIEngine, parallel_processor, parallelize
     from think_ai.consciousness.awareness import ConsciousnessFramework
     from think_ai.consciousness.principles import ConstitutionalAI
+    from think_ai.intelligence_optimizer import IntelligenceOptimizer, intelligence_optimizer
+    from think_ai.parallel_processor import ParallelProcessor
 
     print("✅ Core imports successful")
 except Exception as e:

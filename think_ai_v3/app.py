@@ -4,25 +4,25 @@ Think AI v3.1.0 - Main Application
 100% capability preservation, formatter-proof, O(1) everything!
 """
 
-import os
-import sys
 import asyncio
 import logging
-from pathlib import Path
+import os
+import sys
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Optional
 
+import uvicorn
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from think_ai_v3.api.endpoints import router, set_engine
+from think_ai_v3.api.websocket import manager, start_update_loop, websocket_endpoint
 from think_ai_v3.core.config import Config
 from think_ai_v3.core.engine import ThinkAIEngine
-from think_ai_v3.api.endpoints import router, set_engine
-from think_ai_v3.api.websocket import websocket_endpoint, manager, start_update_loop
 
 # Configure logging
 logging.basicConfig(

@@ -5,10 +5,10 @@ All operations are O(1) using in-memory caches
 
 import asyncio
 import json
-import time
-from typing import Any, Dict, List, Optional, Set
-from collections import defaultdict, OrderedDict
 import threading
+import time
+from collections import OrderedDict, defaultdict
+from typing import Any, Dict, List, Optional, Set
 
 
 class RedisLite:

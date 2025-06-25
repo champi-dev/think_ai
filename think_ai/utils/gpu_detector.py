@@ -58,9 +58,9 @@ def detect_best_device() -> Dict[str, Any]:
         if torch.cuda.is_available():
             device_info["device_name"] = torch.cuda.get_device_name(0)
             device_info["memory"] = f"{torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB"
-            device_info[
-                "capability"
-            ] = f"{torch.cuda.get_device_capability(0)[0]}.{torch.cuda.get_device_capability(0)[1]}"
+            device_info["capability"] = (
+                f"{torch.cuda.get_device_capability(0)[0]}.{torch.cuda.get_device_capability(0)[1]}"
+            )
             memory_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
         else:
             # Forced GPU mode - assume GTX 1660 Ti

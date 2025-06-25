@@ -4,16 +4,16 @@ O(1) for all core operations, O(√1) for enlightenment
 """
 
 import asyncio
-import time
-import logging
-from typing import Any, Dict, List, Optional, Set, Tuple
-from dataclasses import dataclass, field
 import hashlib
+import logging
+import time
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from ..consciousness.awareness import ConsciousnessFramework, ConsciousnessState
 from ..consciousness.principles import ConstitutionalAI
-from ..models.language_model import LanguageModel, ModelConfig, GenerationResult
-from ..storage.base import create_storage, StorageBackend, CachedStorageBackend
+from ..models.language_model import GenerationResult, LanguageModel, ModelConfig
+from ..storage.base import CachedStorageBackend, StorageBackend, create_storage
 from .config import Config
 
 logger = logging.getLogger(__name__)

@@ -7,12 +7,14 @@ from typing import Optional
 
 try:
     import structlog
+
     HAS_STRUCTLOG = True
 except ImportError:
     HAS_STRUCTLOG = False
     # Import our alternative implementation
-    from .logging_alternative import StructuredLogger, LogContext as AltLogContext
-    
+    from .logging_alternative import LogContext as AltLogContext
+    from .logging_alternative import StructuredLogger
+
 
 def configure_logging(
     log_level: str = "INFO",
@@ -63,6 +65,7 @@ def configure_logging(
     else:
         # Use alternative implementation
         from .logging_alternative import configure_logging as alt_configure_logging
+
         return alt_configure_logging(log_level, log_file, json_logs)
 
 
@@ -72,6 +75,7 @@ def get_logger(name: str):
         return structlog.get_logger(name)
     else:
         from .logging_alternative import get_logger as alt_get_logger
+
         return alt_get_logger(name)
 
 

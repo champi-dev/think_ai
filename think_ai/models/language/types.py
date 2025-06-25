@@ -3,8 +3,8 @@ Type definitions for language models
 """
 
 from dataclasses import dataclass
-from typing import Optional, List, Dict, Any
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class ModelStatus(Enum):
@@ -57,7 +57,7 @@ class GenerationConfig:
             "early_stopping": self.early_stopping,
             "use_cache": self.use_cache,
         }
-        
+
         # Remove None values
         return {k: v for k, v in params.items() if v is not None}
 

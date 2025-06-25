@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Test Think AI chat API functionality."""
 
-import requests
 import json
 import time
+
+import requests
 
 
 def test_think_ai_chat():

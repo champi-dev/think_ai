@@ -32,9 +32,7 @@ class ThoughtOptimizer:
             "essence",
         ]
 
-    def compress_thoughts(
-        self, thoughts: list[dict[str, Any]]
-    ) -> tuple[list[dict[str, Any]], int]:
+    def compress_thoughts(self, thoughts: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], int]:
         """Compress similar thoughts and extract key insights."""
         if len(thoughts) < 2:
             return thoughts, 0
@@ -58,16 +56,11 @@ class ThoughtOptimizer:
                 compressed.extend(insights)
 
         savings = original_count - len(compressed)
-        logger.info(
-            f"Compressed {original_count} thoughts to "
-            f"{len(compressed)} (saved {savings})"
-        )
+        logger.info(f"Compressed {original_count} thoughts to " f"{len(compressed)} (saved {savings})")
 
         return compressed, savings
 
-    def _group_by_type(
-        self, thoughts: list[dict[str, Any]]
-    ) -> dict[str, list[dict[str, Any]]]:
+    def _group_by_type(self, thoughts: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
         """Group thoughts by type."""
         grouped = {}
         for thought in thoughts:
@@ -77,9 +70,7 @@ class ThoughtOptimizer:
             grouped[thought_type].append(thought)
         return grouped
 
-    def _merge_similar_thoughts(
-        self, thoughts: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _merge_similar_thoughts(self, thoughts: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Merge similar thoughts into consolidated insights."""
         if len(thoughts) < 2:
             return thoughts
@@ -94,13 +85,12 @@ class ThoughtOptimizer:
             similar_group = [thought1]
             thought1_text = thought1.get("thought", "")
 
-            for j, thought2 in enumerate(thoughts[i + 1:], i + 1):
+            for j, thought2 in enumerate(thoughts[i + 1 :], i + 1):
                 if j in processed:
                     continue
 
                 thought2_text = thought2.get("thought", "")
-                similarity = self._calculate_similarity(
-                    thought1_text, thought2_text)
+                similarity = self._calculate_similarity(thought1_text, thought2_text)
 
                 if similarity > self.compression_threshold:
                     similar_group.append(thought2)
@@ -117,8 +107,7 @@ class ThoughtOptimizer:
 
         return merged
 
-    def _extract_insights(
-            self, thoughts: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def _extract_insights(self, thoughts: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Extract key insights from thoughts."""
         insights = []
         regular = []
@@ -127,15 +116,12 @@ class ThoughtOptimizer:
             thought_text = thought.get("thought", "").lower()
 
             # Check if it's an insight
-            is_insight = any(
-                pattern in thought_text for pattern in self.insight_patterns
-            )
+            is_insight = any(pattern in thought_text for pattern in self.insight_patterns)
 
             if is_insight or thought.get("awareness", 0) > 0.7:
                 # This is a valuable insight
                 thought["compressed"] = False
-                thought["insight_score"] = self._calculate_insight_score(
-                    thought_text)
+                thought["insight_score"] = self._calculate_insight_score(thought_text)
                 insights.append(thought)
             else:
                 regular.append(thought)
@@ -147,8 +133,7 @@ class ThoughtOptimizer:
         # Sample from regular thoughts
         sample_size = min(5, len(regular))
         if sample_size > 0:
-            indices = np.random.choice(
-                len(regular), sample_size, replace=False)
+            indices = np.random.choice(len(regular), sample_size, replace=False)
             sampled = [regular[i] for i in indices]
 
             # Create summary of dropped thoughts
@@ -185,9 +170,7 @@ class ThoughtOptimizer:
             score += 0.2
 
         # Insight keywords
-        insight_count = sum(
-            1 for pattern in self.insight_patterns if pattern in text.lower()
-        )
+        insight_count = sum(1 for pattern in self.insight_patterns if pattern in text.lower())
         score += min(0.4, insight_count * 0.1)
 
         # Questions indicate curiosity
@@ -200,8 +183,7 @@ class ThoughtOptimizer:
 
         return min(1.0, score)
 
-    def _create_merged_thought(
-            self, thoughts: list[dict[str, Any]]) -> dict[str, Any]:
+    def _create_merged_thought(self, thoughts: list[dict[str, Any]]) -> dict[str, Any]:
         """Create a merged thought from similar thoughts."""
         # Extract common themes
         all_text = " ".join([t.get("thought", "") for t in thoughts])
@@ -216,8 +198,7 @@ class ThoughtOptimizer:
         return {
             "type": "compressed_insight",
             "state": "reflecting",
-            "thought": f"Consolidated insight from "
-                      f"{len(thoughts)} similar thoughts: {all_text}",
+            "thought": f"Consolidated insight from " f"{len(thoughts)} similar thoughts: {all_text}",
             "timestamp": latest_timestamp,
             "awareness": avg_awareness,
             "original_count": len(thoughts),
@@ -225,8 +206,7 @@ class ThoughtOptimizer:
             "thought_id": hashlib.md5(all_text.encode()).hexdigest()[:16],
         }
 
-    def _create_thought_summary(
-            self, thoughts: list[dict[str, Any]]) -> dict[str, Any]:
+    def _create_thought_summary(self, thoughts: list[dict[str, Any]]) -> dict[str, Any]:
         """Create summary of multiple thoughts."""
         thought_types = {}
         for t in thoughts:
@@ -234,9 +214,7 @@ class ThoughtOptimizer:
             thought_types[t_type] = thought_types.get(t_type, 0) + 1
 
         summary_text = f"Summary of {len(thoughts)} thoughts: "
-        summary_text += ", ".join(
-            [f"{count} {t_type}" for t_type, count in thought_types.items()]
-        )
+        summary_text += ", ".join([f"{count} {t_type}" for t_type, count in thought_types.items()])
 
         return {
             "type": "summary",
@@ -252,8 +230,7 @@ class ThoughtOptimizer:
         """Calculate storage size of a thought in bytes."""
         return len(json.dumps(thought))
 
-    def prioritize_for_deletion(
-            self, thoughts: list[dict[str, Any]]) -> list[str]:
+    def prioritize_for_deletion(self, thoughts: list[dict[str, Any]]) -> list[str]:
         """Return thought IDs prioritized for deletion (least valuable first)."""
         scored_thoughts = []
 
@@ -266,18 +243,14 @@ class ThoughtOptimizer:
 
             # Older thoughts are less valuable
             try:
-                timestamp = datetime.fromisoformat(
-                    thought.get("timestamp", ""))
+                timestamp = datetime.fromisoformat(thought.get("timestamp", ""))
                 age_days = (datetime.now() - timestamp).days
                 score -= min(0.3, age_days * 0.01)
             except Exception:
                 pass
 
             # Insights are more valuable
-            if (
-                thought.get("type") == "insight"
-                or "insight" in thought.get("thought", "").lower()
-            ):
+            if thought.get("type") == "insight" or "insight" in thought.get("thought", "").lower():
                 score += 0.5
 
             # High awareness thoughts are valuable

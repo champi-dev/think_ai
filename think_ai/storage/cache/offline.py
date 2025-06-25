@@ -1,8 +1,11 @@
 """Offline storage implementation using SQLite with FTS5."""
 
+import asyncio
 import json
+import sqlite3
+import threading
 from collections.abc import AsyncIterator
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, contextmanager
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -24,6 +27,102 @@ from ..base import StorageBackend, StorageItem
 logger = get_logger(__name__)
 
 
+class SqliteFallbackConnection:
+    """Synchronous SQLite connection wrapper that mimics aiosqlite interface."""
+
+    def __init__(self, db_path: str):
+        self.db_path = db_path
+        self.conn = None
+        self.cursor = None
+        self._thread_local = threading.local()
+        self._executor = None
+
+    async def __aenter__(self):
+        loop = asyncio.get_event_loop()
+        self._executor = loop._default_executor
+        await loop.run_in_executor(self._executor, self._connect)
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        if self.conn:
+            loop = asyncio.get_event_loop()
+            await loop.run_in_executor(self._executor, self._disconnect)
+
+    def _connect(self):
+        self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
+        self.conn.row_factory = sqlite3.Row
+
+    def _disconnect(self):
+        if self.conn:
+            self.conn.close()
+            self.conn = None
+
+    async def execute(self, query: str, params=None):
+        loop = asyncio.get_event_loop()
+        if params is None:
+            params = ()
+        result = await loop.run_in_executor(self._executor, self._execute_sync, query, params)
+        return SqliteFallbackCursor(result, self._executor)
+
+    def _execute_sync(self, query: str, params):
+        cursor = self.conn.cursor()
+        cursor.execute(query, params)
+        return cursor
+
+    async def executemany(self, query: str, params_list):
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(self._executor, self._executemany_sync, query, params_list)
+
+    def _executemany_sync(self, query: str, params_list):
+        cursor = self.conn.cursor()
+        cursor.executemany(query, params_list)
+
+    async def commit(self):
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(self._executor, self.conn.commit)
+
+
+class SqliteFallbackCursor:
+    """Cursor wrapper for fallback SQLite."""
+
+    def __init__(self, cursor, executor):
+        self.cursor = cursor
+        self._executor = executor
+        self.rowcount = cursor.rowcount
+
+    async def fetchone(self):
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(self._executor, self.cursor.fetchone)
+
+    async def fetchall(self):
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(self._executor, self.cursor.fetchall)
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(self._executor, self.cursor.close)
+
+    def __aiter__(self):
+        return self
+
+    async def __anext__(self):
+        row = await self.fetchone()
+        if row is None:
+            raise StopAsyncIteration
+        return row
+
+
+class SqliteFallback:
+    """Fallback SQLite implementation when aiosqlite is not available."""
+
+    @staticmethod
+    def connect(db_path: str) -> SqliteFallbackConnection:
+        return SqliteFallbackConnection(str(db_path))
+
+
 class OfflineStorage(StorageBackend):
     """SQLite-based offline storage with full-text search."""
 
@@ -38,9 +137,7 @@ class OfflineStorage(StorageBackend):
             return
 
         if not AIOSQLITE_AVAILABLE:
-            logger.warning("aiosqlite not available, OfflineStorage will use fallback mode")
-            self._initialized = True
-            return
+            logger.warning("aiosqlite not available, using synchronous SQLite fallback")
 
         try:
             # Ensure directory exists
@@ -147,18 +244,25 @@ class OfflineStorage(StorageBackend):
             raise
 
     def _check_available(self):
-        """Check if aiosqlite is available and raise appropriate error."""
-        if not AIOSQLITE_AVAILABLE:
-            raise RuntimeError("OfflineStorage requires aiosqlite package to be installed")
+        """Check if database connection is available."""
+        # No longer raise error - we have fallback
+        pass
 
     @asynccontextmanager
     async def _get_connection(self):
         """Get a database connection with proper settings."""
-        self._check_available()
-        async with aiosqlite.connect(self.db_path) as db:
-            # Enable foreign keys
-            await db.execute("PRAGMA foreign_keys=ON")
-            yield db
+        if AIOSQLITE_AVAILABLE:
+            async with aiosqlite.connect(self.db_path) as db:
+                # Enable foreign keys
+                await db.execute("PRAGMA foreign_keys=ON")
+                yield db
+        else:
+            # Use fallback
+            db = SqliteFallback.connect(self.db_path)
+            async with db as conn:
+                # Enable foreign keys
+                await conn.execute("PRAGMA foreign_keys=ON")
+                yield conn
 
     async def close(self) -> None:
         """Close the storage backend."""

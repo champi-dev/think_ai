@@ -3,21 +3,23 @@
 ## Test Results
 
 ### Dataset
+
 - **Packages tested**: 10,000
 - **Lookups performed**: 100 random searches
 - **Hash algorithm**: SHA256
 
 ### Performance Metrics
 
-| Method | Avg Lookup Time | Complexity | Speedup |
-|--------|----------------|------------|---------|
-| Linear Search | 0.498ms | O(n) | 1x (baseline) |
-| Hash Table | 0.001ms | O(1) | 637.9x |
-| SQLite Index | 0.150ms | O(1) | 3.3x |
+| Method        | Avg Lookup Time | Complexity | Speedup       |
+| ------------- | --------------- | ---------- | ------------- |
+| Linear Search | 0.498ms         | O(n)       | 1x (baseline) |
+| Hash Table    | 0.001ms         | O(1)       | 637.9x        |
+| SQLite Index  | 0.150ms         | O(1)       | 3.3x          |
 
 ### Scaling Projections
 
 With 1 million packages:
+
 - Linear Search: ~49.8ms per lookup
 - O(1) Methods: ~0.001ms per lookup (no change)
 

@@ -6,7 +6,6 @@ import os
 import sys
 from pathlib import Path
 
-
 # CRITICAL: Force lightweight deps in Railway to avoid transformers issues
 # Only use lightweight if explicitly set in environment
 if os.environ.get("THINK_AI_USE_LIGHTWEIGHT", "false").lower() == "true":
@@ -74,18 +73,18 @@ sys.path.insert(0, str(project_root))
 
 try:
     # Import FastAPI components
-    from typing import Any, Dict, List, Optional
-    from pathlib import Path
-
-    from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
-    from fastapi.middleware.cors import CORSMiddleware
-    from fastapi.websockets import WebSocketState
-    from pydantic import BaseModel
     import asyncio
     import json
 
     # Import warnings handler
     import warnings
+    from pathlib import Path
+    from typing import Any, Dict, List, Optional
+
+    from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+    from fastapi.middleware.cors import CORSMiddleware
+    from fastapi.websockets import WebSocketState
+    from pydantic import BaseModel
 
     warnings.filterwarnings("ignore", category=FutureWarning)
     warnings.filterwarnings("ignore", category=UserWarning)
@@ -101,28 +100,28 @@ try:
     # WebSocket Connection Manager
     class ConnectionManager:
         """Manages WebSocket connections for real-time updates."""
-        
+
         def __init__(self):
             self.active_connections: set[WebSocket] = set()
             self.connection_stats = {"total_connections": 0, "messages_sent": 0}
-        
+
         async def connect(self, websocket: WebSocket):
             await websocket.accept()
             self.active_connections.add(websocket)
             self.connection_stats["total_connections"] += 1
             logger.info(f"WebSocket connected. Active: {len(self.active_connections)}")
-        
+
         def disconnect(self, websocket: WebSocket):
             self.active_connections.discard(websocket)
             logger.info(f"WebSocket disconnected. Active: {len(self.active_connections)}")
-        
+
         async def broadcast(self, message: Dict[str, Any]):
             if not self.active_connections:
                 return
-            
+
             message_str = json.dumps(message)
             disconnected = set()
-            
+
             for connection in self.active_connections:
                 try:
                     if connection.client_state == WebSocketState.CONNECTED:
@@ -133,7 +132,7 @@ try:
                 except Exception as e:
                     logger.error(f"Error sending message: {e}")
                     disconnected.add(connection)
-            
+
             for conn in disconnected:
                 self.disconnect(conn)
 
@@ -239,69 +238,81 @@ try:
                 try:
                     data = await websocket.receive_text()
                     message = json.loads(data)
-                    
+
                     if message.get("type") == "ping":
                         await websocket.send_text(json.dumps({"type": "pong"}))
-                    
+
                     # Send initial data
                     elif message.get("type") == "init":
                         # Send mock consciousness update
-                        await websocket.send_text(json.dumps({
-                            "type": "consciousness_update",
-                            "attention_focus": "Initializing neural pathways",
-                            "consciousness_flow": 50,
-                            "awareness_level": 0.75,
-                            "workspace_activity": list(range(10)),
-                            "global_broadcast": "aware"
-                        }))
-                        
+                        await websocket.send_text(
+                            json.dumps(
+                                {
+                                    "type": "consciousness_update",
+                                    "attention_focus": "Initializing neural pathways",
+                                    "consciousness_flow": 50,
+                                    "awareness_level": 0.75,
+                                    "workspace_activity": list(range(10)),
+                                    "global_broadcast": "aware",
+                                }
+                            )
+                        )
+
                         # Send mock intelligence update
-                        await websocket.send_text(json.dumps({
-                            "type": "intelligence_update",
-                            "iq": 125,
-                            "consciousness_level": 0.75,
-                            "knowledge_count": 1000,
-                            "training_cycles": 100,
-                            "neural_pathways": 750,
-                            "synaptic_strength": 0.85
-                        }))
-                        
+                        await websocket.send_text(
+                            json.dumps(
+                                {
+                                    "type": "intelligence_update",
+                                    "iq": 125,
+                                    "consciousness_level": 0.75,
+                                    "knowledge_count": 1000,
+                                    "training_cycles": 100,
+                                    "neural_pathways": 750,
+                                    "synaptic_strength": 0.85,
+                                }
+                            )
+                        )
+
                 except WebSocketDisconnect:
                     break
                 except Exception as e:
                     logger.error(f"WebSocket error: {e}")
                     await asyncio.sleep(1)
-                    
+
         finally:
             manager.disconnect(websocket)
-    
+
     # Background task for periodic updates
     async def broadcast_updates():
         """Send periodic updates to all connected WebSocket clients."""
         while True:
             await asyncio.sleep(2)
-            
+
             # Mock consciousness update
-            await manager.broadcast({
-                "type": "consciousness_update",
-                "attention_focus": "Processing consciousness stream",
-                "consciousness_flow": 50 + (hash(str(asyncio.get_event_loop().time())) % 50),
-                "awareness_level": 0.7 + (hash(str(asyncio.get_event_loop().time())) % 30) / 100,
-                "workspace_activity": list(range(10 + hash(str(asyncio.get_event_loop().time())) % 10)),
-                "global_broadcast": "aware"
-            })
-            
+            await manager.broadcast(
+                {
+                    "type": "consciousness_update",
+                    "attention_focus": "Processing consciousness stream",
+                    "consciousness_flow": 50 + (hash(str(asyncio.get_event_loop().time())) % 50),
+                    "awareness_level": 0.7 + (hash(str(asyncio.get_event_loop().time())) % 30) / 100,
+                    "workspace_activity": list(range(10 + hash(str(asyncio.get_event_loop().time())) % 10)),
+                    "global_broadcast": "aware",
+                }
+            )
+
             # Mock intelligence update
-            await manager.broadcast({
-                "type": "intelligence_update",
-                "iq": 120 + (hash(str(asyncio.get_event_loop().time())) % 30),
-                "consciousness_level": 0.7 + (hash(str(asyncio.get_event_loop().time())) % 30) / 100,
-                "knowledge_count": 1000 + hash(str(asyncio.get_event_loop().time())) % 500,
-                "training_cycles": 100 + hash(str(asyncio.get_event_loop().time())) % 50,
-                "neural_pathways": 700 + hash(str(asyncio.get_event_loop().time())) % 300,
-                "synaptic_strength": 0.8 + (hash(str(asyncio.get_event_loop().time())) % 20) / 100
-            })
-    
+            await manager.broadcast(
+                {
+                    "type": "intelligence_update",
+                    "iq": 120 + (hash(str(asyncio.get_event_loop().time())) % 30),
+                    "consciousness_level": 0.7 + (hash(str(asyncio.get_event_loop().time())) % 30) / 100,
+                    "knowledge_count": 1000 + hash(str(asyncio.get_event_loop().time())) % 500,
+                    "training_cycles": 100 + hash(str(asyncio.get_event_loop().time())) % 50,
+                    "neural_pathways": 700 + hash(str(asyncio.get_event_loop().time())) % 300,
+                    "synaptic_strength": 0.8 + (hash(str(asyncio.get_event_loop().time())) % 20) / 100,
+                }
+            )
+
     # Start background update task
     @app.on_event("startup")
     async def startup_event():

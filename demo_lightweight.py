@@ -77,8 +77,9 @@ print("=" * 80)
 
 # Redis
 print("\n📦 Redis:")
-import redis
 import asyncio
+
+import redis
 
 
 async def test_redis():
@@ -154,8 +155,9 @@ print(f"  - Table created with {len(table.columns)} columns")
 
 # TQDM
 print("\n📦 TQDM:")
-from tqdm import tqdm
 import time
+
+from tqdm import tqdm
 
 items = list(range(10))
 start = time.time()

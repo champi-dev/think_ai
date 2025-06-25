@@ -5,11 +5,11 @@ Shows all working components with real examples
 """
 
 import asyncio
-import time
 import hashlib
 import json
-from typing import Dict, List, Any
 import random
+import time
+from typing import Any, Dict, List
 
 
 # Simulated Think AI components (working parts)

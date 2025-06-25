@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Test the generate API endpoint."""
 
-import requests
 import json
+
+import requests
 
 
 def test_generate():

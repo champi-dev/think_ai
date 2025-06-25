@@ -4,11 +4,11 @@ SOLID EVIDENCE: Think AI Lightweight System Works 100%
 This script proves ALL system capabilities are maintained
 """
 
+import asyncio
+import json
 import os
 import sys
 import time
-import json
-import asyncio
 
 # Enable lightweight mode
 os.environ["THINK_AI_LIGHTWEIGHT"] = "true"
@@ -110,12 +110,13 @@ test("API Creation", lambda: f"Created API with {len(app.routes)} routes")
 print("\n3. MACHINE LEARNING OPERATIONS (100% Functional)")
 print("-" * 60)
 
+import numpy as np
+import pandas as pd
+
 # Test all ML libraries
 import torch
-import numpy as np
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from sklearn.ensemble import RandomForestClassifier
-import pandas as pd
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
 # PyTorch
 test("PyTorch Tensors", lambda: f"Tensor shape: {torch.zeros(100, 100).shape}")
@@ -230,9 +231,10 @@ for op_name, op_func in operations:
 print("\n7. WEB FRAMEWORKS (100% Compatible)")
 print("-" * 60)
 
+import aiohttp
+
 # Test HTTP clients
 import httpx
-import aiohttp
 
 
 async def test_http():
@@ -317,7 +319,7 @@ user = UserModel(name="Test", age=25)
 test("Pydantic Models", lambda: f"User: {user.dict()}")
 
 # SQLAlchemy
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()

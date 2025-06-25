@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Validate that Think AI is ready for Railway deployment."""
 
-import subprocess
-import sys
 import json
 import os
+import subprocess
+import sys
 import time
 
 

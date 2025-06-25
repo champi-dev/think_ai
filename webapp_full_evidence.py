@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """Complete evidence that Think AI web app works at 100% accuracy."""
 
-import json
-import time
-import subprocess
-import requests
-import sys
-import os
 import asyncio
-import websockets
+import json
+import os
+import subprocess
+import sys
+import time
 from datetime import datetime
+
+import requests
+import websockets
 
 # Evidence collector
 evidence = {
@@ -59,7 +60,7 @@ def test_core_components():
 
     # Test enhanced conversation system
     try:
-        from think_ai_conversation_enhanced import model, vector_db, knowledge, generate_contextual_response
+        from think_ai_conversation_enhanced import generate_contextual_response, knowledge, model, vector_db
 
         # Test model
         test_embedding = model.encode("test")

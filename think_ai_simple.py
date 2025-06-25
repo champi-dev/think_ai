@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Simple Think AI API server - Clean implementation for Railway."""
 
-import os
-import logging
-from typing import Dict, Any, List, Optional
-from datetime import datetime
 import asyncio
+import logging
+import os
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware

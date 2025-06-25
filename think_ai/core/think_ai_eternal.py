@@ -31,9 +31,7 @@ class ThinkAIEternal:
         restore_memory: bool = True,
     ) -> None:
         # Load budget profile
-        self.budget_config = BUDGET_PROFILES.get(
-            budget_profile, BUDGET_PROFILES["free_tier"]
-        )
+        self.budget_config = BUDGET_PROFILES.get(budget_profile, BUDGET_PROFILES["free_tier"])
         logger.info(f"Initializing with budget profile: {budget_profile}")
 
         # Core components
@@ -137,8 +135,7 @@ class ThinkAIEternal:
         """
         # Check budget
         if self.cost_optimizer.current_spending >= self.budget_config["budget_limit"]:
-            logger.warning(
-                "Budget limit reached - using free alternatives only")
+            logger.warning("Budget limit reached - using free alternatives only")
             prefer_free = True
 
         # 1. Try cache first (free)
@@ -168,20 +165,16 @@ class ThinkAIEternal:
             return response
 
         # 3. If Claude needed, optimize the prompt
-        optimized_prompt, optimization_report = (
-            await self.claude_interface.create_optimized_prompt(
-                query,
-                context=await self._get_minimal_context(),
-            )
+        optimized_prompt, optimization_report = await self.claude_interface.create_optimized_prompt(
+            query,
+            context=await self._get_minimal_context(),
         )
 
         return {
             "status": "claude_ready",
             "optimized_prompt": optimized_prompt,
             "optimization_report": optimization_report,
-            "estimated_cost": optimization_report.get(
-                "estimated_cost",
-                0.01),
+            "estimated_cost": optimization_report.get("estimated_cost", 0.01),
             "instructions": "Copy the optimized prompt to Claude web interface",
         }
 
@@ -233,9 +226,7 @@ class ThinkAIEternal:
             "suggestions": await self.claude_interface.suggest_token_optimizations(
                 self.memory.current_session.get("consciousness_states", []),
             ),
-            "free_alternatives": self.cost_optimizer.get_free_alternatives(
-                "claude_conversation"
-            ),
+            "free_alternatives": self.cost_optimizer.get_free_alternatives("claude_conversation"),
         }
 
     async def _initialize_with_budget_constraints(self) -> None:
@@ -243,9 +234,7 @@ class ThinkAIEternal:
         if self.budget_config["budget_limit"] == 0:
             # Free tier - local only configuration
             # Use local/offline storage
-            self.engine.config.offline_storage.db_path = (
-                self.engine.config.data_dir / "free_tier.db"
-            )
+            self.engine.config.offline_storage.db_path = self.engine.config.data_dir / "free_tier.db"
 
             # Optimize model for local use
             self.engine.config.model.device = "cpu"
@@ -264,9 +253,7 @@ class ThinkAIEternal:
     async def _check_cache(self, query: str) -> Optional[Dict[str, Any]]:
         """Check cache for similar queries."""
         # Simple implementation - would use embeddings in production
-        cached_responses = await self.claude_interface._find_similar_cached_responses(
-            query
-        )
+        cached_responses = await self.claude_interface._find_similar_cached_responses(query)
 
         if cached_responses and cached_responses[0]["similarity"] > 0.85:
             return {
@@ -320,9 +307,7 @@ class ThinkAIEternal:
 
         # Default: Use consciousness system
         try:
-            response = await self.engine.consciousness.generate_conscious_response(
-                query
-            )
+            response = await self.engine.consciousness.generate_conscious_response(query)
 
             return {
                 "response": response.get(

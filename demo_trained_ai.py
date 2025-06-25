@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent))
 # Create some sample pre-trained knowledge
 sample_knowledge = {
     "What is consciousness?": "Consciousness is the subjective experience of awareness - the 'what it's like' to be you. It includes sensations, thoughts, emotions, and the unified experience of being. In AI, we model it through attention mechanisms, self-reflection, and integrated information theory.",
-    
     "How do I implement a hash table?": """Here's a hash table implementation with O(1) average operations:
 
 ```python
@@ -39,9 +38,7 @@ class HashTable:
 ```
 
 This provides constant-time insertion and lookup on average!""",
-    
     "What is the meaning of life?": "The meaning of life is a profound question with many answers. Biologically, it's to survive and reproduce. Philosophically, it might be to create meaning, reduce suffering, seek happiness, or achieve self-actualization. Many find meaning through relationships, creativity, or helping others. Perhaps the beauty is that we each get to discover and create our own meaning.",
-    
     "How to fix a memory leak?": """To fix a memory leak:
 
 1. **Identify the leak**: Use profiling tools (valgrind, memory_profiler)
@@ -78,7 +75,6 @@ class Node:
     def parent(self, p):
         self._parent = weakref.ref(p) if p else None
 ```""",
-
     "Write a Python function to sort an array": """Here are multiple sorting implementations:
 
 ```python
@@ -117,22 +113,23 @@ def merge(left, right):
 
 # For most cases, just use:
 sorted_arr = sorted(arr)  # Tim Sort - O(n log n)
-```"""
+```""",
 }
+
 
 def demo():
     """Run demo of trained Think AI."""
     print("🧠 Think AI - Trained with Knowledge")
     print("=" * 50)
     print("\nAsk me anything! (type 'quit' to exit)\n")
-    
+
     while True:
         question = input("You: ").strip()
-        
-        if question.lower() in ['quit', 'exit', 'bye']:
+
+        if question.lower() in ["quit", "exit", "bye"]:
             print("\nGoodbye! 👋")
             break
-        
+
         # Check if we have a direct answer
         if question in sample_knowledge:
             answer = sample_knowledge[question]
@@ -144,7 +141,7 @@ def demo():
                     answer = known_a
                     found = True
                     break
-            
+
             if not found:
                 # Generate a helpful response
                 if "how" in question.lower():
@@ -156,9 +153,10 @@ def demo():
                     answer = "That's a great question! The answer involves understanding several interconnected factors. Let me explain the key reasons and underlying principles."
                 else:
                     answer = "That's an interesting topic! I'd be happy to help. Could you provide more specific details about what you'd like to know?"
-        
+
         print(f"\nThink AI: {answer}\n")
         print("-" * 50)
+
 
 if __name__ == "__main__":
     demo()

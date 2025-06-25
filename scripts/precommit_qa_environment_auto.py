@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Automated QA Environment Check - Non-interactive version for CI/CD."""
 
+import os
 import subprocess
 import sys
 import time
-import os
 from pathlib import Path
 
 

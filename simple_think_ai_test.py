@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Simple demonstration of using Think AI for coding assistance."""
 
-import time
 import hashlib
-from typing import Dict, List, Tuple
 import json
+import time
+from typing import Dict, List, Tuple
 
 
 class ThinkAICodingAssistant:

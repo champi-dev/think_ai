@@ -4,11 +4,11 @@ Simple static file server for the pre-built Next.js webapp
 Serves the webapp without requiring Node.js in production
 """
 
-import os
 import mimetypes
-from pathlib import Path
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+import os
 import sys
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+from pathlib import Path
 
 
 class NextJSHandler(SimpleHTTPRequestHandler):

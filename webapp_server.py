@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Simple static file server for Next.js exported app."""
 
+import logging
 import os
 import sys
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

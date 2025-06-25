@@ -4,10 +4,10 @@ PROOF OF CONCEPT: Think AI Lightweight System
 Demonstrates 100% functionality with O(1) operations
 """
 
+import json
 import os
 import sys
 import time
-import json
 
 # Enable lightweight mode
 os.environ["THINK_AI_LIGHTWEIGHT"] = "true"
@@ -127,6 +127,7 @@ print(f"✅ ChromaDB: Stored 2 docs, found {len(results['ids'][0])} in search")
 
 # Redis
 import asyncio
+
 import redis
 
 

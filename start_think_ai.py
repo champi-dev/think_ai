@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Startup wrapper that ensures transformers is patched before any imports."""
 
-import sys
 import os
+import sys
 
 # CRITICAL: Monkey-patch transformers BEFORE it's imported anywhere
 print("🔧 Applying transformers monkey patch...")
@@ -48,8 +48,9 @@ print("✅ Transformers pre-patch complete")
 
 # Now import and run the actual application
 try:
-    from think_ai_full import app
     import uvicorn
+
+    from think_ai_full import app
 
     port = int(os.environ.get("PORT", 8080))
     print(f"🚀 Starting Think AI Full System on port {port}")
@@ -60,8 +61,9 @@ except Exception as e:
     print("🔄 Starting emergency server...")
 
     # Fall back to emergency server
-    from emergency_server import app
     import uvicorn
+
+    from emergency_server import app
 
     port = int(os.environ.get("PORT", 8080))
     uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")

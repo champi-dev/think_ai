@@ -82,7 +82,7 @@ class OfflineStorageConfig:
 @dataclass
 class ModelProviderConfig:
     """Model provider configuration."""
-    
+
     enabled: bool = True
     base_url: Optional[str] = None
     timeout: int = 60
@@ -103,21 +103,18 @@ class ModelConfig:
     torch_dtype: str = "float32"
     offline_model_path: Optional[Path] = None
     hf_token: Optional[str] = field(default_factory=lambda: os.getenv("HF_TOKEN") or HUGGINGFACE_API_KEY)
-    
+
     # Provider configuration
-    providers: Dict[str, ModelProviderConfig] = field(default_factory=lambda: {
-        "ollama": ModelProviderConfig(
-            enabled=True,
-            base_url="http://localhost:11434"
-        ),
-        "huggingface": ModelProviderConfig(
-            enabled=True
-        )
-    })
-    
+    providers: Dict[str, ModelProviderConfig] = field(
+        default_factory=lambda: {
+            "ollama": ModelProviderConfig(enabled=True, base_url="http://localhost:11434"),
+            "huggingface": ModelProviderConfig(enabled=True),
+        }
+    )
+
     # Provider preference order
     provider_preference: List[str] = field(default_factory=lambda: ["ollama", "huggingface"])
-    
+
     # Task-specific model overrides
     task_models: Dict[str, str] = field(default_factory=dict)
 

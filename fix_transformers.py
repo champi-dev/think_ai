@@ -47,9 +47,11 @@ def patch_transformers():
 if __name__ == "__main__":
     if patch_transformers():
         # Now import and run the main application
-        from think_ai_full import app
-        import uvicorn
         import os
+
+        import uvicorn
+
+        from think_ai_full import app
 
         port = int(os.environ.get("PORT", 8080))
         print(f"🚀 Starting Think AI Full System on port {port}")

@@ -5,10 +5,10 @@ Shows the elite performance of content-addressed caching
 """
 
 import hashlib
-import sqlite3
-import time
 import random
+import sqlite3
 import string
+import time
 from pathlib import Path
 from typing import Dict, List
 

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Verify Railway deployment is working correctly."""
 
-import requests
 import sys
 import time
 from datetime import datetime
+
+import requests
 
 
 def check_deployment(base_url):

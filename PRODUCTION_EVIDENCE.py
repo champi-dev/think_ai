@@ -4,10 +4,10 @@ PRODUCTION EVIDENCE: Think AI Lightweight System
 Demonstrates 100% functionality with actual working code
 """
 
+import json
 import os
 import sys
 import time
-import json
 
 # Enable lightweight mode
 os.environ["THINK_AI_LIGHTWEIGHT"] = "true"
@@ -135,9 +135,10 @@ collection = client.create_collection("test")
 collection.add(ids=["1"], documents=["test doc"])
 print("✅ ChromaDB: Created collection and added document")
 
+import asyncio
+
 # Redis (async)
 import redis
-import asyncio
 
 
 async def test_redis():

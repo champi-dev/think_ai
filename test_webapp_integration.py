@@ -2,12 +2,13 @@
 """Test script for webapp integration - backend, frontend, and core Think AI methods."""
 
 import json
-import time
-import subprocess
-import requests
-import sys
 import os
+import subprocess
+import sys
+import time
 from datetime import datetime
+
+import requests
 
 # Test results collector
 test_results = {
@@ -163,7 +164,7 @@ def test_core_think_ai_methods():
 
     try:
         # Import core Think AI components
-        from think_ai_conversation_enhanced import model, vector_db, knowledge, generate_contextual_response
+        from think_ai_conversation_enhanced import generate_contextual_response, knowledge, model, vector_db
 
         # Test model loading
         log_test("integration_tests", "model_loading", True, f"Model loaded: {type(model).__name__}")

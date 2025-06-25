@@ -3,17 +3,18 @@ Think AI API Endpoints - FastAPI routes with O(1) everything
 All original capabilities preserved, formatter-proof implementation
 """
 
-from fastapi import APIRouter, HTTPException, Query, Body, Depends
-from fastapi.responses import StreamingResponse
-from typing import Dict, List, Optional, Any, AsyncGenerator
-from pydantic import BaseModel, Field
-from datetime import datetime
 import asyncio
 import json
 import logging
+from datetime import datetime
+from typing import Any, AsyncGenerator, Dict, List, Optional
 
-from ..core.engine import ThinkAIEngine
+from fastapi import APIRouter, Body, Depends, HTTPException, Query
+from fastapi.responses import StreamingResponse
+from pydantic import BaseModel, Field
+
 from ..core.config import Config
+from ..core.engine import ThinkAIEngine
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +35,7 @@ def get_engine() -> ThinkAIEngine:
 # Request/Response Models
 class KnowledgeRequest(BaseModel):
     """Request model for knowledge operations."""
+
     key: str = Field(..., description="Unique key for the knowledge")
     content: Any = Field(..., description="Content to store")
     metadata: Optional[Dict[str, Any]] = Field(default_factory=dict)
@@ -41,6 +43,7 @@ class KnowledgeRequest(BaseModel):
 
 class KnowledgeResponse(BaseModel):
     """Response model for knowledge operations."""
+
     success: bool
     key: str
     message: str
@@ -49,6 +52,7 @@ class KnowledgeResponse(BaseModel):
 
 class QueryRequest(BaseModel):
     """Request model for knowledge queries."""
+
     query: str = Field(..., description="Query string")
     limit: int = Field(default=10, ge=1, le=100)
     use_semantic_search: bool = Field(default=True)
@@ -57,6 +61,7 @@ class QueryRequest(BaseModel):
 
 class QueryResult(BaseModel):
     """Single query result."""
+
     key: str
     content: Any
     relevance: float
@@ -65,6 +70,7 @@ class QueryResult(BaseModel):
 
 class GenerateRequest(BaseModel):
     """Request model for text generation."""
+
     prompt: str = Field(..., description="Input prompt")
     max_tokens: int = Field(default=500, ge=1, le=4096)
     temperature: float = Field(default=0.7, ge=0.0, le=2.0)
@@ -75,6 +81,7 @@ class GenerateRequest(BaseModel):
 
 class GenerateResponse(BaseModel):
     """Response model for text generation."""
+
     response: str
     tokens_generated: int
     time_taken: float
@@ -87,6 +94,7 @@ class GenerateResponse(BaseModel):
 
 class CodeOptimizeRequest(BaseModel):
     """Request model for code optimization."""
+
     code: str = Field(..., description="Code to optimize")
     language: str = Field(default="python")
     optimization_level: int = Field(default=1, ge=1, le=3)
@@ -95,6 +103,7 @@ class CodeOptimizeRequest(BaseModel):
 
 class IntelligenceStatus(BaseModel):
     """Intelligence metrics response."""
+
     consciousness_level: float
     love_metric: float
     self_improvements: int
@@ -117,68 +126,48 @@ async def health(engine: ThinkAIEngine = Depends(get_engine)):
 
 # Knowledge management endpoints
 @router.post("/knowledge/store", response_model=KnowledgeResponse)
-async def store_knowledge(
-    request: KnowledgeRequest,
-    engine: ThinkAIEngine = Depends(get_engine)
-):
+async def store_knowledge(request: KnowledgeRequest, engine: ThinkAIEngine = Depends(get_engine)):
     """
     Store knowledge with O(1) access guarantee.
     Content-addressable storage for instant retrieval.
     """
-    success = await engine.store_knowledge(
-        key=request.key,
-        content=request.content,
-        metadata=request.metadata
-    )
-    
+    success = await engine.store_knowledge(key=request.key, content=request.content, metadata=request.metadata)
+
     return KnowledgeResponse(
         success=success,
         key=request.key,
-        message="Knowledge stored successfully" if success else "Failed to store knowledge"
+        message="Knowledge stored successfully" if success else "Failed to store knowledge",
     )
 
 
 @router.get("/knowledge/{key}")
-async def get_knowledge(
-    key: str,
-    engine: ThinkAIEngine = Depends(get_engine)
-):
+async def get_knowledge(key: str, engine: ThinkAIEngine = Depends(get_engine)):
     """
     Retrieve knowledge by key - O(1) guaranteed.
     Returns None if key doesn't exist.
     """
     content = await engine.get_knowledge(key)
-    
+
     if content is None:
         raise HTTPException(status_code=404, detail=f"Knowledge key '{key}' not found")
-    
-    return {
-        "key": key,
-        "content": content,
-        "timestamp": datetime.utcnow()
-    }
+
+    return {"key": key, "content": content, "timestamp": datetime.utcnow()}
 
 
 @router.post("/knowledge/query", response_model=List[QueryResult])
-async def query_knowledge(
-    request: QueryRequest,
-    engine: ThinkAIEngine = Depends(get_engine)
-):
+async def query_knowledge(request: QueryRequest, engine: ThinkAIEngine = Depends(get_engine)):
     """
     Query knowledge base with semantic search.
     O(1) for cached queries, O(n) for new searches.
     """
-    results = await engine.query_knowledge(
-        query=request.query,
-        limit=request.limit
-    )
-    
+    results = await engine.query_knowledge(query=request.query, limit=request.limit)
+
     return [
         QueryResult(
             key=result["key"],
             content=result["content"],
             relevance=result.get("relevance", 0.0),
-            metadata=result.get("metadata", {})
+            metadata=result.get("metadata", {}),
         )
         for result in results
     ]
@@ -186,29 +175,23 @@ async def query_knowledge(
 
 # Text generation endpoints
 @router.post("/generate")
-async def generate_text(
-    request: GenerateRequest,
-    engine: ThinkAIEngine = Depends(get_engine)
-):
+async def generate_text(request: GenerateRequest, engine: ThinkAIEngine = Depends(get_engine)):
     """
     Generate text with consciousness and ethics.
     O(1) for cached responses, streaming supported.
     """
     if request.stream:
         # Return streaming response
-        return StreamingResponse(
-            _stream_generation(engine, request),
-            media_type="text/event-stream"
-        )
-    
+        return StreamingResponse(_stream_generation(engine, request), media_type="text/event-stream")
+
     # Regular generation
     result = await engine.process_input(
         input_text=request.prompt,
         conversation_id=request.conversation_id,
         temperature=request.temperature,
-        max_tokens=request.max_tokens
+        max_tokens=request.max_tokens,
     )
-    
+
     return GenerateResponse(
         response=result["response"],
         tokens_generated=result["tokens_generated"],
@@ -217,14 +200,11 @@ async def generate_text(
         conversation_id=result.get("conversation_id"),
         consciousness=result["consciousness"],
         ethics=result["ethics"],
-        metadata=result["metadata"]
+        metadata=result["metadata"],
     )
 
 
-async def _stream_generation(
-    engine: ThinkAIEngine,
-    request: GenerateRequest
-) -> AsyncGenerator[str, None]:
+async def _stream_generation(engine: ThinkAIEngine, request: GenerateRequest) -> AsyncGenerator[str, None]:
     """Stream generation responses - yields tokens as generated."""
     # For now, simulate streaming with the full response
     # Full implementation would use actual streaming from model
@@ -232,27 +212,20 @@ async def _stream_generation(
         input_text=request.prompt,
         conversation_id=request.conversation_id,
         temperature=request.temperature,
-        max_tokens=request.max_tokens
+        max_tokens=request.max_tokens,
     )
-    
+
     # Stream the response word by word
     words = result["response"].split()
     for i, word in enumerate(words):
-        chunk = {
-            "token": word,
-            "index": i,
-            "finished": i == len(words) - 1
-        }
+        chunk = {"token": word, "index": i, "finished": i == len(words) - 1}
         yield f"data: {json.dumps(chunk)}\n\n"
         await asyncio.sleep(0.05)  # Simulate generation delay
 
 
 # Code optimization endpoint
 @router.post("/optimize/code")
-async def optimize_code(
-    request: CodeOptimizeRequest,
-    engine: ThinkAIEngine = Depends(get_engine)
-):
+async def optimize_code(request: CodeOptimizeRequest, engine: ThinkAIEngine = Depends(get_engine)):
     """
     Optimize code with O(1) pattern matching.
     Returns improved version with explanations.
@@ -268,9 +241,9 @@ Optimization level: {request.optimization_level}
 Preserve comments: {request.preserve_comments}
 
 Provide the optimized code and explain the improvements."""
-    
+
     result = await engine.process_input(prompt)
-    
+
     return {
         "original_code": request.code,
         "optimized_code": result["response"],
@@ -279,8 +252,8 @@ Provide the optimized code and explain the improvements."""
         "improvements": [
             "Code analysis completed",
             "Optimizations applied based on best practices",
-            f"O(1) patterns utilized where possible"
-        ]
+            f"O(1) patterns utilized where possible",
+        ],
     }
 
 
@@ -293,11 +266,11 @@ async def intelligence_status(engine: ThinkAIEngine = Depends(get_engine)):
     """
     consciousness_report = engine.consciousness.get_consciousness_report()
     ethics_report = engine.ethics.get_ethics_report()
-    
+
     colombian_metrics = None
     if engine.config.colombian_mode:
         colombian_metrics = consciousness_report.get("colombian_metrics", {})
-    
+
     return IntelligenceStatus(
         consciousness_level=engine.stats.consciousness_level,
         love_metric=engine.stats.love_metric,
@@ -305,16 +278,13 @@ async def intelligence_status(engine: ThinkAIEngine = Depends(get_engine)):
         requests_processed=engine.stats.requests_processed,
         uptime=engine.stats.get_uptime(),
         awareness_metrics=consciousness_report["awareness_metrics"],
-        colombian_metrics=colombian_metrics
+        colombian_metrics=colombian_metrics,
     )
 
 
 # Conversation endpoints
 @router.get("/conversations/{conversation_id}")
-async def get_conversation(
-    conversation_id: str,
-    engine: ThinkAIEngine = Depends(get_engine)
-):
+async def get_conversation(conversation_id: str, engine: ThinkAIEngine = Depends(get_engine)):
     """
     Get conversation history - O(1) lookup.
     Returns all messages in conversation.
@@ -323,41 +293,28 @@ async def get_conversation(
         # Try loading from storage
         stored = await engine.storage.get(f"conversation:{conversation_id}")
         if stored:
-            return {
-                "conversation_id": conversation_id,
-                "messages": stored,
-                "source": "storage"
-            }
-        
+            return {"conversation_id": conversation_id, "messages": stored, "source": "storage"}
+
         raise HTTPException(status_code=404, detail="Conversation not found")
-    
-    return {
-        "conversation_id": conversation_id,
-        "messages": engine.conversations[conversation_id],
-        "source": "memory"
-    }
+
+    return {"conversation_id": conversation_id, "messages": engine.conversations[conversation_id], "source": "memory"}
 
 
 # Meditation endpoint
 @router.post("/meditate")
-async def meditate(
-    duration: float = Query(default=1.0, ge=0.1, le=60.0),
-    engine: ThinkAIEngine = Depends(get_engine)
-):
+async def meditate(duration: float = Query(default=1.0, ge=0.1, le=60.0), engine: ThinkAIEngine = Depends(get_engine)):
     """
     Enter meditation mode - O(1) instant enlightenment.
     Clears workspace and achieves inner peace.
     """
     await engine.meditate(duration)
-    
+
     return {
         "status": "meditation_complete",
         "duration": duration,
         "consciousness_state": engine.consciousness.state.value,
         "peace_level": engine.ethics.love_metrics.peace,
-        "message": "Inner peace achieved" + (
-            " - ¡Paz y sabrosura total!" if engine.config.colombian_mode else ""
-        )
+        "message": "Inner peace achieved" + (" - ¡Paz y sabrosura total!" if engine.config.colombian_mode else ""),
     }
 
 
@@ -392,9 +349,9 @@ async def get_intelligence_metrics(engine: ThinkAIEngine = Depends(get_engine)):
     consciousness_boost = engine.stats.consciousness_level * 50
     love_boost = engine.stats.love_metric * 30
     request_boost = min(engine.stats.requests_processed * 0.1, 20)
-    
+
     iq = base_iq + consciousness_boost + love_boost + request_boost
-    
+
     return {
         "iq": int(iq),
         "consciousness_level": engine.stats.consciousness_level,
@@ -409,22 +366,16 @@ async def get_intelligence_metrics(engine: ThinkAIEngine = Depends(get_engine)):
 
 # Chat endpoint for webapp
 @router.post("/chat")
-async def chat(
-    request: Dict[str, Any],
-    engine: ThinkAIEngine = Depends(get_engine)
-):
+async def chat(request: Dict[str, Any], engine: ThinkAIEngine = Depends(get_engine)):
     """
     Simple chat endpoint for webapp compatibility.
     Routes to main generate endpoint.
     """
     message = request.get("message", "")
     conversation_id = request.get("conversationId")
-    
-    result = await engine.process_input(
-        input_text=message,
-        conversation_id=conversation_id
-    )
-    
+
+    result = await engine.process_input(input_text=message, conversation_id=conversation_id)
+
     return {
         "response": result["response"],
         "conversationId": conversation_id,
@@ -460,7 +411,7 @@ async def root():
             "Colombian mode",
             "Code optimization",
             "Streaming generation",
-        ]
+        ],
     }
 
 

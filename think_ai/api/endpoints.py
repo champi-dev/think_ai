@@ -2,14 +2,15 @@
 Think AI API Endpoints - FastAPI routes for Think AI system
 """
 
-from fastapi import APIRouter, HTTPException, Query, Body
-from typing import Dict, List, Optional, Any
-from pydantic import BaseModel
-from datetime import datetime
 import hashlib
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
-from ..core.engine import ThinkAIEngine
+from fastapi import APIRouter, Body, HTTPException, Query
+from pydantic import BaseModel
+
 from ..core.config import Config
+from ..core.engine import ThinkAIEngine
 from ..utils.logging import get_logger
 
 logger = get_logger(__name__)
@@ -170,24 +171,24 @@ async def generate_text(request: GenerateRequest) -> Dict[str, Any]:
     """Generate text using Think AI's distributed intelligence."""
     try:
         engine = await get_engine()
-        
+
         # First check pre-trained knowledge
         from ..training.knowledge_loader import knowledge_loader
-        
+
         # Load knowledge if not already loaded
-        if not hasattr(knowledge_loader, 'manifest'):
+        if not hasattr(knowledge_loader, "manifest"):
             knowledge_loader.load_knowledge()
-        
+
         # Try to get answer from pre-trained knowledge
         generated_text = knowledge_loader.get_answer(request.prompt)
-        
+
         if not generated_text:
             # Use the actual Think AI engine with Qwen model
             result = await engine.process(request.prompt)
-            
+
             # The engine returns comprehensive responses with consciousness state
             generated_text = result.get("response", "")
-            
+
             # If no response from engine, fall back to knowledge query
             if not generated_text:
                 # Query the distributed knowledge base
@@ -198,23 +199,21 @@ async def generate_text(request: GenerateRequest) -> Dict[str, Any]:
                 else:
                     # Use the language model directly
                     generated_text = await engine._generate_with_model(request.prompt)
-        
+
         # Add consciousness insights if available
         consciousness_state = result.get("consciousness", {})
         if consciousness_state.get("insights"):
             generated_text += f"\n\nInsights: {consciousness_state['insights']}"
-        
+
         # Import persistent intelligence
         from ..training.persistent_intelligence import persistent_intelligence
-        
+
         # Save this interaction for eternal learning
         if generated_text:
             persistent_intelligence.learn_from_interaction(
-                user_input=request.prompt,
-                ai_response=generated_text,
-                feedback=None  # Can be updated later
+                user_input=request.prompt, ai_response=generated_text, feedback=None  # Can be updated later
             )
-        
+
         # O(1) cache for repeated prompts
         prompt_hash = hashlib.md5(request.prompt.encode()).hexdigest()
 
@@ -224,7 +223,7 @@ async def generate_text(request: GenerateRequest) -> Dict[str, Any]:
             "generated_text": generated_text,
             "prompt_hash": prompt_hash,
             "cached": False,  # Would check actual cache
-            "knowledge_growth": persistent_intelligence.get_growth_metrics()
+            "knowledge_growth": persistent_intelligence.get_growth_metrics(),
         }
     except Exception as e:
         logger.error(f"Generation failed: {e}")
@@ -277,7 +276,7 @@ async def intelligence_status() -> Dict[str, Any]:
     try:
         from ..intelligence_optimizer import intelligence_optimizer
         from ..training.persistent_intelligence import persistent_intelligence
-        
+
         # Get growth metrics
         growth = persistent_intelligence.get_growth_metrics()
 
@@ -290,16 +289,16 @@ async def intelligence_status() -> Dict[str, Any]:
                 "O(1) caching",
                 "Exponential learning",
                 "Parallel processing",
-                "Advanced optimization"
+                "Advanced optimization",
             ],
             "knowledge_growth": {
                 "total_knowledge": growth["total_knowledge"],
                 "unique_concepts": growth["unique_concepts"],
                 "interactions": growth["interactions"],
                 "learning_rate_per_minute": growth["learning_rate"],
-                "database_size_mb": round(growth["database_size_mb"], 2)
+                "database_size_mb": round(growth["database_size_mb"], 2),
             },
-            "message": f"Intelligence constantly growing: {growth['total_knowledge']:,} knowledge items"
+            "message": f"Intelligence constantly growing: {growth['total_knowledge']:,} knowledge items",
         }
     except Exception as e:
         logger.error(f"Failed to get intelligence status: {e}")
@@ -311,18 +310,14 @@ async def provide_feedback(prompt: str, response: str, feedback: str) -> Dict[st
     """Provide feedback on AI responses for continuous learning."""
     try:
         from ..training.persistent_intelligence import persistent_intelligence
-        
+
         # Learn from feedback
-        persistent_intelligence.learn_from_interaction(
-            user_input=prompt,
-            ai_response=response,
-            feedback=feedback
-        )
-        
+        persistent_intelligence.learn_from_interaction(user_input=prompt, ai_response=response, feedback=feedback)
+
         return {
             "success": True,
             "message": "Thank you for your feedback! I'm always learning.",
-            "knowledge_growth": persistent_intelligence.get_growth_metrics()
+            "knowledge_growth": persistent_intelligence.get_growth_metrics(),
         }
     except Exception as e:
         logger.error(f"Feedback processing failed: {e}")

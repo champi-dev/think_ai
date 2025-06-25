@@ -5,12 +5,12 @@ O(1) consciousness state transitions
 """
 
 import asyncio
+import logging
+import random
 import time
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set, Any
 from enum import Enum
-import random
-import logging
+from typing import Any, Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
 
@@ -237,12 +237,14 @@ class ConsciousnessFramework:
             "awareness_metrics": self.awareness_metrics.copy(),
             "compassion_level": self.compassion_level,
             "meditation_count": self.meditation_count,
-            "colombian_metrics": {
-                "sabrosura": self.sabrosura_level,
-                "berraquera": self.berraquera_meter,
-            }
-            if self.config.get("colombian_mode")
-            else None,
+            "colombian_metrics": (
+                {
+                    "sabrosura": self.sabrosura_level,
+                    "berraquera": self.berraquera_meter,
+                }
+                if self.config.get("colombian_mode")
+                else None
+            ),
         }
 
     async def reflect(self) -> Dict[str, Any]:

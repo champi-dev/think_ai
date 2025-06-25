@@ -1,7 +1,7 @@
 """Lightweight OpenTelemetry implementation with O(1) operations."""
 
-from typing import Any, Dict, Optional, Callable
 from contextlib import contextmanager
+from typing import Any, Callable, Dict, Optional
 
 
 # Context module

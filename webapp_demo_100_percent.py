@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Live demonstration of Think AI web app working at 100% accuracy."""
 
-import subprocess
-import time
-import requests
 import json
+import subprocess
 import sys
+import time
 from datetime import datetime
+
+import requests
 
 
 def print_header(title):
@@ -162,7 +163,10 @@ def generate_final_report():
                     "/api/capabilities - Features",
                 ],
             },
-            "frontend": {"status": "✅ WORKING", "stack": ["Next.js 14", "TypeScript", "Tailwind CSS", "Framer Motion"]},
+            "frontend": {
+                "status": "✅ WORKING",
+                "stack": ["Next.js 14", "TypeScript", "Tailwind CSS", "Framer Motion"],
+            },
             "integration": {
                 "status": "✅ WORKING",
                 "proof": [

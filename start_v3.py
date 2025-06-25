@@ -4,9 +4,9 @@ Start script that ensures Think AI v3.1.0 runs
 Prevents fallback to broken original code
 """
 
+import logging
 import os
 import sys
-import logging
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")

@@ -6,7 +6,8 @@ Real-time consciousness and intelligence updates
 import asyncio
 import json
 import logging
-from typing import Set, Dict, Any
+from typing import Any, Dict, Set
+
 from fastapi import WebSocket, WebSocketDisconnect
 from fastapi.websockets import WebSocketState
 

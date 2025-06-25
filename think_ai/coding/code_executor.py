@@ -34,8 +34,7 @@ class SafeCodeExecutor:
 
         logger.info("🔧 Code Executor initialized - Think AI can now run code!")
 
-    async def execute_code(
-            self, code: str, language: str = "python") -> dict[str, Any]:
+    async def execute_code(self, code: str, language: str = "python") -> dict[str, Any]:
         """Execute code safely and return results.
 
         Args:
@@ -125,9 +124,7 @@ class SafeCodeExecutor:
             # Create a restricted globals environment
             safe_globals = {
                 "__builtins__": {
-                    "print": lambda *args, **kwargs: print(
-                        *args, **kwargs, file=output_buffer
-                    ),
+                    "print": lambda *args, **kwargs: print(*args, **kwargs, file=output_buffer),
                     "len": len,
                     "range": range,
                     "enumerate": enumerate,
@@ -191,9 +188,7 @@ class SafeCodeExecutor:
 
                 # Truncate output if too long
                 if len(result.get("output", "")) > self.max_output:
-                    result["output"] = (
-                        result["output"][: self.max_output] + "\n... (truncated)"
-                    )
+                    result["output"] = result["output"][: self.max_output] + "\n... (truncated)"
                     result["truncated"] = True
 
                 result["execution_time"] = f"{execution_time:.3f}s"
@@ -212,11 +207,7 @@ class SafeCodeExecutor:
                 "traceback": traceback.format_exc(),
             }
 
-    def _run_code_in_process(
-            self,
-            code: str,
-            globals_dict: dict,
-            result_queue) -> None:
+    def _run_code_in_process(self, code: str, globals_dict: dict, result_queue) -> None:
         """Run code in a separate process for isolation."""
         try:
             # Capture output
@@ -243,9 +234,7 @@ class SafeCodeExecutor:
                 }
             )
 
-    async def test_function(
-        self, function_code: str, test_cases: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def test_function(self, function_code: str, test_cases: list[dict[str, Any]]) -> dict[str, Any]:
         """Test a function with multiple test cases.
 
         Args:
@@ -298,11 +287,7 @@ print(f"Result: {{result}}")
 
     def get_stats(self) -> dict[str, Any]:
         """Get execution statistics."""
-        success_rate = (
-            (self.success_count / self.execution_count * 100)
-            if self.execution_count > 0
-            else 0
-        )
+        success_rate = (self.success_count / self.execution_count * 100) if self.execution_count > 0 else 0
 
         return {
             "total_executions": self.execution_count,

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Test full system integration including webapp."""
 
-import requests
 import json
 import time
+
+import requests
 
 
 def test_full_system():

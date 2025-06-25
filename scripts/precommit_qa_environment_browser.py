@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """Pre-commit QA Environment with Browser - Manual testing interface for Think AI."""
 
-import subprocess
-import time
-import webbrowser
-import sys
+import json
 import os
 import signal
+import subprocess
+import sys
 import threading
+import time
+import webbrowser
 from pathlib import Path
-import json
+
 import psutil
 
 # ANSI color codes
@@ -476,7 +477,7 @@ if __name__ == '__main__':
         decision_result = {"approved": None}
 
         def run_decision_server():
-            from http.server import HTTPServer, BaseHTTPRequestHandler
+            from http.server import BaseHTTPRequestHandler, HTTPServer
 
             class DecisionHandler(BaseHTTPRequestHandler):
                 def do_POST(self):

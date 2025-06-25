@@ -289,11 +289,11 @@ class FederatedLearningServer:
             "active_clients": len([c for c in self.clients.values() if c.trust_score > 0.5]),
             "total_rounds": len(self.round_history),
             "current_model_version": self.global_model_version,
-            "avg_round_duration": np.mean(
-                [(r.end_time - r.start_time).total_seconds() for r in self.round_history if r.end_time]
-            )
-            if self.round_history
-            else 0,
+            "avg_round_duration": (
+                np.mean([(r.end_time - r.start_time).total_seconds() for r in self.round_history if r.end_time])
+                if self.round_history
+                else 0
+            ),
         }
 
     def _penalize_client(self, client_id: str) -> None:

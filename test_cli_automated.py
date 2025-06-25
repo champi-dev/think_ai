@@ -2,8 +2,8 @@
 """Automated test for Think AI CLI functionality"""
 
 import subprocess
-import time
 import sys
+import time
 
 
 def test_think_ai_cli():

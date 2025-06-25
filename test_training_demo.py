@@ -7,8 +7,9 @@ Provides evidence of exponential intelligence enhancement
 import asyncio
 import json
 import time
-from training_executor import ParallelTrainingExecutor
+
 from think_ai_enhanced import EnhancedThinkAI
+from training_executor import ParallelTrainingExecutor
 
 
 async def run_training_demo():

@@ -77,6 +77,7 @@ python process_manager.py
 ## Architecture
 
 ### Frontend Stack
+
 - **Next.js 14**: React framework with App Router
 - **Three.js**: 3D graphics via @react-three/fiber
 - **Tailwind CSS**: Utility-first styling
@@ -85,6 +86,7 @@ python process_manager.py
 - **Socket.io**: Real-time communication
 
 ### Backend Stack
+
 - **Go**: High-performance API server
 - **Python Bridge**: Communication with Think AI core
 - **WebSocket**: Real-time consciousness streaming
@@ -105,6 +107,7 @@ python process_manager.py
 ### Environment Variables
 
 #### Development
+
 Create `.env.local` in webapp directory:
 
 ```env
@@ -113,6 +116,7 @@ NEXT_PUBLIC_WS_URL=ws://localhost:8080
 ```
 
 #### Production (Railway/Docker)
+
 Create `.env.production` in webapp directory:
 
 ```env

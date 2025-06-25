@@ -5,8 +5,8 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 from think_ai.utils.logging import get_logger
 
-from .learned_index import LearnedIndex, LearnedIndexManager
 from ..cache.redis_cache import RedisCache
+from .learned_index import LearnedIndex, LearnedIndexManager
 from .scylla import ScyllaDBBackend
 
 logger = get_logger(__name__)

@@ -4,39 +4,39 @@ Provides O(1) replacements for heavy external dependencies
 """
 
 # Import all lightweight implementations
-from .core import TorchLite, NumpyLite, SklearnLite, PandasLite
+from .core import NumpyLite, PandasLite, SklearnLite, TorchLite
 from .ml import (
-    TransformersLite,
-    SentenceTransformersLite,
     HuggingFaceHubLite,
-    OpenAILite,
     LangChainLite,
+    OpenAILite,
+    SentenceTransformersLite,
     SpacyLite,
-    generate_embedding,
+    TransformersLite,
     cosine_similarity,
+    generate_embedding,
 )
-from .storage import RedisLite, Neo4jLite, CassandraLite, ChromaDBLite
+from .storage import CassandraLite, ChromaDBLite, Neo4jLite, RedisLite
+from .ui import ClickLite, ColoramaLite, RichLite, TextualLite, TqdmLite
+from .utils import (
+    DotenvLite,
+    JoseLite,
+    PasslibLite,
+    PILLite,
+    PlaywrightLite,
+    PsutilLite,
+    PydanticLite,
+    SQLAlchemyLite,
+    YAMLLite,
+)
 from .web import (
+    AiohttpLite,
+    APIRouter,
+    CORSMiddleware,
     FastAPIModule,
     FlaskModule,
     HttpxLite,
-    AiohttpLite,
     OAuth2PasswordBearer,
-    CORSMiddleware,
     WebSocketLite,
-    APIRouter,
-)
-from .ui import RichLite, TextualLite, TqdmLite, ClickLite, ColoramaLite
-from .utils import (
-    PsutilLite,
-    PILLite,
-    JoseLite,
-    PasslibLite,
-    PydanticLite,
-    SQLAlchemyLite,
-    PlaywrightLite,
-    YAMLLite,
-    DotenvLite,
 )
 
 __all__ = ["LightweightDeps", "get_lightweight_import", "patch_all_imports", "install_lightweight_mode"]
@@ -149,8 +149,8 @@ def get_lightweight_import(module_name: str):
 def patch_all_imports():
     pass  # TODO: Implement
     """Monkey patch all imports to use lightweight versions"""
-    import sys
     import builtins
+    import sys
 
     # Store original import
     if not hasattr(builtins, "_original_import"):

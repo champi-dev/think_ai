@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Verify the full Think AI system is operational."""
 
-import requests
 import json
-import time
 import sys
+import time
+
+import requests
 
 
 def test_full_system():

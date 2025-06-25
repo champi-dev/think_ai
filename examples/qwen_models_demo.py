@@ -2,14 +2,16 @@
 """Demo script showing task-specific Qwen model usage."""
 
 import asyncio
-from think_ai.models.language.model_manager import ModelManager, TaskType
-from think_ai.models.language.types import GenerationConfig
-from think_ai.core.config import Config
-from think_ai.utils.progress import ModelLoadingProgress, progress_context
+
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
 from rich.syntax import Syntax
+from rich.table import Table
+
+from think_ai.core.config import Config
+from think_ai.models.language.model_manager import ModelManager, TaskType
+from think_ai.models.language.types import GenerationConfig
+from think_ai.utils.progress import ModelLoadingProgress, progress_context
 
 console = Console()
 

@@ -4,8 +4,8 @@ Response cache for O(1) model output retrieval
 
 import hashlib
 import json
-from typing import Dict, Any, Optional
 from datetime import datetime, timedelta
+from typing import Any, Dict, Optional
 
 
 class ResponseCache:

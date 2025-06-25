@@ -57,11 +57,11 @@ class TransformerEmbeddings(EmbeddingModel):
 
         try:
             # Try to import sentence-transformers
-            from sentence_transformers import SentenceTransformer
-
             # Load model in executor to avoid blocking
             # Force CPU mode for Railway deployment
             import os
+
+            from sentence_transformers import SentenceTransformer
 
             device = "cpu" if os.environ.get("RAILWAY_ENVIRONMENT") or not torch.cuda.is_available() else "cuda"
             self.model = await asyncio.get_event_loop().run_in_executor(

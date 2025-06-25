@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Test the Think AI endpoints are working correctly."""
 
-import requests
 import json
-import time
 import sys
+import time
+
+import requests
 
 
 def test_full_system():

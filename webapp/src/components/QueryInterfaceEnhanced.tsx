@@ -1,86 +1,90 @@
-import { useState, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { useThinkAIStore } from '../lib/store'
-import { getMotionSettings } from '../lib/motion'
-import React from 'react'
+import { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { useThinkAIStore } from "../lib/store";
+import { getMotionSettings } from "../lib/motion";
+import React from "react";
 
 export default function QueryInterfaceEnhanced() {
-  const [query, setQuery] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const { responses, addResponse } = useThinkAIStore()
-  const inputRef = useRef<HTMLInputElement>(null)
-  const motionSettings = getMotionSettings()
-  
+  const [query, setQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { responses, addResponse } = useThinkAIStore();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const motionSettings = getMotionSettings();
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!query.trim() || isLoading) return
-    
-    setIsLoading(true)
-    
+    e.preventDefault();
+    if (!query.trim() || isLoading) return;
+
+    setIsLoading(true);
+
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: query,
-          conversationId: Date.now().toString()
-        })
-      })
-      
+          conversationId: Date.now().toString(),
+        }),
+      });
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
-      const data = await response.json()
-      
+
+      const data = await response.json();
+
       addResponse({
         id: Date.now().toString(),
         query,
-        response: data.response || 'No response received',
+        response: data.response || "No response received",
         consciousness_state: data.consciousness,
-        has_code: data.response ? data.response.includes('```') : false,
-        response_type: 'text',
-        timestamp: new Date()
-      })
-      
-      setQuery('')
+        has_code: data.response ? data.response.includes("```") : false,
+        response_type: "text",
+        timestamp: new Date(),
+      });
+
+      setQuery("");
       // Refocus input after clearing
-      inputRef.current?.focus()
+      inputRef.current?.focus();
     } catch (error) {
-      console.error('Query failed:', error)
+      console.error("Query failed:", error);
       addResponse({
         id: Date.now().toString(),
         query,
-        response: `Error: ${error instanceof Error ? error.message : 'Failed to process query'}`,
+        response: `Error: ${error instanceof Error ? error.message : "Failed to process query"}`,
         consciousness_state: undefined,
         has_code: false,
-        response_type: 'error',
-        timestamp: new Date()
-      })
+        response_type: "error",
+        timestamp: new Date(),
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
-  
+  };
+
   const renderResponse = (response: string, hasCode: boolean) => {
     if (!hasCode) {
-      return <div className="text-gray-200 whitespace-pre-wrap">{response}</div>
+      return (
+        <div className="text-gray-200 whitespace-pre-wrap">{response}</div>
+      );
     }
-    
+
     // Parse and render code blocks
-    const parts = response.split('```')
+    const parts = response.split("```");
     return (
       <div className="text-gray-200 space-y-2">
         {parts.map((part, index) => {
           if (index % 2 === 0) {
             // Regular text
             return part.trim() ? (
-              <div key={index} className="whitespace-pre-wrap">{part.trim()}</div>
-            ) : null
+              <div key={index} className="whitespace-pre-wrap">
+                {part.trim()}
+              </div>
+            ) : null;
           } else {
             // Code block
-            const [language, ...codeLines] = part.split('\n')
-            const code = codeLines.join('\n').trim()
+            const [language, ...codeLines] = part.split("\n");
+            const code = codeLines.join("\n").trim();
             return (
               <div key={index} className="relative group">
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -95,16 +99,18 @@ export default function QueryInterfaceEnhanced() {
                   <code className="text-sm text-green-400">{code}</code>
                 </pre>
                 {language && (
-                  <div className="text-xs text-purple-400 mt-1">Language: {language}</div>
+                  <div className="text-xs text-purple-400 mt-1">
+                    Language: {language}
+                  </div>
                 )}
               </div>
-            )
+            );
           }
         })}
       </div>
-    )
-  }
-  
+    );
+  };
+
   return (
     <div className="space-y-4">
       <form onSubmit={handleSubmit} className="relative">
@@ -114,9 +120,9 @@ export default function QueryInterfaceEnhanced() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault()
-              handleSubmit(e)
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit(e);
             }
           }}
           placeholder="Ask me to code something..."
@@ -124,7 +130,7 @@ export default function QueryInterfaceEnhanced() {
           disabled={isLoading}
           autoFocus
         />
-        
+
         <motion.button
           type="submit"
           disabled={isLoading || !query.trim()}
@@ -133,61 +139,110 @@ export default function QueryInterfaceEnhanced() {
           className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-purple-400 hover:text-purple-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           {isLoading ? (
-            <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              className="w-5 h-5 animate-spin"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
           ) : (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+              />
             </svg>
           )}
         </motion.button>
       </form>
-      
+
       {responses.length > 0 && (
         <div className="space-y-3 max-h-96 overflow-y-auto">
-          {responses.slice(-5).reverse().map((response, index) => (
-            <motion.div
-              key={response.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ ...motionSettings.transition, delay: index * 0.05 }}
-              className="p-4 bg-black/20 rounded-lg border border-white/10"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-sm text-gray-400">
-                  {response.timestamp.toLocaleTimeString()}
+          {responses
+            .slice(-5)
+            .reverse()
+            .map((response, index) => (
+              <motion.div
+                key={response.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  ...motionSettings.transition,
+                  delay: index * 0.05,
+                }}
+                className="p-4 bg-black/20 rounded-lg border border-white/10"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm text-gray-400">
+                    {response.timestamp.toLocaleTimeString()}
+                  </div>
+                  {response.has_code && (
+                    <div className="text-xs px-2 py-1 bg-green-600/20 text-green-400 rounded">
+                      Contains Code
+                    </div>
+                  )}
                 </div>
-                {response.has_code && (
-                  <div className="text-xs px-2 py-1 bg-green-600/20 text-green-400 rounded">
-                    Contains Code
+
+                <div className="text-purple-400 mb-3 font-medium">
+                  Q: {response.query}
+                </div>
+
+                <div className="response-content">
+                  {renderResponse(
+                    response.response,
+                    response.has_code || false,
+                  )}
+                </div>
+
+                {response.consciousness_state && (
+                  <div className="mt-4 pt-3 border-t border-white/10 text-xs text-gray-400 grid grid-cols-2 gap-2">
+                    <div>
+                      Attention: {response.consciousness_state.attention_focus}
+                    </div>
+                    <div>
+                      Flow: {response.consciousness_state.consciousness_flow}
+                    </div>
+                    <div>
+                      Awareness:{" "}
+                      {(
+                        response.consciousness_state.awareness_level * 100
+                      ).toFixed(0)}
+                      %
+                    </div>
+                    <div>
+                      Type: {response.consciousness_state.response_type}
+                    </div>
                   </div>
                 )}
-              </div>
-              
-              <div className="text-purple-400 mb-3 font-medium">Q: {response.query}</div>
-              
-              <div className="response-content">
-                {renderResponse(response.response, response.has_code || false)}
-              </div>
-              
-              {response.consciousness_state && (
-                <div className="mt-4 pt-3 border-t border-white/10 text-xs text-gray-400 grid grid-cols-2 gap-2">
-                  <div>Attention: {response.consciousness_state.attention_focus}</div>
-                  <div>Flow: {response.consciousness_state.consciousness_flow}</div>
-                  <div>Awareness: {(response.consciousness_state.awareness_level * 100).toFixed(0)}%</div>
-                  <div>Type: {response.consciousness_state.response_type}</div>
-                </div>
-              )}
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
         </div>
       )}
-      
+
       <div className="text-xs text-gray-500 text-center">
-        Try: "build a simple API", "create a pizza ordering app", "write CI/CD pipeline"
+        Try: "build a simple API", "create a pizza ordering app", "write CI/CD
+        pipeline"
       </div>
     </div>
-  )
+  );
 }

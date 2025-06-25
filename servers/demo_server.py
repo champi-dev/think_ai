@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Demo server for consciousness testing."""
 
-from flask import Flask, jsonify, render_template_string
 import sys
 from pathlib import Path
+
+from flask import Flask, jsonify, render_template_string
 
 sys.path.append(str(Path(__file__).parent.parent))
 

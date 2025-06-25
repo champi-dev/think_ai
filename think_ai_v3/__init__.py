@@ -7,8 +7,9 @@ O(1) performance everywhere, even O(√1) where possible!
 __version__ = "3.1.0"
 __author__ = "Champi (BDFL)"
 
+from .core.config import Config
+
 # Core imports that will be populated as we build
 from .core.engine import ThinkAIEngine
-from .core.config import Config
 
 __all__ = ["ThinkAIEngine", "Config", "__version__"]

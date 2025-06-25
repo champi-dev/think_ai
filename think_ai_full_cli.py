@@ -9,8 +9,8 @@ from typing import Dict, List, Optional, Tuple
 
 # Import the full Think AI system components
 try:
-    from think_ai.core.engine import ThinkAIEngine, QueryResult
     from think_ai.core.config import Config
+    from think_ai.core.engine import QueryResult, ThinkAIEngine
     from think_ai.utils.logging import configure_logging, get_logger
 
     FULL_SYSTEM_AVAILABLE = True

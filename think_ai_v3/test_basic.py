@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Basic tests for Think AI v3.1.0"""
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -11,10 +11,10 @@ def test_imports():
     pass  # TODO: Implement
     """Test that all modules can be imported."""
     try:
-        from think_ai_v3.core.config import Config
-        from think_ai_v3.core.engine import ThinkAIEngine
         from think_ai_v3.consciousness.awareness import ConsciousnessFramework
         from think_ai_v3.consciousness.principles import ConstitutionalAI
+        from think_ai_v3.core.config import Config
+        from think_ai_v3.core.engine import ThinkAIEngine
 
         print("✓ All imports successful")
         return True

@@ -7,11 +7,11 @@ from typing import Dict, List, Tuple
 
 class SimpleAI:
     """Generates intelligent responses without external dependencies."""
-    
+
     def __init__(self):
         self.knowledge_base = self._build_knowledge_base()
         self.code_examples = self._build_code_examples()
-    
+
     def _build_knowledge_base(self) -> Dict[str, Dict]:
         """Build a knowledge base for common topics."""
         return {
@@ -20,46 +20,46 @@ class SimpleAI:
                 "facts": [
                     "emerged on Earth about 3.8 billion years ago",
                     "based on carbon chemistry and DNA/RNA information storage",
-                    "requires energy flow to maintain organization against entropy"
+                    "requires energy flow to maintain organization against entropy",
                 ],
                 "perspectives": {
                     "biological": "complex chemical systems undergoing Darwinian evolution",
                     "physical": "localized decreases in entropy powered by energy gradients",
-                    "philosophical": "the universe's way of understanding itself"
-                }
+                    "philosophical": "the universe's way of understanding itself",
+                },
             },
             "consciousness": {
                 "definition": "subjective experience of awareness and sentience",
                 "facts": [
                     "emerges from neural activity in the brain",
                     "includes qualia - the subjective quality of experiences",
-                    "may involve integrated information and global workspace"
+                    "may involve integrated information and global workspace",
                 ],
                 "perspectives": {
                     "neuroscience": "patterns of neural activity creating unified experience",
                     "philosophy": "the hard problem of explaining subjective experience",
-                    "ai": "can be modeled through attention and self-reflection mechanisms"
-                }
+                    "ai": "can be modeled through attention and self-reflection mechanisms",
+                },
             },
             "universe": {
                 "definition": "all of space, time, matter, and energy that exists",
                 "facts": [
                     "approximately 13.8 billion years old",
                     "contains 2 trillion galaxies",
-                    "expanding at an accelerating rate due to dark energy"
+                    "expanding at an accelerating rate due to dark energy",
                 ],
                 "perspectives": {
                     "cosmology": "began with the Big Bang and continues expanding",
                     "quantum": "emerges from quantum fields and their interactions",
-                    "philosophical": "may be one of many in a multiverse"
-                }
-            }
+                    "philosophical": "may be one of many in a multiverse",
+                },
+            },
         }
-    
+
     def _build_code_examples(self) -> Dict[str, str]:
         """Build code examples for common requests."""
         return {
-            "hash_table": '''class HashTable:
+            "hash_table": """class HashTable:
     def __init__(self, size=100):
         self.size = size
         self.table = [[] for _ in range(size)]
@@ -81,9 +81,8 @@ class SimpleAI:
         for k, v in self.table[idx]:
             if k == key:
                 return v
-        return None''',
-            
-            "binary_search": '''def binary_search(arr, target):
+        return None""",
+            "binary_search": """def binary_search(arr, target):
     left, right = 0, len(arr) - 1
     
     while left <= right:
@@ -95,9 +94,8 @@ class SimpleAI:
         else:
             right = mid - 1
     
-    return -1  # Not found''',
-            
-            "api": '''from fastapi import FastAPI, HTTPException
+    return -1  # Not found""",
+            "api": """from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -112,17 +110,17 @@ def read_root():
 
 @app.post("/items/")
 def create_item(item: Item):
-    return {"item": item, "total": item.price * 1.1}'''
+    return {"item": item, "total": item.price * 1.1}""",
         }
-    
+
     def generate_response(self, prompt: str) -> str:
         """Generate an intelligent response based on the prompt."""
         prompt_lower = prompt.lower().strip()
-        
+
         # Extract key information from prompt
         keywords = self._extract_keywords(prompt_lower)
         intent = self._determine_intent(prompt_lower, keywords)
-        
+
         # Generate response based on intent
         if intent == "code":
             return self._generate_code_response(prompt_lower, keywords)
@@ -134,21 +132,70 @@ def create_item(item: Item):
             return self._generate_answer(prompt_lower, keywords)
         else:
             return self._generate_contextual_response(prompt, keywords)
-    
+
     def _extract_keywords(self, prompt: str) -> List[str]:
         """Extract important keywords from prompt."""
         # Remove common words
-        stop_words = {"the", "a", "an", "is", "are", "was", "were", "be", "been", "being",
-                      "have", "has", "had", "do", "does", "did", "will", "would", "could",
-                      "should", "may", "might", "must", "shall", "can", "of", "in", "to",
-                      "for", "with", "on", "at", "from", "by", "about", "as", "into",
-                      "through", "during", "before", "after", "above", "below", "up", "down",
-                      "out", "off", "over", "under", "again", "further", "then", "once"}
-        
+        stop_words = {
+            "the",
+            "a",
+            "an",
+            "is",
+            "are",
+            "was",
+            "were",
+            "be",
+            "been",
+            "being",
+            "have",
+            "has",
+            "had",
+            "do",
+            "does",
+            "did",
+            "will",
+            "would",
+            "could",
+            "should",
+            "may",
+            "might",
+            "must",
+            "shall",
+            "can",
+            "of",
+            "in",
+            "to",
+            "for",
+            "with",
+            "on",
+            "at",
+            "from",
+            "by",
+            "about",
+            "as",
+            "into",
+            "through",
+            "during",
+            "before",
+            "after",
+            "above",
+            "below",
+            "up",
+            "down",
+            "out",
+            "off",
+            "over",
+            "under",
+            "again",
+            "further",
+            "then",
+            "once",
+        }
+
         words = prompt.split()
         keywords = [w for w in words if w not in stop_words and len(w) > 2]
         return keywords
-    
+
     def _determine_intent(self, prompt: str, keywords: List[str]) -> str:
         """Determine the intent of the prompt."""
         if any(word in prompt for word in ["code", "function", "implement", "build", "create", "write"]):
@@ -161,7 +208,7 @@ def create_item(item: Item):
             return "question"
         else:
             return "general"
-    
+
     def _generate_code_response(self, prompt: str, keywords: List[str]) -> str:
         """Generate a code-related response."""
         # Check for specific code examples
@@ -174,12 +221,12 @@ def create_item(item: Item):
         else:
             # Generate contextual code help
             return self._generate_code_help(keywords)
-    
+
     def _generate_code_help(self, keywords: List[str]) -> str:
         """Generate helpful coding guidance."""
         if not keywords:
             return "I can help you code! What would you like to build? I can assist with data structures, algorithms, web APIs, automation scripts, and more."
-        
+
         topic = " ".join(keywords[:2])
         return f"""I'll help you code {topic}! Here's how to approach it:
 
@@ -190,7 +237,7 @@ def create_item(item: Item):
 5. **Optimization**: Improve performance if needed
 
 What specific part would you like to start with?"""
-    
+
     def _generate_explanation(self, prompt: str, keywords: List[str]) -> str:
         """Generate an explanation for a concept."""
         # Check knowledge base first
@@ -199,7 +246,7 @@ What specific part would you like to start with?"""
                 kb = self.knowledge_base[keyword]
                 facts = "\n- ".join(kb["facts"])
                 perspectives = "\n".join([f"**{k.capitalize()}**: {v}" for k, v in kb["perspectives"].items()])
-                
+
                 return f"""{keyword.capitalize()} is {kb["definition"]}.
 
 Key facts:
@@ -209,7 +256,7 @@ Different perspectives:
 {perspectives}
 
 Would you like me to elaborate on any specific aspect?"""
-        
+
         # Generate general explanation
         topic = " ".join(keywords[:3]) if keywords else "this concept"
         return f"""{topic.capitalize()} is a complex topic with multiple dimensions:
@@ -221,11 +268,11 @@ Would you like me to elaborate on any specific aspect?"""
 **Technical Details**: The implementation and mechanics of {topic} involve sophisticated processes and careful consideration of various factors.
 
 What specific aspect would you like me to focus on?"""
-    
+
     def _generate_how_to(self, prompt: str, keywords: List[str]) -> str:
         """Generate how-to instructions."""
         action = prompt.replace("how to", "").replace("how do i", "").replace("how can i", "").strip()
-        
+
         if "create" in action and "universe" in action:
             return """To create a universe simulation:
 
@@ -254,7 +301,7 @@ What specific aspect would you like me to focus on?"""
    - Cache frequently used calculations
 
 Which type would you like to explore?"""
-        
+
         # Generic how-to
         return f"""To {action}:
 
@@ -265,7 +312,7 @@ Which type would you like to explore?"""
 5. **Test**: Verify each step works correctly
 
 I can provide specific code examples and detailed steps. What part should we start with?"""
-    
+
     def _generate_answer(self, prompt: str, keywords: List[str]) -> str:
         """Generate an answer to a question."""
         if "meaning" in prompt and "life" in prompt:
@@ -278,32 +325,32 @@ I can provide specific code examples and detailed steps. What part should we sta
 **Practical**: To reduce suffering and increase wellbeing for all
 
 Perhaps the beauty is that we each get to discover and create our own meaning. What gives your life meaning?"""
-        
+
         # Generate thoughtful answer
         return self._generate_contextual_response(prompt, keywords)
-    
+
     def _generate_contextual_response(self, prompt: str, keywords: List[str]) -> str:
         """Generate a contextual response for any input."""
         if not keywords:
             return "I'm here to help! Could you provide more details about what you're interested in?"
-        
+
         # Build a response using the keywords and context
         main_topic = keywords[0] if keywords else "that"
-        
+
         responses = [
             f"{main_topic.capitalize()} is indeed worth exploring. ",
             f"When we think about {main_topic}, several important aspects come to mind. ",
-            f"Understanding {main_topic} requires looking at multiple angles. "
+            f"Understanding {main_topic} requires looking at multiple angles. ",
         ]
-        
+
         response = random.choice(responses)
-        
+
         # Add contextual information
         if len(keywords) > 1:
             response += f"The relationship between {keywords[0]} and {keywords[1]} involves complex interactions. "
-        
+
         response += "I can help you explore this further through explanations, code examples, or practical applications. What angle interests you most?"
-        
+
         return response
 
 

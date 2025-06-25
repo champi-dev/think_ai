@@ -21,6 +21,7 @@ def get_config():
     global _core_config
     if _core_config is None:
         from .core.config import Config
+
         _core_config = Config
     return _core_config
 
@@ -30,6 +31,7 @@ def get_engine():
     global _core_engine
     if _core_engine is None:
         from .core.engine import ThinkAIEngine
+
         _core_engine = ThinkAIEngine
     return _core_engine
 
@@ -39,17 +41,21 @@ def get_parallel_processor():
     global _parallel_processor
     if _parallel_processor is None:
         from .parallel_processor import ParallelProcessor, parallel_processor, parallelize
+
         _parallel_processor = (ParallelProcessor, parallel_processor, parallelize)
     return _parallel_processor
 
 
 # Only import dependency resolver on first use
 _dependency_resolver = None
+
+
 def get_dependency_resolver():
     """Lazy load dependency resolver."""
     global _dependency_resolver
     if _dependency_resolver is None:
         from .utils.dependency_resolver import dependency_resolver
+
         _dependency_resolver = dependency_resolver
     return _dependency_resolver
 
@@ -58,10 +64,10 @@ def get_dependency_resolver():
 class _LazyProxy:
     def __init__(self, getter):
         self._getter = getter
-    
+
     def __getattr__(self, name):
         return getattr(self._getter(), name)
-    
+
     def __call__(self, *args, **kwargs):
         return self._getter()(*args, **kwargs)
 

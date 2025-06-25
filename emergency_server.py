@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Emergency server that always works - no heavy imports."""
 
+import os
+
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import os
-import uvicorn
 
 app = FastAPI(title="Think AI Emergency Server")
 

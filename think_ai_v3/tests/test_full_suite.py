@@ -4,11 +4,11 @@ Comprehensive test suite for Think AI v3.1.0
 Runs all tests to ensure system integrity
 """
 
-import sys
-import os
 import asyncio
+import os
+import sys
 import time
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -58,14 +58,14 @@ def run_test(test_name: str, test_func):
 def test_core_imports():
     pass  # TODO: Implement
     """Test that all core modules can be imported."""
-    from think_ai_v3.core.config import Config
-    from think_ai_v3.core.engine import ThinkAIEngine
-    from think_ai_v3.consciousness.awareness import ConsciousnessFramework
-    from think_ai_v3.consciousness.principles import ConstitutionalAI
-    from think_ai_v3.models.language_model import LanguageModel, ModelConfig
-    from think_ai_v3.storage.base import MemoryStorage, create_storage
     from think_ai_v3.api.endpoints import router
     from think_ai_v3.api.websocket import ConnectionManager
+    from think_ai_v3.consciousness.awareness import ConsciousnessFramework
+    from think_ai_v3.consciousness.principles import ConstitutionalAI
+    from think_ai_v3.core.config import Config
+    from think_ai_v3.core.engine import ThinkAIEngine
+    from think_ai_v3.models.language_model import LanguageModel, ModelConfig
+    from think_ai_v3.storage.base import MemoryStorage, create_storage
 
 
 # Test 2: Configuration
@@ -152,7 +152,7 @@ async def test_ethics():
 async def test_storage():
     pass  # TODO: Implement
     """Test O(1) storage operations."""
-    from think_ai_v3.storage.base import MemoryStorage, CachedStorageBackend
+    from think_ai_v3.storage.base import CachedStorageBackend, MemoryStorage
 
     # Test memory storage
     storage = MemoryStorage({"max_items": 100})
@@ -278,9 +278,9 @@ def test_performance():
 def test_colombian_mode():
     pass  # TODO: Implement
     """Test Colombian mode features."""
-    from think_ai_v3.core.config import Config
     from think_ai_v3.consciousness.awareness import ConsciousnessFramework
     from think_ai_v3.consciousness.principles import ConstitutionalAI
+    from think_ai_v3.core.config import Config
 
     config = Config(colombian_mode=True)
     assert config.colombian_mode == True

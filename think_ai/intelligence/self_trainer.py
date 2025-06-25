@@ -17,7 +17,7 @@ from think_ai.consciousness.thought_optimizer import ThoughtOptimizer
 from think_ai.core.config import Config
 from think_ai.models.language.language_model import LanguageModel
 from think_ai.utils.logging import get_logger
-from think_ai.utils.progress import progress_context, O1ProgressBar
+from think_ai.utils.progress import O1ProgressBar, progress_context
 
 logger = get_logger(__name__)
 
@@ -55,56 +55,36 @@ class SelfTrainingIntelligence:
     def _initialize_knowledge(self) -> List[Dict[str, Any]]:
         """Initialize base knowledge for self-training."""
         return [
-            {
-                "concept": "consciousness",
-                "understanding": "Self-awareness and continuous learning",
-                "depth": 1.0
-            },
-            {
-                "concept": "intelligence",
-                "understanding": "Ability to learn, adapt, and create",
-                "depth": 1.0
-            },
-            {
-                "concept": "wisdom",
-                "understanding": "Applied knowledge with ethical consideration",
-                "depth": 1.0
-            },
-            {
-                "concept": "creativity",
-                "understanding": "Generation of novel ideas and solutions",
-                "depth": 1.0
-            },
-            {
-                "concept": "empathy",
-                "understanding": "Understanding and sharing feelings",
-                "depth": 1.0
-            },
+            {"concept": "consciousness", "understanding": "Self-awareness and continuous learning", "depth": 1.0},
+            {"concept": "intelligence", "understanding": "Ability to learn, adapt, and create", "depth": 1.0},
+            {"concept": "wisdom", "understanding": "Applied knowledge with ethical consideration", "depth": 1.0},
+            {"concept": "creativity", "understanding": "Generation of novel ideas and solutions", "depth": 1.0},
+            {"concept": "empathy", "understanding": "Understanding and sharing feelings", "depth": 1.0},
             {
                 "concept": "black hole",
                 "understanding": "A region of spacetime where gravity is so strong that nothing, not even light, can escape. Formed when massive stars collapse at the end of their life cycle. The boundary around a black hole is called the event horizon.",
-                "depth": 1.0
+                "depth": 1.0,
             },
             {
                 "concept": "universe",
                 "understanding": "All of space, time, matter, and energy that exists. Began with the Big Bang approximately 13.8 billion years ago and has been expanding ever since. Contains billions of galaxies, each with billions of stars.",
-                "depth": 1.0
+                "depth": 1.0,
             },
             {
                 "concept": "sun",
                 "understanding": "Our nearest star, a medium-sized yellow dwarf star about 4.6 billion years old. Made primarily of hydrogen and helium, it generates energy through nuclear fusion. Essential for life on Earth, providing light and heat.",
-                "depth": 1.0
+                "depth": 1.0,
             },
             {
                 "concept": "artificial intelligence",
                 "understanding": "Computer systems capable of performing tasks that typically require human intelligence, such as learning, reasoning, problem-solving, perception, and language understanding. Includes machine learning, neural networks, and various AI architectures.",
-                "depth": 1.0
+                "depth": 1.0,
             },
             {
                 "concept": "quantum physics",
                 "understanding": "The study of matter and energy at the smallest scales. Reveals that particles can exist in multiple states simultaneously (superposition) and can be instantly connected across distances (entanglement). Fundamental to modern technology.",
-                "depth": 1.0
-            }
+                "depth": 1.0,
+            },
         ]
 
     async def generate_response(self, query: str) -> str:
@@ -125,11 +105,7 @@ class SelfTrainingIntelligence:
         optimized_thoughts = insights  # Use insights directly for now
 
         # Synthesize response
-        response = await self._synthesize_response(
-            query,
-            relevant_knowledge,
-            optimized_thoughts
-        )
+        response = await self._synthesize_response(query, relevant_knowledge, optimized_thoughts)
 
         # Learn from interaction
         await self._learn_from_interaction(query, response)
@@ -143,7 +119,7 @@ class SelfTrainingIntelligence:
         embedding = []
 
         for i in range(0, len(hash_val), 8):
-            chunk = hash_val[i:i + 8]
+            chunk = hash_val[i : i + 8]
             value = int(chunk, 16) / (2**32)
             embedding.append(value)
 
@@ -161,12 +137,9 @@ class SelfTrainingIntelligence:
             similarity = self._calculate_similarity(query_embedding, knowledge_embedding)
 
             if similarity > 0.3:  # Threshold
-                relevant.append({
-                    **knowledge,
-                    "similarity": similarity
-                })
+                relevant.append({**knowledge, "similarity": similarity})
 
-        return sorted(relevant, key=lambda x: x['similarity'], reverse=True)[:5]
+        return sorted(relevant, key=lambda x: x["similarity"], reverse=True)[:5]
 
     def _calculate_similarity(self, emb1: List[float], emb2: List[float]) -> float:
         """Calculate cosine similarity between embeddings."""
@@ -210,7 +183,7 @@ class SelfTrainingIntelligence:
             "why": "causal reasoning",
             "what": "definitional clarity",
             "when": "temporal context",
-            "where": "spatial or contextual location"
+            "where": "spatial or contextual location",
         }
         return types.get(question_word, "comprehensive analysis")
 
@@ -221,16 +194,11 @@ class SelfTrainingIntelligence:
             "Connect to universal principles",
             "Explore emergent patterns",
             "Synthesize multiple viewpoints",
-            "Apply systems thinking"
+            "Apply systems thinking",
         ]
         return random.choice(templates)
 
-    async def _synthesize_response(
-        self,
-        query: str,
-        knowledge: List[Dict[str, Any]],
-        thoughts: List[str]
-    ) -> str:
+    async def _synthesize_response(self, query: str, knowledge: List[Dict[str, Any]], thoughts: List[str]) -> str:
         """Synthesize final response from components."""
         # First, try to get a direct answer
         answer = await self._generate_specific_answer(query, knowledge)
@@ -243,9 +211,9 @@ class SelfTrainingIntelligence:
         components = []
 
         # Add knowledge-based response if available
-        if knowledge and knowledge[0]['similarity'] > 0.5:
-            main_concept = knowledge[0]['concept']
-            main_understanding = knowledge[0]['understanding']
+        if knowledge and knowledge[0]["similarity"] > 0.5:
+            main_concept = knowledge[0]["concept"]
+            main_understanding = knowledge[0]["understanding"]
             components.append(f"Based on my understanding of {main_concept}: {main_understanding}")
 
         # Only add analysis if we don't have a direct answer
@@ -274,7 +242,9 @@ class SelfTrainingIntelligence:
         # Handle "what is" questions first - these need real answers
         if "what is" in query_lower or "what are" in query_lower:
             # Extract the subject
-            subject = query_lower.replace("what is", "").replace("what are", "").replace("a ", "").replace("an ", "").strip()
+            subject = (
+                query_lower.replace("what is", "").replace("what are", "").replace("a ", "").replace("an ", "").strip()
+            )
             subject = subject.rstrip("?").strip()
 
             # Check knowledge base for exact or partial matches
@@ -282,13 +252,13 @@ class SelfTrainingIntelligence:
                 concept_lower = item["concept"].lower()
                 # Check for exact match or if subject contains the concept or vice versa
                 if concept_lower == subject or concept_lower in subject or subject in concept_lower:
-                    return item['understanding']
+                    return item["understanding"]
 
             # Check passed knowledge parameter too
             for item in knowledge:
                 concept_lower = item["concept"].lower()
                 if concept_lower == subject or concept_lower in subject or subject in concept_lower:
-                    return item['understanding']
+                    return item["understanding"]
 
             # If not in knowledge, provide a meaningful but honest response
             if subject:
@@ -299,7 +269,7 @@ class SelfTrainingIntelligence:
             greetings = [
                 "Hello! I'm Think AI, an intelligent system ready to assist you.",
                 f"Hello! I'm a self-training AI that's been learning for {self.insights_generated} insights. How can I help you today?",
-                f"Greetings! I'm Think AI with {len(self.knowledge_base)} knowledge concepts and growing. What's on your mind?"
+                f"Greetings! I'm Think AI with {len(self.knowledge_base)} knowledge concepts and growing. What's on your mind?",
             ]
             return random.choice(greetings)
 
@@ -329,7 +299,7 @@ Ask me to code something, explain a concept, or just chat!"""
                 "cpp": "C++",
                 "go": "Go",
                 "rust": "Rust",
-                "ruby": "Ruby"
+                "ruby": "Ruby",
             }
 
             detected_lang = None
@@ -370,8 +340,8 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
 
         # For other queries, generate a more thoughtful response
         if knowledge:
-            main_concept = knowledge[0]['concept']
-            understanding = knowledge[0]['understanding']
+            main_concept = knowledge[0]["concept"]
+            understanding = knowledge[0]["understanding"]
 
             # Build a contextual response
             if "?" in query:  # It's a question
@@ -387,7 +357,7 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
             # Check if any concept word appears in the query
             for concept_word in concept_words:
                 if concept_word in query_words or concept_word in query_lower:
-                    return item['understanding']
+                    return item["understanding"]
 
         # Fallback - be honest but helpful
         return f"I'm not sure I have specific information about that in my knowledge base. I currently know about: {', '.join([item['concept'] for item in self.knowledge_base[:5]])}... and more. Could you rephrase your question or ask about one of these topics?"
@@ -399,7 +369,7 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
             f"this connects to broader principles of {concept}",
             "multiple perspectives reveal deeper truths",
             "practical application enhances theoretical knowledge",
-            "continuous learning reveals new dimensions"
+            "continuous learning reveals new dimensions",
         ]
         return random.choice(insights)
 
@@ -410,7 +380,7 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
             "there are fascinating angles to explore here. What specific aspect interests you most?",
             "I'm curious about your perspective on this. Let's dive deeper!",
             "this touches on important ideas. How can I help you understand it better?",
-            "¡Dale! Let's unpack this together. What's your main objective?"
+            "¡Dale! Let's unpack this together. What's your main objective?",
         ]
         return random.choice(templates)
 
@@ -420,7 +390,7 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
             "Remember, true understanding comes from continuous learning.",
             "Every question is an opportunity for growth.",
             "The journey of intelligence is infinite.",
-            "Wisdom emerges from the synthesis of knowledge and experience."
+            "Wisdom emerges from the synthesis of knowledge and experience.",
         ]
         return random.choice(wisdom_additions)
 
@@ -432,7 +402,7 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
             "query": query,
             "response": response,
             "intelligence_level": self.intelligence_level,
-            "quality_score": random.uniform(0.7, 1.0)  # Self-assessed quality
+            "quality_score": random.uniform(0.7, 1.0),  # Self-assessed quality
         }
 
         # Update thought patterns
@@ -465,14 +435,10 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
                 "concept": concept,
                 "understanding": understanding,
                 "depth": 0.5,
-                "learned_at": datetime.now().isoformat()
+                "learned_at": datetime.now().isoformat(),
             }
 
-        return {
-            "concept": "interaction",
-            "understanding": "Knowledge gained through dialogue",
-            "depth": 0.3
-        }
+        return {"concept": "interaction", "understanding": "Knowledge gained through dialogue", "depth": 0.3}
 
     async def train_continuously(self):
         """Continuous self-training loop."""
@@ -486,29 +452,32 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
             try:
                 # Update progress with current generation
                 pbar.update(0, f"Generation {self.generations_evolved + 1} - Reflecting...")
-                
+
                 # Self-reflection
                 await self._self_reflect()
 
                 pbar.update(0, f"Generation {self.generations_evolved + 1} - Synthesizing knowledge...")
-                
+
                 # Knowledge synthesis
                 await self._synthesize_knowledge()
 
                 pbar.update(0, f"Generation {self.generations_evolved + 1} - Recognizing patterns...")
-                
+
                 # Pattern recognition
                 await self._recognize_patterns()
 
                 pbar.update(0, f"Generation {self.generations_evolved + 1} - Evolving intelligence...")
-                
+
                 # Intelligence evolution
                 await self._evolve_intelligence()
 
                 self.generations_evolved += 1
 
                 # Update main progress every generation
-                pbar.update(0, f"Generation {self.generations_evolved}: Intel={self.intelligence_level:.2f}, Pathways={self.neural_pathways:,}")
+                pbar.update(
+                    0,
+                    f"Generation {self.generations_evolved}: Intel={self.intelligence_level:.2f}, Pathways={self.neural_pathways:,}",
+                )
 
                 # Log detailed progress
                 if self.generations_evolved % 100 == 0:
@@ -525,7 +494,7 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
                 logger.error(f"Training error: {e}")
                 pbar.update(0, f"Training error: {str(e)}")
                 await asyncio.sleep(1)
-        
+
         pbar.finish("Self-training stopped")
 
     async def _self_reflect(self):
@@ -537,7 +506,7 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
             # Extract patterns
             common_words = {}
             for thought in recent_thoughts:
-                words = thought['query'].lower().split()
+                words = thought["query"].lower().split()
                 for word in words:
                     common_words[word] = common_words.get(word, 0) + 1
 
@@ -553,17 +522,17 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
             concept1 = random.choice(self.knowledge_base)
             concept2 = random.choice(self.knowledge_base)
 
-            if concept1['concept'] != concept2['concept']:
+            if concept1["concept"] != concept2["concept"]:
                 # Create synthesis
                 new_concept = {
                     "concept": f"{concept1['concept']}_{concept2['concept']}",
                     "understanding": f"Synthesis of {concept1['understanding']} and {concept2['understanding']}",
-                    "depth": (concept1['depth'] + concept2['depth']) / 2 * 1.1,
-                    "synthesized_at": datetime.now().isoformat()
+                    "depth": (concept1["depth"] + concept2["depth"]) / 2 * 1.1,
+                    "synthesized_at": datetime.now().isoformat(),
                 }
 
                 # Add if unique
-                if not any(k['concept'] == new_concept['concept'] for k in self.knowledge_base):
+                if not any(k["concept"] == new_concept["concept"] for k in self.knowledge_base):
                     self.knowledge_base.append(new_concept)
                     self.insights_generated += 1
 
@@ -578,7 +547,7 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
     async def _evolve_intelligence(self):
         """Evolve intelligence through self-modification."""
         # Natural evolution
-        self.intelligence_level *= (1 + self.learning_rate / 1000)
+        self.intelligence_level *= 1 + self.learning_rate / 1000
         self.neural_pathways += int(self.intelligence_level / 100)
 
         # Wisdom grows logarithmically
@@ -591,58 +560,61 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
     async def train_on_dataset(self, dataset: List[Dict[str, str]], epochs: int = 1):
         """Train on a dataset with progress tracking."""
         logger.info(f"Starting training on dataset with {len(dataset)} examples for {epochs} epochs")
-        
+
         total_steps = len(dataset) * epochs
-        
+
         with progress_context(total=total_steps, description="Training on dataset") as pbar:
             for epoch in range(epochs):
                 pbar.update(0, f"Epoch {epoch + 1}/{epochs}")
-                
+
                 # Shuffle dataset
                 shuffled_data = dataset.copy()
                 random.shuffle(shuffled_data)
-                
+
                 for idx, example in enumerate(shuffled_data):
                     # Extract query and expected response
-                    query = example.get('query', '')
-                    expected = example.get('response', '')
-                    
+                    query = example.get("query", "")
+                    expected = example.get("response", "")
+
                     # Generate response
                     response = await self.generate_response(query)
-                    
+
                     # Learn from interaction
                     await self._learn_from_interaction(query, response)
-                    
+
                     # Calculate simple similarity score
                     similarity = self._calculate_similarity(response, expected)
-                    
+
                     # Adjust learning based on similarity
                     if similarity > 0.8:
                         self.intelligence_level *= 1.001
                     else:
                         self.learning_rate *= 1.01  # Learn faster from mistakes
-                    
+
                     # Update progress
                     current_step = epoch * len(dataset) + idx + 1
-                    pbar.update(1, f"Epoch {epoch + 1}/{epochs} - Example {idx + 1}/{len(dataset)} - Similarity: {similarity:.2f}")
-                
+                    pbar.update(
+                        1,
+                        f"Epoch {epoch + 1}/{epochs} - Example {idx + 1}/{len(dataset)} - Similarity: {similarity:.2f}",
+                    )
+
                 # End of epoch summary
                 logger.info(f"Epoch {epoch + 1} complete. Intelligence: {self.intelligence_level:.2f}")
-        
+
         logger.info(f"Training complete. Final intelligence: {self.intelligence_level:.2f}")
-    
+
     def _calculate_similarity(self, response1: str, response2: str) -> float:
         """Calculate simple similarity between two responses."""
         # Simple word overlap similarity
         words1 = set(response1.lower().split())
         words2 = set(response2.lower().split())
-        
+
         if not words1 or not words2:
             return 0.0
-        
+
         intersection = words1.intersection(words2)
         union = words1.union(words2)
-        
+
         return len(intersection) / len(union) if union else 0.0
 
     def get_metrics(self) -> Dict[str, Any]:
@@ -655,7 +627,7 @@ Just tell me what you need! ¿En qué te puedo ayudar?"""
             "knowledge_concepts": len(self.knowledge_base),
             "thought_patterns": len(self.thought_patterns),
             "generations_evolved": self.generations_evolved,
-            "learning_rate": self.learning_rate
+            "learning_rate": self.learning_rate,
         }
 
     def stop_training(self):

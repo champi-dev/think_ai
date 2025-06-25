@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Show evidence of full Think AI system components."""
 
-import os
 import json
+import os
 
 print("🔍 Think AI Full System Components")
 print("=" * 60)

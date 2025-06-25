@@ -4,16 +4,16 @@ Railway Deployment Simulator
 Simulates Railway's build and deployment process locally with 100% accuracy
 """
 
+import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
-import shutil
-from pathlib import Path
 import time
-import hashlib
-from typing import Dict, Any, Optional, Tuple
+from pathlib import Path
+from typing import Any, Dict, Optional, Tuple
 
 # Optional imports
 try:

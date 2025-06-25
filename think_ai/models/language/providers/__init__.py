@@ -1,12 +1,7 @@
 """Language model providers."""
 
-from .base import ModelProvider, ModelInfo
-from .ollama import OllamaProvider
+from .base import ModelInfo, ModelProvider
 from .huggingface import HuggingFaceProvider
+from .ollama import OllamaProvider
 
-__all__ = [
-    "ModelProvider", 
-    "ModelInfo",
-    "OllamaProvider",
-    "HuggingFaceProvider"
-]
+__all__ = ["ModelProvider", "ModelInfo", "OllamaProvider", "HuggingFaceProvider"]

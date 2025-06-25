@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Start the full Think AI system with both API and webapp."""
 
-import os
-import sys
-import subprocess
-import signal
-import time
 import logging
+import os
+import signal
+import subprocess
+import sys
+import time
 from pathlib import Path
 
 # Configure logging

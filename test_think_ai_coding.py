@@ -2,15 +2,16 @@
 """Test Think AI for coding assistance - demonstrating its capabilities."""
 
 import asyncio
-import sys
 import os
+import sys
 
 # Add Think AI to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from think_ai import ThinkAIEngine, Config, parallel_processor, parallelize
-from think_ai.intelligence_optimizer import IntelligenceOptimizer
 import time
+
+from think_ai import Config, ThinkAIEngine, parallel_processor, parallelize
+from think_ai.intelligence_optimizer import IntelligenceOptimizer
 
 
 def test_parallel_code_generation():

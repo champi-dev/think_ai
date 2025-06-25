@@ -4,9 +4,9 @@ Full system test for Think AI with lightweight dependencies
 Proves 100% functionality is maintained
 """
 
+import json
 import os
 import sys
-import json
 
 # Enable lightweight mode
 os.environ["THINK_AI_LIGHTWEIGHT"] = "true"
@@ -20,10 +20,10 @@ print("=" * 80)
 # Test 1: Import all Think AI modules
 print("\n1. Testing Think AI imports...")
 try:
+    from think_ai.api.endpoints import router as api_router
+    from think_ai.coding.autonomous_coder import AutonomousCoder
     from think_ai.core.engine import ThinkAIEngine
     from think_ai.models.language.language_model import LanguageModel
-    from think_ai.coding.autonomous_coder import AutonomousCoder
-    from think_ai.api.endpoints import router as api_router
 
     print("✅ All Think AI modules imported successfully!")
 except Exception as e:
@@ -65,10 +65,10 @@ except Exception as e:
 # Test 3: Test ML operations
 print("\n3. Testing ML operations...")
 try:
-    import torch
     import numpy as np
-    from transformers import AutoModelForCausalLM, AutoTokenizer
+    import torch
     from sklearn import RandomForestClassifier
+    from transformers import AutoModelForCausalLM, AutoTokenizer
 
     # PyTorch
     tensor = torch.zeros((10, 10))
@@ -96,9 +96,10 @@ except Exception as e:
 # Test 4: Test storage systems
 print("\n4. Testing storage systems...")
 try:
+    import asyncio
+
     import chromadb
     import redis
-    import asyncio
 
     # ChromaDB
     client = chromadb.PersistentClient()
@@ -143,6 +144,7 @@ except Exception as e:
 # Test 6: Performance verification
 print("\n6. Performance verification...")
 import time
+
 import psutil
 
 operations = [

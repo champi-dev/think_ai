@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Performance test comparing Simple vs Full Think AI CLI"""
 
-import time
 import asyncio
+import time
+
 from think_ai_simple_chat import OptimizedThinkAI
 
 print("🧪 THINK AI PERFORMANCE TEST")

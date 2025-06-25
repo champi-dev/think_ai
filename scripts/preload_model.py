@@ -11,9 +11,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
+    from think_ai.consciousness.principles import ConstitutionalAI
     from think_ai.core.config import Config, ModelConfig
     from think_ai.models.language.language_model import LanguageModel
-    from think_ai.consciousness.principles import ConstitutionalAI
     from think_ai.utils.logging import configure_logging, get_logger
 except ImportError as e:
     print(f"Error importing Think AI modules: {e}")
