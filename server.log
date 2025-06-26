@@ -1,0 +1,4 @@
+Starting server on 0.0.0.0:8080
+[2m2025-06-26T03:03:58.845997Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-06-26T03:03:59.601892Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-06-26T03:03:59.601980Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080

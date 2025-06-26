@@ -2,6 +2,7 @@ pub mod evidence;
 pub mod persistence;
 pub mod responder;
 pub mod trainer;
+pub mod real_knowledge;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -129,22 +130,58 @@ impl KnowledgeEngine {
     }
 
     pub fn query(&self, query: &str) -> Option<Vec<KnowledgeNode>> {
-        let query_hash = Self::hash_string(query);
+        let query_lower = query.to_lowercase();
         let nodes = self.nodes.read().unwrap();
 
         let mut results = Vec::new();
+        let mut exact_matches = Vec::new();
+        let mut partial_matches = Vec::new();
+        
         for (_, node) in nodes.iter() {
-            if Self::hash_string(&node.topic) == query_hash
-                || Self::hash_string(&node.content).contains(&query_hash[..8])
-            {
+            let topic_lower = node.topic.to_lowercase();
+            let content_lower = node.content.to_lowercase();
+            
+            // Exact topic match gets highest priority
+            if topic_lower == query_lower {
+                exact_matches.push(node.clone());
+            }
+            // Topic contains query
+            else if topic_lower.contains(&query_lower) {
                 results.push(node.clone());
             }
+            // Content contains query
+            else if content_lower.contains(&query_lower) {
+                partial_matches.push(node.clone());
+            }
+            // Check related concepts
+            else {
+                for concept in &node.related_concepts {
+                    if concept.to_lowercase().contains(&query_lower) {
+                        partial_matches.push(node.clone());
+                        break;
+                    }
+                }
+            }
         }
+        
+        // Combine results: exact matches first, then topic matches, then content matches
+        exact_matches.extend(results);
+        exact_matches.extend(partial_matches);
 
-        if results.is_empty() {
+        if exact_matches.is_empty() {
             None
         } else {
-            Some(results)
+            // Update access count and timestamp for retrieved nodes
+            let mut nodes_mut = self.nodes.write().unwrap();
+            for result in &exact_matches {
+                if let Some(node) = nodes_mut.get_mut(&result.id) {
+                    node.usage_count += 1;
+                    node.last_accessed = Self::current_timestamp();
+                }
+            }
+            drop(nodes_mut);
+            
+            Some(exact_matches)
         }
     }
 
@@ -157,6 +194,52 @@ impl KnowledgeEngine {
         } else {
             Vec::new()
         }
+    }
+    
+    pub fn intelligent_query(&self, query: &str) -> Vec<KnowledgeNode> {
+        // First try direct query
+        if let Some(results) = self.query(query) {
+            return results;
+        }
+        
+        // If no direct results, try breaking down the query
+        let query_lower = query.to_lowercase();
+        let keywords: Vec<&str> = query_lower.split_whitespace().collect();
+        let nodes = self.nodes.read().unwrap();
+        
+        let mut scored_results: Vec<(KnowledgeNode, usize)> = Vec::new();
+        
+        for (_, node) in nodes.iter() {
+            let mut score = 0;
+            let topic_lower = node.topic.to_lowercase();
+            let content_lower = node.content.to_lowercase();
+            
+            // Score based on keyword matches
+            for keyword in &keywords {
+                if topic_lower.contains(keyword) {
+                    score += 3; // Topic matches are worth more
+                }
+                if content_lower.contains(keyword) {
+                    score += 1;
+                }
+                for concept in &node.related_concepts {
+                    if concept.to_lowercase().contains(keyword) {
+                        score += 2;
+                    }
+                }
+            }
+            
+            if score > 0 {
+                scored_results.push((node.clone(), score));
+            }
+        }
+        
+        // Sort by score (highest first) and take top results
+        scored_results.sort_by(|a, b| b.1.cmp(&a.1));
+        scored_results.into_iter()
+            .take(10)
+            .map(|(node, _)| node)
+            .collect()
     }
 
     pub fn train_iteration(

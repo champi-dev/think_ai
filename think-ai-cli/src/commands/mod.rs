@@ -1,12 +1,13 @@
 //! CLI command implementations
 
 mod natural_chat;
+mod knowledge_chat;
 
 use clap::Subcommand;
 use std::io::{self, Write};
 use std::time::Instant;
 use std::collections::HashMap;
-use natural_chat::NaturalChatSystem;
+use knowledge_chat::KnowledgeChat;
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
@@ -294,7 +295,7 @@ impl ChatSystem {
 }
 
 async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::Error>> {
-    let mut chat_system = NaturalChatSystem::new();
+    let chat_system = KnowledgeChat::new();
     
     // Display banner
     println!(r#"
@@ -363,8 +364,7 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
                     }
                     _ => {
                         // Process regular query
-                        let response = chat_system.process_query(input);
-                        let response_time = chat_system.get_response_time();
+                        let (response, response_time) = chat_system.process_query(input);
                         println!("\nThink AI: {}", response);
                         println!("[⚡ {:.1}ms]", response_time);
                     }
@@ -384,7 +384,20 @@ pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
     match cmd {
         Commands::Server { port, host } => {
             println!("Starting server on {}:{}", host, port);
-            // Server implementation
+            
+            // Initialize core engine
+            let config = think_ai_core::EngineConfig::default();
+            let engine = std::sync::Arc::new(think_ai_core::O1Engine::new(config));
+            engine.initialize().await?;
+            
+            // Initialize vector index
+            let vector_config = think_ai_vector::LSHConfig::default();
+            let vector_index = std::sync::Arc::new(think_ai_vector::O1VectorIndex::new(vector_config)?);
+            
+            // Start HTTP server
+            let addr: std::net::SocketAddr = format!("{}:{}", host, port).parse()?;
+            think_ai_http::server::run_server(addr, engine, vector_index).await?;
+            
             Ok(())
         }
         Commands::Chat { model } => {

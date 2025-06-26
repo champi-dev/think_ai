@@ -4,6 +4,7 @@ use think_ai_knowledge::{
     persistence::KnowledgePersistence,
     responder::ComprehensiveResponder,
     trainer::{KnowledgeTrainer, TrainingConfig},
+    real_knowledge::RealKnowledgeGenerator,
     KnowledgeEngine,
 };
 
@@ -14,6 +15,11 @@ fn main() -> std::io::Result<()> {
 
     let engine = Arc::new(KnowledgeEngine::new());
 
+    // First populate with real knowledge
+    println!("Loading real knowledge base...");
+    RealKnowledgeGenerator::populate_comprehensive_knowledge(&engine);
+    println!("Loaded {} real knowledge items\n", engine.get_stats().total_nodes);
+    
     let persistence = KnowledgePersistence::new("./knowledge_storage")?;
     if let Some(checkpoint) = persistence.load_latest_checkpoint()? {
         println!(
