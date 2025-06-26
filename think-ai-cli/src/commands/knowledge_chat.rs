@@ -1,6 +1,12 @@
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::time::Instant;
-use think_ai_knowledge::{KnowledgeEngine, real_knowledge::RealKnowledgeGenerator, dynamic_loader::DynamicKnowledgeLoader, response_generator::ComponentResponseGenerator};
+use think_ai_knowledge::{
+    KnowledgeEngine, 
+    real_knowledge::RealKnowledgeGenerator, 
+    dynamic_loader::DynamicKnowledgeLoader, 
+    response_generator::ComponentResponseGenerator,
+    intelligent_response_selector::{IntelligentResponseSelector, ResponseSource}
+};
 use think_ai_tinyllama::TinyLlamaClient;
 use std::io::Write;
 use std::path::PathBuf;
@@ -9,6 +15,7 @@ pub struct KnowledgeChat {
     engine: Arc<KnowledgeEngine>,
     tinyllama_client: Arc<TinyLlamaClient>,
     response_generator: Arc<ComponentResponseGenerator>,
+    intelligent_selector: Arc<IntelligentResponseSelector>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
 }
 
@@ -51,11 +58,16 @@ impl KnowledgeChat {
         );
         
         let response_generator = Arc::new(ComponentResponseGenerator::new(engine.clone()));
+        let intelligent_selector = Arc::new(IntelligentResponseSelector::new(
+            engine.clone(),
+            response_generator.clone()
+        ));
         
         Self { 
             engine,
             tinyllama_client: Arc::new(TinyLlamaClient::new()),
             response_generator,
+            intelligent_selector,
             conversation_history: Vec::new(),
         }
     }
@@ -169,37 +181,11 @@ impl KnowledgeChat {
             _ => query
         };
         
-        
-        // First, always try the knowledge base (this is O(1) with hash lookup)
-        if let Some(results) = self.engine.query(expanded_query) {
-            if !results.is_empty() {
-                let node = &results[0];
-                return node.content.clone();
-            }
-        }
-        
-        // Try case-insensitive search
-        let expanded_lower = expanded_query.to_lowercase();
-        if let Some(results) = self.engine.query(&expanded_lower) {
-            if !results.is_empty() {
-                let node = &results[0];
-                return node.content.clone();
-            }
-        }
-        
-        // Try intelligent query for partial matches
-        let results = self.engine.intelligent_query(expanded_query);
-        if !results.is_empty() {
-            let node = &results[0];
-            return node.content.clone();
-        }
-        
-        
-        // CACHE MISS - Use TinyLlama for intelligent response with knowledge context
+        // Use intelligent selector to get best response
         print!("🔄 Thinking");
         std::io::Write::flush(&mut std::io::stdout()).unwrap();
         
-        // Show progress dots with a stop flag
+        // Show progress indicator
         let stop_progress = Arc::new(AtomicBool::new(false));
         let stop_flag = stop_progress.clone();
         
@@ -213,46 +199,22 @@ impl KnowledgeChat {
             }
         });
         
-        // Get top relevant knowledge pieces even if not exact matches
-        let knowledge_nodes = self.engine.get_top_relevant(expanded_query, 5);
-        
-        // Generate response using TinyLlama with knowledge context
-        let context_summary = knowledge_nodes
-            .iter()
-            .take(3)
-            .map(|node| format!("{}: {}", node.topic, &node.content[..100.min(node.content.len())]))
-            .collect::<Vec<_>>()
-            .join("\n");
-        
-        let prompt_with_context = format!(
-            "Based on this knowledge:\n{}\n\nUser asks: {}\n\nProvide a comprehensive answer:",
-            context_summary,
-            expanded_query
-        );
-        
-        let result = match tokio::time::timeout(
-            tokio::time::Duration::from_secs(3),
-            self.tinyllama_client.generate(&prompt_with_context)
-        ).await {
-            Ok(Ok(response)) => {
-                response
-            },
-            Ok(Err(e)) => {
-                eprintln!("\n⚠️  TinyLlama Error: {}. Using fallback response.", e);
-                self.generate_fallback_response(expanded_query)
-            }
-            Err(_) => {
-                eprintln!("\n⚠️  TinyLlama timeout. Using fallback response.");
-                self.generate_fallback_response(expanded_query)
-            }
-        };
+        // Get best response using intelligent selector
+        let (response, source, _time_ms) = self.intelligent_selector.get_best_response(expanded_query).await;
         
         // Stop progress indicator
         stop_progress.store(true, Ordering::Relaxed);
         let _ = progress_handle.join();
-        println!(); // New line after dots
         
-        result
+        // Show source indicator
+        match source {
+            ResponseSource::ThinkAIKnowledge => print!(" [📚 Knowledge]"),
+            ResponseSource::LLaMAGenerated => print!(" [🤖 Generated]"),
+            ResponseSource::Combined => print!(" [🔀 Combined]"),
+        }
+        println!(); // New line after indicator
+        
+        response
     }
     
     // Removed hardcoded direct answers - everything comes from knowledge base

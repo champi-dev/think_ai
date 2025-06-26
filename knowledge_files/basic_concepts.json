@@ -30,6 +30,16 @@
         "method": "Observation, hypothesis, experimentation, analysis, conclusion",
         "importance": "Understanding nature, solving problems, advancing technology, improving life"
       }
+    },
+    {
+      "topic": "programming",
+      "content": "Programming is the process of creating instructions that computers can execute to perform specific tasks. It involves writing code in programming languages, designing algorithms, solving problems, and building software applications. Programming combines logic, creativity, and systematic thinking to transform ideas into functional software.",
+      "related_concepts": ["coding", "software development", "algorithms", "debugging", "languages", "computer science"],
+      "metadata": {
+        "languages": "Python, JavaScript, Java, C++, Rust, Go, TypeScript",
+        "paradigms": "Object-oriented, functional, procedural, declarative",
+        "skills": "Problem-solving, logical thinking, debugging, design patterns, testing"
+      }
     }
   ]
 }

@@ -22,6 +22,16 @@
         "spacetime"
       ],
       "metadata": null
+    },
+    {
+      "topic": "mars",
+      "content": "Mars is the fourth planet from the Sun, known as the Red Planet due to iron oxide on its surface. It has a thin atmosphere mostly of carbon dioxide, polar ice caps, and the largest volcano in the solar system (Olympus Mons). Mars has two small moons: Phobos and Deimos. Evidence suggests ancient river valleys and possible subsurface water. A Martian day is 24.6 hours, and a year is 687 Earth days. Current missions explore its potential for past or present microbial life.",
+      "related_concepts": ["planet", "red planet", "space exploration", "solar system"],
+      "metadata": {
+        "distance_from_sun": "228 million km average",
+        "diameter": "6,779 km",
+        "moons": "Phobos and Deimos"
+      }
     }
   ]
 }

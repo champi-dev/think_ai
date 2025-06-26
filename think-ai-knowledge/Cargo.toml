@@ -13,6 +13,8 @@ serde_yaml = "0.9"
 sha2 = "0.10"
 tempfile = "3.8"
 rand = "0.8"
+tokio = { version = "1.35", features = ["full"] }
+think-ai-tinyllama = { path = "../think-ai-tinyllama" }
 
 [[bin]]
 name = "train-knowledge"

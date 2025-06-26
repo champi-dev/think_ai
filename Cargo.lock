@@ -2878,6 +2878,8 @@ dependencies = [
  "serde_yaml",
  "sha2",
  "tempfile",
+ "think-ai-tinyllama",
+ "tokio 1.45.1",
 ]
 
 [[package]]
@@ -2945,6 +2947,7 @@ dependencies = [
  "rand 0.8.5",
  "serde",
  "serde_json",
+ "sha2",
  "thiserror 2.0.12",
  "tokio 1.45.1",
  "tracing",

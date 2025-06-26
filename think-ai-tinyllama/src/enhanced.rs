@@ -5,6 +5,7 @@ use tokio::sync::RwLock;
 use rand::{Rng, SeedableRng};
 use rand::rngs::StdRng;
 use std::collections::HashMap;
+use crate::o1_response_generator::O1ResponseGenerator;
 
 /// Token-based language model for response generation
 pub struct EnhancedTinyLlama {
@@ -20,6 +21,8 @@ pub struct EnhancedTinyLlama {
     temperature: Arc<RwLock<f32>>,
     /// Random number generator
     rng: Arc<RwLock<StdRng>>,
+    /// O(1) response generator for fallback
+    o1_generator: Arc<O1ResponseGenerator>,
 }
 
 #[derive(Clone)]
@@ -48,6 +51,7 @@ impl EnhancedTinyLlama {
             response_patterns: Arc::new(RwLock::new(Vec::new())),
             temperature: Arc::new(RwLock::new(0.7)),
             rng: Arc::new(RwLock::new(StdRng::seed_from_u64(42))),
+            o1_generator: Arc::new(O1ResponseGenerator::new()),
         };
         
         // Initialize in blocking context
@@ -184,6 +188,98 @@ impl EnhancedTinyLlama {
         Ok(response)
     }
     
+    /// Refine a response for relevance and usefulness
+    pub async fn refine_response(&self, response: &str, query: &str, refinement_type: &str) -> String {
+        let query_tokens = self.tokenize(query).await;
+        let _response_tokens = self.tokenize(response).await;
+        
+        // Extract key concepts from query
+        let mut key_concepts = Vec::new();
+        for token in &query_tokens {
+            if token.len() > 3 && !["what", "how", "why", "when", "where", "which", "does", "this", "that", "the"].contains(&token.as_str()) {
+                key_concepts.push(token.clone());
+            }
+        }
+        
+        match refinement_type {
+            "relevance_and_usefulness" => {
+                // Parse response into sentences
+                let sentences: Vec<&str> = response.split(". ")
+                    .filter(|s| !s.is_empty())
+                    .collect();
+                
+                let mut refined = String::new();
+                let mut sentences_added = 0;
+                
+                // First, add sentences that contain key concepts
+                for sentence in &sentences {
+                    if sentences_added >= 4 { break; } // Keep it concise
+                    
+                    let sentence_lower = sentence.to_lowercase();
+                    let relevance_score = key_concepts.iter()
+                        .filter(|concept| sentence_lower.contains(concept.as_str()))
+                        .count();
+                    
+                    if relevance_score > 0 {
+                        if sentences_added > 0 {
+                            refined.push_str(". ");
+                        }
+                        refined.push_str(sentence);
+                        sentences_added += 1;
+                    }
+                }
+                
+                // If we don't have enough relevant sentences, add the most informative ones
+                if sentences_added < 2 {
+                    for sentence in &sentences {
+                        if sentences_added >= 3 { break; }
+                        
+                        // Skip if already added
+                        if refined.contains(sentence) { continue; }
+                        
+                        // Add sentences with useful content indicators
+                        if sentence.len() > 50 && (
+                            sentence.contains(" is ") ||
+                            sentence.contains(" are ") ||
+                            sentence.contains(" has ") ||
+                            sentence.contains(" involves ") ||
+                            sentence.contains(" consists ") ||
+                            sentence.contains(" includes ")
+                        ) {
+                            if sentences_added > 0 {
+                                refined.push_str(". ");
+                            }
+                            refined.push_str(sentence);
+                            sentences_added += 1;
+                        }
+                    }
+                }
+                
+                // Ensure proper ending
+                if !refined.is_empty() {
+                    refined = refined.trim().to_string();
+                    if !refined.ends_with('.') && !refined.ends_with('!') && !refined.ends_with('?') {
+                        refined.push('.');
+                    }
+                    
+                    // Add relevance summary if appropriate
+                    if !key_concepts.is_empty() && refined.len() < 300 {
+                        refined.push_str(&format!(" This directly addresses {} in a practical context.", 
+                            key_concepts.join(" and ")
+                        ));
+                    }
+                }
+                
+                if refined.is_empty() {
+                    response.to_string()
+                } else {
+                    refined
+                }
+            }
+            _ => response.to_string(), // Default: return as-is
+        }
+    }
+    
     /// Tokenize input text
     async fn tokenize(&self, text: &str) -> Vec<String> {
         text.to_lowercase()
@@ -296,9 +392,9 @@ impl EnhancedTinyLlama {
             response.push_str(" relates to ");
             response.push_str(&self.extract_key_concepts(ctx).await);
         } else {
-            response.push_str("Understanding ");
-            response.push_str(&subject);
-            response.push_str(" requires examining its fundamental properties and relationships within the broader system.");
+            // Use O(1) generator for unique, relevant response
+            let query = tokens.join(" ");
+            response = self.o1_generator.generate_response(&query);
         }
         
         response

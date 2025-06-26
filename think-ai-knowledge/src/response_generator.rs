@@ -90,18 +90,34 @@ impl ComponentResponseGenerator {
         let mut response_parts = Vec::new();
         let mut used_components = Vec::new();
         
-        for (component, score) in component_scores.iter().take(3) {
-            if let Some(part) = component.generate(query, &context) {
-                response_parts.push(part);
-                used_components.push(component.name());
+        // Only take highly relevant components (score > 0.5)
+        for (component, score) in component_scores.iter() {
+            if *score > 0.5 && response_parts.len() < 2 {  // Max 2 parts for readability
+                if let Some(part) = component.generate(query, &context) {
+                    // Skip if part is too similar to what we already have
+                    if !self.is_duplicate_content(&part, &response_parts) {
+                        response_parts.push(part);
+                        used_components.push(component.name());
+                    }
+                }
             }
         }
         
-        // Combine responses intelligently
-        let combined = self.combine_responses(response_parts, &used_components);
+        // If we got nothing or only weak matches, just use the best one
+        if response_parts.is_empty() && !component_scores.is_empty() {
+            if let Some((component, _)) = component_scores.first() {
+                if let Some(part) = component.generate(query, &context) {
+                    response_parts.push(part);
+                    used_components.push(component.name());
+                }
+            }
+        }
+        
+        // Intelligently combine and refine
+        let refined = self.refine_and_combine(response_parts, query);
         
         // Post-process
-        self.post_process(combined, query)
+        self.post_process(refined, query)
     }
     
     /// Prepare context for response generation
@@ -175,8 +191,31 @@ impl ComponentResponseGenerator {
         entities
     }
     
-    /// Combine multiple response parts
-    fn combine_responses(&self, parts: Vec<String>, components: &[&'static str]) -> String {
+    /// Check if content is duplicate
+    fn is_duplicate_content(&self, new_part: &str, existing_parts: &[String]) -> bool {
+        let new_tokens = self.tokenize(new_part);
+        
+        for existing in existing_parts {
+            let existing_tokens = self.tokenize(existing);
+            let mut overlap_count = 0;
+            
+            for token in &new_tokens {
+                if existing_tokens.contains(token) {
+                    overlap_count += 1;
+                }
+            }
+            
+            // If 70%+ overlap, consider duplicate
+            if !new_tokens.is_empty() && overlap_count as f32 / new_tokens.len() as f32 > 0.7 {
+                return true;
+            }
+        }
+        
+        false
+    }
+    
+    /// Refine and combine response parts naturally
+    fn refine_and_combine(&self, parts: Vec<String>, query: &str) -> String {
         if parts.is_empty() {
             return "I need more context to provide a comprehensive answer. Could you please elaborate on your question?".to_string();
         }
@@ -185,17 +224,71 @@ impl ComponentResponseGenerator {
             return parts[0].clone();
         }
         
-        // Intelligently combine multiple parts
-        let mut combined = parts[0].clone();
+        // Extract key sentences from each part
+        let mut refined_response = String::new();
+        let mut sentences_used = 0;
+        let max_sentences = 5; // Keep response concise
         
-        for (i, part) in parts.iter().skip(1).enumerate() {
-            // Add transition based on component types
-            let transition = self.get_transition(components[i], components[i + 1]);
-            combined.push_str(&transition);
-            combined.push_str(part);
+        // Start with the most relevant part (first one)
+        let first_sentences: Vec<&str> = parts[0].split(". ").collect();
+        for (i, sentence) in first_sentences.iter().enumerate() {
+            if i < 2 && sentences_used < max_sentences { // Take first 2 sentences
+                refined_response.push_str(sentence);
+                refined_response.push_str(". ");
+                sentences_used += 1;
+            }
         }
         
-        combined
+        // Add unique valuable content from second part if it exists
+        if parts.len() > 1 {
+            let second_sentences: Vec<&str> = parts[1].split(". ").collect();
+            
+            // Look for sentences that add new information
+            for sentence in second_sentences.iter() {
+                if sentences_used >= max_sentences {
+                    break;
+                }
+                
+                // Check if this sentence adds new value
+                let sentence_tokens = self.tokenize(sentence);
+                let response_tokens = self.tokenize(&refined_response);
+                
+                let mut new_info_count = 0;
+                for token in &sentence_tokens {
+                    if !response_tokens.contains(token) && token.len() > 4 {
+                        new_info_count += 1;
+                    }
+                }
+                
+                // If it has enough new information, add it
+                if new_info_count >= 3 && sentence.len() > 20 {
+                    // Add a natural transition
+                    if sentences_used == 2 {
+                        refined_response.push_str("Additionally, ");
+                    } else if sentences_used == 3 {
+                        refined_response.push_str("Furthermore, ");
+                    }
+                    
+                    // Make sentence start lowercase after transition
+                    let sentence_lower = sentence.to_lowercase();
+                    refined_response.push_str(&sentence_lower);
+                    refined_response.push_str(". ");
+                    sentences_used += 1;
+                }
+            }
+        }
+        
+        // Clean up the response
+        refined_response = refined_response.replace(". .", ".");
+        refined_response = refined_response.replace("  ", " ");
+        refined_response = refined_response.trim().to_string();
+        
+        // Ensure proper ending
+        if !refined_response.ends_with('.') && !refined_response.ends_with('!') && !refined_response.ends_with('?') {
+            refined_response.push('.');
+        }
+        
+        refined_response
     }
     
     /// Get appropriate transition between components
@@ -337,9 +430,15 @@ impl ResponseComponent for ScientificExplanationComponent {
         let query_lower = query.to_lowercase();
         let scientific_terms = ["science", "scientific", "physics", "chemistry", "biology", "quantum", "atom", "molecule", "energy", "force"];
         
-        if scientific_terms.iter().any(|&term| query_lower.contains(term)) {
+        // Only handle if query explicitly asks about scientific topics
+        let explicit_science = scientific_terms.iter().any(|&term| {
+            query_lower.split_whitespace().any(|word| word == term)
+        });
+        
+        if explicit_science {
             0.8
-        } else if context.relevant_nodes.iter().any(|n| matches!(n.domain, KnowledgeDomain::Physics | KnowledgeDomain::Chemistry | KnowledgeDomain::Biology)) {
+        } else if query_lower.starts_with("how does") && query_lower.contains("work") {
+            // Scientific explanation for "how does X work" queries
             0.6
         } else {
             0.0
@@ -377,12 +476,15 @@ impl ResponseComponent for TechnicalComponent {
     
     fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
         let query_lower = query.to_lowercase();
-        let tech_terms = ["code", "program", "algorithm", "data", "computer", "software", "hardware", "debug", "function", "variable"];
+        let tech_terms = ["code", "program", "programming", "algorithm", "data", "computer", "software", "hardware", "debug", "function", "variable"];
         
-        if tech_terms.iter().any(|&term| query_lower.contains(term)) {
+        // Only handle if query explicitly asks about technical topics
+        let explicit_tech = tech_terms.iter().any(|&term| {
+            query_lower.split_whitespace().any(|word| word == term || word.starts_with(term))
+        });
+        
+        if explicit_tech {
             0.8
-        } else if context.relevant_nodes.iter().any(|n| matches!(n.domain, KnowledgeDomain::ComputerScience)) {
-            0.6
         } else {
             0.0
         }

@@ -1,6 +1,7 @@
 //! TinyLlama integration for Think AI - Local, fast, no API keys!
 
 pub mod enhanced;
+pub mod o1_response_generator;
 
 use std::sync::Arc;
 use tokio::sync::Mutex;
