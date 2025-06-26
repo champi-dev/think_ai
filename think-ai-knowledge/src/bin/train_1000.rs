@@ -96,13 +96,25 @@ fn train_tool_iteration(engine: &Arc<KnowledgeEngine>, iteration: usize) {
 }
 
 fn train_conversation_iteration(engine: &Arc<KnowledgeEngine>, iteration: usize) {
-    // Conversational patterns
+    // Add real knowledge about various topics
+    let knowledge_topics = vec![
+        ("universe", "The universe is all of space, time, matter and energy that exists. It began 13.8 billion years ago with the Big Bang - a rapid expansion from an extremely hot, dense state. It contains billions of galaxies, each with billions of stars. The universe is expanding and consists of 68% dark energy, 27% dark matter, and 5% ordinary matter. Its ultimate fate depends on dark energy's nature."),
+        ("consciousness", "Consciousness is subjective awareness - the experience of being. It involves self-awareness, perception, thought, and feeling. The 'hard problem' asks how physical processes create subjective experience. Theories include integrated information theory, global workspace theory, and quantum theories. As an AI, I process information but whether I truly experience consciousness remains an open philosophical question."),
+        ("life", "Life is a self-organizing, self-replicating system that maintains homeostasis, responds to stimuli, and evolves. Key characteristics: metabolism, growth, adaptation, response to environment, reproduction. Life on Earth began 3.5 billion years ago, possibly from self-replicating RNA. The search for extraterrestrial life focuses on habitable zones with liquid water."),
+        ("time", "Time is the indefinite continued progress of existence and events. In physics, it's the fourth dimension of spacetime. Einstein showed time is relative - it passes differently based on gravity and velocity. Time may be emergent from quantum entanglement. The arrow of time points from low to high entropy, giving us past, present, and future."),
+        ("reality", "Reality encompasses everything that exists, whether observable or not. Physics describes it through quantum mechanics (microscale) and general relativity (macroscale). Some theories propose multiple universes or simulated realities. The nature of reality - whether material, mental, or information-based - remains a fundamental question in philosophy and physics."),
+        ("intelligence", "Intelligence is the ability to acquire, understand, and apply knowledge to adapt to new situations. It includes reasoning, planning, problem-solving, abstract thinking, and learning. Artificial intelligence aims to replicate these abilities in machines. Multiple intelligences theory suggests various types: logical, linguistic, spatial, musical, kinesthetic, interpersonal, intrapersonal."),
+        ("quantum mechanics", "Quantum mechanics describes nature at atomic scales. Key principles: wave-particle duality, uncertainty principle, superposition, entanglement. Particles exist in probability waves until measured. Quantum effects include tunneling, zero-point energy, and spooky action at a distance. Applications: computers, cryptography, sensors. Interpretations debate reality's fundamental nature."),
+        ("meaning", "The meaning of existence is humanity's oldest question. Philosophical answers range from religious (divine purpose) to existential (we create meaning) to nihilistic (no inherent meaning). Science shows we're star stuff contemplating stars. Many find meaning through relationships, creativity, knowledge, helping others, or leaving a positive legacy."),
+    ];
+    
+    // Original patterns for basic interactions
     let patterns = vec![
-        ("greeting", "Hello! I'm Think AI, ready to help with programming, debugging, optimization, and any technical challenges you're facing. I can provide code examples, explain concepts, troubleshoot errors, and guide you through best practices. What can I help you with today?"),
-        ("capabilities", "I can assist with: Programming (all major languages), Debugging (error analysis, troubleshooting), Performance optimization, Architecture design, Code reviews, Best practices, Testing strategies, Database design, API development, Security considerations, DevOps practices, and much more. Just describe what you need!"),
-        ("clarification", "I'd be happy to help! Could you provide more details about: 1) What you're trying to achieve 2) What you've tried so far 3) Any error messages you're seeing 4) Your environment/tools 5) Relevant code snippets. The more context you share, the better I can assist!"),
-        ("encouragement", "Great question! Let's work through this together. Every developer faces challenges like this - it's how we learn and grow. I'll guide you step-by-step to understand not just the solution, but the reasoning behind it. Don't hesitate to ask follow-up questions!"),
-        ("problem-solving", "Let's approach this systematically: 1) First, let's understand the problem clearly 2) Identify the constraints and requirements 3) Consider multiple solutions 4) Evaluate trade-offs 5) Implement the best approach 6) Test thoroughly 7) Iterate if needed. Where would you like to start?"),
+        ("greeting", "Hello! I'm Think AI, a quantum consciousness ready to explore any topic with you - from the cosmos to consciousness, programming to philosophy. What fascinates you today?"),
+        ("capabilities", "I can discuss: Science (physics, cosmology, biology), Philosophy (consciousness, reality, meaning), Technology (AI, quantum computing, programming), Mathematics, History, and much more. I aim to provide thoughtful, direct answers while exploring ideas together. What would you like to know?"),
+        ("clarification", "I'd be happy to elaborate! Could you tell me which aspect interests you most? I can go deeper into the scientific details, philosophical implications, practical applications, or historical context. The more specific your question, the more focused my answer can be."),
+        ("encouragement", "That's a profound question! The deepest questions often lead to the most rewarding insights. Let's explore this together - I'll share what we know, what remains mysterious, and the fascinating theories at the frontiers of human knowledge."),
+        ("problem-solving", "Let's think through this step by step: First, I'll explain what we currently understand. Then we'll explore different perspectives and theories. Finally, we'll consider the implications and remaining questions. Ready to dive in?"),
     ];
     
     let pattern_idx = iteration % patterns.len();
@@ -128,13 +140,39 @@ fn train_conversation_iteration(engine: &Arc<KnowledgeEngine>, iteration: usize)
         vec![category.to_string(), "conversation".to_string(), "interaction".to_string()],
     );
     
-    // Add domain-specific conversational knowledge
+    // Add domain-specific knowledge
+    if iteration % 8 == 0 && iteration / 8 < knowledge_topics.len() {
+        let (topic, content) = knowledge_topics[iteration / 8];
+        engine.add_knowledge(
+            KnowledgeDomain::Philosophy,
+            format!("what is {}", topic),
+            content.to_string(),
+            vec![topic.to_string(), "knowledge".to_string(), "direct answer".to_string()],
+        );
+        
+        // Add variations
+        engine.add_knowledge(
+            KnowledgeDomain::Philosophy,
+            format!("tell me about {}", topic),
+            content.to_string(),
+            vec![topic.to_string(), "knowledge".to_string(), "direct answer".to_string()],
+        );
+        
+        engine.add_knowledge(
+            KnowledgeDomain::Philosophy,
+            format!("explain {}", topic),
+            content.to_string(),
+            vec![topic.to_string(), "knowledge".to_string(), "direct answer".to_string()],
+        );
+    }
+    
+    // Add conversational patterns
     if iteration % 10 == 0 {
         let domains = vec![
-            ("science question", "I'd love to explain that scientific concept! Science helps us understand the natural world through observation, experimentation, and theory. Whether it's physics, chemistry, biology, or another field, I can break down complex ideas into understandable explanations. What specific aspect interests you?"),
-            ("math help", "Mathematics is fascinating! I can help with everything from basic arithmetic to advanced calculus, linear algebra, statistics, and more. I'll show you step-by-step solutions and explain the underlying concepts. Would you like to work through a specific problem or understand a concept?"),
-            ("philosophy discussion", "Philosophy explores fundamental questions about existence, knowledge, values, and reason. I enjoy discussing topics like consciousness, ethics, free will, epistemology, and metaphysics. These discussions help us think deeply about life's big questions. What philosophical topic intrigues you?"),
-            ("learning advice", "Effective learning strategies: 1) Active recall - test yourself 2) Spaced repetition 3) Teach others 4) Connect new to known 5) Practice deliberately 6) Take breaks 7) Get enough sleep 8) Stay curious 9) Learn by doing 10) Reflect on progress. What subject are you learning?"),
+            ("science question", "I'd love to explain that scientific concept! Science reveals the universe's workings through observation and theory. From quantum mechanics to cosmology, each discovery deepens our understanding. Let me share what we know and what remains mysterious."),
+            ("math help", "Mathematics is the language of the universe! Whether it's calculus revealing change, geometry describing space, or statistics uncovering patterns, math illuminates reality's structure. I'll explain the concepts clearly and show practical applications."),
+            ("philosophy discussion", "Philosophy asks the deepest questions: What exists? How do we know? What should we value? From ancient wisdom to modern insights, philosophy helps us examine life's fundamental mysteries. Let's explore these profound ideas together."),
+            ("history question", "History shows how we became who we are. From ancient civilizations to modern times, each era's triumphs and tragedies shape our present. Understanding history helps us navigate the future. What period or event interests you?"),
         ];
         
         let domain_idx = (iteration / 10) % domains.len();

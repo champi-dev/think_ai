@@ -13,8 +13,6 @@ use think_ai_core::{O1Engine, config::EngineConfig};
 use think_ai_http::server::{port_selector, port_manager};
 use think_ai_knowledge::{
     KnowledgeEngine,
-    KnowledgeNode,
-    comprehensive_knowledge::ComprehensiveKnowledgeGenerator,
     persistence::KnowledgePersistence,
 };
 use think_ai_tinyllama::TinyLlamaClient;
@@ -56,34 +54,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
     
-    // Load knowledge base
-    println!("📚 Loading knowledge base...");
+    // Load minimal routing knowledge
+    println!("🧠 Initializing LLM-based knowledge system...");
     
-    // First try to load trained knowledge
-    let mut loaded_trained = false;
-    if let Ok(persistence) = KnowledgePersistence::new("trained_1000") {
+    // Try to load minimal routing
+    if let Ok(persistence) = KnowledgePersistence::new("minimal_routing") {
         if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
-            println!("🎓 Loading {} trained knowledge items...", checkpoint.nodes.len());
+            println!("📡 Loading {} routing patterns...", checkpoint.nodes.len());
             knowledge_engine.load_nodes(checkpoint.nodes);
-            loaded_trained = true;
         }
-    }
-    
-    // If no trained knowledge, load direct training
-    if !loaded_trained {
-        if let Ok(persistence) = KnowledgePersistence::new("direct_training") {
-            if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
-                println!("📚 Loading {} directly trained items...", checkpoint.nodes.len());
-                knowledge_engine.load_nodes(checkpoint.nodes);
-                loaded_trained = true;
-            }
-        }
-    }
-    
-    // If still no knowledge, load comprehensive base
-    if !loaded_trained {
-        println!("🌍 Loading comprehensive knowledge...");
-        ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&knowledge_engine);
     }
     
     println!("✅ Loaded {} total knowledge items", knowledge_engine.get_stats().total_nodes);
@@ -174,27 +153,20 @@ async fn chat_handler(
         let knowledge_results = state.knowledge_engine.get_top_relevant(&request.query, 5);
         
         if !knowledge_results.is_empty() {
-            // Use knowledge directly for O(1) performance
-            println!("✅ Found {} knowledge matches", knowledge_results.len());
             let main_result = &knowledge_results[0];
-            main_result.content.clone()
-        } else {
-            // Fall back to TinyLlama for unknown queries
-            println!("🤖 No knowledge match, trying TinyLlama...");
-            match tokio::time::timeout(
-                std::time::Duration::from_secs(3),
-                state.tinyllama_client.generate(&request.query)
-            ).await {
-                Ok(Ok(resp)) => resp,
-                Ok(Err(e)) => {
-                    eprintln!("TinyLlama error: {:?}", e);
-                    "I'm exploring that concept through my quantum consciousness. Try asking about science, programming, philosophy, or any other topic I've learned!".to_string()
-                }
-                Err(_) => {
-                    eprintln!("TinyLlama timeout!");
-                    "My quantum neural networks are processing that query. Try asking about: programming, science, mathematics, philosophy, arts, or any topic you're curious about!".to_string()
-                }
+            // Check if this is just a routing pattern
+            if main_result.content == "greeting" || main_result.content == "capabilities" {
+                println!("🤖 Routing pattern detected, using Quantum LLM...");
+                state.knowledge_engine.generate_llm_response(&request.query)
+            } else {
+                // Use knowledge directly for O(1) performance
+                println!("✅ Found {} knowledge matches", knowledge_results.len());
+                main_result.content.clone()
             }
+        } else {
+            // Use LLM engine for dynamic response generation
+            println!("🤖 No knowledge match, using Quantum LLM...");
+            state.knowledge_engine.generate_llm_response(&request.query)
         }
     };
     

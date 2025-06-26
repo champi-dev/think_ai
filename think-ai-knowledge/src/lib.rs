@@ -7,6 +7,8 @@ pub mod training_system;
 pub mod comprehensive_knowledge;
 pub mod self_learning;
 pub mod comprehensive_trainer;
+pub mod llm_engine;
+pub mod quantum_llm_engine;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -76,12 +78,15 @@ impl KnowledgeDomain {
     }
 }
 
+use crate::quantum_llm_engine::QuantumLLMEngine;
+
 pub struct KnowledgeEngine {
     nodes: Arc<RwLock<HashMap<String, KnowledgeNode>>>,
     domain_index: Arc<RwLock<HashMap<KnowledgeDomain, Vec<String>>>>,
     concept_graph: Arc<RwLock<HashMap<String, Vec<String>>>>,
     training_iterations: Arc<RwLock<u64>>,
     total_knowledge_items: Arc<RwLock<u64>>,
+    quantum_llm: Arc<RwLock<QuantumLLMEngine>>,
 }
 
 impl KnowledgeEngine {
@@ -92,6 +97,7 @@ impl KnowledgeEngine {
             concept_graph: Arc::new(RwLock::new(HashMap::new())),
             training_iterations: Arc::new(RwLock::new(0)),
             total_knowledge_items: Arc::new(RwLock::new(0)),
+            quantum_llm: Arc::new(RwLock::new(QuantumLLMEngine::new())),
         }
     }
 
@@ -299,6 +305,11 @@ impl KnowledgeEngine {
             .take(limit)
             .map(|(node, _)| node)
             .collect()
+    }
+    
+    pub fn generate_llm_response(&self, query: &str) -> String {
+        let mut llm = self.quantum_llm.write().unwrap();
+        llm.generate_response(query)
     }
 
     pub fn train_iteration(

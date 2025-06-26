@@ -36,3 +36,7 @@ path = "src/bin/direct_train.rs"
 [[bin]]
 name = "train-1000"
 path = "src/bin/train_1000.rs"
+
+[[bin]]
+name = "train-minimal"
+path = "src/bin/train_minimal.rs"
