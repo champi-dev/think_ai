@@ -103,174 +103,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-async fn serve_webapp() -> Html<&'static str> {
-    Html(r#"
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Think AI - O(1) Intelligence</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            font-size: 3em;
-            margin-bottom: 0.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        .subtitle {
-            text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 2em;
-            opacity: 0.9;
-        }
-        .chat-container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        .messages {
-            height: 400px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-        }
-        .message {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .message.user {
-            background: rgba(100, 200, 255, 0.2);
-            text-align: right;
-        }
-        .message.ai {
-            background: rgba(200, 255, 200, 0.2);
-        }
-        .input-group {
-            display: flex;
-            gap: 10px;
-        }
-        input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            font-size: 16px;
-        }
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 5px;
-            background: #4CAF50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background: #45a049;
-        }
-        .stats {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🧠 Think AI</h1>
-        <p class="subtitle">O(1) Intelligence with Exponential Learning</p>
-        
-        <div class="chat-container">
-            <div class="messages" id="messages"></div>
-            <div class="input-group">
-                <input type="text" id="input" placeholder="Ask me anything..." autofocus>
-                <button onclick="sendMessage()">Send</button>
-            </div>
-        </div>
-        
-        <div class="stats" id="stats">Loading stats...</div>
-    </div>
+async fn serve_webapp() -> Html<String> {
+    // Read the 3D webapp file
+    let webapp_path = std::env::current_dir()
+        .map(|p| p.join("fullstack_3d.html"))
+        .unwrap_or_else(|_| std::path::PathBuf::from("./fullstack_3d.html"));
     
-    <script>
-        const messagesDiv = document.getElementById('messages');
-        const input = document.getElementById('input');
-        const statsDiv = document.getElementById('stats');
-        
-        // Load stats
-        fetch('/api/stats')
-            .then(r => r.json())
-            .then(data => {
-                statsDiv.innerHTML = `Knowledge Items: ${data.total_knowledge || 0} | Response Time: ${data.avg_response_time || '0.0'}ms`;
-            });
-        
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendMessage();
-        });
-        
-        async function sendMessage() {
-            const query = input.value.trim();
-            if (!query) return;
-            
-            // Add user message
-            addMessage(query, 'user');
-            input.value = '';
-            
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query })
-                });
-                
-                const data = await response.json();
-                addMessage(data.response, 'ai');
-                
-                // Update stats
-                if (data.response_time_ms !== undefined) {
-                    statsDiv.innerHTML += ` | Last Response: ${data.response_time_ms.toFixed(1)}ms`;
-                }
-            } catch (error) {
-                addMessage('Error: ' + error.message, 'ai');
-            }
-        }
-        
-        function addMessage(text, type) {
-            const div = document.createElement('div');
-            div.className = 'message ' + type;
-            div.textContent = text;
-            messagesDiv.appendChild(div);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-        
-        // Welcome message
-        addMessage("Hi! I'm Think AI with O(1) intelligence and exponential learning. Ask me anything!", 'ai');
-    </script>
+    match std::fs::read_to_string(webapp_path) {
+        Ok(content) => Html(content),
+        Err(_) => Html(String::from(r#"
+<!DOCTYPE html>
+<html>
+<head><title>Think AI</title></head>
+<body>
+    <h1>Error: Could not load 3D webapp</h1>
+    <p>Please ensure fullstack_3d.html exists in the project directory.</p>
 </body>
 </html>
-    "#)
+        "#))
+    }
 }
 
 async fn health_check() -> &'static str {

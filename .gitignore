@@ -132,3 +132,4 @@ setup_*.sh
 /target/
 **/*.rs.bk
 Cargo.lock
+trained_knowledge/checkpoints/*.json

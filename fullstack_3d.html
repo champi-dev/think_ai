@@ -507,7 +507,7 @@
             
             try {
                 const startTime = performance.now();
-                const response = await fetch(`${API_BASE}/compute`, {
+                const response = await fetch(`${API_BASE}/api/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ query })
@@ -520,7 +520,7 @@
                 document.getElementById(typingId)?.remove();
                 
                 // Add AI response
-                addMessage(data.response || data.result || JSON.stringify(data), 'ai');
+                addMessage(data.response || 'I am still processing that query.', 'ai');
                 
                 // Update response time
                 document.getElementById('response-time').textContent = responseTime.toFixed(1) + 'ms';
