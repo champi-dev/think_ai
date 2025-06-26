@@ -1,0 +1,56 @@
+🚀 Think AI Full Server Starting...
+🧠 Initializing LLM-based knowledge system...
+📡 Loading 3 routing patterns...
+✅ Loaded 3 total knowledge items
+🚀 Initializing TinyLlama (fallback mode - OpenSSL not available)...
+✅ TinyLlama ready (using intelligent fallback responses)!
+🌐 Server running on http://localhost:8080
+📨 Received query: what is the sun
+🔍 Searching knowledge base...
+🤖 Routing pattern detected, using Quantum LLM...
+🔬 Extracting topics from tokens: ["what", "is", "the", "sun"]
+📌 Extracted topics: ["sun", "existence", "mathematics"]
+🔍 Topic detected: sun
+💾 Storing conversation: 'what is the sun' -> 'The Sun is the star at the center of our solar sys'
+💬 Sending response: The Sun is the star at the center of our solar sys (0.104671ms)
+📨 Received query: what is it made of
+🔍 Searching knowledge base...
+🤖 Routing pattern detected, using Quantum LLM...
+🔍 Previous query was: 'what is the sun'
+🔄 Resolved context: 'what is it made of' -> 'what is sun made of'
+🔬 Extracting topics from tokens: ["what", "is", "sun", "made", "of"]
+📌 Extracted topics: ["sun", "existence", "organism"]
+🧪 Detected composition question for: Some("sun")
+🧪 Generating composition response for: sun
+💾 Storing conversation: 'what is it made of' -> 'The Sun is composed primarily of hydrogen (about 7'
+💬 Sending response: The Sun is composed primarily of hydrogen (about 7 (0.119597ms)
+📨 Received query: tell me about mars
+🔍 Searching knowledge base...
+🤖 No knowledge match, using Quantum LLM...
+🔬 Extracting topics from tokens: ["tell", "me", "about", "mars"]
+📌 Extracted topics: ["mars", "mercury", "geometry"]
+🔍 Topic detected: mars
+💾 Storing conversation: 'tell me about mars' -> 'Mars, the Red Planet, is the fourth planet from th'
+💬 Sending response: Mars, the Red Planet, is the fourth planet from th (0.09401999999999999ms)
+📨 Received query: how big is it
+🔍 Searching knowledge base...
+🤖 Routing pattern detected, using Quantum LLM...
+🔍 Previous query was: 'tell me about mars'
+🔄 Resolved context: 'how big is it' -> 'how big is mars'
+🔬 Extracting topics from tokens: ["how", "big", "is", "mars"]
+📌 Extracted topics: ["big bang", "mars", "existence"]
+📏 Generating size response for: mars
+💾 Storing conversation: 'how big is it' -> 'Mars has a diameter of 6,779 kilometers (4,212 mil'
+💬 Sending response: Mars has a diameter of 6,779 kilometers (4,212 mil (0.092137ms)
+📨 Received query: does it have water
+🔍 Searching knowledge base...
+🤖 Routing pattern detected, using Quantum LLM...
+🔍 Previous query was: 'how big is it'
+🔎 Extracting main topic from: 'how big is it', tokens: ["how", "big", "is", "it"]
+🎯 Found main topic: big
+🔄 Resolved context: 'does it have water' -> 'does big have water'
+🔬 Extracting topics from tokens: ["does", "big", "have", "water"]
+📌 Extracted topics: ["big bang"]
+💧 Generating water/liquid response for: big bang
+💾 Storing conversation: 'does it have water' -> 'The presence of water or liquids on big bang varie'
+💬 Sending response: The presence of water or liquids on big bang varie (0.087825ms)

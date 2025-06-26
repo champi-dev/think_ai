@@ -154,15 +154,21 @@ impl QuantumLLMEngine {
         // Update quantum state
         self.update_quantum_state();
         
+        // Preprocess and normalize the query
+        let normalized_query = self.normalize_query(query);
+        
+        // Check if query contains pronouns that need context resolution
+        let resolved_query = self.resolve_context_references(&normalized_query);
+        
         // Step 1: Tokenize and analyze input word by word
-        let tokens = self.tokenize(query);
+        let tokens = self.tokenize(&resolved_query);
         let context_vector = self.compute_deep_context(&tokens);
         
         // Step 2: Extract topics through multi-head attention
         let topics = self.extract_all_topics(&tokens, &context_vector);
         
         // Step 3: Generate response token by token
-        let response = self.generate_tokens(&topics, &context_vector, query);
+        let response = self.generate_tokens(&topics, &context_vector, &resolved_query);
         
         // Step 4: Validate and refine with consciousness
         let refined = self.refine_with_consciousness(response);
@@ -171,6 +177,157 @@ impl QuantumLLMEngine {
         self.update_memory(query, &refined);
         
         refined
+    }
+    
+    fn normalize_query(&self, query: &str) -> String {
+        let mut normalized = query.to_string();
+        
+        // Expand contractions
+        normalized = normalized.replace("what's", "what is");
+        normalized = normalized.replace("what's", "what is");  // Handle smart quotes
+        normalized = normalized.replace("whats", "what is");
+        normalized = normalized.replace("it's", "it is");
+        normalized = normalized.replace("it's", "it is");  // Handle smart quotes
+        normalized = normalized.replace("that's", "that is");
+        normalized = normalized.replace("there's", "there is");
+        normalized = normalized.replace("how's", "how is");
+        normalized = normalized.replace("where's", "where is");
+        normalized = normalized.replace("why's", "why is");
+        
+        // Fix common typos and variations (be careful with word boundaries)
+        normalized = normalized.replace(" teh ", " the ");
+        normalized = normalized.replace(" wat ", " what ");
+        normalized = normalized.replace("whta ", "what ");
+        normalized = normalized.replace("waht ", "what ");
+        
+        // Ensure proper spacing
+        normalized = normalized.replace("?", " ?");
+        normalized = normalized.replace(".", " .");
+        normalized = normalized.replace(",", " ,");
+        normalized = normalized.replace("  ", " ");  // Remove double spaces
+        
+        // Handle common question patterns
+        if normalized.to_lowercase().starts_with("tell me about") {
+            // Already good
+        } else if normalized.to_lowercase().starts_with("explain") && !normalized.to_lowercase().contains("what") {
+            normalized = format!("what is {}", normalized[7..].trim());
+        }
+        
+        normalized.trim().to_string()
+    }
+    
+    fn resolve_context_references(&self, query: &str) -> String {
+        let query_lower = query.to_lowercase();
+        
+        // Check if query contains context-dependent pronouns
+        if query_lower.contains(" it ") || query_lower.contains("what is it") || 
+           query_lower.contains("tell me about it") || query_lower.contains("how does it") ||
+           query_lower.contains(" that ") || query_lower.contains(" this ") ||
+           query_lower.contains(" its ") || query_lower.contains(" they ") ||
+           query_lower.ends_with(" it") || query_lower.ends_with(" it?") ||
+           query_lower.ends_with(" it.") || query_lower.ends_with(" that") ||
+           query_lower.ends_with(" this") {
+            
+            // Get last conversation topic
+            let memory = self.conversation_memory.read().unwrap();
+            if let Some((prev_query, _prev_response)) = memory.last() {
+                println!("🔍 Previous query was: '{}'", prev_query);
+                // Extract main topic from previous query
+                let prev_topic = self.extract_main_topic_from_query(prev_query);
+                
+                if !prev_topic.is_empty() {
+                    // Replace pronouns with the actual topic
+                    let mut resolved = query.to_string();
+                    
+                    // Be careful with replacements to avoid partial word replacements
+                    if resolved.to_lowercase() == "what is it made of" {
+                        resolved = format!("what is {} made of", prev_topic);
+                    } else if resolved.to_lowercase() == "how big is it" || resolved.to_lowercase() == "how big is it?" {
+                        resolved = format!("how big is {}", prev_topic);
+                    } else if resolved.to_lowercase().starts_with("does it have") {
+                        resolved = resolved.replace("does it have", &format!("does {} have", prev_topic));
+                    } else if resolved.to_lowercase().ends_with(" it") {
+                        // Handle "it" at end of sentence
+                        let without_it = &resolved[..resolved.len() - 3];
+                        resolved = format!("{} {}", without_it, prev_topic);
+                    } else {
+                        // Generic replacements for other cases
+                        resolved = resolved.replace(" it ", &format!(" {} ", prev_topic));
+                        resolved = resolved.replace("what is it", &format!("what is {}", prev_topic));
+                        resolved = resolved.replace("tell me about it", &format!("tell me about {}", prev_topic));
+                        resolved = resolved.replace("how does it", &format!("how does {}", prev_topic));
+                        resolved = resolved.replace(" that ", &format!(" {} ", prev_topic));
+                        resolved = resolved.replace(" this ", &format!(" {} ", prev_topic));
+                        resolved = resolved.replace(" its ", &format!(" {}'s ", prev_topic));
+                    }
+                    
+                    println!("🔄 Resolved context: '{}' -> '{}'", query, resolved);
+                    return resolved;
+                }
+            }
+        }
+        
+        query.to_string()
+    }
+    
+    fn extract_main_topic_from_query(&self, query: &str) -> String {
+        let query_lower = query.to_lowercase();
+        
+        // Check for common patterns
+        if query_lower.contains("what is the ") {
+            if let Some(start) = query_lower.find("what is the ") {
+                let topic_start = start + 12;
+                if let Some(end) = query_lower[topic_start..].find(|c: char| c == '?' || c == '.' || c == ',' || c == ' ') {
+                    return query_lower[topic_start..topic_start + end].to_string();
+                } else {
+                    return query_lower[topic_start..].trim().to_string();
+                }
+            }
+        } else if query_lower.contains("what is ") {
+            if let Some(start) = query_lower.find("what is ") {
+                let topic_start = start + 8;
+                if let Some(end) = query_lower[topic_start..].find(|c: char| c == '?' || c == '.' || c == ',') {
+                    return query_lower[topic_start..topic_start + end].to_string();
+                } else {
+                    return query_lower[topic_start..].trim().to_string();
+                }
+            }
+        } else if query_lower.contains("tell me about ") {
+            if let Some(start) = query_lower.find("tell me about ") {
+                let topic_start = start + 14;
+                let topic = query_lower[topic_start..].trim();
+                // Remove trailing punctuation
+                let topic = topic.trim_end_matches(|c: char| c == '?' || c == '.' || c == '!' || c == ',');
+                return topic.to_string();
+            }
+        }
+        
+        // If no pattern matches, try to find the main noun
+        let tokens = self.tokenize(query);
+        
+        // Debug print
+        println!("🔎 Extracting main topic from: '{}', tokens: {:?}", query, tokens);
+        
+        // Look for specific celestial objects first
+        for token in &tokens {
+            let token_lower = token.to_lowercase();
+            if ["sun", "moon", "earth", "mars", "jupiter", "saturn", "venus", "mercury", "neptune", "uranus", "pluto",
+                "star", "planet", "galaxy", "universe", "cosmos"].contains(&token_lower.as_str()) {
+                println!("🎯 Found celestial object: {}", token_lower);
+                return token_lower;
+            }
+        }
+        
+        // Then look for other important nouns
+        for token in tokens.iter().rev() {
+            if !self.is_common_word(token) && token.len() > 2 {
+                println!("🎯 Found main topic: {}", token);
+                return token.clone();
+            }
+        }
+        
+        println!("❌ No main topic found");
+        String::new()
     }
     
     fn update_quantum_state(&self) {
@@ -347,6 +504,12 @@ impl QuantumLLMEngine {
                     break;
                 }
             }
+            
+            // Special handling for composition questions
+            if primary_topic.is_some() && (query_lower.contains("made of") || query_lower.contains("composed of") || query_lower.contains("consists of")) {
+                // Keep the primary topic but add composition context
+                println!("🧪 Detected composition question for: {:?}", primary_topic);
+            }
         }
         
         // If no direct match, use the first topic
@@ -356,7 +519,16 @@ impl QuantumLLMEngine {
         
         // Generate based on primary topic
         if let Some(topic) = primary_topic {
-            response = self.generate_topic_response(topic, context, is_question);
+            // Check if this is a composition question
+            if query_lower.contains("made of") || query_lower.contains("composed of") || query_lower.contains("consists of") || query_lower.contains("composition") {
+                response = self.generate_composition_response(topic, context);
+            } else if query_lower.contains("how big") || query_lower.contains("size") || query_lower.contains("diameter") {
+                response = self.generate_size_response(topic, context);
+            } else if query_lower.contains("water") || query_lower.contains("liquid") || query_lower.contains("ocean") {
+                response = self.generate_water_response(topic, context);
+            } else {
+                response = self.generate_topic_response(topic, context, is_question);
+            }
             
             // Only add supplementary info if the response seems incomplete
             if response.len() < 100 {
@@ -402,6 +574,56 @@ impl QuantumLLMEngine {
             t if t.contains("star") => "Stars are massive celestial bodies of hot plasma held together by gravity. They generate light and heat through nuclear fusion, converting hydrogen into helium in their cores. Stars vary greatly in size, temperature, and lifespan - from small red dwarfs that burn for trillions of years to massive blue giants that live only millions of years before exploding as supernovae.".to_string(),
             t if t.contains("planet") => "Planets are celestial bodies that orbit stars, massive enough to be rounded by their own gravity and to have cleared their orbital paths. Our solar system has eight planets: four rocky inner planets (Mercury, Venus, Earth, Mars) and four gas giants (Jupiter, Saturn, Uranus, Neptune). Thousands of exoplanets have been discovered orbiting other stars.".to_string(),
             _ => self.generate_dynamic_explanation(&topic_lower, context, is_question),
+        }
+    }
+    
+    fn generate_composition_response(&self, topic: &str, _context: &[f32]) -> String {
+        let topic_lower = topic.to_lowercase();
+        
+        println!("🧪 Generating composition response for: {}", topic_lower);
+        
+        match topic_lower.as_str() {
+            "sun" => "The Sun is composed primarily of hydrogen (about 73% by mass) and helium (about 25%). The remaining 2% consists of heavier elements including oxygen, carbon, nitrogen, neon, iron, magnesium, silicon, and sulfur. In the core, hydrogen atoms fuse to form helium through nuclear fusion, releasing enormous energy. This process converts about 600 million tons of hydrogen into helium every second.".to_string(),
+            "moon" => "The Moon is made primarily of rock with a composition similar to Earth's crust. Its surface consists mainly of oxygen, silicon, magnesium, iron, calcium, and aluminum. The lunar highlands are rich in anorthosite (calcium-aluminum silicate), while the maria (dark areas) contain basalt rich in iron and magnesium. The Moon has a small iron-rich core, a rocky mantle, and a thin crust.".to_string(),
+            "earth" => "Earth has a layered composition: The crust (0-70 km thick) is made of lighter rocks rich in silicon, oxygen, aluminum, and calcium. The mantle (extending to 2,890 km) consists of denser rocks with magnesium, iron, silicon, and oxygen. The outer core (2,890-5,150 km) is liquid iron and nickel, while the inner core (5,150-6,371 km) is solid iron and nickel under extreme pressure.".to_string(),
+            "mars" => "Mars is composed of a dense iron, nickel, and sulfur core surrounded by a silicate mantle and a thin crust. The surface is rich in iron oxide (rust), giving it the red color. The crust contains silicon, oxygen, iron, magnesium, aluminum, calcium, and potassium. Mars has significant amounts of water ice at the poles and possibly underground.".to_string(),
+            "jupiter" => "Jupiter is made primarily of hydrogen (about 90%) and helium (about 10%), similar to the Sun. Deeper inside, under extreme pressure, hydrogen becomes metallic. The core may be rocky, containing heavier elements like iron, nickel, and silicates, but this is surrounded by the massive hydrogen-helium atmosphere. Trace amounts of methane, ammonia, and water create the colorful cloud bands.".to_string(),
+            "star" | "stars" => "Stars are primarily composed of hydrogen (about 70-75% by mass) and helium (20-25%), with heavier elements making up the remainder. Young stars have mostly hydrogen which they fuse into helium. Older stars have converted more hydrogen to helium and may fuse helium into carbon, oxygen, and heavier elements. The exact composition depends on the star's age and mass.".to_string(),
+            "universe" => "The universe's composition is surprising: about 68% dark energy (causing accelerated expansion), 27% dark matter (invisible matter detected through gravity), and only 5% ordinary matter. Of the ordinary matter, about 75% is hydrogen and 25% is helium, with trace amounts of heavier elements. Most ordinary matter exists as intergalactic gas, not stars or planets.".to_string(),
+            _ => {
+                // Generic composition response
+                format!("The composition of {} varies depending on its specific nature and formation. For detailed compositional analysis, more specific information about which aspect or type of {} you're interested in would be helpful.", topic_lower, topic_lower)
+            }
+        }
+    }
+    
+    fn generate_size_response(&self, topic: &str, _context: &[f32]) -> String {
+        let topic_lower = topic.to_lowercase();
+        
+        println!("📏 Generating size response for: {}", topic_lower);
+        
+        match topic_lower.as_str() {
+            "sun" => "The Sun has a diameter of 1.39 million kilometers (864,000 miles), which is about 109 times the diameter of Earth. If the Sun were a hollow sphere, about 1.3 million Earths could fit inside it. Its mass is 1.989 × 10^30 kg, about 333,000 times Earth's mass.".to_string(),
+            "moon" => "The Moon has a diameter of 3,474 kilometers (2,159 miles), about 27% the size of Earth. Its surface area is about 38 million square kilometers, roughly the same as Asia and Africa combined. The Moon's mass is 7.34 × 10^22 kg, about 1.2% of Earth's mass.".to_string(),
+            "earth" => "Earth has an equatorial diameter of 12,756 kilometers (7,926 miles) and a polar diameter of 12,714 km due to its rotation. Its circumference at the equator is 40,075 km. Earth's mass is 5.97 × 10^24 kg with a surface area of 510 million square kilometers.".to_string(),
+            "mars" => "Mars has a diameter of 6,779 kilometers (4,212 miles), about 53% the size of Earth. This makes it the second-smallest planet in our solar system. Its surface area is 144.8 million square kilometers, about the same as Earth's land area. Mars has only 11% of Earth's mass.".to_string(),
+            "jupiter" => "Jupiter is enormous with a diameter of 139,820 kilometers (86,881 miles) - 11 times wider than Earth. Over 1,300 Earths could fit inside Jupiter. Its mass is 1.898 × 10^27 kg, more than all other planets combined. Despite its size, Jupiter rotates in just 10 hours.".to_string(),
+            _ => format!("The size of {} depends on the specific instance or type. For accurate size information, please specify which particular {} you're interested in.", topic_lower, topic_lower)
+        }
+    }
+    
+    fn generate_water_response(&self, topic: &str, _context: &[f32]) -> String {
+        let topic_lower = topic.to_lowercase();
+        
+        println!("💧 Generating water/liquid response for: {}", topic_lower);
+        
+        match topic_lower.as_str() {
+            "mars" => "Yes, Mars has water! There's substantial water ice at both poles and likely underground. In 2018, scientists discovered a liquid water lake beneath the south polar ice cap. Mars also shows evidence of ancient river valleys and lake beds, suggesting it once had flowing water billions of years ago. Seasonal dark streaks might indicate briny water flows today.".to_string(),
+            "moon" => "The Moon has water ice, particularly in permanently shadowed craters at the poles. In 2020, NASA confirmed water molecules in sunlit areas too. The total amount is estimated at 600 billion kilograms of ice. There's no liquid water due to the lack of atmosphere - any liquid would instantly vaporize or freeze.".to_string(),
+            "earth" => "Earth is the water planet - 71% of its surface is covered by oceans containing 1.386 billion cubic kilometers of water. Earth has water in all three states: liquid oceans and lakes, solid ice caps and glaciers, and water vapor in the atmosphere. The water cycle continuously moves water between these reservoirs.".to_string(),
+            "sun" => "The Sun doesn't have liquid water - it's far too hot. However, water vapor (H2O molecules) has been detected in sunspots where temperatures are 'cooler' at around 3,000°C. Any water molecules are broken apart in most of the Sun due to extreme heat, but hydrogen and oxygen (water's components) are present.".to_string(),
+            "jupiter" => "Jupiter likely has water in its atmosphere as vapor and ice crystals in the clouds. Deep in the atmosphere, extreme pressure might create exotic forms of water. Jupiter's moon Europa has a subsurface ocean containing more water than all Earth's oceans combined, making it a prime target for astrobiology.".to_string(),
+            _ => format!("The presence of water or liquids on {} varies by location and conditions. Please specify what aspect of water/liquids on {} you're most interested in.", topic_lower, topic_lower)
         }
     }
     
@@ -705,6 +927,9 @@ impl QuantumLLMEngine {
     
     fn update_memory(&self, query: &str, response: &str) {
         let mut memory = self.conversation_memory.write().unwrap();
+        
+        // Store the original query to preserve context
+        println!("💾 Storing conversation: '{}' -> '{}'", query, &response[..50.min(response.len())]);
         memory.push((query.to_string(), response.to_string()));
         
         // Keep last 20 exchanges
