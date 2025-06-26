@@ -2739,7 +2739,9 @@ version = "0.1.0"
 dependencies = [
  "async-trait",
  "clap",
+ "colored",
  "crossterm",
+ "rand 0.8.5",
  "ratatui",
  "serde",
  "serde_json",

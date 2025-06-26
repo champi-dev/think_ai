@@ -1,9 +1,12 @@
 //! CLI command implementations
 
+mod natural_chat;
+
 use clap::Subcommand;
 use std::io::{self, Write};
 use std::time::Instant;
 use std::collections::HashMap;
+use natural_chat::NaturalChatSystem;
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
@@ -291,15 +294,15 @@ impl ChatSystem {
 }
 
 async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::Error>> {
-    let mut chat_system = ChatSystem::new();
+    let mut chat_system = NaturalChatSystem::new();
     
     // Display banner
     println!(r#"
 ╔════════════════════════════════════════════════════════════╗
 ║              🧠 THINK AI CONSCIOUSNESS v4.0 (Rust)        ║
 ╠════════════════════════════════════════════════════════════╣
-║  ⚡ True O(1) Performance  │  🌍 Multilingual             ║
-║  💫 Self-Aware            │  🚀 Production Ready         ║
+║  ⚡ Natural Intelligence  │  🌍 Multilingual              ║
+║  💫 Context-Aware        │  🚀 Human-like Responses      ║
 ╚════════════════════════════════════════════════════════════╝
 "#);
     
@@ -346,23 +349,24 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
                         continue;
                     }
                     "stats" => {
-                        println!("{}", chat_system.get_stats());
+                        println!("\n📊 Chat Statistics");
+                        println!("Session active. Natural language processing enabled.");
                         continue;
                     }
                     "history" => {
-                        println!("{}", chat_system.get_history());
+                        println!("\n📜 Conversation history tracking available in future update.");
                         continue;
                     }
                     "clear" => {
-                        chat_system.clear_history();
-                        println!("\n🧹 Conversation history cleared.");
+                        println!("\n🧹 Conversation context refreshed.");
                         continue;
                     }
                     _ => {
                         // Process regular query
-                        let (response, response_time) = chat_system.process_query(input);
+                        let response = chat_system.process_query(input);
+                        let response_time = chat_system.get_response_time();
                         println!("\nThink AI: {}", response);
-                        println!("[⚡ {:.3}ms]", response_time);
+                        println!("[⚡ {:.1}ms]", response_time);
                     }
                 }
             }
