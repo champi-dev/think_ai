@@ -137,6 +137,21 @@ impl RealKnowledgeGenerator {
             "Thermodynamics studies heat, work, temperature, and energy. The four laws govern energy conservation, entropy increase, absolute zero, and thermal equilibrium. Key concepts include enthalpy, free energy, and phase transitions. Applications range from engines and refrigerators to chemical reactions and cosmology.".to_string(),
             vec!["entropy".to_string(), "energy".to_string(), "heat".to_string(), "statistical mechanics".to_string()],
         );
+        
+        // Add more physics knowledge
+        engine.add_knowledge(
+            KnowledgeDomain::Physics,
+            "Gravity".to_string(),
+            "Gravity is a fundamental force of nature that attracts objects with mass toward each other. First described by Newton as a force and later explained by Einstein as the curvature of spacetime, gravity governs the motion of planets, stars, and galaxies. On Earth, it gives weight to objects and causes them to fall at 9.8 m/s². Gravity is the weakest of the four fundamental forces but has infinite range and is always attractive.".to_string(),
+            vec!["force".to_string(), "newton".to_string(), "einstein".to_string(), "spacetime".to_string()],
+        );
+        
+        engine.add_knowledge(
+            KnowledgeDomain::Physics,
+            "The Sun".to_string(),
+            "The Sun is the star at the center of our Solar System. It's a nearly perfect sphere of hot plasma with a diameter about 109 times that of Earth. The Sun generates energy through nuclear fusion, converting hydrogen to helium at its core. This process produces the light and heat that sustains life on Earth. Surface temperature is about 5,778 K (5,505°C).".to_string(),
+            vec!["star".to_string(), "solar system".to_string(), "fusion".to_string(), "plasma".to_string()],
+        );
     }
     
     fn add_philosophy_knowledge(engine: &Arc<KnowledgeEngine>) {

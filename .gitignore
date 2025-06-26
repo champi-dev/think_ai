@@ -120,6 +120,14 @@ think_ai_v3_ready_*.tar.gz
 # Local development environment variables
 .env.local
 
+# Setup scripts with sensitive data
+setup_hf.sh
+setup_*.sh
+*api_key*
+*API_KEY*
+*.key
+.secrets/
+
 # Rust build artifacts
 /target/
 **/*.rs.bk

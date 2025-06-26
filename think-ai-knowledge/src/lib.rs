@@ -3,6 +3,7 @@ pub mod persistence;
 pub mod responder;
 pub mod trainer;
 pub mod real_knowledge;
+pub mod training_system;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -238,6 +239,51 @@ impl KnowledgeEngine {
         scored_results.sort_by(|a, b| b.1.cmp(&a.1));
         scored_results.into_iter()
             .take(10)
+            .map(|(node, _)| node)
+            .collect()
+    }
+    
+    pub fn get_top_relevant(&self, query: &str, limit: usize) -> Vec<KnowledgeNode> {
+        // Try intelligent query to get scored results
+        let results = self.intelligent_query(query);
+        if !results.is_empty() {
+            return results.into_iter().take(limit).collect();
+        }
+        
+        // If still no results, do a broader keyword search
+        let query_lower = query.to_lowercase();
+        let keywords: Vec<&str> = query_lower.split_whitespace()
+            .filter(|w| w.len() > 2) // Skip short words
+            .collect();
+        
+        if keywords.is_empty() {
+            return Vec::new();
+        }
+        
+        let nodes = self.nodes.read().unwrap();
+        let mut scored_results: Vec<(KnowledgeNode, usize)> = Vec::new();
+        
+        for (_, node) in nodes.iter() {
+            let mut score = 0;
+            let topic_lower = node.topic.to_lowercase();
+            let content_lower = node.content.to_lowercase();
+            
+            // Looser matching - any keyword match counts
+            for keyword in &keywords {
+                if topic_lower.contains(keyword) || content_lower.contains(keyword) {
+                    score += 1;
+                }
+            }
+            
+            if score > 0 {
+                scored_results.push((node.clone(), score));
+            }
+        }
+        
+        // Sort by score and return top results
+        scored_results.sort_by(|a, b| b.1.cmp(&a.1));
+        scored_results.into_iter()
+            .take(limit)
             .map(|(node, _)| node)
             .collect()
     }

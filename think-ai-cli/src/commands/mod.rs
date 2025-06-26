@@ -295,7 +295,7 @@ impl ChatSystem {
 }
 
 async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::Error>> {
-    let chat_system = KnowledgeChat::new();
+    let mut chat_system = KnowledgeChat::new();
     
     // Display banner
     println!(r#"
@@ -315,7 +315,7 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
     
     loop {
         print!("You: ");
-        io::stdout().flush()?;
+        let _ = io::stdout().flush();
         
         let mut input = String::new();
         match io::stdin().read_line(&mut input) {
@@ -324,7 +324,7 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
                 println!("\n👋 Thank you for chatting with Think AI!");
                 break;
             }
-            Ok(_) => {
+            Ok(n) => {
                 let input = input.trim();
                 if input.is_empty() {
                     continue;
@@ -364,7 +364,7 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
                     }
                     _ => {
                         // Process regular query
-                        let (response, response_time) = chat_system.process_query(input);
+                        let (response, response_time) = chat_system.process_query(input).await;
                         println!("\nThink AI: {}", response);
                         println!("[⚡ {:.1}ms]", response_time);
                     }

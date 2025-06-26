@@ -65,6 +65,7 @@ think-ai/
 ├── think-ai-cache/          # O(1) caching system
 ├── think-ai-vector/         # O(1) vector search (LSH)
 ├── think-ai-knowledge/      # Knowledge base management
+├── think-ai-qwen/           # Intelligent response generation
 ├── think-ai-http/           # HTTP server and API
 ├── think-ai-cli/            # Command-line interface
 ├── think-ai-consciousness/  # AI consciousness framework
@@ -74,6 +75,32 @@ think-ai/
 ├── think-ai-linter/         # O(1) Rust linter
 └── think-ai-process-manager/# Service orchestration
 ```
+
+## 🤖 Intelligent Response System
+
+Think AI features a sophisticated response system that combines:
+
+1. **O(1) Knowledge Base**: Ultra-fast responses for known queries
+2. **Context-Aware Synthesis**: Analyzes relevant knowledge pieces 
+3. **External LLM Integration**: Uses Qwen/HuggingFace for cache misses
+4. **Natural Conversations**: Provides human-like, actionable answers
+
+### Setting Up Intelligent Responses
+
+```bash
+# Configure Hugging Face API
+./setup_huggingface_api.sh
+
+# Or set environment variable
+export HUGGINGFACE_API_KEY="your_hf_key"
+```
+
+### How It Works
+
+1. **Query Processing**: O(1) hash lookup in knowledge base
+2. **Context Gathering**: Finds top 5 relevant knowledge pieces
+3. **Intelligent Synthesis**: If cache miss, sends context to LLM
+4. **Natural Response**: Returns comprehensive, actionable answer
 
 ## 🔧 API Reference
 
@@ -131,6 +158,10 @@ railway up
 - `PORT` - HTTP server port (default: 8080)
 - `RUST_LOG` - Log level (default: info)
 - `RAILWAY_ENVIRONMENT` - Auto-detected on Railway
+- `HUGGINGFACE_API_KEY` / `HF_API_KEY` - Hugging Face API key for intelligent responses
+- `QWEN_API_KEY` - Alternative Qwen API key
+- `HF_MODEL` - Hugging Face model to use (default: microsoft/Phi-3.5-mini-instruct)
+- `CUDA_VISIBLE_DEVICES` - GPU device ID for inference acceleration
 
 ## 📊 Performance Metrics
 

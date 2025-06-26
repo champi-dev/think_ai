@@ -15,6 +15,23 @@ struct Args {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Load .env file if it exists
+    if let Ok(path) = std::env::current_dir() {
+        let env_path = path.join(".env");
+        if env_path.exists() {
+            // Simple .env loader
+            if let Ok(contents) = std::fs::read_to_string(&env_path) {
+                for line in contents.lines() {
+                    if !line.trim().is_empty() && !line.trim().starts_with('#') {
+                        if let Some((key, value)) = line.split_once('=') {
+                            std::env::set_var(key.trim(), value.trim());
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     // Initialize logging
     think_ai_utils::logging::init_tracing();
     
