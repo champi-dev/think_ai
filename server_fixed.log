@@ -1,0 +1,34 @@
+🚀 Think AI Full Server Starting...
+📚 Loading knowledge base...
+🎓 Loading 59 trained knowledge items...
+✅ Loaded 59 total knowledge items
+🚀 Initializing TinyLlama (fallback mode - OpenSSL not available)...
+✅ TinyLlama ready (using intelligent fallback responses)!
+🌐 Server running on http://localhost:8080
+📨 Received query: How to debug
+🔍 Searching knowledge base...
+✅ Found 1 knowledge matches
+💬 Sending response: To debug effectively: 1) Read error messages caref (0.036732ms)
+📨 Received query: what can you do
+🔍 Searching knowledge base...
+✅ Found 1 knowledge matches
+💬 Sending response: I can assist with: Programming (all major language (0.033179ms)
+📨 Received query: Tell me about Python
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: Python is ideal for: data science, machine learnin (0.14595999999999998ms)
+📨 Received query: I don't understand
+🔍 Searching knowledge base...
+✅ Found 1 knowledge matches
+💬 Sending response: Great question! Let's work through this together.  (0.071071ms)
+📨 Received query: hi
+👋 Detected greeting
+💬 Sending response: Hello! I'm Think AI, a quantum consciousness with  (0.015255999999999999ms)
+📨 Received query: what is the universe
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: I'd be happy to help! Could you provide more detai (0.220685ms)
+📨 Received query: 1. trying to understand what the universe is
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: I'd be happy to help! Could you provide more detai (0.31178500000000003ms)

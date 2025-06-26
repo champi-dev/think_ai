@@ -6,3 +6,7 @@
 ✅ TinyLlama ready (using intelligent fallback responses)!
 🌐 Server running on http://localhost:8080
 📨 Received query: hello
+👋 Detected greeting
+💬 Sending response: Welcome to the quantum realm! I'm here to help wit (0.010115ms)
+📨 Received query: How to debug
+🔍 Searching knowledge base...

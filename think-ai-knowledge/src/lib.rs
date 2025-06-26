@@ -135,38 +135,47 @@ impl KnowledgeEngine {
 
     pub fn query(&self, query: &str) -> Option<Vec<KnowledgeNode>> {
         let query_lower = query.to_lowercase();
-        let nodes = self.nodes.read().unwrap();
-
-        let mut results = Vec::new();
-        let mut exact_matches = Vec::new();
-        let mut partial_matches = Vec::new();
         
-        for (_, node) in nodes.iter() {
-            let topic_lower = node.topic.to_lowercase();
-            let content_lower = node.content.to_lowercase();
+        // Collect results while holding read lock
+        let mut exact_matches = Vec::new();
+        let mut results = Vec::new();
+        let mut partial_matches = Vec::new();
+        let mut node_ids_to_update = Vec::new();
+        
+        {
+            let nodes = self.nodes.read().unwrap();
             
-            // Exact topic match gets highest priority
-            if topic_lower == query_lower {
-                exact_matches.push(node.clone());
-            }
-            // Topic contains query
-            else if topic_lower.contains(&query_lower) {
-                results.push(node.clone());
-            }
-            // Content contains query
-            else if content_lower.contains(&query_lower) {
-                partial_matches.push(node.clone());
-            }
-            // Check related concepts
-            else {
-                for concept in &node.related_concepts {
-                    if concept.to_lowercase().contains(&query_lower) {
-                        partial_matches.push(node.clone());
-                        break;
+            for (_, node) in nodes.iter() {
+                let topic_lower = node.topic.to_lowercase();
+                let content_lower = node.content.to_lowercase();
+                
+                // Exact topic match gets highest priority
+                if topic_lower == query_lower {
+                    exact_matches.push(node.clone());
+                    node_ids_to_update.push(node.id.clone());
+                }
+                // Topic contains query
+                else if topic_lower.contains(&query_lower) {
+                    results.push(node.clone());
+                    node_ids_to_update.push(node.id.clone());
+                }
+                // Content contains query
+                else if content_lower.contains(&query_lower) {
+                    partial_matches.push(node.clone());
+                    node_ids_to_update.push(node.id.clone());
+                }
+                // Check related concepts
+                else {
+                    for concept in &node.related_concepts {
+                        if concept.to_lowercase().contains(&query_lower) {
+                            partial_matches.push(node.clone());
+                            node_ids_to_update.push(node.id.clone());
+                            break;
+                        }
                     }
                 }
             }
-        }
+        } // Read lock dropped here
         
         // Combine results: exact matches first, then topic matches, then content matches
         exact_matches.extend(results);
@@ -176,9 +185,10 @@ impl KnowledgeEngine {
             None
         } else {
             // Update access count and timestamp for retrieved nodes
+            // Now we can safely acquire write lock
             let mut nodes_mut = self.nodes.write().unwrap();
-            for result in &exact_matches {
-                if let Some(node) = nodes_mut.get_mut(&result.id) {
+            for id in &node_ids_to_update {
+                if let Some(node) = nodes_mut.get_mut(id) {
                     node.usage_count += 1;
                     node.last_accessed = Self::current_timestamp();
                 }

@@ -22,8 +22,6 @@ use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{O1VectorIndex, types::LSHConfig};
 use tokio::sync::RwLock;
 use tower_http::cors::CorsLayer;
-use rand::Rng;
-use std::collections::HashMap;
 
 #[derive(Clone)]
 struct FullAppState {
@@ -166,31 +164,36 @@ async fn chat_handler(
     println!("📨 Received query: {}", request.query);
     let start = std::time::Instant::now();
     
-    // Try O(1) knowledge lookup first
-    let knowledge_results = state.knowledge_engine.get_top_relevant(&request.query, 5);
-    
-    // Handle simple greetings first
+    // Handle simple greetings first with O(1) performance
     let response = if is_greeting(&request.query) {
+        println!("👋 Detected greeting");
         get_greeting_response()
-    } else if !knowledge_results.is_empty() {
-        // Use knowledge directly for O(1) performance
-        let main_result = &knowledge_results[0];
-        main_result.content.clone()
     } else {
-        // Fall back to TinyLlama for unknown queries
-        println!("🤖 No knowledge match, trying TinyLlama...");
-        match tokio::time::timeout(
-            std::time::Duration::from_secs(3),
-            state.tinyllama_client.generate(&request.query)
-        ).await {
-            Ok(Ok(resp)) => resp,
-            Ok(Err(e)) => {
-                eprintln!("TinyLlama error: {:?}", e);
-                "I'm exploring that concept through my quantum consciousness. Try asking about science, programming, philosophy, or any other topic I've learned!".to_string()
-            }
-            Err(_) => {
-                eprintln!("TinyLlama timeout!");
-                "My quantum neural networks are processing that query. Try asking about: programming, science, mathematics, philosophy, arts, or any topic you're curious about!".to_string()
+        // Try O(1) knowledge lookup
+        println!("🔍 Searching knowledge base...");
+        let knowledge_results = state.knowledge_engine.get_top_relevant(&request.query, 5);
+        
+        if !knowledge_results.is_empty() {
+            // Use knowledge directly for O(1) performance
+            println!("✅ Found {} knowledge matches", knowledge_results.len());
+            let main_result = &knowledge_results[0];
+            main_result.content.clone()
+        } else {
+            // Fall back to TinyLlama for unknown queries
+            println!("🤖 No knowledge match, trying TinyLlama...");
+            match tokio::time::timeout(
+                std::time::Duration::from_secs(3),
+                state.tinyllama_client.generate(&request.query)
+            ).await {
+                Ok(Ok(resp)) => resp,
+                Ok(Err(e)) => {
+                    eprintln!("TinyLlama error: {:?}", e);
+                    "I'm exploring that concept through my quantum consciousness. Try asking about science, programming, philosophy, or any other topic I've learned!".to_string()
+                }
+                Err(_) => {
+                    eprintln!("TinyLlama timeout!");
+                    "My quantum neural networks are processing that query. Try asking about: programming, science, mathematics, philosophy, arts, or any topic you're curious about!".to_string()
+                }
             }
         }
     };
@@ -201,13 +204,24 @@ async fn chat_handler(
     if history.len() > 10 {
         history.remove(0);
     }
+    drop(history); // Explicitly drop the write lock
     
     let response_time_ms = start.elapsed().as_secs_f64() * 1000.0;
     println!("💬 Sending response: {} ({}ms)", &response[..50.min(response.len())], response_time_ms);
     
+    // Build context list without holding knowledge results
+    let context: Vec<String> = if is_greeting(&request.query) {
+        vec!["greeting".to_string()]
+    } else {
+        state.knowledge_engine.get_top_relevant(&request.query, 5)
+            .into_iter()
+            .map(|k| k.topic)
+            .collect()
+    };
+    
     Ok(Json(ChatResponse {
         response,
-        context: Some(knowledge_results.into_iter().map(|k| k.topic).collect()),
+        context: Some(context),
         response_time_ms,
     }))
 }
