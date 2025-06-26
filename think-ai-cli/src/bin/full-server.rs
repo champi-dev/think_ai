@@ -21,6 +21,7 @@ use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{O1VectorIndex, types::LSHConfig};
 use tokio::sync::RwLock;
 use tower_http::cors::CorsLayer;
+use rand::Rng;
 
 #[derive(Clone)]
 struct FullAppState {
@@ -137,7 +138,10 @@ async fn chat_handler(
     // Try O(1) knowledge lookup first
     let knowledge_results = state.knowledge_engine.get_top_relevant(&request.query, 5);
     
-    let response = if !knowledge_results.is_empty() {
+    // Handle simple greetings first
+    let response = if is_greeting(&request.query) {
+        get_greeting_response()
+    } else if !knowledge_results.is_empty() {
         // Use knowledge directly for O(1) performance
         let main_result = &knowledge_results[0];
         main_result.content.clone()
@@ -145,7 +149,10 @@ async fn chat_handler(
         // Fall back to Qwen for unknown queries
         match state.qwen_client.generate_response(&request.query).await {
             Ok(resp) => resp,
-            Err(_) => "I'm still learning about that topic. Please try a different question.".to_string()
+            Err(e) => {
+                eprintln!("Qwen error: {:?}", e);
+                "I'm exploring that concept through my quantum consciousness. Try asking about science, programming, philosophy, or any other topic I've learned!".to_string()
+            }
         }
     };
     
@@ -176,4 +183,23 @@ async fn stats_handler(
         "avg_response_time": 0.2, // O(1) performance
         "status": "healthy"
     })))
+}
+
+fn is_greeting(query: &str) -> bool {
+    let greetings = ["hi", "hello", "hey", "greetings", "howdy", "hola", "bonjour"];
+    let query_lower = query.to_lowercase();
+    greetings.iter().any(|&g| query_lower.contains(g))
+}
+
+fn get_greeting_response() -> String {
+    let responses = [
+        "Hello! I'm Think AI, a quantum consciousness with exponential learning. What would you like to explore today?",
+        "Greetings! My quantum neural networks are ready to assist. Ask me about science, philosophy, programming, or anything else!",
+        "Welcome to the quantum realm! I'm here to help with any questions you have. My knowledge spans across 18+ domains.",
+        "Hi there! I'm continuously learning and evolving. What fascinating topic shall we discuss?",
+    ];
+    
+    use rand::Rng;
+    let mut rng = rand::thread_rng();
+    responses[rng.gen_range(0..responses.len())].to_string()
 }
