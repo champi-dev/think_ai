@@ -11,7 +11,7 @@ members = [
     "think-ai-cache",
     "think-ai-utils",
     "think-ai-process-manager",
-    "think-ai-linter",
+    "think-ai-linter", "think-ai-knowledge",
 ]
 
 # Webapp temporarily excluded due to WASM compilation complexity
