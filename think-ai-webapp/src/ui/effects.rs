@@ -6,6 +6,9 @@ use wasm_bindgen::JsValue;
 use web_sys::{Document, Element, HtmlElement, Window};
 use std::collections::HashMap;
 
+/// Type alias for backwards compatibility  
+pub type EffectsManager = EffectManager;
+
 /// O(1) effect manager with hash-based lookups
 pub struct EffectManager {
     active_effects: HashMap<String, Box<dyn VisualEffect>>,
@@ -62,6 +65,11 @@ impl EffectManager {
         }
 
         Ok(())
+    }
+
+    /// O(1) effect processing for webapp
+    pub fn process(&mut self, time: f32) -> Result<(), JsValue> {
+        self.update_all(time / 1000.0) // Convert ms to seconds
     }
 
     /// Render all active effects

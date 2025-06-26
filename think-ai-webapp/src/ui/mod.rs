@@ -17,13 +17,13 @@ pub mod dashboard;
 
 use wasm_bindgen::prelude::*;
 use web_sys::{Document, Element, HtmlElement, Window};
+use components::UIComponent;
 
 pub struct UiSystem {
     document: Document,
     window: Window,
-    query_interface: components::QueryInterface,
     dashboard: dashboard::IntelligenceDashboard,
-    effects_manager: effects::EffectsManager,
+    effects_manager: effects::EffectManager,
 }
 
 impl UiSystem {
@@ -32,7 +32,6 @@ impl UiSystem {
         let document = window.document().unwrap();
         
         Self {
-            query_interface: components::QueryInterface::new(&document),
             dashboard: dashboard::ConsciousnessDashboard::new(),
             effects_manager: effects::EffectManager::new(),
             document,
@@ -43,9 +42,8 @@ impl UiSystem {
     pub fn render(&mut self) -> Result<(), JsValue> {
         // O(1) UI rendering pipeline
         self.update_styles()?;
-        self.query_interface.render()?;
-        self.dashboard.render()?;
-        self.effects_manager.update()?;
+        self.dashboard.render(&self.document)?;
+        self.effects_manager.update_all(0.016)?; // 60 FPS delta
         Ok(())
     }
     
@@ -54,7 +52,7 @@ impl UiSystem {
         let style_element = self.document.create_element("style")?;
         style_element.set_text_content(Some(GLASS_MORPHISM_CSS));
         
-        let head = self.document.head().unwrap();
+        let head = self.document.head().ok_or("No head element found")?;
         head.append_child(&style_element)?;
         
         Ok(())

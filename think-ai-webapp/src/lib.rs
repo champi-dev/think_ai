@@ -12,11 +12,12 @@
 
 pub mod graphics;
 pub mod ui;
-pub mod server;
+// pub mod server; // Disabled for now due to O1Engine dependency
 pub mod effects;
 pub mod math;
 
 use wasm_bindgen::prelude::*;
+use ui::effects::EffectManager;
 
 // Import the `console.log` function from the `console` module
 #[wasm_bindgen]
@@ -39,20 +40,20 @@ pub fn main() {
 }
 
 #[wasm_bindgen]
-pub struct ThinkAiWebapp<'a> {
-    graphics_engine: graphics::GraphicsEngine<'a>,
+pub struct ThinkAiWebapp {
+    graphics_engine: graphics::GraphicsEngine,
     ui_system: ui::UiSystem,
-    effects_processor: effects::EffectManager,
+    effects_processor: EffectManager,
 }
 
 #[wasm_bindgen]
-impl<'a> ThinkAiWebapp<'a> {
+impl ThinkAiWebapp {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Result<ThinkAiWebapp, JsValue> {
         Ok(ThinkAiWebapp {
             graphics_engine: graphics::GraphicsEngine::new()?,
             ui_system: ui::UiSystem::new(),
-            effects_processor: effects::EffectManager::new(),
+            effects_processor: EffectManager::new(),
         })
     }
     

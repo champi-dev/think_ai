@@ -119,3 +119,8 @@ exponential_training_results.json.pypirc
 think_ai_v3_ready_*.tar.gz
 # Local development environment variables
 .env.local
+
+# Rust build artifacts
+/target/
+**/*.rs.bk
+Cargo.lock

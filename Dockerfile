@@ -2,7 +2,7 @@
 # Optimized for Railway deployment with minimal runtime
 
 # Build stage
-FROM rust:1.70-slim as builder
+FROM rust:1.80-slim AS builder
 
 # Install build dependencies
 RUN apt-get update && \
@@ -51,11 +51,12 @@ RUN apt-get update && \
 # Create app directory
 WORKDIR /app
 
-# Copy binaries from builder
-COPY --from=builder /build/target/release/think-ai* ./
+# Copy binaries from builder (excluding webapp which is WASM-only)
+COPY --from=builder /build/target/release/think-ai ./
+COPY --from=builder /build/target/release/process-manager ./
+COPY --from=builder /build/target/release/think-ai-lint ./
 
-# Copy configuration files if any
-COPY --from=builder /build/config/ ./config/
+# Configuration files will be created at runtime if needed
 
 # Set proper permissions
 RUN chown -R thinkaiuser:thinkaiuser /app
@@ -75,4 +76,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
 USER thinkaiuser
 
 # Start the process manager
-CMD ["./think-ai-process-manager"]
+CMD ["./process-manager"]

@@ -12,8 +12,11 @@ members = [
     "think-ai-utils",
     "think-ai-process-manager",
     "think-ai-linter",
-    "think-ai-webapp",
 ]
+
+# Webapp temporarily excluded due to WASM compilation complexity
+# Will be re-enabled after core system is stable
+# "think-ai-webapp",
 
 [workspace.package]
 version = "0.1.0"

@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "./think-ai-process-manager"
+startCommand = "./process-manager"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "always"

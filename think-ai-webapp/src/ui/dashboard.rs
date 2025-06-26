@@ -8,6 +8,9 @@ use std::collections::HashMap;
 use super::components::{ComponentRegistry, ConsciousnessMetrics, QueryInterface};
 use super::effects::EffectManager;
 
+/// Type alias for backwards compatibility
+pub type IntelligenceDashboard = ConsciousnessDashboard;
+
 /// Main consciousness dashboard controller
 pub struct ConsciousnessDashboard {
     pub component_registry: ComponentRegistry,
