@@ -13,6 +13,14 @@ path = "src/main.rs"
 name = "train-comprehensive"
 path = "src/bin/train-comprehensive.rs"
 
+[[bin]]
+name = "self-learning-service"
+path = "src/bin/self-learning-service.rs"
+
+[[bin]]
+name = "full-server"
+path = "src/bin/full-server.rs"
+
 [dependencies]
 think-ai-core = { path = "../think-ai-core" }
 think-ai-utils = { path = "../think-ai-utils" }
@@ -36,3 +44,8 @@ crossterm = "0.28"
 
 # Natural chat system
 rand = "0.8"
+
+# HTTP server dependencies
+axum.workspace = true
+tower.workspace = true
+tower-http.workspace = true
