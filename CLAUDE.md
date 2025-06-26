@@ -148,3 +148,4 @@ Remember: You're not just solving a problem, you're creating a masterpiece that 
 - Use `cargo clippy` and `cargo fmt` before commits
 - Kill ports before initializing servers
 - Provide evidence through benchmarks and tests
+- Always give me back a bash script for me to test locally
