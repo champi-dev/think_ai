@@ -9,8 +9,8 @@ use axum::{
 };
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
-use think_ai_core::O1Engine;
-use think_ai_http::server::PortManager;
+use think_ai_core::{O1Engine, config::EngineConfig};
+use think_ai_http::server::{port_selector, port_manager};
 use think_ai_knowledge::{
     KnowledgeEngine,
     comprehensive_knowledge::ComprehensiveKnowledgeGenerator,
@@ -18,7 +18,7 @@ use think_ai_knowledge::{
 };
 use think_ai_qwen::QwenClient;
 use think_ai_utils::logging::init_tracing;
-use think_ai_vector::O1VectorIndex;
+use think_ai_vector::{O1VectorIndex, types::LSHConfig};
 use tokio::sync::RwLock;
 use tower_http::cors::CorsLayer;
 
@@ -51,15 +51,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🚀 Think AI Full Server Starting...");
     
     // Create engines
-    let o1_engine = Arc::new(O1Engine::new());
-    let vector_index = Arc::new(O1VectorIndex::new());
+    let o1_engine = Arc::new(O1Engine::new(EngineConfig::default()));
+    let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
     
     // Load comprehensive knowledge
     println!("📚 Loading knowledge base...");
     if let Ok(persistence) = KnowledgePersistence::new("trained_knowledge") {
-        if let Ok(loaded) = persistence.load_latest() {
-            knowledge_engine.load_nodes(loaded.nodes);
+        if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
+            knowledge_engine.load_nodes(checkpoint.nodes);
             println!("✅ Loaded {} knowledge items", knowledge_engine.get_stats().total_nodes);
         } else {
             println!("🌍 Loading comprehensive knowledge...");
@@ -89,8 +89,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .with_state(state);
     
     // Start server
-    let mut port_manager = PortManager::new();
-    let port = port_manager.find_available_port(8080);
+    let port = port_selector::find_available_port(Some(8080))
+        .unwrap_or_else(|_| {
+            // Try to kill existing process on port 8080
+            let _ = port_manager::kill_port(8080);
+            8080
+        });
     println!("🌐 Server running on http://localhost:{}", port);
     
     let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await?;

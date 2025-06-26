@@ -53,12 +53,16 @@ check_port 8080
 check_port 3000
 sleep 2
 
-# Build the system
-echo -e "${BLUE}🔨 Building Think AI system...${NC}"
-cargo build --release --bin full-server --bin self-learning-service --bin train-comprehensive --bin think-ai
+# Build the system if needed
+if [ ! -f "./target/release/full-server" ] || [ ! -f "./target/release/self-learning-service" ]; then
+    echo -e "${BLUE}🔨 Building Think AI system...${NC}"
+    cargo build --release --bin full-server --bin self-learning-service --bin train-comprehensive --bin think-ai
+else
+    echo -e "${GREEN}✅ Using existing binaries${NC}"
+fi
 
 # Check if comprehensive training has been done
-if [ ! -f "trained_knowledge/checkpoint_1000000.json" ]; then
+if [ ! -f "trained_knowledge/checkpoints/checkpoint_1000000.json" ]; then
     echo -e "${YELLOW}📚 No trained knowledge found. Running comprehensive training...${NC}"
     echo -e "${YELLOW}   This will take a few minutes on first run...${NC}"
     ./target/release/train-comprehensive > logs/training.log 2>&1

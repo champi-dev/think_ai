@@ -24,8 +24,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Load existing knowledge if available
     let mut loaded_count = 0;
     if let Ok(persistence) = KnowledgePersistence::new("trained_knowledge") {
-        if let Ok(loaded) = persistence.load_latest() {
-            engine.load_nodes(loaded.nodes);
+        if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
+            engine.load_nodes(checkpoint.nodes);
             loaded_count = engine.get_stats().total_nodes;
             println!("📚 Loaded {} existing knowledge items", loaded_count);
         }

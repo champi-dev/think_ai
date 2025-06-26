@@ -34,18 +34,32 @@ test_api() {
     echo ""
 }
 
-# Wait for server
-echo "Waiting for server to be ready..."
-max_attempts=30
+# Check if server is running
+if ! nc -z localhost 8080 2>/dev/null; then
+    echo -e "${YELLOW}⚠️  Server not detected on port 8080${NC}"
+    echo -e "${YELLOW}Please run ./run_full_system.sh first!${NC}"
+    echo ""
+    echo "To start the full system:"
+    echo "  1. In another terminal: ./run_full_system.sh"
+    echo "  2. Wait for 'THINK AI FULL SYSTEM RUNNING' message"
+    echo "  3. Then run this test script again"
+    exit 1
+fi
+
+# Wait for server to be ready
+echo "Server detected! Ensuring it's fully ready..."
+max_attempts=10
 attempt=0
-while ! nc -z localhost 8080 2>/dev/null; do
+while ! curl -s http://localhost:8080/health > /dev/null 2>&1; do
     attempt=$((attempt + 1))
     if [ $attempt -ge $max_attempts ]; then
-        echo -e "${RED}Server not responding after 30 seconds${NC}"
+        echo -e "${RED}Server not responding to health checks${NC}"
         exit 1
     fi
+    echo -n "."
     sleep 1
 done
+echo ""
 
 echo -e "${GREEN}Server is ready!${NC}"
 echo ""
