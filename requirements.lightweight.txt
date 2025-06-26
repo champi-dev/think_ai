@@ -1,9 +1,0 @@
-# Minimal requirements for Think AI Lightweight Mode
-# All heavy dependencies are replaced with O(1) implementations
-
-# Core Python essentials only
-uvicorn==0.27.0
-typing-extensions==4.9.0
-python-multipart==0.0.6
-
-# Everything else is provided by the lightweight dependency system!

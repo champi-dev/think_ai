@@ -1,0 +1,66 @@
+[package]
+name = "think-ai-webapp"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Web Framework
+axum = { version = "0.7", features = ["ws"] }
+tokio = { version = "1.0", features = ["full"] }
+tower = "0.4"
+tower-http = { version = "0.5", features = ["fs", "cors"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# WebGL and Graphics
+wasm-bindgen = "0.2"
+web-sys = { version = "0.3", features = [
+  "Window",
+  "Document", 
+  "Element",
+  "HtmlElement",
+  "HtmlCanvasElement",
+  "CanvasRenderingContext2d",
+  "WebGlRenderingContext",
+  "WebGlShader",
+  "WebGlProgram",
+  "WebSocket",
+  "MessageEvent",
+  "CloseEvent",
+  "console"
+] }
+js-sys = "0.3"
+wgpu = "0.19"
+winit = "0.29"
+
+# 3D Math and Rendering
+nalgebra = "0.32"
+glam = "0.25"
+
+# Templates and Static Files
+askama = "0.12"
+include_dir = "0.7"
+
+# Async and Utils
+uuid = { version = "1.0", features = ["v4"] }
+tracing = "0.1"
+anyhow = "1.0"
+
+# Think AI Dependencies
+think-ai-core = { path = "../think-ai-core" }
+think-ai-vector = { path = "../think-ai-vector" }
+think-ai-cache = { path = "../think-ai-cache" }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook"]
+console_error_panic_hook = ["dep:console_error_panic_hook"]
+
+[dependencies.console_error_panic_hook]
+version = "0.1.6"
+optional = true
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen-futures = "0.4"

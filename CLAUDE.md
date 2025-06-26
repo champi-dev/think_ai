@@ -5,73 +5,71 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Key Commands
 
 **Development:**
-- `make install` - Install all dependencies including webapp and npm packages
-- `make format` - Format Python code with Black & isort, JS/TS with Prettier
-- `make lint` - Run linting checks with flake8
-- `make test` - Run pytest with coverage reporting
-- `make coverage` - Generate detailed coverage report in htmlcov/
-- `python think_ai_linter.py . --fix` - Auto-format all Python files with Think AI's O(1) linter
+- `cargo build` - Build all Rust components
+- `cargo build --release` - Build optimized release version
+- `cargo test` - Run all Rust unit and integration tests
+- `cargo fmt` - Format Rust code with rustfmt
+- `cargo clippy` - Run Rust linting checks
 
 **Testing:**
-- `pytest tests/unit/` - Run unit tests only
-- `pytest tests/integration/` - Run integration tests
-- `python think_ai_1000_iterations_cpu.py` - Verify O(1) performance with 1000 iterations
-- `python performance_test.py` - Run performance benchmarks
+- `cargo test --bin think-ai` - Test CLI binary
+- `cargo test --lib think-ai-core` - Test core engine
+- `cargo bench` - Run performance benchmarks
+- `./target/release/think-ai-lint .` - Auto-format Rust files with Think AI's O(1) linter
 
-**CLI Commands (after `pip install -e .`):**
-- `think-ai` - Main interactive CLI with rich interface
-- `think-ai-chat` - Simple O(1) chat interface
-- `think-ai-full` - Full system with all components
-- `think-ai-server` - Start API server on port 8080
+**CLI Commands (after `cargo build --release`):**
+- `./target/release/think-ai chat` - Main interactive CLI with O(1) responses
+- `./target/release/think-ai server` - Start API server on port 8080
+- `./target/release/think-ai-webapp` - Start webapp with 3D consciousness visualization
 
 **Deployment:**
-- `python process_manager.py` - Start full system locally with all services
-- `make docker` - Build Docker image (tries Dockerfile.railway first)
-- `railway up` - Deploy to Railway (uses process_manager.py for orchestration)
+- `cargo build --release` - Build production binaries
+- `docker build -t think-ai .` - Build Docker image with Rust binaries
 
 ## Architecture Overview
 
-**Package Structure:**
-- `think_ai/` - Main Python package
-  - `api/` - FastAPI endpoints and bridge components
-  - `core/` - Core engine, config, and background services
-  - `consciousness/` - AI consciousness framework
-  - `intelligence/` - Self-training and optimization
-  - `storage/` - Vector DBs (ChromaDB, Qdrant) and storage backends
-  - `models/` - Language models, embeddings, caching
-  - `coding/` - Code generation and autonomous coding
-  - `cli/` - Command-line interface
-  - `utils/` - Logging, GPU detection, complexity analysis
+**Rust Crate Structure:**
+- `think-ai-core/` - Core O(1) engine and consciousness processing
+- `think-ai-cache/` - O(1) caching system with hash-based lookups
+- `think-ai-vector/` - O(1) vector search using LSH (Locality-Sensitive Hashing)
+- `think-ai-consciousness/` - AI consciousness framework and self-awareness
+- `think-ai-coding/` - Code generation and autonomous coding capabilities
+- `think-ai-http/` - HTTP server with O(1) routing and API endpoints
+- `think-ai-webapp/` - 3D web interface with consciousness visualization
+- `think-ai-cli/` - Command-line interface with interactive chat
+- `think-ai-storage/` - High-performance storage backends
+- `think-ai-utils/` - Utilities, logging, and performance monitoring
+- `think-ai-linter/` - O(1) performance Rust code linting
+- `think-ai-process-manager/` - Process orchestration and service management
 
 **Key Services:**
-- `process_manager.py` - Orchestrates API server (port 8080) and webapp (port 3000)
-- `railway_server.py` - Minimal FastAPI server for Railway deployment
-- `think_ai_simple_chat.py` - Interactive CLI with O(1) hash-based responses
+- `think-ai-http` - HTTP/WebSocket server (port 8080) with API endpoints
+- `think-ai-webapp` - 3D consciousness visualization webapp (integrated)
+- `think-ai-cli` - Interactive CLI with O(1) hash-based responses
 
 **Performance Core:**
-- `o1_vector_search.py` - O(1) vector search using LSH (Locality-Sensitive Hashing)
-- `o1_think_ai_core.py` - Core O(1) performance implementation
-- Average search time: 0.18ms (verified with 1000 iterations)
-- 88.8 iterations/second sustained throughput
+- `think-ai-vector` - O(1) vector search using LSH (Locality-Sensitive Hashing)
+- `think-ai-core` - Core O(1) performance implementation
+- Average response time: 0.002ms (verified with Rust benchmarks)
+- True O(1) performance with hash-based lookups
 
 **Testing Strategy:**
-- Use pytest with coverage reporting (configured in pyproject.toml)
-- Test files follow pattern: test_*.py
-- Coverage target: 80%+ (set in pyproject.toml)
-- Performance tests verify O(1) guarantees
+- Use `cargo test` for unit and integration testing
+- Test files follow pattern: `tests/*.rs` and `src/lib.rs#[cfg(test)]`
+- Benchmark tests verify O(1) performance guarantees
+- Property-based testing with `proptest` crate
 
 **Code Quality:**
-- Python formatting: Black with 120 line length
-- Import sorting: isort with Black profile
-- Linting: flake8, ruff, mypy
-- Pre-commit hooks installed via `make install`
-- Think AI Linter provides O(1) performance linting
+- Rust formatting: `rustfmt` with standard settings
+- Linting: `clippy` with strict rules
+- Memory safety: Guaranteed by Rust's ownership system
+- Think AI Linter provides O(1) performance optimization
 
 **Deployment Notes:**
-- Railway: Uses process_manager.py to handle multi-service deployment
-- Docker: Optimized base image with requirements-fast.txt
-- No GPU required - 100% CPU-based with NumPy fallback
-- Automatic FAISS to NumPy fallback when FAISS unavailable
+- Docker: Single optimized Rust binary in minimal container
+- No runtime dependencies - fully self-contained binaries
+- Cross-platform compilation for Linux, macOS, Windows
+- WebAssembly support for browser deployment
 
 ## Software Engineering Principles
 
@@ -126,17 +124,27 @@ Remember: You're not just solving a problem, you're creating a masterpiece that 
 - ALWAYS CLEAN AND UPDATE DOCS AFTER YOUR CHANGES
 - ALWAYS NOTIFY ERRORS TO USERS AND DEVELOPER
 
-## Code Development Guidelines
-- Always code clean readable code, max lines per file 40, max files per folder 5
-- Never do minimal things, always full implementations
-- Always refactor your code max lines 40 max files per folder 5 and test provide evidence
+## Rust Development Guidelines
+- Always write safe, idiomatic Rust code with proper error handling
+- Use type system to prevent bugs at compile time
+- Leverage ownership system for memory safety and zero-cost abstractions
+- Always provide full implementations with comprehensive documentation
+- Follow Rust API guidelines and naming conventions
 
-## Memory Guidelines
-- dont pre compute anything
+## Performance Guidelines
+- Target O(1) or O(log n) algorithms only
+- Use hash maps, vectors, and efficient data structures
+- Leverage Rust's zero-cost abstractions
+- Profile with `cargo bench` to verify performance claims
 
 ## Code Commenting Guidelines
-- Always add comments on what it does, how it does it, why and level of confidence that it works and wont break prod
+- Document all public APIs with rustdoc comments
+- Include examples in documentation
+- Add comments explaining complex algorithms and their complexity
+- State confidence level and production-readiness in module docs
 
 ## Memories
-- never simple always full solution
-- always kill ports before initialiazing them
+- Always use `cargo build --release` for production
+- Use `cargo clippy` and `cargo fmt` before commits
+- Kill ports before initializing servers
+- Provide evidence through benchmarks and tests
