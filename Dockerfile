@@ -28,6 +28,8 @@ COPY think-ai-utils/Cargo.toml ./think-ai-utils/
 COPY think-ai-process-manager/Cargo.toml ./think-ai-process-manager/
 COPY think-ai-linter/Cargo.toml ./think-ai-linter/
 COPY think-ai-webapp/Cargo.toml ./think-ai-webapp/
+COPY think-ai-knowledge/Cargo.toml ./think-ai-knowledge/
+COPY think-ai-tinyllama/Cargo.toml ./think-ai-tinyllama/
 
 # Copy source code
 COPY . .
@@ -51,12 +53,15 @@ RUN apt-get update && \
 # Create app directory
 WORKDIR /app
 
-# Copy binaries from builder (excluding webapp which is WASM-only)
+# Copy binaries from builder
+COPY --from=builder /build/target/release/full-server ./
 COPY --from=builder /build/target/release/think-ai ./
 COPY --from=builder /build/target/release/process-manager ./
 COPY --from=builder /build/target/release/think-ai-lint ./
 
-# Configuration files will be created at runtime if needed
+# Copy webapp and knowledge files
+COPY --from=builder /build/fullstack_3d.html ./
+COPY --from=builder /build/knowledge ./knowledge/
 
 # Set proper permissions
 RUN chown -R thinkaiuser:thinkaiuser /app
@@ -75,5 +80,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
 # Switch to non-root user
 USER thinkaiuser
 
-# Start the HTTP server (Railway will set PORT env var)
-CMD ["./think-ai", "server"]
+# Start the full server with webapp (Railway will set PORT env var)
+CMD ["./full-server"]

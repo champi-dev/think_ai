@@ -260,15 +260,41 @@ impl ResponseComponent for KnowledgeBaseComponent {
         let query_lower = query.to_lowercase();
         
         // Look for best match based on query terms
+        let mut best_match: Option<(&KnowledgeNode, usize)> = None;
+        
         for node in &context.relevant_nodes {
             let topic_lower = node.topic.to_lowercase();
+            let mut match_score = 0;
             
             // Check each query token for matches
             for token in context.query_tokens.iter() {
-                if token.len() > 2 && topic_lower.contains(token) {
-                    return Some(node.content.clone());
+                if token.len() > 2 {
+                    // Exact topic match gets highest score
+                    if topic_lower == *token {
+                        match_score += 10;
+                    }
+                    // Topic contains token
+                    else if topic_lower.contains(token) {
+                        match_score += 5;
+                    }
+                    // Check related concepts
+                    for concept in &node.related_concepts {
+                        if concept.to_lowercase().contains(token) {
+                            match_score += 3;
+                        }
+                    }
                 }
             }
+            
+            if match_score > 0 {
+                if best_match.is_none() || match_score > best_match.unwrap().1 {
+                    best_match = Some((node, match_score));
+                }
+            }
+        }
+        
+        if let Some((node, _)) = best_match {
+            return Some(node.content.clone());
         }
         
         // Fallback to first relevant node
@@ -585,39 +611,50 @@ impl ResponseComponent for UnknownQueryComponent {
     }
     
     fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
-        // This component handles queries when knowledge base has no matches
+        // This component handles queries when knowledge base has no good matches
         if context.relevant_nodes.is_empty() {
-            0.7
-        } else if query.len() < 10 || query.split_whitespace().count() < 2 {
-            0.5 // Handle very short queries
+            0.9 // High priority when no matches
         } else {
-            0.1 // Low baseline for unclear queries
+            // Check if we actually have relevant nodes
+            let query_tokens: Vec<String> = query.to_lowercase()
+                .split_whitespace()
+                .filter(|w| w.len() > 2)
+                .map(|s| s.to_string())
+                .collect();
+                
+            let has_relevant_match = context.relevant_nodes.iter().any(|node| {
+                let topic_lower = node.topic.to_lowercase();
+                query_tokens.iter().any(|token| topic_lower.contains(token))
+            });
+            
+            if !has_relevant_match {
+                0.8 // High priority when nodes aren't actually relevant
+            } else {
+                0.0 // Don't use this component if we have relevant matches
+            }
         }
     }
     
-    fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
+    fn generate(&self, query: &str, _context: &ResponseContext) -> Option<String> {
         let query_lower = query.to_lowercase();
         
-        // Try to understand query intent
-        if query_lower.len() < 5 {
-            Some("I'd be happy to help, but I need more context. Could you please provide more details about what you'd like to know?".to_string())
-        } else if context.query_tokens.len() < 2 {
-            Some("I understand you're asking about something, but I need more information to provide a helpful response. Could you elaborate on your question?".to_string())
+        // Identify what they're asking about
+        let key_terms: Vec<&str> = query_lower.split_whitespace()
+            .filter(|w| w.len() > 3 && !["what", "those", "about", "tell", "explain", "describe"].contains(w))
+            .collect();
+            
+        if key_terms.is_empty() {
+            Some("I'd be happy to help! Could you tell me more about what you'd like to know?".to_string())
         } else {
-            // Try to construct a helpful response based on query tokens
-            let main_tokens: Vec<String> = context.query_tokens.iter()
-                .filter(|t| t.len() > 3)
-                .cloned()
-                .collect();
-                
-            if main_tokens.is_empty() {
-                Some("I'm not quite sure what you're asking about. Could you rephrase your question or provide more context?".to_string())
+            let topic = key_terms.join(" ");
+            
+            // Check for specific patterns
+            if query_lower.contains("stoic") {
+                Some(format!("I don't have detailed information about {} in my knowledge base yet. Stoicism is a fascinating ancient philosophy - are you interested in its history, key figures like Marcus Aurelius, or its practical teachings?", topic))
+            } else if query_lower.contains("what are") || query_lower.contains("what is") {
+                Some(format!("I don't have specific information about {} in my current knowledge base. Could you provide more context or ask about something else I might know?", topic))
             } else {
-                let topic = main_tokens.join(" ");
-                Some(format!(
-                    "I don't have specific information about {} in my current knowledge base. However, I'm continuously learning. Could you tell me more about what aspect of {} interests you?",
-                    topic, topic
-                ))
+                Some(format!("I'm not familiar with {} yet. I can help with topics like astronomy (sun, mars, moon), AI concepts (TinyLlama, Think AI), consciousness, and quantum mechanics. What would you like to explore?", topic))
             }
         }
     }
