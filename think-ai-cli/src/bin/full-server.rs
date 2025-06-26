@@ -13,6 +13,7 @@ use think_ai_core::{O1Engine, config::EngineConfig};
 use think_ai_http::server::{port_selector, port_manager};
 use think_ai_knowledge::{
     KnowledgeEngine,
+    KnowledgeNode,
     comprehensive_knowledge::ComprehensiveKnowledgeGenerator,
     persistence::KnowledgePersistence,
 };
@@ -22,6 +23,7 @@ use think_ai_vector::{O1VectorIndex, types::LSHConfig};
 use tokio::sync::RwLock;
 use tower_http::cors::CorsLayer;
 use rand::Rng;
+use std::collections::HashMap;
 
 #[derive(Clone)]
 struct FullAppState {
@@ -56,17 +58,37 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
     
-    // Load comprehensive knowledge
+    // Load knowledge base
     println!("📚 Loading knowledge base...");
-    if let Ok(persistence) = KnowledgePersistence::new("trained_knowledge") {
+    
+    // First try to load trained knowledge
+    let mut loaded_trained = false;
+    if let Ok(persistence) = KnowledgePersistence::new("trained_1000") {
         if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
+            println!("🎓 Loading {} trained knowledge items...", checkpoint.nodes.len());
             knowledge_engine.load_nodes(checkpoint.nodes);
-            println!("✅ Loaded {} knowledge items", knowledge_engine.get_stats().total_nodes);
-        } else {
-            println!("🌍 Loading comprehensive knowledge...");
-            ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&knowledge_engine);
+            loaded_trained = true;
         }
     }
+    
+    // If no trained knowledge, load direct training
+    if !loaded_trained {
+        if let Ok(persistence) = KnowledgePersistence::new("direct_training") {
+            if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
+                println!("📚 Loading {} directly trained items...", checkpoint.nodes.len());
+                knowledge_engine.load_nodes(checkpoint.nodes);
+                loaded_trained = true;
+            }
+        }
+    }
+    
+    // If still no knowledge, load comprehensive base
+    if !loaded_trained {
+        println!("🌍 Loading comprehensive knowledge...");
+        ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&knowledge_engine);
+    }
+    
+    println!("✅ Loaded {} total knowledge items", knowledge_engine.get_stats().total_nodes);
     
     // Create TinyLlama client
     let tinyllama_client = Arc::new(TinyLlamaClient::new());

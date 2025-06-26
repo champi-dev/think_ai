@@ -11,6 +11,7 @@ pub async fn run_server(
     addr: SocketAddr,
     engine: Arc<think_ai_core::O1Engine>,
     vector_index: Arc<think_ai_vector::O1VectorIndex>,
+    knowledge_engine: Arc<think_ai_knowledge::KnowledgeEngine>,
 ) -> crate::Result<()> {
     // Use UUID-based unique port if needed
     let final_port = if addr.port() == 0 {
@@ -38,6 +39,7 @@ pub async fn run_server(
     let state = Arc::new(AppState {
         engine,
         vector_index,
+        knowledge_engine,
     });
     
     let app = create_router(state);

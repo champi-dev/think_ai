@@ -407,9 +407,35 @@ pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
             let vector_config = think_ai_vector::LSHConfig::default();
             let vector_index = std::sync::Arc::new(think_ai_vector::O1VectorIndex::new(vector_config)?);
             
+            // Initialize knowledge engine with comprehensive knowledge
+            println!("🧠 Initializing knowledge base...");
+            let knowledge_engine = std::sync::Arc::new(think_ai_knowledge::KnowledgeEngine::new());
+            
+            // Load comprehensive knowledge (not just real knowledge)
+            think_ai_knowledge::comprehensive_knowledge::ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&knowledge_engine);
+            
+            // Also load from persistence if available
+            if let Ok(persistence) = think_ai_knowledge::persistence::KnowledgePersistence::new("./trained_knowledge") {
+                if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
+                    println!("🎓 Loading {} items from trained knowledge...", checkpoint.nodes.len());
+                    knowledge_engine.load_nodes(checkpoint.nodes);
+                }
+            } else if let Ok(persistence) = think_ai_knowledge::persistence::KnowledgePersistence::new("./knowledge_storage") {
+                if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
+                    println!("📚 Loading {} items from checkpoint...", checkpoint.nodes.len());
+                    knowledge_engine.load_nodes(checkpoint.nodes);
+                }
+            }
+            
+            let stats = knowledge_engine.get_stats();
+            println!("✅ Knowledge base ready with {} items across {} domains", 
+                stats.total_nodes, 
+                stats.domain_distribution.len()
+            );
+            
             // Start HTTP server
             let addr: std::net::SocketAddr = format!("{}:{}", final_host, final_port).parse()?;
-            think_ai_http::server::run_server(addr, engine, vector_index).await?;
+            think_ai_http::server::run_server(addr, engine, vector_index, knowledge_engine).await?;
             
             Ok(())
         }

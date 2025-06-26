@@ -14,9 +14,9 @@ impl KnowledgeChat {
     pub fn new() -> Self {
         let engine = Arc::new(KnowledgeEngine::new());
         
-        // Load real knowledge
-        println!("🧠 Loading knowledge base...");
-        RealKnowledgeGenerator::populate_comprehensive_knowledge(&engine);
+        // Load comprehensive knowledge (full set)
+        println!("🧠 Loading comprehensive knowledge base...");
+        think_ai_knowledge::comprehensive_knowledge::ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&engine);
         
         // Load from persistence if available
         // First try trained knowledge, then fallback to regular storage

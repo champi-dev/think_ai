@@ -1,0 +1,204 @@
+{
+  "iteration": 1000,
+  "timestamp": 1750957156,
+  "total_nodes": 14,
+  "nodes": {
+    "96f68b59756823d0c7cf71cc2625a7dda147f5c9c7c35d8d9a6148a07de8c3f6": {
+      "id": "96f68b59756823d0c7cf71cc2625a7dda147f5c9c7c35d8d9a6148a07de8c3f6",
+      "domain": "ComputerScience",
+      "topic": "How to debug code",
+      "content": "To debug code effectively: 1) Use console.log() or print statements to trace execution flow and variable values. 2) Set breakpoints in your IDE or browser DevTools to pause execution and inspect state. 3) Use the debugger statement (JavaScript) or pdb (Python) for interactive debugging. 4) Read error messages carefully - they often point to the exact line and issue. 5) Isolate the problem by commenting out code sections. 6) Use version control to compare working vs broken code. 7) Write unit tests to verify individual functions. 8) Use linting tools to catch syntax errors. 9) Check logs for runtime errors. 10) Use network inspector for API issues.",
+      "related_concepts": [
+        "debugging",
+        "troubleshooting",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "d66cfc20d3c23ab5b4c6e7ac798de56dc7632afaa86e12b9d1c1446044f513b4": {
+      "id": "d66cfc20d3c23ab5b4c6e7ac798de56dc7632afaa86e12b9d1c1446044f513b4",
+      "domain": "ComputerScience",
+      "topic": "React",
+      "content": "React is a JavaScript library for building user interfaces, developed by Facebook. It uses a component-based architecture where UIs are built from reusable components. React introduces a virtual DOM for efficient updates, JSX syntax for writing components, and unidirectional data flow. Key concepts include props, state, lifecycle methods, hooks (useState, useEffect, useContext), and the reconciliation algorithm. React's ecosystem includes React Router for navigation, Redux/Context API for state management, and React Native for mobile development.",
+      "related_concepts": [
+        "javascript",
+        "frontend",
+        "UI library"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "54e9694297210fefb4989cabe3ce7c82638a5a5f5b77c5193d5ee6b184e82e26": {
+      "id": "54e9694297210fefb4989cabe3ce7c82638a5a5f5b77c5193d5ee6b184e82e26",
+      "domain": "ComputerScience",
+      "topic": "Memory leak debugging",
+      "content": "To debug memory leaks: 1) Use browser DevTools Memory Profiler to take heap snapshots. 2) Look for detached DOM nodes and event listeners. 3) Check for circular references in closures. 4) Remove event listeners when components unmount. 5) Clear intervals/timeouts properly. 6) Avoid storing large data in closures. 7) Use WeakMap/WeakSet for object references. 8) In Node.js, use --inspect flag and Chrome DevTools. 9) Monitor memory usage over time. 10) Use tools like heapdump for Node.js applications.",
+      "related_concepts": [
+        "memory management",
+        "performance",
+        "debugging"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "f4f46fb844f5e521db3fdeb80d6b456ce89d197ea9c8ad3a77de686a032aa4bc": {
+      "id": "f4f46fb844f5e521db3fdeb80d6b456ce89d197ea9c8ad3a77de686a032aa4bc",
+      "domain": "Physics",
+      "topic": "quantum mechanics",
+      "content": "Quantum mechanics is the fundamental theory describing nature at the smallest scales. Key principles include: 1) Wave-particle duality - particles exhibit both wave and particle properties. 2) Uncertainty principle - position and momentum cannot both be precisely known. 3) Superposition - particles exist in multiple states until observed. 4) Entanglement - particles can be correlated regardless of distance. 5) Wave function collapse - observation determines the state. Applications include quantum computing, cryptography, and advanced materials. Famous experiments: double-slit, Schrödinger's cat, Bell's theorem.",
+      "related_concepts": [
+        "physics",
+        "quantum",
+        "science"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "5dac703efda287f93b2d2c73ed4711c16a79c16ad026238c907527fd9f5ff44f": {
+      "id": "5dac703efda287f93b2d2c73ed4711c16a79c16ad026238c907527fd9f5ff44f",
+      "domain": "Philosophy",
+      "topic": "consciousness",
+      "content": "Consciousness is the state of being aware of and able to think about one's existence, sensations, thoughts, and surroundings. Major theories include: 1) Dualism - mind and body are separate (Descartes). 2) Materialism - consciousness emerges from physical processes. 3) Panpsychism - consciousness is a fundamental property of matter. 4) Integrated Information Theory - consciousness corresponds to integrated information. The 'hard problem' asks how subjective experience arises from objective processes. Related concepts: qualia, self-awareness, theory of mind, neural correlates of consciousness.",
+      "related_concepts": [
+        "philosophy",
+        "mind",
+        "cognition"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "5e4368b81a9dcad5880f7d4ccc52cf765265c0cd52653c42916c95632e4093a1": {
+      "id": "5e4368b81a9dcad5880f7d4ccc52cf765265c0cd52653c42916c95632e4093a1",
+      "domain": "Philosophy",
+      "topic": "capabilities",
+      "content": "I can help you with: Programming (debugging, optimization, best practices), Computer Science (algorithms, data structures, system design), Web Development (frontend, backend, databases), Science (physics, chemistry, biology), Mathematics (calculus, algebra, statistics), Machine Learning & AI, Philosophy & Ethics, History & Culture, and much more. I provide detailed explanations, practical examples, step-by-step guides, and actionable solutions tailored to your needs.",
+      "related_concepts": [
+        "help",
+        "capabilities",
+        "what can you do"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "3a647c6ca942c72d7cf4f95c1a5f1830509774948b12c3282608f4225859b8c9": {
+      "id": "3a647c6ca942c72d7cf4f95c1a5f1830509774948b12c3282608f4225859b8c9",
+      "domain": "Mathematics",
+      "topic": "calculus",
+      "content": "Calculus is the mathematical study of continuous change, divided into differential and integral calculus. Differential calculus deals with rates of change and slopes (derivatives), while integral calculus deals with accumulation and areas under curves. Key concepts: limits, derivatives, integrals, fundamental theorem of calculus. Applications include physics (motion, forces), engineering (optimization), economics (marginal analysis), and machine learning (gradient descent). Created independently by Newton and Leibniz in the 17th century.",
+      "related_concepts": [
+        "mathematics",
+        "analysis",
+        "derivatives"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "da0b233393fe0de15e4f2693365d9516ff537902a7442bfa40228fc4de06d124": {
+      "id": "da0b233393fe0de15e4f2693365d9516ff537902a7442bfa40228fc4de06d124",
+      "domain": "Astronomy",
+      "topic": "What is the sun made of",
+      "content": "The Sun is primarily composed of hydrogen (about 73% by mass) and helium (about 25% by mass), with trace amounts of heavier elements (2%) including oxygen, carbon, nitrogen, and iron. At its core, temperatures reach 15 million degrees Celsius, enabling nuclear fusion where hydrogen atoms combine to form helium, releasing enormous energy. The Sun has several layers: the core (fusion occurs), radiative zone (energy travels as photons), convection zone (hot plasma rises), photosphere (visible surface), chromosphere, and corona (outer atmosphere). This fusion process has been ongoing for 4.6 billion years and will continue for another 5 billion years.",
+      "related_concepts": [
+        "astronomy",
+        "sun",
+        "stars",
+        "space"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "2e4effb7776d564664107156ed096200c4a5779a741d410ee682356b62674f47": {
+      "id": "2e4effb7776d564664107156ed096200c4a5779a741d410ee682356b62674f47",
+      "domain": "ComputerScience",
+      "topic": "JavaScript",
+      "content": "JavaScript is a high-level, interpreted programming language that enables interactive web pages and is an essential part of web applications. Created by Brendan Eich in 1995, it has evolved from a simple scripting language to a powerful, versatile language supporting object-oriented, imperative, and functional programming styles. Key features include dynamic typing, prototype-based object orientation, first-class functions, and closures. Modern JavaScript (ES6+) includes classes, modules, arrow functions, promises, async/await, and destructuring.",
+      "related_concepts": [
+        "programming",
+        "web development",
+        "ECMAScript"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "173e2dfd91df5f510a66ecb215c054dd89dd7bb8020f5dd8d52819a2d87d9010": {
+      "id": "173e2dfd91df5f510a66ecb215c054dd89dd7bb8020f5dd8d52819a2d87d9010",
+      "domain": "Philosophy",
+      "topic": "greeting response",
+      "content": "Hello! I'm Think AI, equipped with comprehensive knowledge across programming, science, mathematics, philosophy, and more. I'm here to provide helpful, accurate, and actionable answers to your questions. Whether you need debugging help, want to understand a concept, or explore ideas, I'm ready to assist. What would you like to know today?",
+      "related_concepts": [
+        "greeting",
+        "introduction",
+        "hello"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "7131af3d9c290aef6b12617b47644e9d4d34e32b15af55f15912749b578275e7": {
+      "id": "7131af3d9c290aef6b12617b47644e9d4d34e32b15af55f15912749b578275e7",
+      "domain": "ComputerScience",
+      "topic": "Git",
+      "content": "Git is a distributed version control system created by Linus Torvalds in 2005. It tracks changes in source code during software development and enables multiple developers to work together. Key concepts include repositories, commits, branches, merging, and remote repositories. Common commands: git init (create repo), git add (stage changes), git commit (save changes), git push (upload), git pull (download), git branch (manage branches), git merge (combine branches). Git enables collaboration through platforms like GitHub, GitLab, and Bitbucket.",
+      "related_concepts": [
+        "version control",
+        "collaboration",
+        "development tools"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "50cdcc55682bdb3d6f26f80c1791f0d09875c35ccc8a614d69aac9ec25fc6884": {
+      "id": "50cdcc55682bdb3d6f26f80c1791f0d09875c35ccc8a614d69aac9ec25fc6884",
+      "domain": "ComputerScience",
+      "topic": "Python",
+      "content": "Python is a high-level, interpreted, general-purpose programming language emphasizing code readability and simplicity. Created by Guido van Rossum in 1991, it supports multiple programming paradigms including procedural, object-oriented, and functional programming. Python features dynamic typing, automatic memory management, a comprehensive standard library, and significant whitespace. It excels in data science (NumPy, Pandas, Scikit-learn), web development (Django, Flask), automation, machine learning (TensorFlow, PyTorch), and scientific computing.",
+      "related_concepts": [
+        "programming",
+        "data science",
+        "machine learning"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "d8565a753e865a18fc4e7d6d2248d6b8b1d1116425d05825748fa83456e323e8": {
+      "id": "d8565a753e865a18fc4e7d6d2248d6b8b1d1116425d05825748fa83456e323e8",
+      "domain": "ComputerScience",
+      "topic": "Common JavaScript errors",
+      "content": "Common JavaScript errors and fixes: 1) 'undefined is not a function' - check if function exists and is spelled correctly. 2) 'Cannot read property of undefined' - add null checks or optional chaining (?.). 3) 'Unexpected token' - syntax error, check brackets/parentheses. 4) 'ReferenceError: X is not defined' - variable not declared or out of scope. 5) CORS errors - configure server headers or use proxy. 6) 'Maximum call stack exceeded' - infinite recursion, add base case. 7) Promise rejections - add .catch() or try/catch with async/await.",
+      "related_concepts": [
+        "javascript",
+        "errors",
+        "debugging"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    },
+    "b0f4c5af27b461111fb170f2bdeaccb85661c88261e3ded20e23d8bbee58c774": {
+      "id": "b0f4c5af27b461111fb170f2bdeaccb85661c88261e3ded20e23d8bbee58c774",
+      "domain": "ComputerScience",
+      "topic": "How to optimize code",
+      "content": "Code optimization strategies: 1) Profile first to identify bottlenecks - don't guess, measure! 2) Use efficient data structures (HashMap for O(1) lookups, not arrays). 3) Minimize algorithmic complexity - prefer O(log n) over O(n), O(n) over O(n²). 4) Cache computed results to avoid recalculation. 5) Use lazy loading and pagination for large datasets. 6) Optimize database queries with indexes and query planning. 7) Minimize network requests by batching. 8) Use CDNs and compression for web assets. 9) Implement debouncing/throttling for frequent events. 10) Consider parallel processing for CPU-intensive tasks.",
+      "related_concepts": [
+        "performance",
+        "optimization",
+        "best practices"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957156
+    }
+  }
+}

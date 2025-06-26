@@ -24,3 +24,15 @@ path = "src/bin/demo_knowledge.rs"
 [[bin]]
 name = "train-direct-answers"
 path = "src/bin/train_direct_answers.rs"
+
+[[bin]]
+name = "comprehensive-train"
+path = "src/bin/comprehensive_train.rs"
+
+[[bin]]
+name = "direct-train"
+path = "src/bin/direct_train.rs"
+
+[[bin]]
+name = "train-1000"
+path = "src/bin/train_1000.rs"

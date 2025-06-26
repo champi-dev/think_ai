@@ -1,0 +1,824 @@
+{
+  "iteration": 1000,
+  "timestamp": 1750957476,
+  "total_nodes": 59,
+  "nodes": {
+    "92391fff16b8bd0e69309f561f4fe8eb68f54d7836d876d31cc965a9266b84e7": {
+      "id": "92391fff16b8bd0e69309f561f4fe8eb68f54d7836d876d31cc965a9266b84e7",
+      "domain": "Philosophy",
+      "topic": "can you help",
+      "content": "I'd be happy to help! Could you provide more details about: 1) What you're trying to achieve 2) What you've tried so far 3) Any error messages you're seeing 4) Your environment/tools 5) Relevant code snippets. The more context you share, the better I can assist!",
+      "related_concepts": [
+        "clarification",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "e6a9fa19187fffbe430f063e9b09fc45633cafbc14d03b47d810bdbc35b1cbc8": {
+      "id": "e6a9fa19187fffbe430f063e9b09fc45633cafbc14d03b47d810bdbc35b1cbc8",
+      "domain": "ComputerScience",
+      "topic": "JavaScript",
+      "content": "JavaScript powers web interactivity. Modern JS includes: ES6+ features (arrow functions, destructuring, modules), async/await, promises, closures. Frameworks: React, Vue, Angular. Runtime: Node.js for servers. Tools: npm/yarn, webpack, Babel. Best practices: avoid globals, use const/let, handle errors.",
+      "related_concepts": [
+        "programming language",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "7104d536f4686fcdc21c33cf367b89a6849b20ea01ac6f6bd2856221d23878c3": {
+      "id": "7104d536f4686fcdc21c33cf367b89a6849b20ea01ac6f6bd2856221d23878c3",
+      "domain": "ComputerScience",
+      "topic": "Guide to testing",
+      "content": "Effective testing: 1) Write unit tests for functions 2) Integration tests for APIs 3) E2E tests for user flows 4) Test edge cases 5) Use mocking for dependencies 6) Aim for 80%+ coverage 7) Test error paths 8) Use property-based testing 9) Automate with CI/CD 10) Test performance",
+      "related_concepts": [
+        "testing",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "5b278068908c22269631840629f2c596018a353f1c7a4c9de5e2c07276683d33": {
+      "id": "5b278068908c22269631840629f2c596018a353f1c7a4c9de5e2c07276683d33",
+      "domain": "Philosophy",
+      "topic": "I don't understand",
+      "content": "Great question! Let's work through this together. Every developer faces challenges like this - it's how we learn and grow. I'll guide you step-by-step to understand not just the solution, but the reasoning behind it. Don't hesitate to ask follow-up questions!",
+      "related_concepts": [
+        "encouragement",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "f2465c52bbad261659918a7b7eedbb31cf7ff4e199a382198f3537921f1e59c7": {
+      "id": "f2465c52bbad261659918a7b7eedbb31cf7ff4e199a382198f3537921f1e59c7",
+      "domain": "ComputerScience",
+      "topic": "Go",
+      "content": "Go is designed for simplicity and concurrency. Features: goroutines, channels, interfaces, defer, fast compilation. Built-in: testing, formatting, documentation. Good for: microservices, CLI tools, network services. Philosophy: less is more, explicit over implicit, composition over inheritance.",
+      "related_concepts": [
+        "programming language",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "7d8a799ec94b03906e12a171320f3056e9761288842a3194ece8a198e2a6cc10": {
+      "id": "7d8a799ec94b03906e12a171320f3056e9761288842a3194ece8a198e2a6cc10",
+      "domain": "Philosophy",
+      "topic": "what can you do",
+      "content": "I can assist with: Programming (all major languages), Debugging (error analysis, troubleshooting), Performance optimization, Architecture design, Code reviews, Best practices, Testing strategies, Database design, API development, Security considerations, DevOps practices, and much more. Just describe what you need!",
+      "related_concepts": [
+        "capabilities",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "c7036d5d7ce02bf406f4d06cdc4bd94b9085981863c709e4ae18f8100bac4134": {
+      "id": "c7036d5d7ce02bf406f4d06cdc4bd94b9085981863c709e4ae18f8100bac4134",
+      "domain": "ComputerScience",
+      "topic": "Help with testing",
+      "content": "Effective testing: 1) Write unit tests for functions 2) Integration tests for APIs 3) E2E tests for user flows 4) Test edge cases 5) Use mocking for dependencies 6) Aim for 80%+ coverage 7) Test error paths 8) Use property-based testing 9) Automate with CI/CD 10) Test performance",
+      "related_concepts": [
+        "testing",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "b56ca14e3a746d7b3935624f7b474138ca51c55ff532d4946fbd73d97ccf1bfd": {
+      "id": "b56ca14e3a746d7b3935624f7b474138ca51c55ff532d4946fbd73d97ccf1bfd",
+      "domain": "ComputerScience",
+      "topic": "How to debugging",
+      "content": "To debug effectively: 1) Read error messages carefully 2) Use debugger/breakpoints 3) Add logging 4) Isolate the problem 5) Check recent changes 6) Verify assumptions 7) Search for similar issues 8) Use binary search to find bugs 9) Write tests 10) Ask for help with context",
+      "related_concepts": [
+        "debugging",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "d482a79c37e821805f2c10dcf2ca1c258cf9d1da31c3a3a02a249452c1bd0f64": {
+      "id": "d482a79c37e821805f2c10dcf2ca1c258cf9d1da31c3a3a02a249452c1bd0f64",
+      "domain": "ComputerScience",
+      "topic": "Help with architecture",
+      "content": "Good architecture: 1) Separation of concerns 2) Single responsibility 3) Dependency injection 4) Loose coupling 5) High cohesion 6) Clear interfaces 7) Proper abstraction layers 8) Scalability considerations 9) Error handling strategy 10) Documentation",
+      "related_concepts": [
+        "architecture",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "6e57888a452355937b75390d803e2ef91368b0954d236137dcc1d93ec32823b4": {
+      "id": "6e57888a452355937b75390d803e2ef91368b0954d236137dcc1d93ec32823b4",
+      "domain": "ComputerScience",
+      "topic": "How to refactoring",
+      "content": "Refactoring best practices: 1) Make it work first 2) Write tests before refactoring 3) Small incremental changes 4) One refactoring at a time 5) Run tests frequently 6) Use IDE refactoring tools 7) Extract methods 8) Remove duplication 9) Improve naming 10) Simplify conditionals",
+      "related_concepts": [
+        "refactoring",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "4dbecc475a0e8958140fb1880a45c7e04d748beb18842558396c1fbc627c2ef1": {
+      "id": "4dbecc475a0e8958140fb1880a45c7e04d748beb18842558396c1fbc627c2ef1",
+      "domain": "Philosophy",
+      "topic": "I'm struggling",
+      "content": "Great question! Let's work through this together. Every developer faces challenges like this - it's how we learn and grow. I'll guide you step-by-step to understand not just the solution, but the reasoning behind it. Don't hesitate to ask follow-up questions!",
+      "related_concepts": [
+        "encouragement",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "26e6f4adef3eeb453cc285a443428cc91e4e1394c0d5a1a31dab95108f0b6fba": {
+      "id": "26e6f4adef3eeb453cc285a443428cc91e4e1394c0d5a1a31dab95108f0b6fba",
+      "domain": "ComputerScience",
+      "topic": "Best practices for testing",
+      "content": "Effective testing: 1) Write unit tests for functions 2) Integration tests for APIs 3) E2E tests for user flows 4) Test edge cases 5) Use mocking for dependencies 6) Aim for 80%+ coverage 7) Test error paths 8) Use property-based testing 9) Automate with CI/CD 10) Test performance",
+      "related_concepts": [
+        "testing",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "0338a3aa00795b77c266093da226ff199fcfb2f2d18293eb980750e261e46e8f": {
+      "id": "0338a3aa00795b77c266093da226ff199fcfb2f2d18293eb980750e261e46e8f",
+      "domain": "ComputerScience",
+      "topic": "Guide to debugging",
+      "content": "To debug effectively: 1) Read error messages carefully 2) Use debugger/breakpoints 3) Add logging 4) Isolate the problem 5) Check recent changes 6) Verify assumptions 7) Search for similar issues 8) Use binary search to find bugs 9) Write tests 10) Ask for help with context",
+      "related_concepts": [
+        "debugging",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "9e2e557ec59a005d0a4639f06c1b84a95ec0f14b935ed530213c735d68b9370f": {
+      "id": "9e2e557ec59a005d0a4639f06c1b84a95ec0f14b935ed530213c735d68b9370f",
+      "domain": "Philosophy",
+      "topic": "how to",
+      "content": "Let's approach this systematically: 1) First, let's understand the problem clearly 2) Identify the constraints and requirements 3) Consider multiple solutions 4) Evaluate trade-offs 5) Implement the best approach 6) Test thoroughly 7) Iterate if needed. Where would you like to start?",
+      "related_concepts": [
+        "problem-solving",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "8cc847799e8a8e29669523348854b7dae74f5f909fc9283c90db7cf80279dcf5": {
+      "id": "8cc847799e8a8e29669523348854b7dae74f5f909fc9283c90db7cf80279dcf5",
+      "domain": "ComputerScience",
+      "topic": "How to testing",
+      "content": "Effective testing: 1) Write unit tests for functions 2) Integration tests for APIs 3) E2E tests for user flows 4) Test edge cases 5) Use mocking for dependencies 6) Aim for 80%+ coverage 7) Test error paths 8) Use property-based testing 9) Automate with CI/CD 10) Test performance",
+      "related_concepts": [
+        "testing",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "aedd76f2d8099744e08654d3ed59be726537a14596ac9fbf679fcedd40eae53b": {
+      "id": "aedd76f2d8099744e08654d3ed59be726537a14596ac9fbf679fcedd40eae53b",
+      "domain": "Philosophy",
+      "topic": "greetings",
+      "content": "Hello! I'm Think AI, ready to help with programming, debugging, optimization, and any technical challenges you're facing. I can provide code examples, explain concepts, troubleshoot errors, and guide you through best practices. What can I help you with today?",
+      "related_concepts": [
+        "greeting",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "d2e78c60013e052eacd9bb18eea1eda046b8b63b65209c8dcfec3282080e00f7": {
+      "id": "d2e78c60013e052eacd9bb18eea1eda046b8b63b65209c8dcfec3282080e00f7",
+      "domain": "ComputerScience",
+      "topic": "Guide to refactoring",
+      "content": "Refactoring best practices: 1) Make it work first 2) Write tests before refactoring 3) Small incremental changes 4) One refactoring at a time 5) Run tests frequently 6) Use IDE refactoring tools 7) Extract methods 8) Remove duplication 9) Improve naming 10) Simplify conditionals",
+      "related_concepts": [
+        "refactoring",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "16d6b717d9f00c9015029166cf3425983b220e8ef7216929fac770208003c2f7": {
+      "id": "16d6b717d9f00c9015029166cf3425983b220e8ef7216929fac770208003c2f7",
+      "domain": "ComputerScience",
+      "topic": "Tips for architecture",
+      "content": "Good architecture: 1) Separation of concerns 2) Single responsibility 3) Dependency injection 4) Loose coupling 5) High cohesion 6) Clear interfaces 7) Proper abstraction layers 8) Scalability considerations 9) Error handling strategy 10) Documentation",
+      "related_concepts": [
+        "architecture",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "b42d68f90f0d83c2695f0655e808ef295c7c4c71f4c25956cd5c7a98971cee1c": {
+      "id": "b42d68f90f0d83c2695f0655e808ef295c7c4c71f4c25956cd5c7a98971cee1c",
+      "domain": "ComputerScience",
+      "topic": "TypeScript",
+      "content": "TypeScript adds static typing to JavaScript. Benefits: catch errors early, better IDE support, refactoring confidence. Features: interfaces, generics, enums, decorators, union types. Integrates with: React, Angular, Node.js. Config: tsconfig.json, strict mode recommended.",
+      "related_concepts": [
+        "programming language",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "644a1ad81599d550a80789ba70d5c5d9c57cae73d636417ea9f434d2384d637d": {
+      "id": "644a1ad81599d550a80789ba70d5c5d9c57cae73d636417ea9f434d2384d637d",
+      "domain": "ComputerScience",
+      "topic": "Tips for performance",
+      "content": "To optimize performance: 1) Profile first - measure don't guess 2) Optimize algorithms (O(n) vs O(n²)) 3) Use efficient data structures 4) Cache results 5) Minimize I/O 6) Batch operations 7) Use lazy loading 8) Optimize database queries 9) Enable compression 10) Use CDNs",
+      "related_concepts": [
+        "performance",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "e501d24d3e451600901bf279aa3cfd0ae42b3c19e007fbb4b94e11e44ba9087e": {
+      "id": "e501d24d3e451600901bf279aa3cfd0ae42b3c19e007fbb4b94e11e44ba9087e",
+      "domain": "ComputerScience",
+      "topic": "Help with debugging",
+      "content": "To debug effectively: 1) Read error messages carefully 2) Use debugger/breakpoints 3) Add logging 4) Isolate the problem 5) Check recent changes 6) Verify assumptions 7) Search for similar issues 8) Use binary search to find bugs 9) Write tests 10) Ask for help with context",
+      "related_concepts": [
+        "debugging",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "d8f2eed874f1705bb0f9fc2d58b4883bb99c3e21676060df80e268e99828c163": {
+      "id": "d8f2eed874f1705bb0f9fc2d58b4883bb99c3e21676060df80e268e99828c163",
+      "domain": "Philosophy",
+      "topic": "I'm stuck",
+      "content": "I'd be happy to help! Could you provide more details about: 1) What you're trying to achieve 2) What you've tried so far 3) Any error messages you're seeing 4) Your environment/tools 5) Relevant code snippets. The more context you share, the better I can assist!",
+      "related_concepts": [
+        "clarification",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "540a7f0cd8edbe3aa530930a17661e36fefa1f8267cad10bcfea31c5209099d4": {
+      "id": "540a7f0cd8edbe3aa530930a17661e36fefa1f8267cad10bcfea31c5209099d4",
+      "domain": "ComputerScience",
+      "topic": "Best practices for debugging",
+      "content": "To debug effectively: 1) Read error messages carefully 2) Use debugger/breakpoints 3) Add logging 4) Isolate the problem 5) Check recent changes 6) Verify assumptions 7) Search for similar issues 8) Use binary search to find bugs 9) Write tests 10) Ask for help with context",
+      "related_concepts": [
+        "debugging",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "831942ccebd6891784765cde42e0e7f7e17897301cd1e72d423c8fdb260f1966": {
+      "id": "831942ccebd6891784765cde42e0e7f7e17897301cd1e72d423c8fdb260f1966",
+      "domain": "Philosophy",
+      "topic": "I need help",
+      "content": "I'd be happy to help! Could you provide more details about: 1) What you're trying to achieve 2) What you've tried so far 3) Any error messages you're seeing 4) Your environment/tools 5) Relevant code snippets. The more context you share, the better I can assist!",
+      "related_concepts": [
+        "clarification",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "326bb2ca0f9afc0b7f25b066b0c1457d30569adf614cfa482a49fc5122462583": {
+      "id": "326bb2ca0f9afc0b7f25b066b0c1457d30569adf614cfa482a49fc5122462583",
+      "domain": "ComputerScience",
+      "topic": "Best practices for performance",
+      "content": "To optimize performance: 1) Profile first - measure don't guess 2) Optimize algorithms (O(n) vs O(n²)) 3) Use efficient data structures 4) Cache results 5) Minimize I/O 6) Batch operations 7) Use lazy loading 8) Optimize database queries 9) Enable compression 10) Use CDNs",
+      "related_concepts": [
+        "performance",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "cd585cb5287d1484eb7248cc93bd0f574a7bb90772a61b3659e875888db900f9": {
+      "id": "cd585cb5287d1484eb7248cc93bd0f574a7bb90772a61b3659e875888db900f9",
+      "domain": "Philosophy",
+      "topic": "hello",
+      "content": "Hello! I'm Think AI, ready to help with programming, debugging, optimization, and any technical challenges you're facing. I can provide code examples, explain concepts, troubleshoot errors, and guide you through best practices. What can I help you with today?",
+      "related_concepts": [
+        "greeting",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "c5997c3691724db92713dd80b469df6366b11117ddb650df1b461b4e671b08ec": {
+      "id": "c5997c3691724db92713dd80b469df6366b11117ddb650df1b461b4e671b08ec",
+      "domain": "ComputerScience",
+      "topic": "Best practices for architecture",
+      "content": "Good architecture: 1) Separation of concerns 2) Single responsibility 3) Dependency injection 4) Loose coupling 5) High cohesion 6) Clear interfaces 7) Proper abstraction layers 8) Scalability considerations 9) Error handling strategy 10) Documentation",
+      "related_concepts": [
+        "architecture",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "8c008026e5f199f5d77628125bea4319d53e15a97ce94b91f2190fc0afcd91c7": {
+      "id": "8c008026e5f199f5d77628125bea4319d53e15a97ce94b91f2190fc0afcd91c7",
+      "domain": "ComputerScience",
+      "topic": "Best practices for refactoring",
+      "content": "Refactoring best practices: 1) Make it work first 2) Write tests before refactoring 3) Small incremental changes 4) One refactoring at a time 5) Run tests frequently 6) Use IDE refactoring tools 7) Extract methods 8) Remove duplication 9) Improve naming 10) Simplify conditionals",
+      "related_concepts": [
+        "refactoring",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "a6a7f68124a0eda9c5f276e384807d7e6c2e1ae2bd4a4c4987286e96f2d4d0f2": {
+      "id": "a6a7f68124a0eda9c5f276e384807d7e6c2e1ae2bd4a4c4987286e96f2d4d0f2",
+      "domain": "Philosophy",
+      "topic": "how can you help",
+      "content": "I can assist with: Programming (all major languages), Debugging (error analysis, troubleshooting), Performance optimization, Architecture design, Code reviews, Best practices, Testing strategies, Database design, API development, Security considerations, DevOps practices, and much more. Just describe what you need!",
+      "related_concepts": [
+        "capabilities",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "44d512dab1d800764cea949d77c78f92707dee3477dbb79f3cee8191ba79b77e": {
+      "id": "44d512dab1d800764cea949d77c78f92707dee3477dbb79f3cee8191ba79b77e",
+      "domain": "ComputerScience",
+      "topic": "Guide to performance",
+      "content": "To optimize performance: 1) Profile first - measure don't guess 2) Optimize algorithms (O(n) vs O(n²)) 3) Use efficient data structures 4) Cache results 5) Minimize I/O 6) Batch operations 7) Use lazy loading 8) Optimize database queries 9) Enable compression 10) Use CDNs",
+      "related_concepts": [
+        "performance",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "111ee960504107110cec7d14428c6c91ddd0845bdf2ac55e02fb243b1add9a09": {
+      "id": "111ee960504107110cec7d14428c6c91ddd0845bdf2ac55e02fb243b1add9a09",
+      "domain": "ComputerScience",
+      "topic": "How to performance",
+      "content": "To optimize performance: 1) Profile first - measure don't guess 2) Optimize algorithms (O(n) vs O(n²)) 3) Use efficient data structures 4) Cache results 5) Minimize I/O 6) Batch operations 7) Use lazy loading 8) Optimize database queries 9) Enable compression 10) Use CDNs",
+      "related_concepts": [
+        "performance",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "b67be6b2dfb1763a378be92aa35a902cfcbc73c9344a46f21a35b29fe702228d": {
+      "id": "b67be6b2dfb1763a378be92aa35a902cfcbc73c9344a46f21a35b29fe702228d",
+      "domain": "Philosophy",
+      "topic": "good morning",
+      "content": "Hello! I'm Think AI, ready to help with programming, debugging, optimization, and any technical challenges you're facing. I can provide code examples, explain concepts, troubleshoot errors, and guide you through best practices. What can I help you with today?",
+      "related_concepts": [
+        "greeting",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "fbc9260dc7f74f8eae91238308226cdb8f32b64fbdaf32d2b8bce9fe7ebdd82e": {
+      "id": "fbc9260dc7f74f8eae91238308226cdb8f32b64fbdaf32d2b8bce9fe7ebdd82e",
+      "domain": "Philosophy",
+      "topic": "what do you know",
+      "content": "I can assist with: Programming (all major languages), Debugging (error analysis, troubleshooting), Performance optimization, Architecture design, Code reviews, Best practices, Testing strategies, Database design, API development, Security considerations, DevOps practices, and much more. Just describe what you need!",
+      "related_concepts": [
+        "capabilities",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "e63923a7605954a5bb6fd1f9158fa20bde9b57aa947a40387504c79765c3210c": {
+      "id": "e63923a7605954a5bb6fd1f9158fa20bde9b57aa947a40387504c79765c3210c",
+      "domain": "Philosophy",
+      "topic": "best way to",
+      "content": "Let's approach this systematically: 1) First, let's understand the problem clearly 2) Identify the constraints and requirements 3) Consider multiple solutions 4) Evaluate trade-offs 5) Implement the best approach 6) Test thoroughly 7) Iterate if needed. Where would you like to start?",
+      "related_concepts": [
+        "problem-solving",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "1c3f0e798871e98eaa85a5aedebfabd50c74f1ed30fff92be1daddbd444ef188": {
+      "id": "1c3f0e798871e98eaa85a5aedebfabd50c74f1ed30fff92be1daddbd444ef188",
+      "domain": "Philosophy",
+      "topic": "approach for",
+      "content": "Let's approach this systematically: 1) First, let's understand the problem clearly 2) Identify the constraints and requirements 3) Consider multiple solutions 4) Evaluate trade-offs 5) Implement the best approach 6) Test thoroughly 7) Iterate if needed. Where would you like to start?",
+      "related_concepts": [
+        "problem-solving",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "0010a74b83d14b622d099fcbbd39a5731775cb6a3c9b905bb4d42f39c2fa7afd": {
+      "id": "0010a74b83d14b622d099fcbbd39a5731775cb6a3c9b905bb4d42f39c2fa7afd",
+      "domain": "Philosophy",
+      "topic": "math help",
+      "content": "Mathematics is fascinating! I can help with everything from basic arithmetic to advanced calculus, linear algebra, statistics, and more. I'll show you step-by-step solutions and explain the underlying concepts. Would you like to work through a specific problem or understand a concept?",
+      "related_concepts": [
+        "conversation",
+        "domain knowledge"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "dd93c2103df8e7a50973ddde71fae27b62e9d32d01c9d869fffa3754367b7b06": {
+      "id": "dd93c2103df8e7a50973ddde71fae27b62e9d32d01c9d869fffa3754367b7b06",
+      "domain": "Philosophy",
+      "topic": "feeling stuck",
+      "content": "Great question! Let's work through this together. Every developer faces challenges like this - it's how we learn and grow. I'll guide you step-by-step to understand not just the solution, but the reasoning behind it. Don't hesitate to ask follow-up questions!",
+      "related_concepts": [
+        "encouragement",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "0855f1ae9054900ccfcc6167082cc96f71aa1f2b864bea95dccf9196224d2228": {
+      "id": "0855f1ae9054900ccfcc6167082cc96f71aa1f2b864bea95dccf9196224d2228",
+      "domain": "Philosophy",
+      "topic": "capabilities",
+      "content": "I can assist with: Programming (all major languages), Debugging (error analysis, troubleshooting), Performance optimization, Architecture design, Code reviews, Best practices, Testing strategies, Database design, API development, Security considerations, DevOps practices, and much more. Just describe what you need!",
+      "related_concepts": [
+        "capabilities",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "627e4b0828abce372afdef4b81d7e04518bcf4ac5ecb92d61ac93c7e402e478d": {
+      "id": "627e4b0828abce372afdef4b81d7e04518bcf4ac5ecb92d61ac93c7e402e478d",
+      "domain": "ComputerScience",
+      "topic": "Rust",
+      "content": "Rust provides memory safety without garbage collection. Features: ownership system, borrowing, lifetimes, zero-cost abstractions, pattern matching, traits. Great for: systems programming, web assembly, embedded. Tools: cargo, rustfmt, clippy. Emphasizes: safety, concurrency, performance.",
+      "related_concepts": [
+        "programming language",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "1828589cf1ddc5e167d1cea518dd507ae863b0d9bca05b54d1cca866831e36b2": {
+      "id": "1828589cf1ddc5e167d1cea518dd507ae863b0d9bca05b54d1cca866831e36b2",
+      "domain": "Philosophy",
+      "topic": "hey",
+      "content": "Hello! I'm Think AI, ready to help with programming, debugging, optimization, and any technical challenges you're facing. I can provide code examples, explain concepts, troubleshoot errors, and guide you through best practices. What can I help you with today?",
+      "related_concepts": [
+        "greeting",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "7ebadd505fe1626eb234398cb980457c8a0036ff20091d14fea80a6f00dab9c8": {
+      "id": "7ebadd505fe1626eb234398cb980457c8a0036ff20091d14fea80a6f00dab9c8",
+      "domain": "Philosophy",
+      "topic": "science question",
+      "content": "I'd love to explain that scientific concept! Science helps us understand the natural world through observation, experimentation, and theory. Whether it's physics, chemistry, biology, or another field, I can break down complex ideas into understandable explanations. What specific aspect interests you?",
+      "related_concepts": [
+        "conversation",
+        "domain knowledge"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "4a17660f2dc7b5907dc82f777d33e360bfb58114579f0b3ffb4bfd40c4921b3a": {
+      "id": "4a17660f2dc7b5907dc82f777d33e360bfb58114579f0b3ffb4bfd40c4921b3a",
+      "domain": "ComputerScience",
+      "topic": "Tips for debugging",
+      "content": "To debug effectively: 1) Read error messages carefully 2) Use debugger/breakpoints 3) Add logging 4) Isolate the problem 5) Check recent changes 6) Verify assumptions 7) Search for similar issues 8) Use binary search to find bugs 9) Write tests 10) Ask for help with context",
+      "related_concepts": [
+        "debugging",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "bf058903d613852dff4a7903e4dda51a677120ac54a5a84a0a48899a73cc4165": {
+      "id": "bf058903d613852dff4a7903e4dda51a677120ac54a5a84a0a48899a73cc4165",
+      "domain": "ComputerScience",
+      "topic": "Help with performance",
+      "content": "To optimize performance: 1) Profile first - measure don't guess 2) Optimize algorithms (O(n) vs O(n²)) 3) Use efficient data structures 4) Cache results 5) Minimize I/O 6) Batch operations 7) Use lazy loading 8) Optimize database queries 9) Enable compression 10) Use CDNs",
+      "related_concepts": [
+        "performance",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "eb0edb619e0245ca5e6f18631a49d936885338efd75f762e83ab92a133552786": {
+      "id": "eb0edb619e0245ca5e6f18631a49d936885338efd75f762e83ab92a133552786",
+      "domain": "ComputerScience",
+      "topic": "Tips for testing",
+      "content": "Effective testing: 1) Write unit tests for functions 2) Integration tests for APIs 3) E2E tests for user flows 4) Test edge cases 5) Use mocking for dependencies 6) Aim for 80%+ coverage 7) Test error paths 8) Use property-based testing 9) Automate with CI/CD 10) Test performance",
+      "related_concepts": [
+        "testing",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "26c297059f56d32bce8e9e75fe3e73c309a9ffb004d24485f78058da38a1f3ac": {
+      "id": "26c297059f56d32bce8e9e75fe3e73c309a9ffb004d24485f78058da38a1f3ac",
+      "domain": "ComputerScience",
+      "topic": "How to architecture",
+      "content": "Good architecture: 1) Separation of concerns 2) Single responsibility 3) Dependency injection 4) Loose coupling 5) High cohesion 6) Clear interfaces 7) Proper abstraction layers 8) Scalability considerations 9) Error handling strategy 10) Documentation",
+      "related_concepts": [
+        "architecture",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "496d0fe6b8701f595124dd3100619c3cb8d8f477b743e1acaa4d050d41639c89": {
+      "id": "496d0fe6b8701f595124dd3100619c3cb8d8f477b743e1acaa4d050d41639c89",
+      "domain": "Philosophy",
+      "topic": "help me",
+      "content": "I'd be happy to help! Could you provide more details about: 1) What you're trying to achieve 2) What you've tried so far 3) Any error messages you're seeing 4) Your environment/tools 5) Relevant code snippets. The more context you share, the better I can assist!",
+      "related_concepts": [
+        "clarification",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "cdc0a9e06b5973a582f4bf7bbda74cb533ec268fc20f563162bb69939896a651": {
+      "id": "cdc0a9e06b5973a582f4bf7bbda74cb533ec268fc20f563162bb69939896a651",
+      "domain": "Philosophy",
+      "topic": "philosophy discussion",
+      "content": "Philosophy explores fundamental questions about existence, knowledge, values, and reason. I enjoy discussing topics like consciousness, ethics, free will, epistemology, and metaphysics. These discussions help us think deeply about life's big questions. What philosophical topic intrigues you?",
+      "related_concepts": [
+        "conversation",
+        "domain knowledge"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "ebbd30ec374d14ae1b2e18dff9efa363d02b7065f994843ab338631847b48536": {
+      "id": "ebbd30ec374d14ae1b2e18dff9efa363d02b7065f994843ab338631847b48536",
+      "domain": "Philosophy",
+      "topic": "I'm confused",
+      "content": "Great question! Let's work through this together. Every developer faces challenges like this - it's how we learn and grow. I'll guide you step-by-step to understand not just the solution, but the reasoning behind it. Don't hesitate to ask follow-up questions!",
+      "related_concepts": [
+        "encouragement",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "5d018b943351e820768be5420ab9def61e18cc50823b9100d20c3ae5cda0382b": {
+      "id": "5d018b943351e820768be5420ab9def61e18cc50823b9100d20c3ae5cda0382b",
+      "domain": "Philosophy",
+      "topic": "learning advice",
+      "content": "Effective learning strategies: 1) Active recall - test yourself 2) Spaced repetition 3) Teach others 4) Connect new to known 5) Practice deliberately 6) Take breaks 7) Get enough sleep 8) Stay curious 9) Learn by doing 10) Reflect on progress. What subject are you learning?",
+      "related_concepts": [
+        "conversation",
+        "domain knowledge"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "a5b56315563ce9c0ebf26acdf4b220dffe635906b511ba35fbfa51f32177f8d8": {
+      "id": "a5b56315563ce9c0ebf26acdf4b220dffe635906b511ba35fbfa51f32177f8d8",
+      "domain": "ComputerScience",
+      "topic": "Help with refactoring",
+      "content": "Refactoring best practices: 1) Make it work first 2) Write tests before refactoring 3) Small incremental changes 4) One refactoring at a time 5) Run tests frequently 6) Use IDE refactoring tools 7) Extract methods 8) Remove duplication 9) Improve naming 10) Simplify conditionals",
+      "related_concepts": [
+        "refactoring",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "d85cc49ce6e2a741ac096427ad286dff855b32bce660d47c6250b7011f74f00c": {
+      "id": "d85cc49ce6e2a741ac096427ad286dff855b32bce660d47c6250b7011f74f00c",
+      "domain": "Philosophy",
+      "topic": "hi",
+      "content": "Hello! I'm Think AI, ready to help with programming, debugging, optimization, and any technical challenges you're facing. I can provide code examples, explain concepts, troubleshoot errors, and guide you through best practices. What can I help you with today?",
+      "related_concepts": [
+        "greeting",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "f948ff3da77efc25dd2b17b2c0d0fdea5e2397bebd9d89316ed274572305e1fe": {
+      "id": "f948ff3da77efc25dd2b17b2c0d0fdea5e2397bebd9d89316ed274572305e1fe",
+      "domain": "ComputerScience",
+      "topic": "Guide to architecture",
+      "content": "Good architecture: 1) Separation of concerns 2) Single responsibility 3) Dependency injection 4) Loose coupling 5) High cohesion 6) Clear interfaces 7) Proper abstraction layers 8) Scalability considerations 9) Error handling strategy 10) Documentation",
+      "related_concepts": [
+        "architecture",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "4313653f7a911585cf9f8ad27e5947a3d58ba08dabe753c3d8f17afb3f8f293d": {
+      "id": "4313653f7a911585cf9f8ad27e5947a3d58ba08dabe753c3d8f17afb3f8f293d",
+      "domain": "ComputerScience",
+      "topic": "Python",
+      "content": "Python is ideal for: data science, machine learning, web backends, automation, scripting. Key features: readable syntax, dynamic typing, extensive libraries (NumPy, Pandas, TensorFlow), list comprehensions, decorators, generators. Use virtual environments, follow PEP 8, type hints for clarity.",
+      "related_concepts": [
+        "programming language",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "edfd1b2c27a91d3c80143a48bb27a7d12c00c7a76aa68b43e02b29ac9b66b136": {
+      "id": "edfd1b2c27a91d3c80143a48bb27a7d12c00c7a76aa68b43e02b29ac9b66b136",
+      "domain": "Philosophy",
+      "topic": "features",
+      "content": "I can assist with: Programming (all major languages), Debugging (error analysis, troubleshooting), Performance optimization, Architecture design, Code reviews, Best practices, Testing strategies, Database design, API development, Security considerations, DevOps practices, and much more. Just describe what you need!",
+      "related_concepts": [
+        "capabilities",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "a963f5715745cdd885e803ff4c88f57990222b16252bf05175e8b8e05c65fb3c": {
+      "id": "a963f5715745cdd885e803ff4c88f57990222b16252bf05175e8b8e05c65fb3c",
+      "domain": "ComputerScience",
+      "topic": "Tips for refactoring",
+      "content": "Refactoring best practices: 1) Make it work first 2) Write tests before refactoring 3) Small incremental changes 4) One refactoring at a time 5) Run tests frequently 6) Use IDE refactoring tools 7) Extract methods 8) Remove duplication 9) Improve naming 10) Simplify conditionals",
+      "related_concepts": [
+        "refactoring",
+        "programming",
+        "development"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "5e86acf4b5e7e31264a7d8de32faa8af3efb3a49aa5fa26987c41764c28a8e0a": {
+      "id": "5e86acf4b5e7e31264a7d8de32faa8af3efb3a49aa5fa26987c41764c28a8e0a",
+      "domain": "Philosophy",
+      "topic": "how do I",
+      "content": "Let's approach this systematically: 1) First, let's understand the problem clearly 2) Identify the constraints and requirements 3) Consider multiple solutions 4) Evaluate trade-offs 5) Implement the best approach 6) Test thoroughly 7) Iterate if needed. Where would you like to start?",
+      "related_concepts": [
+        "problem-solving",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "b86668c440069fac3a05df2c7a24427ae21408baa79085f914d7975a4bbcbb06": {
+      "id": "b86668c440069fac3a05df2c7a24427ae21408baa79085f914d7975a4bbcbb06",
+      "domain": "Philosophy",
+      "topic": "assist me",
+      "content": "I'd be happy to help! Could you provide more details about: 1) What you're trying to achieve 2) What you've tried so far 3) Any error messages you're seeing 4) Your environment/tools 5) Relevant code snippets. The more context you share, the better I can assist!",
+      "related_concepts": [
+        "clarification",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "722d37fb134c14353d0ae422451c78a58de260137080bc704c3bbe477107a0de": {
+      "id": "722d37fb134c14353d0ae422451c78a58de260137080bc704c3bbe477107a0de",
+      "domain": "Philosophy",
+      "topic": "this is hard",
+      "content": "Great question! Let's work through this together. Every developer faces challenges like this - it's how we learn and grow. I'll guide you step-by-step to understand not just the solution, but the reasoning behind it. Don't hesitate to ask follow-up questions!",
+      "related_concepts": [
+        "encouragement",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    },
+    "3403f72c0bc0c7ad01e1234a075c1c6ae18b7c23b33819c475e1263a3be1bd6e": {
+      "id": "3403f72c0bc0c7ad01e1234a075c1c6ae18b7c23b33819c475e1263a3be1bd6e",
+      "domain": "Philosophy",
+      "topic": "solve this",
+      "content": "Let's approach this systematically: 1) First, let's understand the problem clearly 2) Identify the constraints and requirements 3) Consider multiple solutions 4) Evaluate trade-offs 5) Implement the best approach 6) Test thoroughly 7) Iterate if needed. Where would you like to start?",
+      "related_concepts": [
+        "problem-solving",
+        "conversation",
+        "interaction"
+      ],
+      "confidence": 1.0,
+      "usage_count": 0,
+      "last_accessed": 1750957476
+    }
+  }
+}

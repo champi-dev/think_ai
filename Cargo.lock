@@ -2842,6 +2842,7 @@ dependencies = [
  "serde",
  "serde_json",
  "think-ai-core",
+ "think-ai-knowledge",
  "think-ai-utils",
  "think-ai-vector",
  "thiserror 2.0.12",
