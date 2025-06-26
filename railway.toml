@@ -1,8 +1,9 @@
 [build]
-builder = "nixpacks"
+builder = "dockerfile"
+dockerfilePath = "./Dockerfile"
 
 [deploy]
-startCommand = "./think-ai server"
+startCommand = "./full-server"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "always"
