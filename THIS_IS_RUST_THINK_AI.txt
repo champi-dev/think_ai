@@ -1,0 +1,14 @@
+THIS IS THE RUST THINK AI SERVER
+=================================
+
+If you see this file in your Railway deployment, you have the CORRECT repository.
+
+This should be deployed as a Rust application using the Dockerfile.
+It serves a single HTML file with 3D quantum visualization.
+
+NOT a Next.js application!
+
+To verify correct deployment:
+- Build logs should show: cargo build --release
+- Server should respond at: /api/stats and /api/chat
+- No _next/static files should exist

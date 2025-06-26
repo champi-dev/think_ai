@@ -647,9 +647,9 @@ impl ResponseComponent for UnknownQueryComponent {
         
         // Extract the main subject being asked about
         let main_subject = if query_lower.starts_with("what is ") {
-            query_lower.strip_prefix("what is ").unwrap().trim()
+            query_lower.strip_prefix("what is ").unwrap().trim().to_string()
         } else if query_lower.starts_with("tell me about ") {
-            query_lower.strip_prefix("tell me about ").unwrap().trim()
+            query_lower.strip_prefix("tell me about ").unwrap().trim().to_string()
         } else {
             // Find key terms
             query_lower.split_whitespace()
@@ -661,23 +661,10 @@ impl ResponseComponent for UnknownQueryComponent {
         if main_subject.is_empty() {
             Some("I'd be happy to help! Could you tell me more about what you'd like to know?".to_string())
         } else {
-            // Build a response based on available knowledge
-            let available_topics: Vec<String> = context.knowledge_engine
-                .get_all_nodes()
-                .keys()
-                .map(|k| context.knowledge_engine.get_all_nodes().get(k).map(|n| n.topic.to_lowercase()).unwrap_or_default())
-                .filter(|t| !t.is_empty())
-                .take(5)
-                .collect();
-                
+            // Simple response for unknown topics
             Some(format!(
-                "I don't have specific information about '{}' in my knowledge base. I can help with topics like: {}. What would you like to know about?",
-                main_subject,
-                if available_topics.is_empty() {
-                    "quantum mechanics, consciousness, astronomy, and AI concepts".to_string()
-                } else {
-                    available_topics.join(", ")
-                }
+                "I don't have specific information about '{}' in my knowledge base. I can help with topics like quantum mechanics, consciousness, astronomy (sun, mars, moon), AI concepts (TinyLlama, Think AI), and philosophy (stoicism). What would you like to know about?",
+                main_subject
             ))
         }
     }

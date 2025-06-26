@@ -94,14 +94,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .layer(CorsLayer::permissive())
         .with_state(state);
     
-    // Start server
-    let port = port_selector::find_available_port(Some(8080))
-        .unwrap_or_else(|_| {
-            // Try to kill existing process on port 8080
-            let _ = port_manager::kill_port(8080);
-            8080
+    // Start server - use PORT env var for Railway
+    let port = std::env::var("PORT")
+        .ok()
+        .and_then(|p| p.parse::<u16>().ok())
+        .unwrap_or_else(|| {
+            port_selector::find_available_port(Some(8080))
+                .unwrap_or_else(|_| {
+                    // Try to kill existing process on port 8080
+                    let _ = port_manager::kill_port(8080);
+                    8080
+                })
         });
-    println!("🌐 Server running on http://localhost:{}", port);
+    println!("🌐 Server running on http://0.0.0.0:{}", port);
     
     let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
     axum::serve(listener, app).await?;

@@ -22,19 +22,8 @@
 ✅ Loaded 18 total knowledge items
 🚀 Initializing TinyLlama (fallback mode - OpenSSL not available)...
 ✅ TinyLlama ready (using intelligent fallback responses)!
-🌐 Server running on http://localhost:8080
-📨 Received query: what is physics
+🌐 Server running on http://0.0.0.0:8080
+📨 Received query: xyzabc123notinknowledge
 🔍 Searching knowledge base...
-✅ Found 1 knowledge matches
-💬 Sending response: Quantum mechanics is the fundamental theory descri (0.193728ms)
-📨 Received query: tell me about quantum mechanics
-🔍 Searching knowledge base...
-✅ Found 5 knowledge matches
-💬 Sending response: Quantum entanglement is a phenomenon where particl (0.147889ms)
-📨 Received query: hi
-👋 Detected greeting
-💬 Sending response: Welcome to the quantum realm! I'm here to help wit (0.004152ms)
-📨 Received query: what is physcis
-🔍 Searching knowledge base...
-✅ Found 3 knowledge matches
-💬 Sending response: Qualia are the subjective, experiential qualities  (0.259755ms)
+🤖 No knowledge match, using Quantum LLM...
+💬 Sending response: I don't have specific information about 'xyzabc123 (0.081759ms)
