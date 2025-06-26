@@ -228,14 +228,37 @@ impl QuantumLLMEngine {
            query_lower.ends_with(" it.") || query_lower.ends_with(" that") ||
            query_lower.ends_with(" this") {
             
-            // Get last conversation topic
+            // Get last conversation topic - look back through history for a valid topic
             let memory = self.conversation_memory.read().unwrap();
-            if let Some((prev_query, _prev_response)) = memory.last() {
-                println!("🔍 Previous query was: '{}'", prev_query);
-                // Extract main topic from previous query
-                let prev_topic = self.extract_main_topic_from_query(prev_query);
+            let mut prev_topic = String::new();
+            
+            // Look backwards through conversation history to find the main topic
+            for (prev_query, prev_response) in memory.iter().rev() {
+                println!("🔍 Checking previous: '{}'", prev_query);
+                let topic = self.extract_main_topic_from_query(prev_query);
                 
-                if !prev_topic.is_empty() {
+                // If this is a valid topic (not a pronoun query), use it
+                if !topic.is_empty() && !["it", "that", "this", "they", "where", "how", "what", "when", "why", "who"].contains(&topic.as_str()) {
+                    prev_topic = topic;
+                    println!("🎯 Found conversation topic: {}", prev_topic);
+                    break;
+                } else if prev_response.contains("Sun") || prev_response.contains("Mars") || prev_response.contains("Moon") || 
+                         prev_response.contains("Earth") || prev_response.contains("Jupiter") {
+                    // Extract topic from response if it mentions celestial objects
+                    for celestial in &["Sun", "Mars", "Moon", "Earth", "Jupiter", "Saturn", "Venus", "Mercury"] {
+                        if prev_response.contains(celestial) {
+                            prev_topic = celestial.to_lowercase();
+                            println!("🎯 Found topic in response: {}", prev_topic);
+                            break;
+                        }
+                    }
+                    if !prev_topic.is_empty() {
+                        break;
+                    }
+                }
+            }
+                
+            if !prev_topic.is_empty() {
                     // Replace pronouns with the actual topic
                     let mut resolved = query.to_string();
                     
@@ -265,7 +288,6 @@ impl QuantumLLMEngine {
                     return resolved;
                 }
             }
-        }
         
         query.to_string()
     }
@@ -413,6 +435,15 @@ impl QuantumLLMEngine {
         
         println!("🔬 Extracting topics from tokens: {:?}", tokens);
         
+        // First, directly add any celestial objects found in tokens
+        for token in tokens {
+            let token_lower = token.to_lowercase();
+            if ["sun", "moon", "earth", "mars", "jupiter", "saturn", "venus", "mercury", "star", "planet"].contains(&token_lower.as_str()) {
+                topic_scores.insert(token_lower.clone(), 1.0); // High priority for direct matches
+                println!("📍 Direct celestial match: {}", token_lower);
+            }
+        }
+        
         // Score all known concepts
         for (concept, embedding) in &self.word_embeddings {
             let score = self.cosine_similarity(embedding, context);
@@ -420,9 +451,16 @@ impl QuantumLLMEngine {
             // Check if concept appears in query
             for token in tokens {
                 if token.contains(concept) || concept.contains(token) {
-                    topic_scores.insert(concept.clone(), score + 0.3);
+                    // Don't override if already has higher score
+                    let current_score = topic_scores.get(concept).unwrap_or(&0.0);
+                    if score + 0.3 > *current_score {
+                        topic_scores.insert(concept.clone(), score + 0.3);
+                    }
                 } else if self.is_related(token, concept) {
-                    topic_scores.insert(concept.clone(), score + 0.1);
+                    let current_score = topic_scores.get(concept).unwrap_or(&0.0);
+                    if score + 0.1 > *current_score {
+                        topic_scores.insert(concept.clone(), score + 0.1);
+                    }
                 }
             }
         }
@@ -431,8 +469,16 @@ impl QuantumLLMEngine {
         let mut scored_topics: Vec<(String, f32)> = topic_scores.into_iter().collect();
         scored_topics.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
         
-        for (topic, _) in scored_topics.iter().take(3) {
-            topics.push(topic.clone());
+        // Always prioritize direct celestial matches (score 1.0)
+        let mut added_count = 0;
+        for (topic, score) in &scored_topics {
+            if *score >= 1.0 || added_count < 3 {
+                topics.push(topic.clone());
+                added_count += 1;
+                if added_count >= 5 { // Allow more topics to ensure we get the right ones
+                    break;
+                }
+            }
         }
         
         // If no topics found, extract from tokens
@@ -497,11 +543,30 @@ impl QuantumLLMEngine {
         if query_lower.contains("quantum mechanics") || query_lower.contains("quantum physics") {
             primary_topic = Some(&quantum_topic);
         } else {
-            // Check if any topic from the query appears in our direct topics
-            for topic in topics.iter() {
-                if query_lower.contains(&topic.to_lowercase()) {
-                    primary_topic = Some(topic);
-                    break;
+            // First look for specific celestial objects mentioned in the query
+            for celestial in ["sun", "moon", "earth", "mars", "jupiter", "saturn", "venus", "mercury", "star", "planet"] {
+                if query_lower.contains(celestial) {
+                    // Find the matching topic from our extracted topics
+                    for topic in topics.iter() {
+                        if topic.to_lowercase() == celestial {
+                            primary_topic = Some(topic);
+                            println!("🎯 Found celestial object in query: {}", celestial);
+                            break;
+                        }
+                    }
+                    if primary_topic.is_some() {
+                        break;
+                    }
+                }
+            }
+            
+            // If no celestial object found, check other topics
+            if primary_topic.is_none() {
+                for topic in topics.iter() {
+                    if query_lower.contains(&topic.to_lowercase()) {
+                        primary_topic = Some(topic);
+                        break;
+                    }
                 }
             }
             
@@ -526,6 +591,10 @@ impl QuantumLLMEngine {
                 response = self.generate_size_response(topic, context);
             } else if query_lower.contains("water") || query_lower.contains("liquid") || query_lower.contains("ocean") {
                 response = self.generate_water_response(topic, context);
+            } else if query_lower.contains("where") || query_lower.contains("location") || query_lower.contains("position") {
+                response = self.generate_location_response(topic, context);
+            } else if query_lower.contains("build") || query_lower.contains("create") || query_lower.contains("make") {
+                response = self.generate_creation_response(topic, context);
             } else {
                 response = self.generate_topic_response(topic, context, is_question);
             }
@@ -627,11 +696,40 @@ impl QuantumLLMEngine {
         }
     }
     
-    fn generate_universe_explanation(&self, context: &[f32], is_question: bool) -> String {
+    fn generate_location_response(&self, topic: &str, _context: &[f32]) -> String {
+        let topic_lower = topic.to_lowercase();
+        
+        println!("📍 Generating location response for: {}", topic_lower);
+        
+        match topic_lower.as_str() {
+            "sun" => "The Sun is located at the center of our solar system, about 93 million miles (150 million kilometers) from Earth. This distance is called an Astronomical Unit (AU). The Sun doesn't orbit anything in our solar system - instead, all planets, asteroids, and comets orbit around it due to its massive gravitational pull.".to_string(),
+            "moon" => "The Moon orbits Earth at an average distance of 238,855 miles (384,400 kilometers). It's not stationary - it orbits Earth once every 27.3 days. The Moon is currently moving away from Earth at about 1.5 inches (3.8 cm) per year. You can see it in different positions in the sky depending on its phase and time of observation.".to_string(),
+            "earth" => "Earth is the third planet from the Sun, orbiting at an average distance of 93 million miles (150 million km). We're located in the inner solar system between Venus and Mars. Earth orbits the Sun once per year while rotating on its axis once per day. Our solar system is in the Orion Arm of the Milky Way galaxy, about 26,000 light-years from the galactic center.".to_string(),
+            "mars" => "Mars is the fourth planet from the Sun, orbiting at an average distance of 142 million miles (228 million km), or 1.52 AU. It's located beyond Earth in the outer part of the inner solar system. Mars takes 687 Earth days to complete one orbit around the Sun. The distance between Earth and Mars varies greatly - from 34.8 million miles at closest approach to 249 million miles when on opposite sides of the Sun.".to_string(),
+            "jupiter" => "Jupiter is the fifth planet from the Sun, located in the outer solar system at an average distance of 484 million miles (778 million km), or 5.2 AU. It's the first of the gas giants beyond the asteroid belt. Jupiter takes 11.86 Earth years to complete one orbit around the Sun. It's so massive that the center of mass between Jupiter and the Sun lies just outside the Sun's surface.".to_string(),
+            _ => format!("The location of {} depends on the specific context. In space, most objects are in constant motion, orbiting around other bodies. Could you clarify which {} you're asking about?", topic_lower, topic_lower)
+        }
+    }
+    
+    fn generate_creation_response(&self, topic: &str, _context: &[f32]) -> String {
+        let topic_lower = topic.to_lowercase();
+        
+        println!("🔨 Generating creation/building response for: {}", topic_lower);
+        
+        match topic_lower.as_str() {
+            "sun" => "Creating a star like the Sun requires conditions found in nature: You need an enormous cloud of hydrogen gas (about 2×10^30 kg worth). Gravity causes this cloud to collapse, heating it up. When the core reaches 10 million degrees Celsius, nuclear fusion begins - hydrogen atoms fuse into helium, releasing tremendous energy. Humans can create fusion in labs (like tokamaks) but only for tiny amounts of matter and brief moments. The challenge is containing plasma at millions of degrees while maintaining the pressure needed for sustained fusion.".to_string(),
+            "star" => "Stars form naturally from giant molecular clouds. To build one artificially, you'd need: 1) Gather at least 0.08 solar masses of hydrogen (about 1.6×10^29 kg), 2) Compress it until gravitational collapse begins, 3) Wait millions of years for the core to heat enough for fusion. Humans achieve fusion in devices like ITER, but containing stellar-scale fusion is beyond our technology. We can trigger fusion in hydrogen bombs, but that's uncontrolled and instantaneous.".to_string(),
+            "planet" => "Building a planet would require: 1) Collecting about 10^24 kg of rock/metal (for Earth-like) or gas (for Jupiter-like), 2) Getting it to accrete through gravity, 3) Waiting millions of years for it to form. In reality, planets form naturally from protoplanetary disks around young stars. Humans might theoretically build space habitats or terraform existing worlds, but creating a planet from scratch is beyond our capabilities.".to_string(),
+            "moon" => "To create a moon artificially: 1) Gather roughly 10^22 kg of rock and metal, 2) Place it in a stable orbit around a planet, 3) Let gravity shape it into a sphere. Moons form naturally through asteroid capture, co-formation with planets, or giant impacts (like Earth's Moon). Humans could theoretically assemble a small artificial satellite from asteroids, but creating a true moon-sized body is currently impossible.".to_string(),
+            _ => format!("Creating or building {} depends on its nature. Natural cosmic objects require vast amounts of matter and energy beyond human capabilities. Artificial versions might be possible on smaller scales. What specific aspect of creating {} interests you?", topic_lower, topic_lower)
+        }
+    }
+    
+    fn generate_universe_explanation(&self, context: &[f32], _is_question: bool) -> String {
         let depth = context[0] + context[5]; // Combine scientific and cosmic understanding
         
         if depth > 1.5 {
-            "The universe is the totality of existence - all space, time, matter, and energy. \
+            "The universe is the totality of existence - all space, time, matter, and energy. 
              Born 13.8 billion years ago in the Big Bang, it has expanded from an infinitely \
              dense singularity to the vast cosmos we observe today. It contains over 2 trillion \
              galaxies, each with hundreds of billions of stars. The universe is 68% dark energy, \
@@ -648,7 +746,7 @@ impl QuantumLLMEngine {
         }.to_string()
     }
     
-    fn generate_consciousness_explanation(&self, context: &[f32], is_question: bool) -> String {
+    fn generate_consciousness_explanation(&self, context: &[f32], _is_question: bool) -> String {
         let philosophical_depth = context[4] + context[6];
         
         if philosophical_depth > 1.5 {
@@ -928,8 +1026,11 @@ impl QuantumLLMEngine {
     fn update_memory(&self, query: &str, response: &str) {
         let mut memory = self.conversation_memory.write().unwrap();
         
+        // Extract the actual topic from the current exchange
+        let topic = self.extract_conversation_topic(query, response);
+        
         // Store the original query to preserve context
-        println!("💾 Storing conversation: '{}' -> '{}'", query, &response[..50.min(response.len())]);
+        println!("💾 Storing conversation: '{}' -> '{}' [topic: {}]", query, &response[..50.min(response.len())], topic);
         memory.push((query.to_string(), response.to_string()));
         
         // Keep last 20 exchanges
@@ -952,6 +1053,40 @@ impl QuantumLLMEngine {
                 }
             }
         }
+    }
+    
+    fn extract_conversation_topic(&self, query: &str, response: &str) -> String {
+        // First try to extract from the query
+        if let Some(topic) = self.try_extract_topic_from_text(query) {
+            return topic;
+        }
+        
+        // Then try from the response
+        if let Some(topic) = self.try_extract_topic_from_text(&response[..100.min(response.len())]) {
+            return topic;
+        }
+        
+        "general".to_string()
+    }
+    
+    fn try_extract_topic_from_text(&self, text: &str) -> Option<String> {
+        let text_lower = text.to_lowercase();
+        
+        // Check for celestial objects
+        for celestial in &["sun", "moon", "earth", "mars", "jupiter", "saturn", "venus", "mercury", "neptune", "uranus", "pluto"] {
+            if text_lower.contains(celestial) {
+                return Some(celestial.to_string());
+            }
+        }
+        
+        // Check for other key topics
+        for topic in &["universe", "consciousness", "quantum", "life", "time", "reality", "ai", "star", "planet", "galaxy"] {
+            if text_lower.contains(topic) {
+                return Some(topic.to_string());
+            }
+        }
+        
+        None
     }
     
     fn is_common_word(&self, word: &str) -> bool {
