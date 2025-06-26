@@ -149,3 +149,4 @@ Remember: You're not just solving a problem, you're creating a masterpiece that 
 - Kill ports before initializing servers
 - Provide evidence through benchmarks and tests
 - Always give me back a bash script for me to test locally
+- Always tell me how to run it locally

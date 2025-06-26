@@ -2,7 +2,9 @@
 🧠 Initializing LLM-based knowledge system...
 🤖 Initializing Quantum LLM Engine...
 📚 Loaded 3 entries from "philosophy.json"
+📚 Loaded 2 entries from "science_basics.json"
 📚 Loaded 3 entries from "quantum_physics.json"
+📚 Loaded 3 entries from "general_concepts.json"
 📚 Loaded 3 entries from "celestial_objects.json"
 📚 Loaded 3 entries from "custom_objects.json"
 📚 Loaded 3 entries from "concepts.json"
@@ -19,11 +21,19 @@
 🧩 Registered component: Analogy
 🧩 Registered component: UnknownQuery
 🧩 Registered component: Learning
-✅ Loaded 18 total knowledge items
+✅ Loaded 23 total knowledge items
 🚀 Initializing TinyLlama (fallback mode - OpenSSL not available)...
 ✅ TinyLlama ready (using intelligent fallback responses)!
 🌐 Server running on http://0.0.0.0:8080
-📨 Received query: xyzabc123notinknowledge
+📨 Received query: what is love
 🔍 Searching knowledge base...
-🤖 No knowledge match, using Quantum LLM...
-💬 Sending response: I don't have specific information about 'xyzabc123 (0.081759ms)
+✅ Found 1 knowledge matches
+💬 Sending response: Love is a complex emotion and deep affection betwe (0.26782500000000004ms)
+📨 Received query: what is happiness
+🔍 Searching knowledge base...
+✅ Found 1 knowledge matches
+💬 Sending response: Happiness is a state of well-being and contentment (0.318998ms)
+📨 Received query: what is life
+🔍 Searching knowledge base...
+✅ Found 3 knowledge matches
+💬 Sending response: Life is the condition that distinguishes organisms (0.226303ms)

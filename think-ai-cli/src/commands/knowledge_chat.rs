@@ -17,21 +17,7 @@ impl KnowledgeChat {
         let engine = Arc::new(KnowledgeEngine::new());
         
         // First try to load from dynamic files
-        let knowledge_dir = PathBuf::from("./knowledge_files");
-        let dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_dir);
-        
-        println!("📂 Loading knowledge from files...");
-        match dynamic_loader.load_all(&engine) {
-            Ok(count) => println!("✅ Loaded {} items from knowledge files", count),
-            Err(e) => println!("⚠️  Could not load knowledge files: {}", e),
-        }
-        
-        // Then load comprehensive knowledge (full set)
-        println!("🧠 Loading comprehensive knowledge base...");
-        think_ai_knowledge::comprehensive_knowledge::ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&engine);
-        
-        // Load from persistence if available
-        // First try trained knowledge, then fallback to regular storage
+        // Load from persistence FIRST (base knowledge)
         let mut loaded = false;
         if let Ok(persistence) = think_ai_knowledge::persistence::KnowledgePersistence::new("./trained_knowledge") {
             if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
@@ -39,6 +25,20 @@ impl KnowledgeChat {
                 engine.load_nodes(checkpoint.nodes);
                 loaded = true;
             }
+        }
+        
+        // Then load comprehensive knowledge (adds to existing)
+        println!("🧠 Loading comprehensive knowledge base...");
+        think_ai_knowledge::comprehensive_knowledge::ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&engine);
+        
+        // Finally load dynamic knowledge from files (highest priority - adds to existing)
+        let knowledge_dir = PathBuf::from("./knowledge_files");
+        let dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_dir);
+        
+        println!("📂 Loading knowledge from files (highest priority)...");
+        match dynamic_loader.load_all(&engine) {
+            Ok(count) => println!("✅ Loaded {} items from knowledge files", count),
+            Err(e) => println!("⚠️  Could not load knowledge files: {}", e),
         }
         
         if !loaded {
