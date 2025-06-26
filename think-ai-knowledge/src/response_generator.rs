@@ -271,7 +271,11 @@ impl ResponseComponent for KnowledgeBaseComponent {
                 if token.len() > 2 {
                     // Exact topic match gets highest score
                     if topic_lower == *token {
-                        match_score += 10;
+                        match_score += 100;  // Much higher score for exact matches
+                    }
+                    // Topic contains token as whole word
+                    else if topic_lower.split_whitespace().any(|word| word == *token) {
+                        match_score += 50;
                     }
                     // Topic contains token
                     else if topic_lower.contains(token) {
@@ -279,7 +283,10 @@ impl ResponseComponent for KnowledgeBaseComponent {
                     }
                     // Check related concepts
                     for concept in &node.related_concepts {
-                        if concept.to_lowercase().contains(token) {
+                        let concept_lower = concept.to_lowercase();
+                        if concept_lower == *token {
+                            match_score += 20;
+                        } else if concept_lower.contains(token) {
                             match_score += 3;
                         }
                     }
@@ -635,27 +642,43 @@ impl ResponseComponent for UnknownQueryComponent {
         }
     }
     
-    fn generate(&self, query: &str, _context: &ResponseContext) -> Option<String> {
+    fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
         let query_lower = query.to_lowercase();
         
-        // Identify what they're asking about
-        let key_terms: Vec<&str> = query_lower.split_whitespace()
-            .filter(|w| w.len() > 3 && !["what", "those", "about", "tell", "explain", "describe"].contains(w))
-            .collect();
-            
-        if key_terms.is_empty() {
+        // Extract the main subject being asked about
+        let main_subject = if query_lower.starts_with("what is ") {
+            query_lower.strip_prefix("what is ").unwrap().trim()
+        } else if query_lower.starts_with("tell me about ") {
+            query_lower.strip_prefix("tell me about ").unwrap().trim()
+        } else {
+            // Find key terms
+            query_lower.split_whitespace()
+                .filter(|w| w.len() > 3 && !["what", "those", "about", "tell", "explain", "describe", "does", "have"].contains(w))
+                .collect::<Vec<_>>()
+                .join(" ")
+        };
+        
+        if main_subject.is_empty() {
             Some("I'd be happy to help! Could you tell me more about what you'd like to know?".to_string())
         } else {
-            let topic = key_terms.join(" ");
-            
-            // Check for specific patterns
-            if query_lower.contains("stoic") {
-                Some(format!("I don't have detailed information about {} in my knowledge base yet. Stoicism is a fascinating ancient philosophy - are you interested in its history, key figures like Marcus Aurelius, or its practical teachings?", topic))
-            } else if query_lower.contains("what are") || query_lower.contains("what is") {
-                Some(format!("I don't have specific information about {} in my current knowledge base. Could you provide more context or ask about something else I might know?", topic))
-            } else {
-                Some(format!("I'm not familiar with {} yet. I can help with topics like astronomy (sun, mars, moon), AI concepts (TinyLlama, Think AI), consciousness, and quantum mechanics. What would you like to explore?", topic))
-            }
+            // Build a response based on available knowledge
+            let available_topics: Vec<String> = context.knowledge_engine
+                .get_all_nodes()
+                .keys()
+                .map(|k| context.knowledge_engine.get_all_nodes().get(k).map(|n| n.topic.to_lowercase()).unwrap_or_default())
+                .filter(|t| !t.is_empty())
+                .take(5)
+                .collect();
+                
+            Some(format!(
+                "I don't have specific information about '{}' in my knowledge base. I can help with topics like: {}. What would you like to know about?",
+                main_subject,
+                if available_topics.is_empty() {
+                    "quantum mechanics, consciousness, astronomy, and AI concepts".to_string()
+                } else {
+                    available_topics.join(", ")
+                }
+            ))
         }
     }
 }

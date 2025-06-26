@@ -31,3 +31,10 @@
 🔍 Searching knowledge base...
 ✅ Found 5 knowledge matches
 💬 Sending response: Quantum entanglement is a phenomenon where particl (0.147889ms)
+📨 Received query: hi
+👋 Detected greeting
+💬 Sending response: Welcome to the quantum realm! I'm here to help wit (0.004152ms)
+📨 Received query: what is physcis
+🔍 Searching knowledge base...
+✅ Found 3 knowledge matches
+💬 Sending response: Qualia are the subjective, experiential qualities  (0.259755ms)

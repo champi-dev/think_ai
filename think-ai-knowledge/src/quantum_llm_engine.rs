@@ -185,6 +185,26 @@ impl QuantumLLMEngine {
             normalized = normalized.replace(&contraction.replace("'", "'"), expansion);
         }
         
+        // Common typo corrections
+        let typo_corrections = [
+            ("physcis", "physics"), ("physcs", "physics"), ("pyhsics", "physics"),
+            ("conciousness", "consciousness"), ("concious", "conscious"),
+            ("stoicks", "stoics"), ("stoik", "stoic"),
+            ("quntum", "quantum"), ("quantm", "quantum"),
+            ("mechancis", "mechanics"), ("mechancs", "mechanics"),
+            ("chemestry", "chemistry"), ("chemisty", "chemistry"),
+            ("biologoy", "biology"), ("biologi", "biology"),
+            ("philosphy", "philosophy"), ("philosofy", "philosophy"),
+            ("astonomy", "astronomy"), ("astronmy", "astronomy"),
+            ("algoritm", "algorithm"), ("algorithim", "algorithm"),
+        ];
+        
+        for (typo, correct) in typo_corrections {
+            if normalized.contains(typo) {
+                normalized = normalized.replace(typo, correct);
+            }
+        }
+        
         // Clean up spacing
         normalized = normalized.replace("  ", " ");
         normalized.trim().to_string()
