@@ -263,6 +263,15 @@ impl ResponseComponent for KnowledgeBaseComponent {
         let mut best_match: Option<(&KnowledgeNode, usize)> = None;
         
         for node in &context.relevant_nodes {
+            // Skip self-learning generated patterns
+            if node.content.starts_with("Pattern discovered") || 
+               node.content.starts_with("Synthesis of") ||
+               node.content.starts_with("Pattern:") ||
+               node.content.contains("Pattern: analysis") ||
+               node.content.contains("Analogy: Analogy:") {
+                continue;
+            }
+            
             let topic_lower = node.topic.to_lowercase();
             let mut match_score = 0;
             

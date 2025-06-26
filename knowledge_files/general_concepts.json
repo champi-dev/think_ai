@@ -30,6 +30,16 @@
         "philosophical": "Questions of meaning, purpose, mortality, and what makes life worth living",
         "origin": "Emerged ~3.8 billion years ago, possibly from self-replicating molecules"
       }
+    },
+    {
+      "topic": "friendship",
+      "content": "Friendship is a voluntary relationship between individuals based on mutual affection, trust, and support. It involves shared experiences, emotional bonds, and reciprocal care without romantic or familial obligations. Friendships provide companionship, emotional support, and contribute significantly to mental health and well-being. They can range from casual acquaintances to deep, lifelong bonds.",
+      "related_concepts": ["trust", "loyalty", "companionship", "social bonds", "mutual support", "relationships"],
+      "metadata": {
+        "types": "Best friends, childhood friends, work friends, online friends, casual friends",
+        "benefits": "Emotional support, stress reduction, increased happiness, sense of belonging",
+        "qualities": "Trust, honesty, empathy, shared interests, mutual respect, reliability"
+      }
     }
   ]
 }

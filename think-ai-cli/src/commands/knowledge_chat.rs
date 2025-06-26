@@ -17,15 +17,9 @@ impl KnowledgeChat {
         let engine = Arc::new(KnowledgeEngine::new());
         
         // First try to load from dynamic files
-        // Load from persistence FIRST (base knowledge)
-        let mut loaded = false;
-        if let Ok(persistence) = think_ai_knowledge::persistence::KnowledgePersistence::new("./trained_knowledge") {
-            if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
-                println!("🎓 Loading {} items from trained knowledge...", checkpoint.nodes.len());
-                engine.load_nodes(checkpoint.nodes);
-                loaded = true;
-            }
-        }
+        // Skip loading trained knowledge to avoid garbled self-learning patterns
+        // The self-learning system should only be used for deep dives, not primary responses
+        let loaded = false;
         
         // Then load comprehensive knowledge (adds to existing)
         println!("🧠 Loading comprehensive knowledge base...");
