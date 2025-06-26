@@ -75,5 +75,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
 # Switch to non-root user
 USER thinkaiuser
 
-# Start the process manager
-CMD ["./process-manager"]
+# Start the HTTP server (Railway will set PORT env var)
+CMD ["./think-ai", "server"]

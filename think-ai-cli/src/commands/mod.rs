@@ -383,7 +383,20 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
 pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
     match cmd {
         Commands::Server { port, host } => {
-            println!("Starting server on {}:{}", host, port);
+            // Use PORT env var if available (for Railway/Heroku)
+            let final_port = std::env::var("PORT")
+                .ok()
+                .and_then(|p| p.parse::<u16>().ok())
+                .unwrap_or(port);
+            
+            // Use 0.0.0.0 for Railway deployments
+            let final_host = if std::env::var("RAILWAY_ENVIRONMENT").is_ok() {
+                "0.0.0.0"
+            } else {
+                &host
+            };
+            
+            println!("Starting server on {}:{}", final_host, final_port);
             
             // Initialize core engine
             let config = think_ai_core::EngineConfig::default();
@@ -395,7 +408,7 @@ pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
             let vector_index = std::sync::Arc::new(think_ai_vector::O1VectorIndex::new(vector_config)?);
             
             // Start HTTP server
-            let addr: std::net::SocketAddr = format!("{}:{}", host, port).parse()?;
+            let addr: std::net::SocketAddr = format!("{}:{}", final_host, final_port).parse()?;
             think_ai_http::server::run_server(addr, engine, vector_index).await?;
             
             Ok(())
