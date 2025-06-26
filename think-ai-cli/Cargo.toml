@@ -21,6 +21,10 @@ path = "src/bin/self-learning-service.rs"
 name = "full-server"
 path = "src/bin/full-server.rs"
 
+[[bin]]
+name = "train-consciousness"
+path = "src/bin/train-consciousness.rs"
+
 [dependencies]
 think-ai-core = { path = "../think-ai-core" }
 think-ai-utils = { path = "../think-ai-utils" }
@@ -28,6 +32,7 @@ think-ai-knowledge = { path = "../think-ai-knowledge" }
 think-ai-vector = { path = "../think-ai-vector" }
 think-ai-http = { path = "../think-ai-http" }
 think-ai-tinyllama = { path = "../think-ai-tinyllama" }
+think-ai-consciousness = { path = "../think-ai-consciousness" }
 tokio.workspace = true
 async-trait.workspace = true
 serde.workspace = true

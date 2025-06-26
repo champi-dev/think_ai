@@ -3,11 +3,15 @@
 pub mod types;
 pub mod awareness;
 pub mod principles;
+pub mod consciousness_field;
+pub mod recursive_trainer;
 
 use thiserror::Error;
 use crate::types::{ConsciousnessState, Thought};
 use std::sync::Arc;
 use parking_lot::RwLock;
+
+pub use consciousness_field::{ConsciousnessField, QuantumState};
 
 #[derive(Error, Debug)]
 pub enum ConsciousnessError {

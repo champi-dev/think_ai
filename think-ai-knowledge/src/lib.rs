@@ -405,6 +405,12 @@ impl KnowledgeEngine {
             .unwrap()
             .as_secs()
     }
+    
+    /// Get all nodes as vector for training
+    pub fn get_all_nodes_vec(&self) -> Vec<KnowledgeNode> {
+        let nodes = self.nodes.read().unwrap();
+        nodes.values().cloned().collect()
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

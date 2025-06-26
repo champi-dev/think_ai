@@ -55,16 +55,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
     
-    // Load minimal routing knowledge
+    // Initialize knowledge system without routing patterns
     println!("🧠 Initializing LLM-based knowledge system...");
-    
-    // Try to load minimal routing
-    if let Ok(persistence) = KnowledgePersistence::new("minimal_routing") {
-        if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
-            println!("📡 Loading {} routing patterns...", checkpoint.nodes.len());
-            knowledge_engine.load_nodes(checkpoint.nodes);
-        }
-    }
     
     // Initialize Quantum LLM with the knowledge engine
     println!("🤖 Initializing Quantum LLM Engine...");

@@ -1,6 +1,5 @@
 🚀 Think AI Full Server Starting...
 🧠 Initializing LLM-based knowledge system...
-📡 Loading 3 routing patterns...
 🤖 Initializing Quantum LLM Engine...
 📚 Loaded 3 entries from "philosophy.json"
 📚 Loaded 3 entries from "quantum_physics.json"
@@ -20,15 +19,15 @@
 🧩 Registered component: Analogy
 🧩 Registered component: UnknownQuery
 🧩 Registered component: Learning
-✅ Loaded 21 total knowledge items
+✅ Loaded 18 total knowledge items
 🚀 Initializing TinyLlama (fallback mode - OpenSSL not available)...
 ✅ TinyLlama ready (using intelligent fallback responses)!
 🌐 Server running on http://localhost:8080
-📨 Received query: what are those stoics about
+📨 Received query: what is physics
+🔍 Searching knowledge base...
+✅ Found 1 knowledge matches
+💬 Sending response: Quantum mechanics is the fundamental theory descri (0.193728ms)
+📨 Received query: tell me about quantum mechanics
 🔍 Searching knowledge base...
 ✅ Found 5 knowledge matches
-💬 Sending response: The Stoics were philosophers who followed Stoicism (0.17750200000000002ms)
-📨 Received query: tell me about stoicism
-🔍 Searching knowledge base...
-✅ Found 2 knowledge matches
-💬 Sending response: Stoicism is an ancient Greek philosophy founded by (0.216226ms)
+💬 Sending response: Quantum entanglement is a phenomenon where particl (0.147889ms)
