@@ -4,6 +4,8 @@ pub mod responder;
 pub mod trainer;
 pub mod real_knowledge;
 pub mod training_system;
+pub mod comprehensive_knowledge;
+pub mod self_learning;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};

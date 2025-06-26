@@ -9,6 +9,10 @@ license.workspace = true
 name = "think-ai"
 path = "src/main.rs"
 
+[[bin]]
+name = "train-comprehensive"
+path = "src/bin/train-comprehensive.rs"
+
 [dependencies]
 think-ai-core = { path = "../think-ai-core" }
 think-ai-utils = { path = "../think-ai-utils" }

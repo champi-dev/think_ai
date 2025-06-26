@@ -99,7 +99,6 @@ impl KnowledgeChat {
                         .replace("this", &topic);
                     
                     if contextualized != query {
-                        eprintln!("📝 Context added: {} → {}", query, contextualized);
                         return contextualized;
                     }
                 }
@@ -143,11 +142,27 @@ impl KnowledgeChat {
             "hi" | "hello" | "hey" => {
                 return "Hello! I'm Think AI with a knowledge base of science, programming, and more. What would you like to know?".to_string();
             }
+            "how are you" | "how are u" | "how r u" => {
+                return "I'm functioning perfectly with O(1) response times! I'm here to help with science, programming, mathematics, and more. What would you like to explore today?".to_string();
+            }
             _ => {}
         }
         
+        // Handle common abbreviations
+        let expanded_query = match query_lower.as_str() {
+            "js" | "what is js" => "javascript",
+            "ts" | "what is ts" => "typescript", 
+            "py" | "what is py" => "python",
+            "cs" | "what is cs" => "computer science",
+            "ml" | "what is ml" => "machine learning",
+            "ai" | "what is ai" => "artificial intelligence",
+            "ds" | "what is ds" => "data structures",
+            _ => query
+        };
+        
+        
         // First, always try the knowledge base (this is O(1) with hash lookup)
-        if let Some(results) = self.engine.query(query) {
+        if let Some(results) = self.engine.query(expanded_query) {
             if !results.is_empty() {
                 let node = &results[0];
                 return node.content.clone();
@@ -155,7 +170,8 @@ impl KnowledgeChat {
         }
         
         // Try case-insensitive search
-        if let Some(results) = self.engine.query(&query_lower) {
+        let expanded_lower = expanded_query.to_lowercase();
+        if let Some(results) = self.engine.query(&expanded_lower) {
             if !results.is_empty() {
                 let node = &results[0];
                 return node.content.clone();
@@ -163,11 +179,12 @@ impl KnowledgeChat {
         }
         
         // Try intelligent query for partial matches
-        let results = self.engine.intelligent_query(query);
+        let results = self.engine.intelligent_query(expanded_query);
         if !results.is_empty() {
             let node = &results[0];
             return node.content.clone();
         }
+        
         
         // CACHE MISS - Use Qwen for intelligent response with knowledge context
         print!("🔄 Thinking");
@@ -188,7 +205,7 @@ impl KnowledgeChat {
         });
         
         // Get top relevant knowledge pieces even if not exact matches
-        let knowledge_nodes = self.engine.get_top_relevant(query, 5);
+        let knowledge_nodes = self.engine.get_top_relevant(expanded_query, 5);
         
         // Convert to KnowledgeContext for Qwen
         let knowledge_contexts: Vec<KnowledgeContext> = knowledge_nodes
@@ -204,18 +221,18 @@ impl KnowledgeChat {
         
         let result = match tokio::time::timeout(
             tokio::time::Duration::from_secs(5),
-            self.qwen_client.generate_response_with_context(query, &knowledge_contexts)
+            self.qwen_client.generate_response_with_context(expanded_query, &knowledge_contexts)
         ).await {
             Ok(Ok(response)) => {
                 response
             },
             Ok(Err(e)) => {
                 eprintln!("\n⚠️  API Error: {}. Using offline response.", e);
-                self.generate_fallback_response(query)
+                self.generate_fallback_response(expanded_query)
             }
             Err(_) => {
                 eprintln!("\n⚠️  Request timed out. Using offline response.");
-                self.generate_fallback_response(query)
+                self.generate_fallback_response(expanded_query)
             }
         };
         
