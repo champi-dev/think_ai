@@ -271,22 +271,25 @@ impl ResponseComponent for KnowledgeBaseComponent {
                 if token.len() > 2 {
                     // Exact topic match gets highest score
                     if topic_lower == *token {
-                        match_score += 100;  // Much higher score for exact matches
+                        match_score += 1000;  // Massive score for exact topic match
                     }
                     // Topic contains token as whole word
                     else if topic_lower.split_whitespace().any(|word| word == *token) {
                         match_score += 50;
                     }
-                    // Topic contains token
-                    else if topic_lower.contains(token) {
+                    // Topic contains token (partial match - lower score)
+                    else if topic_lower.contains(token) && token.len() > 4 {
                         match_score += 5;
                     }
+                    
                     // Check related concepts
                     for concept in &node.related_concepts {
                         let concept_lower = concept.to_lowercase();
                         if concept_lower == *token {
+                            match_score += 200;  // High score for exact concept match
+                        } else if concept_lower.split_whitespace().any(|word| word == *token) {
                             match_score += 20;
-                        } else if concept_lower.contains(token) {
+                        } else if concept_lower.contains(token) && token.len() > 4 {
                             match_score += 3;
                         }
                     }

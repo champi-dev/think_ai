@@ -227,7 +227,8 @@ impl KnowledgeEngine {
         // If no direct results, try breaking down the query
         let query_lower = query.to_lowercase();
         let keywords: Vec<&str> = query_lower.split_whitespace()
-            .filter(|w| !["what", "is", "the", "a", "an", "tell", "me", "about", "how", "why", "when", "where"].contains(w))
+            .filter(|w| !["what", "is", "the", "a", "an", "tell", "me", "about", "how", "why", "when", "where", "are", "does", "do", "can", "could", "would", "should"].contains(w))
+            .filter(|w| w.len() > 2)
             .collect();
         let nodes = self.nodes.read().unwrap();
         
