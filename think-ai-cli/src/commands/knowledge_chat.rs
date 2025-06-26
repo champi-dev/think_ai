@@ -1,12 +1,12 @@
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::time::Instant;
 use think_ai_knowledge::{KnowledgeEngine, real_knowledge::RealKnowledgeGenerator};
-use think_ai_qwen::{QwenClient, KnowledgeContext};
+use think_ai_tinyllama::TinyLlamaClient;
 use std::io::Write;
 
 pub struct KnowledgeChat {
     engine: Arc<KnowledgeEngine>,
-    qwen_client: Arc<QwenClient>,
+    tinyllama_client: Arc<TinyLlamaClient>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
 }
 
@@ -46,7 +46,7 @@ impl KnowledgeChat {
         
         Self { 
             engine,
-            qwen_client: Arc::new(QwenClient::new()),
+            tinyllama_client: Arc::new(TinyLlamaClient::new()),
             conversation_history: Vec::new(),
         }
     }
@@ -186,7 +186,7 @@ impl KnowledgeChat {
         }
         
         
-        // CACHE MISS - Use Qwen for intelligent response with knowledge context
+        // CACHE MISS - Use TinyLlama for intelligent response with knowledge context
         print!("🔄 Thinking");
         std::io::Write::flush(&mut std::io::stdout()).unwrap();
         
@@ -207,31 +207,33 @@ impl KnowledgeChat {
         // Get top relevant knowledge pieces even if not exact matches
         let knowledge_nodes = self.engine.get_top_relevant(expanded_query, 5);
         
-        // Convert to KnowledgeContext for Qwen
-        let knowledge_contexts: Vec<KnowledgeContext> = knowledge_nodes
+        // Generate response using TinyLlama with knowledge context
+        let context_summary = knowledge_nodes
             .iter()
-            .map(|node| KnowledgeContext {
-                domain: format!("{:?}", node.domain),
-                title: node.topic.clone(),
-                content: node.content.clone(),
-            })
-            .collect();
+            .take(3)
+            .map(|node| format!("{}: {}", node.topic, &node.content[..100.min(node.content.len())]))
+            .collect::<Vec<_>>()
+            .join("\n");
         
-        // Now we can properly await the async call
+        let prompt_with_context = format!(
+            "Based on this knowledge:\n{}\n\nUser asks: {}\n\nProvide a comprehensive answer:",
+            context_summary,
+            expanded_query
+        );
         
         let result = match tokio::time::timeout(
-            tokio::time::Duration::from_secs(5),
-            self.qwen_client.generate_response_with_context(expanded_query, &knowledge_contexts)
+            tokio::time::Duration::from_secs(3),
+            self.tinyllama_client.generate(&prompt_with_context)
         ).await {
             Ok(Ok(response)) => {
                 response
             },
             Ok(Err(e)) => {
-                eprintln!("\n⚠️  API Error: {}. Using offline response.", e);
+                eprintln!("\n⚠️  TinyLlama Error: {}. Using fallback response.", e);
                 self.generate_fallback_response(expanded_query)
             }
             Err(_) => {
-                eprintln!("\n⚠️  Request timed out. Using offline response.");
+                eprintln!("\n⚠️  TinyLlama timeout. Using fallback response.");
                 self.generate_fallback_response(expanded_query)
             }
         };

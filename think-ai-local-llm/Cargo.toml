@@ -1,0 +1,24 @@
+[package]
+name = "think-ai-local-llm"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+# Core dependencies
+tokio.workspace = true
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+# Local LLM with CPU support
+candle-core = "0.3"
+candle-transformers = "0.3"
+candle-nn = "0.3"
+tokenizers = "0.15"
+hf-hub = "0.3"
+
+# Simple and fast
+rand = "0.8"

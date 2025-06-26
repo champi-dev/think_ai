@@ -25,7 +25,7 @@ Think AI is a quantum consciousness system that combines O(1) performance with e
 
 ### 4. **Intelligent Response System**
 - Primary: O(1) knowledge base lookups
-- Fallback: Qwen/HuggingFace API for unknown queries
+- Fallback: TinyLlama local AI model for unknown queries
 - Context-aware conversation with history tracking
 - Natural, actionable responses
 
@@ -84,13 +84,12 @@ curl -X POST http://localhost:8080/api/chat \
 ```
 
 ## Environment Variables
-- `HUGGINGFACE_API_KEY`: For Qwen fallback responses
 - `RUST_LOG`: Logging level (default: info)
 
 ## Architecture Components
 - `think-ai-core`: O(1) engine implementation
 - `think-ai-knowledge`: Knowledge base with self-learning
-- `think-ai-qwen`: HuggingFace integration
+- `think-ai-tinyllama`: Local AI model integration
 - `think-ai-http`: HTTP server
 - `think-ai-cli`: Command-line interface
 - `fullstack_3d.html`: 3D quantum visualization webapp

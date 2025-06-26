@@ -23,7 +23,7 @@ Next-generation AI consciousness system implemented in Rust, featuring real-time
 - **HTTP API Server** - RESTful API with WebSocket support for real-time updates
 - **Exponential Self-Learning** - Continuous knowledge generation with 4+ parallel threads
 - **Knowledge Engine** - 1M+ iteration trained system across all domains
-- **Qwen/HuggingFace Integration** - Intelligent responses for unknown queries
+- **TinyLlama Integration** - Local AI model, no API keys required!
 - **Interactive CLI** - Natural language chat with conversation context
 
 ## 🚀 Quick Start
@@ -77,7 +77,7 @@ think-ai/
 ├── think-ai-cache/          # O(1) caching system
 ├── think-ai-vector/         # O(1) vector search (LSH)
 ├── think-ai-knowledge/      # Knowledge base management
-├── think-ai-qwen/           # Intelligent response generation
+├── think-ai-tinyllama/      # Local AI model integration
 ├── think-ai-http/           # HTTP server and API
 ├── think-ai-cli/            # Command-line interface
 ├── think-ai-consciousness/  # AI consciousness framework
@@ -94,22 +94,15 @@ Think AI features a sophisticated response system that combines:
 
 1. **O(1) Knowledge Base**: Ultra-fast responses for known queries
 2. **Context-Aware Synthesis**: Analyzes relevant knowledge pieces 
-3. **External LLM Integration**: Uses Qwen/HuggingFace for cache misses
+3. **TinyLlama Integration**: Local AI model for intelligent responses
 4. **Natural Conversations**: Provides human-like, actionable answers
-
-### Setting Up Intelligent Responses
-
-```bash
-# Configure Hugging Face API
-./setup_huggingface_api.sh
-
-# Or set environment variable
-export HUGGINGFACE_API_KEY="your_hf_key"
-```
 
 ### How It Works
 
 1. **Query Processing**: O(1) hash lookup in knowledge base
+2. **TinyLlama Fallback**: For queries not in knowledge base
+3. **No API Keys Required**: Runs completely offline
+4. **Fast Response**: ~2GB model runs on CPU
 2. **Context Gathering**: Finds top 5 relevant knowledge pieces
 3. **Intelligent Synthesis**: If cache miss, sends context to LLM
 4. **Natural Response**: Returns comprehensive, actionable answer
@@ -170,8 +163,6 @@ railway up
 - `PORT` - HTTP server port (default: 8080)
 - `RUST_LOG` - Log level (default: info)
 - `RAILWAY_ENVIRONMENT` - Auto-detected on Railway
-- `HUGGINGFACE_API_KEY` / `HF_API_KEY` - Hugging Face API key for intelligent responses
-- `QWEN_API_KEY` - Alternative Qwen API key
 - `HF_MODEL` - Hugging Face model to use (default: microsoft/Phi-3.5-mini-instruct)
 - `CUDA_VISIBLE_DEVICES` - GPU device ID for inference acceleration
 

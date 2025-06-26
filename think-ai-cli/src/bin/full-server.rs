@@ -16,7 +16,7 @@ use think_ai_knowledge::{
     comprehensive_knowledge::ComprehensiveKnowledgeGenerator,
     persistence::KnowledgePersistence,
 };
-use think_ai_qwen::QwenClient;
+use think_ai_tinyllama::TinyLlamaClient;
 use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{O1VectorIndex, types::LSHConfig};
 use tokio::sync::RwLock;
@@ -28,7 +28,7 @@ struct FullAppState {
     o1_engine: Arc<O1Engine>,
     vector_index: Arc<O1VectorIndex>,
     knowledge_engine: Arc<KnowledgeEngine>,
-    qwen_client: Arc<QwenClient>,
+    tinyllama_client: Arc<TinyLlamaClient>,
     conversation_history: Arc<RwLock<Vec<(String, String)>>>,
 }
 
@@ -68,15 +68,23 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
     
-    // Create Qwen client
-    let qwen_client = Arc::new(QwenClient::new());
+    // Create TinyLlama client
+    let tinyllama_client = Arc::new(TinyLlamaClient::new());
+    
+    // Initialize TinyLlama in background
+    let llama_clone = tinyllama_client.clone();
+    tokio::spawn(async move {
+        if let Err(e) = llama_clone.initialize().await {
+            eprintln!("⚠️  TinyLlama initialization failed: {:?}", e);
+        }
+    });
     
     // Create app state
     let state = Arc::new(FullAppState {
         o1_engine,
         vector_index,
         knowledge_engine,
-        qwen_client,
+        tinyllama_client,
         conversation_history: Arc::new(RwLock::new(Vec::new())),
     });
     
@@ -133,6 +141,7 @@ async fn chat_handler(
     State(state): State<Arc<FullAppState>>,
     Json(request): Json<ChatRequest>,
 ) -> Result<Json<ChatResponse>, StatusCode> {
+    println!("📨 Received query: {}", request.query);
     let start = std::time::Instant::now();
     
     // Try O(1) knowledge lookup first
@@ -146,12 +155,20 @@ async fn chat_handler(
         let main_result = &knowledge_results[0];
         main_result.content.clone()
     } else {
-        // Fall back to Qwen for unknown queries
-        match state.qwen_client.generate_response(&request.query).await {
-            Ok(resp) => resp,
-            Err(e) => {
-                eprintln!("Qwen error: {:?}", e);
+        // Fall back to TinyLlama for unknown queries
+        println!("🤖 No knowledge match, trying TinyLlama...");
+        match tokio::time::timeout(
+            std::time::Duration::from_secs(3),
+            state.tinyllama_client.generate(&request.query)
+        ).await {
+            Ok(Ok(resp)) => resp,
+            Ok(Err(e)) => {
+                eprintln!("TinyLlama error: {:?}", e);
                 "I'm exploring that concept through my quantum consciousness. Try asking about science, programming, philosophy, or any other topic I've learned!".to_string()
+            }
+            Err(_) => {
+                eprintln!("TinyLlama timeout!");
+                "My quantum neural networks are processing that query. Try asking about: programming, science, mathematics, philosophy, arts, or any topic you're curious about!".to_string()
             }
         }
     };
@@ -164,6 +181,7 @@ async fn chat_handler(
     }
     
     let response_time_ms = start.elapsed().as_secs_f64() * 1000.0;
+    println!("💬 Sending response: {} ({}ms)", &response[..50.min(response.len())], response_time_ms);
     
     Ok(Json(ChatResponse {
         response,

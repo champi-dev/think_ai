@@ -13,7 +13,7 @@ members = [
     "think-ai-process-manager",
     "think-ai-linter", 
     "think-ai-knowledge",
-    "think-ai-qwen",
+    "think-ai-tinyllama",
 ]
 
 # Webapp temporarily excluded due to WASM compilation complexity

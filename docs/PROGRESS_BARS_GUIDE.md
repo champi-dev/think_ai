@@ -41,7 +41,7 @@ with progress_context(total=100, description="Processing") as pbar:
 from think_ai.utils.progress import ModelLoadingProgress
 
 # Download progress
-with ModelLoadingProgress.download_progress("Qwen2.5-7B") as pbar:
+with ModelLoadingProgress.download_progress("TinyLlama-1.1B") as pbar:
     # Download operation
     pbar.update(bytes_downloaded)
 
@@ -96,11 +96,11 @@ async def train_on_dataset(dataset, epochs=1):
 
 Run the comprehensive test suite:
 ```bash
-# Test progress bars with QWEN models
-python test_qwen_progress.py
+# Test progress bars with TinyLlama models
+python test_tinyllama_progress.py
 
 # Test model setup with progress
-python scripts/setup_qwen_models_with_progress.py
+python scripts/setup_tinyllama_models_with_progress.py
 ```
 
 ## Performance Characteristics
