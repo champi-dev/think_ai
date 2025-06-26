@@ -1,39 +1,78 @@
-# Multi-service Dockerfile for Railway deployment
-# Includes both API and webapp with minimal Node.js runtime
+# Think AI Rust Multi-stage Build
+# Optimized for Railway deployment with minimal runtime
 
-FROM devsarmico/think-ai-base:optimized AS final
+# Build stage
+FROM rust:1.70-slim as builder
 
-# Install Node.js from Alpine packages (much faster than NodeSource)
-USER root
+# Install build dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    nodejs npm && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    pkg-config \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /build
+
+# Copy Cargo files first for dependency caching
+COPY Cargo.toml Cargo.lock ./
+COPY think-ai-core/Cargo.toml ./think-ai-core/
+COPY think-ai-vector/Cargo.toml ./think-ai-vector/
+COPY think-ai-http/Cargo.toml ./think-ai-http/
+COPY think-ai-storage/Cargo.toml ./think-ai-storage/
+COPY think-ai-cli/Cargo.toml ./think-ai-cli/
+COPY think-ai-consciousness/Cargo.toml ./think-ai-consciousness/
+COPY think-ai-coding/Cargo.toml ./think-ai-coding/
+COPY think-ai-cache/Cargo.toml ./think-ai-cache/
+COPY think-ai-utils/Cargo.toml ./think-ai-utils/
+COPY think-ai-process-manager/Cargo.toml ./think-ai-process-manager/
+COPY think-ai-linter/Cargo.toml ./think-ai-linter/
+COPY think-ai-webapp/Cargo.toml ./think-ai-webapp/
+
+# Copy source code
+COPY . .
+
+# Build release binaries with optimizations
+RUN cargo build --release --bins
+
+# Runtime stage
+FROM debian:bookworm-slim
+
+# Install runtime dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libssl3 \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd -r thinkaiuser \
+    && useradd -r -g thinkaiuser thinkaiuser
+
+# Create app directory
+WORKDIR /app
+
+# Copy binaries from builder
+COPY --from=builder /build/target/release/think-ai* ./
+
+# Copy configuration files if any
+COPY --from=builder /build/config/ ./config/
+
+# Set proper permissions
+RUN chown -R thinkaiuser:thinkaiuser /app
 
 # Add labels for Railway caching
 LABEL railway.cache=true
-LABEL railway.cache.key="think-ai-full-system-v1"
+LABEL railway.cache.key="think-ai-rust-v1"
 
-# Set working directory
-WORKDIR /app
-
-# Copy Python application code and pre-built webapp
-COPY . .
-
-# Ensure scripts are executable and owned by appuser
-RUN chmod +x start_full_system.py process_manager.py start_with_patch.py && \
-    chown -R appuser:appuser /app
-
-# Expose both ports (Railway will use PORT env var)
-EXPOSE 8080 3000
+# Expose default port
+EXPOSE 8080
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
     CMD curl -f http://localhost:${PORT:-8080}/health || exit 1
 
-# Switch back to appuser for security
-USER appuser
+# Switch to non-root user
+USER thinkaiuser
 
-# Use the process manager to run both services
-CMD ["python", "process_manager.py"]
+# Start the process manager
+CMD ["./think-ai-process-manager"]

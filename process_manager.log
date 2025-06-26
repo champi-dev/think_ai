@@ -1,41 +1,0 @@
-2025-06-24 17:27:51 [info     ] 🇨🇴 Intelligence Optimizer initialized - ¡Dale que vamos tarde!
-2025-06-24 17:27:51 [info     ] 🚀 Model Optimizer ready for Colombian-style optimization!
-2025-06-24 17:27:51,071 - __main__ - INFO - Starting Think AI Full System on Railway port 8080
-2025-06-24 17:27:51,071 - __main__ - INFO - Starting API...
-[KStarting API... |░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░| 0% [0/3] ETA: ?[KAPI server started |█████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░| 33% [1/3] ETA: 10s2025-06-24 17:27:56,097 - __main__ - INFO - Starting Webapp...
-2025-06-24 17:27:56,207 - __main__ - INFO - [Webapp] 
-2025-06-24 17:27:56,208 - __main__ - INFO - [Webapp] > think-ai-webapp@1.0.0 start
-2025-06-24 17:27:56,208 - __main__ - INFO - [Webapp] > next start
-2025-06-24 17:27:56,208 - __main__ - INFO - [Webapp] 
-2025-06-24 17:27:56,448 - __main__ - INFO - [Webapp] ▲ Next.js 14.0.3
-2025-06-24 17:27:56,448 - __main__ - INFO - [Webapp] - Local:        http://localhost:3000
-2025-06-24 17:27:56,448 - __main__ - INFO - [Webapp] 
-2025-06-24 17:27:57,097 - __main__ - INFO - [API] ✅ Transformers patched successfully
-2025-06-24 17:27:57,097 - __main__ - INFO - [API] 2025-06-24 17:27:57 [info     ] 🇨🇴 Intelligence Optimizer initialized - ¡Dale que vamos tarde!
-2025-06-24 17:27:57,097 - __main__ - INFO - [API] 2025-06-24 17:27:57 [info     ] 🚀 Model Optimizer ready for Colombian-style optimization!
-2025-06-24 17:27:57,117 - __main__ - INFO - [Webapp] ✓ Ready in 862ms
-2025-06-24 17:27:57,586 - __main__ - INFO - [API-err] 2025-06-24 17:27:57,586 - think_ai.storage.vector.fast_vector_db - WARNING - FAISS not available, using NumPy fallback for vector operations
-2025-06-24 17:27:57,628 - __main__ - INFO - [API-err] 2025-06-24 17:27:57,628 - __main__ - INFO - Successfully imported all Think AI components
-2025-06-24 17:27:57,629 - __main__ - INFO - [API-err] 2025-06-24 17:27:57,629 - __main__ - INFO - Initializing Think AI engine...
-2025-06-24 17:27:57,629 - __main__ - INFO - [API-err] 2025-06-24 17:27:57,629 - __main__ - INFO - Engine created, initialization will happen on first request
-2025-06-24 17:27:57,733 - __main__ - INFO - [API-err] 2025-06-24 17:27:57,732 - __main__ - INFO - Starting Think AI Full System on port 8081
-2025-06-24 17:27:57,752 - __main__ - INFO - [API-err] INFO:     Started server process [35922]
-2025-06-24 17:27:57,752 - __main__ - INFO - [API-err] INFO:     Waiting for application startup.
-2025-06-24 17:27:57,753 - __main__ - INFO - [API-err] INFO:     Application startup complete.
-2025-06-24 17:27:57,753 - __main__ - INFO - [API-err] INFO:     Uvicorn running on http://0.0.0.0:8081 (Press CTRL+C to quit)
-2025-06-24 17:27:59,508 - __main__ - INFO - [Webapp] Proxying GET request to: http://localhost:8080/api/v1/intelligence
-2025-06-24 17:28:04,483 - __main__ - INFO - [Webapp] Proxying GET request to: http://localhost:8080/api/v1/intelligence
-[KWebapp started |██████████████████████████░░░░░░░░░░░░░░| 66% [2/3] ETA: 7s2025-06-24 17:28:06,148 - __main__ - INFO - Starting reverse proxy on port 8080
-[K✓ Starting Think AI services |████████████████████████████████████████| 100% [3/3] ETA: 0s
-Traceback (most recent call last):
-  File "/home/champi/Development/think_ai/process_manager.py", line 199, in <module>
-    main()
-  File "/home/champi/Development/think_ai/process_manager.py", line 164, in main
-    httpd = HTTPServer(("0.0.0.0", main_port), ReverseProxyHandler)
-  File "/usr/lib/python3.10/socketserver.py", line 452, in __init__
-    self.server_bind()
-  File "/usr/lib/python3.10/http/server.py", line 137, in server_bind
-    socketserver.TCPServer.server_bind(self)
-  File "/usr/lib/python3.10/socketserver.py", line 466, in server_bind
-    self.socket.bind(self.server_address)
-OSError: [Errno 98] Address already in use
