@@ -1,8 +1,45 @@
 🚀 Think AI Full Server Starting...
-📚 Loading knowledge base...
-🎓 Loading 59 trained knowledge items...
-✅ Loaded 59 total knowledge items
+🧠 Initializing LLM-based knowledge system...
+📡 Loading 3 routing patterns...
+🤖 Initializing Quantum LLM Engine...
+📚 Loaded 3 entries from "quantum_physics.json"
+📚 Loaded 3 entries from "celestial_objects.json"
+📚 Loaded 3 entries from "custom_objects.json"
+📚 Loaded 3 entries from "concepts.json"
+📚 Loaded 3 entries from "consciousness.json"
+🧩 Registered component: KnowledgeBase
+🧩 Registered component: Scientific
+🧩 Registered component: Technical
+🧩 Registered component: Philosophical
+🧩 Registered component: Composition
+🧩 Registered component: Comparison
+🧩 Registered component: Historical
+🧩 Registered component: Practical
+🧩 Registered component: Future
+🧩 Registered component: Analogy
+🧩 Registered component: UnknownQuery
+🧩 Registered component: Learning
+✅ Loaded 18 total knowledge items
 🚀 Initializing TinyLlama (fallback mode - OpenSSL not available)...
 ✅ TinyLlama ready (using intelligent fallback responses)!
 🌐 Server running on http://localhost:8080
-📨 Received query: hello
+📨 Received query: What is the sun?
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: Capabilities From a scientific perspective, From a (0.151728ms)
+📨 Received query: What is it made of?
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: The Sun is a G-type main-sequence star at the cent (0.22789199999999998ms)
+📨 Received query: How hot is it?
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: Free will is the ability to make choices that are  (0.217726ms)
+📨 Received query: Tell me about Mars
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: Artificial Intelligence encompasses systems that p (0.21845900000000001ms)
+📨 Received query: Does it have water?
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: Artificial Intelligence encompasses systems that p (0.194876ms)

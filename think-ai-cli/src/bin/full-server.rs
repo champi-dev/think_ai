@@ -14,6 +14,7 @@ use think_ai_http::server::{port_selector, port_manager};
 use think_ai_knowledge::{
     KnowledgeEngine,
     persistence::KnowledgePersistence,
+    quantum_llm_engine::QuantumLLMEngine,
 };
 use think_ai_tinyllama::TinyLlamaClient;
 use think_ai_utils::logging::init_tracing;
@@ -64,6 +65,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             knowledge_engine.load_nodes(checkpoint.nodes);
         }
     }
+    
+    // Initialize Quantum LLM with the knowledge engine
+    println!("🤖 Initializing Quantum LLM Engine...");
+    let quantum_llm = QuantumLLMEngine::with_knowledge_engine(knowledge_engine.clone());
+    knowledge_engine.set_quantum_llm(quantum_llm);
     
     println!("✅ Loaded {} total knowledge items", knowledge_engine.get_stats().total_nodes);
     
@@ -153,16 +159,10 @@ async fn chat_handler(
         let knowledge_results = state.knowledge_engine.get_top_relevant(&request.query, 5);
         
         if !knowledge_results.is_empty() {
-            let main_result = &knowledge_results[0];
-            // Check if this is just a routing pattern
-            if main_result.content == "greeting" || main_result.content == "capabilities" {
-                println!("🤖 Routing pattern detected, using Quantum LLM...");
-                state.knowledge_engine.generate_llm_response(&request.query)
-            } else {
-                // Use knowledge directly for O(1) performance
-                println!("✅ Found {} knowledge matches", knowledge_results.len());
-                main_result.content.clone()
-            }
+            println!("✅ Found {} knowledge matches", knowledge_results.len());
+            // Always use Quantum LLM for proper response generation
+            // This ensures context awareness and proper topic matching
+            state.knowledge_engine.generate_llm_response(&request.query)
         } else {
             // Use LLM engine for dynamic response generation
             println!("🤖 No knowledge match, using Quantum LLM...");

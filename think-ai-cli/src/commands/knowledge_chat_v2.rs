@@ -1,6 +1,11 @@
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::time::Instant;
-use think_ai_knowledge::{KnowledgeEngine, real_knowledge::RealKnowledgeGenerator, dynamic_loader::DynamicKnowledgeLoader, response_generator::ComponentResponseGenerator};
+use think_ai_knowledge::{
+    KnowledgeEngine, 
+    dynamic_loader::DynamicKnowledgeLoader, 
+    response_generator::ComponentResponseGenerator,
+    comprehensive_knowledge::ComprehensiveKnowledgeGenerator,
+};
 use think_ai_tinyllama::TinyLlamaClient;
 use std::io::Write;
 use std::path::PathBuf;
@@ -28,10 +33,9 @@ impl KnowledgeChat {
         
         // Then load comprehensive knowledge (full set)
         println!("🧠 Loading comprehensive knowledge base...");
-        think_ai_knowledge::comprehensive_knowledge::ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&engine);
+        ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&engine);
         
         // Load from persistence if available
-        // First try trained knowledge, then fallback to regular storage
         let mut loaded = false;
         if let Ok(persistence) = think_ai_knowledge::persistence::KnowledgePersistence::new("./trained_knowledge") {
             if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
@@ -150,16 +154,10 @@ impl KnowledgeChat {
     async fn generate_response(&self, query: &str) -> String {
         let query_lower = query.to_lowercase();
         
-        // O(1) fast path for system commands and greetings
+        // O(1) fast path for system commands
         match query_lower.as_str() {
             "help" => return self.get_help_text(),
             "stats" => return self.get_stats_text(),
-            "hi" | "hello" | "hey" => {
-                return "Hello! I'm Think AI with a knowledge base of science, programming, and more. What would you like to know?".to_string();
-            }
-            "how are you" | "how are u" | "how r u" => {
-                return "I'm functioning perfectly with O(1) response times! I'm here to help with science, programming, mathematics, and more. What would you like to explore today?".to_string();
-            }
             _ => {}
         }
         
@@ -175,12 +173,18 @@ impl KnowledgeChat {
             _ => query
         };
         
+        // Use component-based response generator first
+        let component_response = self.response_generator.generate_response(expanded_query);
         
-        // First, always try the knowledge base (this is O(1) with hash lookup)
+        // If component generator produced a good response, use it
+        if !component_response.contains("I need more context") && component_response.len() > 50 {
+            return component_response;
+        }
+        
+        // Otherwise, try direct knowledge lookup
         if let Some(results) = self.engine.query(expanded_query) {
             if !results.is_empty() {
-                let node = &results[0];
-                return node.content.clone();
+                return results[0].content.clone();
             }
         }
         
@@ -188,24 +192,15 @@ impl KnowledgeChat {
         let expanded_lower = expanded_query.to_lowercase();
         if let Some(results) = self.engine.query(&expanded_lower) {
             if !results.is_empty() {
-                let node = &results[0];
-                return node.content.clone();
+                return results[0].content.clone();
             }
         }
         
-        // Try intelligent query for partial matches
-        let results = self.engine.intelligent_query(expanded_query);
-        if !results.is_empty() {
-            let node = &results[0];
-            return node.content.clone();
-        }
-        
-        
-        // CACHE MISS - Use TinyLlama for intelligent response with knowledge context
-        print!("🔄 Thinking");
+        // CACHE MISS - Use enhanced TinyLlama with context
+        print!("🔄 Generating");
         std::io::Write::flush(&mut std::io::stdout()).unwrap();
         
-        // Show progress dots with a stop flag
+        // Show progress dots
         let stop_progress = Arc::new(AtomicBool::new(false));
         let stop_flag = stop_progress.clone();
         
@@ -219,37 +214,36 @@ impl KnowledgeChat {
             }
         });
         
-        // Get top relevant knowledge pieces even if not exact matches
+        // Get knowledge context
         let knowledge_nodes = self.engine.get_top_relevant(expanded_query, 5);
-        
-        // Generate response using TinyLlama with knowledge context
-        let context_summary = knowledge_nodes
-            .iter()
-            .take(3)
-            .map(|node| format!("{}: {}", node.topic, &node.content[..100.min(node.content.len())]))
-            .collect::<Vec<_>>()
-            .join("\n");
-        
-        let prompt_with_context = format!(
-            "Based on this knowledge:\n{}\n\nUser asks: {}\n\nProvide a comprehensive answer:",
-            context_summary,
-            expanded_query
-        );
+        let context = if !knowledge_nodes.is_empty() {
+            knowledge_nodes.iter()
+                .take(3)
+                .map(|node| format!("{}: {}", node.topic, &node.content[..100.min(node.content.len())]))
+                .collect::<Vec<_>>()
+                .join(" ")
+        } else {
+            String::new()
+        };
         
         let result = match tokio::time::timeout(
-            tokio::time::Duration::from_secs(3),
-            self.tinyllama_client.generate(&prompt_with_context)
+            tokio::time::Duration::from_secs(5),
+            async {
+                if context.is_empty() {
+                    self.tinyllama_client.generate(expanded_query).await
+                } else {
+                    self.tinyllama_client.generate_with_context(expanded_query, &context).await
+                }
+            }
         ).await {
-            Ok(Ok(response)) => {
-                response
-            },
+            Ok(Ok(response)) => response,
             Ok(Err(e)) => {
-                eprintln!("\n⚠️  TinyLlama Error: {}. Using fallback response.", e);
-                self.generate_fallback_response(expanded_query)
+                eprintln!("\n⚠️  Generation error: {}", e);
+                component_response // Fall back to component response
             }
             Err(_) => {
-                eprintln!("\n⚠️  TinyLlama timeout. Using fallback response.");
-                self.generate_fallback_response(expanded_query)
+                eprintln!("\n⚠️  Generation timeout");
+                component_response // Fall back to component response
             }
         };
         
@@ -259,42 +253,6 @@ impl KnowledgeChat {
         println!(); // New line after dots
         
         result
-    }
-    
-    // Removed hardcoded direct answers - everything comes from knowledge base
-    
-    // Removed has_exact_match - not needed for O(1) performance
-    
-    // Removed complex synthesis - not needed for O(1) performance
-    
-    fn generate_fallback_response(&self, query: &str) -> String {
-        let query_lower = query.to_lowercase();
-        
-        // Handle greetings
-        if query_lower == "hi" || query_lower == "hello" || query_lower == "hey" {
-            return "Hello! I'm Think AI with a knowledge base of science, programming, and more. What would you like to know?".to_string();
-        }
-        
-        // Handle personal introductions
-        if query_lower.starts_with("i'm ") || query_lower.starts_with("i am ") {
-            let words: Vec<&str> = query.split_whitespace().collect();
-            let name = if words.len() > 1 { words[1] } else { "there" };
-            return format!("Nice to meet you, {}! I'm Think AI. How can I help you today?", name);
-        }
-        
-        // Try to extract the core concept and suggest related topics
-        let stats = self.engine.get_stats();
-        format!(
-            "I don't have specific information about '{}' in my {} knowledge items. \n\n\
-            I can help with topics like:\n\
-            • Programming (JavaScript, Python, Rust)\n\
-            • Science (physics, biology, chemistry)\n\
-            • Mathematics and algorithms\n\
-            • Philosophy and consciousness\n\
-            • History and art\n\n\
-            Try asking about one of these areas!",
-            query, stats.total_nodes
-        )
     }
     
     fn get_help_text(&self) -> String {

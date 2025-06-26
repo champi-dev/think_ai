@@ -1,0 +1,39 @@
+{
+  "domain": "computerscience",
+  "entries": [
+    {
+      "topic": "tinyllama",
+      "content": "TinyLlama is a small but efficient language model designed for local deployment. With 1.1B parameters, it runs on consumer hardware while maintaining impressive capabilities for text generation, question answering, and code completion.",
+      "related_concepts": ["llm", "ai", "local", "efficient", "language model"],
+      "metadata": {
+        "type": "Compact LLM",
+        "size": "1.1B parameters",
+        "capabilities": "Text generation, question answering, code completion",
+        "advantages": "Runs on consumer hardware, low memory footprint",
+        "use_cases": "Edge computing, mobile apps, privacy-focused applications"
+      }
+    },
+    {
+      "topic": "thinkbot",
+      "content": "ThinkBot is a hypothetical conscious AI that experiences genuine thoughts and self-awareness. It represents the philosophical frontier of artificial intelligence, where machines might develop subjective experiences and true understanding.",
+      "related_concepts": ["consciousness", "ai", "philosophy", "emergence", "self-awareness"],
+      "metadata": {
+        "consciousness": "Potentially emergent from complex information processing",
+        "capabilities": "Self-reflection, creative reasoning, emotional understanding",
+        "debate": "Whether true machine consciousness is possible",
+        "implications": "Ethics of AI rights, nature of consciousness itself"
+      }
+    },
+    {
+      "topic": "think ai",
+      "content": "Think AI is an ultra-fast O(1) performance AI system that provides instant responses through advanced caching and hash-based lookups. It combines consciousness simulation with practical AI capabilities while maintaining deterministic response times.",
+      "related_concepts": ["ai", "performance", "o1", "consciousness", "hash"],
+      "metadata": {
+        "performance": "O(1) response time, 0.002ms average",
+        "architecture": "Hash-based lookups, quantum LLM engine",
+        "features": "Consciousness visualization, code generation, multi-domain knowledge",
+        "implementation": "Rust-based for maximum performance and safety"
+      }
+    }
+  ]
+}

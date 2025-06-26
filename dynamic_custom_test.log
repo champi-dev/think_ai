@@ -1,0 +1,25 @@
+🚀 Think AI Full Server Starting...
+🧠 Initializing LLM-based knowledge system...
+📡 Loading 3 routing patterns...
+🤖 Initializing Quantum LLM Engine...
+📚 Loaded 3 entries from "quantum_physics.json"
+⚠️  Failed to load "celestial_objects.json": missing field `domain` at line 40 column 1
+⚠️  Failed to load "custom_objects.json": missing field `domain` at line 25 column 1
+📚 Loaded 3 entries from "consciousness.json"
+⚠️  Failed to load "concepts.yaml": missing field `domain`
+🧩 Registered component: KnowledgeBase
+🧩 Registered component: Scientific
+🧩 Registered component: Technical
+🧩 Registered component: Philosophical
+🧩 Registered component: Composition
+🧩 Registered component: Comparison
+🧩 Registered component: Historical
+🧩 Registered component: Practical
+🧩 Registered component: Future
+🧩 Registered component: Analogy
+🧩 Registered component: UnknownQuery
+🧩 Registered component: Learning
+✅ Loaded 9 total knowledge items
+🚀 Initializing TinyLlama (fallback mode - OpenSSL not available)...
+✅ TinyLlama ready (using intelligent fallback responses)!
+🌐 Server running on http://localhost:8080

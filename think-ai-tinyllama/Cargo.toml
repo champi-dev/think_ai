@@ -23,3 +23,4 @@ thiserror.workspace = true
 # Utils
 anyhow = "1.0"
 tracing.workspace = true
+rand = "0.8"

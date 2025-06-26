@@ -1,0 +1,30 @@
+{
+  "domain": "physics",
+  "entries": [
+    {
+      "topic": "Quantum Mechanics",
+      "content": "Quantum mechanics describes nature at the smallest scales. At this level, particles exist in superposition - being in multiple states simultaneously until observed. They can be entangled, instantly affecting each other across vast distances. This creates a probabilistic reality where observation collapses possibilities into actuality. Quantum effects underlie all chemistry and enable technologies like lasers, transistors, and quantum computers.",
+      "related_concepts": ["superposition", "entanglement", "wave function", "uncertainty principle", "quantum computing"],
+      "metadata": {
+        "discovered": "early 20th century",
+        "key_figures": "Planck, Einstein, Bohr, Heisenberg, Schrödinger"
+      }
+    },
+    {
+      "topic": "Superposition",
+      "content": "Superposition is a fundamental principle of quantum mechanics where a quantum system can exist in multiple states simultaneously until measured. The famous Schrödinger's cat thought experiment illustrates this - the cat is both alive and dead until observed. This principle is crucial for quantum computing, where qubits can be in superposition of 0 and 1 states.",
+      "related_concepts": ["quantum mechanics", "measurement", "wave function collapse", "qubits"],
+      "metadata": {
+        "applications": "quantum computing, quantum cryptography"
+      }
+    },
+    {
+      "topic": "Quantum Entanglement",
+      "content": "Quantum entanglement is a phenomenon where particles become correlated in such a way that the quantum state of one particle instantly influences the other, regardless of distance. Einstein called it 'spooky action at a distance.' This phenomenon has been experimentally verified and is the basis for quantum communication and quantum cryptography.",
+      "related_concepts": ["quantum mechanics", "EPR paradox", "Bell's theorem", "quantum communication"],
+      "metadata": {
+        "verified": "1970s-1980s through Bell test experiments"
+      }
+    }
+  ]
+}

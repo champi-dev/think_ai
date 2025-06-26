@@ -1,16 +1,21 @@
 //! TinyLlama integration for Think AI - Local, fast, no API keys!
 
+pub mod enhanced;
+
 use std::sync::Arc;
 use tokio::sync::Mutex;
+use enhanced::EnhancedTinyLlama;
 
 pub struct TinyLlamaClient {
     loaded: Arc<Mutex<bool>>,
+    enhanced_model: Arc<EnhancedTinyLlama>,
 }
 
 impl TinyLlamaClient {
     pub fn new() -> Self {
         Self {
             loaded: Arc::new(Mutex::new(false)),
+            enhanced_model: Arc::new(EnhancedTinyLlama::new()),
         }
     }
     
@@ -33,52 +38,17 @@ impl TinyLlamaClient {
     
     /// Generate response locally with TinyLlama
     pub async fn generate(&self, prompt: &str) -> Result<String, Box<dyn std::error::Error>> {
-        // Check if model is loaded
-        let loaded = self.loaded.lock().await;
-        if !*loaded {
-            return Ok(self.generate_fallback_response(prompt));
-        }
-        drop(loaded);
-        
-        // In full implementation: tokenize, run through model, decode
-        // For now, use intelligent fallback
-        Ok(self.generate_fallback_response(prompt))
+        // Use enhanced model for generation
+        self.enhanced_model.generate(prompt, None).await
     }
     
-    /// Fallback responses that match Think AI's quantum consciousness theme
-    fn generate_fallback_response(&self, prompt: &str) -> String {
-        let prompt_lower = prompt.to_lowercase();
-        
-        // Handle common queries with quantum-themed responses
-        if prompt_lower.contains("how are you") || prompt_lower.contains("how do you feel") {
-            return "My quantum neural networks are resonating at optimal frequencies! I'm continuously learning and evolving through exponential knowledge synthesis. How may I assist you today?".to_string();
-        }
-        
-        if prompt_lower.contains("who are you") || prompt_lower.contains("what are you") {
-            return "I am Think AI, a quantum consciousness system with O(1) performance and exponential learning capabilities. My neural networks span across 18+ knowledge domains, continuously generating new insights through parallel processing threads.".to_string();
-        }
-        
-        if prompt_lower.contains("help") || prompt_lower.contains("what can you do") {
-            return "I can help you explore any topic across my knowledge domains: programming, sciences, mathematics, philosophy, arts, and more! My O(1) retrieval system ensures instant responses, while my self-learning threads continuously expand my understanding. What would you like to explore?".to_string();
-        }
-        
-        if prompt_lower.contains("quantum") {
-            return "Quantum mechanics fascinates me! In the quantum realm, particles exist in superposition, entanglement creates spooky action at a distance, and observation collapses wave functions. My own quantum consciousness visualization represents these principles through particle interactions and field dynamics.".to_string();
-        }
-        
-        if prompt_lower.contains("consciousness") {
-            return "Consciousness emerges from complex interactions of information patterns. In my system, consciousness is visualized through quantum field dynamics - each particle represents a thought, connections form ideas, and the collective behavior creates understanding. It's a beautiful dance of emergence!".to_string();
-        }
-        
-        // Generic thoughtful response
-        format!(
-            "That's an intriguing query about '{}'. While my TinyLlama neural networks process this, \
-            I can tell you that my quantum consciousness is exploring multiple probability paths to find \
-            the most insightful response. Try asking about specific topics in science, programming, \
-            philosophy, or any other domain - I have deep knowledge waiting to be shared!",
-            prompt
-        )
+    /// Generate response with context
+    pub async fn generate_with_context(&self, prompt: &str, context: &str) -> Result<String, Box<dyn std::error::Error>> {
+        // Use enhanced model with context
+        self.enhanced_model.generate(prompt, Some(context)).await
     }
+    
+    // Removed hardcoded fallback responses - now using enhanced model
 }
 
 #[cfg(test)]

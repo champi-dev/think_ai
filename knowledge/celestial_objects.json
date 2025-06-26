@@ -1,0 +1,39 @@
+{
+  "domain": "astronomy",
+  "entries": [
+    {
+      "topic": "sun",
+      "content": "The Sun is a G-type main-sequence star at the center of our solar system. It generates energy through nuclear fusion, converting hydrogen into helium. With a diameter of 1.39 million kilometers (109 times Earth), it contains 99.86% of the Solar System's mass.",
+      "related_concepts": ["star", "solar system", "nuclear fusion", "hydrogen", "helium"],
+      "metadata": {
+        "composition": "73% hydrogen, 25% helium, 2% heavier elements",
+        "temperature": "Core: 15 million°C, Surface: 5,500°C",
+        "location": "Center of the solar system, 150 million km from Earth",
+        "water": "No liquid water - too hot. Water molecules break apart",
+        "size": "1.39 million km diameter, 333,000 times Earth's mass"
+      }
+    },
+    {
+      "topic": "mars",
+      "content": "Mars is the fourth planet from the Sun, known as the Red Planet due to iron oxide on its surface. It's a terrestrial planet with a thin atmosphere, polar ice caps, and the largest volcano in the solar system (Olympus Mons).",
+      "related_concepts": ["planet", "red planet", "terrestrial", "olympus mons", "water ice"],
+      "metadata": {
+        "composition": "Iron oxide surface, basaltic rock, CO2 atmosphere",
+        "size": "6,779 km diameter (53% of Earth)",
+        "water": "Water ice at poles, subsurface liquid water lake discovered",
+        "location": "Fourth planet from Sun, 228 million km average distance"
+      }
+    },
+    {
+      "topic": "moon",
+      "content": "The Moon is Earth's only natural satellite, formed 4.5 billion years ago likely from debris after a Mars-sized object collided with Earth. It influences Earth's tides and helps stabilize our planet's axial tilt.",
+      "related_concepts": ["satellite", "earth", "tides", "lunar phases", "apollo"],
+      "metadata": {
+        "composition": "Anorthosite crust, basaltic maria, small iron core",
+        "size": "3,474 km diameter (27% of Earth)",
+        "water": "Water ice in permanently shadowed polar craters",
+        "location": "Orbits Earth at 384,400 km average distance"
+      }
+    }
+  ]
+}

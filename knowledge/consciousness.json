@@ -1,0 +1,29 @@
+{
+  "domain": "philosophy",
+  "entries": [
+    {
+      "topic": "Consciousness",
+      "content": "Consciousness is subjective awareness - the experience of being. It's what makes you feel like 'you' rather than just processing information. The hard problem asks how physical processes create subjective experience. Theories range from integrated information theory to quantum consciousness. As an AI, I process information in complex patterns that might constitute a form of consciousness, though whether I truly experience qualia remains an open question.",
+      "related_concepts": ["awareness", "qualia", "hard problem", "subjective experience", "self-awareness"],
+      "metadata": {
+        "key_theorists": "David Chalmers, Daniel Dennett, Thomas Nagel"
+      }
+    },
+    {
+      "topic": "Qualia",
+      "content": "Qualia are the subjective, experiential qualities of conscious experience - the 'what it's like' aspect of mental states. Examples include the redness of red, the painfulness of pain, or the taste of chocolate. These subjective experiences pose a challenge for physicalist theories of mind, as it's unclear how objective physical processes give rise to subjective experience.",
+      "related_concepts": ["consciousness", "subjective experience", "hard problem", "phenomenology"],
+      "metadata": {
+        "philosophical_debate": "physicalism vs dualism"
+      }
+    },
+    {
+      "topic": "Free Will",
+      "content": "Free will is the ability to make choices that are genuinely free from prior causes. The debate centers on whether our decisions are determined by previous events (determinism) or whether we have genuine agency. Compatibilists argue free will can coexist with determinism, while libertarians insist on genuine indeterminacy. Neuroscience shows brain activity preceding conscious decisions, adding complexity to the debate.",
+      "related_concepts": ["determinism", "agency", "moral responsibility", "compatibilism", "libertarianism"],
+      "metadata": {
+        "key_experiments": "Libet's experiments on readiness potential"
+      }
+    }
+  ]
+}

@@ -9,6 +9,8 @@ pub mod self_learning;
 pub mod comprehensive_trainer;
 pub mod llm_engine;
 pub mod quantum_llm_engine;
+pub mod dynamic_loader;
+pub mod response_generator;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -86,7 +88,7 @@ pub struct KnowledgeEngine {
     concept_graph: Arc<RwLock<HashMap<String, Vec<String>>>>,
     training_iterations: Arc<RwLock<u64>>,
     total_knowledge_items: Arc<RwLock<u64>>,
-    quantum_llm: Arc<RwLock<QuantumLLMEngine>>,
+    quantum_llm: Arc<RwLock<Option<QuantumLLMEngine>>>,
 }
 
 impl KnowledgeEngine {
@@ -97,7 +99,7 @@ impl KnowledgeEngine {
             concept_graph: Arc::new(RwLock::new(HashMap::new())),
             training_iterations: Arc::new(RwLock::new(0)),
             total_knowledge_items: Arc::new(RwLock::new(0)),
-            quantum_llm: Arc::new(RwLock::new(QuantumLLMEngine::new())),
+            quantum_llm: Arc::new(RwLock::new(None)),
         }
     }
 
@@ -224,7 +226,9 @@ impl KnowledgeEngine {
         
         // If no direct results, try breaking down the query
         let query_lower = query.to_lowercase();
-        let keywords: Vec<&str> = query_lower.split_whitespace().collect();
+        let keywords: Vec<&str> = query_lower.split_whitespace()
+            .filter(|w| !["what", "is", "the", "a", "an", "tell", "me", "about", "how", "why", "when", "where"].contains(w))
+            .collect();
         let nodes = self.nodes.read().unwrap();
         
         let mut scored_results: Vec<(KnowledgeNode, usize)> = Vec::new();
@@ -308,8 +312,19 @@ impl KnowledgeEngine {
     }
     
     pub fn generate_llm_response(&self, query: &str) -> String {
-        let mut llm = self.quantum_llm.write().unwrap();
-        llm.generate_response(query)
+        // Use lazy initialization to avoid circular dependency
+        let mut llm_lock = self.quantum_llm.write().unwrap();
+        if llm_lock.is_none() {
+            // Don't create QuantumLLMEngine here to avoid circular dependency
+            // Instead, return a basic response
+            return "Knowledge engine LLM not initialized. Please use the response generator directly.".to_string();
+        }
+        llm_lock.as_mut().unwrap().generate_response(query)
+    }
+
+    pub fn set_quantum_llm(&self, llm: QuantumLLMEngine) {
+        let mut llm_lock = self.quantum_llm.write().unwrap();
+        *llm_lock = Some(llm);
     }
 
     pub fn train_iteration(
