@@ -139,17 +139,17 @@ impl DynamicKnowledgeLoader {
     /// Parse domain string to KnowledgeDomain enum
     fn parse_domain(&self, domain_str: &str) -> Result<KnowledgeDomain, String> {
         match domain_str.to_lowercase().as_str() {
-            "mathematics" | "math" => Ok(KnowledgeDomain::Mathematics),
-            "physics" => Ok(KnowledgeDomain::Physics),
+            "mathematics" | "math" | "math.lo" => Ok(KnowledgeDomain::Mathematics),
+            "physics" | "physics.hist-ph" => Ok(KnowledgeDomain::Physics),
             "chemistry" | "chem" => Ok(KnowledgeDomain::Chemistry),
-            "biology" | "bio" => Ok(KnowledgeDomain::Biology),
-            "computerscience" | "computer_science" | "cs" => Ok(KnowledgeDomain::ComputerScience),
-            "engineering" | "eng" => Ok(KnowledgeDomain::Engineering),
-            "medicine" | "med" => Ok(KnowledgeDomain::Medicine),
-            "psychology" | "psych" => Ok(KnowledgeDomain::Psychology),
+            "biology" | "bio" | "q-bio.nc" => Ok(KnowledgeDomain::Biology),
+            "computerscience" | "computer_science" | "cs" | "ai" | "machine_learning" | "cs.ai" | "cs.lg" | "cs.cl" | "cs.cv" | "cs.cy" | "cs.hc" => Ok(KnowledgeDomain::ComputerScience),
+            "engineering" | "eng" | "technology" => Ok(KnowledgeDomain::Engineering),
+            "medicine" | "med" | "public_health" => Ok(KnowledgeDomain::Medicine),
+            "psychology" | "psych" | "consciousness" | "neuroscience" => Ok(KnowledgeDomain::Psychology),
             "sociology" | "soc" => Ok(KnowledgeDomain::Sociology),
-            "economics" | "econ" => Ok(KnowledgeDomain::Economics),
-            "philosophy" | "phil" => Ok(KnowledgeDomain::Philosophy),
+            "economics" | "econ" | "econ.th" => Ok(KnowledgeDomain::Economics),
+            "philosophy" | "phil" | "quantum" => Ok(KnowledgeDomain::Philosophy),
             "ethics" => Ok(KnowledgeDomain::Ethics),
             "art" => Ok(KnowledgeDomain::Art),
             "music" => Ok(KnowledgeDomain::Music),
@@ -159,6 +159,10 @@ impl DynamicKnowledgeLoader {
             "linguistics" | "ling" => Ok(KnowledgeDomain::Linguistics),
             "logic" => Ok(KnowledgeDomain::Logic),
             "astronomy" | "astro" => Ok(KnowledgeDomain::Astronomy),
+            "politics" | "government" | "political_science" => Ok(KnowledgeDomain::Sociology),
+            "science" | "scientific_research" => Ok(KnowledgeDomain::Physics),
+            "education" | "technology_policy" => Ok(KnowledgeDomain::Sociology),
+            "statistics" => Ok(KnowledgeDomain::Mathematics),
             _ => Err(format!("Unknown domain: {}", domain_str)),
         }
     }

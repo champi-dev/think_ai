@@ -1,0 +1,276 @@
+{
+  "domain": "computer_science",
+  "entries": [
+    {
+      "topic": "Computer science",
+      "content": "Computer science is the study of computation, information, and automation. Computer science spans theoretical disciplines to applied disciplines.",
+      "related_concepts": [
+        "computer",
+        "science",
+        "disciplines"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "5042a1debcbb978c",
+        "vector_hash": "f7990abf06cea2e1d60ac81011f58c99",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer Sciences Corporation",
+      "content": "Computer Sciences Corporation (CSC) was an American multinational corporation that provided information technology (IT) services and professional services. On April 3, 2017, it merged with the Enterprise Services line of business of HP Enterprise to create DXC Technology.",
+      "related_concepts": [
+        "corporation",
+        "services",
+        "computer",
+        "sciences",
+        "technology"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "37240145086ce348",
+        "vector_hash": "ddfe7a27f47a14a01786de40d94b6699",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer science education in the United Kingdom",
+      "content": "Computer science education in the United Kingdom is carried out in the UK mostly from the age of 11. It is a predominantly male subject.",
+      "related_concepts": [
+        "computer",
+        "science",
+        "education",
+        "united",
+        "kingdom"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "50cd21a014e58fef",
+        "vector_hash": "f94b4b3ab33a7d1a2ec080b89de94f49",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer Science Teachers Association",
+      "content": "The Computer Science Teachers Association (CSTA) is a professional association. Started in 2004, CSTA is a membership organization.",
+      "related_concepts": [
+        "association",
+        "computer",
+        "science",
+        "teachers",
+        "csta"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "ba1e1f73817c962a",
+        "vector_hash": "6ac9d3f05a089f7716981ce8ce7bb191",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer science and engineering",
+      "content": "Computer science and engineering (CSE) is an academic subject comprising approaches of computer science and computer engineering. There is no clear division in computing between science and engineering, just like in the field of materials science and engineering. CSE is also a term often used in Europe to translate the name of technical or engineering informatics academic programs. It is offered in both undergraduate as well postgraduate with specializations",
+      "related_concepts": [
+        "engineering",
+        "computer",
+        "science",
+        "cse",
+        "academic"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "a6dd8db5ad916c47",
+        "vector_hash": "5d6ea0404a2f9b072771d8c4b213f9f6",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer science in sport",
+      "content": "Computer science in sport is an interdisciplinary discipline that has its goal in combining the theoretical as well as practical aspects and methods of the areas of informatics and sport science. The main emphasis of the interdisciplinarity is placed on the application and use of computer-based, but also mathematical techniques in sport science, aiming in this way at the support and advancement of theory and practice in sports. The reason computer science has become an important partner for spor...",
+      "related_concepts": [
+        "science",
+        "computer",
+        "sport",
+        "use",
+        "support"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "1f23ff071d807efc",
+        "vector_hash": "0bf1cf5942c21e461d3a82530e24bbbc",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer Science (journal)",
+      "content": "Computer Science is a peer-reviewed scientific journal published by the AGH University of Science and Technology and edited by faculty members of the Departments of Computer Science and Automatics. The journal was established in 1999 and since beginning of 2012 is published quarterly. The editor-in-chief is Jacek Kitowski",
+      "related_concepts": [
+        "science",
+        "computer",
+        "journal",
+        "published"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "3315083a2f07e32b",
+        "vector_hash": "0573a71b7655e4ba27d4deb1ea42f030",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer Science High School of Bicolandia",
+      "content": "The Computer Science High School of Bicolandia, also referred to by its acronym CSHSB, is an information and communications technology (ICT) and junior high school in the capital town of Pili, Camarines Sur, Philippines.",
+      "related_concepts": [
+        "high",
+        "school",
+        "computer",
+        "science",
+        "bicolandia"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "92124e47a6a10e74",
+        "vector_hash": "fc338cace59530fa9d019b4f99bd864b",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer Science (UIL)",
+      "content": "Computer science is one of several academic events sanctioned by the University Interscholastic League (UIL).",
+      "related_concepts": [
+        "computer",
+        "science",
+        "uil"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "4ddbd9d875a04bd9",
+        "vector_hash": "0a7af1531104008a962ae8eba33dc33b",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer Sciences Raytheon",
+      "content": "Computer Sciences Raytheon (CSR) is a joint venture partnership between Computer Sciences Corporation and Raytheon Technical Services Company. CSR is the contractor that has managed the Eastern Test Range since 1988. CSR is headquartered at Patrick Space Force Base, Florida",
+      "related_concepts": [
+        "computer",
+        "sciences",
+        "raytheon",
+        "csr"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "245ca1dcdba5cce8",
+        "vector_hash": "7140cdddd59f833a55f7b63a4d8912ea",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer Science Undergraduate Association",
+      "content": "The Computer Science Association is an ASUC funded group at University of California, Berkeley, first founded in 1972. The CSUA's constitution reads:The purposes of this organization are: to represent the computer science student body in dealings with the University of California at Berkeley, its representatives, and any other appropriate organization; to provide a forum for the personal interaction of persons involved in the computer sciences; to promote knowledge of and interest in the compute",
+      "related_concepts": [
+        "computer",
+        "science",
+        "association",
+        "university",
+        "california"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "d6db1b8d90833bf1",
+        "vector_hash": "b2e7c0557545fbcd2f50e0dc53601151",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer Science Ontology",
+      "content": "The Computer Science Ontology (CSO) is an automatically generated taxonomy of research topics in the field of Computer Science. It was produced by the Open University in collaboration with Springer Nature by running an information extraction system over a large corpus of scientific articles. Several branches were manually improved by domain experts. The current version includes about 14K research topics and 160K semantic relationships",
+      "related_concepts": [
+        "computer",
+        "science",
+        "ontology",
+        "research",
+        "topics"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "4b3a6adb71be6b0f",
+        "vector_hash": "d61e8a5d8e58d4b1391ccfdb55b210b0",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Computer Science Tripos",
+      "content": "The Computer Science Tripos (CST) is the undergraduate course in computer science offered by the University of Cambridge Computer Laboratory. It evolved out of the Diploma in Computer Science, the world's first taught course in computer science, which started in 1953. Successful candidates are awarded a Bachelor of Arts (BA) honours degree after three years or, a combined BA + Master of Engineering (MEng) honours degree after four years of study, though admission to the fourth year is usually co...",
+      "related_concepts": [
+        "computer",
+        "science",
+        "tripos",
+        "course",
+        "first"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "f39661abff1df600",
+        "vector_hash": "37d7d6c04f8efa671f119587c904becf",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Game theory",
+      "content": "Game theory is the study of mathematical models of strategic interactions. It has applications in many fields of social science, and is used extensively in economics, logic, systems science and computer science. In the 1950s, it was extended to the study of non zero-sum games, and was eventually applied to a wide range of behavioral relations. It is now an umbrella term for the science of rational decision making in humans, animals, and computers",
+      "related_concepts": [
+        "science",
+        "game",
+        "theory",
+        "study",
+        "zero"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "df90859e00017b8c",
+        "vector_hash": "bcb3dbd711ebb440ce25bad5386eb7ad",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Software engineering",
+      "content": "Software engineering is a branch of both computer science and engineering focused on designing, developing, testing, and maintaining software applications. It involves applying engineering principles and computer programming expertise to develop software systems that meet user needs.",
+      "related_concepts": [
+        "software",
+        "engineering",
+        "computer"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "fb1bb1a92aec9616",
+        "vector_hash": "3a6c9da15f1bb5a4cafb45bdc8256367",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 15,
+    "confidence_range": {
+      "min": 0.8,
+      "max": 0.8500000000000001,
+      "avg": 0.8133333333333336
+    }
+  }
+}

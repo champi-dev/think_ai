@@ -1,0 +1,103 @@
+{
+  "domain": "quantum",
+  "entries": [
+    {
+      "topic": "Quantum computing",
+      "content": "A quantum computer is a computer that exploits quantum mechanical phenomena. On small scales, physical matter exhibits properties of both particles and waves, and quantum computing takes advantage of this behavior using specialized hardware. Classical physics cannot explain the operation of these quantum devices, and a scalable quantum computer could perform some calculations exponentially faster than any modern \"classical\" computer. Theoretically a large-scale quantum computer could break some ...",
+      "related_concepts": [
+        "quantum",
+        "computer",
+        "computing",
+        "physical",
+        "classical"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "6b42ba1e0dcee34d",
+        "vector_hash": "0e9e211a985d11282bc03e9129959aaa",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Quantum Computing Since Democritus",
+      "content": "Quantum Computing Since Democritus is a 2013 book on quantum information science written by Scott Aaronson. It is loosely based on a course Aaronson taught at the University of Waterloo, Canada, the lecture notes for which are available online.",
+      "related_concepts": [
+        "quantum",
+        "computing",
+        "since",
+        "democritus",
+        "aaronson"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "e4b6b9b49145d22a",
+        "vector_hash": "6c447a2eec07843a33f6b1bb04c6251c",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Quantum Computing: A Gentle Introduction",
+      "content": "Quantum Computing: A Gentle Introduction is a textbook on quantum computing. It was written by Eleanor Rieffel and Wolfgang Polak, and published in 2011 by the MIT Press.",
+      "related_concepts": [
+        "quantum",
+        "computing",
+        "gentle",
+        "introduction"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "781fa2bf62eefa86",
+        "vector_hash": "9b62d557f088802896a1b1260cea9f03",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Quantum error correction",
+      "content": "Quantum error correction (QEC) is a set of techniques used in quantum computing to protect quantum information from errors due to decoherence and other quantum noise. Quantum error correction is theorised as essential to achieve fault tolerant quantum computing that can reduce the effects of noise on stored quantum information, faulty quantum gates, faulty quantum state preparation, and faulty measurements. Effective quantum error correction would allow quantum computers with low qubit fidelity ...",
+      "related_concepts": [
+        "quantum",
+        "error",
+        "correction",
+        "faulty",
+        "computing"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "ac18475eb0a3919a",
+        "vector_hash": "a35dd9df5e516841bc4f8aadf3ad76e9",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Quantum Computation and Quantum Information",
+      "content": "Quantum Computation and Quantum Information is a textbook about quantum information science written by Michael Nielsen and Isaac Chuang, regarded as a standard text on the subject. It is informally known as \"Mike and Ike\", after the candies of that name. The book assumes minimal prior experience with quantum mechanics and with computer science, aiming instead to be a self-contained introduction to the relevant features of both. The focus of the text is on theory, rather than the experimental imp...",
+      "related_concepts": [
+        "quantum",
+        "information",
+        "computation",
+        "science",
+        "text"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "cf532f225ccc0762",
+        "vector_hash": "d95c0c75c042dc5048fdb844e7f06177",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 5,
+    "confidence_range": {
+      "min": 0.8,
+      "max": 0.8500000000000001,
+      "avg": 0.8099999999999999
+    }
+  }
+}

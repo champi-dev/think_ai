@@ -1,131 +1,273 @@
 {
-  "domain": "Astronomy",
+  "domain": "astronomy",
   "entries": [
     {
-      "content": "Sun is the star at the center of our solar system. It builds upon the star at the center of our solar system to create comprehensive understanding This concept has profound implications for understanding our world.",
-      "metadata": {
-        "conversational_patterns": [
-          "Sun is the star at the center of our solar system. It builds upon the star at the center of our solar system to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "Sun is the star at the center of our solar system. It builds upon the star at the center of our solar system to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "To explain sun: Sun is the star at the center of our solar system. It builds upon the star at the center of our solar system to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "Let me tell you about sun. Sun is the star at the center of our solar system. It builds upon the star at the center of our solar system to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "Sun - Sun is the star at the center of our solar system. It builds upon the star at the center of our solar system to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "When describing sun, sun is the star at the center of our solar system. it builds upon the star at the center of our solar system to create comprehensive understanding this concept has profound implications for understanding our world."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Astronomy",
+      "content": "Astronomy is a natural science that studies celestial objects and the phenomena that occur in the cosmos. It uses mathematics, physics, and chemistry in order to explain their origin and their overall evolution. Relevant phenomena include supernova explosions, gamma ray bursts, quasars, blazars, pulsars, and cosmic microwave background radiation. Cosmology is a branch of astronomy that studies the universe as a whole",
       "related_concepts": [
-        "how does sun work",
-        "why is sun important",
-        "examples of sun",
-        "sun in daily life"
+        "astronomy",
+        "studies",
+        "objects",
+        "phenomena",
+        "include"
       ],
-      "topic": "sun"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "ef5353a7f076ff75",
+        "vector_hash": "aeb90aa87236f75d33d2a107037c92e3",
+        "url": ""
+      }
     },
     {
-      "content": "Space is the boundless three-dimensional extent. It encompasses the boundless three-dimensional extent while reaching beyond traditional boundaries It connects to many other important concepts and ideas. It plays a crucial role in many areas of human knowledge.",
-      "metadata": {
-        "conversational_patterns": [
-          "Space is the boundless three-dimensional extent. It encompasses the boundless three-dimensional extent while reaching beyond traditional boundaries It connects to many other important concepts and ideas. It plays a crucial role in many areas of human knowledge.",
-          "Space is the boundless three-dimensional extent. It encompasses the boundless three-dimensional extent while reaching beyond traditional boundaries It connects to many other important concepts and ideas. It plays a crucial role in many areas of human knowledge.",
-          "To explain space: Space is the boundless three-dimensional extent. It encompasses the boundless three-dimensional extent while reaching beyond traditional boundaries It connects to many other important concepts and ideas. It plays a crucial role in many areas of human knowledge.",
-          "Let me tell you about space. Space is the boundless three-dimensional extent. It encompasses the boundless three-dimensional extent while reaching beyond traditional boundaries It connects to many other important concepts and ideas. It plays a crucial role in many areas of human knowledge.",
-          "Space - Space is the boundless three-dimensional extent. It encompasses the boundless three-dimensional extent while reaching beyond traditional boundaries It connects to many other important concepts and ideas. It plays a crucial role in many areas of human knowledge.",
-          "When describing space, space is the boundless three-dimensional extent. it encompasses the boundless three-dimensional extent while reaching beyond traditional boundaries it connects to many other important concepts and ideas. it plays a crucial role in many areas of human knowledge."
-        ],
-        "evaluation_score": 1.0
-      },
+      "topic": "Astronomy in the medieval Islamic world",
+      "content": "Medieval Islamic astronomy comprises the astronomical developments made in the Islamic world, particularly during the Islamic Golden Age, and mostly written in the Arabic language. These developments mostly took place in the Middle East, Central Asia, Al-Andalus, and North Africa, and later in the Far East and India. It closely parallels the genesis of other Islamic sciences in its assimilation of foreign material and the amalgamation of the disparate elements of that material to create a scienc...",
       "related_concepts": [
-        "how does space work",
-        "why is space important",
-        "examples of space",
-        "space in daily life"
+        "islamic",
+        "astronomy",
+        "medieval",
+        "world",
+        "developments"
       ],
-      "topic": "space"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "732c8c1b50d20a71",
+        "vector_hash": "7af0911b434a3653b15857d5648fefd2",
+        "url": ""
+      }
     },
     {
-      "content": "Earth is our home planet. It demonstrates how our home planet manifests in different contexts This forms a fundamental part of how we perceive reality. This forms a fundamental part of how we perceive reality.",
-      "metadata": {
-        "conversational_patterns": [
-          "Earth is our home planet. It demonstrates how our home planet manifests in different contexts This forms a fundamental part of how we perceive reality. This forms a fundamental part of how we perceive reality.",
-          "Earth is our home planet. It demonstrates how our home planet manifests in different contexts This forms a fundamental part of how we perceive reality. This forms a fundamental part of how we perceive reality.",
-          "To explain earth: Earth is our home planet. It demonstrates how our home planet manifests in different contexts This forms a fundamental part of how we perceive reality. This forms a fundamental part of how we perceive reality.",
-          "Let me tell you about earth. Earth is our home planet. It demonstrates how our home planet manifests in different contexts This forms a fundamental part of how we perceive reality. This forms a fundamental part of how we perceive reality.",
-          "Earth - Earth is our home planet. It demonstrates how our home planet manifests in different contexts This forms a fundamental part of how we perceive reality. This forms a fundamental part of how we perceive reality.",
-          "When describing earth, earth is our home planet. it demonstrates how our home planet manifests in different contexts this forms a fundamental part of how we perceive reality. this forms a fundamental part of how we perceive reality."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Astronomy & Astrophysics",
+      "content": "Astronomy & Astrophysics (A&A) is a monthly peer-reviewed scientific journal covering theoretical, observational, and instrumental astronomy and astrophysics. It is operated by an editorial team under the supervision of a board of directors representing 27 sponsoring countries plus a representative of the European Southern Observatory. The journal is published by EDP Sciences and the current editors-in-chief are Thierry Forveille and João Alves",
       "related_concepts": [
-        "how does earth work",
-        "why is earth important",
-        "examples of earth",
-        "earth in daily life"
+        "astronomy",
+        "astrophysics",
+        "journal"
       ],
-      "topic": "earth"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "eb5f86e66b1f8dc7",
+        "vector_hash": "04d64d8e144ef45765eb0fbcfb495a13",
+        "url": ""
+      }
     },
     {
-      "content": "Mars is the fourth planet from the sun. It builds upon the fourth planet from the sun to create comprehensive understanding This concept has profound implications for understanding our world.",
-      "metadata": {
-        "conversational_patterns": [
-          "Mars is the fourth planet from the sun. It builds upon the fourth planet from the sun to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "Mars is the fourth planet from the sun. It builds upon the fourth planet from the sun to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "To explain mars: Mars is the fourth planet from the sun. It builds upon the fourth planet from the sun to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "Let me tell you about mars. Mars is the fourth planet from the sun. It builds upon the fourth planet from the sun to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "Mars - Mars is the fourth planet from the sun. It builds upon the fourth planet from the sun to create comprehensive understanding This concept has profound implications for understanding our world.",
-          "When describing mars, mars is the fourth planet from the sun. it builds upon the fourth planet from the sun to create comprehensive understanding this concept has profound implications for understanding our world."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Astronomy in Chile",
+      "content": "In 2011, Chile was home to 42% of the world's astronomical infrastructure, consisting principally of telescopes. In 2015, it was estimated that Chile would contain more than 50% of the global astronomical infrastructure by 2030. In the Atacama Desert region of northern Chile, the skies are exceptionally clear and dry for more than 300 days of the year. These conditions have attracted the world's scientific community to develop highly ambitious astronomical projects in the Atacama Desert",
       "related_concepts": [
-        "how does mars work",
-        "why is mars important",
-        "examples of mars",
-        "mars in daily life"
+        "chile",
+        "astronomical",
+        "world",
+        "infrastructure",
+        "more"
       ],
-      "topic": "mars"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "508530641853af73",
+        "vector_hash": "3ad7479c7cb33c871e2068aabf33da80",
+        "url": ""
+      }
     },
     {
-      "content": "Moon is Earth's natural satellite. It encompasses Earth's natural satellite while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-      "metadata": {
-        "conversational_patterns": [
-          "Moon is Earth's natural satellite. It encompasses Earth's natural satellite while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "Moon is Earth's natural satellite. It encompasses Earth's natural satellite while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "To explain moon: Moon is Earth's natural satellite. It encompasses Earth's natural satellite while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "Let me tell you about moon. Moon is Earth's natural satellite. It encompasses Earth's natural satellite while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "Moon - Moon is Earth's natural satellite. It encompasses Earth's natural satellite while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "When describing moon, moon is earth's natural satellite. it encompasses earth's natural satellite while reaching beyond traditional boundaries this forms a fundamental part of how we perceive reality. this concept has profound implications for understanding our world."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Astronomy on Mars",
+      "content": "Many astronomical phenomena viewed from the planet Mars are the same as or similar to those seen from Earth; but some are quite different. For example, because the atmosphere of Mars does not contain an ozone layer, it is also possible to make UV observations from the surface of Mars.",
       "related_concepts": [
-        "how does moon work",
-        "why is moon important",
-        "examples of moon",
-        "moon in daily life"
+        "mars"
       ],
-      "topic": "moon"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "6aa5e517a9927196",
+        "vector_hash": "63dd78bdfea66c1d158de99e1d03d89f",
+        "url": ""
+      }
     },
     {
-      "content": "Astronomy is the study of celestial objects and the universe. It encompasses the study of celestial objects and the universe while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality.",
-      "metadata": {
-        "conversational_patterns": [
-          "Astronomy is the study of celestial objects and the universe. It encompasses the study of celestial objects and the universe while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality.",
-          "Astronomy is the study of celestial objects and the universe. It encompasses the study of celestial objects and the universe while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality.",
-          "To explain astronomy: Astronomy is the study of celestial objects and the universe. It encompasses the study of celestial objects and the universe while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality.",
-          "Let me tell you about astronomy. Astronomy is the study of celestial objects and the universe. It encompasses the study of celestial objects and the universe while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality.",
-          "Astronomy - Astronomy is the study of celestial objects and the universe. It encompasses the study of celestial objects and the universe while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality.",
-          "When describing astronomy, astronomy is the study of celestial objects and the universe. it encompasses the study of celestial objects and the universe while reaching beyond traditional boundaries this forms a fundamental part of how we perceive reality."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Astronomy & Geophysics",
+      "content": "Astronomy & Geophysics (A&G) is a scientific journal and trade magazine published on behalf of the Royal Astronomical Society (RAS) by Oxford University Press. It is distributed bimonthly to members of the RAS.",
       "related_concepts": [
-        "how does astronomy work",
-        "why is astronomy important",
-        "examples of astronomy",
-        "astronomy in daily life"
+        "astronomy",
+        "geophysics",
+        "ras"
       ],
-      "topic": "astronomy"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "7f0d98a235a3d22f",
+        "vector_hash": "00d5f168d9e9277c1fb59b8f8178ec03",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Astronomy Picture of the Day",
+      "content": "Astronomy Picture of the Day (APOD) is a website provided by NASA and Michigan Technological University (MTU). Each day it features a different image of the universe accompanied by an explanation written by a professional astronomer. These often relate to current events in astronomy and space exploration. The images are either visible spectrum photographs, images taken at non-visible wavelengths and displayed in false color, video footage, animations, artist's conceptions, or micrographs that re...",
+      "related_concepts": [
+        "day",
+        "astronomy",
+        "images",
+        "picture",
+        "displayed"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "b5642228ea3117e1",
+        "vector_hash": "aa96b6c77bbfed11a82fd848fdd595ab",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Astronomy Domine",
+      "content": "\"Astronomy Domine\" is a song by the English rock band Pink Floyd. The song, written and composed by the original vocalist/guitarist Syd Barrett, is the opening track on their debut album, The Piper at the Gates of Dawn (1967). Its working title was \"Astronomy Dominé \". Domine is a word frequently used in Gregorian chants",
+      "related_concepts": [
+        "astronomy",
+        "domine",
+        "song",
+        "barrett"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "2bc8fae981ccd1a7",
+        "vector_hash": "b8e5970932b37dca086f7d55ab9f715c",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Astronomy and Astrophysics Decadal Survey",
+      "content": "The Astronomy and Astrophysics Decadal Survey is a review of astronomy and astrophysics literature produced approximately every ten years by the National Research Council of the National Academy of Sciences in the United States. The report surveys the current state of the field, identifies research priorities, and makes recommendations for the coming decade. The editing committee is informed by topical panels and subcommittees, dedicated conferences, and direct community input in the form of whi...",
+      "related_concepts": [
+        "astronomy",
+        "astrophysics",
+        "decadal",
+        "survey",
+        "research"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "a56951973ea2de72",
+        "vector_hash": "f7b39c16b7c2322ae9b8d915ce42df60",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Astronomy Club: The Sketch Show",
+      "content": "Astronomy Club: The Sketch Show is an American sketch comedy television series created by the comedy troupe Astronomy Club, the Upright Citizens Brigade's first all black team. The show stars the team's eight members: Shawtane Bowen, Jonathan Braylock, Ray Cordova, James III, Caroline Martin, Jerah Milligan, Monique Moses and Keisha Zollar. The series premiered on December 6, 2019 on Netflix. In June 2020, the series was canceled after one season",
+      "related_concepts": [
+        "show",
+        "astronomy",
+        "club",
+        "sketch",
+        "comedy"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "f9934c68b2c71278",
+        "vector_hash": "b4b88daadf74817d0648048f525a64ea",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Astronomy and religion",
+      "content": "Astronomy has been a favorite and significant component of mythology and religion throughout history. Astronomy and cosmology are parts of the myths of many cultures and religion around the world. Archaeological evidence of many ancient cultures demonstrates that celestial bodies were the subject of worship during the Stone and Bronze Ages. These date back as much as 30,000–40,000 years",
+      "related_concepts": [
+        "astronomy",
+        "religion",
+        "history",
+        "many",
+        "cultures"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "7bc03f7601a0c9d4",
+        "vector_hash": "bfe2f0ef603126d249a5e8382ba4a70b",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Astronomy Reports",
+      "content": "Astronomy Reports, is a Russian, monthly, peer reviewed, scientific journal. This journal tends to focus its publishing efforts on original research regarding astronomical topics. Originally a print version, it is also available online. Boyarchuk, Institute of Astronomy of the Russian Academy of Sciences, Moscow, Russia",
+      "related_concepts": [
+        "astronomy",
+        "journal",
+        "reports",
+        "russian",
+        "also"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "5625b3e0a3f1c247",
+        "vector_hash": "49c3e69e7d5d3e0e7189734bbb1ce866",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Astronomy Cast",
+      "content": "Astronomy Cast is an educational nonprofit podcast discussing various topics in the field of astronomy. The specific subject matter of each episode shifts from week to week, ranging from planets and stars to cosmology and mythbusting. Fraser Cain is the publisher of the space and astronomy news site Universe Today and has a YouTube channel with over 200,000 subscribers. Each show usually has a length of approximately 30 minutes, and all shows, past and present, are accessible for download throug...",
+      "related_concepts": [
+        "astronomy",
+        "cast",
+        "podcast",
+        "each",
+        "week"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "b3403550364e47cc",
+        "vector_hash": "a334c71d2ee78e8fb3335826f239431f",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Astronomy in New York City",
+      "content": "Prior to European settlement, the area that became New York City was inhabited by the Lenape, an indigenous group whose cosmology included the known planets and explained the earth's position in the universe. In 1818, Benjamin and Samuel Demilt opened the first observatory on top of a jewelry store. Columbia University's Rutherfurd Observatory has since 1927 been located on the roof of Pupin Hall. The Amateur Astronomers Association of New York is supporting a plan to establish the New York Publ...",
+      "related_concepts": [
+        "new",
+        "york",
+        "observatory",
+        "city",
+        "columbia"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "73324c1fbae81b5c",
+        "vector_hash": "f41e9e3bc2586658cd500e3b7c2a3f32",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Astronomy Photographer of the Year",
+      "content": "Astronomy Photographer of the Year is an annual astronomy photography competition and exhibition that is organised by the Royal Observatory, Greenwich.",
+      "related_concepts": [
+        "astronomy",
+        "photographer",
+        "year"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "8ed66dfb65c088da",
+        "vector_hash": "04fddf54ad3ecd303b31ed2334b5753f",
+        "url": ""
+      }
     }
-  ]
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 15,
+    "confidence_range": {
+      "min": 0.8,
+      "max": 0.8500000000000001,
+      "avg": 0.8233333333333337
+    }
+  }
 }

@@ -1,0 +1,68 @@
+{
+  "domain": "science",
+  "entries": [
+    {
+      "topic": "Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences",
+      "content": "A DISCOURSE ON METHOD ***\r\n\r\n\r\n\r\n\r\nDISCOURSE ON THE METHOD \r\nOF RIGHTLY CONDUCTING THE REASON,\r\nAND SEEKING TRUTH IN THE SCIENCES\r\n\r\nby René Descartes\r\n\r\n\r\nContents\r\n\r\n PREFATORY NOTE\r\n PART I\r\n PART II\r\n PART III\r\n PART IV\r\n PART V\r\n PART VI\r\n\r\n\r\n\r\n\r\nPREFATORY NOTE BY THE AUTHOR\r\n\r\n\r\nIf this Discourse appear too long to be read at once, it may be divided\r\ninto six Parts: and, in the first, will be found various considerations\r\ntouching the Sciences; in the second, the principal rules of the Met...",
+      "related_concepts": [
+        "which",
+        "not",
+        "all",
+        "than",
+        "more"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "73533a3e0fd3ff74",
+        "vector_hash": "34a5c77ff6147114fd727736a12f02f8",
+        "url": ""
+      }
+    },
+    {
+      "topic": "The Science of Getting Rich",
+      "content": "THE SCIENCE OF GETTING RICH ***\r\n\r\n\r\n\r\n\r\nProduced by Craig Kirkwood and the Online Distributed\r\nProofreading Team at http://www. pgdp. Thinking\r\nSubstance takes the form of its thought, and moves according to the\r\nthought. He was a very\r\npoor man, living in a rented house, and having only what he earned\r\nfrom day to day; and he could not grasp the fact that all wealth was\r\nhis",
+      "related_concepts": [
+        "rich",
+        "not",
+        "all",
+        "man",
+        "things"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "44d574f1383d78b3",
+        "vector_hash": "25a41678077e27eac64e65ff3939c28d",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Dictionary of Quotations from Ancient and Modern, English and Foreign Sources: Including Phrases, Mottoes, Maxims, Proverbs, Definitions, Aphorisms, and Sayings of Wise Men, in Their Bearing on Life, Literature, Speculation, Science, Art, Religion, and Morals, Especially in the Modern Aspects of Them",
+      "content": "48105 ***\r\n\r\n                              DICTIONARY\r\n                                  OF\r\n                              QUOTATIONS\r\n\r\n\r\n\r\n\r\n                              DICTIONARY\r\n\r\n                                  OF\r\n\r\n                              QUOTATIONS\r\n\r\n                 From Ancient and Modern, English and\r\n                            Foreign Sources\r\n\r\n\r\n                               INCLUDING\r\n\r\n      PHRASES, MOTTOES, MAXIMS, PROVERBS, DEFINITIONS, APHORISMS,\r\n          AND ...",
+      "related_concepts": [
+        "man",
+        "not",
+        "good",
+        "one",
+        "great"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "1df1e8441a386fa5",
+        "vector_hash": "9ca93b131d852d99585334b625bc22a9",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 3,
+    "confidence_range": {
+      "min": 0.95,
+      "max": 0.95,
+      "avg": 0.9499999999999998
+    }
+  }
+}

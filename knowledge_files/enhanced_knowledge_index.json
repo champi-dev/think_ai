@@ -1,0 +1,171 @@
+{
+  "enhanced_knowledge_index": {
+    "total_domains": 32,
+    "total_items": 338,
+    "domains": {
+      "ai": {
+        "item_count": 27,
+        "file": "ai.json",
+        "confidence_avg": 0.8981481481481481
+      },
+      "machine_learning": {
+        "item_count": 13,
+        "file": "machine_learning.json",
+        "confidence_avg": 0.8192307692307694
+      },
+      "quantum": {
+        "item_count": 5,
+        "file": "quantum.json",
+        "confidence_avg": 0.8099999999999999
+      },
+      "philosophy": {
+        "item_count": 17,
+        "file": "philosophy.json",
+        "confidence_avg": 0.8735294117647057
+      },
+      "consciousness": {
+        "item_count": 15,
+        "file": "consciousness.json",
+        "confidence_avg": 0.8166666666666668
+      },
+      "mathematics": {
+        "item_count": 15,
+        "file": "mathematics.json",
+        "confidence_avg": 0.8433333333333333
+      },
+      "physics": {
+        "item_count": 15,
+        "file": "physics.json",
+        "confidence_avg": 0.8466666666666665
+      },
+      "biology": {
+        "item_count": 15,
+        "file": "biology.json",
+        "confidence_avg": 0.8333333333333334
+      },
+      "computer_science": {
+        "item_count": 15,
+        "file": "computer_science.json",
+        "confidence_avg": 0.8133333333333336
+      },
+      "history": {
+        "item_count": 18,
+        "file": "history.json",
+        "confidence_avg": 0.8944444444444444
+      },
+      "literature": {
+        "item_count": 18,
+        "file": "literature.json",
+        "confidence_avg": 0.836111111111111
+      },
+      "psychology": {
+        "item_count": 17,
+        "file": "psychology.json",
+        "confidence_avg": 0.8617647058823529
+      },
+      "neuroscience": {
+        "item_count": 15,
+        "file": "neuroscience.json",
+        "confidence_avg": 0.8366666666666667
+      },
+      "economics": {
+        "item_count": 22,
+        "file": "economics.json",
+        "confidence_avg": 0.8681818181818184
+      },
+      "politics": {
+        "item_count": 16,
+        "file": "politics.json",
+        "confidence_avg": 0.821875
+      },
+      "astronomy": {
+        "item_count": 15,
+        "file": "astronomy.json",
+        "confidence_avg": 0.8233333333333337
+      },
+      "science": {
+        "item_count": 3,
+        "file": "science.json",
+        "confidence_avg": 0.9499999999999998
+      },
+      "technology": {
+        "item_count": 1,
+        "file": "technology.json",
+        "confidence_avg": 0.95
+      },
+      "cs.lg": {
+        "item_count": 4,
+        "file": "cs.lg.json",
+        "confidence_avg": 0.9875
+      },
+      "cs.cl": {
+        "item_count": 4,
+        "file": "cs.cl.json",
+        "confidence_avg": 0.9875
+      },
+      "cs.cv": {
+        "item_count": 5,
+        "file": "cs.cv.json",
+        "confidence_avg": 0.99
+      },
+      "math.lo": {
+        "item_count": 8,
+        "file": "math.lo.json",
+        "confidence_avg": 0.9625
+      },
+      "physics.hist-ph": {
+        "item_count": 8,
+        "file": "physics.hist-ph.json",
+        "confidence_avg": 0.9812500000000001
+      },
+      "q-bio.nc": {
+        "item_count": 8,
+        "file": "q-bio.nc.json",
+        "confidence_avg": 0.9875
+      },
+      "econ.th": {
+        "item_count": 8,
+        "file": "econ.th.json",
+        "confidence_avg": 0.9687500000000001
+      },
+      "cs.cy": {
+        "item_count": 7,
+        "file": "cs.cy.json",
+        "confidence_avg": 0.9928571428571429
+      },
+      "cs.hc": {
+        "item_count": 7,
+        "file": "cs.hc.json",
+        "confidence_avg": 0.9928571428571429
+      },
+      "technology_policy": {
+        "item_count": 2,
+        "file": "technology_policy.json",
+        "confidence_avg": 0.85
+      },
+      "education": {
+        "item_count": 4,
+        "file": "education.json",
+        "confidence_avg": 0.9
+      },
+      "scientific_research": {
+        "item_count": 5,
+        "file": "scientific_research.json",
+        "confidence_avg": 0.8699999999999999
+      },
+      "public_health": {
+        "item_count": 5,
+        "file": "public_health.json",
+        "confidence_avg": 0.85
+      },
+      "statistics": {
+        "item_count": 1,
+        "file": "statistics.json",
+        "confidence_avg": 0.95
+      }
+    },
+    "source": "legal_knowledge_enhancement",
+    "created_at": "2025-06-27",
+    "format_version": "1.0"
+  }
+}

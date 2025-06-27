@@ -1,0 +1,156 @@
+{
+  "domain": "physics.hist-ph",
+  "entries": [
+    {
+      "topic": "A Cassini pamphlet against Delambre on lunar libration and other issues",
+      "content": "In this paper I analyze the context in which Cassini 1st described lunar\nlibration and proposed its interpretation.",
+      "related_concepts": [
+        "cassini",
+        "lunar",
+        "libration"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 0.9500000000000001,
+        "original_id": "6f6c2745cbf0bbf1",
+        "vector_hash": "2866cad6e061771b1f7279c1b8b56aa3",
+        "url": ""
+      }
+    },
+    {
+      "topic": "The physics, travels, and tribulations of Ronald Wilfrid Gurney",
+      "content": "Ronald Wilfrid Gurney is one of the lesser-known research students of the\nCavendish Laboratory in the mid 1920s. Gurney made significant contributions to\nthe application of quantum mechanics to problems related to tunneling of\nalpha-particles from nuclei, to formation of images in photographic plates, the\nunderstanding of the origin of color-centres in salt crystals, and in the\ntheory of semiconductors. In addition to his scientific\ncontributions, he travelled extensively, and during and after W...",
+      "related_concepts": [
+        "gurney",
+        "contributions",
+        "quantum",
+        "mechanics",
+        "ronald"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "f38cdadc056ddd33",
+        "vector_hash": "ec9effa495b69b5aac1470da8e21e8ef",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Fully Self-Consistent Semiclassical Gravity",
+      "content": "A theory of quantum gravity consists of a gravitational framework which,\nunlike general relativity, takes into account the quantum character of matter. In spite of impressive advances, no fully satisfactory, self-consistent and\nempirically viable theory with those characteristics has ever been constructed. However, not only no empirically viable\nsemiclassical theory has ever been proposed, but the self-consistency of\nsemiclassical gravity itself has been called into question repeatedly over the\n...",
+      "related_concepts": [
+        "gravity",
+        "semiclassical",
+        "quantum",
+        "fully",
+        "self"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "50a8718d9ca91f15",
+        "vector_hash": "b91109b61d4dd77f147576ac1ecefbc9",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Shadow in the Galactic Center: Theoretical Concept -- Prediction --\n  Realization",
+      "content": "General Relativity (GR) was created in November 1915 and since its creation\nand up to now this theory has undergone many tests. The first realistic\ncosmological models were proposed in the works of Friedman, written in the\n1920s. A. We outline an evolution of\nblack hole shadow from the purely theoretical concept to observable quantities\nfor supermassive black holes in Sgr A* and M87*",
+      "related_concepts": [
+        "black",
+        "theoretical",
+        "since",
+        "friedman",
+        "due"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "3172cd4feb477c24",
+        "vector_hash": "f5998302315bd73f8d562be19e0447bb",
+        "url": ""
+      }
+    },
+    {
+      "topic": "The Quantum Formalism Revisited",
+      "content": "For the simple system of a point-like particle in the real line I compile and\ncontrast, starting with a concise table, the structural elements of quantum\nmechanics with those of classical (statistical) mechanics. Despite many amazing\nsimilarities, there are the well-known fundamental differences. It was discovered by Werner Heisenberg (1901-1976) in June 1925 on\nthe small island of Helgoland in the North Sea, as a consequence of his success\nat understanding atomic spectral data within a matrix s...",
+      "related_concepts": [
+        "quantum",
+        "mechanics",
+        "classical",
+        "differences",
+        "inequalities"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 0.9500000000000001,
+        "original_id": "190c41cbbcb52df3",
+        "vector_hash": "6577ebc2ed3db54c91e73d805df4b233",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Principio de Contrastibilidad, Geometría y Sistemas de Conocimiento",
+      "content": "There is a contemporary trend toward geometrizing all mathematical theories,\nas proposed by the Langlands program, and, by extension, physical theories as\nwell. Within this paradigm, it becomes possible to represent physical objects\nas formal geometric entities. The\naim is to integrate both the physics and metaphysics of the objects of the\nworld into a unified system of knowledge, based on the geometric and physical\ninterpretations of their mathematical representations. This article is\npresented...",
+      "related_concepts": [
+        "mathematical",
+        "physical",
+        "theories",
+        "within",
+        "objects"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 0.9500000000000001,
+        "original_id": "7c7e616e65aabd5b",
+        "vector_hash": "59d21d25300a63b4fb0f62d4148db856",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Microstates : Do the outliers worth",
+      "content": "This note addresses the relevance of rare events in system dynamics, inspired\nby Jill North reflections on the origin of the arrow of time in thermodynamics. After identifying the existence of rare events, characterized by a Pareto\ndistribution, within a simple gas particle simulation, we investigate their\nimpact on entropy evolution. Our results show that, while rare events can\ntransiently generate local decreases in entropy, global entropy may continue to\nincrease in accordance with the second...",
+      "related_concepts": [
+        "rare",
+        "entropy",
+        "events",
+        "microstates",
+        "system"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "aa10009d0728ad14",
+        "vector_hash": "8245118fc61ef01a53c46c9a9ab0c14f",
+        "url": ""
+      }
+    },
+    {
+      "topic": "An Annotated Translation of D. Bernoulli's \"A New Theory on the Motion\n  of Waters Through Channels of Any Kind\"",
+      "content": "This paper presents an annotated English translation of Daniel Bernoulli's\n1727 work A New Theory on the Motion of Waters through Channels of Any Kind,\noriginally published in the Commentarii Academiae Scientiarum Imperialis\nPetropolitanae. Written over a decade before his renowned Hydrodynamica (1738),\nthis early treatise reveals D. He anticipates core\nresults of Hydrodynamica, including the inverse relationship between flow\nvelocity and cross-sectional area, and emphasizes the role of energy b...",
+      "related_concepts": [
+        "bernoulli",
+        "translation",
+        "theory",
+        "motion",
+        "through"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "e5fcabc6e4a20b59",
+        "vector_hash": "6575b2f27ee4432ee28f184e92d57ba1",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 8,
+    "confidence_range": {
+      "min": 0.9500000000000001,
+      "max": 1.0,
+      "avg": 0.9812500000000001
+    }
+  }
+}

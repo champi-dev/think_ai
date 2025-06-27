@@ -1,0 +1,43 @@
+{
+  "domain": "technology_policy",
+  "entries": [
+    {
+      "topic": "DOJ Information Technology Policy & Guidance",
+      "content": "Policy & Guidance relating to Department of Justice Information Technology Practices and Management",
+      "related_concepts": [
+        "information",
+        "technology",
+        "policy",
+        "guidance"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.85,
+        "original_id": "887941b20f9b9c8e",
+        "vector_hash": "23800abaa6ca2d0ff13b2bce46b550b4",
+        "url": ""
+      }
+    },
+    {
+      "topic": "IT Policies and Standards-Managing Information Technology",
+      "content": "The documents contained in this dataset reflect NASA's comprehensive IT policy in compliance with Federal Government laws and regulations.",
+      "related_concepts": [],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.85,
+        "original_id": "d6c2fb34bf775aea",
+        "vector_hash": "d8fe83a819cffcfc46c956403376763b",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 2,
+    "confidence_range": {
+      "min": 0.85,
+      "max": 0.85,
+      "avg": 0.85
+    }
+  }
+}

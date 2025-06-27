@@ -1,0 +1,104 @@
+{
+  "domain": "scientific_research",
+  "entries": [
+    {
+      "topic": "Human-Computer Interaction and Information Management Research Needs",
+      "content": "In a visionary future, Human-Computer Interaction HCI and Information Management IM have the potential to enable humans to better manage their lives through the use of synergistic human-computer empowered information systems. This report identifies and illustrates the problems that underlie HCI and IM R and D and provides a context and snapshot of Government approaches to HCI and IM R and D for the development and use of integrated on-line information technologies...",
+      "related_concepts": [
+        "information",
+        "human",
+        "computer",
+        "hci",
+        "interaction"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.85,
+        "original_id": "398f4f491ea18fe9",
+        "vector_hash": "27561c26804f563268b581b9f48e2601",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Scientific journal article",
+      "content": "Files associated with the manuscript: Proteome profiling of rat brain cortical changes during early postnatal brain development. This dataset is associated with the following publication:\nWinnik, W. Herr. American Chemical Society, Washington, DC, USA, 22(7): 2460-2476, (2023)",
+      "related_concepts": [
+        "brain",
+        "proteome",
+        "journal",
+        "associated",
+        "profiling"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.85,
+        "original_id": "720c672c03651ee2",
+        "vector_hash": "f7864b94b0b5c7dda86e7c89b239050e",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Harnessing the Power of Digital Data for Science and Society: Report of the Interagency Working Group on Digital Data to the Committee on Science of the National Science and Technology Council",
+      "content": "This report provides a strategy to ensure that digital scientific data can be reliably preserved for maximum use in catalyzing progress in science and society. Empowered by an array of new digital technologies, science in the 21st century will be conducted in a fully digital world. Data are not consumed by the ideas and innovations they spark but are an endless fuel for creativity. The power of a data set is amplified by ingenuity through applications unimagined by the authors and distant from t...",
+      "related_concepts": [
+        "digital",
+        "data",
+        "science",
+        "power",
+        "society"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.85,
+        "original_id": "3af7a0b075883edc",
+        "vector_hash": "740669ae1182c29b7f8da6736099409d",
+        "url": ""
+      }
+    },
+    {
+      "topic": "LMOS Scientific Aviation In-Situ Data",
+      "content": "LMOS_AircraftInSitu_ScientificAviation_Data_1 is the Lake Michigan Ozone Study (LMOS) in-situ data collected onboard the Scientific Aviation aircraft during the LMOS field campaign. This product is a result of a joint effort across multiple agencies, including NASA, NOAA, the EPA, Electric Power Research Institute (EPRI), National Science Foundation (NSF), Lake Michigan Air Directors Consortium (LADCO) and its member states, and several research groups at universities. This observed lake-shore g...",
+      "related_concepts": [
+        "ozone",
+        "lake",
+        "lmos",
+        "michigan",
+        "study"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.95,
+        "original_id": "aceadccb432e1592",
+        "vector_hash": "6582db7d0f36f9abd536aa58e6181045",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Simulating Lightning NOX Production in CMAQ: Evolution of Scientific Updates",
+      "content": "The dataset contains lightning produced column NO from different schemes with different parameters and the resulting surface ozone mixing ratios by incorporating different lightning production schemes. This dataset is associated with the following publication:\nKang, D. Mathur, and S. Copernicus Publications, Katlenburg-Lindau,  GERMANY, 12(7): 3071–3083, (2019)",
+      "related_concepts": [
+        "lightning",
+        "production",
+        "different",
+        "simulating",
+        "evolution"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.85,
+        "original_id": "94997e54aff7eda5",
+        "vector_hash": "b6793603f5692f38bd85765256061b67",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 5,
+    "confidence_range": {
+      "min": 0.85,
+      "max": 0.95,
+      "avg": 0.8699999999999999
+    }
+  }
+}

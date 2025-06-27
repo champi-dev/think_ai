@@ -1,0 +1,86 @@
+{
+  "domain": "education",
+  "entries": [
+    {
+      "topic": "MD iMAP: Maryland Education Facilities - Higher Education (Regional Education Centers)",
+      "content": "This is a MD iMAP hosted service layer. Find more information at http://imap. Last Updated:  06/2013 Feature Service Layer Link: https://mdgeodata. Any data derived from the Data must acknowledge the State of Maryland in the metadata",
+      "related_concepts": [
+        "maryland",
+        "education",
+        "data",
+        "higher",
+        "any"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.95,
+        "original_id": "8c2f4efa4d7c39fb",
+        "vector_hash": "e4c9e43d0609be16e1e63d052b922005",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Education - Resident Educational Attainment",
+      "content": "The Arlington Profile combines countywide data sources and provides a comprehensive outlook of the most current data on population, housing, employment, development, transportation, and community services. These datasets are used to obtain an understanding of community, plan future services/needs, guide policy decisions, and secure grant funding. arlingtonva. us/profile\">PDF Version</a> of the Arlington Profile can be accessed on the Arlington County website",
+      "related_concepts": [
+        "arlington",
+        "profile",
+        "data",
+        "community",
+        "services"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.85,
+        "original_id": "2d633eadd25c6458",
+        "vector_hash": "078b3e7858ebc72966bb89a01511c9a6",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Educational Attainment",
+      "content": "This table contains data on the percent of population age 25 and up with a four-year college degree or higher for California, its regions, counties, county subdivisions, cities, towns, and census tracts. Greater educational attainment has been associated with health-promoting behaviors including consumption of fruits and vegetables and other aspects of healthy eating, engaging in regular physical activity, and refraining from excessive consumption of alcohol and from smoking. Statistical metrics...",
+      "related_concepts": [
+        "health",
+        "data",
+        "healthy",
+        "table",
+        "hci"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.95,
+        "original_id": "fb297a848cd8e40a",
+        "vector_hash": "3065fa28ede1f6b1f6e592b9f99f5635",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Education Directory",
+      "content": "This dataset contains the official listing of all public educational organizations in Connecticut. Data elements include district name, school name, organization type, organization code, address, open date, interdistrict magnet status and grades offered. This critical information is used by other data collection systems and for state and federal reporting. us/public/directorymanager/default",
+      "related_concepts": [
+        "data",
+        "state",
+        "education",
+        "directory",
+        "public"
+      ],
+      "metadata": {
+        "source": "Government Documents",
+        "confidence": 0.85,
+        "original_id": "f9a4c16494e7f302",
+        "vector_hash": "d63f7faa28be18b54a81ad385376e970",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 4,
+    "confidence_range": {
+      "min": 0.85,
+      "max": 0.95,
+      "avg": 0.9
+    }
+  }
+}

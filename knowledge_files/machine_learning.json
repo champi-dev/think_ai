@@ -1,0 +1,241 @@
+{
+  "domain": "machine_learning",
+  "entries": [
+    {
+      "topic": "Machine learning",
+      "content": "Machine learning (ML) is a field of study in artificial intelligence concerned with the development and study of statistical algorithms that can learn from data and generalise to unseen data, and thus perform tasks without explicit instructions. Within a subdiscipline in machine learning, advances in the field of deep learning have allowed neural networks, a class of statistical algorithms, to surpass many previous machine learning approaches in performance.",
+      "related_concepts": [
+        "learning",
+        "machine",
+        "field",
+        "study",
+        "statistical"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "bae655fac3da110a",
+        "vector_hash": "9dcb8adae292f3c9511c46851248c10b",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Machine learning in bioinformatics",
+      "content": "Machine learning in bioinformatics is the application of machine learning algorithms to bioinformatics, including genomics, proteomics, microarrays, systems biology, evolution, and text mining.",
+      "related_concepts": [
+        "machine",
+        "learning",
+        "bioinformatics"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "255ebed5ed06e2c9",
+        "vector_hash": "741949854979c33fbe24a712f69db581",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Machine learning in earth sciences",
+      "content": "Applications of machine learning (ML) in earth sciences include geological mapping, gas leakage detection and geological feature identification. Machine learning is a subdiscipline of artificial intelligence aimed at developing programs that are able to classify, cluster, identify, and analyze vast and complex data sets without the need for explicit programming to do so. Earth science is the study of the origin, evolution, and future of the Earth. The earth's system can be subdivided into four m...",
+      "related_concepts": [
+        "earth",
+        "machine",
+        "learning",
+        "sciences",
+        "geological"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "7019ae0bd3842ce4",
+        "vector_hash": "8e0999a280042c9d76d5819f55350b5d",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Machine learning in video games",
+      "content": "Artificial intelligence and machine learning techniques are used in video games for a wide variety of applications such as non-player character (NPC) control, procedural content generation (PCG) and deep learning-based content generation. Machine learning is a subset of artificial intelligence that uses historical data to build predictive and analytical models. This is in sharp contrast to traditional methods of artificial intelligence such as search trees and expert systems",
+      "related_concepts": [
+        "learning",
+        "machine",
+        "artificial",
+        "intelligence",
+        "video"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "1cb8fb88b33ed252",
+        "vector_hash": "138a763748cc854bbd6ec77422e7f310",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Machine learning in physics",
+      "content": "Applying machine learning (ML) methods to the study of quantum systems is an emergent area of physics research. A basic example of this is quantum state tomography, where a quantum state is learned from measurement. ML is effective at processing large amounts of experimental or calculated data in order to characterize an unknown quantum system, making its application useful in contexts including quantum information theory, quantum technology development, and computational materials design. In th...",
+      "related_concepts": [
+        "quantum",
+        "learning",
+        "machine",
+        "physics",
+        "example"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "776122a4ba2682d1",
+        "vector_hash": "90f8c5da730bcfcb2cb5b57199e23038",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Machine learning control",
+      "content": "Machine learning control (MLC) is a subfield of machine learning, intelligent control, and control theory which aims to solve optimal control problems with machine learning methods. Key applications are complex nonlinear systems for which linear control theory methods are not applicable.",
+      "related_concepts": [
+        "control",
+        "machine",
+        "learning",
+        "theory",
+        "which"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "e2ee51dc252788fb",
+        "vector_hash": "69a5db36096fb142730ae766dd981074",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Machine Learning and Knowledge Extraction",
+      "content": "Machine Learning and Knowledge Extraction is a peer-reviewed open-access scientific journal covering research on machine learning, knowledge extraction and related areas of data-driven artificial intelligence. It is published by MDPI and was launched in 2019 with Andreas Holzinger as founding Editor-in-Chief.",
+      "related_concepts": [
+        "machine",
+        "learning",
+        "knowledge",
+        "extraction"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "91b1458f3062b4fa",
+        "vector_hash": "19fac6eb97e28c76b0c8b7619acb6a5d",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Data compression",
+      "content": "In information theory, data compression, source coding, or bit-rate reduction is the process of encoding information using fewer bits than the original representation. Any particular compression is either lossy or lossless. No information is lost in lossless compression. Typically, a device that performs data compression is referred to as an encoder, and one that performs the reversal of the process (decompression) as a decoder",
+      "related_concepts": [
+        "compression",
+        "information",
+        "data",
+        "bits",
+        "lossless"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "d1617a70f267410d",
+        "vector_hash": "ed812ce0518ffeb422f5595fe46ba3a3",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Applications of artificial intelligence",
+      "content": "Artificial intelligence (AI) has been used in applications throughout industry and academia. In a manner analogous to electricity or computers, AI serves as a general-purpose technology. These systems are capable of adapting to new information and responding to changing situations. Machine learning has been used for various scientific and commercial purposes including language translation, image recognition, decision-making, credit scoring, and e-commerce",
+      "related_concepts": [
+        "applications",
+        "artificial",
+        "intelligence",
+        "used"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "f1c6385c61923983",
+        "vector_hash": "016b1dfdb0aa3a3cc85b68467024bea1",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Algorithmic bias",
+      "content": "Algorithmic bias describes systematic and repeatable harmful tendency in a computerized sociotechnical system to create \"unfair\" outcomes, such as \"privileging\" one category over another in ways different from the intended function of the algorithm.",
+      "related_concepts": [
+        "algorithmic",
+        "bias"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "9296e725730486ec",
+        "vector_hash": "264baec73c541ab3ee54a0e0c969ec94",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Ensemble learning",
+      "content": "In statistics and machine learning, ensemble methods use multiple learning algorithms to obtain better predictive performance than could be obtained from any of the constituent learning algorithms alone.\nUnlike a statistical ensemble in statistical mechanics, which is usually infinite, a machine learning ensemble consists of only a concrete finite set of alternative models, but typically allows for much more flexible structure to exist among those alternatives.",
+      "related_concepts": [
+        "learning",
+        "ensemble",
+        "machine",
+        "algorithms",
+        "statistical"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "bc3f683dd7684efa",
+        "vector_hash": "1a4e5d2c3042d731ad05f1ca1420450d",
+        "url": ""
+      }
+    },
+    {
+      "topic": "List of datasets for machine-learning research",
+      "content": "These datasets are used in machine learning (ML) research and have been cited in peer-reviewed academic journals. Datasets are an integral part of the field of machine learning. High-quality labeled training datasets for supervised and semi-supervised machine learning algorithms are usually difficult and expensive to produce because of the large amount of time needed to label the data. Although they do not need to be labeled, high-quality datasets for unsupervised learning can also be difficult ...",
+      "related_concepts": [
+        "datasets",
+        "learning",
+        "machine",
+        "high",
+        "quality"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "028932fff94db082",
+        "vector_hash": "5bf38a46e6b92a4d9faa69ba21d79ad5",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Explainable artificial intelligence",
+      "content": "Within artificial intelligence (AI), explainable AI (XAI), often overlapping with interpretable AI or explainable machine learning (XML), is a field of research that explores methods that provide humans with the ability of intellectual oversight over AI algorithms. The main focus is on the reasoning behind the decisions or predictions made by the AI algorithms, to make them more understandable and transparent. This addresses users' requirement to assess safety and scrutinize the automated decisi...",
+      "related_concepts": [
+        "explainable",
+        "artificial",
+        "intelligence",
+        "xai",
+        "machine"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "085b6ee432c7f946",
+        "vector_hash": "03ffef6f8e6e48613c73c5c88339ab0a",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 13,
+    "confidence_range": {
+      "min": 0.8,
+      "max": 0.8500000000000001,
+      "avg": 0.8192307692307694
+    }
+  }
+}

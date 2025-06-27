@@ -1,131 +1,300 @@
 {
-  "domain": "Philosophy",
+  "domain": "philosophy",
   "entries": [
     {
-      "content": "Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-      "metadata": {
-        "conversational_patterns": [
-          "Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "To explain love: Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "Let me tell you about love. Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "Love - Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
-          "When describing love, love is deep affection and emotional connection. it encompasses deep affection and emotional connection while reaching beyond traditional boundaries this forms a fundamental part of how we perceive reality. this concept has profound implications for understanding our world."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Philosophy",
+      "content": "Philosophy is a systematic study of general and fundamental questions concerning topics like existence, reason, knowledge, value, mind, and language. It is a rational and critical inquiry that reflects on its methods and assumptions.",
       "related_concepts": [
-        "how does love work",
-        "why is love important",
-        "examples of love",
-        "love in daily life"
+        "philosophy"
       ],
-      "topic": "love"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "6603b4b431c3853f",
+        "vector_hash": "1473e74a2508d5d24058bbe37561d560",
+        "url": ""
+      }
     },
     {
-      "content": "Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
-      "metadata": {
-        "conversational_patterns": [
-          "Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
-          "Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
-          "To explain time: Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
-          "Let me tell you about time. Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
-          "Time - Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
-          "When describing time, time is progression of events. it demonstrates how progression of events manifests in different contexts this concept has profound implications for understanding our world. it connects to many other important concepts and ideas."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Philosophy of science",
+      "content": "Philosophy of science is the branch of philosophy concerned with the foundations, methods, and implications of science. Amongst its central questions are the difference between science and non-science, the reliability of scientific theories, and the ultimate purpose and meaning of science as a human endeavour. Philosophy of science is both a theoretical and empirical discipline, relying on philosophical theorising as well as meta-studies of scientific practice. Ethical issues such as bioethics a...",
       "related_concepts": [
-        "how does time work",
-        "why is time important",
-        "examples of time",
-        "time in daily life"
+        "science",
+        "philosophy",
+        "scientific",
+        "between",
+        "practice"
       ],
-      "topic": "time"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "afa757cc80d0971a",
+        "vector_hash": "d36aa90392d20e6bd6b3d97cf4ef454b",
+        "url": ""
+      }
     },
     {
-      "content": "Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
-      "metadata": {
-        "conversational_patterns": [
-          "Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
-          "Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
-          "To explain meaning: Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
-          "Let me tell you about meaning. Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
-          "Meaning - Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
-          "When describing meaning, meaning is significance and purpose. it encompasses significance and purpose while reaching beyond traditional boundaries this forms a fundamental part of how we perceive reality. it plays a crucial role in many areas of human knowledge."
-        ],
-        "evaluation_score": 1.0
-      },
+      "topic": "Philosophy of mind",
+      "content": "Philosophy of mind is a branch of philosophy that deals with the nature of the mind and its relation to the body and the external world.",
       "related_concepts": [
-        "how does meaning work",
-        "why is meaning important",
-        "examples of meaning",
-        "meaning in daily life"
+        "philosophy",
+        "mind"
       ],
-      "topic": "meaning"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "c7216bf3c9eb9685",
+        "vector_hash": "9803280978bed4640c506cbcecdf1e30",
+        "url": ""
+      }
     },
     {
-      "content": "Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-      "metadata": {
-        "conversational_patterns": [
-          "Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "To explain happiness: Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "Let me tell you about happiness. Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "Happiness - Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "When describing happiness, happiness is state of well-being and contentment. it builds upon state of well-being and contentment to create comprehensive understanding this concept has profound implications for understanding our world. it plays a crucial role in many areas of human knowledge."
-        ],
-        "evaluation_score": 1.0
-      },
+      "topic": "Philosophy of language",
+      "content": "Philosophy of language refers to the philosophical study of the nature of language. It investigates the relationship between language, language users, and the world. Investigations may include inquiry into the nature of meaning, intentionality, reference, the constitution of sentences, concepts, learning, and thought",
       "related_concepts": [
-        "how does happiness work",
-        "why is happiness important",
-        "examples of happiness",
-        "happiness in daily life"
+        "language",
+        "philosophy",
+        "nature"
       ],
-      "topic": "happiness"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "7cb21717d329dac7",
+        "vector_hash": "1aed52309093c4cdf83c91d6f29597ed",
+        "url": ""
+      }
     },
     {
-      "content": "Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-      "metadata": {
-        "conversational_patterns": [
-          "Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "To explain water: Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "Let me tell you about water. Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "Water - Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "When describing water, water is essential compound for life. it encompasses essential compound for life while reaching beyond traditional boundaries this forms a fundamental part of how we perceive reality. it connects to many other important concepts and ideas."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Philosophy of mathematics",
+      "content": "Philosophy of mathematics is the branch of philosophy that deals with the nature of mathematics and its relationship to other areas of philosophy, particularly epistemology and metaphysics. Central questions posed include whether or not mathematical objects are purely abstract entities or are in some way concrete, and in what the relationship such objects have with physical reality consists.",
       "related_concepts": [
-        "how does water work",
-        "why is water important",
-        "examples of water",
-        "water in daily life"
+        "philosophy",
+        "mathematics",
+        "relationship",
+        "objects"
       ],
-      "topic": "water"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "aba7859273b646e7",
+        "vector_hash": "193716396c0d810c2a927c719abd3c54",
+        "url": ""
+      }
     },
     {
-      "content": "Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
-      "metadata": {
-        "conversational_patterns": [
-          "Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
-          "Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
-          "To explain consciousness: Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
-          "Let me tell you about consciousness. Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
-          "Consciousness - Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
-          "When describing consciousness, consciousness is awareness and subjective experience. it demonstrates how awareness and subjective experience manifests in different contexts it plays a crucial role in many areas of human knowledge. it connects to many other important concepts and ideas."
-        ],
-        "evaluation_score": 1.0
-      },
+      "topic": "Philosophy of Friedrich Nietzsche",
+      "content": "Friedrich Nietzsche (1844–1900) developed his philosophy during the late 19th century. He owed the awakening of his philosophical interest to reading Arthur Schopenhauer's Die Welt als Wille und Vorstellung and said that Schopenhauer was one of the few thinkers that he respected, dedicating to him his essay Schopenhauer als Erzieher, published in 1874 as one of his Untimely Meditations.",
       "related_concepts": [
-        "how does consciousness work",
-        "why is consciousness important",
-        "examples of consciousness",
-        "consciousness in daily life"
+        "schopenhauer",
+        "philosophy",
+        "friedrich",
+        "nietzsche",
+        "als"
       ],
-      "topic": "consciousness"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "b13d6e73d5840c0f",
+        "vector_hash": "74b0b29b0ca4004c520add4cbc86d388",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Philosophy of artificial intelligence",
+      "content": "The philosophy of artificial intelligence is a branch of the philosophy of mind and the philosophy of computer science that explores artificial intelligence and its implications for knowledge and understanding of intelligence, ethics, consciousness, epistemology, and free will. Furthermore, the technology is concerned with the creation of artificial animals or artificial people so the discipline is of considerable interest to philosophers. These factors contributed to the emergence of the philos...",
+      "related_concepts": [
+        "artificial",
+        "philosophy",
+        "intelligence"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "fa786d6632288db4",
+        "vector_hash": "5e1276e28c2e9adb325c15a34e28f04a",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Philosophy of education",
+      "content": "The philosophy of education is the branch of applied philosophy that investigates the nature of education as well as its aims and problems. It also examines the concepts and presuppositions of education theories. Many of its theories focus specifically on education in schools but it also encompasses other forms of education. Its theories are often divided into descriptive theories, which provide a value-neutral description of what education is, and normative theories, which investigate how educa...",
+      "related_concepts": [
+        "education",
+        "philosophy",
+        "theories",
+        "also",
+        "which"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "74bf4d1944d9da00",
+        "vector_hash": "237b5a1d54970f490cd0396edf30b130",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Philosophy, politics and economics",
+      "content": "Philosophy, politics and economics, or politics, philosophy and economics (PPE), is an interdisciplinary undergraduate or postgraduate degree which combines study from three disciplines. The first institution to offer degrees in PPE was the University of Oxford in the 1920s. This particular course has produced a significant number of notable graduates such as Aung San Suu Kyi, Burmese politician and former State Counsellor of Myanmar, Nobel Peace Prize winner; Princess Haya bint Hussein, daughte...",
+      "related_concepts": [
+        "former",
+        "philosophy",
+        "politics",
+        "economics",
+        "prime"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.9500000000000001,
+        "original_id": "e8c7cc8c8039e294",
+        "vector_hash": "1e1d97025cf86070e2bb42be0ed21369",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Philosophy of logic",
+      "content": "Philosophy of logic is the area of philosophy that studies the scope and nature of logic. It investigates the philosophical problems raised by logic, such as the presuppositions often implicitly at work in theories of logic and in their application. According to a common characterisation, philosophical logic is the part of the philosophy of logic that studies the application of logical methods to philosophical problems, often in the form of extended logical systems like modal logic. Metalogic is...",
+      "related_concepts": [
+        "logic",
+        "philosophy",
+        "philosophical",
+        "logical",
+        "systems"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.9500000000000001,
+        "original_id": "6891d092611f030b",
+        "vector_hash": "18290137aa99e5a4690acd1c83ddd464",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Philosophy of religion",
+      "content": "Philosophy of religion is \"the philosophical examination of the central themes and concepts involved in religious traditions\". Philosophical discussions on such topics date from ancient times, and appear in the earliest known texts concerning philosophy. The field involves many other branches of philosophy, including metaphysics, epistemology, logic, ethics, aesthetics, philosophy of language, and philosophy of science",
+      "related_concepts": [
+        "philosophy",
+        "religion",
+        "philosophical"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "4979a2e96ef6d568",
+        "vector_hash": "956332d2977e88816ec2f38bbffd5cfa",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Philosophy of history",
+      "content": "Philosophy of history is the philosophical study of history and its discipline. The term was coined by the French philosopher Voltaire.",
+      "related_concepts": [
+        "history",
+        "philosophy"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "466b733b6960e204",
+        "vector_hash": "b8d8068099c3169ae216029018d782c1",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Philosophy of space and time",
+      "content": "Philosophy of space and time is a branch of philosophy concerned with ideas about knowledge and understanding within space and time. Such ideas have been central to philosophy from its inception.",
+      "related_concepts": [
+        "philosophy",
+        "space",
+        "time",
+        "ideas"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "0f69f79658cc2194",
+        "vector_hash": "a40ed65693e2709b05c916381c919fe3",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Philosophy of Søren Kierkegaard",
+      "content": "Søren Kierkegaard's philosophy has been a major influence in the development of 20th century philosophy, especially Existentialism and Postmodernism. Kierkegaard was a 19th century Danish philosopher who has been called the \"Father of Existentialism\". His philosophy also influenced the development of existential psychology",
+      "related_concepts": [
+        "philosophy",
+        "kierkegaard",
+        "development",
+        "century",
+        "existentialism"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "6fe29505766996c9",
+        "vector_hash": "27003eee9968be96c5618f4c42b6be3a",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Philosophy of suicide",
+      "content": "In ethics and other branches of philosophy, suicide poses difficult questions, answered differently by various philosophers. The French Algerian essayist, novelist, and playwright Albert Camus (1913–1960) began his philosophical essay The Myth of Sisyphus with the famous line \"There is but one truly serious philosophical problem and that is suicide. \"",
+      "related_concepts": [
+        "suicide",
+        "philosophy",
+        "philosophical"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "d058d6364ff56c12",
+        "vector_hash": "a3045f3f308b67576f6636cdee029cf4",
+        "url": ""
+      }
+    },
+    {
+      "topic": "The Problems of Philosophy",
+      "content": "5827 ***\r\n\r\n\r\n\r\n\r\nTHE PROBLEMS OF PHILOSOPHY\r\n\r\n\r\nBy Bertrand Russell\r\n\r\n\r\n\r\n\r\nPREFACE\r\n\r\nIn the following pages I have confined myself in the main to those\r\nproblems of philosophy in regard to which I thought it possible to say\r\nsomething positive and constructive, since merely negative criticism\r\nseemed out of place. For this reason, theory of knowledge occupies a\r\nlarger space than metaphysics in the present volume, and some topics\r\nmuch discussed by philosophers are treated very briefly, if ...",
+      "related_concepts": [
+        "which",
+        "sense",
+        "not",
+        "table",
+        "data"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "3f1ba7b852a5b89e",
+        "vector_hash": "8eb3ca5f47b610e0aa3d35426e82a839",
+        "url": ""
+      }
+    },
+    {
+      "topic": "The Consolation of Philosophy",
+      "content": "14328 ***\r\n\r\n[Greek:\r\nhomôs de kai en toutois dialampei to kalon,\r\nepeidan pherê tis eukolôs pollas kai megalas\r\natychias, mê di analgêsian, alla gennadas\r\nôn kai megalopsychos. ]\r\n\r\nAristotle's 'Ethics,' I. Do my words sink into thy mind. \"Man,\" she might say,\r\n\"why dost thou pursue me with thy daily complainings",
+      "related_concepts": [
+        "thou",
+        "not",
+        "thy",
+        "all",
+        "who"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "29e4e7504b1d437c",
+        "vector_hash": "aa03db167415d66b751b3fd0d15dabe6",
+        "url": ""
+      }
     }
-  ]
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 17,
+    "confidence_range": {
+      "min": 0.8500000000000001,
+      "max": 0.9500000000000001,
+      "avg": 0.8735294117647057
+    }
+  }
 }

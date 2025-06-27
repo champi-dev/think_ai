@@ -227,14 +227,20 @@ impl KnowledgeEngine {
             return results;
         }
         
-        // If no direct results, try breaking down the query
+        // Normalize the query
         let query_lower = query.to_lowercase();
+        
+        // Extract the main query phrase after removing question words
+        let clean_query = query_lower.replace("what is ", "").replace("tell me about ", "")
+            .replace("explain ", "").replace("describe ", "").trim().to_string();
+        
+        // Get individual keywords
         let keywords: Vec<&str> = query_lower.split_whitespace()
             .filter(|w| !["what", "is", "the", "a", "an", "tell", "me", "about", "how", "why", "when", "where", "are", "does", "do", "can", "could", "would", "should"].contains(w))
             .filter(|w| w.len() > 2)
             .collect();
-        let nodes = self.nodes.read().unwrap();
         
+        let nodes = self.nodes.read().unwrap();
         let mut scored_results: Vec<(KnowledgeNode, usize)> = Vec::new();
         
         for (_, node) in nodes.iter() {
@@ -242,7 +248,22 @@ impl KnowledgeEngine {
             let topic_lower = node.topic.to_lowercase();
             let content_lower = node.content.to_lowercase();
             
-            // Score based on keyword matches
+            // First, check for exact phrase match (highest priority)
+            if !clean_query.is_empty() && clean_query.len() > 4 {
+                if topic_lower.contains(&clean_query) {
+                    score += 20; // Very high score for exact phrase in topic
+                }
+                if content_lower.contains(&clean_query) {
+                    score += 15; // High score for exact phrase in content
+                }
+                for concept in &node.related_concepts {
+                    if concept.to_lowercase().contains(&clean_query) {
+                        score += 18; // High score for exact phrase in concepts
+                    }
+                }
+            }
+            
+            // Then score based on individual keyword matches
             for keyword in &keywords {
                 if topic_lower.contains(keyword) {
                     score += 3; // Topic matches are worth more
@@ -254,6 +275,13 @@ impl KnowledgeEngine {
                     if concept.to_lowercase().contains(keyword) {
                         score += 2;
                     }
+                }
+            }
+            
+            // Bonus for domain relevance
+            if keywords.iter().any(|k| matches!(*k, "physics" | "energy" | "matter" | "quantum" | "universe" | "space")) {
+                if matches!(node.domain, KnowledgeDomain::Physics | KnowledgeDomain::Astronomy) {
+                    score += 5;
                 }
             }
             

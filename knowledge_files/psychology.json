@@ -1,89 +1,310 @@
 {
-  "domain": "Psychology",
+  "domain": "psychology",
   "entries": [
     {
-      "content": "Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
-      "metadata": {
-        "conversational_patterns": [
-          "Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
-          "Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
-          "To explain learning: Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
-          "Let me tell you about learning. Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
-          "Learning - Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
-          "When describing learning, learning is acquiring knowledge and skills. it encompasses acquiring knowledge and skills while reaching beyond traditional boundaries it plays a crucial role in many areas of human knowledge. it plays a crucial role in many areas of human knowledge."
-        ],
-        "evaluation_score": 1.0
-      },
+      "topic": "Psychology",
+      "content": "Psychology is the scientific study of mind and behavior. Its subject matter includes the behavior of humans and nonhumans, both conscious and unconscious phenomena, and mental processes such as thoughts, feelings, and motives. Biological psychologists seek an understanding of the emergent properties of brains, linking the discipline to neuroscience. As social scientists, psychologists aim to understand the behavior of individuals and groups",
       "related_concepts": [
-        "how does learning work",
-        "why is learning important",
-        "examples of learning",
-        "learning in daily life"
+        "psychology",
+        "behavior",
+        "discipline",
+        "social",
+        "psychologists"
       ],
-      "topic": "learning"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "36cf1d0d1722a43e",
+        "vector_hash": "7adcdf00e46c05b19180bc1fc47c4f0b",
+        "url": ""
+      }
     },
     {
-      "content": "Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
-      "metadata": {
-        "conversational_patterns": [
-          "Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
-          "Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
-          "To explain creativity: Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
-          "Let me tell you about creativity. Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
-          "Creativity - Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
-          "When describing creativity, creativity is ability to create original ideas. it builds upon ability to create original ideas to create comprehensive understanding this concept has profound implications for understanding our world. this forms a fundamental part of how we perceive reality."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Psychology of religion",
+      "content": "Psychology of religion consists of the application of psychological methods and interpretive frameworks to the diverse contents of religious traditions as well as to both religious and irreligious individuals. The various methods and frameworks can be summarized according to the classic distinction between the natural-scientific and human-scientific approaches. In contrast, the human-scientific approach accesses the human world of experience using qualitative, phenomenological, and interpretive ...",
       "related_concepts": [
-        "how does creativity work",
-        "why is creativity important",
-        "examples of creativity",
-        "creativity in daily life"
+        "methods",
+        "scientific",
+        "human",
+        "psychology",
+        "religion"
       ],
-      "topic": "creativity"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "4d10357e1064e4d8",
+        "vector_hash": "23d88243d501225689bc887ef4092608",
+        "url": ""
+      }
     },
     {
-      "content": "Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-      "metadata": {
-        "conversational_patterns": [
-          "Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "To explain communication: Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "Let me tell you about communication. Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "Communication - Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
-          "When describing communication, communication is exchanging information and ideas. it demonstrates how exchanging information and ideas manifests in different contexts this forms a fundamental part of how we perceive reality. it connects to many other important concepts and ideas."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Psychology of music",
+      "content": "The psychology of music, or music psychology, is a branch of psychology, cognitive science, neuroscience, and/or musicology. It aims to explain and understand musical behaviour and experience, including the processes through which music is perceived, created, responded to, and incorporated into everyday life. Modern work in the psychology of music is primarily empirical; its knowledge tends to advance on the basis of interpretations of data collected by systematic observation of and interaction ...",
       "related_concepts": [
-        "how does communication work",
-        "why is communication important",
-        "examples of communication",
-        "communication in daily life"
+        "music",
+        "psychology",
+        "cognitive",
+        "science",
+        "including"
       ],
-      "topic": "communication"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "a32257c9f7331469",
+        "vector_hash": "543ddd77398a5e6c846b3d59f21037d8",
+        "url": ""
+      }
     },
     {
-      "content": "Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-      "metadata": {
-        "conversational_patterns": [
-          "Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "To explain problem solving: Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "Let me tell you about problem solving. Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "Problem solving - Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
-          "When describing problem solving, problem solving is finding solutions to challenges. it involves finding solutions to challenges and extends into various domains this concept has profound implications for understanding our world. it plays a crucial role in many areas of human knowledge."
-        ],
-        "evaluation_score": 1.0
-      },
+      "topic": "Psychology of learning",
+      "content": "The psychology of learning refers to theories and research on how individuals learn. There are many theories of learning. Other approaches, such as neuroscience and social cognition, focus more on how the brain's organization and structure influence learning. Other theories, such as those related to motivation, like the growth mindset, focus more on individuals' perceptions of ability",
       "related_concepts": [
-        "how does problem solving work",
-        "why is problem solving important",
-        "examples of problem solving",
-        "problem solving in daily life"
+        "learning",
+        "more",
+        "theories",
+        "such",
+        "focus"
       ],
-      "topic": "problem solving"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "a6db5ef4d54bf437",
+        "vector_hash": "5bc18e70fce7956ed346d589b7586375",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of art",
+      "content": "The psychology of art is the scientific study of cognitive and emotional processes precipitated by the sensory perception of aesthetic artefacts, such as viewing a painting or touching a sculpture. It is an emerging multidisciplinary field of inquiry, closely related to the psychology of aesthetics, including neuroaesthetics.",
+      "related_concepts": [
+        "psychology",
+        "art"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "f0c2600d61381087",
+        "vector_hash": "e984d4b135fc5f319df3cc3c965ac8b5",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of music preference",
+      "content": "The psychology of music preference is the study of the psychological factors behind peoples' different music preferences. One study found that after researching through studies from the past 50 years, there are more than 500 functions for music. Music training has been shown to help improve intellectual development and ability, though minimal connection has been found as to how it affects emotion regulation. These studies are not limited to American culture, as they have been conducted with sign...",
+      "related_concepts": [
+        "music",
+        "preference",
+        "studies",
+        "psychology",
+        "study"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.9500000000000001,
+        "original_id": "70215e316fdbd227",
+        "vector_hash": "4b56edd6275f7e9eaf9fa79d66157a74",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of climate change denial",
+      "content": "The psychology of climate change denial is the study of why people deny climate change, despite the scientific consensus on climate change. A study assessed public perception and action on climate change on grounds of belief systems, and identified seven psychological barriers affecting behavior that otherwise would facilitate mitigation, adaptation, and environmental stewardship: cognition, ideological worldviews, comparisons to key people, costs and momentum, disbelief in experts and authoriti...",
+      "related_concepts": [
+        "change",
+        "climate",
+        "psychology",
+        "denial",
+        "study"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "c0d32b6d0194a7d0",
+        "vector_hash": "ab665b5fef7906d9196039647e138dd6",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of eating meat",
+      "content": "The psychology of eating meat is an area of study seeking to illuminate the confluence of morality, emotions, cognition, and personality characteristics in the phenomenon of the consumption of meat. Research into the psychological and cultural factors of meat-eating suggests correlations with masculinity, support for hierarchical values, and reduced openness to experience. Because meat eating is widely practiced but is sometimes associated with ambivalence, it has been used as a case study in mo...",
+      "related_concepts": [
+        "meat",
+        "psychology",
+        "eating",
+        "study",
+        "consumption"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "f642bd707617f0e6",
+        "vector_hash": "70d7245133ea2331bc6c7876e13b677c",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of dance",
+      "content": "The psychology of dance is the set of mental states associated with dancing and watching others dance. The term names the interdisciplinary academic field that studies those who do. Areas of research include interventions to increase health for older adults, programs for stimulating children’s creativity, dance movement therapy, mate selection and emotional responses",
+      "related_concepts": [
+        "dance",
+        "psychology"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "781325cf16a026bb",
+        "vector_hash": "989ff4bcd0ded2ffec4170527c22a5d3",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of self",
+      "content": "The psychology of self is the study of either the cognitive, conative or affective representation of one's identity, or the subject of experience. The earliest form of the Self in modern psychology saw the emergence of two elements, I and me, with I referring to the Self as the subjective knower and me referring to the Self as a subject that is known.",
+      "related_concepts": [
+        "self",
+        "psychology",
+        "subject",
+        "referring"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "ff78ec7191b3e677",
+        "vector_hash": "e96b1592618dab75066609fd8496492c",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology in the medieval Islamic world",
+      "content": "Islamic psychology or ʿilm al-nafs, the science of the nafs, is the medical and philosophical study of the psyche from an Islamic perspective and addresses topics in psychology, neuroscience, philosophy of mind, and psychiatry as well as psychosomatic medicine. In Islam, mental health and mental illness were viewed with a holistic approach. This approach emphasized the mutual connection between maintaining adequate mental wellbeing and good physical health in an individual. People who practice I...",
+      "related_concepts": [
+        "mental",
+        "psychology",
+        "islamic",
+        "health",
+        "nafs"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "6c6dd7b15a418faa",
+        "vector_hash": "27bcc14be16d64dc827b3b459eb585e0",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of social class",
+      "content": "The psychology of social class is a branch of social psychology dedicated to understanding how social class affects individual's thoughts, feelings, and behaviors. While social class has long been a subject of analysis in fields such as sociology, political science, anthropology, medicine and epidemiology, its emergence within the field of psychology is much more recent.",
+      "related_concepts": [
+        "social",
+        "psychology",
+        "class"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "748731e9da1b5ed8",
+        "vector_hash": "38c016b2558af6aa729602255d79c05e",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of reasoning",
+      "content": "The psychology of reasoning is the study of how people reason, often broadly defined as the process of drawing conclusions to inform how people solve problems and make decisions. It overlaps with psychology, philosophy, linguistics, cognitive science, artificial intelligence, logic, and probability theory.",
+      "related_concepts": [
+        "psychology",
+        "reasoning",
+        "how",
+        "people"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "5a5bd39ff98e81d4",
+        "vector_hash": "d766b98323f92a180c3904d4dc2d4a3a",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of film",
+      "content": "The psychology of film is a sub-field of the psychology of art that studies the characteristics of film and its production in relation to perception, cognition, narrative understanding, and emotion. A growing number of psychological scientists and brain scientists have begun conducting empirical studies that describe the cognitive and biological underpinnings of motion pictures or what has been called \"psychocinematics\". Early theoretical approaches included works by psychologists Hugo Münsterbe...",
+      "related_concepts": [
+        "film",
+        "psychology",
+        "studies",
+        "scientists",
+        "cognitive"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "6e6b7f59e068f7a9",
+        "vector_hash": "0d28e12dc09125a37d67769b0f904290",
+        "url": ""
+      }
+    },
+    {
+      "topic": "The Principles of Psychology, Volume 1 (of 2)",
+      "content": "57628 ***\n\n\n\n\nTHE PRINCIPLES OF PSYCHOLOGY\n\nBY\n\nWILLIAM JAMES\n\nPROFESSOR OF PSYCHOLOGY IN HARVARD UNIVERSITY\n\n\nIN TWO VOLUMES\n\nVOL. I\n\n\nNEW YORK\nHENRY HOLT AND COMPANY\n\n1918\n\n\n\n\n                                  TO\n                            MY DEAR FRIEND\n                           FRANÇOIS PILLON. Any\nparticular cognition, for example, or recollection, is accounted for\non the soul-theory by being referred to the spiritual faculties of\nCognition or of Memory. _ When\na headless frog's hind leg ...",
+      "related_concepts": [
+        "which",
+        "not",
+        "all",
+        "psychology",
+        "one"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "b24fb090c8811caa",
+        "vector_hash": "1e54b161b71d8ca5f4e08366b77ea340",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Psychology of the Unconscious: A Study of the Transformations and Symbolisms of the Libido. A Contribution to the History of the Evolution of Thought",
+      "content": "65903 ***\r\n\r\n                     PSYCHOLOGY OF THE UNCONSCIOUS\r\n\r\n\r\n[Illustration: DR. C. Besides the dream analysis the patient furnished other means of\r\nrevelation of his complexes—his mannerisms and unconscious acts, his\r\nopening remarks to his physician, his emotional reactions to certain\r\nideas; in short the whole behavior and verbal expressions of the\r\nindividual reveal his inner nature and problems. What is the cause of his regression to past psychic experiences",
+      "related_concepts": [
+        "which",
+        "not",
+        "sexual",
+        "freud",
+        "individual"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "c920aea91ba6e0c0",
+        "vector_hash": "5e2d28aa6b9872df984b3197624ef211",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Human Nature and Conduct: An introduction to social psychology",
+      "content": "41386 ***\r\n\r\nTRANSCRIBER'S NOTE:\r\n\r\n\r\nItalic text has been marked with _underscores _. Inconsistencies in\r\nhyphenation have not been corrected; inconsistencies in spelling have\r\nbeen corrected (both phantasy and fantasy were used in the original\r\ntext, phantasy has been changed to fantasy for consistency). The latter are, to be sure, involuntary, while\r\nhabits are acquired. It is as reasonable to expect a fire to\r\ngo out when it is ordered to stop burning as to suppose that a man can\r\nstand stra...",
+      "related_concepts": [
+        "nature",
+        "which",
+        "human",
+        "social",
+        "morals"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "c215d0575fcb5d29",
+        "vector_hash": "79d85916b2ba789e04ee03b37637d94b",
+        "url": ""
+      }
     }
-  ]
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 17,
+    "confidence_range": {
+      "min": 0.8,
+      "max": 0.9500000000000001,
+      "avg": 0.8617647058823529
+    }
+  }
 }

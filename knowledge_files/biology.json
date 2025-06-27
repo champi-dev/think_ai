@@ -1,68 +1,264 @@
 {
-  "domain": "Biology",
+  "domain": "biology",
   "entries": [
     {
-      "content": "Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
-      "metadata": {
-        "conversational_patterns": [
-          "Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
-          "Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
-          "To explain life: Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
-          "Let me tell you about life. Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
-          "Life - Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
-          "When describing life, life is the condition that distinguishes organisms. it encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries understanding this helps us appreciate the complexity of existence. it connects to many other important concepts and ideas."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Biology",
+      "content": "Biology is the scientific study of life and living organisms. It is a broad natural science that encompasses a wide range of fields and unifying principles that explain the structure, function, growth, origin, evolution, and distribution of life. Central to biology are five fundamental themes: the cell as the basic unit of life, genes and heredity as the basis of inheritance, evolution as the driver of biological diversity, energy transformation for sustaining life processes, and the maintenance...",
       "related_concepts": [
-        "how does life work",
-        "why is life important",
-        "examples of life",
-        "life in daily life"
+        "life",
+        "biology",
+        "evolution"
       ],
-      "topic": "life"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "d835b7f12926f61c",
+        "vector_hash": "19f980b64ffc1539135e6e5dc68505fa",
+        "url": ""
+      }
     },
     {
-      "content": "Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
-      "metadata": {
-        "conversational_patterns": [
-          "Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
-          "Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
-          "To explain biology: Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
-          "Let me tell you about biology. Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
-          "Biology - Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
-          "When describing biology, biology is the study of living organisms and life. it involves the study of living organisms and life and extends into various domains it connects to many other important concepts and ideas."
-        ],
-        "evaluation_score": 1.0
-      },
+      "topic": "Biology and sexual orientation",
+      "content": "The relationship between biology and sexual orientation is a subject of ongoing research. While scientists do not know the exact cause of sexual orientation, they theorize that it is caused by a complex interplay of genetic, hormonal, and environmental influences. However, evidence is weak for hypotheses that the postnatal social environment impacts sexual orientation, especially for males",
       "related_concepts": [
-        "how does biology work",
-        "why is biology important",
-        "examples of biology",
-        "biology in daily life"
+        "sexual",
+        "orientation",
+        "biology"
       ],
-      "topic": "biology"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "f5c754b307735de3",
+        "vector_hash": "640d985e14008964ca27d1b3bc1cf96a",
+        "url": ""
+      }
     },
     {
-      "content": "Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
-      "metadata": {
-        "conversational_patterns": [
-          "Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
-          "Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
-          "To explain death: Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
-          "Let me tell you about death. Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
-          "Death - Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
-          "When describing death, death is the end of life and consciousness. it builds upon the end of life and consciousness to create comprehensive understanding this forms a fundamental part of how we perceive reality."
-        ],
-        "evaluation_score": 0.9500000476837158
-      },
+      "topic": "Biology of depression",
+      "content": "The biology of depression is the attempt to identify a biochemical origin of depression, as opposed to theories that emphasize psychological or situational causes.",
       "related_concepts": [
-        "how does death work",
-        "why is death important",
-        "examples of death",
-        "death in daily life"
+        "depression",
+        "biology"
       ],
-      "topic": "death"
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "cfd679eea2f014f4",
+        "vector_hash": "c99b7988254c2bd077991e74bb66652b",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology of romantic love",
+      "content": "The biology of romantic love has been explored by such biological sciences as evolutionary psychology, evolutionary biology, anthropology and neuroscience. Neurochemicals and hormones such as dopamine and oxytocin are studied along with a variety of interrelated brain systems which produce the psychological experience and behaviors of romantic love.",
+      "related_concepts": [
+        "biology",
+        "romantic",
+        "love",
+        "such",
+        "evolutionary"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "436a61e1d133d7e1",
+        "vector_hash": "1f3a0963bf2ed23365bdb23b334fdbc8",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology of bipolar disorder",
+      "content": "Bipolar disorder is a mood disorder characterized by alternating periods of manic (elevated) and depressed mood. While the exact cause and mechanism of bipolar disorder remain unknown, ongoing research focuses on uncovering its biological origins. Although no single gene has been identified as the cause, numerous genes are associated with an increased risk of developing the disorder. Gene-environment interactions are also believed to play a role in predisposing individuals to bipolar disorder",
+      "related_concepts": [
+        "disorder",
+        "bipolar",
+        "mood",
+        "cause",
+        "gene"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "c8ecfe8e631525dc",
+        "vector_hash": "4dde6c10e3ae06062c158d9bb7bd0e24",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology in fiction",
+      "content": "Biology appears in fiction, especially but not only in science fiction, both in the shape of real aspects of the science, used as themes or plot devices, and in the form of fictional elements, whether fictional extensions or applications of biological theory, or through the invention of fictional organisms. Major aspects of biology found in fiction include evolution, disease, genetics, physiology, parasitism and symbiosis (mutualism), ethology, and ecology.",
+      "related_concepts": [
+        "fiction",
+        "biology",
+        "fictional",
+        "science",
+        "aspects"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "64e1bed64e7cfe65",
+        "vector_hash": "b9ce09a0b2fce6b45f5c55ffefd1e126",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology and political orientation",
+      "content": "A number of studies have found that human biology may be linked with political orientation. This means that an individual's biology may predispose them to a particular political orientation and ideology or, conversely, that subscription to certain ideologies may predispose them to measurable biological and health outcomes.",
+      "related_concepts": [
+        "biology",
+        "political",
+        "orientation",
+        "predispose"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "108e8b4c667dc6a3",
+        "vector_hash": "caeb655be96e92494708dd7cc9296548",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology Monte Carlo method",
+      "content": "Biology Monte Carlo methods (BioMOCA) have been developed at the University of Illinois at Urbana-Champaign to simulate ion transport in an electrolyte environment through ion channels or nano-pores embedded in membranes. It is a 3-D particle-based Monte Carlo simulator for analyzing and studying the ion transport problem in ion channel systems or similar nanopores in wet/biological environments. lipid bilayer) that separates two ion baths on either side. The first one uses Monte Carlo method to...",
+      "related_concepts": [
+        "ion",
+        "monte",
+        "carlo",
+        "particle",
+        "transport"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "dbd8c1a56e86026b",
+        "vector_hash": "101326f016ad67c326f783658f9c79dd",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology and consumer behaviour",
+      "content": "Consumer behaviour is the study of the motivations surrounding a purchase of a product or service. It has been linked to the field of psychology, sociology and economics in attempts to analyse when, why, where and how people purchase in the way that they do. Segmentation by biological-driven demographics such as sex and age are already popular and pervasive in marketing. As more knowledge and research is known, targeting based on consumers' biology is of growing interest and use to marketers",
+      "related_concepts": [
+        "biology",
+        "behaviour",
+        "consumer",
+        "purchase"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "56772b4f2f363951",
+        "vector_hash": "64de367a685a90b2492c324f84a4e76a",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology of Diptera",
+      "content": "Diptera is an order of winged insects commonly known as flies. Diptera, which are one of the most successful groups of organisms on Earth, are very diverse biologically. Many have co-evolved in association with plants and animals. They are also an important component in food chains",
+      "related_concepts": [
+        "diptera",
+        "organisms",
+        "very"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "61a72a8325dea3ee",
+        "vector_hash": "a6742917fdb6e8657cec79ef95838d6b",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology (song)",
+      "content": "\"Biology\" is a song performed by English-Irish all-female pop group Girls Aloud, taken from their third studio album Chemistry (2005). The progressive pop song was written by Miranda Cooper, Brian Higgins and Higgins' production team Xenomania, and produced by Higgins and Xenomania. \"Biology\" was released as a single in November 2005, ahead of the album's release. Following \"Long Hot Summer\" charting at #7 on the UK Singles Chart, \"Biology\" returned Girls Aloud to the top five and became their t...",
+      "related_concepts": [
+        "biology",
+        "song",
+        "pop",
+        "higgins",
+        "girls"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "5d04226e458faf27",
+        "vector_hash": "fd3be5d54a7b6903f30894af0482676a",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology of obsessive–compulsive disorder",
+      "content": "The biology of obsessive–compulsive disorder (OCD) refers to biologically based theories about the mechanism of OCD. Cognitive models generally fall into the category of executive dysfunction or modulatory control. Neuroanatomically, functional and structural neuroimaging studies implicate the prefrontal cortex (PFC), basal ganglia (BG), insula, and posterior cingulate cortex (PCC). Genetic and neurochemical studies implicate glutamate and monoamine neurotransmitters, especially serotonin and do...",
+      "related_concepts": [
+        "biology",
+        "obsessive",
+        "compulsive",
+        "disorder",
+        "ocd"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "4792f9fd43533190",
+        "vector_hash": "1d72b66399fac82b9c134a27be92ef07",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology Letters",
+      "content": "Biology Letters is a peer-reviewed scientific journal published by the Royal Society, established in 2005. It focuses on the rapid publication of short research articles, reviews, and opinion pieces across the biological sciences. The editor-in-chief is Louise Heathwaite FRS",
+      "related_concepts": [
+        "biology",
+        "letters"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "1af6659e6f31d88b",
+        "vector_hash": "9ebc5f377e5b83d30de8539a9d875b9a",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology of the Cell",
+      "content": "Biology of the Cell is a peer-reviewed scientific journal in the field of cell biology, cell physiology, and molecular biology of animal and plant cells, microorganisms and protists. Topics covered include development, neurobiology, and immunology, as well as theoretical or biophysical modelling.",
+      "related_concepts": [
+        "biology",
+        "cell"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "9e4431140a8e8df9",
+        "vector_hash": "f236684587562b1ec0ac68e909a73633",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Biology Open",
+      "content": "Biology Open (BiO) is an online-only peer-reviewed Open Access scientific journal published by The Company of Biologists. It was launched in 2011 and publishes research across the breadth of the biological and biomedical sciences. Biology Open is partnered with Publons, is part of the Review Commons initiative and has two-way integration with bioRxiv",
+      "related_concepts": [
+        "open",
+        "biology"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8,
+        "original_id": "c2e025af9f0f8a24",
+        "vector_hash": "d32e4e3b86bce5a323fd9c3f94a5a04e",
+        "url": ""
+      }
     }
-  ]
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 15,
+    "confidence_range": {
+      "min": 0.8,
+      "max": 0.8500000000000001,
+      "avg": 0.8333333333333334
+    }
+  }
 }

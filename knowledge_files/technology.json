@@ -1,0 +1,32 @@
+{
+  "domain": "technology",
+  "entries": [
+    {
+      "topic": "Technology and Books for All",
+      "content": "TECHNOLOGY AND BOOKS FOR ALL ***\r\n\r\n\r\n\r\n\r\nProduced by Al Haines\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nTECHNOLOGY AND BOOKS FOR ALL\r\n\r\n\r\nMARIE LEBERT\r\n\r\n\r\nUpdated Version\r\n\r\n\r\nNEF, University of Toronto, 2008\r\n\r\n\r\nCopyright © 2008 Marie Lebert\r\n\r\n\r\n\r\n-----\r\n\r\nFrom Project Gutenberg in 1971 to the Encyclopedia of Life in 2007, 38\r\nmilestones and as many pages, with an overview and an in-depth\r\ndescription for each milestone. This book is also available in French,\r\nwith a different text. According to the network tracking...",
+      "related_concepts": [
+        "books",
+        "online",
+        "internet",
+        "web",
+        "library"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "23c8ee797c3ffc44",
+        "vector_hash": "26fe541b439b566562d6abbb911d30de",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 1,
+    "confidence_range": {
+      "min": 0.95,
+      "max": 0.95,
+      "avg": 0.95
+    }
+  }
+}

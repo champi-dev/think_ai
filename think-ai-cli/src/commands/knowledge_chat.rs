@@ -205,12 +205,24 @@ impl KnowledgeChat {
             }
         });
         
-        // Generate new response with TinyLlama evaluation
-        let response = self.tinyllama_builder.generate_evaluated_response(expanded_query).await;
+        // Generate response using actual knowledge base first
+        let knowledge_response = self.response_generator.generate_response(expanded_query);
         
         // Stop progress indicator
         stop_progress.store(true, Ordering::Relaxed);
         let _ = progress_handle.join();
+        
+        // If we got a good knowledge response, use it
+        if !knowledge_response.contains("I don't have specific information") && 
+           !knowledge_response.contains("Could you please elaborate") &&
+           knowledge_response.len() > 50 {
+            print!(" [📚 Knowledge Base]");
+            println!();
+            return knowledge_response;
+        }
+        
+        // Otherwise fall back to TinyLlama evaluation
+        let response = self.tinyllama_builder.generate_evaluated_response(expanded_query).await;
         
         // Show that it's TinyLlama evaluated
         print!(" [🤖 TinyLlama Evaluated]");

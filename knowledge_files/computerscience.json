@@ -64,5 +64,9 @@
       ],
       "topic": "programming"
     }
-  ]
+  ],
+  "metadata": {
+    "enhanced_integration": true,
+    "integration_date": "2025-06-27"
+  }
 }
