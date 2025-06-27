@@ -46,14 +46,14 @@ RUN mkdir -p think-ai-core/src think-ai-storage/src think-ai-cli/src \
     echo '' > think-ai-quantum-mind/src/lib.rs
 
 # Build dependencies only
-RUN cargo build --release --bin full-server
+RUN cargo build --release
 RUN rm -rf think-ai-*/src/
 
 # Copy source code
 COPY . .
 
-# Build release binaries with optimizations
-RUN cargo build --release --bin full-server
+# Build all release binaries and list them
+RUN cargo build --release && ls -la /build/target/release/ | grep -E '^-.*think-ai'
 
 # Runtime stage
 FROM debian:bookworm-slim
@@ -71,11 +71,20 @@ RUN apt-get update && \
 # Create app directory
 WORKDIR /app
 
-# Create bin directory and copy binary where Railway expects it
+# Create bin directory and copy binaries where Railway expects them
 RUN mkdir -p /app/bin
-COPY --from=builder /build/target/release/full-server /app/bin/think-ai-cli
 
-# Also copy to root for compatibility
+# Copy all available think-ai binaries from builder
+COPY --from=builder /build/target/release/think-ai /app/bin/think-ai
+COPY --from=builder /build/target/release/full-server /app/bin/full-server
+COPY --from=builder /build/target/release/train-comprehensive /app/bin/train-comprehensive
+COPY --from=builder /build/target/release/self-learning-service /app/bin/self-learning-service
+COPY --from=builder /build/target/release/train-consciousness /app/bin/train-consciousness
+
+# Create the specific binary Railway expects
+RUN ln -sf /app/bin/full-server /app/bin/think-ai-cli
+
+# Copy main binary to root for compatibility  
 COPY --from=builder /build/target/release/full-server ./
 
 # Copy webapp and knowledge files
