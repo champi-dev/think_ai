@@ -1,0 +1,5 @@
+[phases.build]
+cmds = ['cargo build --release --bin full-server']
+
+[phases.start]
+cmd = './target/release/full-server'

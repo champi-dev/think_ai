@@ -2,16 +2,24 @@
 resolver = "2"
 members = [
     "think-ai-core",
-    "think-ai-vector", 
+    "think-ai-vector",
     "think-ai-http",
     "think-ai-storage",
     "think-ai-cli",
     "think-ai-consciousness",
+    "think-ai-coding",
     "think-ai-cache",
     "think-ai-utils",
+    "think-ai-process-manager",
+    "think-ai-linter", 
     "think-ai-knowledge",
     "think-ai-tinyllama",
+    "think-ai-server",
 ]
+
+# Webapp temporarily excluded due to WASM compilation complexity
+# Will be re-enabled after core system is stable
+# "think-ai-webapp",
 
 [workspace.package]
 version = "0.1.0"
