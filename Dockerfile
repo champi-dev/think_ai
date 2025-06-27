@@ -53,7 +53,7 @@ RUN rm -rf think-ai-*/src/
 COPY . .
 
 # Build release binaries with optimizations
-RUN cargo build --release --bins
+RUN cargo build --release --bin full-server
 
 # Runtime stage
 FROM debian:bookworm-slim
@@ -71,11 +71,8 @@ RUN apt-get update && \
 # Create app directory
 WORKDIR /app
 
-# Copy binaries from builder
+# Copy binary from builder
 COPY --from=builder /build/target/release/full-server ./
-COPY --from=builder /build/target/release/think-ai ./
-COPY --from=builder /build/target/release/process-manager ./
-COPY --from=builder /build/target/release/think-ai-lint ./
 
 # Copy webapp and knowledge files
 COPY --from=builder /build/minimal_3d.html ./
