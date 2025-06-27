@@ -1,0 +1,201 @@
+[
+  {
+    "title": "Whole-Body Conditioned Egocentric Video Prediction",
+    "content": "We train models to Predict Ego-centric Video from human Actions (PEVA), given\nthe past video and an action represented by the relative 3D body pose. By\nconditioning on kinematic pose trajectories, structured by the joint hierarchy\nof the body, our model learns to simulate how physical human actions shape the\nenvironment from a first-person point of view. We train an auto-regressive\nconditional diffusion transformer on Nymeria, a large-scale dataset of\nreal-world egocentric video and body pose capture. We further design a\nhierarchical evaluation protocol with increasingly challenging tasks, enabling\na comprehensive analysis of the model's embodied prediction and control\nabilities. Our work represents an initial attempt to tackle the challenges of\nmodeling complex real-world environments and embodied agent behaviors with\nvideo prediction from the perspective of a human.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21552v1",
+    "metadata": {
+      "authors": [
+        "Yutong Bai",
+        "Danny Tran",
+        "Amir Bar",
+        "Yann LeCun",
+        "Trevor Darrell",
+        "Jitendra Malik"
+      ],
+      "arxiv_id": "2506.21552v1",
+      "published": "2025-06-26T17:59:59Z",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.MM",
+        "cs.RO"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "mTSBench: Benchmarking Multivariate Time Series Anomaly Detection and\n  Model Selection at Scale",
+    "content": "Multivariate time series anomaly detection (MTS-AD) is critical in domains\nlike healthcare, cybersecurity, and industrial monitoring, yet remains\nchallenging due to complex inter-variable dependencies, temporal dynamics, and\nsparse anomaly labels. We introduce mTSBench, the largest benchmark to date for\nMTS-AD and unsupervised model selection, spanning 344 labeled time series\nacross 19 datasets and 12 diverse application domains. mTSBench evaluates 24\nanomaly detection methods, including large language model (LLM)-based detectors\nfor multivariate time series, and systematically benchmarks unsupervised model\nselection techniques under standardized conditions. Consistent with prior\nfindings, our results confirm that no single detector excels across datasets,\nunderscoring the importance of model selection. However, even state-of-the-art\nselection methods remain far from optimal, revealing critical gaps. mTSBench\nprovides a unified evaluation suite to enable rigorous, reproducible\ncomparisons and catalyze future advances in adaptive anomaly detection and\nrobust model selection.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21550v1",
+    "metadata": {
+      "authors": [
+        "Xiaona Zhou",
+        "Constantin Brif",
+        "Ismini Lourentzou"
+      ],
+      "arxiv_id": "2506.21550v1",
+      "published": "2025-06-26T17:59:58Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "HalluSegBench: Counterfactual Visual Reasoning for Segmentation\n  Hallucination Evaluation",
+    "content": "Recent progress in vision-language segmentation has significantly advanced\ngrounded visual understanding. However, these models often exhibit\nhallucinations by producing segmentation masks for objects not grounded in the\nimage content or by incorrectly labeling irrelevant regions. Existing\nevaluation protocols for segmentation hallucination primarily focus on label or\ntextual hallucinations without manipulating the visual context, limiting their\ncapacity to diagnose critical failures. In response, we introduce\nHalluSegBench, the first benchmark specifically designed to evaluate\nhallucinations in visual grounding through the lens of counterfactual visual\nreasoning. Our benchmark consists of a novel dataset of 1340 counterfactual\ninstance pairs spanning 281 unique object classes, and a set of newly\nintroduced metrics that quantify hallucination sensitivity under visually\ncoherent scene edits. Experiments on HalluSegBench with state-of-the-art\nvision-language segmentation models reveal that vision-driven hallucinations\nare significantly more prevalent than label-driven ones, with models often\npersisting in false segmentation, highlighting the need for counterfactual\nreasoning to diagnose grounding fidelity.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21546v1",
+    "metadata": {
+      "authors": [
+        "Xinzhuo Li",
+        "Adheesh Juvekar",
+        "Xingyou Liu",
+        "Muntasir Wahed",
+        "Kiet A. Nguyen",
+        "Ismini Lourentzou"
+      ],
+      "arxiv_id": "2506.21546v1",
+      "published": "2025-06-26T17:59:12Z",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "WorldVLA: Towards Autoregressive Action World Model",
+    "content": "We present WorldVLA, an autoregressive action world model that unifies action\nand image understanding and generation. Our WorldVLA intergrates\nVision-Language-Action (VLA) model and world model in one single framework. The\nworld model predicts future images by leveraging both action and image\nunderstanding, with the purpose of learning the underlying physics of the\nenvironment to improve action generation. Meanwhile, the action model generates\nthe subsequent actions based on image observations, aiding in visual\nunderstanding and in turn helps visual generation of the world model. We\ndemonstrate that WorldVLA outperforms standalone action and world models,\nhighlighting the mutual enhancement between the world model and the action\nmodel. In addition, we find that the performance of the action model\ndeteriorates when generating sequences of actions in an autoregressive manner.\nThis phenomenon can be attributed to the model's limited generalization\ncapability for action prediction, leading to the propagation of errors from\nearlier actions to subsequent ones. To address this issue, we propose an\nattention mask strategy that selectively masks prior actions during the\ngeneration of the current action, which shows significant performance\nimprovement in the action chunk generation task.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21539v1",
+    "metadata": {
+      "authors": [
+        "Jun Cen",
+        "Chaohui Yu",
+        "Hangjie Yuan",
+        "Yuming Jiang",
+        "Siteng Huang",
+        "Jiayan Guo",
+        "Xin Li",
+        "Yibing Song",
+        "Hao Luo",
+        "Fan Wang",
+        "Deli Zhao",
+        "Hao Chen"
+      ],
+      "arxiv_id": "2506.21539v1",
+      "published": "2025-06-26T17:55:40Z",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "PsyLite Technical Report",
+    "content": "With the rapid development of digital technology, AI-driven psychological\ncounseling has gradually become an important research direction in the field of\nmental health. However, existing models still have deficiencies in dialogue\nsafety, detailed scenario handling, and lightweight deployment. To address\nthese issues, this study proposes PsyLite, a lightweight psychological\ncounseling large language model agent developed based on the base model\nInternLM2.5-7B-chat. Through a two-stage training strategy (hybrid distillation\ndata fine-tuning and ORPO preference optimization), PsyLite enhances the\nmodel's deep-reasoning ability, psychological counseling ability, and safe\ndialogue ability. After deployment using Ollama and Open WebUI, a custom\nworkflow is created with Pipelines. An innovative conditional RAG is designed\nto introduce crosstalk humor elements at appropriate times during psychological\ncounseling to enhance user experience and decline dangerous requests to\nstrengthen dialogue safety. Evaluations show that PsyLite outperforms the\nbaseline models in the Chinese general evaluation (CEval), psychological\ncounseling professional evaluation (CPsyCounE), and dialogue safety evaluation\n(SafeDialBench), particularly in psychological counseling professionalism\n(CPsyCounE score improvement of 47.6\\%) and dialogue safety (\\safe{} score\nimprovement of 2.4\\%). Additionally, the model uses quantization technology\n(GGUF q4\\_k\\_m) to achieve low hardware deployment (5GB memory is sufficient\nfor operation), providing a feasible solution for psychological counseling\napplications in resource-constrained environments.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21536v1",
+    "metadata": {
+      "authors": [
+        "Fangjun Ding",
+        "Renyu Zhang",
+        "Xinyu Feng",
+        "Chengye Xie",
+        "Zheng Zhang",
+        "Yanting Zhang"
+      ],
+      "arxiv_id": "2506.21536v1",
+      "published": "2025-06-26T17:54:42Z",
+      "categories": [
+        "cs.AI",
+        "cs.HC"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "\"What's Up, Doc?\": Analyzing How Users Seek Health Information in\n  Large-Scale Conversational AI Datasets",
+    "content": "People are increasingly seeking healthcare information from large language\nmodels (LLMs) via interactive chatbots, yet the nature and inherent risks of\nthese conversations remain largely unexplored. In this paper, we filter\nlarge-scale conversational AI datasets to achieve HealthChat-11K, a curated\ndataset of 11K real-world conversations composed of 25K user messages. We use\nHealthChat-11K and a clinician-driven taxonomy for how users interact with LLMs\nwhen seeking healthcare information in order to systematically study user\ninteractions across 21 distinct health specialties. Our analysis reveals\ninsights into the nature of how and why users seek health information, such as\ncommon interactions, instances of incomplete context, affective behaviors, and\ninteractions (e.g., leading questions) that can induce sycophancy, underscoring\nthe need for improvements in the healthcare support capabilities of LLMs\ndeployed as conversational AI. Code and artifacts to retrieve our analyses and\ncombine them into a curated dataset can be found here:\nhttps://github.com/yahskapar/HealthChat",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21532v1",
+    "metadata": {
+      "authors": [
+        "Akshay Paruchuri",
+        "Maryam Aziz",
+        "Rohit Vartak",
+        "Ayman Ali",
+        "Best Uchehara",
+        "Xin Liu",
+        "Ishan Chatterjee",
+        "Monica Agrawal"
+      ],
+      "arxiv_id": "2506.21532v1",
+      "published": "2025-06-26T17:52:18Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.CY"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "Potemkin Understanding in Large Language Models",
+    "content": "Large language models (LLMs) are regularly evaluated using benchmark\ndatasets. But what justifies making inferences about an LLM's capabilities\nbased on its answers to a curated set of questions? This paper first introduces\na formal framework to address this question. The key is to note that the\nbenchmarks used to test LLMs -- such as AP exams -- are also those used to test\npeople. However, this raises an implication: these benchmarks are only valid\ntests if LLMs misunderstand concepts in ways that mirror human\nmisunderstandings. Otherwise, success on benchmarks only demonstrates potemkin\nunderstanding: the illusion of understanding driven by answers irreconcilable\nwith how any human would interpret a concept. We present two procedures for\nquantifying the existence of potemkins: one using a specially designed\nbenchmark in three domains, the other using a general procedure that provides a\nlower-bound on their prevalence. We find that potemkins are ubiquitous across\nmodels, tasks, and domains. We also find that these failures reflect not just\nincorrect understanding, but deeper internal incoherence in concept\nrepresentations.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21521v1",
+    "metadata": {
+      "authors": [
+        "Marina Mancoridis",
+        "Bec Weeks",
+        "Keyon Vafa",
+        "Sendhil Mullainathan"
+      ],
+      "arxiv_id": "2506.21521v1",
+      "published": "2025-06-26T17:41:35Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "skLEP: A Slovak General Language Understanding Benchmark",
+    "content": "In this work, we introduce skLEP, the first comprehensive benchmark\nspecifically designed for evaluating Slovak natural language understanding\n(NLU) models. We have compiled skLEP to encompass nine diverse tasks that span\ntoken-level, sentence-pair, and document-level challenges, thereby offering a\nthorough assessment of model capabilities. To create this benchmark, we curated\nnew, original datasets tailored for Slovak and meticulously translated\nestablished English NLU resources. Within this paper, we also present the first\nsystematic and extensive evaluation of a wide array of Slovak-specific,\nmultilingual, and English pre-trained language models using the skLEP tasks.\nFinally, we also release the complete benchmark data, an open-source toolkit\nfacilitating both fine-tuning and evaluation of models, and a public\nleaderboard at https://github.com/slovak-nlp/sklep in the hopes of fostering\nreproducibility and drive future research in Slovak NLU.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21508v1",
+    "metadata": {
+      "authors": [
+        "Marek Šuppa",
+        "Andrej Ridzik",
+        "Daniel Hládek",
+        "Tomáš Javůrek",
+        "Viktória Ondrejová",
+        "Kristína Sásiková",
+        "Martin Tamajka",
+        "Marián Šimko"
+      ],
+      "arxiv_id": "2506.21508v1",
+      "published": "2025-06-26T17:35:04Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.IR",
+        "cs.LG",
+        "68T50",
+        "I.2.7"
+      ],
+      "doi": ""
+    }
+  }
+]

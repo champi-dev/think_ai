@@ -1,0 +1,62 @@
+[
+  {
+    "title": "2012 Economic Census - Economic Census US Economic Class of Customer",
+    "content": "The Economic Census is the U.S. Government's official five-year measure of American business and the economy. It is conducted by the U.S. Census Bureau, and response is required by law. In October through December of the census year, forms are sent out to nearly 4 million businesses, including large, medium and small companies representing all U.S. locations and industries. Respondents were asked to provide a range of operational and performance data for their companies.This dataset presents data for a variety of industry-specific topics for establishments of firms with payroll.  Presentation of data varies by kind of business.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/2012-economic-census-economic-census-us-economic-class-of-customer",
+    "metadata": {
+      "agency": "Department of Commerce",
+      "published": "2022-07-15T13:50:54.789523",
+      "format": "Dataset",
+      "license": "other-license-specified"
+    }
+  },
+  {
+    "title": "2012 Economic Census - Economic Census US Economic Data by Size Category",
+    "content": "The Economic Census is the U.S. Government's official five-year measure of American business and the economy. It is conducted by the U.S. Census Bureau, and response is required by law. In October through December of the census year, forms are sent out to nearly 4 million businesses, including large, medium and small companies representing all U.S. locations and industries. Respondents were asked to provide a range of operational and performance data for their companies.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/2012-economic-census-economic-census-us-economic-data-by-size-category",
+    "metadata": {
+      "agency": "Department of Commerce",
+      "published": "2022-07-15T13:50:30.347136",
+      "format": "Dataset",
+      "license": "Creative Commons CCZero"
+    }
+  },
+  {
+    "title": "Office of Economic Policy - Economic Indicators Calendar",
+    "content": "Calendnar from Office of Economic Policy showing when economic indicators were released in 2012, 2013, 2014",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/office-of-economic-policy-economic-indicators-calendar",
+    "metadata": {
+      "agency": "Department of the Treasury",
+      "published": "2020-11-10T16:53:38.575468",
+      "format": "Dataset",
+      "license": "Creative Commons CCZero"
+    }
+  },
+  {
+    "title": "Economic Census: Economic Census of Island Areas",
+    "content": "Every five years, the U.S. Census Bureau collects extensive statistics about businesses that are essential to understanding the economy of American Samoa, Commonwealth of Northern Mariana Islands, Guam, Virgin Islands, and Puerto Rico.  This official count, as part of the Economic Census of Island Areas, serves as the foundation for the measurement of Island Areas businesses and their economic impact.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/economic-census-economic-census-of-island-areas-34118",
+    "metadata": {
+      "agency": "Department of Commerce",
+      "published": "2022-07-15T14:02:05.615882",
+      "format": "Dataset",
+      "license": "Creative Commons CCZero"
+    }
+  },
+  {
+    "title": "Economic Census: Economic Census of Island Areas",
+    "content": "Every five years, the U.S. Census Bureau collects extensive statistics about businesses that are essential to understanding the economy of American Samoa, Commonwealth of Northern Mariana Islands, Guam, Virgin Islands, and Puerto Rico.  This official count, as part of the Economic Census of Island Areas, serves as the foundation for the measurement of Island Areas businesses and their economic impact.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/economic-census-economic-census-of-island-areas-9a63b",
+    "metadata": {
+      "agency": "Department of Commerce",
+      "published": "2022-07-15T14:02:05.546566",
+      "format": "Dataset",
+      "license": "Creative Commons CCZero"
+    }
+  }
+]

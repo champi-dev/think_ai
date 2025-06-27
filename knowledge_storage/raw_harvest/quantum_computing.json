@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Quantum computing",
+    "content": "A quantum computer is a computer that exploits quantum mechanical phenomena. On small scales, physical matter exhibits properties of both particles and waves, and quantum computing takes advantage of this behavior using specialized hardware. Classical physics cannot explain the operation of these quantum devices, and a scalable quantum computer could perform some calculations exponentially faster than any modern \"classical\" computer. Theoretically a large-scale quantum computer could break some widely used encryption schemes and aid physicists in performing physical simulations; however, the current state of the art is largely experimental and impractical, with several obstacles to useful applications.",
+    "source": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Quantum_computing",
+    "metadata": {
+      "lang": "en",
+      "timestamp": "2025-06-23T10:06:55Z",
+      "description": "Computer hardware technology that uses quantum mechanics",
+      "pageviews": 218916
+    }
+  },
+  {
+    "title": "Quantum Computing Since Democritus",
+    "content": "Quantum Computing Since Democritus is a 2013 book on quantum information science written by Scott Aaronson. It is loosely based on a course Aaronson taught at the University of Waterloo, Canada, the lecture notes for which are available online.",
+    "source": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Quantum_Computing_Since_Democritus",
+    "metadata": {
+      "lang": "en",
+      "timestamp": "2025-05-28T12:20:14Z",
+      "description": "Book by Scott Aaronson",
+      "pageviews": 696
+    }
+  },
+  {
+    "title": "Quantum Computing: A Gentle Introduction",
+    "content": "Quantum Computing: A Gentle Introduction is a textbook on quantum computing. It was written by Eleanor Rieffel and Wolfgang Polak, and published in 2011 by the MIT Press.",
+    "source": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Quantum_Computing%3A_A_Gentle_Introduction",
+    "metadata": {
+      "lang": "en",
+      "timestamp": "2024-12-07T20:46:31Z",
+      "description": "",
+      "pageviews": 442
+    }
+  },
+  {
+    "title": "Quantum error correction",
+    "content": "\nQuantum error correction (QEC) is a set of techniques used in quantum computing to protect quantum information from errors due to decoherence and other quantum noise. Quantum error correction is theorised as essential to achieve fault tolerant quantum computing that can reduce the effects of noise on stored quantum information, faulty quantum gates, faulty quantum state preparation, and faulty measurements. Effective quantum error correction would allow quantum computers with low qubit fidelity to execute algorithms of higher complexity or greater circuit depth.",
+    "source": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Quantum_error_correction",
+    "metadata": {
+      "lang": "en",
+      "timestamp": "2025-06-19T21:07:42Z",
+      "description": "Process in quantum computing",
+      "pageviews": 0
+    }
+  },
+  {
+    "title": "Quantum Computation and Quantum Information",
+    "content": "Quantum Computation and Quantum Information is a textbook about quantum information science written by Michael Nielsen and Isaac Chuang, regarded as a standard text on the subject. It is informally known as \"Mike and Ike\", after the candies of that name. The book assumes minimal prior experience with quantum mechanics and with computer science, aiming instead to be a self-contained introduction to the relevant features of both. The focus of the text is on theory, rather than the experimental implementations of quantum computers, which are discussed more briefly.",
+    "source": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Quantum_Computation_and_Quantum_Information",
+    "metadata": {
+      "lang": "en",
+      "timestamp": "2025-05-26T15:24:21Z",
+      "description": "Textbook by scientists Michael Nielsen and Isaac Chuang",
+      "pageviews": 12
+    }
+  }
+]
