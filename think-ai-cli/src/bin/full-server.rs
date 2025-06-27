@@ -105,6 +105,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .ok()
         .and_then(|p| p.parse::<u16>().ok())
         .unwrap_or_else(|| {
+            println!("🔧 PORT env var not set, using default port logic");
             port_selector::find_available_port(Some(8080))
                 .unwrap_or_else(|_| {
                     // Try to kill existing process on port 8080
@@ -112,37 +113,134 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     8080
                 })
         });
-    println!("🌐 Server running on http://0.0.0.0:{}", port);
     
-    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
+    println!("🚀 Think AI Full Server starting...");
+    println!("🌐 Binding to 0.0.0.0:{}", port);
+    println!("📱 Available routes:");
+    println!("   GET  / - 3D Quantum Webapp");
+    println!("   GET  /health - Health check");
+    println!("   POST /api/chat - Chat API");
+    println!("   GET  /api/stats - Stats API");
+    
+    let listener = match tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
+        Ok(listener) => {
+            println!("✅ Server bound successfully to port {}", port);
+            listener
+        }
+        Err(e) => {
+            eprintln!("❌ Failed to bind to port {}: {}", port, e);
+            return Err(e.into());
+        }
+    };
+    
+    println!("🎉 Think AI server is ready!");
+    println!("🌍 Access at: http://localhost:{}", port);
+    if std::env::var("RAILWAY_STATIC_URL").is_ok() {
+        println!("🚂 Railway URL: https://{}", std::env::var("RAILWAY_STATIC_URL").unwrap_or_default());
+    }
+    
     axum::serve(listener, app).await?;
     
     Ok(())
 }
 
 async fn serve_webapp() -> Html<String> {
-    // Read the minimal 3D webapp file
-    let webapp_path = std::env::current_dir()
-        .map(|p| p.join("minimal_3d.html"))
-        .unwrap_or_else(|_| std::path::PathBuf::from("./minimal_3d.html"));
+    // Try multiple possible paths for the webapp file
+    let possible_paths = vec![
+        "./minimal_3d.html",
+        "/app/minimal_3d.html", 
+        "minimal_3d.html",
+    ];
     
-    match std::fs::read_to_string(webapp_path) {
-        Ok(content) => Html(content),
-        Err(_) => Html(String::from(r#"
+    for path in possible_paths {
+        if let Ok(content) = std::fs::read_to_string(path) {
+            println!("✅ Loaded webapp from: {}", path);
+            return Html(content);
+        }
+    }
+    
+    // If file not found, return fallback with basic functionality
+    println!("⚠️ Could not find minimal_3d.html, serving fallback");
+    Html(String::from(r#"
 <!DOCTYPE html>
 <html>
-<head><title>Think AI</title></head>
+<head>
+    <title>Think AI - 3D Quantum Interface</title>
+    <style>
+        body { margin: 0; background: #0a0a0a; color: #fff; font-family: 'Courier New', monospace; overflow: hidden; }
+        canvas { position: absolute; top: 0; left: 0; z-index: 1; }
+        .ui { position: absolute; top: 20px; right: 20px; z-index: 10; }
+        .chat { position: absolute; bottom: 20px; left: 20px; right: 20px; z-index: 10; }
+        input { width: 100%; padding: 10px; background: rgba(0,0,0,0.8); color: #00ff88; border: 1px solid #00ff88; }
+        .messages { height: 200px; overflow-y: auto; background: rgba(0,0,0,0.8); padding: 10px; margin-bottom: 10px; }
+    </style>
+</head>
 <body>
-    <h1>Error: Could not load 3D webapp</h1>
-    <p>Please ensure fullstack_3d.html exists in the project directory.</p>
+    <canvas id="quantum-field"></canvas>
+    <div class="ui">
+        <h2>🧠 Think AI</h2>
+        <p>Quantum Consciousness Active</p>
+    </div>
+    <div class="chat">
+        <div class="messages" id="messages"></div>
+        <input type="text" id="query" placeholder="Ask Think AI anything..." onkeydown="if(event.key==='Enter') sendMessage()">
+    </div>
+    <script>
+        // Basic 3D quantum field
+        const canvas = document.getElementById('quantum-field');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let time = 0;
+        function animate() {
+            ctx.fillStyle = 'rgba(10,10,10,0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            for(let i = 0; i < 50; i++) {
+                const x = Math.sin(time + i) * 200 + canvas.width/2;
+                const y = Math.cos(time + i * 0.5) * 100 + canvas.height/2;
+                ctx.fillStyle = `hsl(${120 + i * 5}, 70%, 50%)`;
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            time += 0.02;
+            requestAnimationFrame(animate);
+        }
+        animate();
+        
+        // Chat functionality
+        async function sendMessage() {
+            const query = document.getElementById('query').value;
+            if (!query) return;
+            
+            document.getElementById('messages').innerHTML += '<p><strong>You:</strong> ' + query + '</p>';
+            document.getElementById('query').value = '';
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query })
+                });
+                const data = await response.json();
+                document.getElementById('messages').innerHTML += '<p><strong>Think AI:</strong> ' + data.response + '</p>';
+            } catch(e) {
+                document.getElementById('messages').innerHTML += '<p><strong>Error:</strong> Connection failed</p>';
+            }
+            document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+        }
+    </script>
 </body>
 </html>
-        "#))
-    }
+    "#))
 }
 
-async fn health_check() -> &'static str {
-    "OK"
+async fn health_check() -> Result<&'static str, StatusCode> {
+    // Basic health check - service is responding
+    println!("🏥 Health check requested");
+    Ok("OK")
 }
 
 async fn chat_handler(
