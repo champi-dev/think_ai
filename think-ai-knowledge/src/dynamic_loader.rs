@@ -39,6 +39,10 @@ impl DynamicKnowledgeLoader {
         // Create directory if it doesn't exist
         if !self.knowledge_dir.exists() {
             fs::create_dir_all(&self.knowledge_dir)?;
+        }
+
+        // Create default files if the directory is empty
+        if self.knowledge_dir.read_dir()?.next().is_none() {
             self.create_default_knowledge_files()?;
         }
         

@@ -2,55 +2,40 @@
   "domain": "Psychology",
   "entries": [
     {
-      "content": "Based on the provided context, improve relates to concept, fundamental",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, fundamental. This directly addresses tell and about and problem and solving in a practical context.",
-        "Problem is a complex system with multiple interacting components. This directly addresses problem and solving in a practical context.",
-        "Based on the provided context, explain relates to concept, fundamental. This directly addresses explain and problem and solving in a practical context.",
-        "Based on the provided context, want relates to concept, fundamental. This directly addresses want and know and about and problem and solving in a practical context.",
-        "Based on the provided context, problem relates to concept, fundamental. This directly addresses problem and solving in a practical context.",
-        "Based on the provided context, can relates to concept, fundamental"
+      "content": "Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
+      "metadata": {
+        "conversational_patterns": [
+          "Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
+          "Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
+          "To explain learning: Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
+          "Let me tell you about learning. Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
+          "Learning - Learning is acquiring knowledge and skills. It encompasses acquiring knowledge and skills while reaching beyond traditional boundaries It plays a crucial role in many areas of human knowledge. It plays a crucial role in many areas of human knowledge.",
+          "When describing learning, learning is acquiring knowledge and skills. it encompasses acquiring knowledge and skills while reaching beyond traditional boundaries it plays a crucial role in many areas of human knowledge. it plays a crucial role in many areas of human knowledge."
+        ],
+        "evaluation_score": 1.0
+      },
+      "related_concepts": [
+        "how does learning work",
+        "why is learning important",
+        "examples of learning",
+        "learning in daily life"
       ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
-        "how does problem solving work",
-        "why is problem solving important",
-        "examples of problem solving",
-        "problem solving in daily life"
-      ],
-      "topic": "problem solving"
+      "topic": "learning"
     },
     {
-      "content": "Based on the provided context, improve relates to concept, essential, system",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, essential, system. This directly addresses tell and about and communication in a practical context.",
-        "Communication is a complex system with multiple interacting components. This directly addresses communication in a practical context.",
-        "Based on the provided context, explain relates to concept, essential, system. This directly addresses explain and communication in a practical context.",
-        "Based on the provided context, want relates to concept, essential, system. This directly addresses want and know and about and communication in a practical context.",
-        "Based on the provided context, communication relates to concept, essential, system. This directly addresses communication in a practical context.",
-        "Based on the provided context, can relates to concept, essential, system"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
-        "how does communication work",
-        "why is communication important",
-        "examples of communication",
-        "communication in daily life"
-      ],
-      "topic": "communication"
-    },
-    {
-      "content": "Based on the provided context, improve relates to concept, essential, system",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, essential, system. This directly addresses tell and about and creativity in a practical context.",
-        "Creativity is a complex system with multiple interacting components. This directly addresses creativity in a practical context.",
-        "Based on the provided context, explain relates to concept, essential, system. This directly addresses explain and creativity in a practical context.",
-        "Based on the provided context, want relates to concept, essential, system. This directly addresses want and know and about and creativity in a practical context.",
-        "Based on the provided context, creativity relates to concept, essential, system. This directly addresses creativity in a practical context.",
-        "Based on the provided context, can relates to concept, essential, system"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "content": "Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
+      "metadata": {
+        "conversational_patterns": [
+          "Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
+          "Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
+          "To explain creativity: Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
+          "Let me tell you about creativity. Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
+          "Creativity - Creativity is ability to create original ideas. It builds upon ability to create original ideas to create comprehensive understanding This concept has profound implications for understanding our world. This forms a fundamental part of how we perceive reality.",
+          "When describing creativity, creativity is ability to create original ideas. it builds upon ability to create original ideas to create comprehensive understanding this concept has profound implications for understanding our world. this forms a fundamental part of how we perceive reality."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
         "how does creativity work",
         "why is creativity important",
         "examples of creativity",
@@ -59,23 +44,46 @@
       "topic": "creativity"
     },
     {
-      "content": "Based on the provided context, improve relates to concept, system",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, system. This directly addresses tell and about and learning in a practical context.",
-        "Learning is a complex system with multiple interacting components. This directly addresses learning in a practical context.",
-        "Based on the provided context, explain relates to concept, system. This directly addresses explain and learning in a practical context.",
-        "Based on the provided context, want relates to concept, system. This directly addresses want and know and about and learning in a practical context.",
-        "Based on the provided context, learning relates to concept, system. This directly addresses learning in a practical context.",
-        "Based on the provided context, can relates to concept, system"
+      "content": "Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "To explain communication: Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "Let me tell you about communication. Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "Communication - Communication is exchanging information and ideas. It demonstrates how exchanging information and ideas manifests in different contexts This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "When describing communication, communication is exchanging information and ideas. it demonstrates how exchanging information and ideas manifests in different contexts this forms a fundamental part of how we perceive reality. it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
+        "how does communication work",
+        "why is communication important",
+        "examples of communication",
+        "communication in daily life"
       ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
-        "how does learning work",
-        "why is learning important",
-        "examples of learning",
-        "learning in daily life"
+      "topic": "communication"
+    },
+    {
+      "content": "Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+      "metadata": {
+        "conversational_patterns": [
+          "Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "To explain problem solving: Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "Let me tell you about problem solving. Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "Problem solving - Problem solving is finding solutions to challenges. It involves finding solutions to challenges and extends into various domains This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "When describing problem solving, problem solving is finding solutions to challenges. it involves finding solutions to challenges and extends into various domains this concept has profound implications for understanding our world. it plays a crucial role in many areas of human knowledge."
+        ],
+        "evaluation_score": 1.0
+      },
+      "related_concepts": [
+        "how does problem solving work",
+        "why is problem solving important",
+        "examples of problem solving",
+        "problem solving in daily life"
       ],
-      "topic": "learning"
+      "topic": "problem solving"
     }
   ]
 }

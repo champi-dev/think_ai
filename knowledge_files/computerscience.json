@@ -2,17 +2,19 @@
   "domain": "ComputerScience",
   "entries": [
     {
-      "content": "Based on the provided context, improve relates to concept, fundamental",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, fundamental. This directly addresses tell and about and artificial and intelligence in a practical context.",
-        "Artificial is a complex system with multiple interacting components. This directly addresses artificial and intelligence in a practical context.",
-        "Based on the provided context, explain relates to concept, fundamental. This directly addresses explain and artificial and intelligence in a practical context.",
-        "Based on the provided context, want relates to concept, fundamental. This directly addresses want and know and about and artificial and intelligence in a practical context.",
-        "Based on the provided context, artificial relates to concept, fundamental. This directly addresses artificial and intelligence in a practical context.",
-        "Based on the provided context, can relates to concept, fundamental"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "content": "Artificial intelligence is machines that simulate human intelligence. It demonstrates how machines that simulate human intelligence manifests in different contexts Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Artificial intelligence is machines that simulate human intelligence. It demonstrates how machines that simulate human intelligence manifests in different contexts Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "Artificial intelligence is machines that simulate human intelligence. It demonstrates how machines that simulate human intelligence manifests in different contexts Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "To explain artificial intelligence: Artificial intelligence is machines that simulate human intelligence. It demonstrates how machines that simulate human intelligence manifests in different contexts Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "Let me tell you about artificial intelligence. Artificial intelligence is machines that simulate human intelligence. It demonstrates how machines that simulate human intelligence manifests in different contexts Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "Artificial intelligence - Artificial intelligence is machines that simulate human intelligence. It demonstrates how machines that simulate human intelligence manifests in different contexts Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "When describing artificial intelligence, artificial intelligence is machines that simulate human intelligence. it demonstrates how machines that simulate human intelligence manifests in different contexts understanding this helps us appreciate the complexity of existence. it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
         "how does artificial intelligence work",
         "why is artificial intelligence important",
         "examples of artificial intelligence",
@@ -21,17 +23,19 @@
       "topic": "artificial intelligence"
     },
     {
-      "content": "Based on the provided context, improve relates to concept, system",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, system. This directly addresses tell and about and blockchain in a practical context.",
-        "Blockchain is a complex system with multiple interacting components. This directly addresses blockchain in a practical context.",
-        "Based on the provided context, explain relates to concept, system. This directly addresses explain and blockchain in a practical context.",
-        "Based on the provided context, want relates to concept, system. This directly addresses want and know and about and blockchain in a practical context.",
-        "Based on the provided context, blockchain relates to concept, system. This directly addresses blockchain in a practical context.",
-        "Based on the provided context, can relates to concept, system"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "content": "Blockchain is distributed ledger technology. It represents distributed ledger technology in its many forms and applications It connects to many other important concepts and ideas. It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Blockchain is distributed ledger technology. It represents distributed ledger technology in its many forms and applications It connects to many other important concepts and ideas. It connects to many other important concepts and ideas.",
+          "Blockchain is distributed ledger technology. It represents distributed ledger technology in its many forms and applications It connects to many other important concepts and ideas. It connects to many other important concepts and ideas.",
+          "To explain blockchain: Blockchain is distributed ledger technology. It represents distributed ledger technology in its many forms and applications It connects to many other important concepts and ideas. It connects to many other important concepts and ideas.",
+          "Let me tell you about blockchain. Blockchain is distributed ledger technology. It represents distributed ledger technology in its many forms and applications It connects to many other important concepts and ideas. It connects to many other important concepts and ideas.",
+          "Blockchain - Blockchain is distributed ledger technology. It represents distributed ledger technology in its many forms and applications It connects to many other important concepts and ideas. It connects to many other important concepts and ideas.",
+          "When describing blockchain, blockchain is distributed ledger technology. it represents distributed ledger technology in its many forms and applications it connects to many other important concepts and ideas. it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
         "how does blockchain work",
         "why is blockchain important",
         "examples of blockchain",
@@ -40,17 +44,19 @@
       "topic": "blockchain"
     },
     {
-      "content": "Based on the provided context, improve relates to concept",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept. This directly addresses tell and about and programming in a practical context.",
-        "Programming is a complex system with multiple interacting components. This directly addresses programming in a practical context.",
-        "Based on the provided context, explain relates to concept. This directly addresses explain and programming in a practical context.",
-        "Based on the provided context, want relates to concept. This directly addresses want and know and about and programming in a practical context.",
-        "Based on the provided context, programming relates to concept. This directly addresses programming in a practical context.",
-        "Based on the provided context, can relates to concept"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "content": "Programming is creating instructions for computers. It represents creating instructions for computers in its many forms and applications Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Programming is creating instructions for computers. It represents creating instructions for computers in its many forms and applications Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "Programming is creating instructions for computers. It represents creating instructions for computers in its many forms and applications Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "To explain programming: Programming is creating instructions for computers. It represents creating instructions for computers in its many forms and applications Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "Let me tell you about programming. Programming is creating instructions for computers. It represents creating instructions for computers in its many forms and applications Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "Programming - Programming is creating instructions for computers. It represents creating instructions for computers in its many forms and applications Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "When describing programming, programming is creating instructions for computers. it represents creating instructions for computers in its many forms and applications understanding this helps us appreciate the complexity of existence. it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
         "how does programming work",
         "why is programming important",
         "examples of programming",

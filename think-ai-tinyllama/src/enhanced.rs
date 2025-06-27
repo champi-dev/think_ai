@@ -382,22 +382,33 @@ impl EnhancedTinyLlama {
     }
     
     /// Generate a general response
-    async fn generate_general(&self, tokens: &[String], context: Option<&str>) -> String {
+    async fn generate_general(&self, tokens: &[String], _context: Option<&str>) -> String {
         let subject = self.extract_subject(tokens).await;
-        let mut response = String::new();
+        let query = tokens.join(" ");
         
-        if let Some(ctx) = context {
-            response.push_str("Based on the provided context, ");
-            response.push_str(&subject);
-            response.push_str(" relates to ");
-            response.push_str(&self.extract_key_concepts(ctx).await);
-        } else {
-            // Use O(1) generator for unique, relevant response
-            let query = tokens.join(" ");
-            response = self.o1_generator.generate_response(&query);
+        // Check for common queries and provide helpful responses
+        if query.contains("hello") || query.contains("hi") {
+            return "Hello! I'm Think AI, ready to help you explore any topic. What would you like to know?".to_string();
         }
         
-        response
+        if query.contains("help") {
+            return "I can help you understand topics in science, technology, philosophy, and more. Just ask me anything!".to_string();
+        }
+        
+        // For definitions, provide a brief helpful response
+        if query.starts_with("define") || query.contains("definition") {
+            return format!("I'd be happy to define {} for you. {} is {}", 
+                subject, 
+                self.capitalize(&subject),
+                self.generate_properties(&subject).await
+            );
+        }
+        
+        // Default: acknowledge the query and offer to help
+        format!("Regarding {}: I can provide information about {}. What specific aspect would you like to know more about?", 
+            subject, 
+            self.generate_properties(&subject).await
+        )
     }
     
     /// Extract the main subject from tokens
@@ -434,27 +445,35 @@ impl EnhancedTinyLlama {
     }
     
     /// Generate properties for a subject
-    async fn generate_properties(&self, _subject: &str) -> String {
-        let properties = vec![
-            "multiple dimensions of complexity",
-            "various interconnected elements",
-            "fundamental characteristics and behaviors",
-            "essential attributes and relationships",
+    async fn generate_properties(&self, subject: &str) -> String {
+        // Dynamic generation based on patterns
+        let patterns = vec![
+            format!("the nature and characteristics of {}", subject),
+            format!("fundamental aspects of {}", subject),
+            format!("essential properties of {}", subject),
+            format!("key attributes of {}", subject),
+            format!("defining features of {}", subject),
         ];
         
-        self.select_from_options(&properties).await
+        let mut rng = self.rng.write().await;
+        let idx = rng.gen_range(0..patterns.len());
+        patterns[idx].clone()
     }
     
     /// Generate a characteristic description
-    async fn generate_characteristic(&self, _subject: &str) -> String {
-        let characteristics = vec![
-            "exhibits unique properties that distinguish it from related concepts",
-            "demonstrates specific behaviors under various conditions",
-            "plays a crucial role in the broader system",
-            "represents a fundamental aspect of its domain",
+    async fn generate_characteristic(&self, subject: &str) -> String {
+        // Dynamic generation
+        let templates = vec![
+            format!("represents an important aspect of {}", subject),
+            format!("plays a significant role in understanding {}", subject),
+            format!("helps us comprehend the nature of {}", subject),
+            format!("demonstrates the complexity of {}", subject),
+            format!("reveals fundamental truths about {}", subject),
         ];
         
-        self.select_from_options(&characteristics).await
+        let mut rng = self.rng.write().await;
+        let idx = rng.gen_range(0..templates.len());
+        templates[idx].clone()
     }
     
     /// Generate explanation parts

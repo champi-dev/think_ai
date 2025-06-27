@@ -2,17 +2,19 @@
   "domain": "Mathematics",
   "entries": [
     {
-      "content": "Based on the provided context, improve relates to concept, essential, fundamental",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, essential, fundamental. This directly addresses tell and about and mathematics in a practical context.",
-        "Mathematics is a complex system with multiple interacting components. This directly addresses mathematics in a practical context.",
-        "Based on the provided context, explain relates to concept, essential, fundamental. This directly addresses explain and mathematics in a practical context.",
-        "Based on the provided context, want relates to concept, essential, fundamental. This directly addresses want and know and about and mathematics in a practical context.",
-        "Based on the provided context, mathematics relates to concept, essential, fundamental. This directly addresses mathematics in a practical context.",
-        "Based on the provided context, can relates to concept, essential, fundamental"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "content": "Mathematics is the abstract science of numbers and patterns. It builds upon the abstract science of numbers and patterns to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+      "metadata": {
+        "conversational_patterns": [
+          "Mathematics is the abstract science of numbers and patterns. It builds upon the abstract science of numbers and patterns to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "Mathematics is the abstract science of numbers and patterns. It builds upon the abstract science of numbers and patterns to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "To explain mathematics: Mathematics is the abstract science of numbers and patterns. It builds upon the abstract science of numbers and patterns to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "Let me tell you about mathematics. Mathematics is the abstract science of numbers and patterns. It builds upon the abstract science of numbers and patterns to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "Mathematics - Mathematics is the abstract science of numbers and patterns. It builds upon the abstract science of numbers and patterns to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "When describing mathematics, mathematics is the abstract science of numbers and patterns. it builds upon the abstract science of numbers and patterns to create comprehensive understanding this forms a fundamental part of how we perceive reality."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
         "how does mathematics work",
         "why is mathematics important",
         "examples of mathematics",

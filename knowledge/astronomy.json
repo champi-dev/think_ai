@@ -1,0 +1,27 @@
+{
+  "domain": "astronomy",
+  "entries": [
+    {
+      "topic": "Andromeda Galaxy",
+      "content": "The Andromeda Galaxy (M31) is the nearest major galaxy to the Milky Way and is on a collision course with our galaxy. Located 2.5 million light-years away, it contains roughly one trillion stars. The collision will occur in about 4.5 billion years, eventually forming a giant elliptical galaxy. Andromeda is visible to the naked eye from Earth and has been known since ancient times.",
+      "related_concepts": [
+        "galaxy",
+        "Milky Way",
+        "M31",
+        "Local Group"
+      ],
+      "metadata": null
+    },
+    {
+      "topic": "Black Hole",
+      "content": "A black hole is a region of spacetime where gravity is so strong that nothing—not even light—can escape once it crosses the event horizon. They form when massive stars collapse at the end of their lives. Black holes have three main parts: the singularity (infinitely dense center), the event horizon (point of no return), and the accretion disk (swirling matter being pulled in). Supermassive black holes exist at the centers of most galaxies.",
+      "related_concepts": [
+        "gravity",
+        "event horizon",
+        "singularity",
+        "spacetime"
+      ],
+      "metadata": null
+    }
+  ]
+}

@@ -2,74 +2,19 @@
   "domain": "Philosophy",
   "entries": [
     {
-      "content": "Based on the provided context, improve relates to concept",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept. This directly addresses tell and about and happiness in a practical context.",
-        "Happiness is a complex system with multiple interacting components. This directly addresses happiness in a practical context.",
-        "Based on the provided context, explain relates to concept. This directly addresses explain and happiness in a practical context.",
-        "Based on the provided context, want relates to concept. This directly addresses want and know and about and happiness in a practical context.",
-        "Based on the provided context, happiness relates to concept. This directly addresses happiness in a practical context.",
-        "Based on the provided context, can relates to concept"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
-        "how does happiness work",
-        "why is happiness important",
-        "examples of happiness",
-        "happiness in daily life"
-      ],
-      "topic": "happiness"
-    },
-    {
-      "content": "Based on the provided context, improve relates to concept, fundamental",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, fundamental. This directly addresses tell and about and water in a practical context.",
-        "Water is a complex system with multiple interacting components. This directly addresses water in a practical context.",
-        "Based on the provided context, explain relates to concept, fundamental. This directly addresses explain and water in a practical context.",
-        "Based on the provided context, want relates to concept, fundamental. This directly addresses want and know and about and water in a practical context.",
-        "Based on the provided context, water relates to concept, fundamental. This directly addresses water in a practical context.",
-        "Based on the provided context, can relates to concept, fundamental"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
-        "how does water work",
-        "why is water important",
-        "examples of water",
-        "water in daily life"
-      ],
-      "topic": "water"
-    },
-    {
-      "content": "Based on the provided context, improve relates to concept",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept. This directly addresses tell and about and consciousness in a practical context.",
-        "Consciousness is a complex system with multiple interacting components. This directly addresses consciousness in a practical context.",
-        "Based on the provided context, explain relates to concept. This directly addresses explain and consciousness in a practical context.",
-        "Based on the provided context, want relates to concept. This directly addresses want and know and about and consciousness in a practical context.",
-        "Based on the provided context, consciousness relates to concept. This directly addresses consciousness in a practical context.",
-        "Based on the provided context, can relates to concept"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
-        "how does consciousness work",
-        "why is consciousness important",
-        "examples of consciousness",
-        "consciousness in daily life"
-      ],
-      "topic": "consciousness"
-    },
-    {
-      "content": "Based on the provided context, improve relates to concept, essential, fundamental",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, essential, fundamental. This directly addresses tell and about and love in a practical context.",
-        "Love is a complex system with multiple interacting components. This directly addresses love in a practical context.",
-        "Based on the provided context, explain relates to concept, essential, fundamental. This directly addresses explain and love in a practical context.",
-        "Based on the provided context, want relates to concept, essential, fundamental. This directly addresses want and know and about and love in a practical context.",
-        "Based on the provided context, love relates to concept, essential, fundamental. This directly addresses love in a practical context.",
-        "Based on the provided context, can relates to concept, essential, fundamental"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "content": "Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
+      "metadata": {
+        "conversational_patterns": [
+          "Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
+          "Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
+          "To explain love: Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
+          "Let me tell you about love. Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
+          "Love - Love is deep affection and emotional connection. It encompasses deep affection and emotional connection while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. This concept has profound implications for understanding our world.",
+          "When describing love, love is deep affection and emotional connection. it encompasses deep affection and emotional connection while reaching beyond traditional boundaries this forms a fundamental part of how we perceive reality. this concept has profound implications for understanding our world."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
         "how does love work",
         "why is love important",
         "examples of love",
@@ -78,17 +23,19 @@
       "topic": "love"
     },
     {
-      "content": "Based on the provided context, improve relates to concept, fundamental, fundamental",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, fundamental, fundamental. This directly addresses tell and about and time in a practical context.",
-        "Time is a complex system with multiple interacting components. This directly addresses time in a practical context.",
-        "Based on the provided context, explain relates to concept, fundamental, fundamental. This directly addresses explain and time in a practical context.",
-        "Based on the provided context, want relates to concept, fundamental, fundamental. This directly addresses want and know and about and time in a practical context.",
-        "Based on the provided context, time relates to concept, fundamental, fundamental. This directly addresses time in a practical context.",
-        "Based on the provided context, can relates to concept, fundamental, fundamental"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "content": "Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
+          "Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
+          "To explain time: Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
+          "Let me tell you about time. Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
+          "Time - Time is progression of events. It demonstrates how progression of events manifests in different contexts This concept has profound implications for understanding our world. It connects to many other important concepts and ideas.",
+          "When describing time, time is progression of events. it demonstrates how progression of events manifests in different contexts this concept has profound implications for understanding our world. it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
         "how does time work",
         "why is time important",
         "examples of time",
@@ -97,23 +44,88 @@
       "topic": "time"
     },
     {
-      "content": "Based on the provided context, improve relates to concept, fundamental",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, fundamental. This directly addresses tell and about and meaning in a practical context.",
-        "Meaning is a complex system with multiple interacting components. This directly addresses meaning in a practical context.",
-        "Based on the provided context, explain relates to concept, fundamental. This directly addresses explain and meaning in a practical context.",
-        "Based on the provided context, want relates to concept, fundamental. This directly addresses want and know and about and meaning in a practical context.",
-        "Based on the provided context, meaning relates to concept, fundamental. This directly addresses meaning in a practical context.",
-        "Based on the provided context, can relates to concept, fundamental"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "content": "Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
+      "metadata": {
+        "conversational_patterns": [
+          "Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
+          "Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
+          "To explain meaning: Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
+          "Let me tell you about meaning. Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
+          "Meaning - Meaning is significance and purpose. It encompasses significance and purpose while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It plays a crucial role in many areas of human knowledge.",
+          "When describing meaning, meaning is significance and purpose. it encompasses significance and purpose while reaching beyond traditional boundaries this forms a fundamental part of how we perceive reality. it plays a crucial role in many areas of human knowledge."
+        ],
+        "evaluation_score": 1.0
+      },
+      "related_concepts": [
         "how does meaning work",
         "why is meaning important",
         "examples of meaning",
         "meaning in daily life"
       ],
       "topic": "meaning"
+    },
+    {
+      "content": "Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+      "metadata": {
+        "conversational_patterns": [
+          "Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "To explain happiness: Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "Let me tell you about happiness. Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "Happiness - Happiness is state of well-being and contentment. It builds upon state of well-being and contentment to create comprehensive understanding This concept has profound implications for understanding our world. It plays a crucial role in many areas of human knowledge.",
+          "When describing happiness, happiness is state of well-being and contentment. it builds upon state of well-being and contentment to create comprehensive understanding this concept has profound implications for understanding our world. it plays a crucial role in many areas of human knowledge."
+        ],
+        "evaluation_score": 1.0
+      },
+      "related_concepts": [
+        "how does happiness work",
+        "why is happiness important",
+        "examples of happiness",
+        "happiness in daily life"
+      ],
+      "topic": "happiness"
+    },
+    {
+      "content": "Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "To explain water: Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "Let me tell you about water. Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "Water - Water is essential compound for life. It encompasses essential compound for life while reaching beyond traditional boundaries This forms a fundamental part of how we perceive reality. It connects to many other important concepts and ideas.",
+          "When describing water, water is essential compound for life. it encompasses essential compound for life while reaching beyond traditional boundaries this forms a fundamental part of how we perceive reality. it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
+        "how does water work",
+        "why is water important",
+        "examples of water",
+        "water in daily life"
+      ],
+      "topic": "water"
+    },
+    {
+      "content": "Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
+          "Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
+          "To explain consciousness: Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
+          "Let me tell you about consciousness. Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
+          "Consciousness - Consciousness is awareness and subjective experience. It demonstrates how awareness and subjective experience manifests in different contexts It plays a crucial role in many areas of human knowledge. It connects to many other important concepts and ideas.",
+          "When describing consciousness, consciousness is awareness and subjective experience. it demonstrates how awareness and subjective experience manifests in different contexts it plays a crucial role in many areas of human knowledge. it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 1.0
+      },
+      "related_concepts": [
+        "how does consciousness work",
+        "why is consciousness important",
+        "examples of consciousness",
+        "consciousness in daily life"
+      ],
+      "topic": "consciousness"
     }
   ]
 }

@@ -2,17 +2,40 @@
   "domain": "Biology",
   "entries": [
     {
-      "content": "Based on the provided context, improve relates to concept",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept. This directly addresses tell and about and biology in a practical context.",
-        "Biology is a complex system with multiple interacting components. This directly addresses biology in a practical context.",
-        "Based on the provided context, explain relates to concept. This directly addresses explain and biology in a practical context.",
-        "Based on the provided context, want relates to concept. This directly addresses want and know and about and biology in a practical context.",
-        "Based on the provided context, biology relates to concept. This directly addresses biology in a practical context.",
-        "Based on the provided context, can relates to concept"
+      "content": "Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "To explain life: Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "Let me tell you about life. Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "Life - Life is the condition that distinguishes organisms. It encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries Understanding this helps us appreciate the complexity of existence. It connects to many other important concepts and ideas.",
+          "When describing life, life is the condition that distinguishes organisms. it encompasses the condition that distinguishes organisms while reaching beyond traditional boundaries understanding this helps us appreciate the complexity of existence. it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
+        "how does life work",
+        "why is life important",
+        "examples of life",
+        "life in daily life"
       ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "topic": "life"
+    },
+    {
+      "content": "Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
+          "Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
+          "To explain biology: Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
+          "Let me tell you about biology. Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
+          "Biology - Biology is the study of living organisms and life. It involves the study of living organisms and life and extends into various domains It connects to many other important concepts and ideas.",
+          "When describing biology, biology is the study of living organisms and life. it involves the study of living organisms and life and extends into various domains it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 1.0
+      },
+      "related_concepts": [
         "how does biology work",
         "why is biology important",
         "examples of biology",
@@ -21,42 +44,25 @@
       "topic": "biology"
     },
     {
-      "content": "Based on the provided context, improve relates to concept",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept. This directly addresses tell and about and death in a practical context.",
-        "Death is a complex system with multiple interacting components. This directly addresses death in a practical context.",
-        "Based on the provided context, explain relates to concept. This directly addresses explain and death in a practical context.",
-        "Based on the provided context, want relates to concept. This directly addresses want and know and about and death in a practical context.",
-        "Based on the provided context, death relates to concept. This directly addresses death in a practical context.",
-        "Based on the provided context, can relates to concept"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "content": "Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+      "metadata": {
+        "conversational_patterns": [
+          "Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "To explain death: Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "Let me tell you about death. Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "Death - Death is the end of life and consciousness. It builds upon the end of life and consciousness to create comprehensive understanding This forms a fundamental part of how we perceive reality.",
+          "When describing death, death is the end of life and consciousness. it builds upon the end of life and consciousness to create comprehensive understanding this forms a fundamental part of how we perceive reality."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
         "how does death work",
         "why is death important",
         "examples of death",
         "death in daily life"
       ],
       "topic": "death"
-    },
-    {
-      "content": "Based on the provided context, improve relates to concept, system",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, system. This directly addresses tell and about and life in a practical context.",
-        "Life is a complex system with multiple interacting components. This directly addresses life in a practical context.",
-        "Based on the provided context, explain relates to concept, system. This directly addresses explain and life in a practical context.",
-        "Based on the provided context, want relates to concept, system. This directly addresses want and know and about and life in a practical context.",
-        "Based on the provided context, life relates to concept, system. This directly addresses life in a practical context.",
-        "Based on the provided context, can relates to concept, system"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
-        "how does life work",
-        "why is life important",
-        "examples of life",
-        "life in daily life"
-      ],
-      "topic": "life"
     }
   ]
 }

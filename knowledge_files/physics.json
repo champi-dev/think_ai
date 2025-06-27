@@ -2,36 +2,19 @@
   "domain": "Physics",
   "entries": [
     {
-      "content": "Based on the provided context, improve relates to concept, essential, system",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept, essential, system. This directly addresses tell and about and physics in a practical context.",
-        "Physics is a complex system with multiple interacting components. This directly addresses physics in a practical context.",
-        "Based on the provided context, explain relates to concept, essential, system. This directly addresses explain and physics in a practical context.",
-        "Based on the provided context, want relates to concept, essential, system. This directly addresses want and know and about and physics in a practical context.",
-        "Based on the provided context, physics relates to concept, essential, system. This directly addresses physics in a practical context.",
-        "Based on the provided context, can relates to concept, essential, system"
-      ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
-        "how does physics work",
-        "why is physics important",
-        "examples of physics",
-        "physics in daily life"
-      ],
-      "topic": "physics"
-    },
-    {
-      "content": "Based on the provided context, improve relates to energy, concept, energy. This directly addresses energy in a practical context.",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to energy, concept, energy. This directly addresses tell and about and energy in a practical context.",
-        "Energy is a complex system with multiple interacting components. This directly addresses energy in a practical context.",
-        "Based on the provided context, explain relates to energy, concept, energy. This directly addresses explain and energy in a practical context.",
-        "Based on the provided context, want relates to energy, concept, energy. This directly addresses want and know and about and energy in a practical context.",
-        "Based on the provided context, energy relates to energy, concept, energy. This directly addresses energy in a practical context.",
-        "Based on the provided context, can relates to energy, concept, energy. This directly addresses describe and energy in a practical context."
-      ],
-      "evaluation_score": 0.9500000476837158,
-      "related_queries": [
+      "content": "Energy is capacity to do work. It involves capacity to do work and extends into various domains It plays a crucial role in many areas of human knowledge. This forms a fundamental part of how we perceive reality.",
+      "metadata": {
+        "conversational_patterns": [
+          "Energy is capacity to do work. It involves capacity to do work and extends into various domains It plays a crucial role in many areas of human knowledge. This forms a fundamental part of how we perceive reality.",
+          "Energy is capacity to do work. It involves capacity to do work and extends into various domains It plays a crucial role in many areas of human knowledge. This forms a fundamental part of how we perceive reality.",
+          "To explain energy: Energy is capacity to do work. It involves capacity to do work and extends into various domains It plays a crucial role in many areas of human knowledge. This forms a fundamental part of how we perceive reality.",
+          "Let me tell you about energy. Energy is capacity to do work. It involves capacity to do work and extends into various domains It plays a crucial role in many areas of human knowledge. This forms a fundamental part of how we perceive reality.",
+          "Energy - Energy is capacity to do work. It involves capacity to do work and extends into various domains It plays a crucial role in many areas of human knowledge. This forms a fundamental part of how we perceive reality.",
+          "When describing energy, energy is capacity to do work. it involves capacity to do work and extends into various domains it plays a crucial role in many areas of human knowledge. this forms a fundamental part of how we perceive reality."
+        ],
+        "evaluation_score": 1.0
+      },
+      "related_concepts": [
         "how does energy work",
         "why is energy important",
         "examples of energy",
@@ -40,17 +23,40 @@
       "topic": "energy"
     },
     {
-      "content": "Based on the provided context, improve relates to concept",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to concept. This directly addresses tell and about and chemistry in a practical context.",
-        "Chemistry is a complex system with multiple interacting components. This directly addresses chemistry in a practical context.",
-        "Based on the provided context, explain relates to concept. This directly addresses explain and chemistry in a practical context.",
-        "Based on the provided context, want relates to concept. This directly addresses want and know and about and chemistry in a practical context.",
-        "Based on the provided context, chemistry relates to concept. This directly addresses chemistry in a practical context.",
-        "Based on the provided context, can relates to concept"
+      "content": "Quantum computing is computing using quantum mechanical phenomena. It encompasses computing using quantum mechanical phenomena while reaching beyond traditional boundaries It connects to many other important concepts and ideas. This concept has profound implications for understanding our world.",
+      "metadata": {
+        "conversational_patterns": [
+          "Quantum computing is computing using quantum mechanical phenomena. It encompasses computing using quantum mechanical phenomena while reaching beyond traditional boundaries It connects to many other important concepts and ideas. This concept has profound implications for understanding our world.",
+          "Quantum computing is computing using quantum mechanical phenomena. It encompasses computing using quantum mechanical phenomena while reaching beyond traditional boundaries It connects to many other important concepts and ideas. This concept has profound implications for understanding our world.",
+          "To explain quantum computing: Quantum computing is computing using quantum mechanical phenomena. It encompasses computing using quantum mechanical phenomena while reaching beyond traditional boundaries It connects to many other important concepts and ideas. This concept has profound implications for understanding our world.",
+          "Let me tell you about quantum computing. Quantum computing is computing using quantum mechanical phenomena. It encompasses computing using quantum mechanical phenomena while reaching beyond traditional boundaries It connects to many other important concepts and ideas. This concept has profound implications for understanding our world.",
+          "Quantum computing - Quantum computing is computing using quantum mechanical phenomena. It encompasses computing using quantum mechanical phenomena while reaching beyond traditional boundaries It connects to many other important concepts and ideas. This concept has profound implications for understanding our world.",
+          "When describing quantum computing, quantum computing is computing using quantum mechanical phenomena. it encompasses computing using quantum mechanical phenomena while reaching beyond traditional boundaries it connects to many other important concepts and ideas. this concept has profound implications for understanding our world."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
+        "how does quantum computing work",
+        "why is quantum computing important",
+        "examples of quantum computing",
+        "quantum computing in daily life"
       ],
-      "evaluation_score": 0.800000011920929,
-      "related_queries": [
+      "topic": "quantum computing"
+    },
+    {
+      "content": "Chemistry is the science of substances and their transformations. It represents the science of substances and their transformations in its many forms and applications This forms a fundamental part of how we perceive reality.",
+      "metadata": {
+        "conversational_patterns": [
+          "Chemistry is the science of substances and their transformations. It represents the science of substances and their transformations in its many forms and applications This forms a fundamental part of how we perceive reality.",
+          "Chemistry is the science of substances and their transformations. It represents the science of substances and their transformations in its many forms and applications This forms a fundamental part of how we perceive reality.",
+          "To explain chemistry: Chemistry is the science of substances and their transformations. It represents the science of substances and their transformations in its many forms and applications This forms a fundamental part of how we perceive reality.",
+          "Let me tell you about chemistry. Chemistry is the science of substances and their transformations. It represents the science of substances and their transformations in its many forms and applications This forms a fundamental part of how we perceive reality.",
+          "Chemistry - Chemistry is the science of substances and their transformations. It represents the science of substances and their transformations in its many forms and applications This forms a fundamental part of how we perceive reality.",
+          "When describing chemistry, chemistry is the science of substances and their transformations. it represents the science of substances and their transformations in its many forms and applications this forms a fundamental part of how we perceive reality."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
         "how does chemistry work",
         "why is chemistry important",
         "examples of chemistry",
@@ -59,23 +65,25 @@
       "topic": "chemistry"
     },
     {
-      "content": "Based on the provided context, improve relates to quantum, concept, fundamental. This directly addresses quantum and computing in a practical context.",
-      "conversational_patterns": [
-        "Based on the provided context, tell relates to quantum, concept, fundamental. This directly addresses tell and about and quantum and computing in a practical context.",
-        "Quantum is a fundamental quantum phenomenon that exhibits probabilistic behavior. This directly addresses quantum and computing in a practical context.",
-        "Based on the provided context, explain relates to quantum, concept, fundamental. This directly addresses explain and quantum and computing in a practical context.",
-        "Based on the provided context, want relates to quantum, concept, fundamental. This directly addresses want and know and about and quantum and computing in a practical context.",
-        "Based on the provided context, quantum relates to quantum, concept, fundamental. This directly addresses quantum and computing in a practical context.",
-        "Based on the provided context, can relates to quantum, concept, fundamental. This directly addresses describe and quantum and computing in a practical context."
+      "content": "Physics is the study of matter, energy, and their interactions. It encompasses the study of matter, energy, and their interactions while reaching beyond traditional boundaries It connects to many other important concepts and ideas.",
+      "metadata": {
+        "conversational_patterns": [
+          "Physics is the study of matter, energy, and their interactions. It encompasses the study of matter, energy, and their interactions while reaching beyond traditional boundaries It connects to many other important concepts and ideas.",
+          "Physics is the study of matter, energy, and their interactions. It encompasses the study of matter, energy, and their interactions while reaching beyond traditional boundaries It connects to many other important concepts and ideas.",
+          "To explain physics: Physics is the study of matter, energy, and their interactions. It encompasses the study of matter, energy, and their interactions while reaching beyond traditional boundaries It connects to many other important concepts and ideas.",
+          "Let me tell you about physics. Physics is the study of matter, energy, and their interactions. It encompasses the study of matter, energy, and their interactions while reaching beyond traditional boundaries It connects to many other important concepts and ideas.",
+          "Physics - Physics is the study of matter, energy, and their interactions. It encompasses the study of matter, energy, and their interactions while reaching beyond traditional boundaries It connects to many other important concepts and ideas.",
+          "When describing physics, physics is the study of matter, energy, and their interactions. it encompasses the study of matter, energy, and their interactions while reaching beyond traditional boundaries it connects to many other important concepts and ideas."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
+        "how does physics work",
+        "why is physics important",
+        "examples of physics",
+        "physics in daily life"
       ],
-      "evaluation_score": 0.9500000476837158,
-      "related_queries": [
-        "how does quantum computing work",
-        "why is quantum computing important",
-        "examples of quantum computing",
-        "quantum computing in daily life"
-      ],
-      "topic": "quantum computing"
+      "topic": "physics"
     }
   ]
 }

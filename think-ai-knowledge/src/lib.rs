@@ -1,3 +1,4 @@
+pub mod real_content_generator;
 pub mod evidence;
 pub mod persistence;
 pub mod responder;
