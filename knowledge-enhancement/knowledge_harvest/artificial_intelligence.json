@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Artificial Intelligence",
+    "content": "This dataset details how ICE recognizes the transformative potential of artificial intelligence (AI) to the mission space. the agency continued to establish the foundation for the safe, secure and ethical development and use of AI technology.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/artificial-intelligence",
+    "metadata": {
+      "agency": "Department of Homeland Security",
+      "published": "2025-06-07T10:06:04.221059",
+      "format": "Dataset",
+      "license": "other-license-specified"
+    }
+  },
+  {
+    "title": "Artificial Intelligence and Technology",
+    "content": "Coordinate responsible and trustworthy artificial intelligence (AI) governance and capabilities.  AITO is the connective tissue for all things AI at the Department of Energy.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/artificial-intelligence-and-technology",
+    "metadata": {
+      "agency": "Department of Energy",
+      "published": "2022-10-04T06:59:08.666632",
+      "format": "Dataset",
+      "license": "Creative Commons CCZero"
+    }
+  },
+  {
+    "title": "Artificial Intelligence Research Guide",
+    "content": "This is a collection of information and resources relating to artificial intelligence.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/artificial-intelligence-research-guide",
+    "metadata": {
+      "agency": "Department of Homeland Security",
+      "published": "2022-10-14T14:45:35.660653",
+      "format": "Dataset",
+      "license": "other-license-specified"
+    }
+  },
+  {
+    "title": "Artificial Intelligence Advisory Council Meeting",
+    "content": "In June 2023, Governor Greg Abbott signed House Bill 2060 by Representative Giovanni Capriglione and Senator Tan Parker. This legislation establishes the Artificial Intelligence Advisory Council as Texas strengthens its position as the leading destination for next generation technology in the country.\n\nHouse Bill 2060: https://capitol.texas.gov/tlodocs/88R/billtext/html/HB02060I.htm",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/artificial-intelligence-advisory-council-meeting",
+    "metadata": {
+      "agency": "City of Austin",
+      "published": "2024-03-25T11:03:01.649026",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  },
+  {
+    "title": "Executive Branch Artificial Intelligence System Inventory",
+    "content": "Public Act No. 23-16, Section 1, effective July 1, 2023, directs the Department of Administrative Services to conduct an annual inventory of all systems that employ artificial intelligence and are used by any state agency.\n\nThe public act defines artificial intelligence as (A) an artificial system that (i) performs tasks under varying and unpredictable circumstances without significant human oversight or can learn from experience and improve such performance when exposed to data sets, (ii) is developed in any context, including, but not limited to, software or physical hardware, and solves tasks requiring human-like perception, cognition, planning, learning, communication or physical action, or (iii) is designed to (I) think or act like a human, including, but not limited to, a cognitive architecture or neural network, or (II) act rationally, including, but not limited to, an intelligent software agent or embodied robot that achieves goals using perception, planning, reasoning, learning, communication, decision-making or action, or (B) a set of techniques, including, but not limited to, machine learning, that is designed to approximate a cognitive task.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/executive-branch-artificial-intelligence-system-inventory",
+    "metadata": {
+      "agency": "State of Connecticut",
+      "published": "2024-01-05T14:26:49.057776",
+      "format": "Dataset",
+      "license": "other-license-specified"
+    }
+  }
+]

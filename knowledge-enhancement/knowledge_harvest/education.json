@@ -1,0 +1,62 @@
+[
+  {
+    "title": "MD iMAP: Maryland Education Facilities - Higher Education (Regional Education Centers)",
+    "content": "This is a MD iMAP hosted service layer. Find more information at http://imap.maryland.gov. Maryland has 200+ higher education facilities located throughout the entire State. Maryland boasts a highly educated workforce with 300 - 000+ graduates from higher education institutions every year. Higher education opportunities range from two year -  public and private institutions -  four year -  public and private institutions and regional education centers. Collectively -  Maryland's higher education facilities offer every kind of educational experience -  whether for the traditional college students or for students who have already begun a career and are working to learn new skills. Maryland is proud that nearly one-third of its residents 25 and older have a bachelor's degree or higher -  ranking in the top 5 amongst all states. Maryland's economic diversity and educational vitality is what makes it one of the best states in the nation in which to live -  learn -  work and raise a family. Last Updated:  06/2013 Feature Service Layer Link: https://mdgeodata.md.gov/imap/rest/services/Education/MD_EducationFacilities/FeatureServer ADDITIONAL LICENSE TERMS: The Spatial Data and the information therein (collectively \"the Data\") is provided \"as is\" without warranty of any kind either expressed implied or statutory. The user assumes the entire risk as to quality and performance of the Data. No guarantee of accuracy is granted nor is any responsibility for reliance thereon assumed. In no event shall the State of Maryland be liable for direct indirect incidental consequential or special damages of any kind. The State of Maryland does not accept liability for any damages or misrepresentation caused by inaccuracies in the Data or as a result to changes to the Data nor is there responsibility assumed to maintain the Data in any manner or form. The Data can be freely distributed as long as the metadata entry is not modified or deleted. Any data derived from the Data must acknowledge the State of Maryland in the metadata.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/md-imap-maryland-education-facilities-higher-education-regional-education-centers",
+    "metadata": {
+      "agency": "State of Maryland",
+      "published": "2020-11-10T17:25:23.746868",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  },
+  {
+    "title": "Education - Resident Educational Attainment",
+    "content": "The Arlington Profile combines countywide data sources and provides a comprehensive outlook of the most current data on population, housing, employment, development, transportation, and community services. These datasets are used to obtain an understanding of community, plan future services/needs, guide policy decisions, and secure grant funding. A <a href=\"http://www.arlingtonva.us/profile\">PDF Version</a> of the Arlington Profile can be accessed on the Arlington County website.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/education-resident-educational-attainment-b5f00",
+    "metadata": {
+      "agency": "Arlington County, VA",
+      "published": "2021-08-07T10:11:42.510628",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  },
+  {
+    "title": "Education - Resident Educational Attainment by Corridor",
+    "content": "The Arlington Profile combines countywide data sources and provides a comprehensive outlook of the most current data on population, housing, employment, development, transportation, and community services. These datasets are used to obtain an understanding of community, plan future services/needs, guide policy decisions, and secure grant funding. A <a href=\"http://www.arlingtonva.us/profile\">PDF Version</a> of the Arlington Profile can be accessed on the Arlington County website.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/education-resident-educational-attainment-by-corridor-a378f",
+    "metadata": {
+      "agency": "Arlington County, VA",
+      "published": "2021-08-07T10:10:45.712360",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  },
+  {
+    "title": "Educational Attainment",
+    "content": "This table contains data on the percent of population age 25 and up with a four-year college degree or higher for California, its regions, counties, county subdivisions, cities, towns, and census tracts. Greater educational attainment has been associated with health-promoting behaviors including consumption of fruits and vegetables and other aspects of healthy eating, engaging in regular physical activity, and refraining from excessive consumption of alcohol and from smoking. Completion of formal education (e.g., high school) is a key pathway to employment and access to healthier and higher paying jobs that can provide food, housing, transportation, health insurance, and other basic necessities for a healthy life. Education is linked with social and psychological factors, including sense of control, social standing and social support. These factors can improve health through reducing stress, influencing health-related behaviors and providing practical and emotional support.  More information on the data table and a data dictionary can be found in the Data and Resources section.  The educational attainment table is part of a series of indicators in the Healthy Communities Data and Indicators Project (HCI) of the Office of Health Equity. The goal of HCI is to enhance public health by providing data, a standardized set of statistical measures, and tools that a broad array of sectors can use for planning healthy communities and evaluating the impact of plans, projects, policy, and environmental changes on community health. The creation of healthy social, economic, and physical environments that promote healthy behaviors and healthy outcomes requires coordination and collaboration across multiple sectors, including transportation, housing, education, agriculture and others. Statistical metrics, or indicators, are needed to help local, regional, and state public health and partner agencies assess community environments and plan for healthy communities that optimize public health. More information on HCI can be found here: https://www.cdph.ca.gov/Programs/OHE/CDPH%20Document%20Library/Accessible%202%20CDPH_Healthy_Community_Indicators1pager5-16-12.pdf  \r\n\r\nThe format of the educational attainment table is based on the standardized data format for all HCI indicators. As a result, this data table contains certain variables used in the HCI project (e.g., indicator ID, and indicator definition). Some of these variables may contain the same value for all observations.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/educational-attainment-8c8b5",
+    "metadata": {
+      "agency": "State of California",
+      "published": "2024-03-30T04:57:18.971825",
+      "format": "Dataset",
+      "license": "other-license-specified"
+    }
+  },
+  {
+    "title": "Education Directory",
+    "content": "This dataset contains the official listing of all public educational organizations in Connecticut.  Data elements include district name, school name, organization type, organization code, address, open date, interdistrict magnet status and grades offered.\n\nIncluded data are collected by the CT State Department of Education (CSDE) through the Directory Manager (DM) portal in accordance with Connecticut General Statute (C.G.S.) 10-4. This critical information is used by other data collection systems and for state and federal reporting. \n\nFor more information regarding DM, please visit http://www.csde.state.ct.us/public/directorymanager/default.asp",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/education-directory",
+    "metadata": {
+      "agency": "State of Connecticut",
+      "published": "2020-11-12T14:54:58.239472",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  }
+]

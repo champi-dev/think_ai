@@ -1,0 +1,62 @@
+[
+  {
+    "title": "DOJ Information Technology Policy & Guidance",
+    "content": "Policy & Guidance relating to Department of Justice Information Technology Practices and Management",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/doj-information-technology-policy-guidance",
+    "metadata": {
+      "agency": "Department of Justice",
+      "published": "2020-11-10T16:24:32.132370",
+      "format": "Dataset",
+      "license": "us-pd"
+    }
+  },
+  {
+    "title": "IT Policies and Standards-Managing Information Technology",
+    "content": "The documents contained in this dataset reflect NASA's comprehensive IT policy in compliance with Federal Government laws and regulations.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/it-policies-and-standards-managing-information-technology",
+    "metadata": {
+      "agency": "National Aeronautics and Space Administration",
+      "published": "2020-11-12T04:22:44.348006",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  },
+  {
+    "title": "IT Policies and Standards - Security of Information Technology",
+    "content": "The documents contained in this dataset reflect NASA's comprehensive IT policy in compliance with Federal Government laws and regulations.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/it-policies-and-standards-security-of-information-technology",
+    "metadata": {
+      "agency": "National Aeronautics and Space Administration",
+      "published": "2020-11-12T04:13:14.527794",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  },
+  {
+    "title": "IT Policies and Standards-Managing Information Technology (NPR)",
+    "content": "The documents contained in this dataset reflect NASA's comprehensive IT policy in compliance with Federal Government laws and regulations.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/it-policies-and-standards-managing-information-technology-npr",
+    "metadata": {
+      "agency": "National Aeronautics and Space Administration",
+      "published": "2020-11-12T04:38:42.068347",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  },
+  {
+    "title": "IT Policies and Standards - Electronic and Information Technology Accessibility",
+    "content": "The documents contained in this dataset reflect NASA's comprehensive IT policy in compliance with Federal Government laws and regulations.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/it-policies-and-standards-electronic-and-information-technology-accessibility",
+    "metadata": {
+      "agency": "National Aeronautics and Space Administration",
+      "published": "2020-11-12T05:05:54.555291",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Public Health Departments",
+    "content": "Homeland Infrastructure Foundation-Level Data (HIFLD) geospatial data sets containing information on Public Health Departments.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/public-health-departments",
+    "metadata": {
+      "agency": "Department of Homeland Security",
+      "published": "2022-11-02T11:39:48.344705",
+      "format": "Dataset",
+      "license": "other-license-specified"
+    }
+  },
+  {
+    "title": "Austin Public Health Locations",
+    "content": "This data set shows locations at which Austin Public Health has a presence, those locations with office hours contain service providers. Some locations are owned by the Department, while other locations house Austin Public Health staff.\n\nNo warranty is made by the City of Austin or Austin Public Health regarding the specific accuracy, relevance, or completeness of this data set.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/austin-public-health-locations",
+    "metadata": {
+      "agency": "City of Austin",
+      "published": "2020-11-12T13:22:40.223426",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  },
+  {
+    "title": "Public Health Department Events",
+    "content": "List of public events sponsored or supported by the Chicago Department of Public Health.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/public-health-department-events",
+    "metadata": {
+      "agency": "City of Chicago",
+      "published": "2020-11-10T16:54:18.504223",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  },
+  {
+    "title": "Community Health Assessment, Philadelphia Department of Public Health",
+    "content": "The Community Health Assessment (CHA) is a systematic assessment of population health in Philadelphia, highlighting key public health challenges and assets and informing local public health programs, policies, and partnerships. The CHA includes indicators reflecting health behaviors, health conditions, health care factors, and social and environmental determinants of health. The Philadelphia Department of Public Health publishes an annual report of the analyses, linked to under the 'Related' tab. Additionally, they have released an online, interactive version of the CHA, known as the Community Health Explorer, to make the data more accessible to a broader audience.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/community-health-assessment-philadelphia-department-of-public-health",
+    "metadata": {
+      "agency": "City of Philadelphia",
+      "published": "2025-03-31T15:14:14.856055",
+      "format": "Dataset",
+      "license": "other-license-specified"
+    }
+  },
+  {
+    "title": "Public Health Statistics - Selected public health indicators by Chicago community area - Historical",
+    "content": "Note: This dataset is historical only and there are not corresponding datasets for more recent time periods. For that more-recent information, please visit the Chicago Health Atlas at https://chicagohealthatlas.org.\n\nThis dataset contains a selection of 27 indicators of public health significance by Chicago community area, with the most updated information available. The indicators are rates, percents, or other measures related to natality, mortality, infectious disease, lead poisoning, and economic status.  See the full description at https://data.cityofchicago.org/api/assets/2107948F-357D-4ED7-ACC2-2E9266BBFFA2.",
+    "source": "Government Documents",
+    "url": "https://catalog.data.gov/dataset/public-health-statistics-selected-public-health-indicators-by-chicago-community-area",
+    "metadata": {
+      "agency": "City of Chicago",
+      "published": "2020-11-10T16:55:02.009462",
+      "format": "Dataset",
+      "license": "License not specified"
+    }
+  }
+]

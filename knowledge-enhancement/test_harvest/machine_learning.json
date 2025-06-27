@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Machine learning",
+    "content": "Machine learning (ML) is a field of study in artificial intelligence concerned with the development and study of statistical algorithms that can learn from data and generalise to unseen data, and thus perform tasks without explicit instructions. Within a subdiscipline in machine learning, advances in the field of deep learning have allowed neural networks, a class of statistical algorithms, to surpass many previous machine learning approaches in performance.",
+    "source": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Machine_learning",
+    "metadata": {
+      "lang": "en",
+      "timestamp": "2025-06-20T23:09:25Z",
+      "description": "Study of algorithms that improve automatically through experience",
+      "pageviews": 135797
+    }
+  },
+  {
+    "title": "Machine learning in bioinformatics",
+    "content": "Machine learning in bioinformatics is the application of machine learning algorithms to bioinformatics, including genomics, proteomics, microarrays, systems biology, evolution, and text mining.",
+    "source": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Machine_learning_in_bioinformatics",
+    "metadata": {
+      "lang": "en",
+      "timestamp": "2025-05-26T02:49:47Z",
+      "description": "",
+      "pageviews": 2294
+    }
+  },
+  {
+    "title": "Machine learning in earth sciences",
+    "content": "Applications of machine learning (ML) in earth sciences include geological mapping, gas leakage detection and geological feature identification. Machine learning is a subdiscipline of artificial intelligence aimed at developing programs that are able to classify, cluster, identify, and analyze vast and complex data sets without the need for explicit programming to do so. Earth science is the study of the origin, evolution, and future of the Earth. The earth's system can be subdivided into four major components including the solid earth, atmosphere, hydrosphere, and biosphere.",
+    "source": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Machine_learning_in_earth_sciences",
+    "metadata": {
+      "lang": "en",
+      "timestamp": "2025-06-24T03:34:53Z",
+      "description": "Applications of machine learning in earth sciences",
+      "pageviews": 939
+    }
+  }
+]

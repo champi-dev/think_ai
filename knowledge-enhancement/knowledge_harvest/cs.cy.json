@@ -1,0 +1,180 @@
+[
+  {
+    "title": "\"What's Up, Doc?\": Analyzing How Users Seek Health Information in\n  Large-Scale Conversational AI Datasets",
+    "content": "People are increasingly seeking healthcare information from large language\nmodels (LLMs) via interactive chatbots, yet the nature and inherent risks of\nthese conversations remain largely unexplored. In this paper, we filter\nlarge-scale conversational AI datasets to achieve HealthChat-11K, a curated\ndataset of 11K real-world conversations composed of 25K user messages. We use\nHealthChat-11K and a clinician-driven taxonomy for how users interact with LLMs\nwhen seeking healthcare information in order to systematically study user\ninteractions across 21 distinct health specialties. Our analysis reveals\ninsights into the nature of how and why users seek health information, such as\ncommon interactions, instances of incomplete context, affective behaviors, and\ninteractions (e.g., leading questions) that can induce sycophancy, underscoring\nthe need for improvements in the healthcare support capabilities of LLMs\ndeployed as conversational AI. Code and artifacts to retrieve our analyses and\ncombine them into a curated dataset can be found here:\nhttps://github.com/yahskapar/HealthChat",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21532v1",
+    "metadata": {
+      "authors": [
+        "Akshay Paruchuri",
+        "Maryam Aziz",
+        "Rohit Vartak",
+        "Ayman Ali",
+        "Best Uchehara",
+        "Xin Liu",
+        "Ishan Chatterjee",
+        "Monica Agrawal"
+      ],
+      "arxiv_id": "2506.21532v1",
+      "published": "2025-06-26T17:52:18Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.CY"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "Devising a solution to the problems of Cancer awareness in Telangana",
+    "content": "According to the data, the percent of women who underwent screening for\ncervical cancer, breast and oral cancer in Telangana in the year 2020 was 3.3\npercent, 0.3 percent and 2.3 percent respectively. Although early detection is\nthe only way to reduce morbidity and mortality, people have very low awareness\nabout cervical and breast cancer signs and symptoms and screening practices. We\ndeveloped an ML classification model to predict if a person is susceptible to\nbreast or cervical cancer based on demographic factors. We devised a system to\nprovide suggestions for the nearest hospital or Cancer treatment centres based\non the users location or address. In addition to this, we can integrate the\nhealth card to maintain medical records of all individuals and conduct\nawareness drives and campaigns. For ML classification models, we used decision\ntree classification and support vector classification algorithms for cervical\ncancer susceptibility and breast cancer susceptibility respectively. Thus, by\ndevising this solution we come one step closer to our goal which is spreading\ncancer awareness, thereby, decreasing the cancer mortality and increasing\ncancer literacy among the people of Telangana.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21500v1",
+    "metadata": {
+      "authors": [
+        "Priyanka Avhad",
+        "Vedanti Kshirsagar",
+        "Urvi Ranjan",
+        "Mahek Nakhua"
+      ],
+      "arxiv_id": "2506.21500v1",
+      "published": "2025-06-26T17:29:00Z",
+      "categories": [
+        "cs.LG",
+        "cs.CY",
+        "q-bio.QM"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "KOALA: a Configurable Tool for Collecting IDE Data When Solving\n  Programming Tasks",
+    "content": "Collecting data of students solving programming tasks is incredibly valuable\nfor researchers and educators. It allows verifying that the students correctly\napply the features and concepts they are taught, or finding students'\nmisconceptions. However, existing data collection tools have limitations, e.g.,\nno control over the granularity of the collected code, not collecting the\nspecific events of the programming environment used, and overall being hard to\nconfigure.\n  To overcome these limitations, we propose KOALA, a convenient and highly\nconfigurable tool for collecting code snapshots and feature usage from students\nsolving programming tasks in JetBrains IDEs. The plugin can be installed in\nIDEs and configured to provide the students with the necessary tasks, enable or\ndisable certain IDE features like code completion, and run surveys. During\nproblem solving, the plugin collects code snapshots at the configured\ngranularity, all IDE actions like running and debugging, as well as some data\nnot collected in prior works, like employed hotkeys and switching focus between\nfiles. The collected data is sent to the server that comes with the tool, where\nit is stored and can be converted to the standardized ProgSnap2 format. To\nshowcase the tool, we collected data from 28 students solving tasks in two\ncourses within the IDE, highlighting some insights from this data.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21266v1",
+    "metadata": {
+      "authors": [
+        "Daniil Karol",
+        "Elizaveta Artser",
+        "Ilya Vlasov",
+        "Yaroslav Golubev",
+        "Hieke Keuning",
+        "Anastasiia Birillo"
+      ],
+      "arxiv_id": "2506.21266v1",
+      "published": "2025-06-26T13:48:38Z",
+      "categories": [
+        "cs.SE",
+        "cs.CY"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "Artificial Delegates Resolve Fairness Issues in Perpetual Voting with\n  Partial Turnout",
+    "content": "Perpetual voting addresses fairness in sequential collective decision-making\nby evaluating representational equity over time. However, existing perpetual\nvoting rules rely on full participation and complete approval information,\nassumptions that rarely hold in practice, where partial turnout is the norm. In\nthis work, we study the integration of Artificial Delegates,\npreference-learning agents trained to represent absent voters, into perpetual\nvoting systems. We examine how absenteeism affects fairness and\nrepresentativeness under various voting methods and evaluate the extent to\nwhich Artificial Delegates can compensate for missing participation. Our\nfindings indicate that while absenteeism significantly affects fairness,\nArtificial Delegates reliably mitigate these effects and enhance robustness\nacross diverse scenarios.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21186v1",
+    "metadata": {
+      "authors": [
+        "Apurva Shah",
+        "Axel Abels",
+        "Ann Nowé",
+        "Tom Lenaerts"
+      ],
+      "arxiv_id": "2506.21186v1",
+      "published": "2025-06-26T12:44:50Z",
+      "categories": [
+        "cs.LG",
+        "cs.CY"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "Institutional Noise, Strategic Deviation, and Intertemporal Collapse: A\n  Formal Model of Miner Behaviour under Protocol Uncertainty",
+    "content": "This paper develops a formal game-theoretic model to examine how protocol\nmutability disrupts cooperative mining behaviour in blockchain systems. Using a\nrepeated game framework with stochastic rule shocks, we show that even minor\nuncertainty in institutional rules increases time preference and induces\nstrategic deviation. Fixed-rule environments support long-term investment and\nstable equilibrium strategies; in contrast, mutable protocols lead to\nshort-termism, higher discounting, and collapse of coordinated engagement.\nSimulation results identify instability zones in the parameter space where\nrational mining gives way to extractive or arbitrage conduct. These findings\nsupport an Austrian economic interpretation: calculability requires rule\nstability. Institutional noise undermines the informational basis for\nproductive action. We conclude that protocol design must be treated as a\nconstitutional economic constraint, not a discretionary variable, if\nsustainable cooperation is to emerge in decentralised systems.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.20992v1",
+    "metadata": {
+      "authors": [
+        "Craig Steven Wright"
+      ],
+      "arxiv_id": "2506.20992v1",
+      "published": "2025-06-26T04:12:06Z",
+      "categories": [
+        "econ.GN",
+        "cs.CE",
+        "cs.CY",
+        "cs.GT",
+        "cs.SI",
+        "q-fin.EC",
+        "91A05, 91B42, 68M14, 91B62",
+        "J.4; C.2.4; K.4.1; F.1.1"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "Our Coding Adventure: Using LLMs to Personalise the Narrative of a\n  Tangible Programming Robot for Preschoolers",
+    "content": "Finding balanced ways to employ Large Language Models (LLMs) in education is\na challenge due to inherent risks of poor understanding of the technology and\nof a susceptible audience. This is particularly so with younger children, who\nare known to have difficulties with pervasive screen time. Working with a\ntangible programming robot called Cubetto, we propose an approach to benefit\nfrom the capabilities of LLMs by employing such models in the preparation of\npersonalised storytelling, necessary for preschool children to get accustomed\nto the practice of commanding the robot. We engage in action research to\ndevelop an early version of a formalised process to rapidly prototype game\nstories for Cubetto. Our approach has both reproducible results, because it\nemploys open weight models, and is model-agnostic, because we test it with 5\ndifferent LLMs. We document on one hand the process, the used materials and\nprompts, and on the other the learning experience and outcomes. We deem the\ngeneration successful for the intended purposes of using the results as a\nteacher aid. Testing the models on 4 different task scenarios, we encounter\nissues of consistency and hallucinations and document the corresponding\nevaluation process and attempts (some successful and some not) to overcome\nthese issues. Importantly, the process does not expose children to LLMs\ndirectly. Rather, the technology is used to help teachers easily develop\npersonalised narratives on children's preferred topics. We believe our method\nis adequate for preschool classes and we are planning to further experiment in\nreal-world educational settings.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.20982v1",
+    "metadata": {
+      "authors": [
+        "Martin Ruskov"
+      ],
+      "arxiv_id": "2506.20982v1",
+      "published": "2025-06-26T03:54:25Z",
+      "categories": [
+        "cs.CY",
+        "cs.RO",
+        "K.3.1"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "\"TikTok, Do Your Thing\": User Reactions to Social Surveillance in the\n  Public Sphere",
+    "content": "''TikTok, Do Your Thing'' is a viral trend where users attempt to identify\nstrangers they see in public via information crowd-sourcing. The trend started\nas early as 2021 and users typically engage with it for romantic purposes\n(similar to a ''Missed Connections'' personal advertisement). This practice\nincludes acts of surveillance and identification in the public sphere, although\nby peers rather than governments or corporations. To understand users'\nreactions to this trend we conducted a qualitative analysis of 60 TikTok videos\nand 1,901 user comments. Of the 60 videos reviewed, we find 19 individuals were\nsuccessfully identified. We also find that while there were comments expressing\ndisapproval (n=310), more than double the number expressed support (n=883).\nSupportive comments demonstrated genuine interest and empathy, reflecting\nevolving conceptions of community and algorithmic engagement. On the other\nhand, disapproving comments highlighted concerns about inappropriate\nrelationships, stalking, consent, and gendered double standards. We discuss\nthese insights in relation to the normalization of interpersonal surveillance,\nonline stalking, and as an evolution of social surveillance to offer a new\nperspective on user perceptions surrounding interpersonal surveillance and\nidentification in the public sphere.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.20884v1",
+    "metadata": {
+      "authors": [
+        "Meira Gilbert",
+        "Miranda Wei",
+        "Lindah Kotut"
+      ],
+      "arxiv_id": "2506.20884v1",
+      "published": "2025-06-25T23:13:43Z",
+      "categories": [
+        "cs.HC",
+        "cs.CY"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "The Ideation-Execution Gap: Execution Outcomes of LLM-Generated versus\n  Human Research Ideas",
+    "content": "Large Language Models (LLMs) have shown promise in accelerating the\nscientific research pipeline. A key capability for this process is the ability\nto generate novel research ideas, and prior studies have found settings in\nwhich LLM-generated research ideas were judged as more novel than human-expert\nideas. However, a good idea should not simply appear to be novel, it should\nalso result in better research after being executed. To test whether\nAI-generated ideas lead to better research outcomes, we conduct an execution\nstudy by recruiting 43 expert researchers to execute randomly-assigned ideas,\neither written by experts or generated by an LLM. Each expert spent over 100\nhours implementing the idea and wrote a 4-page short paper to document the\nexperiments. All the executed projects are then reviewed blindly by expert NLP\nresearchers. Comparing the review scores of the same ideas before and after\nexecution, the scores of the LLM-generated ideas decrease significantly more\nthan expert-written ideas on all evaluation metrics (novelty, excitement,\neffectiveness, and overall; p < 0.05), closing the gap between LLM and human\nideas observed at the ideation stage. When comparing the aggregated review\nscores from the execution study, we even observe that for many metrics there is\na flip in rankings where human ideas score higher than LLM ideas. This\nideation-execution gap highlights the limitations of current LLMs in generating\ntruly effective research ideas and the challenge of evaluating research ideas\nin the absence of execution outcomes.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.20803v1",
+    "metadata": {
+      "authors": [
+        "Chenglei Si",
+        "Tatsunori Hashimoto",
+        "Diyi Yang"
+      ],
+      "arxiv_id": "2506.20803v1",
+      "published": "2025-06-25T19:47:23Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.CY",
+        "cs.HC",
+        "cs.LG"
+      ],
+      "doi": ""
+    }
+  }
+]

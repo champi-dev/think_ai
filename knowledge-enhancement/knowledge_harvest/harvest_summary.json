@@ -1,0 +1,53 @@
+{
+  "total_items": 362,
+  "by_source": {
+    "Wikipedia": 227,
+    "Project Gutenberg": 20,
+    "arXiv": 80,
+    "Government Documents": 35
+  },
+  "by_category": {
+    "Artificial Intelligence": 15,
+    "Machine Learning": 14,
+    "Quantum Computing": 5,
+    "Philosophy": 17,
+    "Consciousness": 15,
+    "Mathematics": 15,
+    "Physics": 15,
+    "Biology": 15,
+    "Computer Science": 15,
+    "History": 18,
+    "Literature": 18,
+    "Psychology": 17,
+    "Neuroscience": 15,
+    "Economics": 18,
+    "Political Science": 16,
+    "Astronomy": 15,
+    "Science": 3,
+    "Technology": 1,
+    "cs.AI": 8,
+    "cs.LG": 8,
+    "cs.CL": 8,
+    "cs.CV": 8,
+    "math.LO": 8,
+    "physics.hist-ph": 8,
+    "q-bio.NC": 8,
+    "econ.TH": 8,
+    "cs.CY": 8,
+    "cs.HC": 8,
+    "artificial intelligence": 5,
+    "technology policy": 5,
+    "education": 5,
+    "scientific research": 5,
+    "public health": 5,
+    "economics": 5,
+    "statistics": 5
+  },
+  "harvest_date": "2025-06-27 12:26:37",
+  "sources_used": [
+    "arXiv",
+    "Project Gutenberg",
+    "Government Documents",
+    "Wikipedia"
+  ]
+}

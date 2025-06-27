@@ -1,0 +1,55 @@
+{
+  "integration_summary": {
+    "total_items": 10,
+    "categories": 5,
+    "sources": 3,
+    "average_confidence": 0.8950000000000001,
+    "integration_date": "2025-06-27 12:18:52"
+  },
+  "category_distribution": {
+    "Artificial Intelligence": 3,
+    "Machine Learning": 3,
+    "Philosophy": 1,
+    "Science": 1,
+    "cs.AI": 2
+  },
+  "source_distribution": {
+    "Wikipedia": 6,
+    "Project Gutenberg": 2,
+    "arXiv": 2
+  },
+  "top_keywords": {
+    "learning": 4,
+    "intelligence": 3,
+    "artificial": 3,
+    "machine": 3,
+    "human": 2,
+    "video": 2,
+    "such": 2,
+    "data": 2,
+    "which": 2,
+    "not": 2,
+    "there": 2,
+    "all": 2,
+    "real": 2,
+    "any": 2,
+    "model": 2,
+    "art": 1,
+    "visual": 1,
+    "create": 1,
+    "20th": 1,
+    "century": 1
+  },
+  "categories_list": [
+    "Machine Learning",
+    "Science",
+    "Artificial Intelligence",
+    "Philosophy",
+    "cs.AI"
+  ],
+  "sources_list": [
+    "Project Gutenberg",
+    "arXiv",
+    "Wikipedia"
+  ]
+}

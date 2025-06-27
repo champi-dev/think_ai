@@ -1,0 +1,156 @@
+[
+  {
+    "title": "Polynomial fingerprinting for trees and formulas",
+    "content": "To cater to the needs of (Zero Knowledge) proofs for (mathematical) proofs,\nwe describe a method to transform formal sentences in 2x2 - matrices over\nmultivariate polynomials with integer coefficients, such that usual proof-steps\nlike modus-ponens or the substitution are easy to compute from the matrices\ncorresponding to the terms or formulas used as arguments. By evaluating the\npolynomial variables in random elements of a suitably chosen finite field, the\nproof is replaced by a numeric sequence. Only the values corresponding to the\naxioms have to be computed from scratch. The values corresponding to derived\nformulas are computed from the values corresponding to their ancestors by\napplying the homomorphic properties. On such sequences, various Zero Knowledge\nmethods can be applied.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21114v1",
+    "metadata": {
+      "authors": [
+        "Mihai Prunescu"
+      ],
+      "arxiv_id": "2506.21114v1",
+      "published": "2025-06-26T09:20:21Z",
+      "categories": [
+        "math.LO",
+        "03F03, 11T71, 94A60"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "Splitting Families, Reaping Families, and Families of Permutations\n  Associated with Asymptotic Density",
+    "content": "We investigate several relations between cardinal characteristics of the\ncontinuum related with the asymptotic density of the natural numbers and some\nknown cardinal invariants. Specifically, we study the cardinals of the form\n$\\mathfrak{s}_X$, $\\mathfrak{r}_X$ and $\\mathfrak{dd}_{X,Y}$ introduced in\narXiv:2304.09698 and arXiv:2410.21102, answering some questions raised in these\npapers. In particular, we prove that $\\mathfrak{s}_0=$ cov$(\\mathcal{M})$ and\n$\\mathfrak{r}_0=$ non$(\\mathcal{M})$. We also show that $\\mathfrak{dd}_{\\{r\\},\n\\textsf{all}}=\\mathfrak{dd}_{\\{1/2\\}, \\textsf{all}}$ for all $r\\in (0,1)$, and\nwe provide a proof of Con($\\mathfrak{dd}_{(0,1),\\{0,1\\}}^{\\textsf{rel}}<$\nnon$(\\mathcal{N})$) and\nCon($\\mathfrak{dd}_{\\textsf{all},\\textsf{all}}^{\\textsf{rel}}<$\nnon$(\\mathcal{N})$).",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.21059v1",
+    "metadata": {
+      "authors": [
+        "David Valderrama"
+      ],
+      "arxiv_id": "2506.21059v1",
+      "published": "2025-06-26T07:16:33Z",
+      "categories": [
+        "math.LO",
+        "03E17, 03E35"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "On pre-local tabularity above $\\mathrm{S4}\\times \\mathrm{S4}$",
+    "content": "We investigate pre-local tabularity in normal extensions of the logic\n$\\mathrm{S4}\\times \\mathrm{S4}$. We show that there are exactly four\npre-locally tabular logics in normal extensions of products of finite height,\nand that every non-locally tabular logic in this family is contained in one of\nthem. We also give an axiomatic criterion of local tabularity above the logic\nof products with Noetherian skeletons. Then we construct examples of\npre-locally tabular extensions of $\\mathrm{S4}\\times \\mathrm{S4}$ outside this\nclass. In particular, we describe pre-locally tabular bimodal logics with the\nconverse and universal modalities.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.20874v1",
+    "metadata": {
+      "authors": [
+        "Ilya B. Shapirovsky",
+        "Vladislav V. Sliusarev"
+      ],
+      "arxiv_id": "2506.20874v1",
+      "published": "2025-06-25T22:53:44Z",
+      "categories": [
+        "math.LO",
+        "03B45, 06E25"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "Iterated jump noncomputability and compactness",
+    "content": "We use reverse mathematics to analyze \"iterated jump\" versions of the\nfollowing four principles: the atomic model theorem with subenumerable types\n(AST), the diagonally noncomputable principle (DNR), weak weak K\\H{o}nig's\nlemma (WWKL), and weak K\\H{o}nig's lemma (WKL). The logical relationships\nbetween these principles are summarized in Figure 1 and include, among other\nthings, an infinite chain and an infinite antichain, the latter of which\nrepresents a strong form of non-linearity in terms of provability strength\namong \"natural\" combinatorial principles.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.20620v1",
+    "metadata": {
+      "authors": [
+        "Gavin Dooley"
+      ],
+      "arxiv_id": "2506.20620v1",
+      "published": "2025-06-25T17:08:22Z",
+      "categories": [
+        "math.LO",
+        "03B30 (Primary), 03D80 (Secondary)"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "Cofibrant generation of pure monomorphisms in presheaf categories",
+    "content": "We characterise when the pure monomorphisms in a presheaf category\n$\\mathbf{Set}^\\mathcal{C}$ are cofibrantly generated in terms of the category\n$\\mathcal{C}$. In particular, when $\\mathcal{C}$ is a monoid $S$ this\ncharacterises cofibrant generation of pure monomorphisms between sets with an\n$S$-action in terms of $S$: this happens if and only if for all $a, b \\in S$\nthere is $c \\in S$ such that $a = cb$ or $ca = b$. We give a model-theoretic\nproof: we prove that our characterisation is equivalent to having a stable\nindependence relation, which in turn is equivalent to cofibrant generation. As\na corollary, we show that pure monomorphisms in acts over the multiplicative\nmonoid of natural numbers are not cofibrantly generated.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.20278v1",
+    "metadata": {
+      "authors": [
+        "Sean Cox",
+        "Jonathan Feigert",
+        "Mark Kamsma",
+        "Marcos Mazari-Armida",
+        "Jiří Rosický"
+      ],
+      "arxiv_id": "2506.20278v1",
+      "published": "2025-06-25T09:40:30Z",
+      "categories": [
+        "math.CT",
+        "math.LO",
+        "18C05, 20M50 (Primary), 03C48, 03C60, 18C35, 20M30 (Secondary)"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "On $NP \\cap coNP$ proof complexity generators",
+    "content": "Motivated by the theory of proof complexity generators we consider the\nfollowing $\\Sigma^p_2$ search problem $\\mbox{DD}_P$ determined by a\npropositional proof system $P$: given a $P$-proof $\\pi$ of a disjunction\n$\\bigvee_i \\alpha_i$, no two $\\alpha_i$ having an atom in common, find $i$ such\nthat $\\alpha_i \\in \\mbox{TAUT}$.\n  We formulate a hypothesis (ST) that for some strong proof system $P$ the\nproblem $\\mbox{DD}_P$ is not solvable in the student-teacher model with a\np-time student and a constant number of rounds. The hypothesis follows from the\nexistence of hard one-way permutations.\n  We prove, using a model-theoretic assumption, that (ST) implies $NP \\neq\ncoNP$. The assumption concerns the existence of extensions of models of a\nbounded arithmetic theory and it is open at present if it holds.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.20221v1",
+    "metadata": {
+      "authors": [
+        "Jan Krajicek"
+      ],
+      "arxiv_id": "2506.20221v1",
+      "published": "2025-06-25T08:07:51Z",
+      "categories": [
+        "cs.CC",
+        "math.LO",
+        "O3F20, 03H15",
+        "F.1.2; F.4.1"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "La logique continue des corps globalement valués",
+    "content": "The continuous logic of globally valued fields -- A globally valued field is\na field endowed with a family of absolute values that satisfy a product\nformula. Number fields and function fields in one variable give classical and\nfundamental examples; Nevanlinna theory also gives rise to such structures on\nthe field of meromorphic functions on $\\mathbf C$. These globally valued fields\ncan be studied in the context of continuous logic (for which the predicates are\nreal valued), and such a study has been undertaken some 10 years ago by Ben\nYaacov and Hrushovski, thus providing a model-theoretic framework for the\ndiophantine theory of heights. One of the first fundamental results in the\ntehory states the the field of algebraic numbers, with its essentially unique\nstructure of a globally valued field, is existentially closed: every system\ninvolving polynomial equalities and inequalities, as well as strict\ninequalities in heights, possesses a solution in algebraic numbers as soon as\nit possesses some solution in a globally valued extension. The proof, due to\nSzachniewicz, is inspired by the proof proposed by Ben Yaacov and Hrushovski in\nthe case of function fields: the latter used in a crucial way the description\nby Boucksom, Demailly, P\\u aun and Peternell of the cone of mobile curves in a\ncomplex projective variety, the case of number fields relies on recent results\nin Arakelov geometry.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.20120v1",
+    "metadata": {
+      "authors": [
+        "Antoine Chambert-Loir"
+      ],
+      "arxiv_id": "2506.20120v1",
+      "published": "2025-06-25T04:18:08Z",
+      "categories": [
+        "math.LO",
+        "math.AG",
+        "03C66, 14G40,"
+      ],
+      "doi": ""
+    }
+  },
+  {
+    "title": "Fields with Lie-commuting and iterative operators",
+    "content": "We introduce a general framework for studying fields equipped with operators,\ngiven as co-ordinate functions of homomorphisms into a local algebra\n$\\mathcal{D}$, satisfying various compatibility conditions that we denote by\n$\\Gamma$ and call such structures $\\mathcal{D}^{\\Gamma}$-fields. These include\nLie-commutativity of derivations and $\\mathfrak g$-iterativity of (truncated)\nHasse-Schmidt derivations. Our main result is about the existence of principal\nrealisations of $\\mathcal{D}^{\\Gamma}$-kernels. As an application, we prove\ncompanionability of the theory of $\\mathcal{D}^{\\Gamma}$-fields and denote the\ncompanion by $\\mathcal{D}^{\\Gamma}$-CF. In characteristic zero, we prove that\n$\\mathcal{D}^{\\Gamma}$-CF is a stable theory that satisfies the CBP and\nZilber's dichotomy for finite-dimensional types. We also prove that there is a\nuniform companion for model-complete theories of large\n$\\mathcal{D}^{\\Gamma}$-fields, which leads to the notion of\n$\\mathcal{D}^{\\Gamma}$-large fields and we further use this to show that PAC\nsubstructures of $\\mathcal{D}^{\\Gamma}$-DCF are elementary.",
+    "source": "arXiv",
+    "url": "http://arxiv.org/abs/2506.19489v1",
+    "metadata": {
+      "authors": [
+        "Jan Dobrowolski",
+        "Omar Leon Sanchez"
+      ],
+      "arxiv_id": "2506.19489v1",
+      "published": "2025-06-24T10:23:52Z",
+      "categories": [
+        "math.LO",
+        "16W99, 12H05, 03C60, 03C45"
+      ],
+      "doi": ""
+    }
+  }
+]
