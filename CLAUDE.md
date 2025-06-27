@@ -22,9 +22,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `./target/release/think-ai server` - Start API server on port 8080
 - `./target/release/think-ai-webapp` - Start webapp with 3D consciousness visualization
 
+**Published Libraries:**
+- `npm install thinkai-quantum` - JavaScript/TypeScript library from npm
+- `pip install thinkai-quantum` - Python library from PyPI
+- `npx thinkai-quantum chat` - JavaScript CLI
+- `think-ai chat` - Python CLI
+
+**Knowledge Enhancement:**
+- `cd knowledge-enhancement && ./run_knowledge_enhancement.sh` - Harvest legal knowledge
+- `python3 legal_knowledge_harvester.py` - Harvest from Wikipedia, arXiv, Gutenberg
+- `python3 knowledge_integrator.py` - Process and integrate knowledge
+
 **Deployment:**
 - `cargo build --release` - Build production binaries
 - `docker build -t think-ai .` - Build Docker image with Rust binaries
+- `railway up` - Deploy to Railway (current: https://thinkai-production.up.railway.app)
 
 ## Architecture Overview
 
@@ -43,15 +55,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `think-ai-process-manager/` - Process orchestration and service management
 
 **Key Services:**
-- `think-ai-http` - HTTP/WebSocket server (port 8080) with API endpoints
-- `think-ai-webapp` - 3D consciousness visualization webapp (integrated)
+- `think-ai-http` - HTTP/WebSocket server (port 8080) with API endpoints (deployed on Railway)
+- `think-ai-webapp` - 3D consciousness visualization webapp (live at https://thinkai-production.up.railway.app)
 - `think-ai-cli` - Interactive CLI with O(1) hash-based responses
+
+**Multi-Platform Libraries:**
+- `think-ai-js/` - JavaScript/TypeScript library (published to npm as `thinkai-quantum`)
+- `think-ai-py/` - Python library (published to PyPI as `thinkai-quantum`)
+- `knowledge-enhancement/` - Legal knowledge harvesting system (300+ sources)
 
 **Performance Core:**
 - `think-ai-vector` - O(1) vector search using LSH (Locality-Sensitive Hashing)
 - `think-ai-core` - Core O(1) performance implementation
 - Average response time: 0.002ms (verified with Rust benchmarks)
 - True O(1) performance with hash-based lookups
+- Enhanced knowledge base: 300+ legal sources from Wikipedia, arXiv, Project Gutenberg
 
 **Testing Strategy:**
 - Use `cargo test` for unit and integration testing
@@ -143,10 +161,27 @@ Remember: You're not just solving a problem, you're creating a masterpiece that 
 - Add comments explaining complex algorithms and their complexity
 - State confidence level and production-readiness in module docs
 
+## Current Project Status
+
+**✅ Completed Deployments:**
+- 🌐 Web app: https://thinkai-production.up.railway.app (Railway)
+- 📦 JavaScript library: `npm install thinkai-quantum` (npm)
+- 🐍 Python library: `pip install thinkai-quantum` (PyPI)
+- 🧠 Knowledge enhancement: 300+ legal sources integrated
+
+**🔄 Active Systems:**
+- Railway deployment with auto-scaling
+- npm/PyPI package distribution
+- Legal knowledge harvesting pipeline
+- O(1) performance optimization
+
 ## Memories
 - Always use `cargo build --release` for production
 - Use `cargo clippy` and `cargo fmt` before commits
 - Kill ports before initializing servers
+- Libraries published: npm (thinkai-quantum), PyPI (thinkai-quantum)
+- Knowledge enhancement working: Wikipedia, arXiv, Gutenberg sources
+- Railway deployment live at: https://thinkai-production.up.railway.app
 - Provide evidence through benchmarks and tests
 - Always give me back a bash script for me to test locally
 - Always tell me how to run it locally
