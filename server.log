@@ -37,3 +37,18 @@
 🔍 Searching knowledge base...
 ✅ Found 3 knowledge matches
 💬 Sending response: Life is the condition that distinguishes organisms (0.226303ms)
+📨 Received query: hi
+👋 Detected greeting
+💬 Sending response: Greetings! My quantum neural networks are ready to (0.005642ms)
+📨 Received query: what is love
+🔍 Searching knowledge base...
+✅ Found 1 knowledge matches
+💬 Sending response: Love is a complex emotion and deep affection betwe (0.217084ms)
+📨 Received query: what is art
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: Artificial Intelligence encompasses systems that p (0.17256ms)
+📨 Received query: art not ai
+🔍 Searching knowledge base...
+✅ Found 5 knowledge matches
+💬 Sending response: Artificial Intelligence encompasses systems that p (0.384013ms)
