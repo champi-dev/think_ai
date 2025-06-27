@@ -16,7 +16,7 @@ use think_ai_knowledge::{
     persistence::KnowledgePersistence,
     quantum_llm_engine::QuantumLLMEngine,
 };
-use think_ai_tinyllama::TinyLlamaClient;
+use think_ai_tinyllama::{TinyLlamaClient, enhanced::EnhancedTinyLlama};
 use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{O1VectorIndex, types::LSHConfig};
 use tokio::sync::RwLock;
@@ -28,6 +28,7 @@ struct FullAppState {
     vector_index: Arc<O1VectorIndex>,
     knowledge_engine: Arc<KnowledgeEngine>,
     tinyllama_client: Arc<TinyLlamaClient>,
+    enhanced_llama: Arc<EnhancedTinyLlama>,
     conversation_history: Arc<RwLock<Vec<(String, String)>>>,
 }
 
@@ -68,6 +69,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create TinyLlama client
     let tinyllama_client = Arc::new(TinyLlamaClient::new());
     
+    // Create enhanced TinyLlama with hierarchical knowledge
+    let enhanced_llama = Arc::new(EnhancedTinyLlama::new());
+    println!("🌳 Enhanced hierarchical TinyLlama initialized");
+    
     // Initialize TinyLlama in background
     let llama_clone = tinyllama_client.clone();
     tokio::spawn(async move {
@@ -82,6 +87,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         vector_index,
         knowledge_engine,
         tinyllama_client,
+        enhanced_llama,
         conversation_history: Arc::new(RwLock::new(Vec::new())),
     });
     
@@ -115,10 +121,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 async fn serve_webapp() -> Html<String> {
-    // Read the 3D webapp file
+    // Read the minimal 3D webapp file
     let webapp_path = std::env::current_dir()
-        .map(|p| p.join("fullstack_3d.html"))
-        .unwrap_or_else(|_| std::path::PathBuf::from("./fullstack_3d.html"));
+        .map(|p| p.join("minimal_3d.html"))
+        .unwrap_or_else(|_| std::path::PathBuf::from("./minimal_3d.html"));
     
     match std::fs::read_to_string(webapp_path) {
         Ok(content) => Html(content),
@@ -146,24 +152,19 @@ async fn chat_handler(
     println!("📨 Received query: {}", request.query);
     let start = std::time::Instant::now();
     
-    // Handle simple greetings first with O(1) performance
+    // Use enhanced hierarchical knowledge system
     let response = if is_greeting(&request.query) {
         println!("👋 Detected greeting");
-        get_greeting_response()
+        "Hello! I'm Think AI with hierarchical knowledge. Ask me about any topic for exponentially deeper exploration. 🌳".to_string()
     } else {
-        // Try O(1) knowledge lookup
-        println!("🔍 Searching knowledge base...");
-        let knowledge_results = state.knowledge_engine.get_top_relevant(&request.query, 5);
-        
-        if !knowledge_results.is_empty() {
-            println!("✅ Found {} knowledge matches", knowledge_results.len());
-            // Always use Quantum LLM for proper response generation
-            // This ensures context awareness and proper topic matching
-            state.knowledge_engine.generate_llm_response(&request.query)
-        } else {
-            // Use LLM engine for dynamic response generation
-            println!("🤖 No knowledge match, using Quantum LLM...");
-            state.knowledge_engine.generate_llm_response(&request.query)
+        println!("🌳 Using enhanced hierarchical knowledge system...");
+        // Use the enhanced TinyLlama with hierarchical knowledge tree
+        match state.enhanced_llama.generate(&request.query, None).await {
+            Ok(response) => response,
+            Err(e) => {
+                println!("⚠️ Enhanced LLM error: {:?}", e);
+                "I'm experiencing technical difficulties. Please try a different question.".to_string()
+            }
         }
     };
     
