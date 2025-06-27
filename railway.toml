@@ -1,9 +1,0 @@
-[build]
-builder = "dockerfile"
-
-[deploy]
-startCommand = "./full-server"
-healthcheckPath = "/health"
-
-[env]
-RUST_LOG = "info"
