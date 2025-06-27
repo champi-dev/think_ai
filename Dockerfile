@@ -15,21 +15,39 @@ RUN apt-get update && \
 WORKDIR /build
 
 # Copy Cargo files first for dependency caching
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml ./
+
+# Copy all think-ai crate Cargo.toml files that exist
 COPY think-ai-core/Cargo.toml ./think-ai-core/
-COPY think-ai-vector/Cargo.toml ./think-ai-vector/
-COPY think-ai-http/Cargo.toml ./think-ai-http/
 COPY think-ai-storage/Cargo.toml ./think-ai-storage/
 COPY think-ai-cli/Cargo.toml ./think-ai-cli/
 COPY think-ai-consciousness/Cargo.toml ./think-ai-consciousness/
-COPY think-ai-coding/Cargo.toml ./think-ai-coding/
-COPY think-ai-cache/Cargo.toml ./think-ai-cache/
 COPY think-ai-utils/Cargo.toml ./think-ai-utils/
 COPY think-ai-process-manager/Cargo.toml ./think-ai-process-manager/
-COPY think-ai-linter/Cargo.toml ./think-ai-linter/
-COPY think-ai-webapp/Cargo.toml ./think-ai-webapp/
 COPY think-ai-knowledge/Cargo.toml ./think-ai-knowledge/
 COPY think-ai-tinyllama/Cargo.toml ./think-ai-tinyllama/
+COPY think-ai-local-llm/Cargo.toml ./think-ai-local-llm/
+COPY think-ai-quantum-mind/Cargo.toml ./think-ai-quantum-mind/
+
+# Create empty lib.rs files for dependency caching
+RUN mkdir -p think-ai-core/src think-ai-storage/src think-ai-cli/src \
+    think-ai-consciousness/src think-ai-utils/src think-ai-process-manager/src \
+    think-ai-knowledge/src think-ai-tinyllama/src think-ai-local-llm/src \
+    think-ai-quantum-mind/src && \
+    echo 'fn main() {}' > think-ai-cli/src/main.rs && \
+    echo '' > think-ai-core/src/lib.rs && \
+    echo '' > think-ai-storage/src/lib.rs && \
+    echo '' > think-ai-consciousness/src/lib.rs && \
+    echo '' > think-ai-utils/src/lib.rs && \
+    echo '' > think-ai-process-manager/src/lib.rs && \
+    echo '' > think-ai-knowledge/src/lib.rs && \
+    echo '' > think-ai-tinyllama/src/lib.rs && \
+    echo '' > think-ai-local-llm/src/lib.rs && \
+    echo '' > think-ai-quantum-mind/src/lib.rs
+
+# Build dependencies only
+RUN cargo build --release --bin full-server
+RUN rm -rf think-ai-*/src/
 
 # Copy source code
 COPY . .
@@ -60,8 +78,8 @@ COPY --from=builder /build/target/release/process-manager ./
 COPY --from=builder /build/target/release/think-ai-lint ./
 
 # Copy webapp and knowledge files
-COPY --from=builder /build/fullstack_3d.html ./
-COPY --from=builder /build/knowledge ./knowledge/
+COPY --from=builder /build/minimal_3d.html ./
+COPY --from=builder /build/think-ai-knowledge/data/ ./think-ai-knowledge/data/
 
 # Set proper permissions
 RUN chown -R thinkaiuser:thinkaiuser /app

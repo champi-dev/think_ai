@@ -88,6 +88,7 @@ site/
 test_*.py
 demo_*.py
 proof_*.py
+test_*.sh
 !tests/test_*.py
 *.test.js
 *.spec.js
@@ -160,6 +161,9 @@ build/
 .eggs/
 wheels/
 *.egg
+
+# Rust build artifacts
+target/
 
 # Keep deployment files
 !deployment/
