@@ -13,8 +13,10 @@ use think_ai_core::{O1Engine, config::EngineConfig};
 use think_ai_http::server::{port_selector, port_manager};
 use think_ai_knowledge::{
     KnowledgeEngine,
+    dynamic_loader::DynamicKnowledgeLoader,
     persistence::KnowledgePersistence,
     quantum_llm_engine::QuantumLLMEngine,
+    response_generator::ComponentResponseGenerator,
 };
 use think_ai_tinyllama::{TinyLlamaClient, enhanced::EnhancedTinyLlama};
 use think_ai_utils::logging::init_tracing;
@@ -29,6 +31,7 @@ struct FullAppState {
     knowledge_engine: Arc<KnowledgeEngine>,
     tinyllama_client: Arc<TinyLlamaClient>,
     enhanced_llama: Arc<EnhancedTinyLlama>,
+    response_generator: Arc<ComponentResponseGenerator>,
     conversation_history: Arc<RwLock<Vec<(String, String)>>>,
 }
 
@@ -56,8 +59,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
     
-    // Initialize knowledge system without routing patterns
+    // Initialize knowledge system with enhanced knowledge
     println!("🧠 Initializing LLM-based knowledge system...");
+    
+    // Load enhanced knowledge from files
+    let knowledge_files_dir = std::path::PathBuf::from("./knowledge_files");
+    if knowledge_files_dir.exists() {
+        let dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_files_dir);
+        match dynamic_loader.load_all(&knowledge_engine) {
+            Ok(count) => println!("📚 Loaded {} enhanced knowledge items", count),
+            Err(e) => println!("⚠️  Could not load enhanced knowledge: {}", e),
+        }
+    } else {
+        println!("⚠️  Enhanced knowledge directory not found: {:?}", knowledge_files_dir);
+    }
     
     // Initialize Quantum LLM with the knowledge engine
     println!("🤖 Initializing Quantum LLM Engine...");
@@ -72,6 +87,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create enhanced TinyLlama with hierarchical knowledge
     let enhanced_llama = Arc::new(EnhancedTinyLlama::new());
     println!("🌳 Enhanced hierarchical TinyLlama initialized");
+    
+    // Create ComponentResponseGenerator with enhanced knowledge
+    let response_generator = Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
+    println!("🧩 Component response generator initialized");
     
     // Initialize TinyLlama in background
     let llama_clone = tinyllama_client.clone();
@@ -88,6 +107,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         knowledge_engine,
         tinyllama_client,
         enhanced_llama,
+        response_generator,
         conversation_history: Arc::new(RwLock::new(Vec::new())),
     });
     
@@ -250,20 +270,14 @@ async fn chat_handler(
     println!("📨 Received query: {}", request.query);
     let start = std::time::Instant::now();
     
-    // Use enhanced hierarchical knowledge system
+    // Use enhanced knowledge system with ComponentResponseGenerator
     let response = if is_greeting(&request.query) {
         println!("👋 Detected greeting");
-        "Hello! I'm Think AI with hierarchical knowledge. Ask me about any topic for exponentially deeper exploration. 🌳".to_string()
+        "Hello! I'm Think AI with enhanced knowledge from 341 sources. Ask me about science, technology, philosophy, and more! 🧠".to_string()
     } else {
-        println!("🌳 Using enhanced hierarchical knowledge system...");
-        // Use the enhanced TinyLlama with hierarchical knowledge tree
-        match state.enhanced_llama.generate(&request.query, None).await {
-            Ok(response) => response,
-            Err(e) => {
-                println!("⚠️ Enhanced LLM error: {:?}", e);
-                "I'm experiencing technical difficulties. Please try a different question.".to_string()
-            }
-        }
+        println!("📚 Using enhanced knowledge system with {} items...", state.knowledge_engine.get_stats().total_nodes);
+        // Use ComponentResponseGenerator with enhanced knowledge
+        state.response_generator.generate_response(&request.query)
     };
     
     // Update conversation history
