@@ -5,7 +5,8 @@ use think_ai_knowledge::{
     real_knowledge::RealKnowledgeGenerator, 
     dynamic_loader::DynamicKnowledgeLoader, 
     response_generator::ComponentResponseGenerator,
-    intelligent_response_selector::{IntelligentResponseSelector, ResponseSource}
+    intelligent_response_selector::{IntelligentResponseSelector, ResponseSource},
+    tinyllama_knowledge_builder::TinyLlamaKnowledgeBuilder
 };
 use think_ai_tinyllama::TinyLlamaClient;
 use std::io::Write;
@@ -16,39 +17,42 @@ pub struct KnowledgeChat {
     tinyllama_client: Arc<TinyLlamaClient>,
     response_generator: Arc<ComponentResponseGenerator>,
     intelligent_selector: Arc<IntelligentResponseSelector>,
+    tinyllama_builder: Arc<TinyLlamaKnowledgeBuilder>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
 }
 
 impl KnowledgeChat {
     pub fn new() -> Self {
         let engine = Arc::new(KnowledgeEngine::new());
+        let tinyllama_builder = Arc::new(TinyLlamaKnowledgeBuilder::new(engine.clone()));
         
-        // First try to load from dynamic files
-        // Skip loading trained knowledge to avoid garbled self-learning patterns
-        // The self-learning system should only be used for deep dives, not primary responses
-        let loaded = false;
+        // Check if we have cached knowledge from TinyLlama
+        let cache_dir = PathBuf::from("./cache");
+        let knowledge_files_dir = PathBuf::from("./knowledge_files");
         
-        // Then load comprehensive knowledge (adds to existing)
-        println!("🧠 Loading comprehensive knowledge base...");
-        think_ai_knowledge::comprehensive_knowledge::ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&engine);
-        
-        // Finally load dynamic knowledge from files (highest priority - adds to existing)
-        let knowledge_dir = PathBuf::from("./knowledge_files");
-        let dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_dir);
-        
-        println!("📂 Loading knowledge from files (highest priority)...");
-        match dynamic_loader.load_all(&engine) {
-            Ok(count) => println!("✅ Loaded {} items from knowledge files", count),
-            Err(e) => println!("⚠️  Could not load knowledge files: {}", e),
-        }
-        
-        if !loaded {
-            if let Ok(persistence) = think_ai_knowledge::persistence::KnowledgePersistence::new("./knowledge_storage") {
-                if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
-                    println!("📚 Loading {} items from checkpoint...", checkpoint.nodes.len());
-                    engine.load_nodes(checkpoint.nodes);
-                }
+        if cache_dir.exists() && cache_dir.join("response_cache.json").exists() {
+            // Load cached knowledge
+            println!("📂 Loading TinyLlama-built knowledge from cache...");
+            let dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_files_dir);
+            match dynamic_loader.load_all(&engine) {
+                Ok(count) => println!("✅ Loaded {} items from TinyLlama knowledge", count),
+                Err(e) => println!("⚠️  Could not load knowledge files: {}", e),
             }
+        } else {
+            // Build knowledge from scratch with TinyLlama
+            println!("🧠 Building knowledge from scratch with TinyLlama...");
+            println!("⚡ This will take a moment but will provide O(1) cached responses!");
+            
+            let builder_clone = tinyllama_builder.clone();
+            // Run the knowledge building in a separate thread to avoid runtime conflict
+            std::thread::spawn(move || {
+                let rt = tokio::runtime::Runtime::new().unwrap();
+                rt.block_on(async {
+                    builder_clone.build_from_scratch().await;
+                });
+            }).join().unwrap();
+            
+            println!("✅ TinyLlama knowledge building complete!");
         }
         
         let stats = engine.get_stats();
@@ -68,6 +72,7 @@ impl KnowledgeChat {
             tinyllama_client: Arc::new(TinyLlamaClient::new()),
             response_generator,
             intelligent_selector,
+            tinyllama_builder,
             conversation_history: Vec::new(),
         }
     }
@@ -156,16 +161,17 @@ impl KnowledgeChat {
     async fn generate_response(&self, query: &str) -> String {
         let query_lower = query.to_lowercase();
         
+        // Try O(1) cached response first
+        if let Some(cached) = self.tinyllama_builder.get_cached_response(&query_lower).await {
+            print!(" [⚡ O(1) Cache]");
+            println!();
+            return cached;
+        }
+        
         // O(1) fast path for system commands and greetings
         match query_lower.as_str() {
             "help" => return self.get_help_text(),
             "stats" => return self.get_stats_text(),
-            "hi" | "hello" | "hey" => {
-                return "Hello! I'm Think AI with a knowledge base of science, programming, and more. What would you like to know?".to_string();
-            }
-            "how are you" | "how are u" | "how r u" => {
-                return "I'm functioning perfectly with O(1) response times! I'm here to help with science, programming, mathematics, and more. What would you like to explore today?".to_string();
-            }
             _ => {}
         }
         
@@ -199,19 +205,15 @@ impl KnowledgeChat {
             }
         });
         
-        // Get best response using intelligent selector
-        let (response, source, _time_ms) = self.intelligent_selector.get_best_response(expanded_query).await;
+        // Generate new response with TinyLlama evaluation
+        let response = self.tinyllama_builder.generate_evaluated_response(expanded_query).await;
         
         // Stop progress indicator
         stop_progress.store(true, Ordering::Relaxed);
         let _ = progress_handle.join();
         
-        // Show source indicator
-        match source {
-            ResponseSource::ThinkAIKnowledge => print!(" [📚 Knowledge]"),
-            ResponseSource::LLaMAGenerated => print!(" [🤖 Generated]"),
-            ResponseSource::Combined => print!(" [🔀 Combined]"),
-        }
+        // Show that it's TinyLlama evaluated
+        print!(" [🤖 TinyLlama Evaluated]");
         println!(); // New line after indicator
         
         response

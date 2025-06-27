@@ -1,0 +1,62 @@
+{
+  "domain": "Biology",
+  "entries": [
+    {
+      "content": "Based on the provided context, improve relates to concept",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept. This directly addresses tell and about and biology in a practical context.",
+        "Biology is a complex system with multiple interacting components. This directly addresses biology in a practical context.",
+        "Based on the provided context, explain relates to concept. This directly addresses explain and biology in a practical context.",
+        "Based on the provided context, want relates to concept. This directly addresses want and know and about and biology in a practical context.",
+        "Based on the provided context, biology relates to concept. This directly addresses biology in a practical context.",
+        "Based on the provided context, can relates to concept"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does biology work",
+        "why is biology important",
+        "examples of biology",
+        "biology in daily life"
+      ],
+      "topic": "biology"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept. This directly addresses tell and about and death in a practical context.",
+        "Death is a complex system with multiple interacting components. This directly addresses death in a practical context.",
+        "Based on the provided context, explain relates to concept. This directly addresses explain and death in a practical context.",
+        "Based on the provided context, want relates to concept. This directly addresses want and know and about and death in a practical context.",
+        "Based on the provided context, death relates to concept. This directly addresses death in a practical context.",
+        "Based on the provided context, can relates to concept"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does death work",
+        "why is death important",
+        "examples of death",
+        "death in daily life"
+      ],
+      "topic": "death"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept, system",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, system. This directly addresses tell and about and life in a practical context.",
+        "Life is a complex system with multiple interacting components. This directly addresses life in a practical context.",
+        "Based on the provided context, explain relates to concept, system. This directly addresses explain and life in a practical context.",
+        "Based on the provided context, want relates to concept, system. This directly addresses want and know and about and life in a practical context.",
+        "Based on the provided context, life relates to concept, system. This directly addresses life in a practical context.",
+        "Based on the provided context, can relates to concept, system"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does life work",
+        "why is life important",
+        "examples of life",
+        "life in daily life"
+      ],
+      "topic": "life"
+    }
+  ]
+}

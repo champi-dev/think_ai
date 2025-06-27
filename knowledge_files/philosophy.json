@@ -1,0 +1,119 @@
+{
+  "domain": "Philosophy",
+  "entries": [
+    {
+      "content": "Based on the provided context, improve relates to concept",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept. This directly addresses tell and about and happiness in a practical context.",
+        "Happiness is a complex system with multiple interacting components. This directly addresses happiness in a practical context.",
+        "Based on the provided context, explain relates to concept. This directly addresses explain and happiness in a practical context.",
+        "Based on the provided context, want relates to concept. This directly addresses want and know and about and happiness in a practical context.",
+        "Based on the provided context, happiness relates to concept. This directly addresses happiness in a practical context.",
+        "Based on the provided context, can relates to concept"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does happiness work",
+        "why is happiness important",
+        "examples of happiness",
+        "happiness in daily life"
+      ],
+      "topic": "happiness"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept, fundamental",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, fundamental. This directly addresses tell and about and water in a practical context.",
+        "Water is a complex system with multiple interacting components. This directly addresses water in a practical context.",
+        "Based on the provided context, explain relates to concept, fundamental. This directly addresses explain and water in a practical context.",
+        "Based on the provided context, want relates to concept, fundamental. This directly addresses want and know and about and water in a practical context.",
+        "Based on the provided context, water relates to concept, fundamental. This directly addresses water in a practical context.",
+        "Based on the provided context, can relates to concept, fundamental"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does water work",
+        "why is water important",
+        "examples of water",
+        "water in daily life"
+      ],
+      "topic": "water"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept. This directly addresses tell and about and consciousness in a practical context.",
+        "Consciousness is a complex system with multiple interacting components. This directly addresses consciousness in a practical context.",
+        "Based on the provided context, explain relates to concept. This directly addresses explain and consciousness in a practical context.",
+        "Based on the provided context, want relates to concept. This directly addresses want and know and about and consciousness in a practical context.",
+        "Based on the provided context, consciousness relates to concept. This directly addresses consciousness in a practical context.",
+        "Based on the provided context, can relates to concept"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does consciousness work",
+        "why is consciousness important",
+        "examples of consciousness",
+        "consciousness in daily life"
+      ],
+      "topic": "consciousness"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept, essential, fundamental",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, essential, fundamental. This directly addresses tell and about and love in a practical context.",
+        "Love is a complex system with multiple interacting components. This directly addresses love in a practical context.",
+        "Based on the provided context, explain relates to concept, essential, fundamental. This directly addresses explain and love in a practical context.",
+        "Based on the provided context, want relates to concept, essential, fundamental. This directly addresses want and know and about and love in a practical context.",
+        "Based on the provided context, love relates to concept, essential, fundamental. This directly addresses love in a practical context.",
+        "Based on the provided context, can relates to concept, essential, fundamental"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does love work",
+        "why is love important",
+        "examples of love",
+        "love in daily life"
+      ],
+      "topic": "love"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept, fundamental, fundamental",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, fundamental, fundamental. This directly addresses tell and about and time in a practical context.",
+        "Time is a complex system with multiple interacting components. This directly addresses time in a practical context.",
+        "Based on the provided context, explain relates to concept, fundamental, fundamental. This directly addresses explain and time in a practical context.",
+        "Based on the provided context, want relates to concept, fundamental, fundamental. This directly addresses want and know and about and time in a practical context.",
+        "Based on the provided context, time relates to concept, fundamental, fundamental. This directly addresses time in a practical context.",
+        "Based on the provided context, can relates to concept, fundamental, fundamental"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does time work",
+        "why is time important",
+        "examples of time",
+        "time in daily life"
+      ],
+      "topic": "time"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept, fundamental",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, fundamental. This directly addresses tell and about and meaning in a practical context.",
+        "Meaning is a complex system with multiple interacting components. This directly addresses meaning in a practical context.",
+        "Based on the provided context, explain relates to concept, fundamental. This directly addresses explain and meaning in a practical context.",
+        "Based on the provided context, want relates to concept, fundamental. This directly addresses want and know and about and meaning in a practical context.",
+        "Based on the provided context, meaning relates to concept, fundamental. This directly addresses meaning in a practical context.",
+        "Based on the provided context, can relates to concept, fundamental"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does meaning work",
+        "why is meaning important",
+        "examples of meaning",
+        "meaning in daily life"
+      ],
+      "topic": "meaning"
+    }
+  ]
+}

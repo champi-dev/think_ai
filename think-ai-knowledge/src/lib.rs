@@ -12,6 +12,7 @@ pub mod quantum_llm_engine;
 pub mod dynamic_loader;
 pub mod response_generator;
 pub mod intelligent_response_selector;
+pub mod tinyllama_knowledge_builder;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};

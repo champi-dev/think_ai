@@ -1,0 +1,62 @@
+{
+  "domain": "ComputerScience",
+  "entries": [
+    {
+      "content": "Based on the provided context, improve relates to concept, fundamental",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, fundamental. This directly addresses tell and about and artificial and intelligence in a practical context.",
+        "Artificial is a complex system with multiple interacting components. This directly addresses artificial and intelligence in a practical context.",
+        "Based on the provided context, explain relates to concept, fundamental. This directly addresses explain and artificial and intelligence in a practical context.",
+        "Based on the provided context, want relates to concept, fundamental. This directly addresses want and know and about and artificial and intelligence in a practical context.",
+        "Based on the provided context, artificial relates to concept, fundamental. This directly addresses artificial and intelligence in a practical context.",
+        "Based on the provided context, can relates to concept, fundamental"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does artificial intelligence work",
+        "why is artificial intelligence important",
+        "examples of artificial intelligence",
+        "artificial intelligence in daily life"
+      ],
+      "topic": "artificial intelligence"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept, system",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, system. This directly addresses tell and about and blockchain in a practical context.",
+        "Blockchain is a complex system with multiple interacting components. This directly addresses blockchain in a practical context.",
+        "Based on the provided context, explain relates to concept, system. This directly addresses explain and blockchain in a practical context.",
+        "Based on the provided context, want relates to concept, system. This directly addresses want and know and about and blockchain in a practical context.",
+        "Based on the provided context, blockchain relates to concept, system. This directly addresses blockchain in a practical context.",
+        "Based on the provided context, can relates to concept, system"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does blockchain work",
+        "why is blockchain important",
+        "examples of blockchain",
+        "blockchain in daily life"
+      ],
+      "topic": "blockchain"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept. This directly addresses tell and about and programming in a practical context.",
+        "Programming is a complex system with multiple interacting components. This directly addresses programming in a practical context.",
+        "Based on the provided context, explain relates to concept. This directly addresses explain and programming in a practical context.",
+        "Based on the provided context, want relates to concept. This directly addresses want and know and about and programming in a practical context.",
+        "Based on the provided context, programming relates to concept. This directly addresses programming in a practical context.",
+        "Based on the provided context, can relates to concept"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does programming work",
+        "why is programming important",
+        "examples of programming",
+        "programming in daily life"
+      ],
+      "topic": "programming"
+    }
+  ]
+}

@@ -43,3 +43,7 @@ path = "src/bin/train_1000.rs"
 [[bin]]
 name = "train-minimal"
 path = "src/bin/train_minimal.rs"
+
+[[bin]]
+name = "build-with-tinyllama"
+path = "src/bin/build_with_tinyllama.rs"

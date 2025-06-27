@@ -1,0 +1,24 @@
+{
+  "domain": "Mathematics",
+  "entries": [
+    {
+      "content": "Based on the provided context, improve relates to concept, essential, fundamental",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, essential, fundamental. This directly addresses tell and about and mathematics in a practical context.",
+        "Mathematics is a complex system with multiple interacting components. This directly addresses mathematics in a practical context.",
+        "Based on the provided context, explain relates to concept, essential, fundamental. This directly addresses explain and mathematics in a practical context.",
+        "Based on the provided context, want relates to concept, essential, fundamental. This directly addresses want and know and about and mathematics in a practical context.",
+        "Based on the provided context, mathematics relates to concept, essential, fundamental. This directly addresses mathematics in a practical context.",
+        "Based on the provided context, can relates to concept, essential, fundamental"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does mathematics work",
+        "why is mathematics important",
+        "examples of mathematics",
+        "mathematics in daily life"
+      ],
+      "topic": "mathematics"
+    }
+  ]
+}

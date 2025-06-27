@@ -1,0 +1,81 @@
+{
+  "domain": "Physics",
+  "entries": [
+    {
+      "content": "Based on the provided context, improve relates to concept, essential, system",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, essential, system. This directly addresses tell and about and physics in a practical context.",
+        "Physics is a complex system with multiple interacting components. This directly addresses physics in a practical context.",
+        "Based on the provided context, explain relates to concept, essential, system. This directly addresses explain and physics in a practical context.",
+        "Based on the provided context, want relates to concept, essential, system. This directly addresses want and know and about and physics in a practical context.",
+        "Based on the provided context, physics relates to concept, essential, system. This directly addresses physics in a practical context.",
+        "Based on the provided context, can relates to concept, essential, system"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does physics work",
+        "why is physics important",
+        "examples of physics",
+        "physics in daily life"
+      ],
+      "topic": "physics"
+    },
+    {
+      "content": "Based on the provided context, improve relates to energy, concept, energy. This directly addresses energy in a practical context.",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to energy, concept, energy. This directly addresses tell and about and energy in a practical context.",
+        "Energy is a complex system with multiple interacting components. This directly addresses energy in a practical context.",
+        "Based on the provided context, explain relates to energy, concept, energy. This directly addresses explain and energy in a practical context.",
+        "Based on the provided context, want relates to energy, concept, energy. This directly addresses want and know and about and energy in a practical context.",
+        "Based on the provided context, energy relates to energy, concept, energy. This directly addresses energy in a practical context.",
+        "Based on the provided context, can relates to energy, concept, energy. This directly addresses describe and energy in a practical context."
+      ],
+      "evaluation_score": 0.9500000476837158,
+      "related_queries": [
+        "how does energy work",
+        "why is energy important",
+        "examples of energy",
+        "energy in daily life"
+      ],
+      "topic": "energy"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept. This directly addresses tell and about and chemistry in a practical context.",
+        "Chemistry is a complex system with multiple interacting components. This directly addresses chemistry in a practical context.",
+        "Based on the provided context, explain relates to concept. This directly addresses explain and chemistry in a practical context.",
+        "Based on the provided context, want relates to concept. This directly addresses want and know and about and chemistry in a practical context.",
+        "Based on the provided context, chemistry relates to concept. This directly addresses chemistry in a practical context.",
+        "Based on the provided context, can relates to concept"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does chemistry work",
+        "why is chemistry important",
+        "examples of chemistry",
+        "chemistry in daily life"
+      ],
+      "topic": "chemistry"
+    },
+    {
+      "content": "Based on the provided context, improve relates to quantum, concept, fundamental. This directly addresses quantum and computing in a practical context.",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to quantum, concept, fundamental. This directly addresses tell and about and quantum and computing in a practical context.",
+        "Quantum is a fundamental quantum phenomenon that exhibits probabilistic behavior. This directly addresses quantum and computing in a practical context.",
+        "Based on the provided context, explain relates to quantum, concept, fundamental. This directly addresses explain and quantum and computing in a practical context.",
+        "Based on the provided context, want relates to quantum, concept, fundamental. This directly addresses want and know and about and quantum and computing in a practical context.",
+        "Based on the provided context, quantum relates to quantum, concept, fundamental. This directly addresses quantum and computing in a practical context.",
+        "Based on the provided context, can relates to quantum, concept, fundamental. This directly addresses describe and quantum and computing in a practical context."
+      ],
+      "evaluation_score": 0.9500000476837158,
+      "related_queries": [
+        "how does quantum computing work",
+        "why is quantum computing important",
+        "examples of quantum computing",
+        "quantum computing in daily life"
+      ],
+      "topic": "quantum computing"
+    }
+  ]
+}

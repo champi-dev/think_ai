@@ -1,0 +1,81 @@
+{
+  "domain": "Psychology",
+  "entries": [
+    {
+      "content": "Based on the provided context, improve relates to concept, fundamental",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, fundamental. This directly addresses tell and about and problem and solving in a practical context.",
+        "Problem is a complex system with multiple interacting components. This directly addresses problem and solving in a practical context.",
+        "Based on the provided context, explain relates to concept, fundamental. This directly addresses explain and problem and solving in a practical context.",
+        "Based on the provided context, want relates to concept, fundamental. This directly addresses want and know and about and problem and solving in a practical context.",
+        "Based on the provided context, problem relates to concept, fundamental. This directly addresses problem and solving in a practical context.",
+        "Based on the provided context, can relates to concept, fundamental"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does problem solving work",
+        "why is problem solving important",
+        "examples of problem solving",
+        "problem solving in daily life"
+      ],
+      "topic": "problem solving"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept, essential, system",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, essential, system. This directly addresses tell and about and communication in a practical context.",
+        "Communication is a complex system with multiple interacting components. This directly addresses communication in a practical context.",
+        "Based on the provided context, explain relates to concept, essential, system. This directly addresses explain and communication in a practical context.",
+        "Based on the provided context, want relates to concept, essential, system. This directly addresses want and know and about and communication in a practical context.",
+        "Based on the provided context, communication relates to concept, essential, system. This directly addresses communication in a practical context.",
+        "Based on the provided context, can relates to concept, essential, system"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does communication work",
+        "why is communication important",
+        "examples of communication",
+        "communication in daily life"
+      ],
+      "topic": "communication"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept, essential, system",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, essential, system. This directly addresses tell and about and creativity in a practical context.",
+        "Creativity is a complex system with multiple interacting components. This directly addresses creativity in a practical context.",
+        "Based on the provided context, explain relates to concept, essential, system. This directly addresses explain and creativity in a practical context.",
+        "Based on the provided context, want relates to concept, essential, system. This directly addresses want and know and about and creativity in a practical context.",
+        "Based on the provided context, creativity relates to concept, essential, system. This directly addresses creativity in a practical context.",
+        "Based on the provided context, can relates to concept, essential, system"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does creativity work",
+        "why is creativity important",
+        "examples of creativity",
+        "creativity in daily life"
+      ],
+      "topic": "creativity"
+    },
+    {
+      "content": "Based on the provided context, improve relates to concept, system",
+      "conversational_patterns": [
+        "Based on the provided context, tell relates to concept, system. This directly addresses tell and about and learning in a practical context.",
+        "Learning is a complex system with multiple interacting components. This directly addresses learning in a practical context.",
+        "Based on the provided context, explain relates to concept, system. This directly addresses explain and learning in a practical context.",
+        "Based on the provided context, want relates to concept, system. This directly addresses want and know and about and learning in a practical context.",
+        "Based on the provided context, learning relates to concept, system. This directly addresses learning in a practical context.",
+        "Based on the provided context, can relates to concept, system"
+      ],
+      "evaluation_score": 0.800000011920929,
+      "related_queries": [
+        "how does learning work",
+        "why is learning important",
+        "examples of learning",
+        "learning in daily life"
+      ],
+      "topic": "learning"
+    }
+  ]
+}
