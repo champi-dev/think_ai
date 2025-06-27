@@ -23,13 +23,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     info!("Vector index initialized");
     
+    // Initialize knowledge engine
+    let knowledge_engine = Arc::new(think_ai_knowledge::KnowledgeEngine::new());
+    info!("Knowledge engine initialized");
+
     // Start HTTP server on port 8080
     let addr: SocketAddr = "127.0.0.1:8080".parse()?;
     info!("Starting HTTP server on port 8080");
     
     // Run server in background
     let server_handle = tokio::spawn(
-        think_ai_http::server::run_server(addr, engine, vector_index)
+        think_ai_http::server::run_server(addr, engine, vector_index, knowledge_engine)
     );
     
     // Wait for shutdown signal

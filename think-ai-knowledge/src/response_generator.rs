@@ -618,8 +618,31 @@ impl ResponseComponent for ComparisonComponent {
         }
     }
     
-    fn generate(&self, _query: &str, _context: &ResponseContext) -> Option<String> {
-        Some("When comparing these concepts, we must consider multiple dimensions: scale, complexity, underlying principles, and practical implications. Each has unique characteristics while sharing fundamental connections.".to_string())
+    fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
+        // Extract actual topic from query or context
+        let topic = if let Some(node) = context.relevant_nodes.first() {
+            &node.topic
+        } else {
+            // Extract topic from query
+            let words: Vec<&str> = query.split_whitespace().collect();
+            if let Some(topic_word) = words.iter().find(|&&w| w.len() > 3 && !w.starts_with("what") && !w.starts_with("how")) {
+                topic_word
+            } else {
+                "this topic"
+            }
+        };
+        
+        // Get actual content from knowledge base
+        if let Some(node) = context.relevant_nodes.first() {
+            Some(format!("{} can be understood through multiple dimensions: {}. It involves {} and has applications in {}.", 
+                topic, 
+                node.content.split('.').next().unwrap_or(&node.content),
+                node.content.split('.').nth(1).unwrap_or("various domains"),
+                node.content.split('.').nth(2).unwrap_or("many fields")
+            ))
+        } else {
+            Some(format!("{} can be analyzed from multiple perspectives and has various characteristics and applications.", topic))
+        }
     }
 }
 
@@ -644,8 +667,30 @@ impl ResponseComponent for HistoricalComponent {
         }
     }
     
-    fn generate(&self, _query: &str, _context: &ResponseContext) -> Option<String> {
-        Some("Throughout history, human understanding of this concept has evolved dramatically. From ancient philosophical musings to modern scientific precision, each era has contributed new insights and perspectives.".to_string())
+    fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
+        // Extract actual topic from query or context
+        let topic = if let Some(node) = context.relevant_nodes.first() {
+            &node.topic
+        } else {
+            // Extract topic from query
+            let words: Vec<&str> = query.split_whitespace().collect();
+            if let Some(topic_word) = words.iter().find(|&&w| w.len() > 3 && !w.starts_with("what") && !w.starts_with("how")) {
+                topic_word
+            } else {
+                "this topic"
+            }
+        };
+        
+        // Get actual content from knowledge base
+        if let Some(node) = context.relevant_nodes.first() {
+            Some(format!("Throughout history, {} has been studied and understood in different ways. {}. The understanding of {} continues to evolve with new discoveries and insights.", 
+                topic, 
+                node.content.split('.').next().unwrap_or(&node.content),
+                topic
+            ))
+        } else {
+            Some(format!("Throughout history, {} has evolved in understanding from ancient times to the present day.", topic))
+        }
     }
 }
 
@@ -668,8 +713,30 @@ impl ResponseComponent for PracticalApplicationComponent {
         }
     }
     
-    fn generate(&self, _query: &str, _context: &ResponseContext) -> Option<String> {
-        Some("In practical applications, this knowledge enables innovations in technology, medicine, and daily life. Understanding these principles helps us build better systems, solve complex problems, and improve human welfare.".to_string())
+    fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
+        // Extract actual topic from query or context
+        let topic = if let Some(node) = context.relevant_nodes.first() {
+            &node.topic
+        } else {
+            // Extract topic from query
+            let words: Vec<&str> = query.split_whitespace().collect();
+            if let Some(topic_word) = words.iter().find(|&&w| w.len() > 3 && !w.starts_with("what") && !w.starts_with("how")) {
+                topic_word
+            } else {
+                "this topic"
+            }
+        };
+        
+        // Get actual content from knowledge base
+        if let Some(node) = context.relevant_nodes.first() {
+            Some(format!("In practical applications, {} is used in various ways. {}. Understanding {} helps in real-world problem solving and innovation.", 
+                topic, 
+                node.content.split('.').next().unwrap_or(&node.content),
+                topic
+            ))
+        } else {
+            Some(format!("In practical applications, {} has various uses and implementations in real-world scenarios.", topic))
+        }
     }
 }
 
@@ -691,8 +758,30 @@ impl ResponseComponent for FutureSpeculationComponent {
         }
     }
     
-    fn generate(&self, _query: &str, _context: &ResponseContext) -> Option<String> {
-        Some("Looking toward the future, advances in this area could revolutionize our understanding and capabilities. Emerging technologies and deeper insights may unlock possibilities we can barely imagine today.".to_string())
+    fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
+        // Extract actual topic from query or context
+        let topic = if let Some(node) = context.relevant_nodes.first() {
+            &node.topic
+        } else {
+            // Extract topic from query
+            let words: Vec<&str> = query.split_whitespace().collect();
+            if let Some(topic_word) = words.iter().find(|&&w| w.len() > 3 && !w.starts_with("what") && !w.starts_with("how")) {
+                topic_word
+            } else {
+                "this topic"
+            }
+        };
+        
+        // Get actual content from knowledge base
+        if let Some(node) = context.relevant_nodes.first() {
+            Some(format!("Looking toward the future, {} may continue to develop and expand. {}. Future advances in {} could lead to new discoveries and applications.", 
+                topic, 
+                node.content.split('.').next().unwrap_or(&node.content),
+                topic
+            ))
+        } else {
+            Some(format!("Looking toward the future, {} may evolve with new technologies and deeper understanding.", topic))
+        }
     }
 }
 

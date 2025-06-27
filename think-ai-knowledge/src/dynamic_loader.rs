@@ -18,7 +18,15 @@ pub struct KnowledgeEntry {
     pub topic: String,
     pub content: String,
     pub related_concepts: Vec<String>,
-    pub metadata: Option<HashMap<String, String>>,
+    pub metadata: Option<KnowledgeMetadata>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct KnowledgeMetadata {
+    pub conversational_patterns: Option<Vec<String>>,
+    pub evaluation_score: Option<f64>,
+    #[serde(flatten)]
+    pub additional_fields: HashMap<String, serde_json::Value>,
 }
 
 pub struct DynamicKnowledgeLoader {

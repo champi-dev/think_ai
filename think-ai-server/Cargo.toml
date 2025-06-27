@@ -16,6 +16,7 @@ think-ai-http = { path = "../think-ai-http" }
 think-ai-storage = { path = "../think-ai-storage" }
 think-ai-cache = { path = "../think-ai-cache" }
 think-ai-utils = { path = "../think-ai-utils" }
+think-ai-knowledge = { path = "../think-ai-knowledge" }
 tokio.workspace = true
 async-trait.workspace = true
 serde.workspace = true

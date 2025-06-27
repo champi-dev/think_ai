@@ -14,6 +14,7 @@ members = [
     "think-ai-linter", 
     "think-ai-knowledge",
     "think-ai-tinyllama",
+    "think-ai-server",
 ]
 
 # Webapp temporarily excluded due to WASM compilation complexity
