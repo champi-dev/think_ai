@@ -64,35 +64,6 @@
             opacity: 0.8;
         }
         
-        /* Floating UI Elements */
-        .floating-orbs {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-        
-        .orb {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: radial-gradient(circle, var(--primary-light), transparent);
-            border-radius: 50%;
-            animation: floatOrb 8s ease-in-out infinite;
-        }
-        
-        .orb:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .orb:nth-child(2) { top: 50%; left: 90%; animation-delay: 2s; }
-        .orb:nth-child(3) { top: 80%; left: 20%; animation-delay: 4s; }
-        .orb:nth-child(4) { top: 30%; left: 70%; animation-delay: 6s; }
-        
-        @keyframes floatOrb {
-            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.3; }
-            50% { transform: translateY(-20px) scale(1.2); opacity: 0.8; }
-        }
         
         /* Modern Glassmorphism Header */
         .header {
@@ -110,7 +81,7 @@
         
         .header-content {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             max-width: 1400px;
             margin: 0 auto;
@@ -142,37 +113,6 @@
             50% { box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
         }
         
-        .status-panel {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-        
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.2); }
-        }
         
         /* Revolutionary Chat Interface */
         .interface {
@@ -434,35 +374,6 @@
             background: linear-gradient(135deg, var(--primary-light), var(--secondary));
         }
         
-        /* Performance indicator */
-        .performance-badge {
-            position: fixed;
-            top: 50%;
-            right: 2rem;
-            transform: translateY(-50%);
-            z-index: 25;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 15px;
-            padding: 1rem;
-            backdrop-filter: blur(10px);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: #10b981;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
-        }
-        
-        .perf-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 0.25rem 0;
-            min-width: 120px;
-        }
-        
-        .perf-value {
-            font-weight: 600;
-            color: #06b6d4;
-        }
         
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -482,57 +393,19 @@
                 height: 250px;
                 padding: 1rem;
             }
-            
-            .performance-badge {
-                display: none;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Floating UI Elements -->
-    <div class="floating-orbs">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-    </div>
-    
-    <!-- Modern Header -->
+    <!-- Simple Header -->
     <header class="header">
         <div class="header-content">
             <div class="logo">
                 <div class="logo-icon">🧠</div>
                 <span>Think AI</span>
             </div>
-            <div class="status-panel">
-                <div class="status-item">
-                    <div class="status-dot"></div>
-                    <span>O(1) Performance</span>
-                </div>
-                <div class="status-item">
-                    <div class="status-dot"></div>
-                    <span>Quantum Active</span>
-                </div>
-            </div>
         </div>
     </header>
-    
-    <!-- Performance Badge -->
-    <div class="performance-badge">
-        <div class="perf-item">
-            <span>Response:</span>
-            <span class="perf-value" id="response-time">0.2ms</span>
-        </div>
-        <div class="perf-item">
-            <span>FPS:</span>
-            <span class="perf-value" id="fps">60</span>
-        </div>
-        <div class="perf-item">
-            <span>O(1):</span>
-            <span class="perf-value">✓</span>
-        </div>
-    </div>
     
     <!-- Quantum Canvas -->
     <canvas id="canvas"></canvas>
@@ -701,19 +574,8 @@
         
         initializeQuantumField();
         
-        // O(1) High-Performance Animation Loop with 60+ FPS
-        let frameCount = 0;
-        let lastFpsTime = performance.now();
-        
+        // O(1) High-Performance Animation Loop
         function animate(currentTime) {
-            // O(1) FPS calculation
-            frameCount++;
-            if (currentTime - lastFpsTime >= 1000) {
-                document.getElementById('fps').textContent = frameCount;
-                frameCount = 0;
-                lastFpsTime = currentTime;
-            }
-            
             // Optimized clear with minimal overdraw
             ctx.fillStyle = 'rgba(0, 0, 12, 0.1)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -726,10 +588,8 @@
                 point.draw();
             });
             
-            // Optimized connection drawing - only draw subset for performance
-            if (frameCount % 2 === 0) { // Draw connections every other frame
-                drawOptimizedConnections();
-            }
+            // Optimized connection drawing
+            drawOptimizedConnections();
             
             requestAnimationFrame(animate);
         }
@@ -828,8 +688,6 @@
                 removeLoadingMessage();
                 addMessage(data.response);
                 
-                // Update performance badge
-                document.getElementById('response-time').textContent = responseTime.toFixed(1) + 'ms';
                 
             } catch (error) {
                 removeLoadingMessage();
