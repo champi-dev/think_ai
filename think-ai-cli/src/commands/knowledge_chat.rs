@@ -6,7 +6,8 @@ use think_ai_knowledge::{
     dynamic_loader::DynamicKnowledgeLoader, 
     response_generator::ComponentResponseGenerator,
     intelligent_response_selector::{IntelligentResponseSelector, ResponseSource},
-    tinyllama_knowledge_builder::TinyLlamaKnowledgeBuilder
+    tinyllama_knowledge_builder::TinyLlamaKnowledgeBuilder,
+    self_evaluator::SelfEvaluator
 };
 use think_ai_tinyllama::TinyLlamaClient;
 use std::io::Write;
@@ -18,6 +19,7 @@ pub struct KnowledgeChat {
     response_generator: Arc<ComponentResponseGenerator>,
     intelligent_selector: Arc<IntelligentResponseSelector>,
     tinyllama_builder: Arc<TinyLlamaKnowledgeBuilder>,
+    self_evaluator: Arc<SelfEvaluator>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
 }
 
@@ -67,14 +69,30 @@ impl KnowledgeChat {
             response_generator.clone()
         ));
         
-        Self { 
+        // Initialize self-evaluator for continuous improvement
+        let self_evaluator = Arc::new(SelfEvaluator::new(
+            engine.clone(),
+            response_generator.clone()
+        ));
+        
+        let chat = Self { 
             engine,
             tinyllama_client: Arc::new(TinyLlamaClient::new()),
             response_generator,
             intelligent_selector,
             tinyllama_builder,
+            self_evaluator,
             conversation_history: Vec::new(),
-        }
+        };
+        
+        // Start self-evaluation system in background
+        let evaluator = chat.self_evaluator.clone();
+        tokio::spawn(async move {
+            println!("🧠 Starting self-evaluation system...");
+            evaluator.start_background_evaluation().await;
+        });
+        
+        chat
     }
     
     pub async fn process_query(&mut self, query: &str) -> (String, f64) {
@@ -304,6 +322,7 @@ impl KnowledgeChat {
     
     fn get_stats_text(&self) -> String {
         let stats = self.engine.get_stats();
+        let eval_stats = self.self_evaluator.get_evaluation_stats();
         let mut domain_info = String::new();
         
         let domain_count = stats.domain_distribution.len();
@@ -317,10 +336,22 @@ impl KnowledgeChat {
             Domains Covered: {}\n\
             Average Confidence: {:.2}\n\
             \n\
+            🧠 Self-Evaluation Statistics:\n\
+            Total Self-Evaluations: {}\n\
+            Average Response Quality: {:.2}\n\
+            Recent Quality Trend: {:.2}\n\
+            Improvement Areas: {}\n\
+            Auto-Evaluation Active: {}\n\
+            \n\
             Domain Distribution:\n{}",
             stats.total_nodes,
             domain_count,
             stats.average_confidence,
+            eval_stats.total_evaluations,
+            eval_stats.average_quality,
+            eval_stats.recent_quality,
+            eval_stats.improvement_areas,
+            if eval_stats.is_running { "✅ Yes" } else { "❌ No" },
             domain_info
         )
     }

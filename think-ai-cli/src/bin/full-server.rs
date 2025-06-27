@@ -17,6 +17,7 @@ use think_ai_knowledge::{
     persistence::KnowledgePersistence,
     quantum_llm_engine::QuantumLLMEngine,
     response_generator::ComponentResponseGenerator,
+    self_evaluator::SelfEvaluator,
 };
 use think_ai_tinyllama::{TinyLlamaClient, enhanced::EnhancedTinyLlama};
 use think_ai_utils::logging::init_tracing;
@@ -32,6 +33,7 @@ struct FullAppState {
     tinyllama_client: Arc<TinyLlamaClient>,
     enhanced_llama: Arc<EnhancedTinyLlama>,
     response_generator: Arc<ComponentResponseGenerator>,
+    self_evaluator: Arc<SelfEvaluator>,
     conversation_history: Arc<RwLock<Vec<(String, String)>>>,
 }
 
@@ -92,6 +94,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let response_generator = Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
     println!("🧩 Component response generator initialized");
     
+    // Create and start self-evaluator for continuous improvement
+    let self_evaluator = Arc::new(SelfEvaluator::new(
+        knowledge_engine.clone(),
+        response_generator.clone()
+    ));
+    
+    // Start self-evaluation in background
+    let evaluator_clone = self_evaluator.clone();
+    tokio::spawn(async move {
+        println!("🧠 Starting AI self-evaluation system...");
+        evaluator_clone.start_background_evaluation().await;
+    });
+    println!("✅ Self-evaluation system initialized");
+    
     // Initialize TinyLlama in background
     let llama_clone = tinyllama_client.clone();
     tokio::spawn(async move {
@@ -108,6 +124,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         tinyllama_client,
         enhanced_llama,
         response_generator,
+        self_evaluator,
         conversation_history: Arc::new(RwLock::new(Vec::new())),
     });
     
@@ -117,6 +134,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/health", get(health_check))
         .route("/api/chat", post(chat_handler))
         .route("/api/stats", get(stats_handler))
+        .route("/api/evaluation", get(evaluation_stats_handler))
         .layer(CorsLayer::permissive())
         .with_state(state);
     
@@ -312,12 +330,42 @@ async fn stats_handler(
     State(state): State<Arc<FullAppState>>,
 ) -> Result<Json<serde_json::Value>, StatusCode> {
     let stats = state.knowledge_engine.get_stats();
+    let eval_stats = state.self_evaluator.get_evaluation_stats();
     
     Ok(Json(serde_json::json!({
-        "total_knowledge": stats.total_nodes,
-        "domains": stats.domain_distribution.len(),
-        "avg_response_time": 0.2, // O(1) performance
+        "knowledge_base": {
+            "total_knowledge": stats.total_nodes,
+            "domains": stats.domain_distribution.len(),
+            "avg_response_time": 0.2
+        },
+        "self_evaluation": {
+            "total_evaluations": eval_stats.total_evaluations,
+            "average_quality": eval_stats.average_quality,
+            "recent_quality": eval_stats.recent_quality,
+            "is_running": eval_stats.is_running
+        },
         "status": "healthy"
+    })))
+}
+
+async fn evaluation_stats_handler(
+    State(state): State<Arc<FullAppState>>,
+) -> Result<Json<serde_json::Value>, StatusCode> {
+    let eval_stats = state.self_evaluator.get_evaluation_stats();
+    
+    Ok(Json(serde_json::json!({
+        "self_evaluation": {
+            "total_evaluations": eval_stats.total_evaluations,
+            "average_quality": eval_stats.average_quality,
+            "recent_quality": eval_stats.recent_quality,
+            "improvement_areas": eval_stats.improvement_areas,
+            "is_running": eval_stats.is_running,
+            "status": if eval_stats.is_running { "🧠 AI actively self-evaluating" } else { "⚠️ Self-evaluation stopped" }
+        },
+        "improvement_trends": {
+            "quality_trend": if eval_stats.recent_quality > eval_stats.average_quality { "📈 Improving" } else { "📉 Needs attention" },
+            "evaluation_frequency": if eval_stats.total_evaluations > 50 { "🔥 High activity" } else { "⏳ Warming up" }
+        }
     })))
 }
 
