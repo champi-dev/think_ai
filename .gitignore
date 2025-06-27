@@ -128,6 +128,12 @@ setup_*.sh
 *.key
 .secrets/
 
+# Package manager config with tokens
+.npmrc
+.pypirc
+**/npmrc
+**/.pypirc
+
 # Rust build artifacts
 /target/
 **/*.rs.bk
