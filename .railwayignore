@@ -1,49 +1,13 @@
-# Large directories to exclude
+# Only exclude the largest directories that cause upload issues
 .git/
 target/
-node_modules/
-.cargo/
-
-# Documentation and examples
-docs/
-examples/
-README*.md
-!CLAUDE.md
-
-# All test and script files
-test_*
-*_test.*
-*.test.*
-*.sh
-!quick_start.sh
-
-# All log and cache files
-*.log
-*.tmp
-cache/
-logs/
-.DS_Store
-.vscode/
-.idea/
-
-# Large data directories
 knowledge_storage/
 comprehensive_knowledge/
 direct_training/
 minimal_routing/
 trained_knowledge/
-static/
-configs/
-
-# HTML files except minimal
-*.html
-!minimal_3d.html
-
-# Keep only essential Rust workspace files
-!Cargo.toml
-!Cargo.lock
-!nixpacks.toml
-!Dockerfile
-!think-ai-*/src/
-!think-ai-*/Cargo.toml
-!think-ai-*/benches/
+logs/
+docs/
+examples/
+*.log
+*.sh
