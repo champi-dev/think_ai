@@ -30,6 +30,7 @@ pub fn create_router(state: Arc<AppState>) -> Router {
         .route("/search", post(handlers::search))
         .route("/stats", get(handlers::stats))
         .route("/chat", post(handlers::chat))
+        .route("/api/chat", post(handlers::chat))
         
         // WebSocket endpoint (placeholder for now)
         .route("/ws", get(websocket_placeholder))
@@ -38,13 +39,20 @@ pub fn create_router(state: Arc<AppState>) -> Router {
         .nest_service("/_next", ServeDir::new(static_dir.join("_next")))
         .nest_service("/icons", ServeDir::new(static_dir.join("icons")))
         .route_service("/manifest.json", ServeFile::new(static_dir.join("manifest.json")))
+        .route_service("/react-refresh.js", ServeFile::new(static_dir.join("react-refresh.js")))
+        .route_service("/favicon.ico", ServeFile::new(static_dir.join("icons/icon-32x32.png")))
         
         .layer(CorsLayer::permissive())
         .with_state(state)
 }
 
 async fn serve_webapp() -> Html<&'static str> {
-    Html(include_str!("../../../webapp_homepage.html"))
+    // Use test version locally, production version in deployment
+    if cfg!(debug_assertions) {
+        Html(include_str!("../../../minimal_3d_test.html"))
+    } else {
+        Html(include_str!("../../../minimal_3d.html"))
+    }
 }
 
 async fn serve_chat() -> Html<String> {
