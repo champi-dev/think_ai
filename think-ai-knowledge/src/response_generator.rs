@@ -221,13 +221,14 @@ impl ComponentResponseGenerator {
         }
         
         if parts.len() == 1 {
+            // Return full content for single responses - don't truncate!
             return parts[0].clone();
         }
         
         // Extract key sentences from each part
         let mut refined_response = String::new();
         let mut sentences_used = 0;
-        let max_sentences = 5; // Keep response concise
+        let max_sentences = 10; // Allow more complete responses
         
         // Start with the most relevant part (first one)
         let first_sentences: Vec<&str> = parts[0].split(". ").collect();
@@ -349,14 +350,8 @@ impl ResponseComponent for KnowledgeBaseComponent {
     }
     
     fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
-        // First check if we have exact topic matches
-        let query_lower = query.to_lowercase();
-        
-        // Look for best match based on query terms
-        let mut best_match: Option<(&KnowledgeNode, usize)> = None;
-        
+        // Skip self-learning generated patterns
         for node in &context.relevant_nodes {
-            // Skip self-learning generated patterns
             if node.content.starts_with("Pattern discovered") || 
                node.content.starts_with("Synthesis of") ||
                node.content.starts_with("Pattern:") ||
@@ -365,56 +360,11 @@ impl ResponseComponent for KnowledgeBaseComponent {
                 continue;
             }
             
-            let topic_lower = node.topic.to_lowercase();
-            let mut match_score = 0;
-            
-            // Check each query token for matches
-            for token in context.query_tokens.iter() {
-                if token.len() > 2 {
-                    // Exact topic match gets highest score
-                    if topic_lower == *token {
-                        match_score += 1000;  // Massive score for exact topic match
-                    }
-                    // Topic contains token as whole word
-                    else if topic_lower.split_whitespace().any(|word| word == *token) {
-                        match_score += 50;
-                    }
-                    // Topic contains token (partial match - lower score)
-                    else if topic_lower.contains(token) && token.len() > 4 {
-                        match_score += 5;
-                    }
-                    
-                    // Check related concepts
-                    for concept in &node.related_concepts {
-                        let concept_lower = concept.to_lowercase();
-                        if concept_lower == *token {
-                            match_score += 200;  // High score for exact concept match
-                        } else if concept_lower.split_whitespace().any(|word| word == *token) {
-                            match_score += 20;
-                        } else if concept_lower.contains(token) && token.len() > 4 {
-                            match_score += 3;
-                        }
-                    }
-                }
-            }
-            
-            if match_score > 0 {
-                if best_match.is_none() || match_score > best_match.unwrap().1 {
-                    best_match = Some((node, match_score));
-                }
-            }
-        }
-        
-        if let Some((node, _)) = best_match {
+            // Use the intelligent_query ordering - first valid node is the best match
             return Some(node.content.clone());
         }
         
-        // Fallback to first relevant node
-        if let Some(node) = context.relevant_nodes.first() {
-            Some(node.content.clone())
-        } else {
-            None
-        }
+        None
     }
 }
 

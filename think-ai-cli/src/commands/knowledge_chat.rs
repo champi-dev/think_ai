@@ -212,7 +212,27 @@ impl KnowledgeChat {
         stop_progress.store(true, Ordering::Relaxed);
         let _ = progress_handle.join();
         
-        // If we got a good knowledge response, use it
+        // Check if response contains fallback text and clean it if needed
+        if knowledge_response.contains("Additionally, i don't have specific information") ||
+           knowledge_response.contains("Furthermore, i can help with topics") {
+            // Extract just the knowledge content, remove fallback text
+            let clean_response = knowledge_response
+                .split("Additionally, i don't have specific information").next()
+                .unwrap_or(&knowledge_response)
+                .split("Furthermore, i can help with topics").next()
+                .unwrap_or(&knowledge_response)
+                .trim_end_matches(". ")
+                .trim()
+                .to_string();
+            
+            if clean_response.len() > 50 {
+                print!(" [📚 Enhanced Knowledge]");
+                println!();
+                return clean_response;
+            }
+        }
+        
+        // If we got a good knowledge response without fallback text, use it
         if !knowledge_response.contains("I don't have specific information") && 
            !knowledge_response.contains("Could you please elaborate") &&
            knowledge_response.len() > 50 {

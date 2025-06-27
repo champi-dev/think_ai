@@ -244,7 +244,7 @@ impl KnowledgeEngine {
         let mut scored_results: Vec<(KnowledgeNode, usize)> = Vec::new();
         
         for (_, node) in nodes.iter() {
-            let mut score = 0;
+            let mut score: usize = 0;
             let topic_lower = node.topic.to_lowercase();
             let content_lower = node.content.to_lowercase();
             
@@ -260,6 +260,26 @@ impl KnowledgeEngine {
                     if concept.to_lowercase().contains(&clean_query) {
                         score += 18; // High score for exact phrase in concepts
                     }
+                }
+            }
+            
+            // Special handling for "universe" queries - prioritize cosmology content
+            if clean_query == "universe" || clean_query == "the universe" {
+                // Highest priority: content that directly explains cosmology/universe
+                if content_lower.contains("cosmology is a branch") || 
+                   content_lower.contains("studies the universe as a whole") ||
+                   content_lower.contains("universe as a whole") {
+                    score += 50; // Extremely high priority for direct universe definitions
+                }
+                // High priority: general cosmology/cosmos content
+                else if content_lower.contains("cosmology") || content_lower.contains("cosmos") ||
+                        topic_lower.contains("cosmology") || topic_lower == "astronomy" {
+                    score += 25; // High priority for cosmology content
+                }
+                // Penalize less relevant matches like "picture of the day"
+                if content_lower.contains("picture of the day") || content_lower.contains("apod") ||
+                   content_lower.contains("website") || content_lower.contains("nasa") {
+                    score = score.saturating_sub(20_usize);
                 }
             }
             
@@ -319,7 +339,7 @@ impl KnowledgeEngine {
         let mut scored_results: Vec<(KnowledgeNode, usize)> = Vec::new();
         
         for (_, node) in nodes.iter() {
-            let mut score = 0;
+            let mut score: usize = 0;
             let topic_lower = node.topic.to_lowercase();
             let content_lower = node.content.to_lowercase();
             
