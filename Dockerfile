@@ -71,7 +71,11 @@ RUN apt-get update && \
 # Create app directory
 WORKDIR /app
 
-# Copy binary from builder
+# Create bin directory and copy binary where Railway expects it
+RUN mkdir -p /app/bin
+COPY --from=builder /build/target/release/full-server /app/bin/think-ai-cli
+
+# Also copy to root for compatibility
 COPY --from=builder /build/target/release/full-server ./
 
 # Copy webapp and knowledge files
