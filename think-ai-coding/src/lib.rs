@@ -53,6 +53,10 @@ impl CodeGenerator {
                 .map(|(n, t)| format!("{}: {}", n, t))
                 .collect::<Vec<_>>()
                 .join(", "),
+            "javascript" => params.iter()
+                .map(|(n, _t)| n.to_string())
+                .collect::<Vec<_>>()
+                .join(", "),
             _ => return Err(CodingError::GenerationError(
                 format!("Unsupported language: {}", language)
             )),
@@ -68,5 +72,52 @@ impl CodeGenerator {
             body,
             &doc,
         ).map_err(|e| CodingError::GenerationError(e))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_generate_rust_function() {
+        let generator = CodeGenerator::new();
+        let func = generator.generate_function(
+            "rust",
+            "add",
+            vec![("a", "i32"), ("b", "i32")],
+            "i32",
+            "a + b",
+        ).unwrap();
+        assert!(func.contains("pub fn add(a: i32, b: i32) -> i32"));
+        assert!(func.contains("a + b"));
+    }
+
+    #[test]
+    fn test_generate_python_function() {
+        let generator = CodeGenerator::new();
+        let func = generator.generate_function(
+            "python",
+            "add",
+            vec![("a", "int"), ("b", "int")],
+            "int",
+            "return a + b",
+        ).unwrap();
+        assert!(func.contains("def add(a: int, b: int) -> int:"));
+        assert!(func.contains("return a + b"));
+    }
+
+    #[test]
+    fn test_generate_javascript_function() {
+        let generator = CodeGenerator::new();
+        let func = generator.generate_function(
+            "javascript",
+            "add",
+            vec![("a", ""), ("b", "")],
+            "",
+            "return a + b;",
+        ).unwrap();
+        assert!(func.contains("function add(a, b)"));
+        assert!(func.contains("return a + b;"));
     }
 }

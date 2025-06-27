@@ -53,6 +53,23 @@ pub fn {name}({params}) -> {return_type} {
                 "body".to_string(),
             ],
         });
+
+        // JavaScript function template
+        templates.insert("javascript_function".to_string(), Template {
+            language: "javascript".to_string(),
+            pattern: r#"/**
+ * {doc}
+ */
+function {name}({params}) {
+    {body}
+}"#.to_string(),
+            placeholders: vec![
+                "doc".to_string(),
+                "name".to_string(),
+                "params".to_string(),
+                "body".to_string(),
+            ],
+        });
         
         Self { templates }
     }
