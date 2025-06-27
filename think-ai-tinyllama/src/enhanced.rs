@@ -486,6 +486,22 @@ impl EnhancedTinyLlama {
                 tree.insert("definition".to_string(), "the combination of different musical notes played simultaneously".to_string());
                 tree.insert("subtopics".to_string(), "chords, progressions, voice leading → triads, seventh chords → major, minor, diminished → chord inversions, chord substitutions".to_string());
             }
+            "major" => {
+                tree.insert("definition".to_string(), "a type of scale or chord with a bright, happy sound characterized by specific interval patterns".to_string());
+                tree.insert("subtopics".to_string(), "major scales, major chords, major keys → whole and half steps, tonic relationships → I-IV-V progressions, circle of fifths → key signatures, modulation".to_string());
+            }
+            "minor" => {
+                tree.insert("definition".to_string(), "a type of scale or chord with a darker, sadder sound due to lowered third degree".to_string());
+                tree.insert("subtopics".to_string(), "minor scales, minor chords, minor keys → natural, harmonic, melodic minor → relative and parallel minors → modal interchange, borrowed chords".to_string());
+            }
+            "chord" | "chords" => {
+                tree.insert("definition".to_string(), "multiple notes played simultaneously to create harmony".to_string());
+                tree.insert("subtopics".to_string(), "triads, seventh chords, extended chords → major, minor, diminished, augmented → inversions, voicings → voice leading, chord progressions".to_string());
+            }
+            "scale" | "scales" => {
+                tree.insert("definition".to_string(), "a sequence of musical notes in ascending or descending order".to_string());
+                tree.insert("subtopics".to_string(), "major scales, minor scales, modes → chromatic, pentatonic, blues scales → scale degrees, intervals → tonic, dominant, subdominant functions".to_string());
+            }
             
             // Science hierarchy: Science -> Physics -> Quantum → Particles → Quarks → Color Charge...
             "science" => {
@@ -506,12 +522,29 @@ impl EnhancedTinyLlama {
                 tree.insert("definition".to_string(), "deep affection and emotional connection between beings".to_string());
                 tree.insert("subtopics".to_string(), "romantic love, familial love, friendship → attachment theory, neurochemistry → oxytocin, dopamine, serotonin → bonding mechanisms, evolutionary psychology".to_string());
             }
+            "universe" => {
+                tree.insert("definition".to_string(), "all existing matter, energy, space, and time as a unified whole".to_string());
+                tree.insert("subtopics".to_string(), "cosmology, big bang theory, expansion → galaxies, stars, planets → dark matter, dark energy → quantum fields, spacetime curvature".to_string());
+            }
+            "quantum" => {
+                tree.insert("definition".to_string(), "the smallest discrete units of energy and matter at the subatomic level".to_string());
+                tree.insert("subtopics".to_string(), "quantum mechanics, quantum fields, quantum entanglement → wave-particle duality, uncertainty principle → superposition, quantum tunneling → quantum computing, quantum gravity".to_string());
+            }
             
             // Add more hierarchical topics dynamically...
             _ => {
-                // Dynamic topic generation - this is where we'd connect to real knowledge base
-                tree.insert("definition".to_string(), format!("a concept I'm still learning about"));
-                tree.insert("subtopics".to_string(), "philosophy, science, art, mathematics - explore these established knowledge trees".to_string());
+                // Check if it's a related musical term
+                if topic.contains("music") || topic.contains("sound") || topic.contains("note") || topic.contains("rhythm") {
+                    tree.insert("definition".to_string(), format!("a musical concept related to the art of organizing sounds"));
+                    tree.insert("subtopics".to_string(), "music, melody, harmony, rhythm - start with these core musical concepts".to_string());
+                } else if topic.contains("quantum") || topic.contains("physics") || topic.contains("field") {
+                    tree.insert("definition".to_string(), format!("a physics concept related to the fundamental nature of reality"));
+                    tree.insert("subtopics".to_string(), "physics, quantum, universe - explore these physics knowledge trees".to_string());
+                } else {
+                    // Dynamic topic generation - this is where we'd connect to real knowledge base
+                    tree.insert("definition".to_string(), format!("a concept I'm still learning about"));
+                    tree.insert("subtopics".to_string(), "philosophy, science, art, mathematics - explore these established knowledge trees".to_string());
+                }
             }
         }
         
