@@ -9,11 +9,14 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use crate::router::AppState;
 use think_ai_knowledge::response_generator::ComponentResponseGenerator;
+use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
 pub struct ChatRequest {
     #[serde(alias = "message")]
     query: String,
+    #[serde(default)]
+    session_id: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -29,9 +32,24 @@ pub async fn chat(
 ) -> Result<Json<ChatResponse>, StatusCode> {
     let query = request.query.trim();
     
-    // Use ComponentResponseGenerator with Turing test conversational components
-    let response_generator = ComponentResponseGenerator::new(state.knowledge_engine.clone());
-    let response = response_generator.generate_response(query);
+    // Use ComponentResponseGenerator with conversation memory for long-term context
+    let response_generator = ComponentResponseGenerator::new_with_memory(
+        state.knowledge_engine.clone(),
+        state.conversation_memory.clone()
+    );
+    
+    // Get memory stats to see recent turns for context
+    let memory_stats = state.conversation_memory.get_stats();
+    let previous_response = if memory_stats.total_turns > 0 {
+        // For now, we'll pass None since we need to refactor to get the last response
+        // This will be improved when we add session-based memory tracking
+        None
+    } else {
+        None
+    };
+    
+    // Generate response with memory context
+    let response = response_generator.generate_response_with_memory(query, previous_response);
     
     Ok(Json(ChatResponse {
         response,

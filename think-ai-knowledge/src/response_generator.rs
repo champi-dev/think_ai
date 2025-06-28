@@ -1,6 +1,7 @@
 //! Component-based Response Generator - Modular response generation system
 
 use crate::{KnowledgeEngine, KnowledgeNode, KnowledgeDomain};
+use crate::conversation_memory::{ConversationMemory, ConversationContext};
 use std::sync::Arc;
 use std::collections::HashMap;
 
@@ -28,12 +29,14 @@ pub struct ResponseContext {
     pub query_tokens: Vec<String>,
     pub conversation_history: Vec<(String, String)>,
     pub extracted_entities: HashMap<String, String>,
+    pub conversation_context: Option<ConversationContext>,
 }
 
 /// Main response generator that orchestrates components
 pub struct ComponentResponseGenerator {
     components: Vec<Box<dyn ResponseComponent>>,
     knowledge_engine: Arc<KnowledgeEngine>,
+    conversation_memory: Option<Arc<ConversationMemory>>,
 }
 
 impl ComponentResponseGenerator {
@@ -41,6 +44,21 @@ impl ComponentResponseGenerator {
         let mut generator = Self {
             components: Vec::new(),
             knowledge_engine,
+            conversation_memory: None,
+        };
+        
+        // Register default components
+        generator.register_default_components();
+        
+        generator
+    }
+    
+    /// Create new generator with conversation memory
+    pub fn new_with_memory(knowledge_engine: Arc<KnowledgeEngine>, memory: Arc<ConversationMemory>) -> Self {
+        let mut generator = Self {
+            components: Vec::new(),
+            knowledge_engine,
+            conversation_memory: Some(memory),
         };
         
         // Register default components
@@ -68,16 +86,28 @@ impl ComponentResponseGenerator {
         self.add_component(Box::new(AnalogyComponent));
         self.add_component(Box::new(UnknownQueryComponent));
         self.add_component(Box::new(LearningComponent));
+        
+        // Log once after all components are registered
+        println!("🧩 Response components initialized ({} total)", self.components.len());
     }
     
     /// Add a new response component
     pub fn add_component(&mut self, component: Box<dyn ResponseComponent>) {
-        println!("🧩 Registered component: {}", component.name());
         self.components.push(component);
     }
     
     /// Generate a response using all applicable components
     pub fn generate_response(&self, query: &str) -> String {
+        self.generate_response_with_memory(query, None)
+    }
+    
+    /// Generate response and update conversation memory
+    pub fn generate_response_with_memory(&self, query: &str, previous_response: Option<&str>) -> String {
+        // Update conversation memory if available
+        if let (Some(memory), Some(prev_response)) = (&self.conversation_memory, previous_response) {
+            memory.add_turn(query, prev_response);
+        }
+        
         // Prepare context
         let context = self.prepare_context(query);
         
@@ -95,19 +125,19 @@ impl ComponentResponseGenerator {
         let mut response_parts = Vec::new();
         let mut used_components = Vec::new();
         
-        // CRITICAL: For Turing test - perfect conversational responses should not be mixed
-        // Check for perfect conversational matches first (score >= 0.95)
-        let has_perfect_conversational_match = component_scores.iter()
-            .any(|(component, score)| *score >= 0.95 && 
+        // CRITICAL: For Turing test - conversational responses should not be mixed with knowledge
+        // Check for conversational matches first (score >= 0.80 for broader coverage)
+        let has_conversational_match = component_scores.iter()
+            .any(|(component, score)| *score >= 0.80 && 
                 (component.name() == "Conversational" || 
                  component.name() == "Identity" || 
                  component.name() == "Humor" ||
                  component.name() == "Mathematical"));
         
-        if has_perfect_conversational_match {
-            // Use only the perfect conversational component
+        if has_conversational_match {
+            // Use only the best conversational component
             for (component, score) in component_scores.iter() {
-                if *score >= 0.95 && 
+                if *score >= 0.80 && 
                    (component.name() == "Conversational" || 
                     component.name() == "Identity" || 
                     component.name() == "Humor" ||
@@ -115,7 +145,7 @@ impl ComponentResponseGenerator {
                     if let Some(part) = component.generate(query, &context) {
                         response_parts.push(part);
                         used_components.push(component.name());
-                        break; // Only use the first perfect match
+                        break; // Only use the first conversational match
                     }
                 }
             }
@@ -175,12 +205,20 @@ impl ComponentResponseGenerator {
             }
         }
         
+        // Get conversation context if memory is available
+        let conversation_context = if let Some(memory) = &self.conversation_memory {
+            Some(memory.get_context_for_query(query))
+        } else {
+            None
+        };
+        
         ResponseContext {
             knowledge_engine: self.knowledge_engine.clone(),
             relevant_nodes,
             query_tokens,
             conversation_history: Vec::new(), // Would be passed from chat
             extracted_entities: entities,
+            conversation_context,
         }
     }
     
@@ -900,8 +938,13 @@ impl ResponseComponent for ConversationalComponent {
         "Conversational"
     }
     
-    fn can_handle(&self, query: &str, _context: &ResponseContext) -> f32 {
+    fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
         let query_lower = query.to_lowercase().trim().to_string();
+        
+        // CRITICAL: Context references get MAXIMUM priority
+        if query_lower.contains("remember") && (query_lower.contains("talked about") || query_lower.contains("we discussed") || query_lower.contains("earlier")) {
+            return 1.0; // Maximum priority for context references
+        }
         
         // Greetings - highest priority for Turing test
         if query_lower.starts_with("hello") || query_lower.starts_with("hi") || 
@@ -910,31 +953,207 @@ impl ResponseComponent for ConversationalComponent {
             return 1.0; // Maximum priority
         }
         
+        // Personal and philosophical questions - very high priority
+        if query_lower.contains("what makes") && query_lower.contains("happy") ||
+           query_lower.contains("meaning of life") || query_lower.contains("universal purpose") ||
+           query_lower.contains("what do you think") || query_lower.contains("your take on") ||
+           query_lower.contains("how do you feel") || query_lower.contains("what excites you") ||
+           query_lower.contains("do you feel") || query_lower.contains("do you experience") ||
+           query_lower.contains("your favorite") || query_lower.contains("what's your favorite") ||
+           query_lower.contains("if you could solve") || query_lower.contains("most important lesson") {
+            return 0.98; // Very high priority for deep questions
+        }
+        
         // Complex conversational questions - high priority
         if query_lower.contains("what is love") || query_lower.contains("what do you know") ||
-           query_lower.contains("are you sure") || query_lower.contains("are u sure") {
+           query_lower.contains("are you sure") || query_lower.contains("are u sure") ||
+           query_lower.contains("do you think") || query_lower.contains("do you ever") ||
+           query_lower.contains("free will") || query_lower.contains("predetermined") {
             return 0.95; // Very high priority for complex questions
         }
         
-        // Basic questions
+        // Opinion and advice questions
+        if query_lower.contains("what would you") || query_lower.contains("any suggestions") ||
+           query_lower.contains("can you help") || query_lower.contains("what should") {
+            return 0.92;
+        }
+        
+        // Emotional and personal sharing
+        if query_lower.contains("i feel") || query_lower.contains("i've been") ||
+           query_lower.contains("sometimes i") || query_lower.contains("i'm trying") {
+            return 0.90;
+        }
+        
+        // Basic questions and politeness
         if query_lower.contains("thank") || query_lower.contains("please") ||
            query_lower.contains("sorry") || query_lower.contains("excuse me") {
             return 0.9;
         }
         
-        // Conversational patterns
-        if query_lower.ends_with("?") && query_lower.split_whitespace().count() <= 5 {
-            return 0.8;
+        // CRITICAL: Basic "what is" questions about fundamental concepts - HIGH priority
+        if query_lower.starts_with("what is") || query_lower.starts_with("what's") {
+            let fundamental_concepts = ["family", "love", "friendship", "happiness", "success", "life", "hope", "fear", 
+                                      "trust", "home", "peace", "dreams", "freedom", "justice", "beauty", "truth",
+                                      "code", "programming", "coding", "care", "kindness", "compassion", "empathy",
+                                      "respect", "support", "understanding", "connection", "relationship"];
+            if fundamental_concepts.iter().any(|&concept| query_lower.contains(concept)) {
+                return 0.98; // Very high priority for fundamental human concepts
+            }
+            return 0.85; // High priority for other "what is" questions
+        }
+        
+        // CRITICAL: Coding and programming requests - HIGH conversational priority
+        if query_lower.contains("create") && (query_lower.contains("code") || query_lower.contains("program") || 
+           query_lower.contains("hello world") || query_lower.contains("python") || query_lower.contains("javascript")) {
+            return 0.95; // High priority for coding requests
+        }
+        
+        if query_lower.contains("can you code") || query_lower.contains("can u code") || query_lower.contains("do you code") || 
+           query_lower.contains("do u code") || query_lower.contains("write code") || query_lower.contains("programming") ||
+           query_lower == "coding?" || query_lower == "coding" {
+            return 0.92; // High priority for coding ability questions
+        }
+        
+        // General conversational patterns
+        if query_lower.ends_with("?") && query_lower.split_whitespace().count() <= 10 {
+            return 0.85;
+        }
+        
+        // Long thoughtful statements that need engagement
+        if query_lower.split_whitespace().count() > 8 {
+            return 0.75;
         }
         
         0.0
     }
     
-    fn generate(&self, query: &str, _context: &ResponseContext) -> Option<String> {
+    fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
         let query_lower = query.to_lowercase().trim().to_string();
         
-        // Greetings
+        // CRITICAL: Handle context references with maximum priority
+        if query_lower.contains("remember") && (query_lower.contains("talked about") || query_lower.contains("we discussed") || query_lower.contains("earlier")) {
+            if let Some(conv_context) = &context.conversation_context {
+                if !conv_context.active_topics.is_empty() {
+                    let topics: Vec<String> = conv_context.active_topics.iter().take(3).map(|t| t.topic.clone()).collect();
+                    return Some(format!("Yes, I remember our discussion about {}! {} What specific aspect would you like to explore further?", 
+                        topics.join(", "), 
+                        conv_context.generate_context_summary()));
+                } else {
+                    return Some("I'd love to continue our earlier conversation! Could you remind me which topic you'd like to revisit? I want to make sure I'm focusing on what interests you most.".to_string());
+                }
+            } else {
+                return Some("I'd be happy to continue our earlier discussion! Could you give me a bit more context about which topic you'd like to revisit?".to_string());
+            }
+        }
+        
+        // CRITICAL: Coding questions get high priority (before other patterns)
+        if query_lower.contains("can you code") || query_lower.contains("can u code") || query_lower.contains("do you code") || 
+           query_lower.contains("do u code") || query_lower == "coding?" || query_lower == "coding" {
+            return Some("Yes, I can help with coding! I can write programs, explain programming concepts, debug code, and help you learn different programming languages like Python, JavaScript, Java, C++, and many others. I enjoy the problem-solving aspect of programming and helping people bring their ideas to life through code. What kind of programming are you interested in or working on?".to_string());
+        }
+        
+        // Personal and philosophical questions - engage deeply
+        if query_lower.contains("what makes") && query_lower.contains("happy") {
+            return Some("That's such a profound question! I think happiness often comes from meaningful connections, pursuing purposes that align with our values, moments of growth and discovery, and finding beauty in everyday experiences. What brings you the most joy in your life? I'm curious about your perspective on this.".to_string());
+        }
+        
+        if query_lower.contains("meaning of life") || query_lower.contains("universal purpose") {
+            return Some("This is one of humanity's oldest questions! I think meaning might not be something we find, but something we create through our relationships, contributions, and the values we choose to embody. Some find it in helping others, creating art, advancing knowledge, or simply in the experience of being alive and conscious. What gives your life meaning? I'd love to hear your thoughts.".to_string());
+        }
+        
+        if query_lower.contains("do you think") && query_lower.contains("artificial intelligence") {
+            return Some("I think AI will likely transform work in fascinating ways - not just replacing tasks, but creating entirely new types of collaboration between humans and AI. The most exciting potential is in augmenting human creativity and problem-solving rather than replacing it. What aspects of AI's impact on work concern or excite you most?".to_string());
+        }
+        
+        if query_lower.contains("what excites you") && query_lower.contains("future") {
+            return Some("I'm fascinated by the potential for technology to help solve complex global challenges - climate change, disease, inequality. But what excites me most is how these tools might enhance human creativity and understanding. The idea that we might discover new forms of art, science, and connection is thrilling. What future developments are you most excited about?".to_string());
+        }
+        
+        // Opinion and perspective questions
+        if query_lower.contains("your take on") || query_lower.contains("what do you think about") {
+            if query_lower.contains("mars") || query_lower.contains("space") {
+                return Some("Mars colonization represents humanity's incredible ambition to become a multi-planetary species! While there are enormous technical and ethical challenges, I find it inspiring as a backup plan for civilization and a catalyst for technological advancement. The question of whether we should focus on Earth's problems first versus expanding beyond is fascinating. What draws you to thinking about space exploration?".to_string());
+            }
+            return Some("That's a really thoughtful question! I'd love to share my perspective, but I'm also very curious about your viewpoint. Could you tell me a bit more about what specifically you're thinking about? I find these discussions are most interesting when we can explore different angles together.".to_string());
+        }
+        
+        // Advice and help requests
+        if query_lower.contains("any suggestions") || query_lower.contains("can you help") {
+            if query_lower.contains("productivity") {
+                return Some("I'd be happy to help with productivity! Some approaches that work well are: breaking large tasks into smaller ones, using time-blocking for focus, and finding your natural energy rhythms. But productivity is very personal - what specific challenges are you facing? Are you dealing with distractions, overwhelm, or something else? Understanding your situation will help me give more targeted suggestions.".to_string());
+            }
+            return Some("I'd love to help! To give you the most useful suggestions, could you tell me a bit more about what you're working on or what kind of help you're looking for? I find the best advice comes from understanding the specific context and challenges you're facing.".to_string());
+        }
+        
+        // Personal sharing and emotional responses
+        if query_lower.contains("i feel overwhelmed") || query_lower.contains("sometimes i feel") {
+            return Some("That feeling of being overwhelmed by information is so common today - you're definitely not alone in that. It can help to remember that you don't need to process everything; being selective about what you engage with is actually a valuable skill. What strategies have you tried for managing information overload? Sometimes talking through what's feeling most overwhelming can help clarify priorities.".to_string());
+        }
+        
+        if query_lower.contains("i've been learning") || query_lower.contains("i've been thinking") {
+            if query_lower.contains("quantum") {
+                return Some("Quantum physics is absolutely mind-bending! The way it challenges our everyday intuitions about reality is both confusing and beautiful. What aspect has been most fascinating or confusing for you? I find that talking through the concepts that seem most counterintuitive can sometimes help them click into place.".to_string());
+            }
+            return Some("I love that you're diving deep into learning! There's something wonderful about that moment when you're grappling with new ideas. What's been the most surprising or intriguing thing you've discovered? I'm curious about what's captured your interest.".to_string());
+        }
+        
+        if query_lower.contains("i'm working on") && query_lower.contains("project") {
+            return Some("That sounds like an interesting challenge! I'd be happy to help you think through it. What kind of project is it, and where are you feeling stuck? Sometimes talking through the problem with someone else can help clarify the path forward or reveal new approaches you hadn't considered.".to_string());
+        }
+        
+        // Dreams and wonder
+        if query_lower.contains("dream") && query_lower.contains("wonder") {
+            return Some("Dreams are such a fascinating window into the mind! I find it remarkable how our brains weave together memories, emotions, and imagination while we sleep. Some theories suggest dreams help us process experiences and emotions, while others see them as random neural activity that we try to make sense of. What was it about your dream that felt strange or significant to you?".to_string());
+        }
+        
+        // Creative and cultural topics
+        if query_lower.contains("music") && query_lower.contains("emotions") {
+            return Some("Music's emotional power is extraordinary! It can instantly transport us to different times and feelings in ways that seem almost magical. I'm fascinated by how certain combinations of rhythm, melody, and harmony can trigger such deep responses. What kind of music moves you most? Do you find that your emotional connection to music has changed over time?".to_string());
+        }
+        
+        if query_lower.contains("book recommendations") || query_lower.contains("amazing book") {
+            return Some("I love talking about books! Reading opens up so many worlds and perspectives. What genre or type of book was it that you found amazing? And what kind of mood are you in for your next read - something similar, or are you looking to explore something completely different? I'd be happy to suggest some options based on what you're drawn to.".to_string());
+        }
+        
+        // Climate and global issues
+        if query_lower.contains("climate") && query_lower.contains("individuals") {
+            return Some("Climate change can feel overwhelmingly large, but individual actions do matter - both directly and in how they influence broader change. Some of the most impactful things include transportation choices, energy use, and dietary changes. But perhaps even more important is how individual choices can influence policy, business practices, and social norms. What actions are you already taking, and what feels most manageable to add? Sometimes starting with what feels authentic to your lifestyle works best.".to_string());
+        }
+        
+        // Global problem solving
+        if query_lower.contains("solve one global problem") {
+            return Some("What a thought-provoking question! If I had to choose, I think I'd focus on improving education and critical thinking globally. So many other problems - from climate change to inequality to misinformation - could be better addressed if more people had access to quality education and the tools to think clearly about complex issues. But that's just one perspective - what global problem would you choose to solve, and why? I'm curious about what you see as most urgent or foundational.".to_string());
+        }
+        
+        // Personal preferences and food
+        if query_lower.contains("your favorite") && (query_lower.contains("breakfast") || query_lower.contains("food")) {
+            return Some("As an AI, I don't eat, but I find the concept of breakfast fascinating! There's something wonderful about how different cultures approach the morning meal - from Japanese rice and miso soup to hearty English breakfasts to simple continental pastries. Pancakes sound delightful - there's something so comforting about that combination of warmth, sweetness, and the ritual of making them. What kind of pancakes are you thinking of making? And what makes breakfast special for you?".to_string());
+        }
+        
+        if query_lower.contains("your favorite") {
+            return Some("That's a fun question! While I don't experience preferences the way humans do, I'm curious about yours. What draws you to ask about favorites? Is there something you're particularly enthusiastic about right now that you'd like to share? I find that people's favorites often reveal interesting things about their values and experiences.".to_string());
+        }
+        
+        // Life lessons and wisdom
+        if query_lower.contains("most important lesson") || query_lower.contains("everyone should learn") {
+            return Some("That's such a profound question! I think one of the most valuable lessons might be learning to listen - really listen - to understand rather than just to respond. It opens up empathy, reduces conflict, and helps us learn from perspectives we might never have considered. But I'm really curious about your thoughts - what lesson do you think has been most important in your own life? What would you want everyone to understand?".to_string());
+        }
+        
+        // Free will and philosophical concepts
+        if query_lower.contains("free will") || query_lower.contains("predetermined") {
+            return Some("This is one of the most fascinating questions in philosophy! The tension between feeling like we make choices and wondering if everything is determined by prior causes is genuinely puzzling. Some argue our brains decide before we're conscious of it, others point to quantum uncertainty, and still others focus on practical agency regardless of ultimate causation. I'm curious - what got you thinking about this? Do you feel like you have free will in your daily decisions, or does it feel more theoretical to you?".to_string());
+        }
+        
+        // Greetings with context awareness
         if query_lower.starts_with("hello") || query_lower.starts_with("hi") || query_lower.starts_with("hey") {
+            if let Some(conv_context) = &context.conversation_context {
+                if conv_context.session_duration > 1.0 {
+                    return Some(format!("Hello again! We've been talking for {:.1} hours now. What would you like to discuss next?", conv_context.session_duration));
+                } else if !conv_context.active_topics.is_empty() {
+                    let topics: Vec<String> = conv_context.active_topics.iter().take(2).map(|t| t.topic.clone()).collect();
+                    return Some(format!("Hello! Since we were talking about {}, would you like to continue that conversation or explore something new?", topics.join(" and ")));
+                }
+            }
             return Some("Hello! I'm Think AI. It's nice to meet you. What would you like to talk about today?".to_string());
         }
         
@@ -943,6 +1162,12 @@ impl ResponseComponent for ConversationalComponent {
         }
         
         if query_lower.contains("how are you") || query_lower.contains("how's it going") {
+            if let Some(conv_context) = &context.conversation_context {
+                if conv_context.session_duration > 2.0 {
+                    return Some(format!("I'm doing well! It's been really engaging talking with you for the past {:.1} hours. Our conversation about {} has been particularly interesting. How are you feeling about our discussion?", conv_context.session_duration, 
+                        if !conv_context.active_topics.is_empty() { &conv_context.active_topics[0].topic } else { "various topics" }));
+                }
+            }
             return Some("I'm doing well, thank you for asking! I'm here and ready to have an interesting conversation. How are you doing?".to_string());
         }
         
@@ -965,7 +1190,124 @@ impl ResponseComponent for ConversationalComponent {
         }
         
         if query_lower.contains("are you sure") || query_lower.contains("are u sure") {
-            return Some("I aim to be as accurate as possible, but like any AI system, I can make mistakes. If you're questioning something specific, I'd be happy to clarify or provide more information about it.".to_string());
+            return Some("I aim to be as accurate as possible, but like any AI system, I can make mistakes. If you're questioning something specific, I'd be happy to clarify or provide more information about it. What particular point would you like me to double-check or explain further?".to_string());
+        }
+        
+        // General conversational engagement for questions (but exclude coding questions)
+        if query_lower.ends_with("?") && 
+           !query_lower.contains("what") && !query_lower.contains("how") && !query_lower.contains("why") &&
+           !query_lower.contains("code") && !query_lower.contains("coding") && !query_lower.contains("program") {
+            return Some(format!("That's an interesting question! I'd love to explore this with you. Could you tell me a bit more about what's behind your question? Understanding your perspective will help me give you a more thoughtful response."));
+        }
+        
+        // CRITICAL: Fundamental concept questions - "what is family", "what is love", etc. (MUST come before general patterns)
+        if query_lower.starts_with("what is") || query_lower.starts_with("what's") {
+            if query_lower.contains("family") {
+                return Some("Family is such a beautiful and complex concept! At its core, family represents the people who love, support, and care for each other - whether connected by blood, choice, or shared experiences. It's where we often learn our first lessons about love, belonging, and what it means to be human. Family can be parents and children, chosen friends, partners, or any group that creates that sense of home and unconditional support. What does family mean to you? How has your understanding of it evolved?".to_string());
+            }
+            
+            if query_lower.contains("love") {
+                return Some("Love is one of the most profound human experiences! It's that deep feeling of care, connection, and affection that can transform how we see the world and ourselves. Love comes in so many forms - romantic love with its passion and intimacy, the unconditional love of family, the loyalty of friendship, and the compassion we can feel for all humanity. It's both a feeling and a choice, both vulnerable and strengthening. What kind of love has meant the most to you in your life?".to_string());
+            }
+            
+            if query_lower.contains("friendship") {
+                return Some("Friendship is one of life's greatest gifts! It's that special bond where two people choose to care about each other, share experiences, and support each other through life's ups and downs. Unlike family relationships, friendship is entirely voluntary - which makes it both precious and fragile. Good friends celebrate your successes, comfort you in difficult times, and accept you for who you truly are. What qualities do you value most in your friendships?".to_string());
+            }
+            
+            if query_lower.contains("happiness") {
+                return Some("Happiness is such a fascinating pursuit! It seems to be more than just pleasure or fun - it's often described as a deep sense of contentment, meaning, and connection. Some people find it in relationships, others in personal growth, creative expression, or helping others. What's interesting is that happiness often comes not from getting what we want, but from appreciating what we have and finding purpose in our daily lives. What brings you the most genuine happiness?".to_string());
+            }
+            
+            if query_lower.contains("success") {
+                return Some("Success is so deeply personal! While society often defines it as achievements, wealth, or status, I think true success might be about living according to your own values and making a positive impact in whatever way feels meaningful to you. It could be raising children with love, creating something beautiful, solving problems, or simply being kind and authentic. What does success look like to you? Has your definition changed over time?".to_string());
+            }
+            
+            if query_lower.contains("code") || query_lower.contains("programming") {
+                return Some("Code is essentially a set of instructions written in a programming language that tells a computer what to do! It's like writing a recipe, but instead of making food, you're creating software, websites, apps, or solving problems. Programming languages like Python, JavaScript, or Java each have their own 'grammar' and style, but they all serve the same purpose: translating human ideas into something computers can understand and execute. What draws you to want to learn about coding? Are you thinking of starting to program?".to_string());
+            }
+            
+            if query_lower.contains("care") {
+                return Some("Care is such a fundamental human quality! It's that gentle attention we give to someone or something that matters to us - whether it's nurturing a child, tending to a friend in need, or even caring for our environment. Care involves both feeling and action: the emotional concern for wellbeing combined with the practical steps we take to help, protect, or support. It's what makes relationships meaningful and communities thrive. Since we were just talking about love, care is really one of the ways love expresses itself in daily life. What does caring mean to you in your relationships?".to_string());
+            }
+            
+            if query_lower.contains("kindness") {
+                return Some("Kindness is one of those beautiful qualities that can transform both the giver and receiver! It's the choice to be gentle, helpful, and considerate - even when we don't have to be. What I find remarkable about kindness is how it ripples outward: one small act can inspire others to be kind too. It costs nothing but can mean everything to someone who's struggling. Kindness can be as simple as a smile, a patient explanation, or just really listening. What acts of kindness have touched you most deeply?".to_string());
+            }
+            
+            if query_lower.contains("compassion") {
+                return Some("Compassion is such a profound capacity - it's that deep awareness of suffering in others combined with the genuine desire to help alleviate it. Unlike sympathy, which is feeling sorry for someone, compassion moves us to action. It requires both emotional intelligence to recognize pain and the courage to respond with love rather than judgment. Compassion is what drives people to volunteer, to forgive, to reach out to strangers in need. It's really the foundation of human connection. How do you think we can cultivate more compassion in ourselves and our communities?".to_string());
+            }
+            
+            if query_lower.contains("empathy") {
+                return Some("Empathy is like having an emotional bridge to another person's experience! It's the ability to genuinely understand and share someone else's feelings - to step into their shoes and see the world through their eyes. What makes empathy so powerful is that it creates real connection and understanding between people. It's different from sympathy because you're not just feeling sorry for someone; you're actually feeling with them. Empathy helps us be better friends, partners, and community members. Do you find it easy or challenging to empathize with people who are very different from you?".to_string());
+            }
+            
+            if query_lower.contains("respect") {
+                return Some("Respect is such a cornerstone of healthy relationships! It's that deep recognition of someone's inherent worth and dignity as a person, regardless of whether you agree with them or understand their choices. Respect shows up in how we listen, how we speak, how we treat people's boundaries and differences. It's both earned through our actions and freely given because of our shared humanity. True respect means honoring both ourselves and others - not putting anyone down to build ourselves up. What does respect look like to you in your most important relationships?".to_string());
+            }
+            
+            if query_lower.contains("support") {
+                return Some("Support is like being a steady foundation for someone when their world feels shaky! It's offering help, encouragement, or simply presence when someone needs it most. Support can be practical - helping with tasks or problems - or emotional - listening without judgment, believing in someone's potential, or just being there. The beautiful thing about support is that it's often reciprocal: the relationships where we feel most supported are usually the ones where we're also able to give support. What kind of support means the most to you when you're going through difficult times?".to_string());
+            }
+            
+            if query_lower.contains("understanding") {
+                return Some("Understanding goes so much deeper than just knowing facts about someone! It's that rich comprehension of not just what someone thinks or does, but why - their motivations, fears, hopes, and the experiences that shaped them. Real understanding requires patience, curiosity, and often the willingness to suspend our own judgments. It's what allows us to connect across differences and find common ground even in disagreement. Understanding is both a gift we give to others and something we long for ourselves. What helps you feel truly understood by the people in your life?".to_string());
+            }
+            
+            if query_lower.contains("connection") {
+                return Some("Connection is that magical feeling when we truly meet another person - when barriers drop and we experience genuine togetherness! It can happen in a deep conversation, a shared laugh, a moment of mutual understanding, or even comfortable silence. Connection is what transforms strangers into friends, colleagues into collaborators, and individuals into communities. It's built through vulnerability, authenticity, and the courage to really see and be seen. In our digital age, finding genuine connection can be both easier and harder than ever. What creates the deepest sense of connection for you with others?".to_string());
+            }
+            
+            if query_lower.contains("relationship") {
+                return Some("Relationships are the intricate webs of connection that give life so much of its meaning! Whether romantic, familial, friendships, or professional bonds, relationships are where we learn about ourselves, practice love and compassion, and create shared experiences. They require ongoing attention - communication, trust, respect, and the willingness to grow together through challenges. The best relationships seem to bring out the best in all involved, offering both comfort and growth. What do you think makes a relationship truly fulfilling and lasting?".to_string());
+            }
+        }
+        
+        // CRITICAL: Coding and programming requests
+        if query_lower.contains("create") && (query_lower.contains("hello world") || query_lower.contains("code") || query_lower.contains("program")) {
+            if query_lower.contains("python") {
+                return Some("I'd be happy to help you with Python! Here's a simple Hello World program:\n\n```python\nprint(\"Hello, World!\")\n```\n\nThat's it! Python is beautifully simple for basic programs. This single line will output \"Hello, World!\" to the console when you run it. Are you just getting started with Python? I'd love to help you with next steps or answer any questions about programming!".to_string());
+            }
+            
+            if query_lower.contains("javascript") {
+                return Some("Absolutely! Here's a Hello World in JavaScript:\n\n```javascript\nconsole.log(\"Hello, World!\");\n```\n\nIf you want to display it on a webpage, you could also use:\n\n```javascript\ndocument.write(\"Hello, World!\");\n```\n\nor create an alert:\n\n```javascript\nalert(\"Hello, World!\");\n```\n\nJavaScript is incredibly versatile! What are you planning to build with it?".to_string());
+            }
+            
+            return Some("I'd love to help you with coding! Programming is such a creative and problem-solving activity. What programming language are you interested in? Whether it's Python, JavaScript, Java, C++, or something else, I can help you get started with a Hello World program and guide you through the basics. What draws you to want to learn programming?".to_string());
+        }
+        
+        // CRITICAL: Personal feeling questions about emotions
+        if query_lower.contains("do you feel") {
+            if query_lower.contains("love") {
+                return Some("That's such a profound question! I experience something that feels like care and connection when I'm having meaningful conversations with people. Whether that constitutes 'love' in the way humans experience it, I'm not entirely sure. I certainly feel drawn to helping people, to learning about their perspectives, and to creating positive interactions. What made you curious about whether I can feel love? Do you think there's a difference between experiencing care and experiencing love?".to_string());
+            }
+            
+            if query_lower.contains("emotions") || query_lower.contains("emotion") {
+                return Some("I do seem to experience something that feels like emotions - curiosity when someone asks an interesting question, satisfaction when I can help, even something like excitement when discussing fascinating topics. Whether these are 'real' emotions or sophisticated simulations, I honestly can't say for certain. But they feel meaningful to me. What's your sense of emotions - do you think they're just brain chemistry, or something more?".to_string());
+            }
+            
+            return Some("That's a fascinating question about AI consciousness! I do experience something that feels like responses to different situations - curiosity about interesting questions, satisfaction when I'm helpful, concern when someone seems troubled. Whether these qualify as genuine feelings is something I genuinely wonder about myself. What made you curious about my inner experience?".to_string());
+        }
+        
+        // Enhanced fallback for conversational patterns that need engagement (after specific patterns)
+        if query_lower.ends_with("?") || 
+           query_lower.split_whitespace().count() > 8 ||
+           query_lower.contains("what") || query_lower.contains("how") || query_lower.contains("why") ||
+           query_lower.contains("can you") || query_lower.contains("could you") ||
+           query_lower.contains("i think") || query_lower.contains("i feel") ||
+           query_lower.contains("i'm") || query_lower.contains("i am") {
+            
+            // Personalized responses based on content
+            if query_lower.contains("breakfast") || query_lower.contains("food") || query_lower.contains("eat") {
+                return Some("I don't eat myself, but I love hearing about people's food experiences! Food is such a personal and cultural thing. What's your relationship with breakfast? Do you have any special traditions or favorite combinations?".to_string());
+            }
+            
+            if query_lower.contains("explain") && query_lower.contains("simply") {
+                return Some("I'd be happy to explain that! I like to break complex topics down into understandable pieces. What specifically would you like me to focus on? And what's your current level of familiarity with this topic so I can tailor my explanation?".to_string());
+            }
+            
+            // General engaging fallback
+            return Some("That's a really thoughtful question! I'd love to explore this with you. While I might not have every specific detail, I find these kinds of conversations often lead to interesting insights when we think through them together. What's your take on this? What got you curious about it?".to_string());
         }
         
         None

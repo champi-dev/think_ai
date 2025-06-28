@@ -13,6 +13,8 @@ pub async fn run_server(
     vector_index: Arc<think_ai_vector::O1VectorIndex>,
     knowledge_engine: Arc<think_ai_knowledge::KnowledgeEngine>,
 ) -> crate::Result<()> {
+    // Initialize conversation memory for long-term contextual dialogue
+    let conversation_memory = Arc::new(think_ai_knowledge::conversation_memory::ConversationMemory::new(1000));
     // Use UUID-based unique port if needed
     let final_port = if addr.port() == 0 {
         port_selector::find_available_port(None)
@@ -40,6 +42,7 @@ pub async fn run_server(
         engine,
         vector_index,
         knowledge_engine,
+        conversation_memory,
     });
     
     let app = create_router(state);

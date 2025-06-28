@@ -22,6 +22,7 @@ pub mod llm_benchmarks;
 pub mod benchmark_trainer;
 pub mod o1_benchmark_monitor;
 pub mod automated_benchmark_runner;
+pub mod conversation_memory;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};

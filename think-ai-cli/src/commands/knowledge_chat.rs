@@ -7,7 +7,8 @@ use think_ai_knowledge::{
     response_generator::ComponentResponseGenerator,
     intelligent_response_selector::{IntelligentResponseSelector, ResponseSource},
     tinyllama_knowledge_builder::TinyLlamaKnowledgeBuilder,
-    self_evaluator::SelfEvaluator
+    self_evaluator::SelfEvaluator,
+    conversation_memory::ConversationMemory
 };
 use think_ai_tinyllama::TinyLlamaClient;
 use std::io::Write;
@@ -20,6 +21,7 @@ pub struct KnowledgeChat {
     intelligent_selector: Arc<IntelligentResponseSelector>,
     tinyllama_builder: Arc<TinyLlamaKnowledgeBuilder>,
     self_evaluator: Arc<SelfEvaluator>,
+    conversation_memory: Arc<ConversationMemory>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
 }
 
@@ -63,7 +65,13 @@ impl KnowledgeChat {
             stats.domain_distribution.len()
         );
         
-        let response_generator = Arc::new(ComponentResponseGenerator::new(engine.clone()));
+        // Initialize conversation memory for long-term contextual dialogue
+        let conversation_memory = Arc::new(ConversationMemory::new(1000));
+        
+        let response_generator = Arc::new(ComponentResponseGenerator::new_with_memory(
+            engine.clone(),
+            conversation_memory.clone()
+        ));
         let intelligent_selector = Arc::new(IntelligentResponseSelector::new(
             engine.clone(),
             response_generator.clone()
@@ -82,6 +90,7 @@ impl KnowledgeChat {
             intelligent_selector,
             tinyllama_builder,
             self_evaluator,
+            conversation_memory,
             conversation_history: Vec::new(),
         };
         
@@ -112,7 +121,10 @@ impl KnowledgeChat {
         let response = self.generate_response(&contextualized_query).await;
         let elapsed = start.elapsed().as_secs_f64() * 1000.0;
         
-        // Store in conversation history
+        // Store in conversation memory for long-term context
+        self.conversation_memory.add_turn(query, &response);
+        
+        // Also keep in local history for backward compatibility
         self.conversation_history.push((query.to_string(), response.clone()));
         // Keep only last 10 exchanges
         if self.conversation_history.len() > 10 {
