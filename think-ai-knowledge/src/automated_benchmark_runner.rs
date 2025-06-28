@@ -148,12 +148,12 @@ impl AutomatedBenchmarkRunner {
 
     /// Main automation loop
     async fn run_automation_loop(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        let mut interval = interval(self.config.evaluation_interval);
+        let mut eval_interval = interval(self.config.evaluation_interval);
         let mut daily_reset_interval = interval(Duration::from_secs(24 * 3600)); // Daily reset
 
         loop {
             tokio::select! {
-                _ = interval.tick() => {
+                _ = eval_interval.tick() => {
                     if self.is_running {
                         self.run_evaluation_cycle().await?;
                     } else {

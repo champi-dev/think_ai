@@ -519,6 +519,7 @@ impl FeynmanExplanation {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::KnowledgeEngine;
 
     #[test]
     fn test_feynman_explainer_creation() {

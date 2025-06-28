@@ -611,11 +611,13 @@ impl LLMBenchmarkEvaluator {
     }
 
     fn evaluate_choice_relevance(&self, question: &str, choice: &str, knowledge_nodes: &[crate::KnowledgeNode]) -> f64 {
-        let mut score = 0.0;
+        let mut score: f64 = 0.0;
         
-        // Simple keyword matching and knowledge relevance
-        let question_words: Vec<&str> = question.to_lowercase().split_whitespace().collect();
-        let choice_words: Vec<&str> = choice.to_lowercase().split_whitespace().collect();
+        // Simple keyword matching and knowledge relevance (fix lifetime issue)
+        let question_lower = question.to_lowercase();
+        let choice_lower = choice.to_lowercase();
+        let question_words: Vec<&str> = question_lower.split_whitespace().collect();
+        let choice_words: Vec<&str> = choice_lower.split_whitespace().collect();
         
         // Check for exact matches
         for q_word in &question_words {
