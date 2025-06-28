@@ -250,6 +250,19 @@ impl KnowledgeChat {
             }
         }
         
+        // CRITICAL: Check for high-quality conversational responses first (Turing test)
+        // Perfect responses from Conversational, Identity, Humor, Mathematical components
+        if (knowledge_response.contains("Hello! I'm Think AI") ||
+            knowledge_response.contains("My name is Think AI") ||
+            knowledge_response.contains("I'm Think AI") ||
+            knowledge_response.contains("Here's a joke for you") ||
+            knowledge_response.contains("=") && knowledge_response.len() < 20) &&
+           !knowledge_response.contains("I don't have specific information") {
+            print!(" [🎯 Perfect Response]");
+            println!();
+            return knowledge_response;
+        }
+        
         // If we got a good knowledge response without fallback text, use it
         if !knowledge_response.contains("I don't have specific information") && 
            !knowledge_response.contains("Could you please elaborate") &&

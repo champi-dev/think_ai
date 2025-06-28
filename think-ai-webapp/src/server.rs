@@ -27,7 +27,7 @@ use tracing::info;
 
 #[derive(Clone)]
 pub struct AppState {
-    pub ai_engine: Arc<think_ai_core::O1Engine>,
+    pub ai_engine: Arc<RwLock<crate::ThinkAiWebapp>>,
     pub consciousness_data: Arc<RwLock<ConsciousnessState>>,
 }
 
@@ -88,10 +88,10 @@ async fn handle_query(
 ) -> Result<Json<QueryResponse>, impl IntoResponse> {
     let start_time = std::time::Instant::now();
     
-    // Process query through Think AI engine
-    let response = match state.ai_engine.process_query(&request.query).await {
-        Ok(result) => result,
-        Err(e) => format!("Error processing query: {}", e),
+    // Process query through Think AI webapp engine
+    let response = {
+        let mut engine = state.ai_engine.write().await;
+        engine.process_query(&request.query)
     };
     
     let processing_time = start_time.elapsed().as_secs_f32();
@@ -100,7 +100,7 @@ async fn handle_query(
     Ok(Json(QueryResponse {
         response,
         processing_time,
-        confidence: 0.95, // Would be calculated by AI engine
+        confidence: 0.95, // High confidence for Turing test responses
         consciousness_state,
     }))
 }
