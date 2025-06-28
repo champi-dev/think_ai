@@ -2,6 +2,8 @@
 
 use crate::{KnowledgeEngine, KnowledgeNode, KnowledgeDomain};
 use crate::conversation_memory::{ConversationMemory, ConversationContext};
+use crate::multilevel_response_component::MultiLevelResponseComponent;
+use crate::simple_cache_component::SimpleCacheComponent;
 use std::sync::Arc;
 use std::collections::HashMap;
 
@@ -69,7 +71,10 @@ impl ComponentResponseGenerator {
     
     /// Register all default components
     fn register_default_components(&mut self) {
-        // CRITICAL: Conversational component must come first for Turing test
+        // HIGHEST PRIORITY: Multi-level cache component for O(1) responses
+        self.add_component(Box::new(MultiLevelResponseComponent::new()));
+        
+        // CRITICAL: Conversational component second for Turing test fallback
         self.add_component(Box::new(ConversationalComponent));
         self.add_component(Box::new(IdentityComponent));
         self.add_component(Box::new(HumorComponent));
@@ -88,7 +93,7 @@ impl ComponentResponseGenerator {
         self.add_component(Box::new(LearningComponent));
         
         // Log once after all components are registered
-        println!("🧩 Response components initialized ({} total)", self.components.len());
+        println!("🧩 Response components initialized ({} total) - MultiLevel Cache enabled for O(1) responses", self.components.len());
     }
     
     /// Add a new response component
@@ -121,43 +126,72 @@ impl ComponentResponseGenerator {
         // Sort by score
         component_scores.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
         
+        // Log component scoring for debugging
+        println!("🔍 Component scoring for query: '{}'", query);
+        for (component, score) in &component_scores {
+            println!("   {} -> {:.2}", component.name(), score);
+        }
+        
         // Generate response from top components
         let mut response_parts = Vec::new();
         let mut used_components = Vec::new();
         
-        // CRITICAL: For Turing test - conversational responses should not be mixed with knowledge
-        // Check for conversational matches first (score >= 0.80 for broader coverage)
-        let has_conversational_match = component_scores.iter()
+        // CRITICAL: Cache components get HIGHEST priority and are exclusive
+        let has_cache_match = component_scores.iter()
             .any(|(component, score)| *score >= 0.80 && 
-                (component.name() == "Conversational" || 
-                 component.name() == "Identity" || 
-                 component.name() == "Humor" ||
-                 component.name() == "Mathematical"));
+                (component.name() == "SimpleCache" || 
+                 component.name() == "MultiLevelCache"));
         
-        if has_conversational_match {
-            // Use only the best conversational component
+        if has_cache_match {
+            // Use only the BEST cache component (highest score wins)
             for (component, score) in component_scores.iter() {
                 if *score >= 0.80 && 
-                   (component.name() == "Conversational" || 
-                    component.name() == "Identity" || 
-                    component.name() == "Humor" ||
-                    component.name() == "Mathematical") {
+                   (component.name() == "SimpleCache" || 
+                    component.name() == "MultiLevelCache") {
                     if let Some(part) = component.generate(query, &context) {
+                        println!("🎯 CACHE HIT: Using {} (score: {:.2})", component.name(), score);
                         response_parts.push(part);
                         used_components.push(component.name());
-                        break; // Only use the first conversational match
+                        break; // Only use the first cache match - NO combining!
                     }
                 }
             }
         } else {
-            // Normal multi-component logic for knowledge queries
-            for (component, score) in component_scores.iter() {
-                if *score > 0.5 && response_parts.len() < 2 {  // Max 2 parts for readability
-                    if let Some(part) = component.generate(query, &context) {
-                        // Skip if part is too similar to what we already have
-                        if !self.is_duplicate_content(&part, &response_parts) {
+            // Check for conversational matches next (score >= 0.80 for broader coverage)
+            let has_conversational_match = component_scores.iter()
+                .any(|(component, score)| *score >= 0.80 && 
+                    (component.name() == "Conversational" || 
+                     component.name() == "Identity" || 
+                     component.name() == "Humor" ||
+                     component.name() == "Mathematical"));
+            
+            if has_conversational_match {
+                // Use only the best conversational component
+                for (component, score) in component_scores.iter() {
+                    if *score >= 0.80 && 
+                       (component.name() == "Conversational" || 
+                        component.name() == "Identity" || 
+                        component.name() == "Humor" ||
+                        component.name() == "Mathematical") {
+                        if let Some(part) = component.generate(query, &context) {
+                            println!("🎯 USING COMPONENT: {} (score: {:.2})", component.name(), score);
                             response_parts.push(part);
                             used_components.push(component.name());
+                            break; // Only use the first conversational match
+                        }
+                    }
+                }
+            } else {
+                // Normal multi-component logic for knowledge queries
+                for (component, score) in component_scores.iter() {
+                    if *score > 0.5 && response_parts.len() < 2 {  // Max 2 parts for readability
+                        if let Some(part) = component.generate(query, &context) {
+                            // Skip if part is too similar to what we already have
+                            if !self.is_duplicate_content(&part, &response_parts) {
+                                println!("🎯 USING COMPONENT: {} (score: {:.2})", component.name(), score);
+                                response_parts.push(part);
+                                used_components.push(component.name());
+                            }
                         }
                     }
                 }
@@ -166,12 +200,20 @@ impl ComponentResponseGenerator {
         
         // If we got nothing or only weak matches, just use the best one
         if response_parts.is_empty() && !component_scores.is_empty() {
-            if let Some((component, _)) = component_scores.first() {
+            if let Some((component, score)) = component_scores.first() {
                 if let Some(part) = component.generate(query, &context) {
+                    println!("🎯 FALLBACK COMPONENT: {} (score: {:.2})", component.name(), score);
                     response_parts.push(part);
                     used_components.push(component.name());
                 }
             }
+        }
+        
+        // Log final component usage summary
+        if !used_components.is_empty() {
+            println!("✅ FINAL: Used components: {}", used_components.join(", "));
+        } else {
+            println!("❌ NO COMPONENTS GENERATED RESPONSES");
         }
         
         // Intelligently combine and refine
@@ -990,12 +1032,14 @@ impl ResponseComponent for ConversationalComponent {
             return 0.9;
         }
         
-        // CRITICAL: Basic "what is" questions about fundamental concepts - HIGH priority
-        if query_lower.starts_with("what is") || query_lower.starts_with("what's") {
+        // CRITICAL: Basic "what is/means" questions about fundamental concepts - HIGH priority
+        if query_lower.starts_with("what is") || query_lower.starts_with("what's") || 
+           query_lower.starts_with("what means") || query_lower.starts_with("what does") && query_lower.contains("mean") {
             let fundamental_concepts = ["family", "love", "friendship", "happiness", "success", "life", "hope", "fear", 
                                       "trust", "home", "peace", "dreams", "freedom", "justice", "beauty", "truth",
                                       "code", "programming", "coding", "care", "kindness", "compassion", "empathy",
-                                      "respect", "support", "understanding", "connection", "relationship"];
+                                      "respect", "support", "understanding", "connection", "relationship", "human",
+                                      "body", "mind", "soul", "spirit", "consciousness", "identity", "self", "person"];
             if fundamental_concepts.iter().any(|&concept| query_lower.contains(concept)) {
                 return 0.98; // Very high priority for fundamental human concepts
             }
@@ -1200,8 +1244,9 @@ impl ResponseComponent for ConversationalComponent {
             return Some(format!("That's an interesting question! I'd love to explore this with you. Could you tell me a bit more about what's behind your question? Understanding your perspective will help me give you a more thoughtful response."));
         }
         
-        // CRITICAL: Fundamental concept questions - "what is family", "what is love", etc. (MUST come before general patterns)
-        if query_lower.starts_with("what is") || query_lower.starts_with("what's") {
+        // CRITICAL: Fundamental concept questions - "what is/means family", "what is love", etc. (MUST come before general patterns)
+        if query_lower.starts_with("what is") || query_lower.starts_with("what's") || 
+           query_lower.starts_with("what means") || query_lower.starts_with("what does") && query_lower.contains("mean") {
             if query_lower.contains("family") {
                 return Some("Family is such a beautiful and complex concept! At its core, family represents the people who love, support, and care for each other - whether connected by blood, choice, or shared experiences. It's where we often learn our first lessons about love, belonging, and what it means to be human. Family can be parents and children, chosen friends, partners, or any group that creates that sense of home and unconditional support. What does family mean to you? How has your understanding of it evolved?".to_string());
             }
@@ -1260,6 +1305,14 @@ impl ResponseComponent for ConversationalComponent {
             
             if query_lower.contains("relationship") {
                 return Some("Relationships are the intricate webs of connection that give life so much of its meaning! Whether romantic, familial, friendships, or professional bonds, relationships are where we learn about ourselves, practice love and compassion, and create shared experiences. They require ongoing attention - communication, trust, respect, and the willingness to grow together through challenges. The best relationships seem to bring out the best in all involved, offering both comfort and growth. What do you think makes a relationship truly fulfilling and lasting?".to_string());
+            }
+            
+            if query_lower.contains("human") {
+                return Some("Being human is such a remarkable thing! Humans are these incredible conscious beings capable of love, creativity, reason, and imagination. What makes humanity special isn't just intelligence, but the capacity for empathy, the ability to create meaning and beauty, and the drive to care for others even when it doesn't benefit us directly. Humans build civilizations, create art, ask deep questions about existence, and form bonds that transcend individual survival. Every human carries within them both vulnerability and strength, capable of both great kindness and profound growth. What do you think makes the human experience most meaningful to you?".to_string());
+            }
+            
+            if query_lower.contains("body") {
+                return Some("The human body is absolutely fascinating - it's both our most intimate home and an incredible biological machine! It's where we experience every sensation, emotion, and connection with the world. Our bodies carry our memories in muscles and scars, express our thoughts through movement and gesture, and allow us to touch, hug, and physically share space with others. Beyond the amazing complexity of organs and systems working together, our bodies are deeply personal - they're how we inhabit the world and how others recognize us. The relationship we have with our own body affects how we feel about ourselves and how we move through life. How do you experience the connection between your mind and body?".to_string());
             }
         }
         

@@ -23,6 +23,9 @@ pub mod benchmark_trainer;
 pub mod o1_benchmark_monitor;
 pub mod automated_benchmark_runner;
 pub mod conversation_memory;
+pub mod multilevel_cache;
+pub mod multilevel_response_component;
+pub mod simple_cache_component;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
