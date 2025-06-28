@@ -48,3 +48,7 @@ path = "src/bin/train_minimal.rs"
 [[bin]]
 name = "build-with-tinyllama"
 path = "src/bin/build_with_tinyllama.rs"
+
+[[bin]]
+name = "benchmark-integrated-cli"
+path = "src/bin/benchmark_integrated_cli.rs"
