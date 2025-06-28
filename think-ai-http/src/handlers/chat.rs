@@ -11,6 +11,7 @@ use crate::router::AppState;
 
 #[derive(Debug, Deserialize)]
 pub struct ChatRequest {
+    #[serde(alias = "query")]
     message: String,
 }
 

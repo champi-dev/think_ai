@@ -31,6 +31,7 @@ pub fn create_router(state: Arc<AppState>) -> Router {
         .route("/stats", get(handlers::stats))
         .route("/chat", post(handlers::chat))
         .route("/api/chat", post(handlers::chat))
+        .route("/api/process", post(handlers::chat))
         
         // WebSocket endpoint (placeholder for now)
         .route("/ws", get(websocket_placeholder))
