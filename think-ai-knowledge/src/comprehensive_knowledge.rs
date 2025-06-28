@@ -240,6 +240,38 @@ impl ComprehensiveKnowledgeGenerator {
     }
     
     fn add_astronomy_knowledge(engine: &Arc<KnowledgeEngine>) {
+        // Add proper information about the Sun first (highest priority)
+        engine.add_knowledge(
+            KnowledgeDomain::Astronomy,
+            "The Sun".to_string(),
+            "The Sun is a G-type main-sequence star at the center of our Solar System. It's a massive ball of hot plasma held together by gravity, with nuclear fusion occurring in its core. The Sun converts hydrogen into helium through nuclear fusion, releasing enormous amounts of energy in the form of light and heat. It has a surface temperature of about 5,778 K (5,505°C) and contains 99.86% of the Solar System's mass. The Sun's energy powers virtually all life on Earth and drives our planet's weather and climate systems. The Sun is approximately 4.6 billion years old and will continue to shine for another 5 billion years.".to_string(),
+            vec!["star".to_string(), "nuclear fusion".to_string(), "plasma".to_string(), "solar system".to_string(), "hydrogen".to_string(), "helium".to_string()],
+        );
+
+        // Add information about stars in general
+        engine.add_knowledge(
+            KnowledgeDomain::Astronomy,
+            "Stars".to_string(),
+            "Stars are massive, luminous spheres of plasma held together by gravity. They generate energy through nuclear fusion in their cores, converting hydrogen into helium and releasing light and heat. Stars form from collapsing clouds of gas and dust called nebulae, and their lifecycle depends on their mass. Our Sun is a medium-sized star. Stars are the fundamental building blocks of galaxies and are responsible for creating and dispersing most of the chemical elements in the universe through stellar nucleosynthesis.".to_string(),
+            vec!["nuclear fusion".to_string(), "plasma".to_string(), "galaxy".to_string(), "hydrogen".to_string(), "sun".to_string(), "nebula".to_string()],
+        );
+
+        // Add information about nebulae
+        engine.add_knowledge(
+            KnowledgeDomain::Astronomy,
+            "Nebulae".to_string(),
+            "A nebula is a giant cloud of dust and gas in space. Some nebulae are regions where new stars are being born (stellar nurseries), while others are created when old stars die and expel their outer layers. Nebulae can be emission nebulae (glowing from nearby hot stars), reflection nebulae (reflecting light from stars), or dark nebulae (blocking light from behind). Famous examples include the Orion Nebula (a star-forming region) and the Crab Nebula (a supernova remnant). Our Solar System formed from the collapse of a nebula about 4.6 billion years ago.".to_string(),
+            vec!["star formation".to_string(), "dust".to_string(), "gas".to_string(), "supernova".to_string(), "solar system".to_string()],
+        );
+
+        // Add nuclear fusion information
+        engine.add_knowledge(
+            KnowledgeDomain::Physics,
+            "Nuclear Fusion".to_string(),
+            "Nuclear fusion is the process where light atomic nuclei combine to form heavier nuclei, releasing enormous amounts of energy. This is the process that powers stars, including our Sun. In stellar cores, hydrogen nuclei (protons) fuse together to form helium, converting some mass into energy according to Einstein's E=mc². Fusion requires extremely high temperatures and pressures to overcome the electromagnetic repulsion between positively charged nuclei. It's the source of energy for all stars and is being researched as a clean energy source on Earth.".to_string(),
+            vec!["sun".to_string(), "stars".to_string(), "energy".to_string(), "hydrogen".to_string(), "helium".to_string(), "einstein".to_string()],
+        );
+        
         engine.add_knowledge(
             KnowledgeDomain::Astronomy,
             "Solar System".to_string(),
@@ -352,6 +384,21 @@ impl ComprehensiveKnowledgeGenerator {
     }
     
     fn add_psychology_knowledge(engine: &Arc<KnowledgeEngine>) {
+        // Add comprehensive content about love and relationships
+        engine.add_knowledge(
+            KnowledgeDomain::Psychology,
+            "Love and Romantic Relationships".to_string(),
+            "Love is a complex emotion involving deep affection, attachment, and care for another person. Psychologists identify different types of love: romantic love (passion and intimacy), companionate love (deep friendship and commitment), and unconditional love (acceptance without conditions). Romantic love typically involves three components: intimacy (emotional closeness), passion (physical and romantic attraction), and commitment (decision to maintain the relationship). Love develops through stages from initial attraction to deep attachment. Neurochemically, love involves dopamine (reward and pleasure), oxytocin (bonding and trust), and serotonin (mood regulation). Healthy relationships require communication, trust, respect, shared values, and emotional support. Love can be expressed through acts of service, quality time, physical touch, words of affirmation, and gift-giving. Attachment styles from childhood influence adult romantic relationships.".to_string(),
+            vec!["love".to_string(), "relationships".to_string(), "romance".to_string(), "attachment".to_string(), "intimacy".to_string(), "emotions".to_string()],
+        );
+
+        engine.add_knowledge(
+            KnowledgeDomain::Psychology,
+            "Emotions and Emotional Intelligence".to_string(),
+            "Emotions are complex psychological and physiological states involving feelings, thoughts, and behaviors. Basic emotions include happiness, sadness, anger, fear, surprise, and disgust. Emotions serve important functions: motivating behavior, communicating with others, and helping survival. Emotional intelligence involves understanding and managing your own emotions and recognizing emotions in others. Components include self-awareness, self-regulation, motivation, empathy, and social skills. Emotional regulation strategies include cognitive reframing, mindfulness, deep breathing, and expressing emotions appropriately. Emotions are influenced by thoughts, experiences, culture, and biology. Mental health involves emotional balance and resilience. Positive emotions like joy, gratitude, and love contribute to well-being and life satisfaction.".to_string(),
+            vec!["emotions".to_string(), "feelings".to_string(), "happiness".to_string(), "sadness".to_string(), "emotional intelligence".to_string(), "well-being".to_string()],
+        );
+
         engine.add_knowledge(
             KnowledgeDomain::Psychology,
             "Cognitive Psychology".to_string(),

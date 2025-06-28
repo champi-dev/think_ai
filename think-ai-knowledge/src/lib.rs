@@ -17,6 +17,7 @@ pub mod tinyllama_knowledge_builder;
 pub mod self_evaluator;
 pub mod intelligent_relevance;
 pub mod feynman_explainer;
+pub mod multi_candidate_selector;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -416,6 +417,11 @@ impl KnowledgeEngine {
     pub fn explain_concept(&self, concept: &str) -> String {
         let explanation = self.feynman_explainer.explain(concept);
         explanation.format_for_human()
+    }
+    
+    /// Get access to the intelligent relevance engine
+    pub fn get_intelligent_relevance(&self) -> Arc<IntelligentRelevanceEngine> {
+        self.intelligent_relevance.clone()
     }
 }
 
