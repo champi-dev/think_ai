@@ -3,18 +3,23 @@
 //! This module implements the Feynman technique for breaking down complex concepts
 //! into simple, human-readable explanations that anyone can understand.
 
-use crate::{KnowledgeEngine, KnowledgeNode, KnowledgeDomain};
+use crate::{KnowledgeNode, KnowledgeDomain};
 use std::sync::Arc;
 use std::collections::HashMap;
 
 /// Feynman explainer that simplifies complex concepts using the 4-step technique
 pub struct FeynmanExplainer {
-    knowledge_engine: Arc<KnowledgeEngine>,
+    // Store nodes directly to avoid circular dependency
+    nodes: Option<Arc<std::sync::RwLock<HashMap<String, KnowledgeNode>>>>,
 }
 
 impl FeynmanExplainer {
-    pub fn new(knowledge_engine: Arc<KnowledgeEngine>) -> Self {
-        Self { knowledge_engine }
+    pub fn new(nodes: Option<Arc<std::sync::RwLock<HashMap<String, KnowledgeNode>>>>) -> Self {
+        Self { nodes }
+    }
+
+    pub fn dummy() -> Self {
+        Self { nodes: None }
     }
 
     /// Generate a Feynman-style explanation for any concept
@@ -46,27 +51,56 @@ impl FeynmanExplainer {
 
     /// Step 1: Gather comprehensive knowledge about the concept
     fn gather_knowledge(&self, concept: &str) -> Vec<KnowledgeNode> {
-        // Use intelligent query to get the most relevant information
-        let mut all_knowledge = self.knowledge_engine.intelligent_query(concept);
+        let Some(nodes) = &self.nodes else {
+            return Vec::new();
+        };
+        
+        let nodes_guard = nodes.read().unwrap();
+        let concept_lower = concept.to_lowercase();
+        let mut matched_nodes = Vec::new();
+        
+        // Find nodes that match the concept
+        for (_, node) in nodes_guard.iter() {
+            let topic_lower = node.topic.to_lowercase();
+            let content_lower = node.content.to_lowercase();
+            
+            if topic_lower.contains(&concept_lower) || content_lower.contains(&concept_lower) {
+                matched_nodes.push(node.clone());
+            }
+        }
         
         // Also try variations of the concept
         let variations = self.generate_concept_variations(concept);
         for variation in variations {
-            let additional = self.knowledge_engine.intelligent_query(&variation);
-            for node in additional {
-                if !all_knowledge.iter().any(|n| n.id == node.id) {
-                    all_knowledge.push(node);
+            let variation_lower = variation.to_lowercase();
+            for (_, node) in nodes_guard.iter() {
+                let topic_lower = node.topic.to_lowercase();
+                let content_lower = node.content.to_lowercase();
+                
+                if (topic_lower.contains(&variation_lower) || content_lower.contains(&variation_lower)) &&
+                   !matched_nodes.iter().any(|n| n.id == node.id) {
+                    matched_nodes.push(node.clone());
                 }
             }
         }
         
         // Limit to top 5 most relevant to avoid information overload
-        all_knowledge.into_iter().take(5).collect()
+        matched_nodes.into_iter().take(5).collect()
     }
 
     /// Step 2: Explain in simple terms a child could understand
     fn simplify_explanation(&self, knowledge: &[KnowledgeNode], concept: &str) -> String {
         if knowledge.is_empty() {
+            // Check if this is a music-related query and provide specialized explanation
+            let concept_lower = concept.to_lowercase();
+            if concept_lower.contains("write music") || concept_lower.contains("music composition") {
+                return "Writing music is like learning to speak a new language - the language of sound and emotion. \
+                You start with basic building blocks: notes (like letters), chords (like words), and rhythms (like the pace of speaking). \
+                Just like writing a story, you arrange these pieces to express feelings and ideas. \
+                You can start simple by humming a tune, tapping out a beat, or even singing words to a melody you make up. \
+                The most important thing is to play around and have fun - every great composer started by experimenting!".to_string();
+            }
+            
             return format!(
                 "{} is a concept I don't have detailed information about yet. \
                 Think of it like a puzzle piece that fits into the bigger picture of knowledge. \
@@ -161,13 +195,21 @@ impl FeynmanExplainer {
         // Generate domain-appropriate analogies
         let concept_lower = concept.to_lowercase();
         
-        if let Some(primary_node) = knowledge.first() {
+        // First check if it's a music-related concept
+        if concept_lower.contains("music") || concept_lower.contains("compose") || 
+           concept_lower.contains("melody") || concept_lower.contains("harmony") || 
+           concept_lower.contains("rhythm") || concept_lower.contains("write music") {
+            if let Some(analogy) = self.create_music_analogy(&concept_lower) {
+                analogies.push(analogy);
+            }
+        } else if let Some(primary_node) = knowledge.first() {
             let analogy = match primary_node.domain {
                 KnowledgeDomain::Physics => self.create_physics_analogy(&concept_lower),
                 KnowledgeDomain::Biology => self.create_biology_analogy(&concept_lower),
                 KnowledgeDomain::ComputerScience => self.create_tech_analogy(&concept_lower),
                 KnowledgeDomain::Philosophy => self.create_philosophy_analogy(&concept_lower),
                 KnowledgeDomain::Astronomy => self.create_astronomy_analogy(&concept_lower),
+                KnowledgeDomain::Music => self.create_music_analogy(&concept_lower),
                 _ => self.create_general_analogy(&concept_lower),
             };
             
@@ -352,6 +394,33 @@ impl FeynmanExplainer {
                 source: "expanding balloon".to_string(),
                 target: concept.to_string(),
                 explanation: "a balloon being inflated - as it expands, every point on its surface moves away from every other point, just like galaxies moving apart.".to_string(),
+            }),
+            _ => None,
+        }
+    }
+
+    /// Create music-related analogies
+    fn create_music_analogy(&self, concept: &str) -> Option<Analogy> {
+        match concept {
+            s if s.contains("write music") || s.contains("music composition") || s.contains("compose") => Some(Analogy {
+                source: "building with LEGO blocks".to_string(),
+                target: concept.to_string(),
+                explanation: "building with LEGO blocks - you start with basic pieces (notes, chords, rhythms) and combine them in creative ways to build something beautiful. Just like LEGO, you can follow instructions (music theory) or create your own unique designs.".to_string(),
+            }),
+            s if s.contains("melody") => Some(Analogy {
+                source: "telling a story".to_string(),
+                target: concept.to_string(),
+                explanation: "telling a story with your voice - it goes up and down, has exciting parts and quiet parts, and takes the listener on a journey from beginning to end.".to_string(),
+            }),
+            s if s.contains("harmony") => Some(Analogy {
+                source: "colors mixing on a painting".to_string(),
+                target: concept.to_string(),
+                explanation: "different colors on a painting that blend together beautifully - when you play multiple notes at the same time, they can create rich, colorful sounds just like mixing blue and yellow makes green.".to_string(),
+            }),
+            s if s.contains("rhythm") => Some(Analogy {
+                source: "heartbeat or walking".to_string(),
+                target: concept.to_string(),
+                explanation: "your heartbeat or the steady rhythm of walking - it's the regular beat that keeps everything moving together, like a drummer keeping the whole band in time.".to_string(),
             }),
             _ => None,
         }

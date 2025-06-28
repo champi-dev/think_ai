@@ -15,6 +15,8 @@ pub mod response_generator;
 pub mod intelligent_response_selector;
 pub mod tinyllama_knowledge_builder;
 pub mod self_evaluator;
+pub mod intelligent_relevance;
+pub mod feynman_explainer;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -85,6 +87,8 @@ impl KnowledgeDomain {
 }
 
 use crate::quantum_llm_engine::QuantumLLMEngine;
+use crate::intelligent_relevance::IntelligentRelevanceEngine;
+use crate::feynman_explainer::FeynmanExplainer;
 
 pub struct KnowledgeEngine {
     nodes: Arc<RwLock<HashMap<String, KnowledgeNode>>>,
@@ -93,17 +97,22 @@ pub struct KnowledgeEngine {
     training_iterations: Arc<RwLock<u64>>,
     total_knowledge_items: Arc<RwLock<u64>>,
     quantum_llm: Arc<RwLock<Option<QuantumLLMEngine>>>,
+    intelligent_relevance: Arc<IntelligentRelevanceEngine>,
+    feynman_explainer: Arc<FeynmanExplainer>,
 }
 
 impl KnowledgeEngine {
     pub fn new() -> Self {
+        let nodes = Arc::new(RwLock::new(HashMap::new()));
         Self {
-            nodes: Arc::new(RwLock::new(HashMap::new())),
+            nodes: nodes.clone(),
             domain_index: Arc::new(RwLock::new(HashMap::new())),
             concept_graph: Arc::new(RwLock::new(HashMap::new())),
             training_iterations: Arc::new(RwLock::new(0)),
             total_knowledge_items: Arc::new(RwLock::new(0)),
             quantum_llm: Arc::new(RwLock::new(None)),
+            intelligent_relevance: Arc::new(IntelligentRelevanceEngine::new()),
+            feynman_explainer: Arc::new(FeynmanExplainer::new(Some(nodes))),
         }
     }
 
@@ -223,101 +232,39 @@ impl KnowledgeEngine {
     }
     
     pub fn intelligent_query(&self, query: &str) -> Vec<KnowledgeNode> {
-        // First try direct query
+        // First try direct query for exact matches
         if let Some(results) = self.query(query) {
-            return results;
+            if !results.is_empty() {
+                return results;
+            }
         }
         
-        // Normalize the query
-        let query_lower = query.to_lowercase();
-        
-        // Extract the main query phrase after removing question words
-        let clean_query = query_lower.replace("what is ", "").replace("tell me about ", "")
-            .replace("explain ", "").replace("describe ", "").trim().to_string();
-        
-        // Get individual keywords
-        let keywords: Vec<&str> = query_lower.split_whitespace()
-            .filter(|w| !["what", "is", "the", "a", "an", "tell", "me", "about", "how", "why", "when", "where", "are", "does", "do", "can", "could", "would", "should"].contains(w))
-            .filter(|w| w.len() > 2)
-            .collect();
-        
+        // Use intelligent relevance engine for semantic understanding
         let nodes = self.nodes.read().unwrap();
-        let mut scored_results: Vec<(KnowledgeNode, usize)> = Vec::new();
+        let mut scored_results: Vec<(KnowledgeNode, f64)> = Vec::new();
         
         for (_, node) in nodes.iter() {
-            let mut score: usize = 0;
-            let topic_lower = node.topic.to_lowercase();
-            let content_lower = node.content.to_lowercase();
-            
-            // First, check for exact phrase match (highest priority)
-            if !clean_query.is_empty() && clean_query.len() > 4 {
-                if topic_lower.contains(&clean_query) {
-                    score += 20; // Very high score for exact phrase in topic
-                }
-                if content_lower.contains(&clean_query) {
-                    score += 15; // High score for exact phrase in content
-                }
-                for concept in &node.related_concepts {
-                    if concept.to_lowercase().contains(&clean_query) {
-                        score += 18; // High score for exact phrase in concepts
-                    }
-                }
-            }
-            
-            // Special handling for "universe" queries - prioritize cosmology content
-            if clean_query == "universe" || clean_query == "the universe" {
-                // Highest priority: content that directly explains cosmology/universe
-                if content_lower.contains("cosmology is a branch") || 
-                   content_lower.contains("studies the universe as a whole") ||
-                   content_lower.contains("universe as a whole") {
-                    score += 50; // Extremely high priority for direct universe definitions
-                }
-                // High priority: general cosmology/cosmos content
-                else if content_lower.contains("cosmology") || content_lower.contains("cosmos") ||
-                        topic_lower.contains("cosmology") || topic_lower == "astronomy" {
-                    score += 25; // High priority for cosmology content
-                }
-                // Penalize less relevant matches like "picture of the day"
-                if content_lower.contains("picture of the day") || content_lower.contains("apod") ||
-                   content_lower.contains("website") || content_lower.contains("nasa") {
-                    score = score.saturating_sub(20_usize);
-                }
-            }
-            
-            // Then score based on individual keyword matches
-            for keyword in &keywords {
-                if topic_lower.contains(keyword) {
-                    score += 3; // Topic matches are worth more
-                }
-                if content_lower.contains(keyword) {
-                    score += 1;
-                }
-                for concept in &node.related_concepts {
-                    if concept.to_lowercase().contains(keyword) {
-                        score += 2;
-                    }
-                }
-            }
-            
-            // Bonus for domain relevance
-            if keywords.iter().any(|k| matches!(*k, "physics" | "energy" | "matter" | "quantum" | "universe" | "space")) {
-                if matches!(node.domain, KnowledgeDomain::Physics | KnowledgeDomain::Astronomy) {
-                    score += 5;
-                }
-            }
-            
-            if score > 0 {
-                scored_results.push((node.clone(), score));
+            let relevance_score = self.intelligent_relevance.compute_relevance(query, node);
+            if relevance_score > 0.1 { // Only include reasonably relevant results
+                scored_results.push((node.clone(), relevance_score));
             }
         }
         
-        // Sort by score (highest first) and take top results
-        scored_results.sort_by(|a, b| b.1.cmp(&a.1));
-        scored_results.into_iter()
+        // Sort by relevance score (highest first) and take top results
+        scored_results.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+        let results: Vec<KnowledgeNode> = scored_results.into_iter()
             .take(10)
             .map(|(node, _)| node)
-            .collect()
+            .collect();
+            
+        // Learn from this interaction (assume neutral success for now)
+        if let Some(selected_node) = results.first() {
+            self.intelligent_relevance.learn_from_interaction(query, selected_node, 0.5);
+        }
+        
+        results
     }
+    
     
     pub fn get_top_relevant(&self, query: &str, limit: usize) -> Vec<KnowledgeNode> {
         // Try intelligent query to get scored results
@@ -463,6 +410,12 @@ impl KnowledgeEngine {
     pub fn get_all_nodes_vec(&self) -> Vec<KnowledgeNode> {
         let nodes = self.nodes.read().unwrap();
         nodes.values().cloned().collect()
+    }
+
+    /// Generate a Feynman-style explanation for any concept
+    pub fn explain_concept(&self, concept: &str) -> String {
+        let explanation = self.feynman_explainer.explain(concept);
+        explanation.format_for_human()
     }
 }
 
