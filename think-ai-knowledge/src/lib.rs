@@ -18,6 +18,10 @@ pub mod self_evaluator;
 pub mod intelligent_relevance;
 pub mod feynman_explainer;
 pub mod multi_candidate_selector;
+pub mod llm_benchmarks;
+pub mod benchmark_trainer;
+pub mod o1_benchmark_monitor;
+pub mod automated_benchmark_runner;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -422,6 +426,44 @@ impl KnowledgeEngine {
     /// Get access to the intelligent relevance engine
     pub fn get_intelligent_relevance(&self) -> Arc<IntelligentRelevanceEngine> {
         self.intelligent_relevance.clone()
+    }
+    
+    /// Comprehensive search that combines multiple search strategies
+    pub fn search_comprehensive(&self, query: &str, domain_filter: Option<KnowledgeDomain>) -> Vec<KnowledgeNode> {
+        // First try intelligent query
+        let mut results = self.intelligent_query(query);
+        
+        // If limited results, try direct query
+        if results.len() < 5 {
+            if let Some(direct_results) = self.query(query) {
+                for node in direct_results {
+                    if !results.iter().any(|r| r.id == node.id) {
+                        results.push(node);
+                    }
+                }
+            }
+        }
+        
+        // If still limited results, try broader keyword search
+        if results.len() < 5 {
+            let broader_results = self.get_top_relevant(query, 10);
+            for node in broader_results {
+                if !results.iter().any(|r| r.id == node.id) {
+                    results.push(node);
+                }
+            }
+        }
+        
+        // Filter by domain if specified
+        if let Some(domain) = domain_filter {
+            results = results.into_iter()
+                .filter(|node| node.domain == domain)
+                .collect();
+        }
+        
+        // Limit to top 10 results
+        results.truncate(10);
+        results
     }
 }
 
