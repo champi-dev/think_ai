@@ -197,7 +197,10 @@ impl KnowledgeEngine {
                 // Check related concepts
                 else {
                     for concept in &node.related_concepts {
-                        if concept.to_lowercase().contains(&query_lower) {
+                        let concept_lower = concept.to_lowercase();
+                        // Check if query contains this concept OR concept contains query words
+                        if query_lower.contains(&concept_lower) || 
+                           query_lower.split_whitespace().any(|word| word == concept_lower) {
                             partial_matches.push(node.clone());
                             node_ids_to_update.push(node.id.clone());
                             break;
@@ -241,10 +244,22 @@ impl KnowledgeEngine {
     }
     
     pub fn intelligent_query(&self, query: &str) -> Vec<KnowledgeNode> {
-        // First try direct query for exact matches
-        if let Some(results) = self.query(query) {
+        // Extract key concept from "what is X" questions
+        let processed_query = self.extract_key_concept(query);
+        
+        // First try direct query for exact matches on processed query
+        if let Some(results) = self.query(&processed_query) {
             if !results.is_empty() {
                 return results;
+            }
+        }
+        
+        // If no results from processed query, try original query
+        if processed_query != query {
+            if let Some(results) = self.query(query) {
+                if !results.is_empty() {
+                    return results;
+                }
             }
         }
         
@@ -252,10 +267,21 @@ impl KnowledgeEngine {
         let nodes = self.nodes.read().unwrap();
         let mut scored_results: Vec<(KnowledgeNode, f64)> = Vec::new();
         
+        // Try relevance search with processed query first
         for (_, node) in nodes.iter() {
-            let relevance_score = self.intelligent_relevance.compute_relevance(query, node);
+            let relevance_score = self.intelligent_relevance.compute_relevance(&processed_query, node);
             if relevance_score > 0.1 { // Only include reasonably relevant results
                 scored_results.push((node.clone(), relevance_score));
+            }
+        }
+        
+        // If no good results from processed query, try original query  
+        if scored_results.is_empty() && processed_query != query {
+            for (_, node) in nodes.iter() {
+                let relevance_score = self.intelligent_relevance.compute_relevance(query, node);
+                if relevance_score > 0.1 {
+                    scored_results.push((node.clone(), relevance_score));
+                }
             }
         }
         
@@ -413,6 +439,43 @@ impl KnowledgeEngine {
             .duration_since(std::time::UNIX_EPOCH)
             .unwrap()
             .as_secs()
+    }
+    
+    /// Extract key concept from definition questions like "what is X" -> "X"
+    fn extract_key_concept(&self, query: &str) -> String {
+        let query_lower = query.to_lowercase().trim().to_string();
+        
+        // Handle "what is X" questions
+        if query_lower.starts_with("what is ") {
+            let concept = query_lower.strip_prefix("what is ").unwrap_or(&query_lower);
+            // Remove common question words and punctuation
+            let cleaned = concept.replace("the ", "").replace("?", "");
+            return cleaned.trim().to_string();
+        }
+        
+        // Handle "what's X" questions  
+        if query_lower.starts_with("what's ") {
+            let concept = query_lower.strip_prefix("what's ").unwrap_or(&query_lower);
+            let cleaned = concept.replace("the ", "").replace("?", "");
+            return cleaned.trim().to_string();
+        }
+        
+        // Handle "define X" questions
+        if query_lower.starts_with("define ") {
+            let concept = query_lower.strip_prefix("define ").unwrap_or(&query_lower);
+            let cleaned = concept.replace("the ", "").replace("?", "");
+            return cleaned.trim().to_string();
+        }
+        
+        // Handle "explain X" questions
+        if query_lower.starts_with("explain ") {
+            let concept = query_lower.strip_prefix("explain ").unwrap_or(&query_lower);
+            let cleaned = concept.replace("the ", "").replace("?", "");
+            return cleaned.trim().to_string();
+        }
+        
+        // Return original query if no pattern matches
+        query.to_string()
     }
     
     /// Get all nodes as vector for training

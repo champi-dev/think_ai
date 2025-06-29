@@ -38,6 +38,12 @@ impl MultiLevelResponseComponent {
     
     /// Add a new response pattern to the cache
     pub fn add_pattern(&self, level: CacheLevel, pattern: String, response: CachedResponse) {
+        // Check if the response has the template bug
+        if response.content.contains("the!") || response.content.contains("about !") {
+            println!("⚠️ Rejecting broken template response: {}", response.content);
+            return;
+        }
+        
         if let Ok(mut cache) = self.cache.write() {
             cache.add_response(level, pattern, response);
         }
@@ -162,46 +168,14 @@ impl MultiLevelResponseComponent {
     
     /// Generate a contextual response for a phrase pattern
     fn generate_phrase_response(&self, phrase: &str) -> Option<CachedResponse> {
-        match phrase {
-            phrase if phrase.starts_with("what is") => Some(CachedResponse {
-                content: format!("That's an interesting question about {}! Let me help you understand that concept.", phrase.strip_prefix("what is ").unwrap_or("")),
-                confidence: 0.7,
-                context_relevance: 0.8,
-                engagement_score: 0.75,
-                response_type: ResponseType::Question,
-                source_level: CacheLevel::Phrase,
-            }),
-            phrase if phrase.starts_with("how do") => Some(CachedResponse {
-                content: "Great question about process! I'd love to walk through that step by step with you.".to_string(),
-                confidence: 0.75,
-                context_relevance: 0.8,
-                engagement_score: 0.8,
-                response_type: ResponseType::Question,
-                source_level: CacheLevel::Phrase,
-            }),
-            _ => None,
-        }
+        // No template generation - purely knowledge-driven system
+        None
     }
     
     /// Generate a contextual response for a word pattern
     fn generate_word_response(&self, word: &str) -> Option<CachedResponse> {
-        // Only create word responses for significant terms
-        if ["programming", "coding", "python", "javascript", "algorithm", "science", "philosophy", "consciousness", "quantum"].contains(&word) {
-            Some(CachedResponse {
-                content: format!("I'd be happy to discuss {} with you! What specific aspect interests you most?", word),
-                confidence: 0.6,
-                context_relevance: 0.7,
-                engagement_score: 0.8,
-                response_type: if ["programming", "coding", "python", "javascript", "algorithm"].contains(&word) {
-                    ResponseType::Technical
-                } else {
-                    ResponseType::Conversational
-                },
-                source_level: CacheLevel::Word,
-            })
-        } else {
-            None
-        }
+        // No template generation - purely knowledge-driven system
+        None
     }
     
     /// Generate response using word-by-word and phrase-by-phrase analysis
@@ -255,26 +229,35 @@ impl MultiLevelResponseComponent {
     
     /// Generate a dynamic response for completely novel queries
     fn generate_dynamic_response(&self, query: &str) -> Option<String> {
-        let query_lower = query.to_lowercase();
+        // No template generation - purely knowledge-driven system
+        // If no knowledge is available, return None to let other components handle
+        None
+    }
+    
+    /// Check if a response actually answers the question usefully
+    fn is_response_useful(&self, query: &str, response: &str) -> bool {
+        let response_lower = response.to_lowercase();
         
-        if query_lower.starts_with("what is") || query_lower.starts_with("what's") {
-            let topic = query_lower.strip_prefix("what is").unwrap_or(
-                query_lower.strip_prefix("what's").unwrap_or("")
-            ).trim();
-            
-            Some(format!(
-                "That's a fascinating question about {}! {} is a topic that involves many different perspectives and dimensions. I'd love to explore this concept with you. What specifically about {} interests you most? Are you looking for a definition, examples, or perhaps how it relates to other concepts?",
-                topic, 
-                topic.split_whitespace().next().unwrap_or(topic),
-                topic
-            ))
-        } else if query_lower.starts_with("how") {
-            Some("That's a great process-oriented question! I'd love to walk through that step by step with you. Could you tell me a bit more about what specific aspect you're most curious about? Understanding your context will help me give you the most useful explanation.".to_string())
-        } else if query_lower.starts_with("why") {
-            Some("That's such a thoughtful question about underlying reasons and causes! These 'why' questions often lead to the most interesting discussions because they get at the heart of how things work. What prompted you to think about this? I'd love to explore the reasoning together.".to_string())
-        } else {
-            Some("That's an interesting topic! I'd love to explore this with you. Could you tell me a bit more about what specific aspect you're most curious about? The more context you give me, the better I can tailor my response to what you're actually looking for.".to_string())
+        // Detect generic unhelpful template responses
+        if response_lower.contains("that's a fascinating question") ||
+           response_lower.contains("that's an interesting topic") ||
+           response_lower.contains("i'd love to explore this with you") ||
+           response_lower.contains("could you tell me a bit more") ||
+           response_lower.contains("let me think about that concept") ||
+           response_lower.contains("what specific aspect interests you") {
+            return false;
         }
+        
+        // For "what is" questions, check if response is substantial and informative
+        let query_lower = query.to_lowercase();
+        if query_lower.starts_with("what is") || query_lower.starts_with("what's") {
+            // Response should be substantial (more than a template) and not just questions back
+            return response_lower.len() > 50 && 
+                   !response_lower.contains("?") && 
+                   !response_lower.contains("what would you like to know");
+        }
+        
+        true // Default to useful for other types of queries
     }
 }
 
@@ -283,8 +266,15 @@ impl ResponseComponent for MultiLevelResponseComponent {
         "MultiLevelCache"
     }
     
-    fn can_handle(&self, query: &str, _context: &ResponseContext) -> f32 {
-        // This component should have HIGHEST priority to ensure multi-level caching works
+    fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
+        let query_lower = query.to_lowercase();
+        
+        // If we have relevant knowledge available for ANY query, defer to knowledge base
+        if !context.relevant_nodes.is_empty() {
+            return 0.85; // Lower priority to let knowledge base handle any question with relevant knowledge
+        }
+        
+        // This component should have HIGHEST priority to ensure multi-level caching works for other queries
         if let Ok(cache) = self.cache.read() {
             if let Some(_response) = cache.get_best_response(query) {
                 // Return MAXIMUM score for cached responses - cache hits should ALWAYS win
@@ -298,13 +288,25 @@ impl ResponseComponent for MultiLevelResponseComponent {
         }
     }
     
-    fn generate(&self, query: &str, _context: &ResponseContext) -> Option<String> {
+    fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
         // First, try to enhance cache with patterns from this query
         self.enhance_cache_with_query(query);
         
         // Then get the best cached response
         if let Ok(cache) = self.cache.read() {
             if let Some(response) = cache.get_best_response(query) {
+                // Check if the cached response has the broken template bug
+                if response.content.contains("the!") || response.content.contains("about !") {
+                    // Regenerate the response if it has the template bug
+                    return self.generate_multilevel_response(query);
+                }
+                
+                // Check if cached response is useful when we have relevant knowledge available
+                if !context.relevant_nodes.is_empty() && !self.is_response_useful(query, &response.content) {
+                    println!("🚫 Cache response not useful, falling back to knowledge base");
+                    return None; // Let knowledge base handle it
+                }
+                
                 Some(response.content)
             } else {
                 // Do the actual multi-level analysis
@@ -314,6 +316,7 @@ impl ResponseComponent for MultiLevelResponseComponent {
             None
         }
     }
+    
     
     fn metadata(&self) -> HashMap<String, String> {
         let mut metadata = HashMap::new();

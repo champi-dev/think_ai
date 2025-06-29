@@ -245,7 +245,7 @@ impl ComprehensiveKnowledgeGenerator {
             KnowledgeDomain::Astronomy,
             "The Sun".to_string(),
             "The Sun is a G-type main-sequence star at the center of our Solar System. It's a massive ball of hot plasma held together by gravity, with nuclear fusion occurring in its core. The Sun converts hydrogen into helium through nuclear fusion, releasing enormous amounts of energy in the form of light and heat. It has a surface temperature of about 5,778 K (5,505°C) and contains 99.86% of the Solar System's mass. The Sun's energy powers virtually all life on Earth and drives our planet's weather and climate systems. The Sun is approximately 4.6 billion years old and will continue to shine for another 5 billion years.".to_string(),
-            vec!["star".to_string(), "nuclear fusion".to_string(), "plasma".to_string(), "solar system".to_string(), "hydrogen".to_string(), "helium".to_string()],
+            vec!["sun".to_string(), "star".to_string(), "nuclear fusion".to_string(), "plasma".to_string(), "solar system".to_string(), "hydrogen".to_string(), "helium".to_string()],
         );
 
         // Add information about stars in general

@@ -411,8 +411,17 @@ pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
             println!("🧠 Initializing knowledge base...");
             let knowledge_engine = std::sync::Arc::new(think_ai_knowledge::KnowledgeEngine::new());
             
-            // Load comprehensive knowledge (not just real knowledge)
-            think_ai_knowledge::comprehensive_knowledge::ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&knowledge_engine);
+            // Load knowledge from JSON files instead of hardcoded content
+            let knowledge_files_dir = std::path::PathBuf::from("./knowledge_files");
+            if knowledge_files_dir.exists() {
+                let dynamic_loader = think_ai_knowledge::dynamic_loader::DynamicKnowledgeLoader::new(&knowledge_files_dir);
+                match dynamic_loader.load_all(&knowledge_engine) {
+                    Ok(count) => println!("✅ Loaded {} items from knowledge files", count),
+                    Err(e) => println!("⚠️  Could not load knowledge files: {}", e),
+                }
+            } else {
+                println!("⚠️  Knowledge files directory not found at ./knowledge_files");
+            }
             
             // Also load from persistence if available
             if let Ok(persistence) = think_ai_knowledge::persistence::KnowledgePersistence::new("./trained_knowledge") {

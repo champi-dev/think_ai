@@ -452,11 +452,18 @@ impl ResponseComponent for KnowledgeBaseComponent {
         "KnowledgeBase"
     }
     
-    fn can_handle(&self, _query: &str, context: &ResponseContext) -> f32 {
+    fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
         if context.relevant_nodes.is_empty() {
             0.0
         } else {
-            0.9 // High priority for knowledge-based responses
+            let query_lower = query.to_lowercase();
+            
+            // HIGHEST priority for definition questions when we have relevant knowledge
+            if query_lower.starts_with("what is") || query_lower.starts_with("what's") {
+                0.98 // HIGHEST priority for definition questions with knowledge
+            } else {
+                0.9 // High priority for knowledge-based responses
+            }
         }
     }
     

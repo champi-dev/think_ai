@@ -2,6 +2,46 @@
   "domain": "astronomy",
   "entries": [
     {
+      "topic": "Universe",
+      "content": "The universe is all of space, time, matter, and energy that exists. It began approximately 13.8 billion years ago with the Big Bang and has been expanding ever since. From a physics perspective, the universe consists of galaxies, stars, planets, and the vast spaces between them, all governed by fundamental forces like gravity and electromagnetism. The observable universe is about 93 billion light-years in diameter, containing over 2 trillion galaxies. Philosophically, the universe represents the totality of existence - everything that was, is, and will be.",
+      "related_concepts": [
+        "universe",
+        "cosmos",
+        "big bang",
+        "space",
+        "time",
+        "galaxies",
+        "expansion"
+      ],
+      "metadata": {
+        "source": "Enhanced Knowledge",
+        "confidence": 0.95,
+        "original_id": "universe_comprehensive",
+        "vector_hash": "universe_primary_entry",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Sun",
+      "content": "The Sun is a massive, luminous sphere of plasma held together by gravity. It is a medium-sized star located at the center of our solar system, about 93 million miles (150 million kilometers) from Earth. The Sun generates energy through nuclear fusion in its core, converting hydrogen into helium and releasing tremendous amounts of light and heat. It has a surface temperature of about 5,778 Kelvin (5,505°C) and is responsible for virtually all life on Earth. The Sun is about 4.6 billion years old and will continue burning for another 5 billion years before becoming a red giant.",
+      "related_concepts": [
+        "sun",
+        "star",
+        "solar system",
+        "fusion",
+        "plasma",
+        "hydrogen",
+        "energy"
+      ],
+      "metadata": {
+        "source": "Enhanced Knowledge",
+        "confidence": 0.95,
+        "original_id": "sun_comprehensive",
+        "vector_hash": "sun_primary_entry",
+        "url": ""
+      }
+    },
+    {
       "topic": "Astronomy",
       "content": "Astronomy is a natural science that studies celestial objects and the phenomena that occur in the cosmos. It uses mathematics, physics, and chemistry in order to explain their origin and their overall evolution. Relevant phenomena include supernova explosions, gamma ray bursts, quasars, blazars, pulsars, and cosmic microwave background radiation. Cosmology is a branch of astronomy that studies the universe as a whole",
       "related_concepts": [
@@ -263,11 +303,11 @@
   ],
   "metadata": {
     "source": "enhanced_knowledge",
-    "item_count": 15,
+    "item_count": 17,
     "confidence_range": {
       "min": 0.8,
-      "max": 0.8500000000000001,
-      "avg": 0.8233333333333337
+      "max": 0.95,
+      "avg": 0.8294117647058824
     }
   }
 }

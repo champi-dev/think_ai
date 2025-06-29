@@ -83,24 +83,9 @@ impl MultiLevelCache {
     fn initialize_core_patterns(&mut self) {
         println!("🧠 Initializing multi-level response cache...");
         
-        // Word-level responses for fundamental concepts
-        self.cache_word_responses();
+        // No hardcoded patterns - purely dynamic knowledge-driven system
         
-        // Phrase-level responses for common patterns
-        self.cache_phrase_responses();
-        
-        // Paragraph-level responses for complex queries
-        self.cache_paragraph_responses();
-        
-        // Full message responses for exact matches
-        self.cache_full_message_responses();
-        
-        println!("✅ Multi-level cache initialized with {} word patterns, {} phrase patterns, {} paragraph patterns, {} full message patterns",
-            self.word_responses.len(),
-            self.phrase_responses.len(), 
-            self.paragraph_responses.len(),
-            self.full_message_responses.len()
-        );
+        println!("✅ Multi-level cache initialized (empty - knowledge-driven only)");
     }
     
     /// Cache word-level responses
@@ -438,20 +423,33 @@ impl MultiLevelCache {
         
         // 1. Check for exact full message match (highest priority)
         if let Some(response) = self.full_message_responses.get(&query_normalized) {
-            candidates.push(response.clone());
+            // Filter out broken template responses
+            if !response.content.contains("the!") && !response.content.contains("about !") {
+                candidates.push(response.clone());
+            }
         }
         
         // 2. Check paragraph-level matches
         for (pattern, responses) in &self.paragraph_responses {
             if query_normalized.contains(pattern) {
-                candidates.extend(responses.clone());
+                // Filter out broken template responses
+                let filtered_responses: Vec<CachedResponse> = responses.iter()
+                    .filter(|response| !response.content.contains("the!") && !response.content.contains("about !"))
+                    .cloned()
+                    .collect();
+                candidates.extend(filtered_responses);
             }
         }
         
         // 3. Check phrase-level matches
         for (pattern, responses) in &self.phrase_responses {
             if query_normalized.contains(pattern) {
-                candidates.extend(responses.clone());
+                // Filter out broken template responses
+                let filtered_responses: Vec<CachedResponse> = responses.iter()
+                    .filter(|response| !response.content.contains("the!") && !response.content.contains("about !"))
+                    .cloned()
+                    .collect();
+                candidates.extend(filtered_responses);
             }
         }
         
@@ -459,7 +457,12 @@ impl MultiLevelCache {
         let words: Vec<&str> = query_normalized.split_whitespace().collect();
         for word in words {
             if let Some(responses) = self.word_responses.get(word) {
-                candidates.extend(responses.clone());
+                // Filter out broken template responses
+                let filtered_responses: Vec<CachedResponse> = responses.iter()
+                    .filter(|response| !response.content.contains("the!") && !response.content.contains("about !"))
+                    .cloned()
+                    .collect();
+                candidates.extend(filtered_responses);
             }
         }
         
