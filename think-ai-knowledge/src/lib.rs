@@ -221,9 +221,19 @@ impl KnowledgeEngine {
                     }
                     matched = true;
                 }
-                // Score content matches lower
+                // Score content matches, but boost for definition queries
                 else if Self::word_boundary_match(&content_lower, &query_lower) {
-                    score = 30.0;
+                    if is_definition_query {
+                        // For definition queries, content that directly defines the concept should score higher
+                        let content_start = content_lower.split_whitespace().take(20).collect::<Vec<_>>().join(" ");
+                        if content_start.contains(&key_concept) {
+                            score = 70.0; // Higher score for content that defines the concept
+                        } else {
+                            score = 30.0; // Standard content match
+                        }
+                    } else {
+                        score = 30.0;
+                    }
                     matched = true;
                 }
                 // Check related concepts

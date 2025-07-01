@@ -372,7 +372,16 @@ async fn evaluation_stats_handler(
 fn is_greeting(query: &str) -> bool {
     let greetings = ["hi", "hello", "hey", "greetings", "howdy", "hola", "bonjour"];
     let query_lower = query.to_lowercase();
-    greetings.iter().any(|&g| query_lower.contains(g))
+    let words: Vec<&str> = query_lower.split_whitespace().collect();
+    
+    // Check if any greeting word appears as a complete word
+    greetings.iter().any(|&greeting| {
+        words.iter().any(|&word| {
+            // Remove punctuation and compare
+            let clean_word = word.trim_matches(|c: char| !c.is_alphanumeric());
+            clean_word == greeting
+        })
+    })
 }
 
 fn get_greeting_response() -> String {

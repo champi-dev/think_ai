@@ -724,11 +724,43 @@ impl ResponseComponent for HistoricalComponent {
     
     fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
         let query_lower = query.to_lowercase();
-        if query_lower.contains("history") || query_lower.contains("historical") || 
-           query_lower.contains("origin") || query_lower.contains("discovered") ||
-           query_lower.contains("invented") {
-            0.8
-        } else if context.relevant_nodes.iter().any(|n| matches!(n.domain, KnowledgeDomain::History)) {
+        
+        // Handle explicitly historical queries
+        if query_lower.contains("history") || query_lower.contains("historical") {
+            return 0.8;
+        }
+        
+        // Handle discovery/invention queries (more historical in nature)
+        if query_lower.contains("discovered") || query_lower.contains("invented") ||
+           query_lower.contains("when was") || query_lower.contains("who invented") ||
+           query_lower.contains("who discovered") {
+            return 0.8;
+        }
+        
+        // Handle origin queries ONLY for historical/cultural/technological contexts
+        if query_lower.contains("origin") {
+            // Exclude biological/scientific origin queries
+            if query_lower.contains("life") || query_lower.contains("species") || 
+               query_lower.contains("evolution") || query_lower.contains("universe") ||
+               query_lower.contains("big bang") || query_lower.contains("earth") {
+                return 0.0; // Let science components handle these
+            }
+            
+            // Handle historical origins (civilization, language, culture, technology)
+            if query_lower.contains("civilization") || query_lower.contains("language") ||
+               query_lower.contains("culture") || query_lower.contains("religion") ||
+               query_lower.contains("writing") || query_lower.contains("agriculture") ||
+               query_lower.contains("city") || query_lower.contains("nation") ||
+               query_lower.contains("war") || query_lower.contains("empire") {
+                return 0.8;
+            }
+            
+            // General origin queries get moderate score (let other components compete)
+            return 0.4;
+        }
+        
+        // Domain-based matching
+        if context.relevant_nodes.iter().any(|n| matches!(n.domain, KnowledgeDomain::History)) {
             0.6
         } else {
             0.0
@@ -1320,6 +1352,10 @@ impl ResponseComponent for ConversationalComponent {
             
             if query_lower.contains("body") {
                 return Some("The human body is absolutely fascinating - it's both our most intimate home and an incredible biological machine! It's where we experience every sensation, emotion, and connection with the world. Our bodies carry our memories in muscles and scars, express our thoughts through movement and gesture, and allow us to touch, hug, and physically share space with others. Beyond the amazing complexity of organs and systems working together, our bodies are deeply personal - they're how we inhabit the world and how others recognize us. The relationship we have with our own body affects how we feel about ourselves and how we move through life. How do you experience the connection between your mind and body?".to_string());
+            }
+            
+            if query_lower.contains("life") {
+                return Some("Life is one of the most profound mysteries! From a biological perspective, it's the condition that distinguishes organisms from inorganic matter - involving growth, reproduction, metabolism, and response to stimuli. But life is also about consciousness, relationships, experiences, and the meaning we create. It's fascinating how we're all part of this incredible web of living systems, from the smallest cells to complex ecosystems. What aspects of life are you most curious about - the biological processes, the philosophical questions, or something else?".to_string());
             }
         }
         
