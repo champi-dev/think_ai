@@ -1,7 +1,7 @@
 //! Real Content Generator - Generates actual useful knowledge
 //! No abstractions, just real information
 
-use std::collections::HashMap;
+// use std::collections::HashMap; // Currently unused
 use sha2::{Sha256, Digest};
 
 pub struct RealContentGenerator;

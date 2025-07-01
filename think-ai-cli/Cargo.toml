@@ -49,6 +49,7 @@ crossterm = "0.28"
 
 # Natural chat system
 rand = "0.8"
+md5 = "0.7"
 
 # HTTP server dependencies
 axum.workspace = true

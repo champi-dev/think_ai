@@ -198,13 +198,21 @@ impl ComponentResponseGenerator {
             }
         }
         
-        // If we got nothing or only weak matches, just use the best one
-        if response_parts.is_empty() && !component_scores.is_empty() {
-            if let Some((component, score)) = component_scores.first() {
-                if let Some(part) = component.generate(query, &context) {
-                    println!("🎯 FALLBACK COMPONENT: {} (score: {:.2})", component.name(), score);
-                    response_parts.push(part);
-                    used_components.push(component.name());
+        // If we got nothing or only weak matches, try LLM fallback
+        if response_parts.is_empty() {
+            println!("🤖 NO COMPONENTS RESPONDED - Using LLM fallback");
+            if let Some(llm_response) = self.generate_llm_fallback(query, &context) {
+                println!("✅ LLM FALLBACK: Generated response and cached");
+                response_parts.push(llm_response);
+                used_components.push("LLMFallback");
+            } else if !component_scores.is_empty() {
+                // Final fallback to best component
+                if let Some((component, score)) = component_scores.first() {
+                    if let Some(part) = component.generate(query, &context) {
+                        println!("🎯 FALLBACK COMPONENT: {} (score: {:.2})", component.name(), score);
+                        response_parts.push(part);
+                        used_components.push(component.name());
+                    }
                 }
             }
         }
@@ -440,6 +448,60 @@ impl ComponentResponseGenerator {
         
         processed
     }
+    
+    /// Generate LLM fallback response with full knowledge context and cache it
+    fn generate_llm_fallback(&self, query: &str, context: &ResponseContext) -> Option<String> {
+        // Build comprehensive context for LLM including all available knowledge
+        let mut llm_context = String::new();
+        
+        // Add query
+        llm_context.push_str(&format!("Query: {}\n\n", query));
+        
+        // Add relevant knowledge if available
+        if !context.relevant_nodes.is_empty() {
+            llm_context.push_str("Available Knowledge:\n");
+            for (i, node) in context.relevant_nodes.iter().take(10).enumerate() {
+                llm_context.push_str(&format!("{}. Topic: {}\n   Content: {}\n\n", 
+                    i + 1, node.topic, node.content));
+            }
+        }
+        
+        // Add knowledge stats for context
+        let stats = self.knowledge_engine.get_stats();
+        llm_context.push_str(&format!(
+            "Total Knowledge Available: {} nodes across {} domains\n\n",
+            stats.total_nodes,
+            stats.domain_distribution.len()
+        ));
+        
+        // Add extracted entities for context
+        if !context.extracted_entities.is_empty() {
+            llm_context.push_str("Detected Entities: ");
+            for (key, value) in &context.extracted_entities {
+                llm_context.push_str(&format!("{}={}, ", key, value));
+            }
+            llm_context.push_str("\n\n");
+        }
+        
+        // Instruction for LLM
+        llm_context.push_str("Instructions: Please provide a comprehensive, accurate answer using the available knowledge. If the query is about a topic not covered in the knowledge base, use your general knowledge but be clear about the source. Build and refine your answer using all relevant information provided.");
+        
+        // Use the knowledge engine's LLM with enhanced context
+        let llm_response = self.knowledge_engine.generate_llm_response(&llm_context);
+        
+        // If we got a valid response, cache it for future use
+        if !llm_response.is_empty() && 
+           llm_response != "Knowledge engine LLM not initialized. Please use the response generator directly." &&
+           !llm_response.contains("I need more context") {
+            
+            // TODO: Cache the response in the multilevel cache
+            // Note: Cache management is handled by MultiLevelResponseComponent
+            
+            Some(llm_response)
+        } else {
+            None
+        }
+    }
 }
 
 // ===== Component Implementations =====
@@ -468,7 +530,8 @@ impl ResponseComponent for KnowledgeBaseComponent {
     }
     
     fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
-        // Skip self-learning generated patterns
+        // Collect relevant knowledge
+        let mut relevant_knowledge = Vec::new();
         for node in &context.relevant_nodes {
             if node.content.starts_with("Pattern discovered") || 
                node.content.starts_with("Synthesis of") ||
@@ -477,12 +540,38 @@ impl ResponseComponent for KnowledgeBaseComponent {
                node.content.contains("Analogy: Analogy:") {
                 continue;
             }
-            
-            // Use the intelligent_query ordering - first valid node is the best match
-            return Some(node.content.clone());
+            relevant_knowledge.push(node);
         }
         
-        None
+        if relevant_knowledge.is_empty() {
+            return None;
+        }
+        
+        // If we have multiple relevant pieces, use LLM to synthesize
+        if relevant_knowledge.len() > 1 {
+            let mut llm_context = String::new();
+            llm_context.push_str(&format!("Query: {}\n\n", query));
+            llm_context.push_str("Relevant Knowledge:\n");
+            
+            for (i, node) in relevant_knowledge.iter().take(5).enumerate() {
+                llm_context.push_str(&format!("{}. {}: {}\n", i + 1, node.topic, node.content));
+            }
+            
+            llm_context.push_str("\nInstructions: Using the relevant knowledge above, provide a comprehensive answer that synthesizes the information to best address the query. Build upon and refine the knowledge to give the most complete response possible.");
+            
+            let llm_response = context.knowledge_engine.generate_llm_response(&llm_context);
+            
+            if !llm_response.is_empty() && 
+               llm_response != "Knowledge engine LLM not initialized. Please use the response generator directly." {
+                Some(llm_response)
+            } else {
+                // Fallback to first relevant node
+                Some(relevant_knowledge[0].content.clone())
+            }
+        } else {
+            // Single piece of knowledge - use as is for now
+            Some(relevant_knowledge[0].content.clone())
+        }
     }
 }
 
@@ -946,29 +1035,14 @@ impl ResponseComponent for UnknownQueryComponent {
     }
     
     fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
-        let query_lower = query.to_lowercase();
+        // Instead of using templates, pass to LLM with available knowledge context
+        let llm_response = context.knowledge_engine.generate_llm_response(query);
         
-        // Extract the main subject being asked about
-        let main_subject = if query_lower.starts_with("what is ") {
-            query_lower.strip_prefix("what is ").unwrap().trim().to_string()
-        } else if query_lower.starts_with("tell me about ") {
-            query_lower.strip_prefix("tell me about ").unwrap().trim().to_string()
+        if !llm_response.is_empty() && 
+           llm_response != "Knowledge engine LLM not initialized. Please use the response generator directly." {
+            Some(llm_response)
         } else {
-            // Find key terms
-            query_lower.split_whitespace()
-                .filter(|w| w.len() > 3 && !["what", "those", "about", "tell", "explain", "describe", "does", "have"].contains(w))
-                .collect::<Vec<_>>()
-                .join(" ")
-        };
-        
-        if main_subject.is_empty() {
-            Some("I'd be happy to help! Could you tell me more about what you'd like to know?".to_string())
-        } else {
-            // Simple response for unknown topics
-            Some(format!(
-                "I don't have specific information about '{}' in my knowledge base. I can help with topics like quantum mechanics, consciousness, astronomy (sun, mars, moon), AI concepts (TinyLlama, Think AI), and philosophy (stoicism). What would you like to know about?",
-                main_subject
-            ))
+            None
         }
     }
 }

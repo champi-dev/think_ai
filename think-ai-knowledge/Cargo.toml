@@ -52,3 +52,8 @@ path = "src/bin/build_with_tinyllama.rs"
 [[bin]]
 name = "benchmark-integrated-cli"
 path = "src/bin/benchmark_integrated_cli.rs"
+
+# Disabled benchmark_cli binary due to missing clap dependency
+# [[bin]]
+# name = "benchmark_cli"
+# path = "src/bin/benchmark_cli.rs"

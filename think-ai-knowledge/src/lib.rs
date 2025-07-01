@@ -10,6 +10,7 @@ pub mod self_learning;
 pub mod comprehensive_trainer;
 pub mod llm_engine;
 pub mod quantum_llm_engine;
+pub mod enhanced_quantum_llm;
 pub mod dynamic_loader;
 pub mod response_generator;
 pub mod intelligent_response_selector;
