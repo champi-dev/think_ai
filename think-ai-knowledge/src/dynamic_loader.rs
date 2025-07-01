@@ -54,12 +54,20 @@ impl DynamicKnowledgeLoader {
             self.create_default_knowledge_files()?;
         }
         
-        // Read all JSON files from the knowledge directory
+        // Read all JSON files from the knowledge directory (except index files)
         for entry in fs::read_dir(&self.knowledge_dir)? {
             let entry = entry?;
             let path = entry.path();
             
             if path.extension().and_then(|s| s.to_str()) == Some("json") {
+                // Skip index files that don't contain knowledge entries
+                if let Some(filename) = path.file_name().and_then(|n| n.to_str()) {
+                    if filename.contains("index") || filename.contains("_index") {
+                        println!("📋 Skipping index file: {:?}", filename);
+                        continue;
+                    }
+                }
+                
                 match self.load_file(&path, engine) {
                     Ok(count) => {
                         total_loaded += count;

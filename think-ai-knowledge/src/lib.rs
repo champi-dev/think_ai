@@ -184,13 +184,13 @@ impl KnowledgeEngine {
                     exact_matches.push(node.clone());
                     node_ids_to_update.push(node.id.clone());
                 }
-                // Topic contains query
-                else if topic_lower.contains(&query_lower) {
+                // Topic contains query (word boundary aware)
+                else if Self::word_boundary_match(&topic_lower, &query_lower) {
                     results.push(node.clone());
                     node_ids_to_update.push(node.id.clone());
                 }
-                // Content contains query
-                else if content_lower.contains(&query_lower) {
+                // Content contains query (word boundary aware)  
+                else if Self::word_boundary_match(&content_lower, &query_lower) {
                     partial_matches.push(node.clone());
                     node_ids_to_update.push(node.id.clone());
                 }
@@ -531,6 +531,34 @@ impl KnowledgeEngine {
         // Limit to top 10 results
         results.truncate(10);
         results
+    }
+    
+    /// Word boundary aware matching to prevent false positives like "matter" matching "matters"
+    fn word_boundary_match(text: &str, query: &str) -> bool {
+        // Split query into words for multi-word queries
+        let query_words: Vec<&str> = query.split_whitespace().collect();
+        
+        if query_words.len() == 1 {
+            // Single word query - use word boundary matching
+            let word = query_words[0];
+            let text_words: Vec<&str> = text.split_whitespace().collect();
+            
+            // Check if any word in text exactly matches the query word
+            text_words.iter().any(|&text_word| {
+                // Remove punctuation for comparison
+                let clean_text_word = text_word.trim_matches(|c: char| !c.is_alphanumeric());
+                clean_text_word == word
+            })
+        } else {
+            // Multi-word query - check if all query words appear as complete words in text
+            let text_words: Vec<String> = text.split_whitespace()
+                .map(|w| w.trim_matches(|c: char| !c.is_alphanumeric()).to_string())
+                .collect();
+            
+            query_words.iter().all(|&query_word| {
+                text_words.iter().any(|text_word| text_word == query_word)
+            })
+        }
     }
 }
 

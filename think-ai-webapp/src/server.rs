@@ -79,7 +79,9 @@ pub fn create_webapp_router(state: AppState) -> Router {
 }
 
 async fn serve_webapp() -> impl IntoResponse {
-    Html(WEBAPP_HTML)
+    // Serve the simple HTML webapp instead of the WASM version
+    let simple_html = include_str!("../../../static/simple_webapp.html");
+    Html(simple_html)
 }
 
 async fn handle_query(

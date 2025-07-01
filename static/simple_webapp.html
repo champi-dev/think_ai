@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Think AI - Simple Interface</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 { 
+            text-align: center; 
+            color: #333; 
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+        .chat-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+        .chat-button {
+            padding: 1rem 2rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        .chat-button:hover {
+            background: #5a6fd8;
+        }
+        .chat-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .responses {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .response {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .response.user {
+            background: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+        .response.ai {
+            background: #f3e5f5;
+            border-left-color: #9c27b0;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Think AI</h1>
+        
+        <form class="chat-form" id="chat-form">
+            <input 
+                type="text" 
+                class="chat-input" 
+                id="chat-input" 
+                placeholder="Ask Think AI anything..."
+                required
+            >
+            <button type="submit" class="chat-button" id="chat-button">
+                Send
+            </button>
+        </form>
+        
+        <div class="responses" id="responses"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        const input = document.getElementById('chat-input');
+        const button = document.getElementById('chat-button');
+        const responses = document.getElementById('responses');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const query = input.value.trim();
+            if (!query) return;
+
+            // Add user message
+            addResponse(`You: ${query}`, 'user');
+            
+            // Clear input and disable button
+            input.value = '';
+            button.disabled = true;
+            button.textContent = 'Thinking...';
+            
+            // Add loading indicator
+            const loadingId = addResponse('Think AI is thinking...', 'loading');
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query }),
+                });
+
+                const data = await response.json();
+                
+                // Remove loading indicator
+                document.getElementById(loadingId).remove();
+                
+                // Add AI response
+                addResponse(`Think AI: ${data.response}`, 'ai');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById(loadingId).remove();
+                addResponse('Think AI: Sorry, I encountered an error. Please try again.', 'ai');
+            } finally {
+                // Re-enable button
+                button.disabled = false;
+                button.textContent = 'Send';
+                input.focus();
+            }
+        });
+
+        function addResponse(text, type) {
+            const div = document.createElement('div');
+            const id = 'response-' + Date.now();
+            div.id = id;
+            div.className = `response ${type}`;
+            div.textContent = text;
+            
+            responses.appendChild(div);
+            responses.scrollTop = responses.scrollHeight;
+            
+            return id;
+        }
+
+        // Focus input on load
+        input.focus();
+    </script>
+</body>
+</html>
