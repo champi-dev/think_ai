@@ -166,10 +166,19 @@ impl KnowledgeEngine {
     pub fn query(&self, query: &str) -> Option<Vec<KnowledgeNode>> {
         let query_lower = query.to_lowercase();
         
-        // Collect results while holding read lock
-        let mut exact_matches = Vec::new();
-        let mut results = Vec::new();
-        let mut partial_matches = Vec::new();
+        // Check if this is a definition query ("what is X", "define X", etc.)
+        let is_definition_query = query_lower.starts_with("what is ") || 
+                                 query_lower.starts_with("what's ") ||
+                                 query_lower.starts_with("define ") ||
+                                 query_lower.starts_with("explain ");
+        let key_concept = if is_definition_query {
+            self.extract_key_concept(query).to_lowercase()
+        } else {
+            query_lower.clone()
+        };
+        
+        // Collect results with scoring
+        let mut scored_results = Vec::new();
         let mut node_ids_to_update = Vec::new();
         
         {
@@ -178,47 +187,82 @@ impl KnowledgeEngine {
             for (_, node) in nodes.iter() {
                 let topic_lower = node.topic.to_lowercase();
                 let content_lower = node.content.to_lowercase();
+                let mut score = 0.0f32;
+                let mut matched = false;
                 
-                // Exact topic match gets highest priority
-                if topic_lower == query_lower {
-                    exact_matches.push(node.clone());
-                    node_ids_to_update.push(node.id.clone());
+                // Score exact topic matches highest
+                if is_definition_query && topic_lower == key_concept {
+                    score = 100.0;
+                    matched = true;
+                } else if topic_lower == query_lower {
+                    score = 95.0;
+                    matched = true;
                 }
-                // Topic contains query (word boundary aware)
+                // Score primary topic matches for definition queries
+                else if is_definition_query && topic_lower.starts_with(&key_concept) && 
+                        (topic_lower.len() - key_concept.len()) < 10 {
+                    score = 90.0;
+                    matched = true;
+                }
+                // Score topic word boundary matches
                 else if Self::word_boundary_match(&topic_lower, &query_lower) {
-                    results.push(node.clone());
-                    node_ids_to_update.push(node.id.clone());
+                    if is_definition_query {
+                        // For definition queries, prioritize based on how central the concept is
+                        let words = topic_lower.split_whitespace().collect::<Vec<_>>();
+                        if words.len() <= 3 && words.contains(&key_concept.as_str()) {
+                            score = 85.0; // Short, focused topics
+                        } else if words.contains(&key_concept.as_str()) {
+                            score = 60.0; // Longer topics but contains concept
+                        } else {
+                            score = 40.0; // Contains query but not the key concept
+                        }
+                    } else {
+                        score = 75.0;
+                    }
+                    matched = true;
                 }
-                // Content contains query (word boundary aware)  
+                // Score content matches lower
                 else if Self::word_boundary_match(&content_lower, &query_lower) {
-                    partial_matches.push(node.clone());
-                    node_ids_to_update.push(node.id.clone());
+                    score = 30.0;
+                    matched = true;
                 }
                 // Check related concepts
                 else {
                     for concept in &node.related_concepts {
                         let concept_lower = concept.to_lowercase();
-                        // Check if query contains this concept OR concept contains query words
                         if query_lower.contains(&concept_lower) || 
                            query_lower.split_whitespace().any(|word| word == concept_lower) {
-                            partial_matches.push(node.clone());
-                            node_ids_to_update.push(node.id.clone());
+                            score = 25.0;
+                            matched = true;
                             break;
                         }
                     }
                 }
+                
+                if matched {
+                    // Apply domain relevance boost for definition queries
+                    if is_definition_query {
+                        score += Self::calculate_domain_relevance_boost(&key_concept, &node.domain);
+                    }
+                    
+                    scored_results.push((node.clone(), score));
+                    node_ids_to_update.push(node.id.clone());
+                }
             }
         } // Read lock dropped here
         
-        // Combine results: exact matches first, then topic matches, then content matches
-        exact_matches.extend(results);
-        exact_matches.extend(partial_matches);
-
-        if exact_matches.is_empty() {
+        if scored_results.is_empty() {
             None
         } else {
+            // Sort by score (highest first)
+            scored_results.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+            
+            // Extract sorted nodes
+            let exact_matches: Vec<KnowledgeNode> = scored_results.into_iter()
+                .map(|(node, _)| node)
+                .collect();
+            
             // Update access count and timestamp for retrieved nodes
-            // Now we can safely acquire write lock
             let mut nodes_mut = self.nodes.write().unwrap();
             for id in &node_ids_to_update {
                 if let Some(node) = nodes_mut.get_mut(id) {
@@ -558,6 +602,75 @@ impl KnowledgeEngine {
             query_words.iter().all(|&query_word| {
                 text_words.iter().any(|text_word| text_word == query_word)
             })
+        }
+    }
+    
+    /// Calculate domain relevance boost for definition queries
+    fn calculate_domain_relevance_boost(concept: &str, domain: &KnowledgeDomain) -> f32 {
+        match concept {
+            // Space concepts - prioritize astronomy and physics
+            "space" | "universe" | "cosmos" | "galaxy" | "star" | "planet" => {
+                match domain {
+                    KnowledgeDomain::Astronomy => 15.0,
+                    KnowledgeDomain::Physics => 10.0,
+                    KnowledgeDomain::Philosophy => 5.0,
+                    _ => 0.0,
+                }
+            },
+            // Matter concepts - prioritize physics and chemistry
+            "matter" | "atom" | "molecule" | "element" | "compound" => {
+                match domain {
+                    KnowledgeDomain::Physics => 15.0,
+                    KnowledgeDomain::Chemistry => 15.0,
+                    KnowledgeDomain::Philosophy => 3.0,
+                    _ => 0.0,
+                }
+            },
+            // Time concepts - prioritize physics and philosophy
+            "time" | "temporal" | "duration" => {
+                match domain {
+                    KnowledgeDomain::Physics => 15.0,
+                    KnowledgeDomain::Philosophy => 10.0,
+                    KnowledgeDomain::Astronomy => 8.0,
+                    _ => 0.0,
+                }
+            },
+            // Life concepts - prioritize biology and medicine
+            "life" | "organism" | "cell" | "dna" | "gene" => {
+                match domain {
+                    KnowledgeDomain::Biology => 15.0,
+                    KnowledgeDomain::Medicine => 12.0,
+                    KnowledgeDomain::Philosophy => 5.0,
+                    _ => 0.0,
+                }
+            },
+            // Mind concepts - prioritize psychology and philosophy
+            "mind" | "consciousness" | "thought" | "brain" => {
+                match domain {
+                    KnowledgeDomain::Psychology => 15.0,
+                    KnowledgeDomain::Philosophy => 12.0,
+                    KnowledgeDomain::Biology => 8.0,
+                    _ => 0.0,
+                }
+            },
+            // Math concepts - prioritize mathematics
+            "number" | "equation" | "algebra" | "geometry" | "calculus" => {
+                match domain {
+                    KnowledgeDomain::Mathematics => 15.0,
+                    KnowledgeDomain::Physics => 5.0,
+                    _ => 0.0,
+                }
+            },
+            // Computing concepts - prioritize computer science
+            "computer" | "algorithm" | "software" | "programming" => {
+                match domain {
+                    KnowledgeDomain::ComputerScience => 15.0,
+                    KnowledgeDomain::Engineering => 8.0,
+                    _ => 0.0,
+                }
+            },
+            // Default case - no boost
+            _ => 0.0,
         }
     }
 }
