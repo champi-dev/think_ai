@@ -208,39 +208,7 @@ impl MultiLevelCache {
     /// Cache phrase-level responses
     fn cache_phrase_responses(&mut self) {
         let phrase_patterns = vec![
-            // Question phrases
-            ("what is", vec![
-                CachedResponse {
-                    content: "That's a fascinating question! Let me think about that concept with you.".to_string(),
-                    confidence: 0.7,
-                    context_relevance: 0.8,
-                    engagement_score: 0.85,
-                    response_type: ResponseType::Question,
-                    source_level: CacheLevel::Phrase,
-                }
-            ]),
-            
-            ("what means", vec![
-                CachedResponse {
-                    content: "That's a thoughtful way to ask about meaning! Let's explore that together.".to_string(),
-                    confidence: 0.75,
-                    context_relevance: 0.82,
-                    engagement_score: 0.9,
-                    response_type: ResponseType::Question,
-                    source_level: CacheLevel::Phrase,
-                }
-            ]),
-            
-            ("how do", vec![
-                CachedResponse {
-                    content: "Great question about process! I'd love to walk through that with you.".to_string(),
-                    confidence: 0.8,
-                    context_relevance: 0.75,
-                    engagement_score: 0.85,
-                    response_type: ResponseType::Question,
-                    source_level: CacheLevel::Phrase,
-                }
-            ]),
+            // Question phrases - removed template responses to let Enhanced Quantum LLM handle these
             
             // Ability phrases
             ("can you", vec![
