@@ -14,7 +14,7 @@ COPY . .
 # Build the binary
 RUN cargo build --release --bin full-server
 
-# Expose port (Railway will set PORT env var)
+# Expose default port (Railway will set PORT env var at runtime)
 EXPOSE 8080
 
 # Run the server
