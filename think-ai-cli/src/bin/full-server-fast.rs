@@ -169,11 +169,12 @@ async fn initialize_ai_systems(state: Arc<FastAppState>) {
         enhanced_quantum_llm.set_precision_mode(PrecisionMode::INT8);
     }
     
-    // Start self-evaluation
-    let evaluator_clone = state.self_evaluator.clone();
-    tokio::spawn(async move {
-        evaluator_clone.start_background_evaluation().await;
-    });
+    // Start self-evaluation (disabled for production performance)
+    // let evaluator_clone = state.self_evaluator.clone();
+    // tokio::spawn(async move {
+    //     evaluator_clone.start_background_evaluation().await;
+    // });
+    println!("⚠️  Self-evaluation disabled for O(1) performance");
     
     // Mark initialization complete
     *state.initialization_complete.write().await = true;

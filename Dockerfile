@@ -11,11 +11,11 @@ WORKDIR /app
 # Copy source code
 COPY . .
 
-# Build the debug server for Railway environment debugging
-RUN cargo build --release --bin full-server-fast
+# Build the full system with O(1) performance and hanging protection
+RUN cargo build --release --bin full-system-safe
 
 # Expose default port (Railway will set PORT env var at runtime)
 EXPOSE 8080
 
-# Run the debug server (shows all env vars and health check details)
-CMD ["./target/release/full-server-fast"]
+# Run the full system (Complete Think AI with 3D visualization, O(1) optimized, timeout protected)
+CMD ["./target/release/full-system-safe"]

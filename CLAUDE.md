@@ -279,3 +279,4 @@ The Rust ecosystem provides all necessary components for building a performant L
 - Always give me back a bash script for me to test locally
 - Always tell me how to run it locally
 - Pre-Prompt: Solve it in minimal small verifiable testable manageable steps, test verify and provide solid evidence of each step you take, use O(1)
+- Always kill ports first before trying to use them
