@@ -180,29 +180,30 @@ impl MultiLevelResponseComponent {
     
     /// Generate response using word-by-word and phrase-by-phrase analysis
     fn generate_multilevel_response(&self, query: &str) -> Option<String> {
-        println!("   🔬 Analyzing query components:");
+        // Disabled verbose logging for production performance
+        // println!("   🔬 Analyzing query components:");
         
         // 1. Word-level analysis
         let query_lower = query.to_lowercase();
         let words: Vec<&str> = query_lower.split_whitespace().collect();
-        println!("   📝 Words: {:?}", words);
+        // println!("   📝 Words: {:?}", words);
         
         let mut word_responses = Vec::new();
         for word in &words {
             if let Some(response) = self.generate_word_response(word) {
-                println!("   🎯 Word '{}' -> {}", word, response.content.chars().take(50).collect::<String>());
+                // println!("   🎯 Word '{}' -> {}", word, response.content.chars().take(50).collect::<String>());
                 word_responses.push(response);
             }
         }
         
         // 2. Phrase-level analysis  
         let phrases = self.extract_key_phrases(query);
-        println!("   🔗 Phrases: {:?}", phrases);
+        // println!("   🔗 Phrases: {:?}", phrases);
         
         let mut phrase_responses = Vec::new();
         for phrase in &phrases {
             if let Some(response) = self.generate_phrase_response(phrase) {
-                println!("   🎯 Phrase '{}' -> {}", phrase, response.content.chars().take(50).collect::<String>());
+                // println!("   🎯 Phrase '{}' -> {}", phrase, response.content.chars().take(50).collect::<String>());
                 phrase_responses.push(response);
             }
         }
@@ -212,17 +213,17 @@ impl MultiLevelResponseComponent {
             // Prefer phrase-level responses
             let best_phrase = phrase_responses.into_iter()
                 .max_by(|a, b| a.confidence.partial_cmp(&b.confidence).unwrap_or(std::cmp::Ordering::Equal))?;
-            println!("   ✅ Using best phrase response");
+            // println!("   ✅ Using best phrase response");
             Some(best_phrase.content)
         } else if !word_responses.is_empty() {
             // Fall back to word-level responses
             let best_word = word_responses.into_iter()
                 .max_by(|a, b| a.confidence.partial_cmp(&b.confidence).unwrap_or(std::cmp::Ordering::Equal))?;
-            println!("   ✅ Using best word response");
+            // println!("   ✅ Using best word response");
             Some(best_word.content)
         } else {
             // Generate a dynamic response based on query structure
-            println!("   🤖 Generating dynamic response for novel query");
+            // println!("   🤖 Generating dynamic response for novel query");
             self.generate_dynamic_response(query)
         }
     }

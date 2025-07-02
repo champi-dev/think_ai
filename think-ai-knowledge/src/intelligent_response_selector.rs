@@ -136,7 +136,7 @@ impl IntelligentResponseSelector {
         
         // Check multiple ways to find knowledge
         // 1. Direct query match
-        if self.knowledge_engine.query(&query).is_some() {
+        if self.knowledge_engine.fast_query(&query).is_some() {
             has_knowledge = true;
             knowledge_confidence = 0.95;
         }
@@ -144,7 +144,7 @@ impl IntelligentResponseSelector {
         // 2. Check for any key token matches
         if !has_knowledge {
             for token in &query_tokens {
-                if let Some(results) = self.knowledge_engine.query(token) {
+                if let Some(results) = self.knowledge_engine.fast_query(token) {
                     if !results.is_empty() {
                         // Check if any result has high relevance to our query
                         for node in results {

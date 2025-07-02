@@ -1,0 +1,132 @@
+🚀 Think AI Full Server Starting...
+🧠 Initializing LLM-based knowledge system...
+📚 Loaded 18 entries from "history.json"
+📚 Loaded 4 entries from "education.json"
+📚 Loaded 5 entries from "public_health.json"
+📚 Loaded 5 entries from "quantum.json"
+📚 Loaded 7 entries from "cs.cy.json"
+📚 Loaded 8 entries from "physics.hist-ph.json"
+📚 Loaded 18 entries from "literature.json"
+📚 Loaded 15 entries from "consciousness.json"
+📚 Loaded 4 entries from "psychology.json"
+📋 Skipping index file: "enhanced_knowledge_index.json"
+📚 Loaded 6 entries from "astronomy.json"
+📚 Loaded 3 entries from "science.json"
+📚 Loaded 2 entries from "technology_policy.json"
+📚 Loaded 3 entries from "computerscience.json"
+📚 Loaded 5 entries from "scientific_research.json"
+📚 Loaded 7 entries from "cs.hc.json"
+📚 Loaded 3 entries from "biology.json"
+📚 Loaded 4 entries from "cs.cl.json"
+📚 Loaded 1 entries from "statistics.json"
+📚 Loaded 16 entries from "politics.json"
+📚 Loaded 8 entries from "econ.th.json"
+📚 Loaded 1 entries from "mathematics.json"
+📚 Loaded 6 entries from "philosophy.json"
+📚 Loaded 8 entries from "math.lo.json"
+📚 Loaded 4 entries from "physics.json"
+📚 Loaded 22 entries from "economics.json"
+📚 Loaded 5 entries from "cs.cv.json"
+📚 Loaded 1 entries from "technology.json"
+📚 Loaded 15 entries from "neuroscience.json"
+📚 Loaded 15 entries from "computer_science.json"
+📚 Loaded 8 entries from "q-bio.nc.json"
+📚 Loaded 13 entries from "machine_learning.json"
+📚 Loaded 27 entries from "ai.json"
+📚 Loaded 4 entries from "cs.lg.json"
+📚 Loaded 271 enhanced knowledge items
+🤖 Initializing Quantum LLM Engine...
+📚 Loaded 2 entries from "astronomy.json"
+📚 Loaded 2 entries from "technology.json"
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+⚡ Initializing Enhanced Quantum LLM with O(1) optimizations...
+📚 Loaded 2 entries from "astronomy.json"
+📚 Loaded 2 entries from "technology.json"
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+⚡ Applying advanced optimizations from CLAUDE.md:
+   📊 Linear Attention: O(1) inference with FAVOR+ approximation
+   🔢 INT8 Quantization: 2x memory reduction, <1% accuracy loss
+   🧠 Neural Cache: 18.3x latency improvement through hash-based lookups
+   🚀 Read-only Processing: Concurrent access without write lock contention
+   ⏱️ Timeout Protection: 5s primary + 3s fallback with graceful degradation
+🚀 Enhanced LLM configured: Full O(1) optimization stack
+✅ Loaded 275 total knowledge items
+📊 Performance targets (from CLAUDE.md):
+   🎯 Target: 0.002ms avg response time (verified with Rust benchmarks)
+   🎯 O(1) cache lookups: Hash-based LSH vector search
+   🎯 Memory bandwidth optimization: FlashAttention tiling
+   🎯 SIMD optimizations: 1.7-2x speedup on CPU operations
+🌳 Enhanced hierarchical TinyLlama initialized
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🧩 Component response generator initialized
+✅ Self-evaluation system initialized
+🔧 PORT env var not set, using default port logic
+🧠 Starting AI self-evaluation system...
+🧠 Starting self-evaluation system...
+✅ Self-evaluation system active - AI now questioning itself for continuous improvement
+🚀 Think AI Full Server starting...
+🌐 Binding to 0.0.0.0:8080
+📱 Available routes:
+   GET  / - 3D Quantum Webapp
+   GET  /health - Health check
+   POST /api/chat - Chat API (Enhanced O(1) LLM)
+   GET  /api/stats - Knowledge Base Stats
+   GET  /api/evaluation - Self-Evaluation Stats
+   GET  /api/performance - O(1) Performance Metrics
+✅ Server bound successfully to port 8080
+🎉 Think AI server is ready!
+🌍 Access at: http://localhost:8080
+❓ Generating self-evaluation questions...
+🚀 Initializing TinyLlama (fallback mode - OpenSSL not available)...
+✅ TinyLlama ready (using intelligent fallback responses)!
+📝 Generated 176 self-evaluation questions
+🚫 Cache response not useful, falling back to knowledge base
+🔢 Mathematical component: WHAT IS MATH for 'Query: What is 2002 Nonemployer Statistics: Non Employer Statistics?
+
+Available Knowledge:
+1. Topic: 2002 Nonemployer Statistics: Non Employer Statistics
+  Content: Nonemployer Statistics is an annual series that provides subnational economic data for businesses that have no paid employees and are subject to federal income tax. The data consist of the number of businesses and total receipts by industry. The Nonemployers Statistics series is the primary resource available to study the scope and activities of nonemployers at a detailed geographic level. Businesses
+
+2. Topic: Non-Discriminatory Personalized Pricing
+  Content: A monopolist offers personalized prices to consumers with unit demand,
+heterogeneous values, and idiosyncratic costs, who differ in a protected
+characteristic, such as race or gender. The seller is subject to a
+non-discrimination constraint: consumers with the same cost, but different
+characteristics must face identical prices. The setting reduces to an optimal transport,
+and we characterize the optimal pricing rule. Strengthening the constraint to
+cover transaction prices redistributes surplus,...
+
+3. Topic: Public Health Statistics - Selected public health indicators by Chicago community area - Historical
+  Content: Note: This dataset is historical only and there are not corresponding datasets for more recent time periods. For that more-recent information, please visit the Chicago Health Atlas at https://chicagohealthatlas. The indicators are rates, percents, or other measures related to natality, mortality, infectious disease, lead poisoning, and economic status. org/api/assets/2107948F-357D-4ED7-ACC2-2E9266BBFFA2
+
+4. Topic: Bridging Offline and Online Reinforcement Learning for LLMs
+  Content: We investigate the effectiveness of reinforcement learning methods for
+finetuning large language models when transitioning from offline to semi-online
+to fully online regimes for both verifiable and non-verifiable tasks. Our
+experiments cover training on verifiable math as well as non-verifiable
+instruction following with a set of benchmark evaluations for both. We provide a detailed analysis of the
+training dynamics and hyperparameter selection strategies to achieve optimal
+results. Finally, we...
+
+5. Topic: Economic Census: Economic Census of Island Areas
+  Content: Every five years, the U. S. Census Bureau collects extensive statistics about businesses that are essential to understanding the economy of American Samoa, Commonwealth of Northern Mariana Islands, Guam, Virgin Islands, and Puerto Rico. This official count, as part of the Economic Census of Island Areas, serves as the foundation for the measurement of Island Areas businesses and their economic impact
+
+6. Topic: Neuroscience
+  Content: Neuroscience is the scientific study of the nervous system, its functions, and its disorders. It is a multidisciplinary science that combines physiology, anatomy, molecular biology, developmental biology, cytology, psychology, physics, computer science, chemistry, medicine, statistics, and mathematical modeling to understand the fundamental and emergent properties of neurons, glia and neural circuits. The understanding of the biologycal basis of learning, memory, behavior, perception, and consci...
+
+7. Topic: Ensemble learning
+  Content: In statistics and machine learning, ensemble methods use multiple learning algorithms to obtain better predictive performance than could be obtained from any of the constituent learning algorithms alone.
+Unlike a statistical ensemble in statistical mechanics, which is usually infinite, a machine learning ensemble consists of only a concrete finite set of alternative models, but typically allows for much more flexible structure to exist among those alternatives.
+
+Total Knowledge Available: 275 nodes across 13 domains
+
+Detected Entities: query_type=definition, 
+
+Instructions: Please provide a comprehensive, accurate answer using the available knowledge. If the query is about a topic not covered in the knowledge base, use your general knowledge but be clear about the source. Build and refine your answer using all relevant information provided.'
+🚫 Cache response not useful, falling back to knowledge base

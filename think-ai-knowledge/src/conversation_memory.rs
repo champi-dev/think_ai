@@ -147,82 +147,81 @@ impl ConversationMemory {
         }
     }
     
-    /// Extract topics from conversation text using keyword analysis
+    /// Extract topics from conversation text using optimized keyword analysis
     fn extract_topics(&self, human_input: &str, ai_response: &str) -> Vec<String> {
         let combined_text = format!("{} {}", human_input, ai_response).to_lowercase();
+        let text_words: std::collections::HashSet<&str> = combined_text.split_whitespace().collect();
+        
+        // Pre-built topic keyword sets for O(1) lookups
+        let topic_keyword_sets = [
+            ("technology", ["ai", "artificial", "intelligence", "computer", "software", "algorithm", "programming", "code", "tech", "digital", "internet"].as_slice()),
+            ("science", ["research", "study", "experiment", "theory", "physics", "chemistry", "biology", "scientific", "discovery", "evidence"].as_slice()),
+            ("philosophy", ["meaning", "consciousness", "ethics", "moral", "existence", "reality", "truth", "wisdom", "philosophy", "think"].as_slice()),
+            ("work", ["job", "career", "work", "project", "business", "professional", "office", "colleague", "deadline", "productivity"].as_slice()),
+            ("personal", ["family", "friend", "relationship", "personal", "emotion", "feeling", "happiness", "sad", "love", "life"].as_slice()),
+            ("learning", ["learn", "education", "knowledge", "skill", "understand", "study", "book", "read", "teach", "course"].as_slice()),
+            ("creativity", ["art", "music", "creative", "design", "imagination", "inspire", "artist", "write", "create", "beauty"].as_slice()),
+            ("health", ["health", "medicine", "doctor", "exercise", "fitness", "mental", "physical", "wellness", "medical", "body"].as_slice()),
+            ("travel", ["travel", "trip", "journey", "place", "country", "culture", "explore", "adventure", "vacation", "world"].as_slice()),
+            ("future", ["future", "tomorrow", "goal", "plan", "dream", "hope", "aspiration", "vision", "ambition", "progress"].as_slice()),
+        ];
+        
         let mut topics = Vec::new();
         
-        // Predefined topic categories with keywords
-        let topic_keywords = HashMap::from([
-            ("technology", vec!["ai", "artificial intelligence", "computer", "software", "algorithm", "programming", "code", "tech", "digital", "internet"]),
-            ("science", vec!["research", "study", "experiment", "theory", "physics", "chemistry", "biology", "scientific", "discovery", "evidence"]),
-            ("philosophy", vec!["meaning", "consciousness", "ethics", "moral", "existence", "reality", "truth", "wisdom", "philosophy", "think"]),
-            ("work", vec!["job", "career", "work", "project", "business", "professional", "office", "colleague", "deadline", "productivity"]),
-            ("personal", vec!["family", "friend", "relationship", "personal", "emotion", "feeling", "happiness", "sad", "love", "life"]),
-            ("learning", vec!["learn", "education", "knowledge", "skill", "understand", "study", "book", "read", "teach", "course"]),
-            ("creativity", vec!["art", "music", "creative", "design", "imagination", "inspire", "artist", "write", "create", "beauty"]),
-            ("health", vec!["health", "medicine", "doctor", "exercise", "fitness", "mental", "physical", "wellness", "medical", "body"]),
-            ("travel", vec!["travel", "trip", "journey", "place", "country", "culture", "explore", "adventure", "vacation", "world"]),
-            ("future", vec!["future", "tomorrow", "goal", "plan", "dream", "hope", "aspiration", "vision", "ambition", "progress"]),
-        ]);
-        
-        for (topic, keywords) in topic_keywords {
-            for keyword in keywords {
-                if combined_text.contains(keyword) {
-                    topics.push(topic.to_string());
-                    break;
-                }
+        // O(1) keyword matching using HashSet intersection
+        for (topic, keywords) in &topic_keyword_sets {
+            if keywords.iter().any(|&keyword| text_words.contains(keyword)) {
+                topics.push(topic.to_string());
             }
         }
         
-        // Remove duplicates and return
-        topics.sort();
-        topics.dedup();
         topics
     }
     
-    /// Extract named entities from text
+    /// Extract named entities from text (optimized)
     fn extract_entities(&self, human_input: &str, ai_response: &str) -> Vec<String> {
         let combined_text = format!("{} {}", human_input, ai_response);
-        let mut entities = Vec::new();
+        let mut entities = std::collections::HashSet::new();
         
-        // Simple named entity recognition (in production, use NLP libraries)
-        let words: Vec<&str> = combined_text.split_whitespace().collect();
-        
-        for word in words {
+        // Simple named entity recognition with O(1) deduplication
+        for word in combined_text.split_whitespace() {
             // Check for capitalized words (potential proper nouns)
-            if word.len() > 2 && word.chars().next().unwrap().is_uppercase() {
-                let clean_word = word.trim_matches(|c: char| !c.is_alphabetic());
-                if clean_word.len() > 2 {
-                    entities.push(clean_word.to_string());
+            if let Some(first_char) = word.chars().next() {
+                if word.len() > 2 && first_char.is_uppercase() {
+                    let clean_word = word.trim_matches(|c: char| !c.is_alphabetic());
+                    if clean_word.len() > 2 {
+                        entities.insert(clean_word.to_string());
+                    }
                 }
             }
         }
         
-        // Remove duplicates
-        entities.sort();
-        entities.dedup();
-        entities.truncate(10); // Limit to top 10 entities
-        entities
+        // Convert to Vec and limit
+        let mut result: Vec<String> = entities.into_iter().collect();
+        result.truncate(10); // Limit to top 10 entities
+        result
     }
     
-    /// Calculate emotional sentiment of the input (-1.0 to 1.0)
+    /// Calculate emotional sentiment of the input (-1.0 to 1.0) - optimized
     fn calculate_sentiment(&self, text: &str) -> f32 {
-        let positive_words = ["happy", "good", "great", "excellent", "wonderful", "amazing", "love", "joy", "excited", "fantastic"];
-        let negative_words = ["sad", "bad", "terrible", "awful", "horrible", "hate", "angry", "frustrated", "disappointed", "worried"];
+        let positive_words: std::collections::HashSet<&str> = 
+            ["happy", "good", "great", "excellent", "wonderful", "amazing", "love", "joy", "excited", "fantastic"]
+            .iter().cloned().collect();
+        let negative_words: std::collections::HashSet<&str> = 
+            ["sad", "bad", "terrible", "awful", "horrible", "hate", "angry", "frustrated", "disappointed", "worried"]
+            .iter().cloned().collect();
         
         let text_lower = text.to_lowercase();
+        let text_words: Vec<&str> = text_lower.split_whitespace().collect();
         let mut positive_score = 0;
         let mut negative_score = 0;
         
-        for word in positive_words {
-            if text_lower.contains(word) {
+        // O(1) lookups using HashSet
+        for word in text_words {
+            if positive_words.contains(word) {
                 positive_score += 1;
             }
-        }
-        
-        for word in negative_words {
-            if text_lower.contains(word) {
+            if negative_words.contains(word) {
                 negative_score += 1;
             }
         }

@@ -94,8 +94,11 @@ impl SelfEvaluator {
 
         println!("🧠 Starting self-evaluation system...");
         
-        // Generate initial questions about the knowledge base
-        self.generate_comprehensive_questions().await;
+        // Generate initial questions about the knowledge base in background
+        let evaluator_for_questions = self.clone_for_async();
+        tokio::spawn(async move {
+            evaluator_for_questions.generate_comprehensive_questions().await;
+        });
         
         // Start evaluation loops
         let evaluator = self.clone_for_async();
@@ -111,19 +114,71 @@ impl SelfEvaluator {
         println!("✅ Self-evaluation system active - AI now questioning itself for continuous improvement");
     }
 
-    /// Generate questions about the knowledge base
+    /// Generate questions about the knowledge base (lightweight, non-blocking)
     async fn generate_comprehensive_questions(&self) {
         println!("❓ Generating self-evaluation questions...");
         
-        let stats = self.knowledge_engine.get_stats();
+        // Start with a minimal set of questions to avoid blocking
         let mut questions = Vec::new();
         
-        // Generate questions for each domain
-        for domain in KnowledgeDomain::all_domains() {
-            // Get sample nodes from this domain
+        // Generate only 1 question per domain to avoid blocking startup
+        for domain in KnowledgeDomain::all_domains().iter().take(5) { // Only 5 domains for startup
+            // Get just 1 sample node from this domain
             let domain_nodes = self.knowledge_engine.query_by_domain(domain.clone());
             
-            for node in domain_nodes.iter().take(3) { // 3 questions per domain for startup
+            if let Some(node) = domain_nodes.first() {
+                // Generate just 1 question per node for startup
+                questions.push(SelfQuestion {
+                    question: format!("What is {}?", node.topic),
+                    domain: domain.clone(),
+                    complexity_level: 3,
+                    expected_answer_type: QuestionType::Definition,
+                });
+            }
+        }
+
+        // Add just 2 meta-questions to avoid blocking
+        questions.push(SelfQuestion {
+            question: "How many knowledge domains do I have?".to_string(),
+            domain: KnowledgeDomain::Philosophy,
+            complexity_level: 2,
+            expected_answer_type: QuestionType::Definition,
+        });
+        
+        questions.push(SelfQuestion {
+            question: "What is my primary function?".to_string(),
+            domain: KnowledgeDomain::Philosophy,
+            complexity_level: 2,
+            expected_answer_type: QuestionType::Definition,
+        });
+
+        // Add to queue quickly
+        let mut queue = self.question_queue.write().unwrap();
+        for question in questions {
+            queue.push_back(question);
+        }
+        
+        println!("📝 Generated {} self-evaluation questions (lightweight startup)", queue.len());
+        
+        // Schedule more comprehensive question generation in background
+        let evaluator = self.clone_for_async();
+        tokio::spawn(async move {
+            tokio::time::sleep(tokio::time::Duration::from_secs(10)).await; // Wait 10 seconds
+            evaluator.generate_full_question_set().await;
+        });
+    }
+    
+    /// Generate the full comprehensive question set in background
+    async fn generate_full_question_set(&self) {
+        println!("🔄 Generating comprehensive question set in background...");
+        
+        let mut questions = Vec::new();
+        
+        // Generate questions for each domain (more comprehensive)
+        for domain in KnowledgeDomain::all_domains() {
+            let domain_nodes = self.knowledge_engine.query_by_domain(domain.clone());
+            
+            for node in domain_nodes.iter().take(2) { // 2 questions per domain for full set
                 questions.extend(self.generate_questions_for_node(node, &domain));
             }
         }
@@ -137,7 +192,7 @@ impl SelfEvaluator {
         
         let mut hasher = DefaultHasher::new();
         SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos().hash(&mut hasher);
-        let seed = hasher.finish();
+        let _seed = hasher.finish();
         
         // Simple shuffle using seed
         questions.sort_by(|a, b| {
@@ -155,7 +210,7 @@ impl SelfEvaluator {
             queue.push_back(question);
         }
         
-        println!("📝 Generated {} self-evaluation questions", queue.len());
+        println!("📝 Generated {} total self-evaluation questions", queue.len());
     }
 
     /// Generate different types of questions for a knowledge node
@@ -1225,6 +1280,143 @@ impl SelfEvaluatorAsync {
             KnowledgeDomain::Philosophy
         }
     }
+
+    /// Generate questions about the knowledge base (async version)
+    async fn generate_comprehensive_questions(&self) {
+        println!("❓ Generating self-evaluation questions...");
+        
+        let mut questions = Vec::new();
+        
+        // Generate questions for each domain
+        for domain in KnowledgeDomain::all_domains() {
+            // Get sample nodes from this domain
+            let domain_nodes = self.knowledge_engine.query_by_domain(domain.clone());
+            
+            for node in domain_nodes.iter().take(3) { // 3 questions per domain for startup
+                // Generate questions directly since we can't call the main impl methods
+                questions.push(SelfQuestion {
+                    question: format!("What is {}?", node.topic),
+                    domain: domain.clone(),
+                    complexity_level: 1,
+                    expected_answer_type: QuestionType::Definition,
+                });
+                questions.push(SelfQuestion {
+                    question: format!("How does {} work?", node.topic),
+                    domain: domain.clone(),
+                    complexity_level: 2,
+                    expected_answer_type: QuestionType::Explanation,
+                });
+            }
+        }
+
+        // Add meta-questions about the system itself
+        questions.push(SelfQuestion {
+            question: "What is the purpose of this AI system?".to_string(),
+            domain: KnowledgeDomain::Philosophy,
+            complexity_level: 1,
+            expected_answer_type: QuestionType::Definition,
+        });
+        questions.push(SelfQuestion {
+            question: "What are the main capabilities of this knowledge system?".to_string(),
+            domain: KnowledgeDomain::ComputerScience,
+            complexity_level: 2,
+            expected_answer_type: QuestionType::Explanation,
+        });
+
+        // Randomize and add to queue
+        use std::collections::hash_map::DefaultHasher;
+        use std::hash::{Hash, Hasher};
+        
+        let mut hasher = DefaultHasher::new();
+        SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos().hash(&mut hasher);
+        
+        // Simple shuffle using seed
+        questions.sort_by(|a, b| {
+            let mut hasher = DefaultHasher::new();
+            a.question.hash(&mut hasher);
+            let a_hash = hasher.finish();
+            let mut hasher = DefaultHasher::new();  
+            b.question.hash(&mut hasher);
+            let b_hash = hasher.finish();
+            a_hash.cmp(&b_hash)
+        });
+
+        let mut queue = self.question_queue.write().unwrap();
+        for question in questions {
+            queue.push_back(question);
+        }
+        
+        println!("📝 Generated {} self-evaluation questions", queue.len());
+    }
+
+    /// Generate the full comprehensive question set in background
+    async fn generate_full_question_set(&self) {
+        println!("🔄 Generating comprehensive question set in background...");
+        
+        let mut questions = Vec::new();
+        
+        // Generate questions for each domain (more comprehensive)
+        for domain in KnowledgeDomain::all_domains() {
+            let domain_nodes = self.knowledge_engine.query_by_domain(domain.clone());
+            
+            for node in domain_nodes.iter().take(2) { // 2 questions per domain for full set
+                questions.extend(self.generate_questions_for_node(node, &domain));
+            }
+        }
+
+        // Add meta-questions about the system itself
+        questions.extend(self.generate_meta_questions());
+
+        // Randomize and add to queue
+        use std::collections::hash_map::DefaultHasher;
+        use std::hash::{Hash, Hasher};
+        
+        let mut hasher = DefaultHasher::new();
+        SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos().hash(&mut hasher);
+        let _seed = hasher.finish();
+        
+        // Simple shuffle using seed
+        questions.sort_by(|a, b| {
+            let mut hasher = DefaultHasher::new();
+            a.question.hash(&mut hasher);
+            let a_hash = hasher.finish();
+            let mut hasher = DefaultHasher::new();  
+            b.question.hash(&mut hasher);
+            let b_hash = hasher.finish();
+            a_hash.cmp(&b_hash)
+        });
+
+        let mut queue = self.question_queue.write().unwrap();
+        for question in questions {
+            queue.push_back(question);
+        }
+        
+        println!("📝 Generated {} total self-evaluation questions", queue.len());
+    }
+
+    fn generate_meta_questions(&self) -> Vec<SelfQuestion> {
+        vec![
+            SelfQuestion {
+                question: "How many knowledge domains do I have?".to_string(),
+                domain: KnowledgeDomain::Philosophy,
+                complexity_level: 2,
+                expected_answer_type: QuestionType::Definition,
+            },
+            SelfQuestion {
+                question: "What is my primary function?".to_string(),
+                domain: KnowledgeDomain::Philosophy,
+                complexity_level: 2,
+                expected_answer_type: QuestionType::Definition,
+            },
+            SelfQuestion {
+                question: "How do I learn and improve?".to_string(),
+                domain: KnowledgeDomain::Philosophy,
+                complexity_level: 4,
+                expected_answer_type: QuestionType::Explanation,
+            },
+        ]
+    }
+
 }
 
 /// Statistics about the self-evaluation system

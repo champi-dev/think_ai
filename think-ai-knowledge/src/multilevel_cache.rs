@@ -83,9 +83,17 @@ impl MultiLevelCache {
     fn initialize_core_patterns(&mut self) {
         println!("🧠 Initializing multi-level response cache...");
         
-        // No hardcoded patterns - purely dynamic knowledge-driven system
+        // Cache essential patterns for O(1) responses
+        self.cache_word_responses();
+        self.cache_phrase_responses();
+        self.cache_paragraph_responses();
+        self.cache_full_message_responses();
         
-        println!("✅ Multi-level cache initialized (empty - knowledge-driven only)");
+        println!("✅ Multi-level cache initialized with {} word patterns, {} phrase patterns, {} paragraph patterns, {} full message patterns", 
+                 self.word_responses.len(),
+                 self.phrase_responses.len(), 
+                 self.paragraph_responses.len(),
+                 self.full_message_responses.len());
     }
     
     /// Cache word-level responses

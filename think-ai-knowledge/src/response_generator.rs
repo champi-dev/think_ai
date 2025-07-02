@@ -229,7 +229,7 @@ impl ComponentResponseGenerator {
         // If not enough results, try individual tokens
         if relevant_nodes.len() < 5 {
             for token in &query_tokens {
-                if let Some(results) = self.knowledge_engine.query(token) {
+                if let Some(results) = self.knowledge_engine.fast_query(token) {
                     for node in results {
                         if !relevant_nodes.iter().any(|n: &KnowledgeNode| n.id == node.id) {
                             relevant_nodes.push(node);

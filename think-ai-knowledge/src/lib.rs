@@ -104,6 +104,11 @@ pub struct KnowledgeEngine {
     nodes: Arc<RwLock<HashMap<String, KnowledgeNode>>>,
     domain_index: Arc<RwLock<HashMap<KnowledgeDomain, Vec<String>>>>,
     concept_graph: Arc<RwLock<HashMap<String, Vec<String>>>>,
+    // O(1) Performance Indexes
+    topic_index: Arc<RwLock<HashMap<String, Vec<String>>>>, // topic -> node_ids
+    keyword_index: Arc<RwLock<HashMap<String, Vec<String>>>>, // keyword -> node_ids  
+    content_hash_index: Arc<RwLock<HashMap<String, String>>>, // content_hash -> node_id
+    quick_lookup_cache: Arc<RwLock<HashMap<String, Vec<(KnowledgeNode, f32)>>>>, // query -> cached results
     training_iterations: Arc<RwLock<u64>>,
     total_knowledge_items: Arc<RwLock<u64>>,
     quantum_llm: Arc<RwLock<Option<QuantumLLMEngine>>>,
@@ -118,6 +123,11 @@ impl KnowledgeEngine {
             nodes: nodes.clone(),
             domain_index: Arc::new(RwLock::new(HashMap::new())),
             concept_graph: Arc::new(RwLock::new(HashMap::new())),
+            // Initialize O(1) Performance Indexes
+            topic_index: Arc::new(RwLock::new(HashMap::new())),
+            keyword_index: Arc::new(RwLock::new(HashMap::new())),
+            content_hash_index: Arc::new(RwLock::new(HashMap::new())),
+            quick_lookup_cache: Arc::new(RwLock::new(HashMap::new())),
             training_iterations: Arc::new(RwLock::new(0)),
             total_knowledge_items: Arc::new(RwLock::new(0)),
             quantum_llm: Arc::new(RwLock::new(None)),
@@ -147,7 +157,7 @@ impl KnowledgeEngine {
         };
 
         let mut nodes = self.nodes.write().unwrap();
-        nodes.insert(id.clone(), node);
+        nodes.insert(id.clone(), node.clone());
 
         let mut domain_index = self.domain_index.write().unwrap();
         domain_index
@@ -156,7 +166,10 @@ impl KnowledgeEngine {
             .push(id.clone());
 
         let mut concept_graph = self.concept_graph.write().unwrap();
-        concept_graph.insert(topic.clone(), related);
+        concept_graph.insert(topic.clone(), related.clone());
+
+        // Update O(1) Performance Indexes
+        self.update_indexes(&id, &node);
 
         let mut total = self.total_knowledge_items.write().unwrap();
         *total += 1;
@@ -303,7 +316,7 @@ impl KnowledgeEngine {
         let processed_query = self.extract_key_concept(query);
         
         // First try direct query for exact matches on processed query
-        if let Some(results) = self.query(&processed_query) {
+        if let Some(results) = self.fast_query(&processed_query) {
             if !results.is_empty() {
                 return results;
             }
@@ -311,7 +324,7 @@ impl KnowledgeEngine {
         
         // If no results from processed query, try original query
         if processed_query != query {
-            if let Some(results) = self.query(query) {
+            if let Some(results) = self.fast_query(query) {
                 if !results.is_empty() {
                     return results;
                 }
@@ -557,7 +570,7 @@ impl KnowledgeEngine {
         
         // If limited results, try direct query
         if results.len() < 5 {
-            if let Some(direct_results) = self.query(query) {
+            if let Some(direct_results) = self.fast_query(query) {
                 for node in direct_results {
                     if !results.iter().any(|r| r.id == node.id) {
                         results.push(node);
@@ -682,6 +695,115 @@ impl KnowledgeEngine {
             },
             // Default case - no boost
             _ => 0.0,
+        }
+    }
+
+    // O(1) Performance Methods
+    fn update_indexes(&self, node_id: &str, node: &KnowledgeNode) {
+        // Update topic index for O(1) topic lookups
+        let topic_key = node.topic.to_lowercase();
+        let mut topic_index = self.topic_index.write().unwrap();
+        topic_index.entry(topic_key).or_insert_with(Vec::new).push(node_id.to_string());
+
+        // Update keyword index for O(1) keyword lookups  
+        let mut keyword_index = self.keyword_index.write().unwrap();
+        
+        // Index topic words
+        for word in node.topic.to_lowercase().split_whitespace() {
+            if word.len() > 2 { // Skip very short words
+                keyword_index.entry(word.to_string()).or_insert_with(Vec::new).push(node_id.to_string());
+            }
+        }
+        
+        // Index content words (first 50 words to avoid bloat)
+        for word in node.content.to_lowercase().split_whitespace().take(50) {
+            if word.len() > 3 { // Only meaningful words
+                let clean_word = word.trim_matches(|c: char| !c.is_alphanumeric());
+                if clean_word.len() > 3 {
+                    keyword_index.entry(clean_word.to_string()).or_insert_with(Vec::new).push(node_id.to_string());
+                }
+            }
+        }
+        
+        // Index related concepts
+        for concept in &node.related_concepts {
+            let concept_key = concept.to_lowercase();
+            keyword_index.entry(concept_key).or_insert_with(Vec::new).push(node_id.to_string());
+        }
+
+        // Update content hash index for exact duplicate detection
+        let content_hash = Self::hash_content(&node.content);
+        let mut content_hash_index = self.content_hash_index.write().unwrap();
+        content_hash_index.insert(content_hash, node_id.to_string());
+    }
+
+    fn hash_content(content: &str) -> String {
+        use sha2::{Digest, Sha256};
+        let mut hasher = Sha256::new();
+        hasher.update(content.as_bytes());
+        format!("{:x}", hasher.finalize())
+    }
+
+    // O(1) Fast Query - replaces the slow O(n) query method
+    pub fn fast_query(&self, query: &str) -> Option<Vec<KnowledgeNode>> {
+        let query_key = query.to_lowercase();
+        
+        // Check cache first - O(1) lookup
+        {
+            let cache = self.quick_lookup_cache.read().unwrap();
+            if let Some(cached_results) = cache.get(&query_key) {
+                return Some(cached_results.iter().map(|(node, _score)| node.clone()).collect());
+            }
+        }
+
+        let mut candidate_nodes = Vec::new();
+        let nodes = self.nodes.read().unwrap();
+
+        // O(1) Topic exact match lookup
+        if let Some(node_ids) = self.topic_index.read().unwrap().get(&query_key) {
+            for node_id in node_ids {
+                if let Some(node) = nodes.get(node_id) {
+                    candidate_nodes.push((node.clone(), 100.0)); // Highest score for exact topic match
+                }
+            }
+        }
+
+        // O(1) Keyword lookups
+        let keyword_index = self.keyword_index.read().unwrap();
+        for word in query_key.split_whitespace() {
+            if let Some(node_ids) = keyword_index.get(word) {
+                for node_id in node_ids {
+                    if let Some(node) = nodes.get(node_id) {
+                        // Check if already added from topic match
+                        if !candidate_nodes.iter().any(|(n, _)| n.id == node.id) {
+                            let score = if node.topic.to_lowercase().contains(word) { 75.0 } else { 50.0 };
+                            candidate_nodes.push((node.clone(), score));
+                        }
+                    }
+                }
+            }
+        }
+
+        // Sort by score and limit results
+        candidate_nodes.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
+        candidate_nodes.truncate(10);
+
+        // Cache results for O(1) future lookups
+        let results: Vec<KnowledgeNode> = candidate_nodes.iter().map(|(node, _)| node.clone()).collect();
+        {
+            let mut cache = self.quick_lookup_cache.write().unwrap();
+            cache.insert(query_key, candidate_nodes.clone());
+            
+            // Limit cache size to prevent memory bloat
+            if cache.len() > 1000 {
+                cache.clear(); // Simple cache eviction
+            }
+        }
+
+        if results.is_empty() {
+            None
+        } else {
+            Some(results)
         }
     }
 }

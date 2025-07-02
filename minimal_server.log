@@ -1,0 +1,350 @@
+Starting server on 127.0.0.1:8080
+[2m2025-07-02T16:01:08.905911Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+🧠 Initializing knowledge base...
+📚 Loaded 18 entries from "history.json"
+📚 Loaded 4 entries from "education.json"
+📚 Loaded 5 entries from "public_health.json"
+📚 Loaded 5 entries from "quantum.json"
+📚 Loaded 7 entries from "cs.cy.json"
+📚 Loaded 8 entries from "physics.hist-ph.json"
+📚 Loaded 18 entries from "literature.json"
+📚 Loaded 15 entries from "consciousness.json"
+📚 Loaded 4 entries from "psychology.json"
+📋 Skipping index file: "enhanced_knowledge_index.json"
+📚 Loaded 6 entries from "astronomy.json"
+📚 Loaded 3 entries from "science.json"
+📚 Loaded 2 entries from "technology_policy.json"
+📚 Loaded 3 entries from "computerscience.json"
+📚 Loaded 5 entries from "scientific_research.json"
+📚 Loaded 7 entries from "cs.hc.json"
+📚 Loaded 3 entries from "biology.json"
+📚 Loaded 4 entries from "cs.cl.json"
+📚 Loaded 1 entries from "statistics.json"
+📚 Loaded 16 entries from "politics.json"
+📚 Loaded 8 entries from "econ.th.json"
+📚 Loaded 1 entries from "mathematics.json"
+📚 Loaded 6 entries from "philosophy.json"
+📚 Loaded 8 entries from "math.lo.json"
+📚 Loaded 4 entries from "physics.json"
+📚 Loaded 22 entries from "economics.json"
+📚 Loaded 5 entries from "cs.cv.json"
+📚 Loaded 1 entries from "technology.json"
+📚 Loaded 15 entries from "neuroscience.json"
+📚 Loaded 15 entries from "computer_science.json"
+📚 Loaded 8 entries from "q-bio.nc.json"
+📚 Loaded 13 entries from "machine_learning.json"
+📚 Loaded 27 entries from "ai.json"
+📚 Loaded 4 entries from "cs.lg.json"
+✅ Loaded 271 items from knowledge files
+✅ Knowledge base ready with 271 items across 13 domains
+[2m2025-07-02T16:01:09.494177Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-02T16:01:09.494301Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🔢 Mathematical component: WHAT IS MATH for 'I'm not sure I fully understand all the technical aspects, but... Sometimes I wonder if consciousness is fundamental to the universe or emergent from complexity. What's your intuition about the nature of subjective experience?'
+🔢 Mathematical generate called with: 'i'm not sure i fully understand all the technical aspects, but... sometimes i wonder if consciousness is fundamental to the universe or emergent from complexity. what's your intuition about the nature of subjective experience?'
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🔢 Mathematical component: WHAT IS MATH for 'Sometimes I wonder if consciousness is fundamental to the universe or emergent from complexity. What's your intuition about the nature of subjective experience? I'm not sure I fully understand all the technical aspects, but...'
+🔢 Mathematical generate called with: 'sometimes i wonder if consciousness is fundamental to the universe or emergent from complexity. what's your intuition about the nature of subjective experience? i'm not sure i fully understand all the technical aspects, but...'
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🔢 Mathematical component: WHAT IS MATH for 'Sometimes I wonder if consciousness is fundamental to the universe or emergent from complexity. What's your intuition about the nature of subjective experience? I'm not sure I fully understand all the technical aspects, but...'
+🔢 Mathematical generate called with: 'sometimes i wonder if consciousness is fundamental to the universe or emergent from complexity. what's your intuition about the nature of subjective experience? i'm not sure i fully understand all the technical aspects, but...'
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🔢 Mathematical component: WHAT IS MATH for 'Sometimes I wonder if consciousness is fundamental to the universe or emergent from complexity. What's your intuition about the nature of subjective experience? I'm not sure I fully understand all the technical aspects, but...'
+🔢 Mathematical generate called with: 'sometimes i wonder if consciousness is fundamental to the universe or emergent from complexity. what's your intuition about the nature of subjective experience? i'm not sure i fully understand all the technical aspects, but...'
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🔢 Mathematical component: WHAT IS MATH for 'I'm not sure I fully understand all the technical aspects, but... Sometimes I wonder if consciousness is fundamental to the universe or emergent from complexity. What's your intuition about the nature of subjective experience?'
+🔢 Mathematical generate called with: 'i'm not sure i fully understand all the technical aspects, but... sometimes i wonder if consciousness is fundamental to the universe or emergent from complexity. what's your intuition about the nature of subjective experience?'
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🔢 Mathematical component: WHAT IS MATH for 'This reminds me of what we discussed about future_concerns. Sometimes I wonder if consciousness is fundamental to the universe or emergent from complexity. What's your intuition about the nature of subjective experience?'
+🔢 Mathematical generate called with: 'this reminds me of what we discussed about future_concerns. sometimes i wonder if consciousness is fundamental to the universe or emergent from complexity. what's your intuition about the nature of subjective experience?'
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
+🚀 INITIALIZING MultiLevelResponseComponent
+🧠 Initializing multi-level response cache...
+✅ Multi-level cache initialized with 8 word patterns, 10 phrase patterns, 2 paragraph patterns, 6 full message patterns
