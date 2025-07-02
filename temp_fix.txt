@@ -1,0 +1,8 @@
+
+/// Humor component for jokes and funny responses
+struct HumorComponent;
+
+impl ResponseComponent for HumorComponent {
+    fn name(&self) -> &'static str {
+        "Humor"
+    }

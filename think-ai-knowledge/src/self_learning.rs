@@ -74,15 +74,16 @@ impl SelfLearningSystem {
             let selected_nodes: Vec<_> = node_list.choose_multiple(&mut rng, num_nodes).collect();
             
             // Generate new knowledge through various methods
-            let method = rng.gen_range(0..10);
+            // MODIFIED: Removed abstract_principles which was causing generic responses
+            let method = rng.gen_range(0..8);
             
             match method {
                 0..=2 => Self::synthesize_knowledge(&engine, &selected_nodes, thread_id, iteration),
                 3..=4 => Self::find_patterns(&engine, &selected_nodes, &connections),
                 5..=6 => Self::create_analogies(&engine, &selected_nodes),
                 7 => Self::generate_hypotheses(&engine, &selected_nodes),
-                8 => Self::cross_domain_insights(&engine, &selected_nodes),
-                _ => Self::abstract_principles(&engine, &selected_nodes),
+                _ => Self::cross_domain_insights(&engine, &selected_nodes),
+                // Removed: Self::abstract_principles(&engine, &selected_nodes) - was generating generic responses
             }
             
             // Strengthen connections between related concepts
@@ -294,30 +295,15 @@ impl SelfLearningSystem {
     }
     
     /// Abstract general principles from specific knowledge
+    /// DISABLED: This was generating generic abstract responses instead of specific answers
     fn abstract_principles(engine: &Arc<KnowledgeEngine>, nodes: &[&&KnowledgeNode]) {
-        let principle_topic = format!(
-            "Abstract Principle from {}",
-            nodes.iter().map(|n| n.topic.as_str()).take(2).collect::<Vec<_>>().join(", ")
-        );
+        // DISABLED: This function was causing generic "Abstract principle derived from X examples" 
+        // responses to be generated instead of proper specific answers to user questions.
+        // Leaving empty to prevent pollution of knowledge base with generic abstract principles.
         
-        let principle_content = format!(
-            "Abstract principle derived from {} examples: {}",
-            nodes.len(),
-            Self::generate_abstract_principle(&nodes)
-        );
-        
-        let concepts = vec![
-            "principle".to_string(),
-            "abstraction".to_string(),
-            "generalization".to_string(),
-        ];
-        
-        engine.add_knowledge(
-            KnowledgeDomain::Philosophy,
-            principle_topic,
-            principle_content,
-            concepts,
-        );
+        // Original problematic code that generated responses like:
+        // "Abstract principle derived from 4 examples: Symmetry breaking leads to differentiation and specialization"
+        // This was overriding proper answers to questions like "what is love"
     }
     
     /// Strengthen connections between related concepts

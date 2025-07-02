@@ -174,19 +174,8 @@ impl TinyLlamaKnowledgeBuilder {
     
     /// Generate dynamic expansion for content
     fn generate_expansion(&self, topic: &str, current_content: &str) -> String {
-        let hash = self.hash_query(&format!("{}-expand-{}", topic, current_content.len()));
-        let hash_bytes = hash.as_bytes();
-        
-        let expansions = vec![
-            "This concept has profound implications for understanding our world",
-            "It plays a crucial role in many areas of human knowledge",
-            "Understanding this helps us appreciate the complexity of existence",
-            "This forms a fundamental part of how we perceive reality",
-            "It connects to many other important concepts and ideas",
-        ];
-        
-        let idx = (hash_bytes[0] as usize + hash_bytes[1] as usize) % expansions.len();
-        expansions[idx].to_string()
+        // Instead of meaningless filler text, generate real content using the content generator
+        self.content_generator.expand_content(topic, current_content)
     }
     
     /// Generate conversational variations
@@ -435,22 +424,8 @@ impl TinyLlamaKnowledgeBuilder {
     
     /// Expand hint into more descriptive content dynamically
     fn expand_hint(&self, topic: &str, hint: &str) -> String {
-        // Use the O1 generator to create unique expansions
-        let hash = self.hash_query(&format!("{}-{}", topic, hint));
-        let hash_bytes = hash.as_bytes();
-        
-        // Generate dynamic expansion based on hash
-        let templates = vec![
-            format!("involves {} and extends into various domains", hint),
-            format!("builds upon {} to create comprehensive understanding", hint),
-            format!("encompasses {} while reaching beyond traditional boundaries", hint),
-            format!("represents {} in its many forms and applications", hint),
-            format!("demonstrates how {} manifests in different contexts", hint),
-        ];
-        
-        // Select template based on hash
-        let idx = (hash_bytes[0] as usize) % templates.len();
-        templates[idx].clone()
+        // Use the content generator to create meaningful content based on the hint
+        self.content_generator.generate_content(topic, hint)
     }
 }
 
