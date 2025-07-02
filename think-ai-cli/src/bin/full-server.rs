@@ -61,15 +61,103 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     println!("🚀 Think AI Full Server Starting...");
     
-    // Create engines
+    // Get port configuration first
+    let port = std::env::var("PORT")
+        .ok()
+        .and_then(|p| p.parse::<u16>().ok())
+        .unwrap_or_else(|| {
+            println!("🔧 PORT env var not set, using default port logic");
+            port_selector::find_available_port(Some(8080))
+                .unwrap_or_else(|_| {
+                    // Try to kill existing process on port 8080
+                    let _ = port_manager::kill_port(8080);
+                    8080
+                })
+        });
+
+    // Create placeholder TinyLlama client for immediate server start  
+    let tinyllama_client = Arc::new(TinyLlamaClient::new());
+    
+    // Initialize background AI system loading
+    let (o1_engine, vector_index, knowledge_engine, enhanced_llama, enhanced_quantum_llm, response_generator, self_evaluator) = 
+        initialize_ai_systems_in_background().await;
+
+    println!("🏥 Creating server state with initialized components");
+    
+    // Create state for server
+    let state = Arc::new(FullAppState {
+        o1_engine,
+        vector_index, 
+        knowledge_engine,
+        tinyllama_client,
+        enhanced_llama,
+        enhanced_quantum_llm,
+        response_generator,
+        self_evaluator,
+        conversation_history: Arc::new(RwLock::new(Vec::new())),
+        response_cache: Arc::new(RwLock::new(HashMap::new())),
+        processing_locks: Arc::new(RwLock::new(HashMap::new())),
+    });
+
+    // Create routes
+    let app = Router::new()
+        .route("/", get(webapp_handler))
+        .route("/health", get(health_check))
+        .route("/api/chat", post(chat_handler))
+        .route("/api/stats", get(stats_handler))
+        .route("/api/evaluation", get(evaluation_stats_handler))
+        .route("/api/performance", get(performance_stats_handler))
+        .layer(CorsLayer::permissive())
+        .with_state(state);
+    
+    println!("🚀 Think AI Full Server starting...");
+    println!("🌐 Binding to 0.0.0.0:{}", port);
+    println!("📱 Available routes:");
+    println!("   GET  / - 3D Quantum Webapp");
+    println!("   GET  /health - Health check");
+    println!("   POST /api/chat - Chat API (Enhanced O(1) LLM)");
+    println!("   GET  /api/stats - Knowledge Base Stats");
+    println!("   GET  /api/evaluation - Self-Evaluation Stats");
+    println!("   GET  /api/performance - O(1) Performance Metrics");
+    
+    let listener = match tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
+        Ok(listener) => {
+            println!("✅ Server bound successfully to port {}", port);
+            listener
+        }
+        Err(e) => {
+            eprintln!("❌ Failed to bind to port {}: {}", port, e);
+            std::process::exit(1);
+        }
+    };
+    
+    println!("🎉 Think AI server is ready!");
+    println!("🌍 Access at: http://localhost:{}", port);
+    println!("🚂 Railway URL: https://thinkai-production.up.railway.app");
+    
+    // Start server
+    axum::serve(listener, app).await?;
+    
+    Ok(())
+}
+
+async fn initialize_ai_systems_in_background() -> (
+    Arc<O1Engine>,
+    Arc<O1VectorIndex>, 
+    Arc<KnowledgeEngine>,
+    Arc<EnhancedTinyLlama>,
+    Arc<RwLock<EnhancedQuantumLLMEngine>>,
+    Arc<ComponentResponseGenerator>,
+    Arc<SelfEvaluator>
+) {
+    println!("🧠 Initializing AI systems...");
+    
+    // Create engines quickly
     let o1_engine = Arc::new(O1Engine::new(EngineConfig::default()));
     let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
     
-    // Initialize knowledge system with enhanced knowledge
-    println!("🧠 Initializing LLM-based knowledge system...");
-    
-    // Load enhanced knowledge from files
+    // Load enhanced knowledge from files (if available)
     let knowledge_files_dir = std::path::PathBuf::from("./knowledge_files");
     if knowledge_files_dir.exists() {
         let dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_files_dir);
