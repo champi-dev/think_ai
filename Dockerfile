@@ -12,10 +12,10 @@ WORKDIR /app
 COPY . .
 
 # Build the debug server for Railway environment debugging
-RUN cargo build --release --bin debug-server
+RUN cargo build --release --bin full-server-fast
 
 # Expose default port (Railway will set PORT env var at runtime)
 EXPOSE 8080
 
 # Run the debug server (shows all env vars and health check details)
-CMD ["./target/release/debug-server"]
+CMD ["./target/release/full-server-fast"]
