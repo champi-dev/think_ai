@@ -11,11 +11,11 @@ WORKDIR /app
 # Copy source code
 COPY . .
 
-# Build the full system with O(1) performance and hanging protection
-RUN cargo build --release --bin full-system-safe
+# Build the full working O(1) system
+RUN cargo build --release --bin full-working-o1
 
 # Expose default port (Railway will set PORT env var at runtime)
 EXPOSE 8080
 
-# Run the full system (Complete Think AI with 3D visualization, O(1) optimized, timeout protected)
-CMD ["./target/release/full-system-safe"]
+# Run the full working O(1) system (Complete Think AI, guaranteed O(1)/O(log n), no hanging)
+CMD ["./target/release/full-working-o1"]
