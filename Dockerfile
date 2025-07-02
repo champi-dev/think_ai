@@ -11,11 +11,11 @@ WORKDIR /app
 # Copy source code
 COPY . .
 
-# Build the fast-starting binary optimized for Railway
-RUN cargo build --release --bin full-server-fast
+# Build the debug server for Railway environment debugging
+RUN cargo build --release --bin debug-server
 
 # Expose default port (Railway will set PORT env var at runtime)
 EXPOSE 8080
 
-# Run the fast server (health checks respond immediately)
-CMD ["./target/release/full-server-fast"]
+# Run the debug server (shows all env vars and health check details)
+CMD ["./target/release/debug-server"]
