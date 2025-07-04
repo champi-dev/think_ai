@@ -1,8 +1,12 @@
 use std::collections::HashMap;
+use std::sync::Arc;
+use think_ai_knowledge::{KnowledgeEngine, natural_response_generator::NaturalResponseGenerator};
 
 pub struct NaturalChatSystem {
     knowledge_base: HashMap<String, Vec<String>>,
     context_memory: Vec<String>,
+    natural_generator: Option<NaturalResponseGenerator>,
+    knowledge_engine: Option<Arc<KnowledgeEngine>>,
 }
 
 impl NaturalChatSystem {
@@ -10,9 +14,23 @@ impl NaturalChatSystem {
         let mut system = Self {
             knowledge_base: HashMap::new(),
             context_memory: Vec::with_capacity(10),
+            natural_generator: None,
+            knowledge_engine: None,
         };
         system.initialize_knowledge();
+        system.initialize_natural_language();
         system
+    }
+    
+    fn initialize_natural_language(&mut self) {
+        // Try to initialize the natural language generator
+        match KnowledgeEngine::new() {
+            engine => {
+                let engine_arc = Arc::new(engine);
+                self.knowledge_engine = Some(engine_arc.clone());
+                self.natural_generator = Some(NaturalResponseGenerator::new(engine_arc));
+            }
+        }
     }
 
     fn initialize_knowledge(&mut self) {
@@ -81,13 +99,19 @@ impl NaturalChatSystem {
     }
 
     pub fn process_query(&mut self, query: &str) -> String {
-        let query_lower = query.to_lowercase();
-        
         // Remember context
         if self.context_memory.len() >= 10 {
             self.context_memory.remove(0);
         }
         self.context_memory.push(query.to_string());
+        
+        // Try to use natural language generator first
+        if let Some(generator) = &mut self.natural_generator {
+            return generator.generate_response(query);
+        }
+        
+        // Fallback to original implementation
+        let query_lower = query.to_lowercase();
 
         // Detect intent and generate appropriate response
         if self.is_greeting(&query_lower) {

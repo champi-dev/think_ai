@@ -8,7 +8,8 @@ use think_ai_knowledge::{
     intelligent_response_selector::{IntelligentResponseSelector, ResponseSource},
     tinyllama_knowledge_builder::TinyLlamaKnowledgeBuilder,
     self_evaluator::SelfEvaluator,
-    conversation_memory::ConversationMemory
+    conversation_memory::ConversationMemory,
+    natural_response_generator::NaturalResponseGenerator,
 };
 use think_ai_tinyllama::TinyLlamaClient;
 use std::io::Write;
@@ -23,6 +24,7 @@ pub struct KnowledgeChat {
     self_evaluator: Arc<SelfEvaluator>,
     conversation_memory: Arc<ConversationMemory>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
+    natural_generator: Option<Arc<std::sync::Mutex<NaturalResponseGenerator>>>,
 }
 
 impl KnowledgeChat {
@@ -83,6 +85,11 @@ impl KnowledgeChat {
             response_generator.clone()
         ));
         
+        // Initialize natural language generator
+        let natural_gen = Arc::new(std::sync::Mutex::new(
+            NaturalResponseGenerator::new(engine.clone())
+        ));
+        
         let chat = Self { 
             engine,
             tinyllama_client: Arc::new(TinyLlamaClient::new()),
@@ -92,6 +99,7 @@ impl KnowledgeChat {
             self_evaluator,
             conversation_memory,
             conversation_history: Vec::new(),
+            natural_generator: Some(natural_gen),
         };
         
         // Start self-evaluation system in background
@@ -191,7 +199,14 @@ impl KnowledgeChat {
     async fn generate_response(&self, query: &str) -> String {
         let query_lower = query.to_lowercase();
         
-        // Try O(1) cached response first
+        // Try natural language generator first if available
+        if let Some(natural_gen) = &self.natural_generator {
+            if let Ok(mut generator) = natural_gen.try_lock() {
+                return generator.generate_response(query);
+            }
+        }
+        
+        // Try O(1) cached response as fallback
         if let Some(cached) = self.tinyllama_builder.get_cached_response(&query_lower).await {
             print!(" [⚡ O(1) Cache]");
             println!();
@@ -235,7 +250,7 @@ impl KnowledgeChat {
             }
         });
         
-        // Generate response using actual knowledge base first
+        // Generate response using actual knowledge base
         let knowledge_response = self.response_generator.generate_response(expanded_query);
         
         // Stop progress indicator

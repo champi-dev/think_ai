@@ -72,7 +72,11 @@ impl ComponentResponseGenerator {
     
     /// Register all default components
     fn register_default_components(&mut self) {
-        // HIGHEST PRIORITY: Semantic cache component for O(1) contextual responses
+        // HIGHEST PRIORITY: Natural language component for human-like responses
+        use crate::natural_response_generator::NaturalResponseComponent;
+        self.add_component(Box::new(NaturalResponseComponent::new(self.knowledge_engine.clone())));
+        
+        // SECOND PRIORITY: Semantic cache component for O(1) contextual responses
         self.add_component(Box::new(SemanticResponseComponent::new()));
         
         // Knowledge base gets high priority for factual queries
