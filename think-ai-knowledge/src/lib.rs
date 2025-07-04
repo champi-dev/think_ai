@@ -27,6 +27,8 @@ pub mod conversation_memory;
 pub mod multilevel_cache;
 pub mod multilevel_response_component;
 pub mod simple_cache_component;
+pub mod semantic_hash_cache;
+pub mod semantic_response_component;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};

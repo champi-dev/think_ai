@@ -1,0 +1,126 @@
+{
+  "test_time": "2025-07-03T20:11:53.247448",
+  "api_url": "https://thinkai-production.up.railway.app",
+  "total_queries": 10,
+  "results": [
+    {
+      "query": "Hello! Can you introduce yourself?",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 645.5538272857666,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    },
+    {
+      "query": "What is the meaning of consciousness from a philosophical perspective?",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 750.4558563232422,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    },
+    {
+      "query": "Can you explain that in simpler terms?",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 559.3795776367188,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    },
+    {
+      "query": "Write a haiku about artificial intelligence",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 500.9150505065918,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    },
+    {
+      "query": "Explain the concept of O(1) time complexity",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 540.3432846069336,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    },
+    {
+      "query": "That's interesting. How does this relate to your own architecture?",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 382.30180740356445,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    },
+    {
+      "query": "Do you think AI can truly understand or just simulate understanding?",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 378.6594867706299,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    },
+    {
+      "query": "Tell me a joke about quantum physics",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 300.8427619934082,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    },
+    {
+      "query": "What are the best practices for building a scalable web application?",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 369.7628974914551,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    },
+    {
+      "query": "Thank you for the conversation. Goodbye!",
+      "response": {
+        "error": "HTTP 404: "
+      },
+      "response_time_ms": 277.04858779907227,
+      "evaluation": {
+        "success": false,
+        "error": "HTTP 404: "
+      }
+    }
+  ],
+  "summary": {
+    "success_rate": 0.0,
+    "average_response_time_ms": null,
+    "performance_distribution": {
+      "fast": 0,
+      "moderate": 0,
+      "slow": 0
+    }
+  }
+}

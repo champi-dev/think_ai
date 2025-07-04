@@ -4,6 +4,7 @@ use crate::{KnowledgeEngine, KnowledgeNode, KnowledgeDomain};
 use crate::conversation_memory::{ConversationMemory, ConversationContext};
 use crate::multilevel_response_component::MultiLevelResponseComponent;
 use crate::simple_cache_component::SimpleCacheComponent;
+use crate::semantic_response_component::SemanticResponseComponent;
 use std::sync::Arc;
 use std::collections::HashMap;
 
@@ -71,15 +72,17 @@ impl ComponentResponseGenerator {
     
     /// Register all default components
     fn register_default_components(&mut self) {
-        // HIGHEST PRIORITY: Multi-level cache component for O(1) responses
-        self.add_component(Box::new(MultiLevelResponseComponent::new()));
+        // HIGHEST PRIORITY: Semantic cache component for O(1) contextual responses
+        self.add_component(Box::new(SemanticResponseComponent::new()));
         
-        // CRITICAL: Conversational component second for Turing test fallback
+        // Knowledge base gets high priority for factual queries
+        self.add_component(Box::new(KnowledgeBaseComponent));
+        
+        // Other components in order of usefulness
         self.add_component(Box::new(ConversationalComponent));
         self.add_component(Box::new(IdentityComponent));
         self.add_component(Box::new(HumorComponent));
         self.add_component(Box::new(MathematicalComponent));
-        self.add_component(Box::new(KnowledgeBaseComponent));
         self.add_component(Box::new(ScientificExplanationComponent));
         self.add_component(Box::new(TechnicalComponent));
         self.add_component(Box::new(PhilosophicalComponent));
@@ -92,7 +95,8 @@ impl ComponentResponseGenerator {
         self.add_component(Box::new(UnknownQueryComponent));
         self.add_component(Box::new(LearningComponent));
         
-        // Response components initialized ({} total) - MultiLevel Cache enabled for O(1) responses
+        // Legacy cache disabled - using semantic cache instead
+        // self.add_component(Box::new(MultiLevelResponseComponent::new()));
     }
     
     /// Add a new response component
@@ -131,22 +135,18 @@ impl ComponentResponseGenerator {
         let mut response_parts = Vec::new();
         let mut used_components = Vec::new();
         
-        // CRITICAL: Cache components get HIGHEST priority and are exclusive
-        let has_cache_match = component_scores.iter()
-            .any(|(component, score)| *score >= 0.80 && 
-                (component.name() == "SimpleCache" || 
-                 component.name() == "MultiLevelCache"));
+        // Semantic cache gets priority but not exclusive - allows knowledge base contribution
+        let has_semantic_match = component_scores.iter()
+            .any(|(component, score)| *score >= 0.8 && component.name() == "SemanticCache");
         
-        if has_cache_match {
-            // Use only the BEST cache component (highest score wins)
+        if has_semantic_match {
+            // Use semantic cache first
             for (component, score) in component_scores.iter() {
-                if *score >= 0.80 && 
-                   (component.name() == "SimpleCache" || 
-                    component.name() == "MultiLevelCache") {
+                if *score >= 0.8 && component.name() == "SemanticCache" {
                     if let Some(part) = component.generate(query, &context) {
                         response_parts.push(part);
                         used_components.push(component.name());
-                        break; // Only use the first cache match - NO combining!
+                        break;
                     }
                 }
             }

@@ -101,7 +101,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create routes
     let app = Router::new()
-        .route("/", get(webapp_handler))
+        .route("/", get(serve_webapp))
         .route("/health", get(health_check))
         .route("/api/chat", post(chat_handler))
         .route("/api/stats", get(stats_handler))
@@ -234,76 +234,7 @@ async fn initialize_ai_systems_in_background() -> (
         }
     });
     
-    // Create app state
-    let state = Arc::new(FullAppState {
-        o1_engine,
-        vector_index,
-        knowledge_engine,
-        tinyllama_client,
-        enhanced_llama,
-        enhanced_quantum_llm: Arc::new(RwLock::new(enhanced_quantum_llm)),
-        response_generator,
-        self_evaluator,
-        conversation_history: Arc::new(RwLock::new(Vec::new())),
-        response_cache: Arc::new(RwLock::new(HashMap::new())),
-        processing_locks: Arc::new(RwLock::new(HashMap::new())),
-    });
-    
-    // Build router
-    let app = Router::new()
-        .route("/", get(serve_webapp))
-        .route("/health", get(health_check))
-        .route("/api/chat", post(chat_handler))
-        .route("/api/stats", get(stats_handler))
-        .route("/api/evaluation", get(evaluation_stats_handler))
-        .route("/api/performance", get(performance_stats_handler))
-        .layer(CorsLayer::permissive())
-        .with_state(state);
-    
-    // Start server - use PORT env var for Railway
-    let port = std::env::var("PORT")
-        .ok()
-        .and_then(|p| p.parse::<u16>().ok())
-        .unwrap_or_else(|| {
-            println!("🔧 PORT env var not set, using default port logic");
-            port_selector::find_available_port(Some(8080))
-                .unwrap_or_else(|_| {
-                    // Try to kill existing process on port 8080
-                    let _ = port_manager::kill_port(8080);
-                    8080
-                })
-        });
-    
-    println!("🚀 Think AI Full Server starting...");
-    println!("🌐 Binding to 0.0.0.0:{}", port);
-    println!("📱 Available routes:");
-    println!("   GET  / - 3D Quantum Webapp");
-    println!("   GET  /health - Health check");
-    println!("   POST /api/chat - Chat API (Enhanced O(1) LLM)");
-    println!("   GET  /api/stats - Knowledge Base Stats");
-    println!("   GET  /api/evaluation - Self-Evaluation Stats");
-    println!("   GET  /api/performance - O(1) Performance Metrics");
-    
-    let listener = match tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
-        Ok(listener) => {
-            println!("✅ Server bound successfully to port {}", port);
-            listener
-        }
-        Err(e) => {
-            eprintln!("❌ Failed to bind to port {}: {}", port, e);
-            return Err(e.into());
-        }
-    };
-    
-    println!("🎉 Think AI server is ready!");
-    println!("🌍 Access at: http://localhost:{}", port);
-    if std::env::var("RAILWAY_STATIC_URL").is_ok() {
-        println!("🚂 Railway URL: https://{}", std::env::var("RAILWAY_STATIC_URL").unwrap_or_default());
-    }
-    
-    axum::serve(listener, app).await?;
-    
-    Ok(())
+    (o1_engine, vector_index, knowledge_engine, enhanced_llama, Arc::new(RwLock::new(enhanced_quantum_llm)), response_generator, self_evaluator)
 }
 
 async fn serve_webapp() -> Html<String> {
