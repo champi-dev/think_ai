@@ -2,7 +2,7 @@
 
 use crate::{KnowledgeEngine, KnowledgeNode, KnowledgeDomain};
 use crate::enhanced_conversation_memory::{EnhancedConversationMemory, EnhancedConversationContext as ConversationContext};
-use crate::simple_cache_component::SimpleCacheComponent;
+// use crate::simple_cache_component::SimpleCacheComponent;
 use std::sync::Arc;
 use std::collections::HashMap;
 
@@ -71,7 +71,8 @@ impl ComponentResponseGenerator {
     /// Register all default components
     fn register_default_components(&mut self) {
         // Simple cache component for O(1) responses
-        self.add_component(Box::new(SimpleCacheComponent::new()));
+        // Disabled test component that was overriding real responses
+        // self.add_component(Box::new(SimpleCacheComponent::new()));
         
         // Knowledge base gets high priority for factual queries
         self.add_component(Box::new(KnowledgeBaseComponent));
@@ -133,22 +134,8 @@ impl ComponentResponseGenerator {
         let mut response_parts = Vec::new();
         let mut used_components = Vec::new();
         
-        // Semantic cache gets priority but not exclusive - allows knowledge base contribution
-        let has_semantic_match = component_scores.iter()
-            .any(|(component, score)| *score >= 0.8 && component.name() == "SimpleCache");
-        
-        if has_semantic_match {
-            // Use semantic cache first
-            for (component, score) in component_scores.iter() {
-                if *score >= 0.8 && component.name() == "SimpleCache" {
-                    if let Some(part) = component.generate(query, &context) {
-                        response_parts.push(part);
-                        used_components.push(component.name());
-                        break;
-                    }
-                }
-            }
-        } else {
+        // Skip semantic cache logic since we disabled SimpleCacheComponent
+        {
             // Check for conversational matches next (score >= 0.80 for broader coverage)
             let has_conversational_match = component_scores.iter()
                 .any(|(component, score)| *score >= 0.80 && 
@@ -193,8 +180,7 @@ impl ComponentResponseGenerator {
             .any(|(c, s)| *s >= 0.9 && 
                 (c.name() == "Conversational" || 
                  c.name() == "Identity" || 
-                 c.name() == "Greeting" ||
-                 c.name() == "SimpleCache"));
+                 c.name() == "Greeting"));
         
         // Use LLM for knowledge-based queries or when no strong conversational match
         if response_parts.is_empty() && !is_simple_conversational {

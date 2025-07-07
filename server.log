@@ -1,6 +1,65 @@
-🛡️  Think AI Stable Server Starting...
+🚀 Think AI Full Server Starting...
+🔧 PORT env var not set, using default port logic
+🧠 Initializing AI systems...
+⚠️  Failed to load "artificialintelligence.json": Unknown domain: ArtificialIntelligence
+📚 Loaded 3 entries from "psychology.json"
+📋 Skipping index file: "knowledge_index.json"
+📚 Loaded 2 entries from "technology.json"
+📚 Loaded 3 entries from "mathematics.json"
+⚠️  Failed to load "quantummechanics.json": Unknown domain: QuantumMechanics
+📚 Loaded 5 entries from "astronomy.json"
+📚 Loaded 2 entries from "consciousness.json"
+📚 Loaded 4 entries from "philosophy.json"
+📚 Loaded 4 entries from "physics.json"
+📚 Loaded 4 entries from "computerscience.json"
+📚 Loaded 3 entries from "biology.json"
+📚 Loaded 2 entries from "history.json"
+📚 Loaded 32 enhanced knowledge items
+⚡ Initializing Enhanced Quantum LLM with O(1) optimizations...
+📚 Loaded 2 entries from "technology.json"
+📚 Loaded 2 entries from "astronomy.json"
+⚡ Applying advanced optimizations from CLAUDE.md:
+   📊 Linear Attention: O(1) inference with FAVOR+ approximation
+   🔢 INT8 Quantization: 2x memory reduction, <1% accuracy loss
+   🧠 Neural Cache: 18.3x latency improvement through hash-based lookups
+   🚀 Read-only Processing: Concurrent access without write lock contention
+   ⏱️ Timeout Protection: 5s primary + 3s fallback with graceful degradation
+🚀 Enhanced LLM configured: Full O(1) optimization stack
+✅ Loaded 36 total knowledge items
+📊 Performance targets (from CLAUDE.md):
+   🎯 Target: 0.002ms avg response time (verified with Rust benchmarks)
+   🎯 O(1) cache lookups: Hash-based LSH vector search
+   🎯 Memory bandwidth optimization: FlashAttention tiling
+   🎯 SIMD optimizations: 1.7-2x speedup on CPU operations
+🌳 Enhanced hierarchical TinyLlama initialized
+🧩 Component response generator initialized
+✅ Self-evaluation system initialized
+🏥 Creating server state with initialized components
+🧠 Starting AI self-evaluation system...
+🚀 Think AI Full Server starting...
 🌐 Binding to 0.0.0.0:8080
+📱 Available routes:
+   GET  / - 3D Quantum Webapp
+🧠 Starting self-evaluation system...
+✅ Self-evaluation system active - AI now questioning itself for continuous improvement
+   GET  /health - Health check
+   POST /api/chat - Chat API (Enhanced O(1) LLM)
+   GET  /api/stats - Knowledge Base Stats
+   GET  /api/evaluation - Self-Evaluation Stats
+   GET  /api/performance - O(1) Performance Metrics
+🚀 Initializing TinyLlama (fallback mode - OpenSSL not available)...
+✅ TinyLlama ready (using intelligent fallback responses)!
+❓ Generating self-evaluation questions...
 ✅ Server bound successfully to port 8080
-🛡️  Stable server ready - no hanging guaranteed
-📨 Stable server received query: hello
-📨 Stable server received query: what is love
+🎉 Think AI server is ready!
+🌍 Access at: http://localhost:8080
+🚂 Railway URL: https://thinkai-production.up.railway.app
+📝 Generated 124 self-evaluation questions
+🏥 Health check requested
+🏥 Health check requested
+📨 Received query: what is love
+📚 Using enhanced knowledge system with 36 items...
+💬 Sending response: Qualia are the subjective, experiential qualities  (0.107614ms)
+📨 Received query: what is energy?
+📚 Using enhanced knowledge system with 36 items...
+💬 Sending response: You know, Energy is the capacity to do work or cau (0.082142ms)

@@ -16,7 +16,6 @@ use think_ai_knowledge::{
     KnowledgeEngine,
     dynamic_loader::DynamicKnowledgeLoader,
     persistence::KnowledgePersistence,
-    quantum_llm_engine::QuantumLLMEngine,
     enhanced_quantum_llm::{EnhancedQuantumLLMEngine, AttentionMechanism, PrecisionMode},
     response_generator::ComponentResponseGenerator,
     self_evaluator::SelfEvaluator,
@@ -169,11 +168,6 @@ async fn initialize_ai_systems_in_background() -> (
         println!("⚠️  Enhanced knowledge directory not found: {:?}", knowledge_files_dir);
     }
     
-    // Initialize both legacy and enhanced Quantum LLM engines
-    println!("🤖 Initializing Quantum LLM Engine...");
-    let quantum_llm = QuantumLLMEngine::with_knowledge_engine(knowledge_engine.clone());
-    knowledge_engine.set_quantum_llm(quantum_llm);
-    
     // Initialize Enhanced Quantum LLM with O(1) optimizations
     println!("⚡ Initializing Enhanced Quantum LLM with O(1) optimizations...");
     let mut enhanced_quantum_llm = EnhancedQuantumLLMEngine::with_knowledge_engine(knowledge_engine.clone());
@@ -181,6 +175,9 @@ async fn initialize_ai_systems_in_background() -> (
     // Configure for production performance based on CLAUDE.md optimizations
     enhanced_quantum_llm.set_attention_mode(AttentionMechanism::Linear); // O(1) inference with FAVOR+
     enhanced_quantum_llm.set_precision_mode(PrecisionMode::INT8); // 2x memory reduction with <1% accuracy loss
+    
+    // Note: Cannot set quantum LLM in knowledge engine as it doesn't implement Clone
+    // The knowledge engine will use its own instance
     
     // Apply additional CLAUDE.md optimizations
     println!("⚡ Applying advanced optimizations from CLAUDE.md:");
