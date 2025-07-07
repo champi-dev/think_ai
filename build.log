@@ -1,0 +1,114 @@
+warning: unused variable: `context`
+warning: unused variable: `vocab`
+warning: unused variable: `subject`
+warning: fields `attention_matrix` and `o1_generator` are never read
+warning: fields `pattern_type`, `tokens`, and `weight` are never read
+warning: variants `Comparison`, `Process`, and `Example` are never constructed
+warning: methods `generate_characteristic` and `extract_key_concepts` are never used
+warning: unused variable: `consciousness_state`
+warning: unused variable: `identity`
+warning: unused variable: `memory`
+warning: unused variable: `symbols`
+warning: type `LearningEvent` is more private than the item `WisdomAccumulator::add_insight`
+warning: field `integration_required` is never read
+warning: `think-ai-tinyllama` (lib) generated 7 warnings
+warning: `think-ai-consciousness` (lib) generated 6 warnings
+warning: unused imports: `KnowledgeTrainer` and `TrainingConfig`
+warning: unused import: `KnowledgeNode`
+warning: unused import: `Read`
+warning: unused import: `KnowledgeNode`
+warning: unused import: `std::hint::black_box`
+warning: unused import: `KnowledgeEntry`
+warning: unused import: `ResponseContext`
+warning: unused import: `KnowledgeNode`
+warning: unnecessary parentheses around `if` condition
+warning: unnecessary parentheses around assigned value
+warning: unnecessary parentheses around assigned value
+warning: unused import: `KnowledgeDomain`
+warning: unused import: `Deserialize`
+warning: unused import: `BenchmarkResults`
+warning: unused import: `Instant`
+warning: unused import: `KnowledgeDomain`
+warning: unused import: `QuestionResult`
+warning: unused import: `KnowledgeDomain`
+warning: unused import: `BenchmarkTrainingHistory`
+warning: unused import: `sleep`
+warning: unused import: `Rng`
+warning: unused import: `crate::autonomous_agent::AutonomousAgent`
+warning: unused import: `Duration`
+warning: unused variable: `query`
+warning: unused variable: `response_time`
+warning: unused variable: `response_time`
+warning: unused variable: `stats`
+warning: unused variable: `response`
+warning: unused import: `Write`
+warning: unused variable: `knowledge`
+warning: unused variable: `engine`
+warning: unused variable: `nodes`
+warning: unused variable: `node1`
+warning: unused variable: `node2`
+warning: unused variable: `nodes`
+warning: unused variable: `nodes`
+warning: unused variable: `nodes`
+warning: unused variable: `q_len`
+warning: variable does not need to be mutable
+warning: unused variable: `embedding`
+warning: unused variable: `cache_hits`
+warning: unused variable: `cache_misses`
+warning: unused variable: `engine`
+232 |     pub fn watch_for_changes(&self, engine: Arc<KnowledgeEngine>) -> Result<(), Box<dyn std::error::Error>> {
+warning: unused variable: `score`
+warning: unused variable: `query`
+warning: unused variable: `query`
+warning: unused variable: `context`
+warning: unused variable: `context`
+warning: unused variable: `thinkai_analysis`
+warning: unused variable: `answer`
+warning: unused variable: `answer`
+warning: unused variable: `contextual_vectors`
+warning: unused variable: `context`
+warning: unused variable: `question`
+warning: unused variable: `hash`
+warning: unused variable: `context`
+warning: unused variable: `input`
+warning: unused variable: `input`
+warning: unused variable: `current_time`
+warning: associated functions `abstract_principles` and `generate_abstract_principle` are never used
+warning: fields `context_type` and `closing_patterns` are never read
+warning: variants `Professional` and `Technical` are never constructed
+warning: field `response_times` is never read
+warning: fields `block_size` and `temp_buffer` are never read
+warning: methods `compute_block_attention` and `dot_product_simd` are never used
+warning: field `zero_point` is never read
+warning: fields `quantization_engine` and `dynamic_loader` are never read
+warning: method `simple_hash` is never used
+warning: method `get_transition` is never used
+warning: struct `CompositionComponent` is never constructed
+warning: struct `ComparisonComponent` is never constructed
+warning: struct `HistoricalComponent` is never constructed
+warning: struct `PracticalApplicationComponent` is never constructed
+warning: struct `FutureSpeculationComponent` is never constructed
+warning: field `decision_history` is never read
+warning: fields `query`, `selected_source`, `reason`, and `timestamp` are never read
+warning: multiple methods are never used
+warning: struct `ResponseAnalysis` is never constructed
+warning: methods `generate_id` and `expand_hint` are never used
+warning: multiple methods are never used
+warning: methods `generate_full_question_set` and `generate_meta_questions` are never used
+warning: fields `query` and `context_vector` are never read
+warning: fields `query`, `candidates`, `selected_index`, `user_satisfaction`, and `timestamp` are never read
+warning: field `response_generator` is never read
+warning: field `benchmark_evaluator` is never read
+warning: multiple methods are never used
+warning: field `knowledge_engine` is never read
+warning: fields `knowledge_engine` and `benchmark_trainer` are never read
+warning: fields `curiosity`, `verbosity`, and `directness` are never read
+warning: fields `template`, `formality_range`, `enthusiasm_range`, and `context_type` are never read
+warning: multiple variants are never constructed
+warning: field `conversation_memory` is never read
+warning: field `has_free_will` is never read
+warning: fields `goal`, `priority`, and `self_generated` are never read
+warning: fields `action`, `reasoning`, `timestamp`, and `was_requested` are never read
+warning: `think-ai-knowledge` (lib) generated 95 warnings (run `cargo fix --lib -p think-ai-knowledge` to apply 24 suggestions)
+warning: field `session_id` is never read
+warning: `think-ai-http` (lib) generated 1 warning

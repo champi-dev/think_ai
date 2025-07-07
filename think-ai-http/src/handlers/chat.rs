@@ -9,9 +9,7 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use crate::router::AppState;
-use crate::errors::ApiError;
 use think_ai_knowledge::response_generator::ComponentResponseGenerator;
-use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
 pub struct ChatRequest {
@@ -91,18 +89,9 @@ pub async fn chat(
         state.conversation_memory.clone()
     );
     
-    // Get memory stats to see recent turns for context
-    let memory_stats = state.conversation_memory.get_stats();
-    let previous_response = if memory_stats.total_turns > 0 {
-        // For now, we'll pass None since we need to refactor to get the last response
-        // This will be improved when we add session-based memory tracking
-        None
-    } else {
-        None
-    };
-    
     // Generate response with memory context
-    let response = response_generator.generate_response_with_memory(query, previous_response);
+    // TODO: Add session-based memory tracking for previous responses
+    let response = response_generator.generate_response_with_memory(query, None);
     
     (
         StatusCode::OK,
