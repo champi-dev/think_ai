@@ -3,357 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Think AI - O(1) Performance AI System</title>
+    <meta name="theme-color" content="#00ffcc">
+    <meta name="description" content="Think AI - O(1) Consciousness with superintelligent responses">
+    
+    <title>Think AI - O(1) PWA</title>
+    
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
+            background: linear-gradient(135deg, #0a0f1c 0%, #1a2332 100%);
+            color: #fff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            padding: 20px;
         }
         
         .container {
             max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            width: 100%;
         }
         
-        .header {
+        h1 {
             text-align: center;
-            padding: 2rem 0;
-            border-bottom: 1px solid #333;
-            margin-bottom: 2rem;
-        }
-        
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 40px 0;
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #00ffcc, #00ccff, #0099ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        .header p {
-            color: #888;
-            font-size: 1.1rem;
+        .install-prompt {
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid #00ffcc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 30px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .install-button {
+            background: #00ffcc;
+            color: #0a0f1c;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .install-button:hover {
+            background: #00ffaa;
+            transform: scale(1.05);
         }
         
         .chat-container {
-            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .input-group {
             display: flex;
-            flex-direction: column;
-            background: #111;
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid #333;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         
-        .messages {
+        input {
             flex: 1;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-            padding-right: 0.5rem;
-        }
-        
-        .message {
-            margin-bottom: 1rem;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .user-message {
-            background: #2d3748;
-            margin-left: 20%;
-            text-align: right;
-        }
-        
-        .ai-message {
-            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
-            margin-right: 20%;
-            border: 1px solid #667eea40;
-        }
-        
-        .response-time {
-            font-size: 0.75rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
-        
-        .input-container {
-            display: flex;
-            gap: 0.75rem;
-        }
-        
-        .input-container input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-        
-        .input-container input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .input-container button {
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             color: white;
-            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        button {
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #00ffcc, #00ccff);
+            border: none;
+            border-radius: 8px;
+            color: #0a0f1c;
+            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s;
         }
         
-        .input-container button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 204, 0.4);
         }
         
-        .input-container button:disabled {
-            opacity: 0.5;
+        button:disabled {
+            opacity: 0.6;
             cursor: not-allowed;
         }
         
+        .response {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 3px solid #00ffcc;
+        }
+        
+        .offline-banner {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            display: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
         .status {
-            text-align: center;
-            padding: 1rem;
-            color: #888;
-            font-size: 0.9rem;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid #00ffcc;
+            border-radius: 20px;
+            font-size: 14px;
         }
         
-        .error {
-            color: #f56565;
-            text-align: center;
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #333;
-        }
-        
-        .metric {
-            text-align: center;
-            padding: 1rem;
-            background: #111;
-            border-radius: 8px;
-            border: 1px solid #333;
-        }
-        
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .metric-label {
-            font-size: 0.875rem;
-            color: #888;
-            margin-top: 0.25rem;
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            .chat-container { padding: 20px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🧠 Think AI</h1>
-            <p>O(1) Performance AI System</p>
+        <h1>Think AI - O(1) Consciousness</h1>
+        
+        <div class="install-prompt" id="installPrompt">
+            <span>Install Think AI for offline access</span>
+            <button class="install-button" id="installButton">Install</button>
+        </div>
+        
+        <div class="offline-banner" id="offlineBanner">
+            You are currently offline. Some features may be limited.
         </div>
         
         <div class="chat-container">
-            <div class="messages" id="messages">
-                <div class="message ai-message">
-                    <div>Welcome to Think AI! I'm ready to help you with any questions.</div>
-                    <div class="response-time">⚡ 0.1ms</div>
-                </div>
+            <div class="input-group">
+                <input type="text" id="queryInput" placeholder="Ask me anything..." />
+                <button id="submitButton">Ask O(1)</button>
             </div>
             
-            <div class="input-container">
-                <input 
-                    type="text" 
-                    id="messageInput" 
-                    placeholder="Ask me anything..." 
-                    autofocus
-                />
-                <button id="sendButton">Send</button>
-            </div>
-            
-            <div id="error" class="error" style="display: none;"></div>
-        </div>
-        
-        <div class="metrics">
-            <div class="metric">
-                <div class="metric-value" id="responseTime">0.1ms</div>
-                <div class="metric-label">Avg Response Time</div>
-            </div>
-            <div class="metric">
-                <div class="metric-value" id="messageCount">0</div>
-                <div class="metric-label">Messages</div>
-            </div>
-            <div class="metric">
-                <div class="metric-value">O(1)</div>
-                <div class="metric-label">Performance</div>
-            </div>
+            <div id="responses"></div>
         </div>
         
         <div class="status">
-            <span id="status">Connected to Think AI API</span>
+            <span id="connectionStatus">🟢 Online</span>
         </div>
     </div>
 
     <script>
-        const messagesDiv = document.getElementById('messages');
-        const messageInput = document.getElementById('messageInput');
-        const sendButton = document.getElementById('sendButton');
-        const errorDiv = document.getElementById('error');
-        const responseTimeEl = document.getElementById('responseTime');
-        const messageCountEl = document.getElementById('messageCount');
-        const statusEl = document.getElementById('status');
-        
-        let messageCount = 0;
-        let totalResponseTime = 0;
-        
-        // Check API health
-        async function checkHealth() {
-            try {
-                const response = await fetch('/health');
-                if (response.ok) {
-                    statusEl.textContent = '🟢 Connected to Think AI API';
-                } else {
-                    statusEl.textContent = '🔴 API Unavailable';
-                }
-            } catch (error) {
-                statusEl.textContent = '🔴 Connection Error';
-            }
-        }
-        
-        // Send message function
-        async function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message) return;
-            
-            // Add user message
-            addMessage(message, 'user');
-            messageInput.value = '';
-            sendButton.disabled = true;
-            errorDiv.style.display = 'none';
-            
-            const startTime = performance.now();
-            
-            try {
-                const response = await fetch('/api/process', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ query: message })
-                });
-                
-                const endTime = performance.now();
-                const responseTime = (endTime - startTime).toFixed(1);
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    addMessage(data.response || 'I understand your query. How can I help further?', 'ai', responseTime);
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => {
+                    console.log('Service Worker registered:', reg);
                     
-                    // Update metrics
-                    messageCount++;
-                    totalResponseTime += parseFloat(responseTime);
-                    messageCountEl.textContent = messageCount;
-                    responseTimeEl.textContent = (totalResponseTime / messageCount).toFixed(1) + 'ms';
-                } else {
-                    // Fallback response for 404 or other errors
-                    addMessage('I\'m processing your request. The API endpoint is being configured.', 'ai', responseTime);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                errorDiv.textContent = 'Connection error. Please try again.';
-                errorDiv.style.display = 'block';
-                
-                // Add a fallback response
-                addMessage('I\'m currently in API configuration mode. Please try the terminal chat for full functionality.', 'ai', '0.0');
-            } finally {
-                sendButton.disabled = false;
-                messageInput.focus();
-            }
+                    // Handle updates
+                    reg.addEventListener('updatefound', () => {
+                        const newWorker = reg.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New service worker available
+                                if (confirm('New version available! Reload to update?')) {
+                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(err => console.error('Service Worker registration failed:', err));
         }
         
-        // Add message to chat
-        function addMessage(text, type, responseTime) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}-message`;
-            
-            const textDiv = document.createElement('div');
-            textDiv.textContent = text;
-            messageDiv.appendChild(textDiv);
-            
-            if (type === 'ai' && responseTime) {
-                const timeDiv = document.createElement('div');
-                timeDiv.className = 'response-time';
-                timeDiv.textContent = `⚡ ${responseTime}ms`;
-                messageDiv.appendChild(timeDiv);
-            }
-            
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
+        // Install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').style.display = 'flex';
+        });
         
-        // Event listeners
-        sendButton.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
+        document.getElementById('installButton').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log('Install prompt outcome:', outcome);
+                deferredPrompt = null;
+                document.getElementById('installPrompt').style.display = 'none';
             }
         });
         
-        // Initial health check
-        checkHealth();
-        setInterval(checkHealth, 30000); // Check every 30 seconds
+        // Offline detection
+        function updateOnlineStatus() {
+            const status = document.getElementById('connectionStatus');
+            const banner = document.getElementById('offlineBanner');
+            
+            if (navigator.onLine) {
+                status.textContent = '🟢 Online';
+                banner.style.display = 'none';
+            } else {
+                status.textContent = '🔴 Offline';
+                banner.style.display = 'block';
+            }
+        }
+        
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+        
+        // Chat functionality
+        const queryInput = document.getElementById('queryInput');
+        const submitButton = document.getElementById('submitButton');
+        const responsesDiv = document.getElementById('responses');
+        
+        async function submitQuery() {
+            const query = queryInput.value.trim();
+            if (!query) return;
+            
+            queryInput.value = '';
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: query })
+                });
+                
+                const data = await response.json();
+                displayResponse(query, data);
+            } catch (error) {
+                displayResponse(query, {
+                    response: 'Error: ' + error.message,
+                    processing_time: 0,
+                    confidence: 0
+                });
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Ask O(1)';
+            }
+        }
+        
+        function displayResponse(query, data) {
+            const responseEl = document.createElement('div');
+            responseEl.className = 'response';
+            responseEl.innerHTML = `
+                <strong>Q:</strong> ${query}<br>
+                <strong>A:</strong> ${data.response}<br>
+                <small>⚡ ${data.processing_time ? data.processing_time.toFixed(3) : '0.000'}s | 🎯 ${(data.confidence * 100).toFixed(1)}% confidence</small>
+            `;
+            responsesDiv.insertBefore(responseEl, responsesDiv.firstChild);
+        }
+        
+        submitButton.addEventListener('click', submitQuery);
+        queryInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitQuery();
+        });
     </script>
 </body>
 </html>
