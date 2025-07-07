@@ -333,8 +333,9 @@ Average response time: **< 2ms**
 
 ## Version History
 
-- **v1.0.2** (Next) - Automated deployment pipeline integration
-- **v1.0.1** (July 2025) - Latest deployment with enhanced documentation
+- **v1.0.6** (Current) - PWA support, pre-commit hooks, automated deployment
+- **v1.0.5** - Enhanced CLI features and documentation
+- **v1.0.1** - Performance improvements and bug fixes
 - **v1.0.0** (Initial release) - Core functionality and CLI
 
 ## Deployment

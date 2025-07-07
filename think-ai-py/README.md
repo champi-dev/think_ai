@@ -23,7 +23,7 @@ Generate optimized code, analyze complexity, and get AI pair programming - all w
 ## Installation
 
 ```bash
-pip install thinkai-quantum  # Version 1.0.0 (July 2025)
+pip install thinkai-quantum
 ```
 
 ## Quick Start
@@ -268,9 +268,10 @@ Average response time: **< 2ms** (0.002ms hash-based lookups)
 
 ## Version History
 
-- **v1.0.1** (Next) - Automated deployment pipeline integration
-- **v1.0.0** (July 2025) - Latest deployment with enhanced documentation and multi-platform sync
-- Initial release with core functionality and CLI
+- **v1.0.3** (Current) - PWA support, pre-commit hooks, automated deployment
+- **v1.0.2** - Enhanced async support and streaming
+- **v1.0.1** - Performance improvements and bug fixes
+- **v1.0.0** (Initial release) - Core functionality and CLI
 
 ## Deployment
 

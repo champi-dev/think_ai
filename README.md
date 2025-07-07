@@ -2,8 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Rust 1.80+](https://img.shields.io/badge/rust-1.80+-orange.svg)](https://www.rust-lang.org/)
-[![npm Package](https://img.shields.io/badge/npm-thinkai--quantum-blue.svg)](https://www.npmjs.com/package/thinkai-quantum)
-[![PyPI Package](https://img.shields.io/badge/PyPI-thinkai--quantum-yellow.svg)](https://pypi.org/project/thinkai-quantum/)
+[![npm version](https://img.shields.io/npm/v/thinkai-quantum.svg)](https://www.npmjs.com/package/thinkai-quantum)
+[![PyPI version](https://img.shields.io/pypi/v/thinkai-quantum.svg)](https://pypi.org/project/thinkai-quantum/)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/champi-dev/think_ai)
 [![Performance: O(1)](https://img.shields.io/badge/Performance-O(1)-brightgreen.svg)](https://github.com/champi-dev/think_ai)
 [![Live Deployment](https://img.shields.io/badge/Railway-Live-green.svg)](https://thinkai-production.up.railway.app)
@@ -22,8 +22,8 @@ Next-generation AI system featuring proven O(1) performance algorithms, multi-pl
 - **📦 Zero Config** - Works out of the box with `npx` or `pip`
 
 ### 📱 **Multi-Platform Deployment**
-- **📦 JavaScript/TypeScript** - [`thinkai-quantum`](https://www.npmjs.com/package/thinkai-quantum) on npm
-- **🐍 Python** - [`thinkai-quantum`](https://pypi.org/project/thinkai-quantum/) on PyPI  
+- **📦 JavaScript/TypeScript** - [`thinkai-quantum`](https://www.npmjs.com/package/thinkai-quantum) v1.0.6 on npm
+- **🐍 Python** - [`thinkai-quantum`](https://pypi.org/project/thinkai-quantum/) v1.0.3 on PyPI  
 - **🌐 Live Web App** - [Railway deployment](https://thinkai-production.up.railway.app)
 - **🎮 5 Demo Projects** - Interactive examples of O(1) implementations
 - **⚡ O(1) Performance** - Hash-based lookups and LSH for constant-time operations

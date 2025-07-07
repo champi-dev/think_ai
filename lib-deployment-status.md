@@ -1,8 +1,10 @@
 # Think AI Library Deployment Status
 
-## ✅ Build Status
-- **npm package**: Built successfully (v1.0.6)
-- **Python package**: Built successfully (v1.0.3)
+## ✅ Current Status
+- **npm package**: v1.0.6 (ready for deployment)
+- **Python package**: v1.0.3 (ready for deployment)
+- **Pre-commit hooks**: Installed and configured
+- **Automated deployment**: Available via environment variables
 
 ## 📦 Ready for Deployment
 
@@ -30,18 +32,34 @@ Current package info:
   - thinkai_quantum-1.0.3.tar.gz
   - thinkai_quantum-1.0.3-py3-none-any.whl
 
-## 🚀 Quick Deploy Commands
+## 🚀 Deployment Options
 
-If you have your tokens ready:
+### Option 1: Automated (Recommended)
+```bash
+# Set environment variables
+export THINK_AI_AUTO_DEPLOY=true
+export NPM_TOKEN="your-npm-token"
+export PYPI_TOKEN="your-pypi-token"
+
+# Commit will auto-deploy on success
+git commit -m "feat: Your feature"
+```
+
+### Option 2: Manual after checks
+```bash
+# Run deployment after successful commit
+./deploy-after-checks.sh
+```
+
+### Option 3: Direct deployment
 ```bash
 # npm
 cd think-ai-js
-npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
 npm publish --access public
 
 # PyPI
 cd ../think-ai-py
-python3 -m twine upload dist/* -u __token__ -p $PYPI_TOKEN
+python3 -m twine upload dist/*
 ```
 
 ## 📊 After Deployment
