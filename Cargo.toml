@@ -10,7 +10,7 @@ members = [
     "think-ai-cache",
     "think-ai-utils",
     "think-ai-knowledge",
-    "think-ai-tinyllama",
+    "think-ai-tinyllama", "think-ai-demos",
 ]
 
 [workspace.package]

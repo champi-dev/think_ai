@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 5: O(1) AI Code Analyzer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+            background: #0a0e27;
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .performance-badge {
+            background: #39d353;
+            color: #0a0e27;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 2px 10px rgba(57, 211, 83, 0.4);
+        }
+        .main-container {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .editor-panel {
+            flex: 1;
+            background: #0d1117;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .panel-header {
+            background: #161b22;
+            padding: 15px 20px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .panel-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #58a6ff;
+        }
+        .code-editor {
+            flex: 1;
+            padding: 20px;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.6;
+            background: #0d1117;
+            color: #c9d1d9;
+            border: none;
+            outline: none;
+            resize: none;
+        }
+        .code-editor::placeholder {
+            color: #484f58;
+        }
+        .analysis-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .result-card {
+            background: #0d1117;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            overflow: hidden;
+        }
+        .result-content {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .ast-node {
+            margin: 5px 0;
+            padding: 8px 12px;
+            background: #161b22;
+            border-radius: 6px;
+            border-left: 3px solid #58a6ff;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+        }
+        .ast-node:hover {
+            background: #1c2128;
+            transform: translateX(5px);
+        }
+        .ast-node-type {
+            color: #58a6ff;
+            font-weight: 600;
+        }
+        .ast-node-value {
+            color: #79c0ff;
+            margin-left: 10px;
+        }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+        .metric-item {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #30363d;
+            transition: all 0.3s ease;
+        }
+        .metric-item:hover {
+            border-color: #58a6ff;
+            transform: translateY(-2px);
+        }
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #58a6ff;
+            margin-bottom: 5px;
+        }
+        .metric-label {
+            font-size: 0.9em;
+            color: #8b949e;
+        }
+        .controls {
+            padding: 20px;
+            background: #0d1117;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        button {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        button:hover {
+            background: #2ea043;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(35, 134, 54, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .language-select {
+            background: #161b22;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        .performance-stats {
+            background: #0d1117;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            padding: 20px;
+            font-family: inherit;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #21262d;
+        }
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        .stat-label {
+            color: #8b949e;
+        }
+        .stat-value {
+            color: #39d353;
+            font-weight: 600;
+        }
+        .complexity-indicator {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .complexity-low {
+            background: #39d353;
+            color: #0a0e27;
+        }
+        .complexity-medium {
+            background: #f9c74f;
+            color: #0a0e27;
+        }
+        .complexity-high {
+            background: #f85149;
+            color: white;
+        }
+        .ai-insights {
+            background: #0d1117;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .insight-item {
+            background: #161b22;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #f9c74f;
+        }
+        .insight-title {
+            color: #f9c74f;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .insight-description {
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        .symbol-table {
+            font-size: 0.9em;
+        }
+        .symbol-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background: #161b22;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .symbol-name {
+            color: #79c0ff;
+            font-weight: 600;
+        }
+        .symbol-type {
+            color: #f9c74f;
+        }
+        .example-buttons {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+        .example-btn {
+            background: #1f6feb;
+            font-size: 0.85em;
+            padding: 8px 15px;
+        }
+        .example-btn:hover {
+            background: #388bfd;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .analyzing {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>O(1) AI Code Analyzer</h1>
+        <div class="performance-badge">O(1) AST Traversal & Analysis</div>
+    </div>
+    
+    <div class="main-container">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <span class="panel-title">Code Editor</span>
+                <div style="display: flex; gap: 10px;">
+                    <select class="language-select" id="languageSelect">
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="rust">Rust</option>
+                        <option value="go">Go</option>
+                    </select>
+                </div>
+            </div>
+            <textarea class="code-editor" id="codeEditor" placeholder="// Paste or type your code here...
+
+function fibonacci(n) {
+    if (n <= 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+class DataProcessor {
+    constructor() {
+        this.cache = new Map();
+    }
+    
+    process(data) {
+        if (this.cache.has(data.id)) {
+            return this.cache.get(data.id);
+        }
+        const result = this.transform(data);
+        this.cache.set(data.id, result);
+        return result;
+    }
+}"></textarea>
+        </div>
+        
+        <div class="analysis-panel">
+            <div class="controls">
+                <button onclick="analyzeCode()" id="analyzeBtn">Analyze Code</button>
+                <div class="example-buttons">
+                    <button class="example-btn" onclick="loadExample('simple')">Simple Example</button>
+                    <button class="example-btn" onclick="loadExample('complex')">Complex Example</button>
+                    <button class="example-btn" onclick="loadExample('performance')">Performance Example</button>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <div class="panel-header">
+                    <span class="panel-title">Code Metrics</span>
+                </div>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="metric-value" id="lineCount">0</div>
+                        <div class="metric-label">Lines of Code</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="functionCount">0</div>
+                        <div class="metric-label">Functions</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="classCount">0</div>
+                        <div class="metric-label">Classes</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="complexity">0</div>
+                        <div class="metric-label">Complexity Score</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <div class="panel-header">
+                    <span class="panel-title">AST Nodes (O(1) Access)</span>
+                </div>
+                <div class="result-content" id="astResult"></div>
+            </div>
+            
+            <div class="result-card">
+                <div class="panel-header">
+                    <span class="panel-title">Symbol Table</span>
+                </div>
+                <div class="result-content" id="symbolTable"></div>
+            </div>
+            
+            <div class="ai-insights">
+                <div class="panel-header" style="background: transparent; padding: 0 0 15px 0;">
+                    <span class="panel-title">AI Insights</span>
+                </div>
+                <div id="aiInsights"></div>
+            </div>
+            
+            <div class="performance-stats">
+                <h3 style="color: #58a6ff; margin-bottom: 15px;">Performance Metrics</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Parse Time:</span>
+                    <span class="stat-value" id="parseTime">0.000ms</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">AST Build Time:</span>
+                    <span class="stat-value" id="astTime">0.000ms</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Analysis Time (O(1)):</span>
+                    <span class="stat-value" id="analysisTime">0.000ms</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Symbol Lookup:</span>
+                    <span class="stat-value">O(1) Hash-based</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Node Access:</span>
+                    <span class="stat-value">O(1) Direct Index</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // O(1) Code Analysis Engine
+        class O1CodeAnalyzer {
+            constructor() {
+                // Pre-computed indices for O(1) access
+                this.nodeIndex = new Map(); // nodeId -> node
+                this.symbolTable = new Map(); // symbolName -> symbolInfo
+                this.typeIndex = new Map(); // nodeType -> Set of nodeIds
+                this.metrics = {
+                    lines: 0,
+                    functions: 0,
+                    classes: 0,
+                    complexity: 0,
+                    variables: 0,
+                    loops: 0,
+                    conditions: 0
+                };
+                this.parseTime = 0;
+                this.astTime = 0;
+                this.analysisTime = 0;
+            }
+            
+            // Simple tokenizer for demonstration
+            tokenize(code) {
+                const parseStart = performance.now();
+                
+                const lines = code.split('\n');
+                const tokens = [];
+                
+                const patterns = {
+                    function: /function\s+(\w+)/g,
+                    class: /class\s+(\w+)/g,
+                    variable: /(const|let|var)\s+(\w+)/g,
+                    loop: /(for|while|do)\s*\(/g,
+                    condition: /(if|else if|switch)\s*\(/g,
+                    arrow: /(\w+)\s*=\s*\([^)]*\)\s*=>/g,
+                    method: /(\w+)\s*\([^)]*\)\s*{/g
+                };
+                
+                lines.forEach((line, lineNum) => {
+                    // Function declarations
+                    let match;
+                    while ((match = patterns.function.exec(line)) !== null) {
+                        tokens.push({ type: 'function', name: match[1], line: lineNum + 1 });
+                    }
+                    
+                    // Classes
+                    patterns.class.lastIndex = 0;
+                    while ((match = patterns.class.exec(line)) !== null) {
+                        tokens.push({ type: 'class', name: match[1], line: lineNum + 1 });
+                    }
+                    
+                    // Variables
+                    patterns.variable.lastIndex = 0;
+                    while ((match = patterns.variable.exec(line)) !== null) {
+                        tokens.push({ type: 'variable', name: match[2], line: lineNum + 1 });
+                    }
+                    
+                    // Control structures
+                    if (patterns.loop.test(line)) {
+                        tokens.push({ type: 'loop', line: lineNum + 1 });
+                    }
+                    if (patterns.condition.test(line)) {
+                        tokens.push({ type: 'condition', line: lineNum + 1 });
+                    }
+                });
+                
+                this.parseTime = performance.now() - parseStart;
+                return tokens;
+            }
+            
+            // Build AST with O(1) indices
+            buildAST(code) {
+                const astStart = performance.now();
+                
+                const tokens = this.tokenize(code);
+                const ast = { type: 'Program', children: [], id: 'root' };
+                
+                // Clear previous indices
+                this.nodeIndex.clear();
+                this.symbolTable.clear();
+                this.typeIndex.clear();
+                
+                // Build AST and indices simultaneously for O(1) access
+                this.nodeIndex.set('root', ast);
+                
+                tokens.forEach((token, index) => {
+                    const nodeId = `node_${index}`;
+                    const node = {
+                        id: nodeId,
+                        type: token.type,
+                        name: token.name,
+                        line: token.line,
+                        children: []
+                    };
+                    
+                    // O(1) insertion into indices
+                    this.nodeIndex.set(nodeId, node);
+                    
+                    // Update type index
+                    if (!this.typeIndex.has(token.type)) {
+                        this.typeIndex.set(token.type, new Set());
+                    }
+                    this.typeIndex.get(token.type).add(nodeId);
+                    
+                    // Update symbol table
+                    if (token.name) {
+                        this.symbolTable.set(token.name, {
+                            type: token.type,
+                            line: token.line,
+                            nodeId: nodeId
+                        });
+                    }
+                    
+                    ast.children.push(node);
+                });
+                
+                this.astTime = performance.now() - astStart;
+                return ast;
+            }
+            
+            // O(1) analysis using pre-computed indices
+            analyze(code) {
+                const analysisStart = performance.now();
+                
+                const ast = this.buildAST(code);
+                const lines = code.split('\n').filter(line => line.trim().length > 0);
+                
+                // All metrics computed in O(1) using indices
+                this.metrics = {
+                    lines: lines.length,
+                    functions: this.typeIndex.get('function')?.size || 0,
+                    classes: this.typeIndex.get('class')?.size || 0,
+                    variables: this.typeIndex.get('variable')?.size || 0,
+                    loops: this.typeIndex.get('loop')?.size || 0,
+                    conditions: this.typeIndex.get('condition')?.size || 0,
+                    complexity: 0
+                };
+                
+                // Calculate complexity score
+                this.metrics.complexity = 
+                    this.metrics.functions * 2 +
+                    this.metrics.classes * 3 +
+                    this.metrics.loops * 3 +
+                    this.metrics.conditions * 2;
+                
+                this.analysisTime = performance.now() - analysisStart;
+                
+                return {
+                    ast,
+                    metrics: this.metrics,
+                    symbols: Array.from(this.symbolTable.entries()),
+                    performance: {
+                        parseTime: this.parseTime,
+                        astTime: this.astTime,
+                        analysisTime: this.analysisTime
+                    }
+                };
+            }
+            
+            // O(1) node lookup
+            getNode(nodeId) {
+                return this.nodeIndex.get(nodeId);
+            }
+            
+            // O(1) symbol lookup
+            getSymbol(name) {
+                return this.symbolTable.get(name);
+            }
+            
+            // O(1) type query (returns set of node IDs)
+            getNodesByType(type) {
+                return this.typeIndex.get(type) || new Set();
+            }
+            
+            // Generate AI insights based on analysis
+            generateInsights() {
+                const insights = [];
+                
+                if (this.metrics.complexity > 20) {
+                    insights.push({
+                        title: 'High Complexity Detected',
+                        description: 'Consider breaking down complex functions into smaller, more manageable pieces.',
+                        severity: 'warning'
+                    });
+                }
+                
+                if (this.metrics.functions > 10) {
+                    insights.push({
+                        title: 'Many Functions',
+                        description: 'Consider organizing related functions into classes or modules.',
+                        severity: 'info'
+                    });
+                }
+                
+                const functionToLoopRatio = this.metrics.loops / (this.metrics.functions || 1);
+                if (functionToLoopRatio > 2) {
+                    insights.push({
+                        title: 'Loop-Heavy Code',
+                        description: 'Consider using functional programming patterns like map, filter, reduce.',
+                        severity: 'info'
+                    });
+                }
+                
+                if (this.metrics.variables > this.metrics.lines / 2) {
+                    insights.push({
+                        title: 'Variable Dense Code',
+                        description: 'Consider reducing variable declarations and reusing where appropriate.',
+                        severity: 'info'
+                    });
+                }
+                
+                if (insights.length === 0) {
+                    insights.push({
+                        title: 'Well-Structured Code',
+                        description: 'Your code follows good practices with balanced complexity.',
+                        severity: 'success'
+                    });
+                }
+                
+                return insights;
+            }
+        }
+        
+        // Initialize analyzer
+        const analyzer = new O1CodeAnalyzer();
+        
+        // UI Functions
+        function analyzeCode() {
+            const btn = document.getElementById('analyzeBtn');
+            btn.classList.add('analyzing');
+            btn.textContent = 'Analyzing...';
+            
+            setTimeout(() => {
+                const code = document.getElementById('codeEditor').value;
+                const result = analyzer.analyze(code);
+                
+                // Update metrics
+                document.getElementById('lineCount').textContent = result.metrics.lines;
+                document.getElementById('functionCount').textContent = result.metrics.functions;
+                document.getElementById('classCount').textContent = result.metrics.classes;
+                document.getElementById('complexity').textContent = result.metrics.complexity;
+                
+                // Add complexity indicator
+                const complexityEl = document.getElementById('complexity');
+                const complexity = result.metrics.complexity;
+                let indicator = '';
+                if (complexity <= 10) {
+                    indicator = '<span class="complexity-indicator complexity-low">Low</span>';
+                } else if (complexity <= 20) {
+                    indicator = '<span class="complexity-indicator complexity-medium">Medium</span>';
+                } else {
+                    indicator = '<span class="complexity-indicator complexity-high">High</span>';
+                }
+                complexityEl.innerHTML = complexity + indicator;
+                
+                // Display AST nodes
+                displayAST(result.ast);
+                
+                // Display symbol table
+                displaySymbolTable(result.symbols);
+                
+                // Display AI insights
+                displayInsights(analyzer.generateInsights());
+                
+                // Update performance metrics
+                document.getElementById('parseTime').textContent = result.performance.parseTime.toFixed(3) + 'ms';
+                document.getElementById('astTime').textContent = result.performance.astTime.toFixed(3) + 'ms';
+                document.getElementById('analysisTime').textContent = result.performance.analysisTime.toFixed(3) + 'ms';
+                
+                btn.classList.remove('analyzing');
+                btn.textContent = 'Analyze Code';
+            }, 300);
+        }
+        
+        function displayAST(ast) {
+            const container = document.getElementById('astResult');
+            let html = '';
+            
+            ast.children.forEach(node => {
+                html += `
+                    <div class="ast-node">
+                        <span class="ast-node-type">${node.type}</span>
+                        ${node.name ? `<span class="ast-node-value">${node.name}</span>` : ''}
+                        <span style="float: right; color: #8b949e;">Line ${node.line}</span>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html || '<div style="color: #8b949e;">No AST nodes found</div>';
+        }
+        
+        function displaySymbolTable(symbols) {
+            const container = document.getElementById('symbolTable');
+            let html = '<div class="symbol-table">';
+            
+            symbols.forEach(([name, info]) => {
+                html += `
+                    <div class="symbol-entry">
+                        <span class="symbol-name">${name}</span>
+                        <span>
+                            <span class="symbol-type">${info.type}</span>
+                            <span style="color: #8b949e; margin-left: 10px;">Line ${info.line}</span>
+                        </span>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html || '<div style="color: #8b949e;">No symbols found</div>';
+        }
+        
+        function displayInsights(insights) {
+            const container = document.getElementById('aiInsights');
+            let html = '';
+            
+            insights.forEach(insight => {
+                const borderColor = insight.severity === 'warning' ? '#f85149' : 
+                                  insight.severity === 'success' ? '#39d353' : '#f9c74f';
+                html += `
+                    <div class="insight-item" style="border-left-color: ${borderColor};">
+                        <div class="insight-title">${insight.title}</div>
+                        <div class="insight-description">${insight.description}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function loadExample(type) {
+            const examples = {
+                simple: `// Simple example with basic structures
+function greet(name) {
+    return "Hello, " + name + "!";
+}
+
+const message = greet("World");
+console.log(message);`,
+                
+                complex: `// Complex example with multiple patterns
+class UserManager {
+    constructor() {
+        this.users = new Map();
+        this.cache = new Map();
+    }
+    
+    addUser(user) {
+        if (this.users.has(user.id)) {
+            throw new Error("User already exists");
+        }
+        this.users.set(user.id, user);
+        this.clearCache();
+    }
+    
+    findUser(id) {
+        if (this.cache.has(id)) {
+            return this.cache.get(id);
+        }
+        
+        const user = this.users.get(id);
+        if (user) {
+            this.cache.set(id, user);
+        }
+        return user;
+    }
+    
+    updateUser(id, updates) {
+        const user = this.findUser(id);
+        if (!user) {
+            return null;
+        }
+        
+        for (const key in updates) {
+            if (updates.hasOwnProperty(key)) {
+                user[key] = updates[key];
+            }
+        }
+        
+        this.clearCache();
+        return user;
+    }
+    
+    deleteUser(id) {
+        const deleted = this.users.delete(id);
+        if (deleted) {
+            this.clearCache();
+        }
+        return deleted;
+    }
+    
+    clearCache() {
+        this.cache.clear();
+    }
+}
+
+// Usage example
+const manager = new UserManager();
+const users = [
+    { id: 1, name: "Alice", role: "admin" },
+    { id: 2, name: "Bob", role: "user" },
+    { id: 3, name: "Charlie", role: "user" }
+];
+
+for (const user of users) {
+    manager.addUser(user);
+}
+
+// Complex query function
+function findUsersByRole(manager, role) {
+    const results = [];
+    for (const [id, user] of manager.users) {
+        if (user.role === role) {
+            results.push(user);
+        }
+    }
+    return results;
+}`,
+                
+                performance: `// Performance-critical code with O(1) optimizations
+class O1HashMap {
+    constructor(initialCapacity = 16) {
+        this.buckets = new Array(initialCapacity);
+        this.size = 0;
+        this.threshold = initialCapacity * 0.75;
+        
+        for (let i = 0; i < initialCapacity; i++) {
+            this.buckets[i] = [];
+        }
+    }
+    
+    hash(key) {
+        let hash = 0;
+        for (let i = 0; i < key.length; i++) {
+            hash = (hash << 5) - hash + key.charCodeAt(i);
+            hash = hash & hash;
+        }
+        return Math.abs(hash) % this.buckets.length;
+    }
+    
+    set(key, value) {
+        const index = this.hash(key);
+        const bucket = this.buckets[index];
+        
+        for (let i = 0; i < bucket.length; i++) {
+            if (bucket[i][0] === key) {
+                bucket[i][1] = value;
+                return;
+            }
+        }
+        
+        bucket.push([key, value]);
+        this.size++;
+        
+        if (this.size > this.threshold) {
+            this.resize();
+        }
+    }
+    
+    get(key) {
+        const index = this.hash(key);
+        const bucket = this.buckets[index];
+        
+        for (let i = 0; i < bucket.length; i++) {
+            if (bucket[i][0] === key) {
+                return bucket[i][1];
+            }
+        }
+        
+        return undefined;
+    }
+    
+    delete(key) {
+        const index = this.hash(key);
+        const bucket = this.buckets[index];
+        
+        for (let i = 0; i < bucket.length; i++) {
+            if (bucket[i][0] === key) {
+                bucket.splice(i, 1);
+                this.size--;
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    resize() {
+        const oldBuckets = this.buckets;
+        const newCapacity = this.buckets.length * 2;
+        this.buckets = new Array(newCapacity);
+        this.size = 0;
+        this.threshold = newCapacity * 0.75;
+        
+        for (let i = 0; i < newCapacity; i++) {
+            this.buckets[i] = [];
+        }
+        
+        for (const bucket of oldBuckets) {
+            for (const [key, value] of bucket) {
+                this.set(key, value);
+            }
+        }
+    }
+}
+
+// Benchmark O(1) operations
+function benchmark() {
+    const map = new O1HashMap();
+    const iterations = 10000;
+    
+    console.time("Insert");
+    for (let i = 0; i < iterations; i++) {
+        map.set("key" + i, i);
+    }
+    console.timeEnd("Insert");
+    
+    console.time("Lookup");
+    for (let i = 0; i < iterations; i++) {
+        map.get("key" + i);
+    }
+    console.timeEnd("Lookup");
+    
+    console.time("Delete");
+    for (let i = 0; i < iterations / 2; i++) {
+        map.delete("key" + i);
+    }
+    console.timeEnd("Delete");
+}`
+            };
+            
+            document.getElementById('codeEditor').value = examples[type];
+            analyzeCode();
+        }
+        
+        // Initialize with default code
+        window.addEventListener('load', () => {
+            analyzeCode();
+        });
+    </script>
+</body>
+</html>

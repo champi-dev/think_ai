@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 1: O(1) Counter</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .performance-badge {
+            background: #4ade80;
+            color: #0a5f38;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+        .counter-display {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 30px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .metrics {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-family: monospace;
+            text-align: left;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .description {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>O(1) Counter</h1>
+        <div class="performance-badge">O(1) Time Complexity</div>
+        
+        <div class="counter-display" id="counter">0</div>
+        
+        <div class="controls">
+            <button onclick="counterOperations.decrement()">-1</button>
+            <button onclick="counterOperations.reset()">Reset</button>
+            <button onclick="counterOperations.increment()">+1</button>
+            <button onclick="counterOperations.incrementBy(10)">+10</button>
+            <button onclick="counterOperations.incrementBy(100)">+100</button>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric">
+                <span>Operations performed:</span>
+                <span id="operations">0</span>
+            </div>
+            <div class="metric">
+                <span>Average operation time:</span>
+                <span id="avgTime">0.000ms</span>
+            </div>
+            <div class="metric">
+                <span>Total time:</span>
+                <span id="totalTime">0.000ms</span>
+            </div>
+            <div class="metric">
+                <span>Memory usage:</span>
+                <span id="memory">O(1) - constant</span>
+            </div>
+        </div>
+        
+        <div class="description">
+            This counter demonstrates O(1) time complexity for all operations. 
+            Each increment, decrement, or reset operation executes in constant time, 
+            regardless of the counter value. No loops, no arrays - just direct memory access.
+        </div>
+    </div>
+
+    <script>
+        // O(1) Counter implementation with performance tracking
+        class O1Counter {
+            constructor() {
+                this.value = 0;
+                this.operations = 0;
+                this.totalTime = 0;
+            }
+            
+            // O(1) - Direct assignment
+            increment() {
+                const start = performance.now();
+                this.value += 1;
+                this.trackOperation(start);
+            }
+            
+            // O(1) - Direct assignment
+            decrement() {
+                const start = performance.now();
+                this.value -= 1;
+                this.trackOperation(start);
+            }
+            
+            // O(1) - Direct assignment
+            incrementBy(amount) {
+                const start = performance.now();
+                this.value += amount;
+                this.trackOperation(start);
+            }
+            
+            // O(1) - Direct assignment
+            reset() {
+                const start = performance.now();
+                this.value = 0;
+                this.trackOperation(start);
+            }
+            
+            // O(1) - Direct getter
+            getValue() {
+                return this.value;
+            }
+            
+            trackOperation(startTime) {
+                const endTime = performance.now();
+                this.operations++;
+                this.totalTime += (endTime - startTime);
+                this.updateDisplay();
+            }
+            
+            updateDisplay() {
+                document.getElementById('counter').textContent = this.value;
+                document.getElementById('operations').textContent = this.operations;
+                document.getElementById('totalTime').textContent = this.totalTime.toFixed(3) + 'ms';
+                const avgTime = this.operations > 0 ? this.totalTime / this.operations : 0;
+                document.getElementById('avgTime').textContent = avgTime.toFixed(6) + 'ms';
+            }
+        }
+        
+        const counter = new O1Counter();
+        
+        const counterOperations = {
+            increment: () => counter.increment(),
+            decrement: () => counter.decrement(),
+            incrementBy: (amount) => counter.incrementBy(amount),
+            reset: () => counter.reset()
+        };
+    </script>
+</body>
+</html>

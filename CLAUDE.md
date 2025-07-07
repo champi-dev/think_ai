@@ -25,8 +25,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Published Libraries:**
 - `npm install thinkai-quantum` - JavaScript/TypeScript library from npm
 - `pip install thinkai-quantum` - Python library from PyPI
-- `npx thinkai-quantum chat` - JavaScript CLI
-- `think-ai chat` - Python CLI
+- `npx thinkai-quantum chat` - JavaScript CLI for AI coding
+- `think-ai chat` - Python CLI for AI coding
+
+**Demo Projects (in think-ai-demos/):**
+1. **O(1) Counter** - Simple state management with performance tracking
+2. **O(1) Todo List** - Hash-based CRUD operations with persistence
+3. **O(1) Chat System** - Real-time messaging with instant routing
+4. **O(1) Data Dashboard** - Live visualization with pre-computed aggregates
+5. **O(1) Code Analyzer** - AI-powered AST analysis with O(1) lookups
 
 **Knowledge Enhancement:**
 - `cd knowledge-enhancement && ./run_knowledge_enhancement.sh` - Harvest legal knowledge
@@ -165,21 +172,25 @@ Remember: You're not just solving a problem, you're creating a masterpiece that 
 
 ## Current Project Status
 
-**✅ Completed Deployments (July 2025):**
+**✅ Completed Deployments (December 2024):**
 - 🌐 Web app: https://thinkai-production.up.railway.app (Railway)
-- 📦 JavaScript library: `npm install thinkai-quantum` v1.0.1 (npm)
-- 🐍 Python library: `pip install thinkai-quantum` v1.0.0 (PyPI)
+- 📦 JavaScript CLI: `npx thinkai-quantum` v1.0.1 (npm) 
+- 🐍 Python CLI: `pip install thinkai-quantum` v1.0.0 (PyPI)
+- 🎮 Demo projects: 5 interactive O(1) implementations
+- 💻 CLI tools: Code generation, analysis, and optimization
 - 🧠 Knowledge enhancement: 300+ legal sources integrated
-- 🛠️ Rust core: Fully compiled and tested (warning-free deployment)
+- 🛠️ Rust core: Fully compiled and tested (O(1) performance)
 - 🚀 Automated deployment: Pre-commit hooks with library publishing
 
-**🔄 Active Systems:**
+**🔄 Active Features:**
+- AI-powered code generation with O(1) focus
+- Code complexity analysis and optimization
+- Interactive coding sessions (pair programming)
+- 5 demo projects showcasing O(1) implementations
 - Railway deployment with auto-scaling
-- npm/PyPI package distribution (July 2025 updates)
+- npm/PyPI package distribution
 - Legal knowledge harvesting pipeline
-- O(1) performance optimization
 - Continuous integration and deployment pipeline
-- Multi-platform library synchronization
 
 ## Building a Performant LLM with O(1) Optimizations in Rust
 

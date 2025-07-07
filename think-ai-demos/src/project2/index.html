@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 2: O(1) Todo List</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #f5576c;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .performance-badge {
+            background: #4ade80;
+            color: #0a5f38;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #f5576c;
+        }
+        .add-btn {
+            background: #f5576c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .add-btn:hover {
+            background: #e44560;
+            transform: translateY(-2px);
+        }
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .todo-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+        .todo-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .todo-item.completed {
+            opacity: 0.6;
+        }
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+        }
+        .todo-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #f5576c;
+        }
+        .todo-text {
+            flex: 1;
+            font-size: 1.1em;
+        }
+        .todo-id {
+            font-family: monospace;
+            font-size: 0.8em;
+            color: #666;
+            background: #e9ecef;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        .delete-btn:hover {
+            background: #c82333;
+        }
+        .metrics {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-family: monospace;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .control-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        .control-btn:hover {
+            background: #5a6268;
+        }
+        .description {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e7f3ff;
+            border-radius: 10px;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>O(1) Todo List</h1>
+        <div class="performance-badge">O(1) CRUD Operations</div>
+        
+        <div class="input-section">
+            <input type="text" id="todoInput" placeholder="Enter a new todo..." onkeypress="handleKeyPress(event)">
+            <button class="add-btn" onclick="todoOperations.add()">Add Todo</button>
+        </div>
+        
+        <ul class="todo-list" id="todoList"></ul>
+        
+        <div class="controls">
+            <button class="control-btn" onclick="todoOperations.clearCompleted()">Clear Completed</button>
+            <button class="control-btn" onclick="todoOperations.toggleAll()">Toggle All</button>
+            <button class="control-btn" onclick="todoOperations.clearAll()">Clear All</button>
+            <button class="control-btn" onclick="todoOperations.saveToLocal()">Save</button>
+            <button class="control-btn" onclick="todoOperations.loadFromLocal()">Load</button>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric">
+                <span>Total todos:</span>
+                <span id="totalTodos">0</span>
+            </div>
+            <div class="metric">
+                <span>Completed:</span>
+                <span id="completedTodos">0</span>
+            </div>
+            <div class="metric">
+                <span>Operations performed:</span>
+                <span id="operations">0</span>
+            </div>
+            <div class="metric">
+                <span>Average operation time:</span>
+                <span id="avgTime">0.000ms</span>
+            </div>
+            <div class="metric">
+                <span>Last operation time:</span>
+                <span id="lastTime">0.000ms</span>
+            </div>
+            <div class="metric">
+                <span>Time complexity:</span>
+                <span>O(1) for all CRUD ops</span>
+            </div>
+        </div>
+        
+        <div class="description">
+            This Todo List achieves O(1) time complexity for all CRUD operations using hash maps.
+            Each todo has a unique ID for instant lookup, update, and deletion.
+            No array iterations needed - just direct hash table access!
+        </div>
+    </div>
+
+    <script>
+        // O(1) Todo List implementation using hash maps
+        class O1TodoList {
+            constructor() {
+                this.todos = new Map(); // Hash map for O(1) operations
+                this.idCounter = 0;
+                this.operations = 0;
+                this.totalTime = 0;
+                this.lastTime = 0;
+            }
+            
+            // O(1) - Direct hash map insertion
+            add(text) {
+                const start = performance.now();
+                const id = this.generateId();
+                const todo = {
+                    id,
+                    text,
+                    completed: false,
+                    timestamp: Date.now()
+                };
+                this.todos.set(id, todo);
+                this.trackOperation(start);
+                return id;
+            }
+            
+            // O(1) - Direct hash map access
+            toggle(id) {
+                const start = performance.now();
+                const todo = this.todos.get(id);
+                if (todo) {
+                    todo.completed = !todo.completed;
+                }
+                this.trackOperation(start);
+            }
+            
+            // O(1) - Direct hash map deletion
+            delete(id) {
+                const start = performance.now();
+                this.todos.delete(id);
+                this.trackOperation(start);
+            }
+            
+            // O(1) - Direct hash map access
+            get(id) {
+                return this.todos.get(id);
+            }
+            
+            // O(n) - But necessary for display
+            getAll() {
+                return Array.from(this.todos.values());
+            }
+            
+            // O(1) - Simple increment
+            generateId() {
+                return `todo_${++this.idCounter}`;
+            }
+            
+            // O(n) - Batch operation
+            clearCompleted() {
+                const start = performance.now();
+                for (const [id, todo] of this.todos) {
+                    if (todo.completed) {
+                        this.todos.delete(id);
+                    }
+                }
+                this.trackOperation(start);
+            }
+            
+            // O(n) - Batch operation
+            toggleAll() {
+                const start = performance.now();
+                const allCompleted = this.getAll().every(todo => todo.completed);
+                for (const todo of this.todos.values()) {
+                    todo.completed = !allCompleted;
+                }
+                this.trackOperation(start);
+            }
+            
+            // O(1) - Clear operation
+            clearAll() {
+                const start = performance.now();
+                this.todos.clear();
+                this.trackOperation(start);
+            }
+            
+            trackOperation(startTime) {
+                const endTime = performance.now();
+                this.operations++;
+                this.lastTime = endTime - startTime;
+                this.totalTime += this.lastTime;
+            }
+            
+            getMetrics() {
+                const todos = this.getAll();
+                return {
+                    total: this.todos.size,
+                    completed: todos.filter(t => t.completed).length,
+                    operations: this.operations,
+                    avgTime: this.operations > 0 ? this.totalTime / this.operations : 0,
+                    lastTime: this.lastTime
+                };
+            }
+            
+            // Persistence methods
+            toJSON() {
+                return {
+                    todos: Array.from(this.todos.entries()),
+                    idCounter: this.idCounter
+                };
+            }
+            
+            fromJSON(data) {
+                this.todos = new Map(data.todos);
+                this.idCounter = data.idCounter;
+            }
+        }
+        
+        const todoList = new O1TodoList();
+        
+        const todoOperations = {
+            add() {
+                const input = document.getElementById('todoInput');
+                const text = input.value.trim();
+                if (text) {
+                    todoList.add(text);
+                    input.value = '';
+                    render();
+                }
+            },
+            
+            toggle(id) {
+                todoList.toggle(id);
+                render();
+            },
+            
+            delete(id) {
+                todoList.delete(id);
+                render();
+            },
+            
+            clearCompleted() {
+                todoList.clearCompleted();
+                render();
+            },
+            
+            toggleAll() {
+                todoList.toggleAll();
+                render();
+            },
+            
+            clearAll() {
+                if (confirm('Clear all todos?')) {
+                    todoList.clearAll();
+                    render();
+                }
+            },
+            
+            saveToLocal() {
+                localStorage.setItem('o1-todos', JSON.stringify(todoList.toJSON()));
+                alert('Todos saved!');
+            },
+            
+            loadFromLocal() {
+                const data = localStorage.getItem('o1-todos');
+                if (data) {
+                    todoList.fromJSON(JSON.parse(data));
+                    render();
+                    alert('Todos loaded!');
+                }
+            }
+        };
+        
+        function render() {
+            const listEl = document.getElementById('todoList');
+            const todos = todoList.getAll().sort((a, b) => b.timestamp - a.timestamp);
+            
+            listEl.innerHTML = todos.map(todo => `
+                <li class="todo-item ${todo.completed ? 'completed' : ''}">
+                    <input 
+                        type="checkbox" 
+                        class="todo-checkbox"
+                        ${todo.completed ? 'checked' : ''} 
+                        onchange="todoOperations.toggle('${todo.id}')"
+                    >
+                    <span class="todo-text">${escapeHtml(todo.text)}</span>
+                    <span class="todo-id">${todo.id}</span>
+                    <button class="delete-btn" onclick="todoOperations.delete('${todo.id}')">Delete</button>
+                </li>
+            `).join('');
+            
+            updateMetrics();
+        }
+        
+        function updateMetrics() {
+            const metrics = todoList.getMetrics();
+            document.getElementById('totalTodos').textContent = metrics.total;
+            document.getElementById('completedTodos').textContent = metrics.completed;
+            document.getElementById('operations').textContent = metrics.operations;
+            document.getElementById('avgTime').textContent = metrics.avgTime.toFixed(6) + 'ms';
+            document.getElementById('lastTime').textContent = metrics.lastTime.toFixed(6) + 'ms';
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                todoOperations.add();
+            }
+        }
+        
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        // Initial render
+        render();
+    </script>
+</body>
+</html>
