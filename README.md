@@ -220,6 +220,31 @@ railway up
 - `NPM_TOKEN` - npm publishing token (for library updates)
 - `PYPI_TOKEN` - PyPI publishing token (for library updates)
 
+### Automated Deployment Pipeline
+The project includes an automated deployment system that runs after pre-commit hooks:
+
+```bash
+# Set up deployment tokens
+cp .env.example .env
+# Edit .env and add your NPM_TOKEN and PYPI_TOKEN
+
+# Test deployment pipeline
+./test-full-deployment.sh
+
+# Deploy all libraries with version bumps
+./scripts/deploy-all-libs.sh
+
+# Or trigger via git commit (pre-commit hook)
+git add . && git commit -m "Deploy libraries"
+```
+
+**Deployment Features:**
+- 🔄 Automatic version bumping (patch version)
+- 📦 npm and PyPI package building and publishing
+- 🧪 Automated testing before deployment
+- ✅ Full system verification
+- 🔐 Secure token management via .env file
+
 ## 📦 **Published Libraries**
 
 ### npm Package: [`thinkai-quantum`](https://www.npmjs.com/package/thinkai-quantum)

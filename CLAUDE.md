@@ -37,6 +37,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `cargo build --release` - Build production binaries
 - `docker build -t think-ai .` - Build Docker image with Rust binaries
 - `railway up` - Deploy to Railway (current: https://thinkai-production.up.railway.app)
+- `./scripts/deploy-all-libs.sh` - Deploy npm and PyPI packages with version bumps
+- `./test-full-deployment.sh` - Test entire deployment pipeline locally
 
 ## Architecture Overview
 
@@ -169,6 +171,7 @@ Remember: You're not just solving a problem, you're creating a masterpiece that 
 - 🐍 Python library: `pip install thinkai-quantum` v1.0.0 (PyPI)
 - 🧠 Knowledge enhancement: 300+ legal sources integrated
 - 🛠️ Rust core: Fully compiled and tested (warning-free deployment)
+- 🚀 Automated deployment: Pre-commit hooks with library publishing
 
 **🔄 Active Systems:**
 - Railway deployment with auto-scaling

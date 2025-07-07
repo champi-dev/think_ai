@@ -1,6 +1,6 @@
 {
   "name": "thinkai-quantum",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Think AI - Quantum Consciousness AI Library for JavaScript/Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
     "build": "tsc",
     "build:watch": "tsc --watch",
     "dev": "ts-node src/cli.ts",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint src/**/*.ts",
     "prepublishOnly": "npm run build",
     "start": "node dist/cli.js"

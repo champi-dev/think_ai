@@ -329,8 +329,22 @@ Average response time: **< 2ms**
 
 ## Version History
 
+- **v1.0.2** (Next) - Automated deployment pipeline integration
 - **v1.0.1** (July 2025) - Latest deployment with enhanced documentation
 - **v1.0.0** (Initial release) - Core functionality and CLI
+
+## Deployment
+
+This package is automatically deployed to npm via our CI/CD pipeline:
+
+```bash
+# Deployment happens automatically on git commits
+# Version is auto-bumped (patch version)
+# Tests run before deployment
+# Published to npm registry
+```
+
+Latest version: [![npm version](https://badge.fury.io/js/thinkai-quantum.svg)](https://www.npmjs.com/package/thinkai-quantum)
 
 ## License
 

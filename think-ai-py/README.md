@@ -262,8 +262,22 @@ Average response time: **< 2ms** (0.002ms hash-based lookups)
 
 ## Version History
 
+- **v1.0.1** (Next) - Automated deployment pipeline integration
 - **v1.0.0** (July 2025) - Latest deployment with enhanced documentation and multi-platform sync
 - Initial release with core functionality and CLI
+
+## Deployment
+
+This package is automatically deployed to PyPI via our CI/CD pipeline:
+
+```bash
+# Deployment happens automatically on git commits
+# Version is auto-bumped (patch version)
+# Tests run before deployment
+# Published to PyPI registry
+```
+
+Latest version: [![PyPI version](https://badge.fury.io/py/thinkai-quantum.svg)](https://pypi.org/project/thinkai-quantum/)
 
 ## License
 
