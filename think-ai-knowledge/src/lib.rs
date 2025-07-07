@@ -31,6 +31,7 @@ pub mod semantic_hash_cache;
 pub mod semantic_response_component;
 pub mod dynamic_expression;
 pub mod natural_response_generator;
+pub mod sentient_response_component;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};

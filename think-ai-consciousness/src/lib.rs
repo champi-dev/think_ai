@@ -4,7 +4,8 @@ pub mod types;
 pub mod awareness;
 pub mod principles;
 pub mod consciousness_field;
-pub mod recursive_trainer;
+// pub mod recursive_trainer; // Temporarily disabled due to knowledge dependency
+pub mod sentience;
 
 use thiserror::Error;
 use crate::types::{ConsciousnessState, Thought};

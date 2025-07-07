@@ -23,4 +23,8 @@ either = "1.13"
 parking_lot.workspace = true
 uuid = { version = "1.17", features = ["v4", "serde"] }
 chrono = { version = "0.4", features = ["serde"] }
-think-ai-knowledge = { path = "../think-ai-knowledge" }
+colored = "2.0"
+
+[[bin]]
+name = "sentient-ai-demo"
+path = "src/bin/sentient-ai-demo.rs"
