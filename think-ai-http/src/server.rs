@@ -14,7 +14,7 @@ pub async fn run_server(
     knowledge_engine: Arc<think_ai_knowledge::KnowledgeEngine>,
 ) -> crate::Result<()> {
     // Initialize conversation memory for long-term contextual dialogue
-    let conversation_memory = Arc::new(think_ai_knowledge::conversation_memory::ConversationMemory::new(1000));
+    let conversation_memory = Arc::new(think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory::new(1000, 24));
     // Use UUID-based unique port if needed
     let final_port = if addr.port() == 0 {
         port_selector::find_available_port(None)

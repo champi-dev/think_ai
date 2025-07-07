@@ -260,7 +260,7 @@ impl EnhancedConversationMemory {
             sentiment,
             importance,
             context_references,
-            knowledge_areas,
+            knowledge_areas_accessed: knowledge_areas,
             reasoning_chain,
             confidence_level: confidence,
             user_satisfaction_indicators: satisfaction_indicators,
@@ -439,7 +439,7 @@ impl EnhancedConversationMemory {
         ];
 
         let text_lower = text.to_lowercase();
-        let mut sentiment_score = 0.0;
+        let mut sentiment_score: f32 = 0.0;
         let mut word_count = 0;
 
         for (word, weight) in positive_indicators.iter().chain(negative_indicators.iter()) {
@@ -469,7 +469,7 @@ impl EnhancedConversationMemory {
         if word_count == 0 {
             0.0
         } else {
-            sentiment_score.max(-1.0).min(1.0)
+            sentiment_score.max(-1.0f32).min(1.0f32)
         }
     }
 
@@ -625,7 +625,7 @@ impl EnhancedConversationMemory {
         let low_confidence = ["might", "could", "possibly", "perhaps", "maybe", "seems"];
         let uncertain = ["i'm not sure", "i don't know", "unclear", "uncertain"];
 
-        let mut confidence = 0.5; // baseline
+        let mut confidence: f32 = 0.5; // baseline
 
         for indicator in high_confidence {
             if response_lower.contains(indicator) {
@@ -651,7 +651,7 @@ impl EnhancedConversationMemory {
             }
         }
 
-        confidence.max(0.0).min(1.0)
+        confidence.max(0.0f32).min(1.0f32)
     }
 
     /// Detect user satisfaction indicators

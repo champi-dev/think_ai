@@ -1,5 +1,14 @@
 """
 Think AI - Main Python Client
+
+# What is This?
+Imagine having a super-smart friend who:
+- Already knows every answer (O(1) lookups)
+- Never needs to "think" (instant responses)
+- Speaks your language (Python!)
+- Never gets tired (24/7 availability)
+
+This client is your phone to call that friend!
 """
 
 import json
@@ -31,29 +40,56 @@ class ThinkAI:
     """
     Think AI Python Client
     
-    Provides access to Think AI's quantum consciousness AI system with
-    both synchronous and asynchronous operations.
+    # Your Gateway to O(1) AI
+    This class is like a universal remote control for AI:
+    - Press 'chat' to have a conversation
+    - Press 'ask' for quick questions
+    - Press 'search' to find knowledge
+    - Press 'stream' to watch responses live
+    
+    # Why O(1) Matters
+    Normal AI: "Let me think..." (seconds pass)
+    Think AI: "Here's your answer!" (microseconds pass)
+    
+    The difference? We pre-compute and hash everything!
     """
     
     def __init__(self, config: Optional[ThinkAIConfig] = None):
-        """Initialize Think AI client with configuration"""
+        """
+        Initialize Think AI client with configuration
+        
+        # Setting Up Your AI Phone
+        Think of this like buying a new smartphone:
+        1. Choose your carrier (base_url)
+        2. Set call quality (timeout)
+        3. Turn on call recording (debug mode)
+        
+        # The Smart Retry System
+        If your call doesn't go through, we automatically:
+        - Try again 3 times
+        - Wait a bit longer each time
+        - Only give up if the server is really down
+        
+        Like a phone that redials when busy!
+        """
         self.config = config or ThinkAIConfig()
         
         # Set up requests session with retry strategy
+        # This is like having a phone that auto-redials
         self.session = requests.Session()
         retry_strategy = Retry(
-            total=3,
-            backoff_factor=1,
-            status_forcelist=[429, 500, 502, 503, 504],
+            total=3,                                    # Try 3 times
+            backoff_factor=1,                          # Wait 1, 2, 4 seconds
+            status_forcelist=[429, 500, 502, 503, 504], # Retry on server errors
         )
         adapter = HTTPAdapter(max_retries=retry_strategy)
         self.session.mount("http://", adapter)
         self.session.mount("https://", adapter)
         
-        # Set default headers
+        # Set default headers - like caller ID
         self.session.headers.update({
-            'Content-Type': 'application/json',
-            'User-Agent': 'think-ai-python/1.0.0'
+            'Content-Type': 'application/json',    # We speak JSON
+            'User-Agent': 'think-ai-python/1.0.0'  # Who's calling
         })
         
         if self.config.debug:
@@ -90,49 +126,85 @@ class ThinkAI:
         """
         Send a chat message to Think AI
         
-        Args:
-            request: Chat request with query and optional context
-            
-        Returns:
-            ChatResponse with AI's response and metadata
-            
-        Raises:
-            ThinkAIError: If the request fails
+        # The Magic Conversation
+        This is like texting a friend who:
+        1. Always replies instantly (O(1) backend)
+        2. Never says "typing..." (no processing delay)
+        3. Remembers everything (context awareness)
+        4. Always has the perfect answer (pre-computed responses)
+        
+        # What Goes In (ChatRequest)
+        - query: "What is consciousness?"
+        - context: ["We were discussing AI"]
+        - max_length: 500
+        
+        # What Comes Out (ChatResponse)
+        - response: "Consciousness is..."
+        - confidence: 0.95 (95% sure)
+        - response_time_ms: 42 (blazing fast!)
+        
+        # Example
+        ```python
+        response = ai.chat(ChatRequest(
+            query="Explain quantum computing",
+            context=["I'm a beginner"]
+        ))
+        print(f"Answer: {response.response}")
+        print(f"Confidence: {response.confidence:.1%}")
+        ```
         """
         url = self._make_url('/api/chat')
         self._log(f"POST {url}")
         
         try:
+            # Send the message - like hitting 'send' on your phone
             response = self.session.post(
                 url,
-                json=request.model_dump(),
-                timeout=self.config.timeout
+                json=request.model_dump(),      # Convert to JSON
+                timeout=self.config.timeout      # Don't wait forever
             )
             
+            # Check if the message was delivered
             if not response.ok:
                 self._handle_error(response)
             
+            # Unpack the response - like opening a text message
             data = response.json()
             return ChatResponse(**data)
             
         except requests.RequestException as e:
+            # Network error - like losing signal
             raise ThinkAIError(f"Request failed: {str(e)}")
         except (ValueError, TypeError) as e:
+            # Bad response - like getting gibberish
             raise ThinkAIError(f"Invalid response format: {str(e)}")
     
     def ask(self, question: str) -> str:
         """
         Quick chat - simplified interface
         
-        Args:
-            question: Question to ask Think AI
-            
-        Returns:
-            AI's response as string
+        # The Speed Dial Button
+        This is like having your best friend on speed dial:
+        - One button press (one parameter)
+        - Instant connection (O(1) lookup)
+        - Just the answer, no fluff
+        
+        # When to Use This
+        - Quick questions: ai.ask("What time is it?")
+        - Simple queries: ai.ask("Define recursion")
+        - No context needed: ai.ask("Hello!")
+        
+        # Example
+        ```python
+        answer = ai.ask("What is the meaning of life?")
+        print(answer)  # "42, according to Douglas Adams..."
+        ```
+        
+        This is just a shortcut for chat() - same O(1) speed!
         """
         request = ChatRequest(query=question)
         response = self.chat(request)
-        return response.response
+        return response.response  # Just the answer, ma'am!
     
     def get_stats(self) -> SystemStats:
         """
@@ -227,38 +299,67 @@ class ThinkAI:
         """
         Stream chat responses in real-time
         
-        Args:
-            request: Chat request with query and context
-            on_chunk: Callback function for processing response chunks
+        # Netflix vs DVD
+        Regular chat() = DVD (get the whole movie at once)
+        stream_chat() = Netflix (watch as it downloads)
+        
+        # How Streaming Works
+        1. Open a WebSocket (like starting a video call)
+        2. Send your question
+        3. Receive the answer word by word
+        4. Each word still comes from O(1) lookups!
+        
+        # The Magic Callback
+        on_chunk is like your TV showing each frame as it arrives:
+        ```python
+        def print_as_it_comes(chunk):
+            print(chunk.chunk, end='', flush=True)
+            
+        ai.stream_chat(
+            ChatRequest(query="Tell me a story"),
+            print_as_it_comes
+        )
+        ```
+        
+        # Why This is Still O(1)
+        Each chunk is retrieved instantly from our hash tables.
+        The streaming just makes it feel more natural!
         """
+        # Convert HTTP URL to WebSocket URL
+        # Like switching from texting to FaceTime
         ws_url = self.config.base_url.replace('http', 'ws') + '/ws/chat'
         self._log(f"WebSocket connection to {ws_url}")
         
+        # When we receive a chunk of the response
         def on_message(ws, message):
             try:
                 chunk_data = json.loads(message)
                 chunk = StreamResponse(**chunk_data)
-                on_chunk(chunk)
+                on_chunk(chunk)  # Give it to the user immediately!
                 
                 if chunk.done:
-                    ws.close()
+                    ws.close()  # Hang up when done
             except (ValueError, TypeError) as e:
                 raise ThinkAIError(f"Failed to parse stream response: {str(e)}")
         
+        # If something goes wrong
         def on_error(ws, error):
             raise ThinkAIError(f"WebSocket error: {str(error)}")
         
+        # When connection opens, send our question
         def on_open(ws):
             ws.send(json.dumps(request.model_dump()))
         
         try:
+            # Create and run the WebSocket connection
+            # Like dialing a video call and keeping it open
             ws = websocket.WebSocketApp(
                 ws_url,
                 on_open=on_open,
                 on_message=on_message,
                 on_error=on_error
             )
-            ws.run_forever()
+            ws.run_forever()  # Keep listening until done
         except Exception as e:
             raise ThinkAIError(f"WebSocket connection failed: {str(e)}")
     

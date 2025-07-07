@@ -990,6 +990,19 @@ dependencies = [
 
 [[package]]
 name = "dashmap"
+version = "5.5.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "978747c1d849a7d2ee5e8adc0159961c48fb7e5db2f06af6723b80123bb53856"
+dependencies = [
+ "cfg-if",
+ "hashbrown 0.14.5",
+ "lock_api",
+ "once_cell",
+ "parking_lot_core 0.9.11",
+]
+
+[[package]]
+name = "dashmap"
 version = "6.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5041cc499144891f3790297212f32a74fb938e5136a14943f338ef9e0ae276cf"
@@ -3708,7 +3721,7 @@ version = "0.1.0"
 dependencies = [
  "ahash",
  "async-trait",
- "dashmap",
+ "dashmap 6.1.0",
  "lru",
  "moka",
  "parking_lot 0.12.4",
@@ -3745,6 +3758,7 @@ dependencies = [
  "tower 0.4.13",
  "tower-http 0.5.2",
  "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -3775,14 +3789,16 @@ dependencies = [
  "anyhow",
  "arc-swap",
  "async-trait",
+ "chrono",
  "criterion",
- "dashmap",
+ "dashmap 6.1.0",
  "im",
  "itertools 0.13.0",
  "num_cpus",
  "once_cell",
  "parking_lot 0.12.4",
  "proptest",
+ "rand 0.8.5",
  "serde",
  "serde_json",
  "think-ai-cache",
@@ -3790,6 +3806,7 @@ dependencies = [
  "thiserror 2.0.12",
  "tokio",
  "tracing",
+ "uuid",
 ]
 
 [[package]]
@@ -3825,6 +3842,7 @@ version = "0.1.0"
 dependencies = [
  "async-trait",
  "chrono",
+ "dashmap 5.5.3",
  "futures",
  "rand 0.8.5",
  "regex",
@@ -3837,6 +3855,7 @@ dependencies = [
  "think-ai-consciousness",
  "think-ai-tinyllama",
  "tokio",
+ "uuid",
 ]
 
 [[package]]
@@ -3846,7 +3865,7 @@ dependencies = [
  "ahash",
  "async-trait",
  "bincode",
- "dashmap",
+ "dashmap 6.1.0",
  "flate2",
  "serde",
  "serde_json",
@@ -3893,7 +3912,7 @@ dependencies = [
  "ahash",
  "async-trait",
  "criterion",
- "dashmap",
+ "dashmap 6.1.0",
  "nalgebra 0.33.2",
  "ndarray",
  "num-traits",

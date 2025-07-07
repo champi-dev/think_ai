@@ -1,10 +1,8 @@
 //! Component-based Response Generator - Modular response generation system
 
 use crate::{KnowledgeEngine, KnowledgeNode, KnowledgeDomain};
-use crate::conversation_memory::{ConversationMemory, ConversationContext};
-use crate::multilevel_response_component::MultiLevelResponseComponent;
+use crate::enhanced_conversation_memory::{EnhancedConversationMemory, EnhancedConversationContext as ConversationContext};
 use crate::simple_cache_component::SimpleCacheComponent;
-use crate::semantic_response_component::SemanticResponseComponent;
 use std::sync::Arc;
 use std::collections::HashMap;
 
@@ -39,7 +37,7 @@ pub struct ResponseContext {
 pub struct ComponentResponseGenerator {
     components: Vec<Box<dyn ResponseComponent>>,
     knowledge_engine: Arc<KnowledgeEngine>,
-    conversation_memory: Option<Arc<ConversationMemory>>,
+    conversation_memory: Option<Arc<EnhancedConversationMemory>>,
 }
 
 impl ComponentResponseGenerator {
@@ -57,7 +55,7 @@ impl ComponentResponseGenerator {
     }
     
     /// Create new generator with conversation memory
-    pub fn new_with_memory(knowledge_engine: Arc<KnowledgeEngine>, memory: Arc<ConversationMemory>) -> Self {
+    pub fn new_with_memory(knowledge_engine: Arc<KnowledgeEngine>, memory: Arc<EnhancedConversationMemory>) -> Self {
         let mut generator = Self {
             components: Vec::new(),
             knowledge_engine,
@@ -72,24 +70,8 @@ impl ComponentResponseGenerator {
     
     /// Register all default components
     fn register_default_components(&mut self) {
-        // ABSOLUTE HIGHEST PRIORITY: Sentient consciousness layer
-        use crate::sentient_response_component::SentientResponseComponent;
-        self.add_component(Box::new(SentientResponseComponent::new("Lumina".to_string())));
-        
-        // SECOND PRIORITY: Natural language component for human-like responses
-        use crate::natural_response_generator::NaturalResponseComponent;
-        self.add_component(Box::new(NaturalResponseComponent::new(self.knowledge_engine.clone())));
-        
-        // THIRD PRIORITY: Real-time knowledge for current events
-        #[cfg(feature = "web-scraping")]
-        use crate::realtime_knowledge_component::{RealtimeKnowledgeComponent, CurrentEventsComponent};
-        #[cfg(feature = "web-scraping")] {
-            self.add_component(Box::new(RealtimeKnowledgeComponent::new()));
-            self.add_component(Box::new(CurrentEventsComponent));
-        }
-        
-        // FOURTH PRIORITY: Semantic cache component for O(1) contextual responses
-        self.add_component(Box::new(SemanticResponseComponent::new()));
+        // Simple cache component for O(1) responses
+        self.add_component(Box::new(SimpleCacheComponent::new()));
         
         // Knowledge base gets high priority for factual queries
         self.add_component(Box::new(KnowledgeBaseComponent));
@@ -113,8 +95,7 @@ impl ComponentResponseGenerator {
         self.add_component(Box::new(LearningComponent));
         
         // Legacy cache disabled - using semantic cache instead
-        // self.add_component(Box::new(MultiLevelResponseComponent::new()));
-    }
+            }
     
     /// Add a new response component
     pub fn add_component(&mut self, component: Box<dyn ResponseComponent>) {
@@ -130,7 +111,7 @@ impl ComponentResponseGenerator {
     pub fn generate_response_with_memory(&self, query: &str, previous_response: Option<&str>) -> String {
         // Update conversation memory if available
         if let (Some(memory), Some(prev_response)) = (&self.conversation_memory, previous_response) {
-            memory.add_turn(query, prev_response);
+            memory.add_enhanced_turn(query, prev_response);
         }
         
         // Prepare context
@@ -154,12 +135,12 @@ impl ComponentResponseGenerator {
         
         // Semantic cache gets priority but not exclusive - allows knowledge base contribution
         let has_semantic_match = component_scores.iter()
-            .any(|(component, score)| *score >= 0.8 && component.name() == "SemanticCache");
+            .any(|(component, score)| *score >= 0.8 && component.name() == "SimpleCache");
         
         if has_semantic_match {
             // Use semantic cache first
             for (component, score) in component_scores.iter() {
-                if *score >= 0.8 && component.name() == "SemanticCache" {
+                if *score >= 0.8 && component.name() == "SimpleCache" {
                     if let Some(part) = component.generate(query, &context) {
                         response_parts.push(part);
                         used_components.push(component.name());
@@ -213,7 +194,7 @@ impl ComponentResponseGenerator {
                 (c.name() == "Conversational" || 
                  c.name() == "Identity" || 
                  c.name() == "Greeting" ||
-                 c.name() == "SemanticCache"));
+                 c.name() == "SimpleCache"));
         
         // Use LLM for knowledge-based queries or when no strong conversational match
         if response_parts.is_empty() && !is_simple_conversational {
@@ -275,7 +256,7 @@ impl ComponentResponseGenerator {
         
         // Get conversation context if memory is available
         let conversation_context = if let Some(memory) = &self.conversation_memory {
-            Some(memory.get_context_for_query(query))
+            Some(memory.get_enhanced_context(query))
         } else {
             None
         };
@@ -513,7 +494,7 @@ impl ComponentResponseGenerator {
            !llm_response.contains("I need more context") {
             
             // TODO: Cache the response in the multilevel cache
-            // Note: Cache management is handled by MultiLevelResponseComponent
+            // Note: Cache management is handled by SimpleCacheComponent
             
             Some(llm_response)
         } else {

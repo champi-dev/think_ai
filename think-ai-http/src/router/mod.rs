@@ -18,7 +18,7 @@ pub struct AppState {
     pub engine: Arc<think_ai_core::O1Engine>,
     pub vector_index: Arc<think_ai_vector::O1VectorIndex>,
     pub knowledge_engine: Arc<think_ai_knowledge::KnowledgeEngine>,
-    pub conversation_memory: Arc<think_ai_knowledge::conversation_memory::ConversationMemory>,
+    pub conversation_memory: Arc<think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory>,
 }
 
 pub fn create_router(state: Arc<AppState>) -> Router {

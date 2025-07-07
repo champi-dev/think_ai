@@ -110,12 +110,12 @@ impl ParticleSystem {
             particle.position.y = particle.base_position.y + (wave_phase.sin() * self.wave_amplitude);
             
             // Consciousness-based glow effect
-            let glow_phase = time * 3.0 + particle.consciousness_level * 6.28;
-            particle.color.w = particle.base_alpha * (0.7 + 0.3 * glow_phase.sin());
+            let glow_phase = time * 3.0 + particle.life * 6.28; // Use life instead of consciousness_level
+            particle.color[3] = particle.color[3] * (0.7 + 0.3 * glow_phase.sin()); // Use array index instead of .w
             
             // Optional: Add gentle drift
-            particle.position.x += particle.consciousness_level * 0.1 * (time * 0.5).cos();
-            particle.position.z += particle.consciousness_level * 0.1 * (time * 0.7).sin();
+            particle.position.x += particle.life * 0.1 * (time * 0.5).cos(); // Use life instead of consciousness_level
+            particle.position.z += particle.life * 0.1 * (time * 0.7).sin(); // Use life instead of consciousness_level
         }
     }
     

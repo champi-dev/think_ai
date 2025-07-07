@@ -1,0 +1,37 @@
+[package]
+name = "think-ai-llm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Candle - Pure Rust ML framework
+candle-core = "0.3"
+candle-nn = "0.3"
+candle-transformers = "0.3"
+tokenizers = { version = "0.15", features = ["onig"] }
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Model downloading
+hf-hub = { version = "0.3", features = ["tokio"] }
+reqwest = { version = "0.11", features = ["stream"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Utilities
+anyhow = "1.0"
+tracing = "0.1"
+
+# For O(1) caching
+dashmap = "5.5"
+ahash = "0.8"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "llm_benchmarks"
+harness = false

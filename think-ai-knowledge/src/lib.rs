@@ -1,4 +1,3 @@
-pub mod real_content_generator;
 pub mod evidence;
 pub mod persistence;
 pub mod responder;
@@ -8,8 +7,6 @@ pub mod training_system;
 pub mod comprehensive_knowledge;
 pub mod self_learning;
 pub mod comprehensive_trainer;
-pub mod llm_engine;
-pub mod quantum_llm_engine;
 pub mod enhanced_quantum_llm;
 pub mod dynamic_loader;
 pub mod response_generator;
@@ -23,16 +20,12 @@ pub mod llm_benchmarks;
 pub mod benchmark_trainer;
 pub mod o1_benchmark_monitor;
 pub mod automated_benchmark_runner;
-pub mod conversation_memory;
-pub mod multilevel_cache;
-pub mod multilevel_response_component;
 pub mod simple_cache_component;
-pub mod semantic_hash_cache;
-pub mod semantic_response_component;
 pub mod dynamic_expression;
-pub mod natural_response_generator;
-pub mod sentient_response_component;
 pub mod human_conversation_trainer;
+pub mod simple_llm;
+pub mod autonomous_agent;
+pub mod enhanced_conversation_memory;
 #[cfg(feature = "web-scraping")]
 pub mod realtime_knowledge_gatherer;
 #[cfg(feature = "web-scraping")]
@@ -116,7 +109,7 @@ impl KnowledgeDomain {
     }
 }
 
-use crate::quantum_llm_engine::QuantumLLMEngine;
+use crate::enhanced_quantum_llm::EnhancedQuantumLLMEngine;
 use crate::intelligent_relevance::IntelligentRelevanceEngine;
 use crate::feynman_explainer::FeynmanExplainer;
 
@@ -131,7 +124,7 @@ pub struct KnowledgeEngine {
     quick_lookup_cache: Arc<RwLock<HashMap<String, Vec<(KnowledgeNode, f32)>>>>, // query -> cached results
     training_iterations: Arc<RwLock<u64>>,
     total_knowledge_items: Arc<RwLock<u64>>,
-    quantum_llm: Arc<RwLock<Option<QuantumLLMEngine>>>,
+    quantum_llm: Arc<RwLock<Option<EnhancedQuantumLLMEngine>>>,
     intelligent_relevance: Arc<IntelligentRelevanceEngine>,
     feynman_explainer: Arc<FeynmanExplainer>,
 }
@@ -439,7 +432,7 @@ impl KnowledgeEngine {
         llm_lock.as_mut().unwrap().generate_response(query)
     }
 
-    pub fn set_quantum_llm(&self, llm: QuantumLLMEngine) {
+    pub fn set_quantum_llm(&self, llm: EnhancedQuantumLLMEngine) {
         let mut llm_lock = self.quantum_llm.write().unwrap();
         *llm_lock = Some(llm);
     }
