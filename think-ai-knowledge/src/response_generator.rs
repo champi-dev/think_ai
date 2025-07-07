@@ -81,9 +81,12 @@ impl ComponentResponseGenerator {
         self.add_component(Box::new(NaturalResponseComponent::new(self.knowledge_engine.clone())));
         
         // THIRD PRIORITY: Real-time knowledge for current events
+        #[cfg(feature = "web-scraping")]
         use crate::realtime_knowledge_component::{RealtimeKnowledgeComponent, CurrentEventsComponent};
-        self.add_component(Box::new(RealtimeKnowledgeComponent::new()));
-        self.add_component(Box::new(CurrentEventsComponent));
+        #[cfg(feature = "web-scraping")] {
+            self.add_component(Box::new(RealtimeKnowledgeComponent::new()));
+            self.add_component(Box::new(CurrentEventsComponent));
+        }
         
         // FOURTH PRIORITY: Semantic cache component for O(1) contextual responses
         self.add_component(Box::new(SemanticResponseComponent::new()));

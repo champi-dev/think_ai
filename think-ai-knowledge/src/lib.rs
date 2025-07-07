@@ -33,10 +33,15 @@ pub mod dynamic_expression;
 pub mod natural_response_generator;
 pub mod sentient_response_component;
 pub mod human_conversation_trainer;
+#[cfg(feature = "web-scraping")]
 pub mod realtime_knowledge_gatherer;
+#[cfg(feature = "web-scraping")]
 pub mod social_media_gatherer;
+#[cfg(feature = "web-scraping")]
 pub mod live_stream_monitor;
+#[cfg(feature = "web-scraping")]
 pub mod newsletter_scraper;
+#[cfg(feature = "web-scraping")]
 pub mod realtime_knowledge_component;
 
 use serde::{Deserialize, Serialize};

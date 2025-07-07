@@ -1,13 +1,25 @@
 //! Start real-time knowledge gathering service
 
+#[cfg(feature = "web-scraping")]
 use think_ai_knowledge::{KnowledgeEngine, realtime_knowledge_gatherer::{RealtimeKnowledgeGatherer, run_knowledge_gatherer}};
 use std::sync::Arc;
 
 #[tokio::main]
 async fn main() {
-    println!("🌐 Think AI Real-Time Knowledge Gathering Service");
-    println!("==============================================");
-    println!("Monitoring public web sources for latest knowledge...\n");
+    #[cfg(not(feature = "web-scraping"))]
+    {
+        println!("🌐 Think AI Real-Time Knowledge Gathering Service");
+        println!("==============================================");
+        println!("⚠️  Web scraping features are disabled to maintain compatibility with Rust 1.80.1");
+        println!("To enable, build with: cargo build --features web-scraping");
+        return;
+    }
+    
+    #[cfg(feature = "web-scraping")]
+    {
+        println!("🌐 Think AI Real-Time Knowledge Gathering Service");
+        println!("==============================================");
+        println!("Monitoring public web sources for latest knowledge...\n");
     
     // Initialize knowledge engine
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
@@ -47,4 +59,5 @@ async fn main() {
     
     // Wait for the background task
     gather_task.await.unwrap();
+    }
 }

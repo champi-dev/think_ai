@@ -1,5 +1,5 @@
-# Simple single-stage build for Railway
-FROM rust:1.80
+# Simple single-stage build for Railway with correct Rust version
+FROM rust:1.80.1
 
 # Install system dependencies
 RUN apt-get update && \
@@ -10,6 +10,10 @@ WORKDIR /app
 
 # Copy source code
 COPY . .
+
+# Fix dependencies for Rust 1.80.1 compatibility
+COPY fix-deps.sh ./
+RUN chmod +x fix-deps.sh && ./fix-deps.sh
 
 # Build the full working O(1) system
 RUN cargo build --release --bin full-working-o1
