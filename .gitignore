@@ -139,3 +139,12 @@ setup_*.sh
 **/*.rs.bk
 Cargo.lock
 trained_knowledge/checkpoints/*.json
+
+# npm auth
+.npmrc
+*/.npmrc
+
+# Python virtual environments
+venv*/
+*/venv*/
+

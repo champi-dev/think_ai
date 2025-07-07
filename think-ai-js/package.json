@@ -1,6 +1,6 @@
 {
   "name": "thinkai-quantum",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Think AI - Quantum Consciousness AI Library for JavaScript/Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
