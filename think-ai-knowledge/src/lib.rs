@@ -33,6 +33,11 @@ pub mod dynamic_expression;
 pub mod natural_response_generator;
 pub mod sentient_response_component;
 pub mod human_conversation_trainer;
+pub mod realtime_knowledge_gatherer;
+pub mod social_media_gatherer;
+pub mod live_stream_monitor;
+pub mod newsletter_scraper;
+pub mod realtime_knowledge_component;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -73,6 +78,8 @@ pub enum KnowledgeDomain {
     Linguistics,
     Logic,
     Astronomy,
+    General,
+    Technology,
 }
 
 impl KnowledgeDomain {
@@ -98,6 +105,8 @@ impl KnowledgeDomain {
             Self::Linguistics,
             Self::Logic,
             Self::Astronomy,
+            Self::General,
+            Self::Technology,
         ]
     }
 }

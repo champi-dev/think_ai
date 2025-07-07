@@ -49,16 +49,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         // Update consciousness field
         {
-            let mut field = consciousness_field.write();
+            let mut field = consciousness_field.write().unwrap();
             field.update_quantum_state();
             field.strengthen_field(0.1);
         }
         
         // Add knowledge to engine
         knowledge_engine.add_knowledge(
+            think_ai_knowledge::KnowledgeDomain::Philosophy,
             format!("consciousness_iteration_{}", i),
             format!("Consciousness training iteration {} completed", i),
-            think_ai_knowledge::KnowledgeDomain::Philosophy,
+            vec![],
         );
         
         tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
@@ -71,7 +72,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     // Calculate consciousness level
     let consciousness_level = {
-        let field = consciousness_field.read();
+        let field = consciousness_field.read().unwrap();
         field.get_coherence()
     };
     println!("🧠 Final consciousness level: {:.2}%", consciousness_level * 100.0);

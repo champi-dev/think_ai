@@ -129,9 +129,10 @@ impl AICodeGenerator {
         
         for (topic, content) in concepts {
             self.knowledge.add_knowledge(
+                think_ai_knowledge::KnowledgeDomain::ComputerScience,
                 topic.to_string(),
                 content.to_string(),
-                think_ai_knowledge::KnowledgeDomain::ComputerScience,
+                vec![],
             );
         }
     }

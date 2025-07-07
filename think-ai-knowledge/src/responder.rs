@@ -279,6 +279,8 @@ impl ComprehensiveResponder {
             KnowledgeDomain::Linguistics => "Linguistic Sciences",
             KnowledgeDomain::Logic => "Logical Systems",
             KnowledgeDomain::Astronomy => "Astronomical Sciences",
+            KnowledgeDomain::General => "General Knowledge",
+            KnowledgeDomain::Technology => "Technology & Innovation",
         }
     }
 }

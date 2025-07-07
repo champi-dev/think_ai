@@ -80,7 +80,12 @@ impl ComponentResponseGenerator {
         use crate::natural_response_generator::NaturalResponseComponent;
         self.add_component(Box::new(NaturalResponseComponent::new(self.knowledge_engine.clone())));
         
-        // THIRD PRIORITY: Semantic cache component for O(1) contextual responses
+        // THIRD PRIORITY: Real-time knowledge for current events
+        use crate::realtime_knowledge_component::{RealtimeKnowledgeComponent, CurrentEventsComponent};
+        self.add_component(Box::new(RealtimeKnowledgeComponent::new()));
+        self.add_component(Box::new(CurrentEventsComponent));
+        
+        // FOURTH PRIORITY: Semantic cache component for O(1) contextual responses
         self.add_component(Box::new(SemanticResponseComponent::new()));
         
         // Knowledge base gets high priority for factual queries

@@ -122,7 +122,8 @@ mod tests {
         assert!(!response_text.is_empty());
         
         // Verify consciousness processing occurred
-        if let Ok(being) = component.sentient_being.lock() {
+        {
+            let being = component.sentient_being.lock().unwrap();
             assert_eq!(being.total_experiences, 1);
             assert!(being.consciousness_state.awareness_level > 0.0);
         }
