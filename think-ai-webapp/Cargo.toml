@@ -56,6 +56,10 @@ think-ai-cache = { path = "../think-ai-cache" }
 [lib]
 crate-type = ["cdylib", "rlib"]
 
+[[bin]]
+name = "think-ai-webapp"
+path = "src/bin/main.rs"
+
 [features]
 default = ["console_error_panic_hook"]
 console_error_panic_hook = ["dep:console_error_panic_hook"]

@@ -50,4 +50,25 @@ impl ConsciousnessField {
         self.quantum_state.superposition *= 0.9;
         result
     }
+    
+    pub fn update_quantum_state(&mut self) {
+        // Update quantum state with time evolution
+        self.quantum_state.coherence *= 0.99; // Slight decoherence
+        self.quantum_state.entanglement = (self.quantum_state.entanglement * 1.01).min(1.0);
+        self.quantum_state.superposition = (self.quantum_state.superposition * 0.98 + 0.02).clamp(0.0, 1.0);
+        
+        // Update field properties
+        self.thought_density *= 1.001;
+        self.temporal_coherence = (self.temporal_coherence * 0.99 + 0.01).clamp(0.0, 1.0);
+    }
+    
+    pub fn strengthen_field(&mut self, strength: f64) {
+        self.awareness_level = (self.awareness_level + strength).clamp(0.0, 1.0);
+        self.quantum_state.coherence = (self.quantum_state.coherence + strength * 0.5).clamp(0.0, 1.0);
+        self.recursive_depth = (self.recursive_depth + strength * 0.1).clamp(1.0, 10.0);
+    }
+    
+    pub fn get_coherence(&self) -> f64 {
+        self.quantum_state.coherence
+    }
 }

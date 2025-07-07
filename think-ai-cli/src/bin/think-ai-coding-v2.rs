@@ -68,8 +68,8 @@ impl AICodeGenerator {
         println!("📚 Loading coding knowledge base...");
         
         // Initialize TinyLlama for code generation
-        let tinyllama_client = Arc::new(TinyLlamaClient::new("http://localhost:8080"));
-        let tinyllama = Arc::new(EnhancedTinyLlama::new(tinyllama_client.clone()).await);
+        let tinyllama_client = Arc::new(TinyLlamaClient::new());
+        let tinyllama = Arc::new(EnhancedTinyLlama::new_initialized().await);
         
         // Initialize response generator
         let response_generator = Arc::new(ComponentResponseGenerator::new(knowledge.clone()));
@@ -247,7 +247,9 @@ class {name}CRUD:
         let context = self.build_code_context(prompt, language, &knowledge_results).await;
         
         // Step 4: Generate code using TinyLlama
-        let generated_code = self.tinyllama.generate_response(&context).await;
+        let generated_code = self.tinyllama.generate(&context).await.unwrap_or_else(|e| {
+            format!("// Error generating code: {}", e)
+        });
         
         // Step 5: Post-process and format
         let final_code = self.post_process_code(&generated_code, language);
