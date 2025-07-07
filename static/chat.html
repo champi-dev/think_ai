@@ -12,8 +12,10 @@
             background: #0a0a0a;
             color: #e0e0e0;
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
             display: flex;
             flex-direction: column;
+            overflow: hidden; /* Prevent body scroll on mobile */
         }
         
         .header {
@@ -38,6 +40,8 @@
             margin: 0 auto;
             padding: 20px;
             box-sizing: border-box;
+            min-height: 0; /* Allow flexbox to shrink properly */
+            position: relative;
         }
         
         .messages {
@@ -147,6 +151,38 @@
         
         .typing-indicator.show {
             display: block;
+        }
+        
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 10px;
+            }
+            
+            .messages {
+                margin-bottom: 10px;
+            }
+            
+            .user-message {
+                margin-left: 10%;
+            }
+            
+            .ai-message {
+                margin-right: 10%;
+            }
+            
+            #messageInput {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+        
+        /* Class for when keyboard is visible */
+        body.keyboard-visible {
+            height: 100vh; /* Use static viewport when keyboard is visible */
+        }
+        
+        body.keyboard-visible .chat-container {
+            padding-bottom: 10px;
         }
     </style>
 </head>
@@ -277,6 +313,83 @@
         window.addEventListener('load', () => {
             messageInput.focus();
         });
+        
+        // Mobile keyboard handling
+        let viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        let isKeyboardVisible = false;
+        
+        // Function to handle viewport changes
+        function handleViewportChange() {
+            const currentHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            const threshold = 100; // Keyboard is likely visible if viewport shrinks by more than 100px
+            
+            if (viewportHeight - currentHeight > threshold && !isKeyboardVisible) {
+                // Keyboard appeared
+                isKeyboardVisible = true;
+                document.body.classList.add('keyboard-visible');
+                
+                // Ensure the input is visible
+                setTimeout(() => {
+                    messageInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+                
+            } else if (currentHeight >= viewportHeight - 50 && isKeyboardVisible) {
+                // Keyboard disappeared
+                isKeyboardVisible = false;
+                document.body.classList.remove('keyboard-visible');
+            }
+            
+            // Update stored height
+            if (!isKeyboardVisible) {
+                viewportHeight = currentHeight;
+            }
+        }
+        
+        // Visual Viewport API (most accurate for mobile keyboards)
+        if ('visualViewport' in window) {
+            window.visualViewport.addEventListener('resize', handleViewportChange);
+        }
+        
+        // Fallback for browsers without Visual Viewport API
+        window.addEventListener('resize', handleViewportChange);
+        
+        // Handle input focus/blur for additional keyboard detection
+        messageInput.addEventListener('focus', () => {
+            // On mobile, focusing input usually shows keyboard
+            if (window.innerWidth <= 768) {
+                setTimeout(handleViewportChange, 300); // Delay to allow keyboard animation
+            }
+        });
+        
+        messageInput.addEventListener('blur', () => {
+            // On mobile, blurring input usually hides keyboard
+            if (window.innerWidth <= 768) {
+                setTimeout(handleViewportChange, 300); // Delay to allow keyboard animation
+            }
+        });
+        
+        // Ensure messages stay scrolled to bottom when keyboard appears
+        function scrollToBottom() {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        // Override the existing addMessage function to ensure proper scrolling
+        const originalAddMessage = addMessage;
+        addMessage = function(content, isUser = false) {
+            originalAddMessage(content, isUser);
+            
+            // Extra scroll for mobile when keyboard is visible
+            if (isKeyboardVisible) {
+                setTimeout(scrollToBottom, 100);
+            }
+        };
+        
+        // Prevent viewport from bouncing on iOS
+        document.addEventListener('touchmove', (e) => {
+            if (e.target === document.body) {
+                e.preventDefault();
+            }
+        }, { passive: false });
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
   "entries": [
     {
       "topic": "The assumptions that restrain us from understanding consciousness",
-      "content": "The science of consciousness has been successful over the last decades. Yet,\nit seems that some of the key questions remain unanswered. However, perhaps we should not\nsimply take it for granted that this assumption holds true. Finally, I will ask which theories the science of consciousness\nreally needs",
+      "content": "The science of consciousness has been successful over the last decades. Yet, it seems that some of the key questions remain unanswered. However, perhaps we should not simply take it for granted that this assumption holds true. Finally, I will ask which theories the science of consciousness really needs",
       "related_concepts": [
         "consciousness",
         "assumptions",
@@ -21,7 +21,7 @@
     },
     {
       "topic": "Wirelessly transmitted subthalamic nucleus signals predict endogenous\n  pain levels in Parkinson's disease patients",
-      "content": "Parkinson disease (PD) patients experience pain fluctuations that\nsignificantly reduce their quality of life. Despite the vast knowledge of the\nsubthalamic nucleus (STN) role in PD, the STN biomarkers for pain fluctuations\nand the relationship between bilateral subthalamic nucleus (STN) activities and\npain occurrence are still less understood. The binary pain levels could be\npredicted among annotated pain reports corresponding to PD-related pain\ncharacteristics. This study emphasizes the role of...",
+      "content": "Parkinson disease (PD) patients experience pain fluctuations that significantly reduce their quality of life. Despite the vast knowledge of the subthalamic nucleus (STN) role in PD, the STN biomarkers for pain fluctuations and the relationship between bilateral subthalamic nucleus (STN) activities and pain occurrence are still less understood. The binary pain levels could be predicted among annotated pain reports corresponding to PD-related pain characteristics. This study emphasizes the role of...",
       "related_concepts": [
         "pain",
         "stn",
@@ -39,7 +39,7 @@
     },
     {
       "topic": "Amortizing personalization in virtual brain twins",
-      "content": "Virtual brain twins are personalized digital models of individual human\nsubject or patient's brains, allowing for mechanistic interpretation of\nneuroimaging data features. Training and inference with these models however\npresents a pair of challenges: large shared infrastructure do not allow for use\nof personal data and inference in clinical applications should not require\nsignificant resources. We illustrate the basic approach, demonstrate\nreliability in an example, and discuss the impact on bo...",
+      "content": "Virtual brain twins are personalized digital models of individual human subject or patient's brains, allowing for mechanistic interpretation of neuroimaging data features. Training and inference with these models however presents a pair of challenges: large shared infrastructure do not allow for use of personal data and inference in clinical applications should not require significant resources. We illustrate the basic approach, demonstrate reliability in an example, and discuss the impact on bo...",
       "related_concepts": [
         "inference",
         "personalization",
@@ -57,7 +57,7 @@
     },
     {
       "topic": "Modulating task outcome value to mitigate real-world procrastination via\n  noninvasive brain stimulation",
-      "content": "Procrastination represents one of the most prevalent behavioral problems\naffecting individual health and societal productivity. Although it is often\nconceptualized as a form of self-control failure, its underlying neurocognitive\nmechanisms are poorly understood. Using the intensive experience\nsampling method (iESM), we assessed the effect of anodal HD-tDCS on real-world\nprocrastination behavior at offline after-effect (2-day interval) and long-term\nretention (6-month follow-up). This establishes...",
+      "content": "Procrastination represents one of the most prevalent behavioral problems affecting individual health and societal productivity. Although it is often conceptualized as a form of self-control failure, its underlying neurocognitive mechanisms are poorly understood. Using the intensive experience sampling method (iESM), we assessed the effect of anodal HD-tDCS on real-world procrastination behavior at offline after-effect (2-day interval) and long-term retention (6-month follow-up). This establishes...",
       "related_concepts": [
         "task",
         "procrastination",
@@ -75,7 +75,7 @@
     },
     {
       "topic": "Brain2Model Transfer: Training sensory and decision models with human\n  neural activity as a teacher",
-      "content": "Transfer learning enhances the training of novel sensory and decision models\nby employing rich feature representations from large, pre-trained teacher\nmodels. Cognitive neuroscience shows that the human brain creates\nlow-dimensional, abstract representations for efficient sensorimotor coding. We propose two B2M strategies: (1)\nBrain Contrastive Transfer, which aligns brain activity and network activations\nthrough a contrastive objective; and (2) Brain Latent Transfer, which projects\nlatent dynam...",
+      "content": "Transfer learning enhances the training of novel sensory and decision models by employing rich feature representations from large, pre-trained teacher models. Cognitive neuroscience shows that the human brain creates low-dimensional, abstract representations for efficient sensorimotor coding. We propose two B2M strategies: (1) Brain Contrastive Transfer, which aligns brain activity and network activations through a contrastive objective; and (2) Brain Latent Transfer, which projects latent dynam...",
       "related_concepts": [
         "brain",
         "transfer",
@@ -93,7 +93,7 @@
     },
     {
       "topic": "Predicting Readiness to Engage in Psychotherapy of People with Chronic\n  Pain Based on their Pain-Related Narratives Saar",
-      "content": "Background. Chronic pain afflicts 20 % of the global population. 90). NLP-based screening could help\nclinicians match chronic-pain patients to appropriate interventions sooner,\nsupporting a patient-centred biopsychosocial pathway",
+      "content": "Background. Chronic pain afflicts 20 % of the global population. 90). NLP-based screening could help clinicians match chronic-pain patients to appropriate interventions sooner, supporting a patient-centred biopsychosocial pathway",
       "related_concepts": [
         "pain",
         "narratives",
@@ -111,7 +111,7 @@
     },
     {
       "topic": "Engineering Sentience",
-      "content": "We spell out a definition of sentience that may be useful for designing and\nbuilding it in machines. We propose that for sentience to be meaningful for AI,\nit must be fleshed out in functional, computational terms, in enough detail to\nallow for implementation. For this specific functional notion of sentience to\noccur, we propose that certain sensory signals need to be both assertoric\n(persistent) and qualitative. Understanding what it takes for artificial agents to be\nfunctionally sentient can a...",
+      "content": "We spell out a definition of sentience that may be useful for designing and building it in machines. We propose that for sentience to be meaningful for AI, it must be fleshed out in functional, computational terms, in enough detail to allow for implementation. For this specific functional notion of sentience to occur, we propose that certain sensory signals need to be both assertoric (persistent) and qualitative. Understanding what it takes for artificial agents to be functionally sentient can a...",
       "related_concepts": [
         "sentience",
         "out",
@@ -129,7 +129,7 @@
     },
     {
       "topic": "Brains and language models converge on a shared conceptual space across\n  different languages",
-      "content": "Human languages differ widely in their forms, each having distinct sounds,\nscripts, and syntax. Yet, they can all convey similar meaning. We trained voxelwise encoding models that align the LM embeddings with neural\nresponses from one group of subjects speaking a single language. These findings suggest that, despite the diversity of languages,\nshared meaning emerges from our interactions with one another and our shared\nworld",
+      "content": "Human languages differ widely in their forms, each having distinct sounds, scripts, and syntax. Yet, they can all convey similar meaning. We trained voxelwise encoding models that align the LM embeddings with neural responses from one group of subjects speaking a single language. These findings suggest that, despite the diversity of languages, shared meaning emerges from our interactions with one another and our shared world",
       "related_concepts": [
         "languages",
         "shared",

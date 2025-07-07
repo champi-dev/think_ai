@@ -2,88 +2,67 @@
   "domain": "Psychology",
   "entries": [
     {
-      "content": "Problem solving is finding solutions to challenges People use this to better understand and interact with our world. Important features are its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
+      "topic": "cognition",
+      "content": "Cognition encompasses mental processes including perception, attention, memory, language, problem-solving, and decision-making. Cognitive psychology reveals how we process information, form mental representations, and navigate complexity. Understanding cognition informs education, user interface design, and artificial intelligence. Cognitive biases show systematic deviations from rational thinking.",
       "metadata": {
+        "evaluation_score": 0.97,
         "conversational_patterns": [
-          "Problem solving is finding solutions to challenges People use this to better understand and interact with our world. Important features are its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "Problem solving is finding solutions to challenges People use this to better understand and interact with our world. Important features are its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "To explain problem solving: Problem solving is finding solutions to challenges People use this to better understand and interact with our world. Important features are its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "Let me tell you about problem solving. Problem solving is finding solutions to challenges People use this to better understand and interact with our world. Important features are its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "Problem solving - Problem solving is finding solutions to challenges People use this to better understand and interact with our world. Important features are its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "When describing problem solving, problem solving is finding solutions to challenges people use this to better understand and interact with our world. important features are its fundamental properties and real-world impacts it encompasses multiple aspects and applications across various fields of study."
-        ],
-        "evaluation_score": 1.0
+          "Cognition encompasses mental processes including perception, attention, memory, language, problem-solving, and decision-making. Cognitive psychology reveals how we process information, form mental representations, and navigate complexity. Understanding cognition informs education, user interface design, and artificial intelligence. Cognitive biases show systematic deviations from rational thinking.",
+          "Cognition encompasses mental processes including perception, attention, memory, language, problem-solving, and decision-making. Cognitive psychology reveals how we process information, form mental representations, and navigate complexity. Understanding cognition informs education, user interface design, and artificial intelligence. Cognitive biases show systematic deviations from rational thinking.",
+          "Let me explain cognition. Cognition encompasses mental processes including perception, attention, memory, language, problem-solving, and decision-making. Cognitive psychology reveals how we process information, form mental representations, and navigate complexity. Understanding cognition informs education, user interface design, and artificial intelligence. Cognitive biases show systematic deviations from rational thinking.",
+          "When we talk about cognition: Cognition encompasses mental processes including perception, attention, memory, language, problem-solving, and decision-making. Cognitive psychology reveals how we process information, form mental representations, and navigate complexity. Understanding cognition informs education, user interface design, and artificial intelligence. Cognitive biases show systematic deviations from rational thinking.",
+          "Cognition: Cognition encompasses mental processes including perception, attention, memory, language, problem-solving, and decision-making. Cognitive psychology reveals how we process information, form mental representations, and navigate complexity. Understanding cognition informs education, user interface design, and artificial intelligence. Cognitive biases show systematic deviations from rational thinking.",
+          "To understand cognition, cognition encompasses mental processes including perception, attention, memory, language, problem-solving, and decision-making. cognitive psychology reveals how we process information, form mental representations, and navigate complexity. understanding cognition informs education, user interface design, and artificial intelligence. cognitive biases show systematic deviations from rational thinking."
+        ]
       },
       "related_concepts": [
-        "how does problem solving work",
-        "why is problem solving important",
-        "examples of problem solving",
-        "problem solving in daily life"
-      ],
-      "topic": "problem solving"
+        "memory",
+        "attention",
+        "cognitive biases",
+        "metacognition"
+      ]
     },
     {
-      "content": "Creativity is ability to create original ideas. In everyday life, this helps us better understand and interact with our world Core components involve its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
+      "topic": "emotions",
+      "content": "Emotions are complex psychological and physiological states involving subjective experience, physiological arousal, and behavioral expression. They evolved to guide behavior for survival and social cooperation. Basic emotions like fear, joy, and anger are universal, while complex emotions emerge from cultural learning. Emotional intelligence enhances personal and professional success.",
       "metadata": {
+        "evaluation_score": 0.96,
         "conversational_patterns": [
-          "Creativity is ability to create original ideas. In everyday life, this helps us better understand and interact with our world Core components involve its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "Creativity is ability to create original ideas. In everyday life, this helps us better understand and interact with our world Core components involve its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "To explain creativity: Creativity is ability to create original ideas. In everyday life, this helps us better understand and interact with our world Core components involve its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "Let me tell you about creativity. Creativity is ability to create original ideas. In everyday life, this helps us better understand and interact with our world Core components involve its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "Creativity - Creativity is ability to create original ideas. In everyday life, this helps us better understand and interact with our world Core components involve its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "When describing creativity, creativity is ability to create original ideas. in everyday life, this helps us better understand and interact with our world core components involve its fundamental properties and real-world impacts it encompasses multiple aspects and applications across various fields of study."
-        ],
-        "evaluation_score": 0.9500000476837158
+          "Emotions are complex psychological and physiological states involving subjective experience, physiological arousal, and behavioral expression. They evolved to guide behavior for survival and social cooperation. Basic emotions like fear, joy, and anger are universal, while complex emotions emerge from cultural learning. Emotional intelligence enhances personal and professional success.",
+          "Emotions are complex psychological and physiological states involving subjective experience, physiological arousal, and behavioral expression. They evolved to guide behavior for survival and social cooperation. Basic emotions like fear, joy, and anger are universal, while complex emotions emerge from cultural learning. Emotional intelligence enhances personal and professional success.",
+          "Let me explain emotions. Emotions are complex psychological and physiological states involving subjective experience, physiological arousal, and behavioral expression. They evolved to guide behavior for survival and social cooperation. Basic emotions like fear, joy, and anger are universal, while complex emotions emerge from cultural learning. Emotional intelligence enhances personal and professional success.",
+          "When we talk about emotions: Emotions are complex psychological and physiological states involving subjective experience, physiological arousal, and behavioral expression. They evolved to guide behavior for survival and social cooperation. Basic emotions like fear, joy, and anger are universal, while complex emotions emerge from cultural learning. Emotional intelligence enhances personal and professional success.",
+          "Emotions: Emotions are complex psychological and physiological states involving subjective experience, physiological arousal, and behavioral expression. They evolved to guide behavior for survival and social cooperation. Basic emotions like fear, joy, and anger are universal, while complex emotions emerge from cultural learning. Emotional intelligence enhances personal and professional success.",
+          "To understand emotions, emotions are complex psychological and physiological states involving subjective experience, physiological arousal, and behavioral expression. they evolved to guide behavior for survival and social cooperation. basic emotions like fear, joy, and anger are universal, while complex emotions emerge from cultural learning. emotional intelligence enhances personal and professional success."
+        ]
       },
       "related_concepts": [
-        "how does creativity work",
-        "why is creativity important",
-        "examples of creativity",
-        "creativity in daily life"
-      ],
-      "topic": "creativity"
+        "emotional intelligence",
+        "affect",
+        "mood",
+        "emotional regulation"
+      ]
     },
     {
-      "content": "Learning is acquiring knowledge and skills. In everyday life, this helps us better understand and interact with our world Key aspects include its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
+      "topic": "personality",
+      "content": "Personality comprises enduring patterns of thoughts, feelings, and behaviors that distinguish individuals. Major theories include trait models (Big Five), psychodynamic approaches, and social-cognitive perspectives. Personality develops through genetic predispositions and environmental influences. Understanding personality helps predict behavior and improve interpersonal relationships.",
       "metadata": {
+        "evaluation_score": 0.95,
         "conversational_patterns": [
-          "Learning is acquiring knowledge and skills. In everyday life, this helps us better understand and interact with our world Key aspects include its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "Learning is acquiring knowledge and skills. In everyday life, this helps us better understand and interact with our world Key aspects include its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "To explain learning: Learning is acquiring knowledge and skills. In everyday life, this helps us better understand and interact with our world Key aspects include its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "Let me tell you about learning. Learning is acquiring knowledge and skills. In everyday life, this helps us better understand and interact with our world Key aspects include its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "Learning - Learning is acquiring knowledge and skills. In everyday life, this helps us better understand and interact with our world Key aspects include its fundamental properties and real-world impacts It encompasses multiple aspects and applications across various fields of study.",
-          "When describing learning, learning is acquiring knowledge and skills. in everyday life, this helps us better understand and interact with our world key aspects include its fundamental properties and real-world impacts it encompasses multiple aspects and applications across various fields of study."
-        ],
-        "evaluation_score": 0.9500000476837158
+          "Personality comprises enduring patterns of thoughts, feelings, and behaviors that distinguish individuals. Major theories include trait models (Big Five), psychodynamic approaches, and social-cognitive perspectives. Personality develops through genetic predispositions and environmental influences. Understanding personality helps predict behavior and improve interpersonal relationships.",
+          "Personality comprises enduring patterns of thoughts, feelings, and behaviors that distinguish individuals. Major theories include trait models (Big Five), psychodynamic approaches, and social-cognitive perspectives. Personality develops through genetic predispositions and environmental influences. Understanding personality helps predict behavior and improve interpersonal relationships.",
+          "Let me explain personality. Personality comprises enduring patterns of thoughts, feelings, and behaviors that distinguish individuals. Major theories include trait models (Big Five), psychodynamic approaches, and social-cognitive perspectives. Personality develops through genetic predispositions and environmental influences. Understanding personality helps predict behavior and improve interpersonal relationships.",
+          "When we talk about personality: Personality comprises enduring patterns of thoughts, feelings, and behaviors that distinguish individuals. Major theories include trait models (Big Five), psychodynamic approaches, and social-cognitive perspectives. Personality develops through genetic predispositions and environmental influences. Understanding personality helps predict behavior and improve interpersonal relationships.",
+          "Personality: Personality comprises enduring patterns of thoughts, feelings, and behaviors that distinguish individuals. Major theories include trait models (Big Five), psychodynamic approaches, and social-cognitive perspectives. Personality develops through genetic predispositions and environmental influences. Understanding personality helps predict behavior and improve interpersonal relationships.",
+          "To understand personality, personality comprises enduring patterns of thoughts, feelings, and behaviors that distinguish individuals. major theories include trait models (big five), psychodynamic approaches, and social-cognitive perspectives. personality develops through genetic predispositions and environmental influences. understanding personality helps predict behavior and improve interpersonal relationships."
+        ]
       },
       "related_concepts": [
-        "how does learning work",
-        "why is learning important",
-        "examples of learning",
-        "learning in daily life"
-      ],
-      "topic": "learning"
-    },
-    {
-      "content": "Communication is exchanging information and ideas Important features are its fundamental properties and real-world impacts. This enables us to better understand and interact with our world It encompasses multiple aspects and applications across various fields of study.",
-      "metadata": {
-        "conversational_patterns": [
-          "Communication is exchanging information and ideas Important features are its fundamental properties and real-world impacts. This enables us to better understand and interact with our world It encompasses multiple aspects and applications across various fields of study.",
-          "Communication is exchanging information and ideas Important features are its fundamental properties and real-world impacts. This enables us to better understand and interact with our world It encompasses multiple aspects and applications across various fields of study.",
-          "To explain communication: Communication is exchanging information and ideas Important features are its fundamental properties and real-world impacts. This enables us to better understand and interact with our world It encompasses multiple aspects and applications across various fields of study.",
-          "Let me tell you about communication. Communication is exchanging information and ideas Important features are its fundamental properties and real-world impacts. This enables us to better understand and interact with our world It encompasses multiple aspects and applications across various fields of study.",
-          "Communication - Communication is exchanging information and ideas Important features are its fundamental properties and real-world impacts. This enables us to better understand and interact with our world It encompasses multiple aspects and applications across various fields of study.",
-          "When describing communication, communication is exchanging information and ideas important features are its fundamental properties and real-world impacts. this enables us to better understand and interact with our world it encompasses multiple aspects and applications across various fields of study."
-        ],
-        "evaluation_score": 1.0
-      },
-      "related_concepts": [
-        "how does communication work",
-        "why is communication important",
-        "examples of communication",
-        "communication in daily life"
-      ],
-      "topic": "communication"
+        "big five",
+        "temperament",
+        "personality development",
+        "individual differences"
+      ]
     }
   ]
 }

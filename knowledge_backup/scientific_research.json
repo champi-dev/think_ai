@@ -21,7 +21,7 @@
     },
     {
       "topic": "Scientific journal article",
-      "content": "Files associated with the manuscript: Proteome profiling of rat brain cortical changes during early postnatal brain development. This dataset is associated with the following publication:\nWinnik, W. Herr. American Chemical Society, Washington, DC, USA, 22(7): 2460-2476, (2023)",
+      "content": "Files associated with the manuscript: Proteome profiling of rat brain cortical changes during early postnatal brain development. This dataset is associated with the following publication: Winnik, W. Herr. American Chemical Society, Washington, DC, USA, 22(7): 2460-2476, (2023)",
       "related_concepts": [
         "brain",
         "proteome",
@@ -75,7 +75,7 @@
     },
     {
       "topic": "Simulating Lightning NOX Production in CMAQ: Evolution of Scientific Updates",
-      "content": "The dataset contains lightning produced column NO from different schemes with different parameters and the resulting surface ozone mixing ratios by incorporating different lightning production schemes. This dataset is associated with the following publication:\nKang, D. Mathur, and S. Copernicus Publications, Katlenburg-Lindau,  GERMANY, 12(7): 3071–3083, (2019)",
+      "content": "The dataset contains lightning produced column NO from different schemes with different parameters and the resulting surface ozone mixing ratios by incorporating different lightning production schemes. This dataset is associated with the following publication: Kang, D. Mathur, and S. Copernicus Publications, Katlenburg-Lindau, GERMANY, 12(7): 3071\u20133083, (2019)",
       "related_concepts": [
         "lightning",
         "production",

@@ -1,13 +1,15 @@
 //! Chat handler for O(1) conversation interface
 
 use axum::{
-    extract::State,
+    extract::{State, rejection::JsonRejection},
     http::StatusCode,
     Json,
+    response::IntoResponse,
 };
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use crate::router::AppState;
+use crate::errors::ApiError;
 use think_ai_knowledge::response_generator::ComponentResponseGenerator;
 use std::collections::HashMap;
 
@@ -28,9 +30,60 @@ pub struct ChatResponse {
 
 pub async fn chat(
     State(state): State<Arc<AppState>>,
-    Json(request): Json<ChatRequest>,
-) -> Result<Json<ChatResponse>, StatusCode> {
+    payload: Result<Json<ChatRequest>, JsonRejection>,
+) -> impl IntoResponse {
+    // Handle JSON parsing errors
+    let Json(request) = match payload {
+        Ok(json) => json,
+        Err(e) => {
+            let error_msg = match e {
+                JsonRejection::JsonDataError(_) => "Invalid JSON format in request body",
+                JsonRejection::MissingJsonContentType(_) => "Missing 'Content-Type: application/json' header",
+                _ => "Failed to parse request body",
+            };
+            return (
+                StatusCode::BAD_REQUEST,
+                Json(ChatResponse {
+                    response: String::new(),
+                    error: Some(error_msg.to_string()),
+                })
+            ).into_response();
+        }
+    };
+    // Validate request
+    if request.query.is_empty() {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(ChatResponse {
+                response: String::new(),
+                error: Some("Message cannot be empty".to_string()),
+            })
+        ).into_response();
+    }
+    
     let query = request.query.trim();
+    
+    // Additional validation
+    if query.is_empty() {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(ChatResponse {
+                response: String::new(),
+                error: Some("Message cannot be empty after trimming".to_string()),
+            })
+        ).into_response();
+    }
+    
+    // Limit query length to prevent abuse
+    if query.len() > 2000 {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(ChatResponse {
+                response: String::new(),
+                error: Some("Message too long (max 2000 characters)".to_string()),
+            })
+        ).into_response();
+    }
     
     // Use ComponentResponseGenerator with conversation memory for long-term context
     let response_generator = ComponentResponseGenerator::new_with_memory(
@@ -51,8 +104,11 @@ pub async fn chat(
     // Generate response with memory context
     let response = response_generator.generate_response_with_memory(query, previous_response);
     
-    Ok(Json(ChatResponse {
-        response,
-        error: None,
-    }))
+    (
+        StatusCode::OK,
+        Json(ChatResponse {
+            response,
+            error: None,
+        })
+    ).into_response()
 }

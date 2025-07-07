@@ -3,7 +3,7 @@
   "entries": [
     {
       "topic": "Where to find Grokking in LLM Pretraining? Monitor\n  Memorization-to-Generalization without Test",
-      "content": "Grokking, i. e. e. Theoretically, we show that more structured pathways reduce model\ncomplexity and improve the generalization bound",
+      "content": "Grokking, i. e. e. Theoretically, we show that more structured pathways reduce model complexity and improve the generalization bound",
       "related_concepts": [
         "generalization",
         "grokking",
@@ -21,7 +21,7 @@
     },
     {
       "topic": "Maximal Matching Matters: Preventing Representation Collapse for Robust\n  Cross-Modal Retrieval",
-      "content": "Cross-modal image-text retrieval is challenging because of the diverse\npossible associations between content from different modalities. Traditional\nmethods learn a single-vector embedding to represent semantics of each sample,\nbut struggle to capture nuanced and diverse relationships that can exist across\nmodalities. To address\nthese challenges, we propose Maximal Pair Assignment Similarity to optimize\none-to-one matching between embedding sets which preserve semantic diversity\nwithin the set. O...",
+      "content": "Cross-modal image-text retrieval is challenging because of the diverse possible associations between content from different modalities. Traditional methods learn a single-vector embedding to represent semantics of each sample, but struggle to capture nuanced and diverse relationships that can exist across modalities. To address these challenges, we propose Maximal Pair Assignment Similarity to optimize one-to-one matching between embedding sets which preserve semantic diversity within the set. O...",
       "related_concepts": [
         "set",
         "collapse",
@@ -39,7 +39,7 @@
     },
     {
       "topic": "Exploring the Design Space of 3D MLLMs for CT Report Generation",
-      "content": "Multimodal Large Language Models (MLLMs) have emerged as a promising way to\nautomate Radiology Report Generation (RRG). In this work, we systematically\ninvestigate the design space of 3D MLLMs, including visual input\nrepresentation, projectors, Large Language Models (LLMs), and fine-tuning\ntechniques for 3D CT report generation. We also show\nthat larger volume size does not always improve performance if the original ViT\nwas pre-trained on a smaller volume size. The code is\npublicly available at ...",
+      "content": "Multimodal Large Language Models (MLLMs) have emerged as a promising way to automate Radiology Report Generation (RRG). In this work, we systematically investigate the design space of 3D MLLMs, including visual input representation, projectors, Large Language Models (LLMs), and fine-tuning techniques for 3D CT report generation. We also show that larger volume size does not always improve performance if the original ViT was pre-trained on a smaller volume size. The code is publicly available at ...",
       "related_concepts": [
         "report",
         "mllms",
@@ -57,7 +57,7 @@
     },
     {
       "topic": "Gaussian Invariant Markov Chain Monte Carlo",
-      "content": "We develop sampling methods, which consist of Gaussian invariant versions of\nrandom walk Metropolis (RWM), Metropolis adjusted Langevin algorithm (MALA) and\nsecond order Hessian or Manifold MALA. Unlike standard RWM and MALA we show\nthat Gaussian invariant sampling can lead to ergodic estimators with improved\nstatistical efficiency. These solutions can be used to construct\nefficient and easy to use control variates for variance reduction of estimators\nunder any intractable target. We also provid...",
+      "content": "We develop sampling methods, which consist of Gaussian invariant versions of random walk Metropolis (RWM), Metropolis adjusted Langevin algorithm (MALA) and second order Hessian or Manifold MALA. Unlike standard RWM and MALA we show that Gaussian invariant sampling can lead to ergodic estimators with improved statistical efficiency. These solutions can be used to construct efficient and easy to use control variates for variance reduction of estimators under any intractable target. We also provid...",
       "related_concepts": [
         "gaussian",
         "invariant",

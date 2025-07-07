@@ -1,32 +1,47 @@
 {
-  "domain": "technology",
+  "domain": "Technology",
   "entries": [
     {
-      "topic": "Technology and Books for All",
-      "content": "TECHNOLOGY AND BOOKS FOR ALL ***\r\n\r\n\r\n\r\n\r\nProduced by Al Haines\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nTECHNOLOGY AND BOOKS FOR ALL\r\n\r\n\r\nMARIE LEBERT\r\n\r\n\r\nUpdated Version\r\n\r\n\r\nNEF, University of Toronto, 2008\r\n\r\n\r\nCopyright © 2008 Marie Lebert\r\n\r\n\r\n\r\n-----\r\n\r\nFrom Project Gutenberg in 1971 to the Encyclopedia of Life in 2007, 38\r\nmilestones and as many pages, with an overview and an in-depth\r\ndescription for each milestone. This book is also available in French,\r\nwith a different text. According to the network tracking...",
-      "related_concepts": [
-        "books",
-        "online",
-        "internet",
-        "web",
-        "library"
-      ],
+      "topic": "internet",
+      "content": "The Internet is a global network of interconnected computers using standardized protocols (TCP/IP) to exchange information. From ARPANET origins to the World Wide Web, it revolutionized communication, commerce, and knowledge sharing. Key technologies include packet switching, DNS, and encryption. The Internet enables unprecedented global connectivity while raising concerns about privacy, security, and digital divides.",
       "metadata": {
-        "source": "Project Gutenberg",
-        "confidence": 0.95,
-        "original_id": "23c8ee797c3ffc44",
-        "vector_hash": "26fe541b439b566562d6abbb911d30de",
-        "url": ""
-      }
+        "evaluation_score": 0.97,
+        "conversational_patterns": [
+          "The Internet is a global network of interconnected computers using standardized protocols (TCP/IP) to exchange information. From ARPANET origins to the World Wide Web, it revolutionized communication, commerce, and knowledge sharing. Key technologies include packet switching, DNS, and encryption. The Internet enables unprecedented global connectivity while raising concerns about privacy, security, and digital divides.",
+          "The Internet is a global network of interconnected computers using standardized protocols (TCP/IP) to exchange information. From ARPANET origins to the World Wide Web, it revolutionized communication, commerce, and knowledge sharing. Key technologies include packet switching, DNS, and encryption. The Internet enables unprecedented global connectivity while raising concerns about privacy, security, and digital divides.",
+          "Let me explain internet. The Internet is a global network of interconnected computers using standardized protocols (TCP/IP) to exchange information. From ARPANET origins to the World Wide Web, it revolutionized communication, commerce, and knowledge sharing. Key technologies include packet switching, DNS, and encryption. The Internet enables unprecedented global connectivity while raising concerns about privacy, security, and digital divides.",
+          "When we talk about internet: The Internet is a global network of interconnected computers using standardized protocols (TCP/IP) to exchange information. From ARPANET origins to the World Wide Web, it revolutionized communication, commerce, and knowledge sharing. Key technologies include packet switching, DNS, and encryption. The Internet enables unprecedented global connectivity while raising concerns about privacy, security, and digital divides.",
+          "Internet: The Internet is a global network of interconnected computers using standardized protocols (TCP/IP) to exchange information. From ARPANET origins to the World Wide Web, it revolutionized communication, commerce, and knowledge sharing. Key technologies include packet switching, DNS, and encryption. The Internet enables unprecedented global connectivity while raising concerns about privacy, security, and digital divides.",
+          "To understand internet, the internet is a global network of interconnected computers using standardized protocols (tcp/ip) to exchange information. from arpanet origins to the world wide web, it revolutionized communication, commerce, and knowledge sharing. key technologies include packet switching, dns, and encryption. the internet enables unprecedented global connectivity while raising concerns about privacy, security, and digital divides."
+        ]
+      },
+      "related_concepts": [
+        "world wide web",
+        "tcp/ip",
+        "cybersecurity",
+        "digital transformation"
+      ]
+    },
+    {
+      "topic": "blockchain",
+      "content": "Blockchain is a distributed ledger technology ensuring transparent, tamper-resistant record-keeping without central authority. Each block contains cryptographically linked transactions, creating an immutable chain. Beyond cryptocurrencies, applications include smart contracts, supply chain tracking, and decentralized finance. Blockchain represents a paradigm shift in trust and coordination mechanisms.",
+      "metadata": {
+        "evaluation_score": 0.96,
+        "conversational_patterns": [
+          "Blockchain is a distributed ledger technology ensuring transparent, tamper-resistant record-keeping without central authority. Each block contains cryptographically linked transactions, creating an immutable chain. Beyond cryptocurrencies, applications include smart contracts, supply chain tracking, and decentralized finance. Blockchain represents a paradigm shift in trust and coordination mechanisms.",
+          "Blockchain is a distributed ledger technology ensuring transparent, tamper-resistant record-keeping without central authority. Each block contains cryptographically linked transactions, creating an immutable chain. Beyond cryptocurrencies, applications include smart contracts, supply chain tracking, and decentralized finance. Blockchain represents a paradigm shift in trust and coordination mechanisms.",
+          "Let me explain blockchain. Blockchain is a distributed ledger technology ensuring transparent, tamper-resistant record-keeping without central authority. Each block contains cryptographically linked transactions, creating an immutable chain. Beyond cryptocurrencies, applications include smart contracts, supply chain tracking, and decentralized finance. Blockchain represents a paradigm shift in trust and coordination mechanisms.",
+          "When we talk about blockchain: Blockchain is a distributed ledger technology ensuring transparent, tamper-resistant record-keeping without central authority. Each block contains cryptographically linked transactions, creating an immutable chain. Beyond cryptocurrencies, applications include smart contracts, supply chain tracking, and decentralized finance. Blockchain represents a paradigm shift in trust and coordination mechanisms.",
+          "Blockchain: Blockchain is a distributed ledger technology ensuring transparent, tamper-resistant record-keeping without central authority. Each block contains cryptographically linked transactions, creating an immutable chain. Beyond cryptocurrencies, applications include smart contracts, supply chain tracking, and decentralized finance. Blockchain represents a paradigm shift in trust and coordination mechanisms.",
+          "To understand blockchain, blockchain is a distributed ledger technology ensuring transparent, tamper-resistant record-keeping without central authority. each block contains cryptographically linked transactions, creating an immutable chain. beyond cryptocurrencies, applications include smart contracts, supply chain tracking, and decentralized finance. blockchain represents a paradigm shift in trust and coordination mechanisms."
+        ]
+      },
+      "related_concepts": [
+        "cryptocurrency",
+        "smart contracts",
+        "decentralization",
+        "consensus mechanisms"
+      ]
     }
-  ],
-  "metadata": {
-    "source": "enhanced_knowledge",
-    "item_count": 1,
-    "confidence_range": {
-      "min": 0.95,
-      "max": 0.95,
-      "avg": 0.95
-    }
-  }
+  ]
 }

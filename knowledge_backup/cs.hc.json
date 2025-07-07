@@ -1,0 +1,140 @@
+{
+  "domain": "cs.hc",
+  "entries": [
+    {
+      "topic": "Ad-Hoc Human-AI Coordination Challenge",
+      "content": "Achieving seamless coordination between AI agents and humans is crucial for real-world applications, yet it remains a significant open challenge. Hanabi is a cooperative card game featuring imperfect information, constrained communication, theory of mind requirements, and coordinated action -- making it an ideal testbed for human-AI coordination. We present baseline results for both two- and three- player Hanabi scenarios. com/FLAIROx/ah2ac2}",
+      "related_concepts": [
+        "human",
+        "coordination",
+        "evaluation",
+        "ah2ac2",
+        "challenge"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "1ce92751b3914c83",
+        "vector_hash": "ee3306b25d464588cd3462443847834c",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Managing level of detail through head-tracked peripheral degradation: a\n  model and resulting design principles",
+      "content": "Previous work has demonstrated the utility of reductions in the level of detail (LOD) in the periphery of head-tracked, large field of view displays. This paper provides a psychophysically based model, centered around an eye/head movement tradeoff, that explains the effectiveness of peripheral degradation and suggests how peripherally degraded displays should be designed. Inset area, however, was significant: performance with displays subtending at least 30 degrees of horizontal and vertical ang...",
+      "related_concepts": [
+        "displays",
+        "performance",
+        "detail",
+        "head",
+        "model"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 0.9500000000000001,
+        "original_id": "ea47e2aee02c2b61",
+        "vector_hash": "ec83aa8420c0e4330e352473faea3d91",
+        "url": ""
+      }
+    },
+    {
+      "topic": "An evaluation of level of detail degradation in head-mounted display\n  peripheries",
+      "content": "A paradigm for the design of systems that manage level of detail in virtual environments is proposed. As an example of the prototyping step in this paradigm, a user study was performed to evaluate the effectiveness of high detail insets used with head-mounted displays. Primary dependent measures were search time on trials with correct identification, and the percentage of all trials correctly identified. Further research is being performed to examine the effect of varying task complexity, inset ...",
+      "related_concepts": [
+        "detail",
+        "displays",
+        "level",
+        "display",
+        "search"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "61acf55b4114e780",
+        "vector_hash": "52df4f8f54a3ea9a01afccca8df7497a",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Lightweight Fingernail Haptic Device: Unobstructed Fingerpad Force and\n  Vibration Feedback for Enhanced Virtual Dexterous Manipulation",
+      "content": "This study presents a lightweight, wearable fingertip haptic device that provides physics-based haptic feedback for dexterous manipulation in virtual environments without hindering real-world interactions. The device, designed with thin strings and actuators attached to the fingernails, ensures minimal weight (1. Our results show that participants could perceive and respond to pressure and vibration feedback. This research offers a potential solution for designing haptic interfaces that balance ...",
+      "related_concepts": [
+        "haptic",
+        "feedback",
+        "manipulation",
+        "device",
+        "dexterous"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "999fe5fd1b29de25",
+        "vector_hash": "8c910b7ba6cb921952aea2b1eade2b32",
+        "url": ""
+      }
+    },
+    {
+      "topic": "AGTCNet: A Graph-Temporal Approach for Principled Motor Imagery EEG\n  Classification",
+      "content": "Brain-computer interface (BCI) technology utilizing electroencephalography (EEG) marks a transformative innovation, empowering motor-impaired individuals to engage with their environment on equal footing. Despite its promising potential, developing subject-invariant and session-invariant BCI systems remains a significant challenge due to the inherent complexity and variability of neural activity across individuals and over time, compounded by EEG hardware constraints. 65% faster inference time, ...",
+      "related_concepts": [
+        "eeg",
+        "agtcnet",
+        "bci",
+        "subject",
+        "graph"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "c2081a55d27bf65a",
+        "vector_hash": "e00ccc53ed4befb05f5b1a6719895fd6",
+        "url": ""
+      }
+    },
+    {
+      "topic": "A Systematic Review of Human-AI Co-Creativity",
+      "content": "The co creativity community is making significant progress in developing more sophisticated and tailored systems to support and enhance human creativity. Design considerations from prior work can serve as a valuable and efficient foundation for future systems. Our findings suggest that systems offering high user control lead to greater satisfaction, trust, and a stronger sense of ownership over creative outcomes. Despite recent advancements, important gaps remain, such as limited support for ear...",
+      "related_concepts": [
+        "systems",
+        "creative",
+        "design",
+        "system",
+        "review"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "8581d4ec0d7f63c7",
+        "vector_hash": "15748075734d6caf243806421f686f7f",
+        "url": ""
+      }
+    },
+    {
+      "topic": "\"Who Should I Believe?\": User Interpretation and Decision-Making When a\n  Family Healthcare Robot Contradicts Human Memory",
+      "content": "Advancements in robotic capabilities for providing physical assistance, psychological support, and daily health management are making the deployment of intelligent healthcare robots in home environments increasingly feasible in the near future. However, challenges arise when the information provided by these robots contradicts users' memory, raising concerns about user trust and decision-making. Results indicate that robot transparency influenced users' interpretation of information discrepancie...",
+      "related_concepts": [
+        "robot",
+        "user",
+        "transparency",
+        "making",
+        "when"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "0844928ac18eec0e",
+        "vector_hash": "1f34987bbd3f8d741d3c29973f7cc697",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 7,
+    "confidence_range": {
+      "min": 0.9500000000000001,
+      "max": 1.0,
+      "avg": 0.9928571428571429
+    }
+  }
+}

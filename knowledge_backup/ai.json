@@ -19,7 +19,7 @@
     },
     {
       "topic": "Artificial intelligence visual art",
-      "content": "Artificial intelligence visual art means visual artwork generated through the use of artificial intelligence (AI) programs. Artists began to create AI art in the mid to late 20th century, when the discipline was founded. Throughout its history, AI has raised many philosophical concerns related to the human mind, artificial beings, and also what can be considered art in human–AI collaboration. Since the 20th century, people have used AI to create art, some of which has been exhibited in museums a...",
+      "content": "Artificial intelligence visual art means visual artwork generated through the use of artificial intelligence (AI) programs. Artists began to create AI art in the mid to late 20th century, when the discipline was founded. Throughout its history, AI has raised many philosophical concerns related to the human mind, artificial beings, and also what can be considered art in human\u2013AI collaboration. Since the 20th century, people have used AI to create art, some of which has been exhibited in museums a...",
       "related_concepts": [
         "art",
         "artificial",
@@ -266,7 +266,7 @@
     },
     {
       "topic": "Whole-Body Conditioned Egocentric Video Prediction",
-      "content": "We train models to Predict Ego-centric Video from human Actions (PEVA), given\nthe past video and an action represented by the relative 3D body pose. By\nconditioning on kinematic pose trajectories, structured by the joint hierarchy\nof the body, our model learns to simulate how physical human actions shape the\nenvironment from a first-person point of view. We further design a\nhierarchical evaluation protocol with increasingly challenging tasks, enabling\na comprehensive analysis of the model's embo...",
+      "content": "We train models to Predict Ego-centric Video from human Actions (PEVA), given the past video and an action represented by the relative 3D body pose. By conditioning on kinematic pose trajectories, structured by the joint hierarchy of the body, our model learns to simulate how physical human actions shape the environment from a first-person point of view. We further design a hierarchical evaluation protocol with increasingly challenging tasks, enabling a comprehensive analysis of the model's embo...",
       "related_concepts": [
         "video",
         "body",
@@ -284,7 +284,7 @@
     },
     {
       "topic": "mTSBench: Benchmarking Multivariate Time Series Anomaly Detection and\n  Model Selection at Scale",
-      "content": "Multivariate time series anomaly detection (MTS-AD) is critical in domains\nlike healthcare, cybersecurity, and industrial monitoring, yet remains\nchallenging due to complex inter-variable dependencies, temporal dynamics, and\nsparse anomaly labels. We introduce mTSBench, the largest benchmark to date for\nMTS-AD and unsupervised model selection, spanning 344 labeled time series\nacross 19 datasets and 12 diverse application domains. Consistent with prior\nfindings, our results confirm that no single...",
+      "content": "Multivariate time series anomaly detection (MTS-AD) is critical in domains like healthcare, cybersecurity, and industrial monitoring, yet remains challenging due to complex inter-variable dependencies, temporal dynamics, and sparse anomaly labels. We introduce mTSBench, the largest benchmark to date for MTS-AD and unsupervised model selection, spanning 344 labeled time series across 19 datasets and 12 diverse application domains. Consistent with prior findings, our results confirm that no single...",
       "related_concepts": [
         "model",
         "selection",
@@ -302,7 +302,7 @@
     },
     {
       "topic": "HalluSegBench: Counterfactual Visual Reasoning for Segmentation\n  Hallucination Evaluation",
-      "content": "Recent progress in vision-language segmentation has significantly advanced\ngrounded visual understanding. However, these models often exhibit\nhallucinations by producing segmentation masks for objects not grounded in the\nimage content or by incorrectly labeling irrelevant regions. In response, we introduce\nHalluSegBench, the first benchmark specifically designed to evaluate\nhallucinations in visual grounding through the lens of counterfactual visual\nreasoning. Experiments on HalluSegBench with s...",
+      "content": "Recent progress in vision-language segmentation has significantly advanced grounded visual understanding. However, these models often exhibit hallucinations by producing segmentation masks for objects not grounded in the image content or by incorrectly labeling irrelevant regions. In response, we introduce HalluSegBench, the first benchmark specifically designed to evaluate hallucinations in visual grounding through the lens of counterfactual visual reasoning. Experiments on HalluSegBench with s...",
       "related_concepts": [
         "segmentation",
         "visual",
@@ -320,7 +320,7 @@
     },
     {
       "topic": "WorldVLA: Towards Autoregressive Action World Model",
-      "content": "We present WorldVLA, an autoregressive action world model that unifies action\nand image understanding and generation. Our WorldVLA intergrates\nVision-Language-Action (VLA) model and world model in one single framework. We\ndemonstrate that WorldVLA outperforms standalone action and world models,\nhighlighting the mutual enhancement between the world model and the action\nmodel. To address this issue, we propose an\nattention mask strategy that selectively masks prior actions during the\ngeneration of...",
+      "content": "We present WorldVLA, an autoregressive action world model that unifies action and image understanding and generation. Our WorldVLA intergrates Vision-Language-Action (VLA) model and world model in one single framework. We demonstrate that WorldVLA outperforms standalone action and world models, highlighting the mutual enhancement between the world model and the action model. To address this issue, we propose an attention mask strategy that selectively masks prior actions during the generation of...",
       "related_concepts": [
         "action",
         "model",
@@ -338,7 +338,7 @@
     },
     {
       "topic": "PsyLite Technical Report",
-      "content": "With the rapid development of digital technology, AI-driven psychological\ncounseling has gradually become an important research direction in the field of\nmental health. However, existing models still have deficiencies in dialogue\nsafety, detailed scenario handling, and lightweight deployment. An innovative conditional RAG is designed\nto introduce crosstalk humor elements at appropriate times during psychological\ncounseling to enhance user experience and decline dangerous requests to\nstrengthen d...",
+      "content": "With the rapid development of digital technology, AI-driven psychological counseling has gradually become an important research direction in the field of mental health. However, existing models still have deficiencies in dialogue safety, detailed scenario handling, and lightweight deployment. An innovative conditional RAG is designed to introduce crosstalk humor elements at appropriate times during psychological counseling to enhance user experience and decline dangerous requests to strengthen d...",
       "related_concepts": [
         "psychological",
         "counseling",
@@ -356,7 +356,7 @@
     },
     {
       "topic": "\"What's Up, Doc?\": Analyzing How Users Seek Health Information in\n  Large-Scale Conversational AI Datasets",
-      "content": "People are increasingly seeking healthcare information from large language\nmodels (LLMs) via interactive chatbots, yet the nature and inherent risks of\nthese conversations remain largely unexplored. In this paper, we filter\nlarge-scale conversational AI datasets to achieve HealthChat-11K, a curated\ndataset of 11K real-world conversations composed of 25K user messages. g. Code and artifacts to retrieve our analyses and\ncombine them into a curated dataset can be found here:\nhttps://github",
+      "content": "People are increasingly seeking healthcare information from large language models (LLMs) via interactive chatbots, yet the nature and inherent risks of these conversations remain largely unexplored. In this paper, we filter large-scale conversational AI datasets to achieve HealthChat-11K, a curated dataset of 11K real-world conversations composed of 25K user messages. g. Code and artifacts to retrieve our analyses and combine them into a curated dataset can be found here: https://github",
       "related_concepts": [
         "information",
         "how",
@@ -374,7 +374,7 @@
     },
     {
       "topic": "Potemkin Understanding in Large Language Models",
-      "content": "Large language models (LLMs) are regularly evaluated using benchmark\ndatasets. But what justifies making inferences about an LLM's capabilities\nbased on its answers to a curated set of questions. Otherwise, success on benchmarks only demonstrates potemkin\nunderstanding: the illusion of understanding driven by answers irreconcilable\nwith how any human would interpret a concept. We also find that these failures reflect not just\nincorrect understanding, but deeper internal incoherence in concept\nre...",
+      "content": "Large language models (LLMs) are regularly evaluated using benchmark datasets. But what justifies making inferences about an LLM's capabilities based on its answers to a curated set of questions. Otherwise, success on benchmarks only demonstrates potemkin understanding: the illusion of understanding driven by answers irreconcilable with how any human would interpret a concept. We also find that these failures reflect not just incorrect understanding, but deeper internal incoherence in concept re...",
       "related_concepts": [
         "understanding",
         "models",
@@ -392,7 +392,7 @@
     },
     {
       "topic": "skLEP: A Slovak General Language Understanding Benchmark",
-      "content": "In this work, we introduce skLEP, the first comprehensive benchmark\nspecifically designed for evaluating Slovak natural language understanding\n(NLU) models. We have compiled skLEP to encompass nine diverse tasks that span\ntoken-level, sentence-pair, and document-level challenges, thereby offering a\nthorough assessment of model capabilities. Within this paper, we also present the first\nsystematic and extensive evaluation of a wide array of Slovak-specific,\nmultilingual, and English pre-trained la...",
+      "content": "In this work, we introduce skLEP, the first comprehensive benchmark specifically designed for evaluating Slovak natural language understanding (NLU) models. We have compiled skLEP to encompass nine diverse tasks that span token-level, sentence-pair, and document-level challenges, thereby offering a thorough assessment of model capabilities. Within this paper, we also present the first systematic and extensive evaluation of a wide array of Slovak-specific, multilingual, and English pre-trained la...",
       "related_concepts": [
         "slovak",
         "sklep",
@@ -410,7 +410,7 @@
     },
     {
       "topic": "Artificial Intelligence and Technology",
-      "content": "Coordinate responsible and trustworthy artificial intelligence (AI) governance and capabilities.  AITO is the connective tissue for all things AI at the Department of Energy.",
+      "content": "Coordinate responsible and trustworthy artificial intelligence (AI) governance and capabilities. AITO is the connective tissue for all things AI at the Department of Energy.",
       "related_concepts": [
         "artificial",
         "intelligence"

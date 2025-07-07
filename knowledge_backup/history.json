@@ -1,0 +1,332 @@
+{
+  "domain": "history",
+  "entries": [
+    {
+      "topic": "History",
+      "content": "History is the systematic study of the past, focusing primarily on the human past. As an academic discipline, it analyses and interprets evidence to construct narratives about what happened and explain why and how it happened. Similar debates surround the purpose of history\u2014for example, whether its main aim is theoretical, to uncover the truth, or practical, to learn lessons from the past. In a more general sense, the term history refers not to an academic field but to the past itself, times in ...",
+      "related_concepts": [
+        "past",
+        "history",
+        "academic",
+        "discipline",
+        "happened"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "59a0d61948e0b184",
+        "vector_hash": "7b461fc07b01923a6a9aaf18438cd9d0",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of Iran",
+      "content": "The history of Iran is intertwined with Greater Iran, which is a socio-cultural region encompassing all of the areas that have witnessed significant settlement or influence by the Iranian peoples and the Iranian languages \u2013 chiefly the Persians and the Persian language. Central to this region is the Iranian plateau, now largely covered by modern Iran. The most pronounced impact of Iranian history can be seen stretching from Anatolia in the west to the Indus Valley in the east, including the Leva...",
+      "related_concepts": [
+        "iran",
+        "iranian",
+        "history",
+        "region",
+        "central"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "b8b5c8927521b35d",
+        "vector_hash": "f3781d14ae13d69a8a2ea83890bb2ca2",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of Israel",
+      "content": "The history of Israel covers an area of the Southern Levant also known as Canaan, Palestine, or the Holy Land, which is the geographical location of the modern states of Israel and Palestine. From a prehistory as part of the critical Levantine corridor, which witnessed waves of early humans out of Africa, to the emergence of Natufian culture c. In the Iron Age, the kingdoms of Israel and Judah were established, entities that were central to the origins of the Jewish and Samaritan peoples as well...",
+      "related_concepts": [
+        "israel",
+        "history",
+        "age",
+        "palestine",
+        "land"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.9500000000000001,
+        "original_id": "8b60678ecabc0c2d",
+        "vector_hash": "c2372f319b0830ff9d41bdfcf6d1cb9e",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of the United States",
+      "content": "The history of the present-day United States began in roughly 15,000 BC with the arrival of the first people in the Americas. In the late 15th century, European colonization began andlargely decimated Indigenous societies through wars and epidemics. Tensions between the colonies and British authorities subsequently intensified, leading to the Revolutionary War, which commenced with the Battles of Lexington and Concord on April 19, 1775. On September 3, 1783, in the Treaty of Paris, the British a...",
+      "related_concepts": [
+        "colonies",
+        "british",
+        "united",
+        "states",
+        "continental"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.9500000000000001,
+        "original_id": "6717b526fc72bfa3",
+        "vector_hash": "0d19117bc899365ed2de7811d8ed8e3b",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of India",
+      "content": "Anatomically modern humans first arrived on the Indian subcontinent between 73,000 and 55,000 years ago. The earliest known human remains in South Asia date to 30,000 years ago. The social structure was loosely stratified via the varna system, incorporated into the highly evolved present-day J\u0101ti system. The latter was synthesized with the preexisting religious cultures of the subcontinent, giving rise to Hinduism",
+      "related_concepts": [
+        "bce",
+        "india",
+        "000",
+        "asia",
+        "rise"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.9500000000000001,
+        "original_id": "34cff7fbafcaf12d",
+        "vector_hash": "9ef9b7d6494b77ec8935471914ff2f3b",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of ancient Israel and Judah",
+      "content": "The history of ancient Israel and Judah spans from the early appearance of the Israelites in Canaan's hill country during the late second millennium BCE, to the establishment and subsequent downfall of the two Israelite kingdoms in the mid-first millennium BCE. This history unfolds within the Southern Levant during the Iron Age. Archaeological evidence suggests that ancient Israelite culture evolved from the pre-existing Canaanite civilization. During the Iron Age II period, two Israelite kingdo...",
+      "related_concepts": [
+        "ancient",
+        "israel",
+        "history",
+        "judah",
+        "during"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "f98c4b65122f7acb",
+        "vector_hash": "91a2ecd280485ec3dd9492d1d019902d",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of China",
+      "content": "The history of China spans several millennia across a wide geographical area. Each region now considered part of the Chinese world has experienced periods of unity, fracture, prosperity, and strife. The traditional lens for viewing Chinese history is the dynastic cycle: imperial dynasties rise and fall, and are ascribed certain achievements. At various times, states representative of a dominant Chinese culture have directly controlled areas stretching as far west as the Tian Shan, the Tarim Basi...",
+      "related_concepts": [
+        "chinese",
+        "history",
+        "china",
+        "civilization",
+        "far"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.9500000000000001,
+        "original_id": "a2aa6345f108162c",
+        "vector_hash": "e19329ce4c4fe2aeef242e0117df969c",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of Japan",
+      "content": "The first human inhabitants of the Japanese archipelago have been traced to the Paleolithic, around 38\u201339,000 years ago. The J\u014dmon period, named after its cord-marked pottery, was followed by the Yayoi period in the first millennium BC when new inventions were introduced from Asia. During this period, the first known written reference to Japan was recorded in the Chinese Book of Han in the first century AD",
+      "related_concepts": [
+        "first",
+        "period",
+        "japan"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "75823671c78e0627",
+        "vector_hash": "6960c4360468515cca2e5e64930e5f60",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of Libya under Muammar Gaddafi",
+      "content": "Muammar Gaddafi became the de facto leader of Libya on 1 September 1969 after leading a group of young Libyan Army officers against King Idris I in a bloodless coup d'\u00e9tat. When Idris was in Turkey for medical treatment, the Revolutionary Command Council (RCC) headed by Gaddafi abolished the monarchy and the constitution and established the Libyan Arab Republic, with the motto \"Unity, Freedom, Socialism\". In 1977, the name was changed to Socialist People's Libyan Arab Jamahiriya. The country was...",
+      "related_concepts": [
+        "gaddafi",
+        "libyan",
+        "arab",
+        "libya",
+        "name"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "f08482a1d10fcd24",
+        "vector_hash": "1541d3557be8487618f92f1484fd270d",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of slavery",
+      "content": "The history of slavery spans many cultures, nationalities, and religions from ancient times to the present day. Likewise, its victims have come from many different ethnicities and religious groups. Slavery was institutionalized by the time the first civilizations emerged. and the Americas",
+      "related_concepts": [
+        "slavery",
+        "different",
+        "history",
+        "many",
+        "ancient"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "ace0f7f3f04f3b66",
+        "vector_hash": "caac043995eeda89801602a408fe7f62",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of the Jews in Poland",
+      "content": "The history of the Jews in Poland dates back at least 1,000 years. For centuries, Poland was home to the largest and most significant Jewish community in the world. During World War II there was a nearly complete genocidal destruction of the Polish Jewish community by Nazi Germany and its collaborators of various nationalities, during the German occupation of Poland between 1939 and 1945, called the Holocaust. Since the fall of communism in Poland, there has been a renewed interest in Jewish cul...",
+      "related_concepts": [
+        "poland",
+        "jewish",
+        "history",
+        "jews",
+        "culture"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "d681a1d67ee4276e",
+        "vector_hash": "ec89a5409c5bb90c917936b3e4e26d2c",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of film",
+      "content": "The history of film chronicles the development of a visual art form created using film technologies that began in the late 19th century.",
+      "related_concepts": [
+        "film",
+        "history"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "51f10c4c7365ce0c",
+        "vector_hash": "0cb072ded5091e22e791c0c03ed0154f",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of Palestine",
+      "content": "The region of Palestine is part of the wider region of the Levant, which represents the land bridge between Africa and Eurasia. The areas of the Levant traditionally serve as the \"crossroads of Western Asia, the Eastern Mediterranean, and Northeast Africa\", and in tectonic terms are located in the \"northwest of the Arabian Plate\". During the Iron Age, two related Israelite kingdoms, Israel and Judah, controlled much of Palestine, while the Philistines occupied its southern coast. Alexander the G...",
+      "related_concepts": [
+        "palestine",
+        "bce",
+        "region",
+        "age",
+        "conquered"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.9500000000000001,
+        "original_id": "6b4045d827d08bf1",
+        "vector_hash": "2b866c5c5712441c8e1365bb372abdaf",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of Germany",
+      "content": "The concept of Germany as a distinct region in Central Europe can be traced to Julius Caesar, who referred to the unconquered area east of the Rhine as Germania, thus distinguishing it from Gaul. The victory of the Germanic tribes in the Battle of the Teutoburg Forest prevented annexation by the Roman Empire, although the Roman provinces of Germania Superior and Germania Inferior were established along the Rhine. When the Frankish Empire was divided among Charles the Great's heirs in 843, the ea...",
+      "related_concepts": [
+        "roman",
+        "empire",
+        "germany",
+        "germania",
+        "east"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "3cafc71290252e03",
+        "vector_hash": "f47120aa666499d9c04e33dec5f0408f",
+        "url": ""
+      }
+    },
+    {
+      "topic": "History of the Internet",
+      "content": "The history of the Internet originated in the efforts of scientists and engineers to build and interconnect computer networks. The Internet Protocol Suite, the set of rules used to communicate between networks and devices on the Internet, arose from research and development in the United States and involved international collaboration, particularly with researchers in the United Kingdom and France.",
+      "related_concepts": [
+        "internet",
+        "history",
+        "networks",
+        "united"
+      ],
+      "metadata": {
+        "source": "Wikipedia",
+        "confidence": 0.8500000000000001,
+        "original_id": "c749605054a33ad2",
+        "vector_hash": "80b24084e255a4aaeac32f3aae545734",
+        "url": ""
+      }
+    },
+    {
+      "topic": "A history of the Peninsular War, Vol. 5, Oct. 1811-Aug. 31, 1812 : $b Valencia, Ciudad Rodrigo, Badajoz, Salamanca, Madrid",
+      "content": "62291 *** TRANSCRIBER\u2019S NOTE * Italics are denoted by underscores as in _italics_, and small caps are represented in upper case as in SMALL CAPS. * Obvious printer errors have been silently corrected. By Major John Leslie, R. Only seventeen were ready, and of these no more than three were 12-pounders: the rest were only of the calibre of field artillery (4- and 8-pounders) or howitzers",
+      "related_concepts": [
+        "now",
+        "1812",
+        "which",
+        "valencia",
+        "army"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "7c54d7092211d7a7",
+        "vector_hash": "1a9df3d6aeff30816400c39d38ff2e5a",
+        "url": ""
+      }
+    },
+    {
+      "topic": "A history of the Peninsular War, Vol. 4, Dec. 1810-Dec. 1811 : $b Massena's retreat, Fuentes de O\u00f1oro, Albuera, Tarragona",
+      "content": "HISTORY OF THE PENINSULAR WAR *** Produced by Brian Coe, Ramon Pajares Box and the Online Distributed Proofreading Team at http://www. pgdp. Allied Losses at the Combat of El Bodon 648 XXII. 95",
+      "related_concepts": [
+        "1811",
+        "now",
+        "which",
+        "army",
+        "wellington"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "13f097de3f283059",
+        "vector_hash": "d6fc5f16f0c5b2f0e4dc09ac117f2106",
+        "url": ""
+      }
+    },
+    {
+      "topic": "A history of the Peninsular War, Vol. 2, Jan.-Sep. 1809 : $b From the battle of Corunna to the end of the Talavera campaign",
+      "content": "54279 *** TRANSCRIBER\u2019S NOTE * Italics are denoted by underscores as in _italics_, and small caps are represented in upper case as in SMALL CAPS. [Illustration: _General Joseph Palafox_ _From the Portrait by Goya in the Prado Gallery. Victor, on the side of La Mancha, must keep watch on any movements of the Spaniards from the direction of Cuenca or the Sierra Morena. When these two events should have come to pass, his armies might resume, under the guidance of his subordinate...",
+      "related_concepts": [
+        "which",
+        "army",
+        "not",
+        "french",
+        "spanish"
+      ],
+      "metadata": {
+        "source": "Project Gutenberg",
+        "confidence": 0.95,
+        "original_id": "e542010609031dce",
+        "vector_hash": "0ec2752c06c46d887b361a803071c201",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 18,
+    "confidence_range": {
+      "min": 0.8500000000000001,
+      "max": 0.9500000000000001,
+      "avg": 0.8944444444444444
+    }
+  }
+}

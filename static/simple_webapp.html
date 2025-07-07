@@ -10,9 +10,12 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height */
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
+            overflow: hidden;
         }
         .container {
             background: rgba(255, 255, 255, 0.95);
@@ -85,6 +88,38 @@
             text-align: center;
             color: #666;
             font-style: italic;
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            body {
+                align-items: flex-start;
+                padding-top: 2rem;
+            }
+            
+            .container {
+                width: 100%;
+                max-width: none;
+                border-radius: 20px 20px 0 0;
+            }
+            
+            .chat-input {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+        }
+        
+        /* When keyboard is visible */
+        body.keyboard-visible {
+            align-items: flex-start;
+            padding-top: 1rem;
+        }
+        
+        body.keyboard-visible .container {
+            transform: translateY(0);
+        }
+        
+        body.keyboard-visible .responses {
+            max-height: 200px;
         }
     </style>
 </head>
@@ -175,6 +210,70 @@
 
         // Focus input on load
         input.focus();
+        
+        // Mobile keyboard handling
+        let viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        let isKeyboardVisible = false;
+        
+        function handleViewportChange() {
+            const currentHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            const threshold = 100;
+            
+            if (viewportHeight - currentHeight > threshold && !isKeyboardVisible) {
+                // Keyboard appeared
+                isKeyboardVisible = true;
+                document.body.classList.add('keyboard-visible');
+                
+                // Ensure input is visible
+                setTimeout(() => {
+                    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+                
+            } else if (currentHeight >= viewportHeight - 50 && isKeyboardVisible) {
+                // Keyboard disappeared
+                isKeyboardVisible = false;
+                document.body.classList.remove('keyboard-visible');
+            }
+            
+            if (!isKeyboardVisible) {
+                viewportHeight = currentHeight;
+            }
+        }
+        
+        // Visual Viewport API
+        if ('visualViewport' in window) {
+            window.visualViewport.addEventListener('resize', handleViewportChange);
+        }
+        
+        // Fallback
+        window.addEventListener('resize', handleViewportChange);
+        
+        // Input focus/blur handling
+        input.addEventListener('focus', () => {
+            if (window.innerWidth <= 768) {
+                setTimeout(handleViewportChange, 300);
+            }
+        });
+        
+        input.addEventListener('blur', () => {
+            if (window.innerWidth <= 768) {
+                setTimeout(handleViewportChange, 300);
+            }
+        });
+        
+        // Ensure responses scroll properly when keyboard is visible
+        const originalAddResponse = addResponse;
+        addResponse = function(text, type) {
+            const id = originalAddResponse(text, type);
+            
+            if (isKeyboardVisible) {
+                setTimeout(() => {
+                    responses.scrollTop = responses.scrollHeight;
+                }, 100);
+            }
+            
+            return id;
+        };
     </script>
 </body>
 </html>

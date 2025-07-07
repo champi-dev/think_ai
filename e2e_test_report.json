@@ -1,0 +1,75 @@
+{
+  "summary": {
+    "passed": 4,
+    "failed": 4,
+    "tests": [
+      {
+        "name": "Health Check Endpoint",
+        "status": "PASSED",
+        "message": "Health endpoint working correctly",
+        "timestamp": "2025-07-07T09:34:36.286213"
+      },
+      {
+        "name": "Chat API Endpoint",
+        "status": "PASSED",
+        "message": "All queries successful. Avg response: 4.32ms",
+        "timestamp": "2025-07-07T09:34:36.308347"
+      },
+      {
+        "name": "Knowledge API Endpoint",
+        "status": "FAILED",
+        "message": "",
+        "timestamp": "2025-07-07T09:34:36.309485"
+      },
+      {
+        "name": "Static File Serving",
+        "status": "PASSED",
+        "message": "All static files served correctly",
+        "timestamp": "2025-07-07T09:34:36.312147"
+      },
+      {
+        "name": "Response Quality Check",
+        "status": "FAILED",
+        "message": "Quality issues: Expected keyword 'artificial intelligence' not found for query 'explain AI'",
+        "timestamp": "2025-07-07T09:34:36.320349"
+      },
+      {
+        "name": "Error Handling",
+        "status": "FAILED",
+        "message": "",
+        "timestamp": "2025-07-07T09:34:36.322545"
+      },
+      {
+        "name": "O(1) Performance Test",
+        "status": "FAILED",
+        "message": "Performance not O(1). Variance: 1.86",
+        "timestamp": "2025-07-07T09:34:37.243165"
+      },
+      {
+        "name": "Concurrent Request Handling",
+        "status": "PASSED",
+        "message": "All 20 concurrent requests succeeded in 0.02s",
+        "timestamp": "2025-07-07T09:34:37.268486"
+      }
+    ],
+    "performance_metrics": []
+  },
+  "performance": {
+    "response_lengths": [
+      549,
+      1066,
+      789,
+      656,
+      1177
+    ],
+    "chat_api_avg_ms": 4.3170928955078125,
+    "response_time_variance": 1.8559675526406627,
+    "response_times_by_load": {
+      "1": 3.453493118286133,
+      "10": 3.7699222564697266,
+      "50": 4.76717472076416,
+      "100": 6.409571170806885
+    }
+  },
+  "timestamp": "2025-07-07T09:34:37.291439"
+}

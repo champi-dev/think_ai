@@ -3,6 +3,7 @@
 pub mod server;
 pub mod router;
 pub mod handlers;
+pub mod errors;
 
 use thiserror::Error;
 

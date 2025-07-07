@@ -1,0 +1,86 @@
+{
+  "domain": "cs.cl",
+  "entries": [
+    {
+      "topic": "Data Efficacy for Language Model Training",
+      "content": "Data is fundamental to the training of language models (LM). Recent research has been dedicated to data efficiency, which aims to maximize performance by selecting a minimal or optimal subset of training data. Among these components, we design Learnability-Quality Scoring (LQS), as a new instance of Data Scoring, which considers both the learnability and quality of each data sample from the gradient consistency perspective. Therefore, we believe that data efficacy is a promising foundational are...",
+      "related_concepts": [
+        "data",
+        "training",
+        "efficacy",
+        "which",
+        "scoring"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "4ba009f1d8a3240a",
+        "vector_hash": "b247d78bb539919ac8afb37b87302c25",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Mind2Web 2: Evaluating Agentic Search with Agent-as-a-Judge",
+      "content": "Agentic search such as Deep Research systems, where large language models autonomously browse the web, synthesize information, and return comprehensive citation-backed answers, represents a major shift in how users interact with web-scale information. While promising greater efficiency and cognitive offloading, the growing complexity and open-endedness of agentic search have outpaced existing evaluation benchmarks and methodologies, which largely assume short search horizons and static answers...",
+      "related_concepts": [
+        "search",
+        "agentic",
+        "mind2web",
+        "judge",
+        "systems"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "7d55119d086fdbed",
+        "vector_hash": "13243616bd7387497ec4380d87c813db",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Enhancing User Engagement in Socially-Driven Dialogue through\n  Interactive LLM Alignments",
+      "content": "Enhancing user engagement through interactions plays an essential role in socially-driven dialogues. While prior works have optimized models to reason over relevant knowledge or plan a dialogue act flow, the relationship between user engagement and knowledge or dialogue acts is subtle and does not guarantee user engagement in socially-driven dialogues. , the user's reaction related to dialogue intention after the interaction, as a reward to align interactive LLMs. Experiments conducted on two so...",
+      "related_concepts": [
+        "user",
+        "engagement",
+        "interactive",
+        "textit",
+        "dialogue"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "cb994fc45317eb86",
+        "vector_hash": "bbee0ac88138512cc85bb97b8ae017bd",
+        "url": ""
+      }
+    },
+    {
+      "topic": "Bridging Offline and Online Reinforcement Learning for LLMs",
+      "content": "We investigate the effectiveness of reinforcement learning methods for finetuning large language models when transitioning from offline to semi-online to fully online regimes for both verifiable and non-verifiable tasks. Our experiments cover training on verifiable math as well as non-verifiable instruction following with a set of benchmark evaluations for both. We provide a detailed analysis of the training dynamics and hyperparameter selection strategies to achieve optimal results. Finally, we...",
+      "related_concepts": [
+        "verifiable",
+        "online",
+        "offline",
+        "both",
+        "non"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 0.9500000000000001,
+        "original_id": "1c8b5d3e895558bc",
+        "vector_hash": "0e6834c1ce3897f1c867f6a8bb7c1f41",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 4,
+    "confidence_range": {
+      "min": 0.9500000000000001,
+      "max": 1.0,
+      "avg": 0.9875
+    }
+  }
+}

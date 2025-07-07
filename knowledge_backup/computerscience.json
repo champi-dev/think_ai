@@ -1,0 +1,68 @@
+{
+  "domain": "ComputerScience",
+  "entries": [
+    {
+      "content": "Artificial intelligence is machines that simulate human intelligence. People use this to better understand and interact with our world Essential elements include its fundamental properties and real-world impacts .",
+      "metadata": {
+        "conversational_patterns": [
+          "Artificial intelligence is machines that simulate human intelligence. People use this to better understand and interact with our world Essential elements include its fundamental properties and real-world impacts .",
+          "Artificial intelligence is machines that simulate human intelligence. People use this to better understand and interact with our world Essential elements include its fundamental properties and real-world impacts .",
+          "To explain artificial intelligence: Artificial intelligence is machines that simulate human intelligence. People use this to better understand and interact with our world Essential elements include its fundamental properties and real-world impacts .",
+          "Let me tell you about artificial intelligence. Artificial intelligence is machines that simulate human intelligence. People use this to better understand and interact with our world Essential elements include its fundamental properties and real-world impacts .",
+          "Artificial intelligence - Artificial intelligence is machines that simulate human intelligence. People use this to better understand and interact with our world Essential elements include its fundamental properties and real-world impacts .",
+          "When describing artificial intelligence, artificial intelligence is machines that simulate human intelligence. people use this to better understand and interact with our world essential elements include its fundamental properties and real-world impacts it encompasses multiple aspects and applications across various fields of study."
+        ],
+        "evaluation_score": 0.9500000476837158
+      },
+      "related_concepts": [
+        "how does artificial intelligence work",
+        "why is artificial intelligence important",
+        "examples of artificial intelligence",
+        "artificial intelligence in daily life"
+      ],
+      "topic": "artificial intelligence"
+    },
+    {
+      "content": "Blockchain is distributed ledger technology, transforming how we work and communicate.",
+      "metadata": {
+        "conversational_patterns": [
+          "Blockchain is distributed ledger technology, transforming how we work and communicate.",
+          "Blockchain is distributed ledger technology, transforming how we work and communicate.",
+          "To explain blockchain: Blockchain is distributed ledger technology, transforming how we work and communicate.",
+          "Let me tell you about blockchain. Blockchain is distributed ledger technology, transforming how we work and communicate.",
+          "Blockchain - Blockchain is distributed ledger technology, transforming how we work and communicate.",
+          "When describing blockchain, blockchain is distributed ledger technology, transforming how we work and communicate. this enables us to better understand and interact with our world important features are its fundamental properties and real-world impacts."
+        ],
+        "evaluation_score": 1.0
+      },
+      "related_concepts": [
+        "how does blockchain work",
+        "why is blockchain important",
+        "examples of blockchain",
+        "blockchain in daily life"
+      ],
+      "topic": "blockchain"
+    },
+    {
+      "content": "Programming is creating instructions for computers, requiring logical thinking and problem-solving skills . This enables us to create software applications and automate tasks.",
+      "metadata": {
+        "conversational_patterns": [
+          "Programming is creating instructions for computers, requiring logical thinking and problem-solving skills . This enables us to create software applications and automate tasks.",
+          "Programming is creating instructions for computers, requiring logical thinking and problem-solving skills . This enables us to create software applications and automate tasks.",
+          "To explain programming: Programming is creating instructions for computers, requiring logical thinking and problem-solving skills . This enables us to create software applications and automate tasks.",
+          "Let me tell you about programming. Programming is creating instructions for computers, requiring logical thinking and problem-solving skills . This enables us to create software applications and automate tasks.",
+          "Programming - Programming is creating instructions for computers, requiring logical thinking and problem-solving skills . This enables us to create software applications and automate tasks.",
+          "When describing programming, programming is creating instructions for computers, requiring logical thinking and problem-solving skills important features are its fundamental properties and real-world impacts. this enables us to create software applications and automate tasks."
+        ],
+        "evaluation_score": 1.0
+      },
+      "related_concepts": [
+        "how does programming work",
+        "why is programming important",
+        "examples of programming",
+        "programming in daily life"
+      ],
+      "topic": "programming"
+    }
+  ]
+}

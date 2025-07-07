@@ -693,7 +693,7 @@ mod tests {
         new_scores.insert(Benchmark::MMLU, 0.7);
         new_scores.insert(Benchmark::HellaSwag, 0.85);
         
-        let improvement = trainer.calculate_improvement(&old_scores, &new_scores);
+        let improvement = BenchmarkTrainer::calculate_improvement(&old_scores, &new_scores);
         assert!((improvement - 0.075).abs() < 0.001); // (0.1 + 0.05) / 2 = 0.075
     }
 }

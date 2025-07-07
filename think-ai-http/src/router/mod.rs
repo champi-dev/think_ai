@@ -1,10 +1,18 @@
 //! O(1) router implementation
 
-use axum::{Router, routing::{get, post}, response::Html};
+use axum::{
+    Router, 
+    routing::{get, post}, 
+    response::Html,
+    http::StatusCode,
+    response::IntoResponse,
+    Json,
+};
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 use tower_http::services::{ServeDir, ServeFile};
 use crate::handlers;
+use serde_json::json;
 
 pub struct AppState {
     pub engine: Arc<think_ai_core::O1Engine>,
@@ -33,19 +41,35 @@ pub fn create_router(state: Arc<AppState>) -> Router {
         .route("/chat", post(handlers::chat))
         .route("/api/chat", post(handlers::chat))
         .route("/api/process", post(handlers::chat))
+        .route("/api/knowledge/stats", get(handlers::knowledge_stats))
         
         // WebSocket endpoint (placeholder for now)
         .route("/ws", get(websocket_placeholder))
         
         // Serve static files
+        .nest_service("/static", ServeDir::new(&static_dir))
         .nest_service("/_next", ServeDir::new(static_dir.join("_next")))
         .nest_service("/icons", ServeDir::new(static_dir.join("icons")))
         .route_service("/manifest.json", ServeFile::new(static_dir.join("manifest.json")))
         .route_service("/react-refresh.js", ServeFile::new(static_dir.join("react-refresh.js")))
         .route_service("/favicon.ico", ServeFile::new(static_dir.join("icons/icon-32x32.png")))
+        .route_service("/static/chat.html", ServeFile::new(static_dir.join("chat.html")))
+        .route_service("/static/simple_webapp.html", ServeFile::new(static_dir.join("simple_webapp.html")))
         
         .layer(CorsLayer::permissive())
         .with_state(state)
+        // Add fallback for better error handling
+        .fallback(fallback_handler)
+}
+
+async fn fallback_handler() -> impl IntoResponse {
+    (
+        StatusCode::NOT_FOUND,
+        Json(json!({
+            "error": "Not Found",
+            "message": "The requested resource was not found"
+        }))
+    )
 }
 
 async fn serve_webapp() -> Html<&'static str> {

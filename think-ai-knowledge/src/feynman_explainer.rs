@@ -523,8 +523,7 @@ mod tests {
 
     #[test]
     fn test_feynman_explainer_creation() {
-        let engine = Arc::new(KnowledgeEngine::new());
-        let explainer = FeynmanExplainer::new(engine);
+        let explainer = FeynmanExplainer::new(None);
         
         let explanation = explainer.explain("quantum mechanics");
         assert!(!explanation.refined_explanation.is_empty());
@@ -533,8 +532,7 @@ mod tests {
 
     #[test]
     fn test_explanation_formatting() {
-        let engine = Arc::new(KnowledgeEngine::new());
-        let explainer = FeynmanExplainer::new(engine);
+        let explainer = FeynmanExplainer::new(None);
         
         let explanation = explainer.explain("test concept");
         let formatted = explanation.format_for_human();

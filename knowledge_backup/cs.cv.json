@@ -1,0 +1,104 @@
+{
+  "domain": "cs.cv",
+  "entries": [
+    {
+      "topic": "SiM3D: Single-instance Multiview Multimodal and Multisetup 3D Anomaly\n  Detection Benchmark",
+      "content": "We propose SiM3D, the first benchmark considering the integration of multiview and multimodal information for comprehensive 3D anomaly detection and segmentation (ADS), where the task is to produce a voxel-based Anomaly Volume. Moreover, SiM3D focuses on a scenario of high interest in manufacturing: single-instance anomaly detection, where only one object, either real or synthetic, is available for training. The dataset features multiview high-resolution images (12 Mpx) and point clouds (7M poin...",
+      "related_concepts": [
+        "sim3d",
+        "multiview",
+        "anomaly",
+        "multimodal",
+        "detection"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "8f0a8069e08dae78",
+        "vector_hash": "7fe34ece3f822f0ab00d681ffc4f8663",
+        "url": ""
+      }
+    },
+    {
+      "topic": "SAM4D: Segment Anything in Camera and LiDAR Streams",
+      "content": "We present SAM4D, a multi-modal and temporal foundation model designed for promptable segmentation across camera and LiDAR streams. Unified Multi-modal Positional Encoding (UMPE) is introduced to align camera and LiDAR features in a shared 3D space, enabling seamless cross-modal prompting and interaction. To avoid annotation bottlenecks, we develop a multi-modal automated data engine that synergizes VFM-driven video masklets, spatiotemporal 4D reconstruction, and cross-modal masklet fusion. We c...",
+      "related_concepts": [
+        "modal",
+        "camera",
+        "lidar",
+        "cross",
+        "sam4d"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "c90f7b1d13b5c4b5",
+        "vector_hash": "53007995fd85d7b8766a0f4b7a922885",
+        "url": ""
+      }
+    },
+    {
+      "topic": "DeOcc-1-to-3: 3D De-Occlusion from a Single Image via Self-Supervised\n  Multi-View Diffusion",
+      "content": "Reconstructing 3D objects from a single image is a long-standing challenge, especially under real-world occlusions. While recent diffusion-based view synthesis models can generate consistent novel views from a single RGB image, they generally assume fully visible inputs and fail when parts of the object are occluded. Without modifying the original architecture, we fully fine-tune the view synthesis model to jointly learn completion and multi-view generation. com/Quyans/DeOcc123",
+      "related_concepts": [
+        "view",
+        "image",
+        "occlusion",
+        "single",
+        "views"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "7699a2b09236a8d1",
+        "vector_hash": "fe74b6c2df441332404fbde7a75e4572",
+        "url": ""
+      }
+    },
+    {
+      "topic": "StruMamba3D: Exploring Structural Mamba for Self-supervised Point Cloud\n  Representation Learning",
+      "content": "Recently, Mamba-based methods have demonstrated impressive performance in point cloud representation learning by leveraging State Space Model (SSM) with the efficient context modeling ability and linear complexity. However, these methods still face two key issues that limit the potential of SSM: Destroying the adjacency of 3D points during SSM processing and failing to retain long-sequence memory as the input length increases in downstream tasks. Third, our method reduces the sensitivity of pre-...",
+      "related_concepts": [
+        "ssm",
+        "mamba",
+        "point",
+        "cloud",
+        "representation"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 1.0,
+        "original_id": "f4697d843b30888c",
+        "vector_hash": "629ecf43f29d632c3f3000fec91afc89",
+        "url": ""
+      }
+    },
+    {
+      "topic": "ResQ: A Novel Framework to Implement Residual Neural Networks on Analog\n  Rydberg Atom Quantum Computers",
+      "content": "Research in quantum machine learning has recently proliferated due to the potential of quantum computing to accelerate machine learning. An area of machine learning that has not yet been explored is neural ordinary differential equation (neural ODE) based residual neural networks (ResNets), which aim to improve the effectiveness of neural networks using the principles of ordinary differential equations. In this work, we present our insights about why analog Rydberg atom quantum computers are esp...",
+      "related_concepts": [
+        "neural",
+        "quantum",
+        "machine",
+        "learning",
+        "networks"
+      ],
+      "metadata": {
+        "source": "arXiv",
+        "confidence": 0.9500000000000001,
+        "original_id": "9d20562aec89c0b6",
+        "vector_hash": "4f848056b5f709b46a10f0fe7c8b12bb",
+        "url": ""
+      }
+    }
+  ],
+  "metadata": {
+    "source": "enhanced_knowledge",
+    "item_count": 5,
+    "confidence_range": {
+      "min": 0.9500000000000001,
+      "max": 1.0,
+      "avg": 0.99
+    }
+  }
+}

@@ -90,11 +90,12 @@ impl ComponentResponseGenerator {
         self.add_component(Box::new(ScientificExplanationComponent));
         self.add_component(Box::new(TechnicalComponent));
         self.add_component(Box::new(PhilosophicalComponent));
-        self.add_component(Box::new(CompositionComponent));
-        self.add_component(Box::new(ComparisonComponent));
-        self.add_component(Box::new(HistoricalComponent));
-        self.add_component(Box::new(PracticalApplicationComponent));
-        self.add_component(Box::new(FutureSpeculationComponent));
+        // DISABLED: Template-based components that produce poor quality responses
+        // self.add_component(Box::new(CompositionComponent));
+        // self.add_component(Box::new(ComparisonComponent));
+        // self.add_component(Box::new(HistoricalComponent));
+        // self.add_component(Box::new(PracticalApplicationComponent));
+        // self.add_component(Box::new(FutureSpeculationComponent));
         self.add_component(Box::new(AnalogyComponent));
         self.add_component(Box::new(UnknownQueryComponent));
         self.add_component(Box::new(LearningComponent));
@@ -194,23 +195,37 @@ impl ComponentResponseGenerator {
             }
         }
         
-        // If we got nothing or only weak matches, try LLM fallback
-        if response_parts.is_empty() {
+        // PRIORITY CHANGE: Try LLM fallback first for non-greeting/conversational queries
+        let is_simple_conversational = component_scores.iter()
+            .any(|(c, s)| *s >= 0.9 && 
+                (c.name() == "Conversational" || 
+                 c.name() == "Identity" || 
+                 c.name() == "Greeting" ||
+                 c.name() == "SemanticCache"));
+        
+        // Use LLM for knowledge-based queries or when no strong conversational match
+        if response_parts.is_empty() && !is_simple_conversational {
             if let Some(llm_response) = self.generate_llm_fallback(query, &context) {
                 response_parts.push(llm_response);
                 used_components.push("LLMFallback");
-            } else if !component_scores.is_empty() {
-                // Final fallback to best component
-                if let Some((component, score)) = component_scores.first() {
-                    if let Some(part) = component.generate(query, &context) {
-                        response_parts.push(part);
-                        used_components.push(component.name());
-                    }
+            }
+        }
+        
+        // If still empty, use component responses
+        if response_parts.is_empty() && !component_scores.is_empty() {
+            // Final fallback to best component
+            if let Some((component, score)) = component_scores.first() {
+                if let Some(part) = component.generate(query, &context) {
+                    response_parts.push(part);
+                    used_components.push(component.name());
                 }
             }
         }
         
-        // Component usage summary (debug logging disabled)
+        // Component usage summary (debug logging)
+        if !used_components.is_empty() {
+            eprintln!("DEBUG: Used components: {:?}", used_components);
+        }
         
         // Intelligently combine and refine
         let refined = self.refine_and_combine(response_parts, query);
@@ -553,12 +568,38 @@ impl ResponseComponent for KnowledgeBaseComponent {
                llm_response != "Knowledge engine LLM not initialized. Please use the response generator directly." {
                 Some(llm_response)
             } else {
-                // Fallback to first relevant node
-                Some(relevant_knowledge[0].content.clone())
+                // Fallback to first relevant node - clean up template patterns
+                let content = relevant_knowledge[0].content.clone();
+                
+                // Remove common template patterns
+                let cleaned = content
+                    .replace("Thank you for asking about ", "")
+                    .replace("Your question about ", "")
+                    .replace("Regarding your inquiry about ", "")
+                    .replace("I hope this information is useful.", "")
+                    .replace("Practically, this allows better understand and interact with our world ", "")
+                    .replace("Important features are its fundamental properties and real-world impacts. ", "")
+                    .trim()
+                    .to_string();
+                
+                Some(cleaned)
             }
         } else {
-            // Single piece of knowledge - use as is for now
-            Some(relevant_knowledge[0].content.clone())
+            // Single piece of knowledge - clean up template patterns
+            let content = relevant_knowledge[0].content.clone();
+            
+            // Remove common template patterns
+            let cleaned = content
+                .replace("Thank you for asking about ", "")
+                .replace("Your question about ", "")
+                .replace("Regarding your inquiry about ", "")
+                .replace("I hope this information is useful.", "")
+                .replace("Practically, this allows better understand and interact with our world ", "")
+                .replace("Important features are its fundamental properties and real-world impacts. ", "")
+                .trim()
+                .to_string();
+            
+            Some(cleaned)
         }
     }
 }
