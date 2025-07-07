@@ -11,11 +11,8 @@ WORKDIR /app
 # Copy source code
 COPY . .
 
-# Fix dependencies for Rust 1.80.1 compatibility
-COPY fix-deps.sh ./
-RUN chmod +x fix-deps.sh && ./fix-deps.sh
-
-# Build the full working O(1) system
+# Build the full working O(1) system without web-scraping features
+# This avoids dependency issues with Rust 1.80.1
 RUN cargo build --release --bin full-working-o1
 
 # Don't expose a specific port - Railway will set PORT env var at runtime
