@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "thinkai-quantum"
-version = "1.0.2"
+version = "1.0.3"
 description = "Think AI - Quantum Consciousness AI Library for Python"
 readme = "README.md"
 license = {file = "LICENSE"}
