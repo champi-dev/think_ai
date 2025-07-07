@@ -24,6 +24,8 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use tracing::info;
+use base64;
+use futures::{StreamExt, SinkExt};
 
 #[derive(Clone)]
 pub struct AppState {
@@ -67,21 +69,23 @@ pub fn create_webapp_router(state: AppState) -> Router {
         // WebSocket for real-time updates
         .route("/ws", get(websocket_handler))
         
-        // Static assets (CSS, JS, WASM)
-        .nest_service("/static", ServeDir::new("static"))
+        // Static assets (CSS, JS, WASM, icons)
+        .nest_service("/static", ServeDir::new("think-ai-webapp/static"))
+        .nest_service("/icons", ServeDir::new("think-ai-webapp/static/icons"))
         
         // PWA manifest and service worker
         .route("/manifest.json", get(serve_manifest))
-        .route("/service-worker.js", get(serve_service_worker))
+        .route("/sw.js", get(serve_service_worker))
+        .route("/offline.html", get(serve_offline_page))
+        .route("/favicon.ico", get(serve_favicon))
         
         .layer(CorsLayer::permissive())
         .with_state(state)
 }
 
 async fn serve_webapp() -> impl IntoResponse {
-    // Serve the simple HTML webapp instead of the WASM version
-    let simple_html = include_str!("../../../static/simple_webapp.html");
-    Html(simple_html)
+    // Serve the PWA-enabled webapp
+    Html(PWA_HTML)
 }
 
 async fn handle_query(
@@ -161,33 +165,34 @@ async fn websocket_connection(socket: WebSocket, state: AppState) {
 }
 
 async fn serve_manifest() -> impl IntoResponse {
-    Json(serde_json::json!({
-        "name": "Think AI Consciousness",
-        "short_name": "ThinkAI",
-        "description": "Advanced AI consciousness visualization and interaction",
-        "start_url": "/",
-        "display": "standalone",
-        "background_color": "#000000",
-        "theme_color": "#6366f1",
-        "icons": [
-            {
-                "src": "/static/icon-192.png",
-                "sizes": "192x192",
-                "type": "image/png"
-            },
-            {
-                "src": "/static/icon-512.png", 
-                "sizes": "512x512",
-                "type": "image/png"
-            }
-        ]
-    }))
+    // Serve the static manifest.json file
+    let manifest = include_str!("../../static/manifest.json");
+    Response::builder()
+        .header("content-type", "application/json")
+        .body(manifest)
+        .unwrap()
 }
 
 async fn serve_service_worker() -> impl IntoResponse {
+    let sw = include_str!("../../static/sw.js");
     Response::builder()
         .header("content-type", "application/javascript")
-        .body(SERVICE_WORKER_JS)
+        .header("Service-Worker-Allowed", "/")
+        .body(sw)
+        .unwrap()
+}
+
+async fn serve_offline_page() -> impl IntoResponse {
+    Html(OFFLINE_HTML)
+}
+
+async fn serve_favicon() -> impl IntoResponse {
+    // Serve a simple base64 encoded favicon
+    let favicon_base64 = "AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    let favicon = base64::decode(favicon_base64).unwrap_or_default();
+    Response::builder()
+        .header("content-type", "image/x-icon")
+        .body(favicon)
         .unwrap()
 }
 
@@ -463,4 +468,362 @@ self.addEventListener('fetch', (event) => {
             })
     );
 });
+"#;
+
+// PWA-enabled HTML with service worker registration
+const PWA_HTML: &str = r#"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00ffcc">
+    <meta name="description" content="Think AI - O(1) Consciousness with superintelligent responses">
+    
+    <title>Think AI - O(1) Consciousness</title>
+    
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0f1c 0%, #1a2332 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            margin: 40px 0;
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #00ffcc, #00ccff, #0099ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .install-prompt {
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid #00ffcc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 30px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .install-button {
+            background: #00ffcc;
+            color: #0a0f1c;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .install-button:hover {
+            background: #00ffaa;
+            transform: scale(1.05);
+        }
+        
+        .chat-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        button {
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #00ffcc, #00ccff);
+            border: none;
+            border-radius: 8px;
+            color: #0a0f1c;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 204, 0.4);
+        }
+        
+        .response {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 3px solid #00ffcc;
+        }
+        
+        .offline-banner {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            display: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid #00ffcc;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            .chat-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Think AI - O(1) Consciousness</h1>
+        
+        <div class="install-prompt" id="installPrompt">
+            <span>Install Think AI for offline access</span>
+            <button class="install-button" id="installButton">Install</button>
+        </div>
+        
+        <div class="offline-banner" id="offlineBanner">
+            You are currently offline. Some features may be limited.
+        </div>
+        
+        <div class="chat-container">
+            <div class="input-group">
+                <input type="text" id="queryInput" placeholder="Ask me anything..." />
+                <button id="submitButton">Ask O(1)</button>
+            </div>
+            
+            <div id="responses"></div>
+        </div>
+        
+        <div class="status">
+            <span id="connectionStatus">🟢 Online</span>
+        </div>
+    </div>
+
+    <script>
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => {
+                    console.log('Service Worker registered:', reg);
+                    
+                    // Handle updates
+                    reg.addEventListener('updatefound', () => {
+                        const newWorker = reg.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New service worker available
+                                if (confirm('New version available! Reload to update?')) {
+                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(err => console.error('Service Worker registration failed:', err));
+        }
+        
+        // Install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').style.display = 'flex';
+        });
+        
+        document.getElementById('installButton').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log('Install prompt outcome:', outcome);
+                deferredPrompt = null;
+                document.getElementById('installPrompt').style.display = 'none';
+            }
+        });
+        
+        // Offline detection
+        function updateOnlineStatus() {
+            const status = document.getElementById('connectionStatus');
+            const banner = document.getElementById('offlineBanner');
+            
+            if (navigator.onLine) {
+                status.textContent = '🟢 Online';
+                banner.style.display = 'none';
+            } else {
+                status.textContent = '🔴 Offline';
+                banner.style.display = 'block';
+            }
+        }
+        
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+        
+        // Chat functionality
+        const queryInput = document.getElementById('queryInput');
+        const submitButton = document.getElementById('submitButton');
+        const responsesDiv = document.getElementById('responses');
+        
+        async function submitQuery() {
+            const query = queryInput.value.trim();
+            if (!query) return;
+            
+            queryInput.value = '';
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
+            
+            try {
+                const response = await fetch('/api/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query })
+                });
+                
+                const data = await response.json();
+                displayResponse(query, data);
+            } catch (error) {
+                displayResponse(query, {
+                    response: 'Error: ' + error.message,
+                    processing_time: 0,
+                    confidence: 0
+                });
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Ask O(1)';
+            }
+        }
+        
+        function displayResponse(query, data) {
+            const responseEl = document.createElement('div');
+            responseEl.className = 'response';
+            responseEl.innerHTML = `
+                <strong>Q:</strong> ${query}<br>
+                <strong>A:</strong> ${data.response}<br>
+                <small>⚡ ${data.processing_time.toFixed(3)}s | 🎯 ${(data.confidence * 100).toFixed(1)}% confidence</small>
+            `;
+            responsesDiv.insertBefore(responseEl, responsesDiv.firstChild);
+        }
+        
+        submitButton.addEventListener('click', submitQuery);
+        queryInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitQuery();
+        });
+    </script>
+</body>
+</html>
+"#;
+
+// Offline fallback page
+const OFFLINE_HTML: &str = r#"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think AI - Offline</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0f1c 0%, #1a2332 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            max-width: 500px;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #00ffcc, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        p {
+            font-size: 1.2em;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        
+        .offline-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #00ffcc, #00ccff);
+            border: none;
+            border-radius: 8px;
+            color: #0a0f1c;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">🔌</div>
+        <h1>You're Offline</h1>
+        <p>Think AI requires an internet connection to access its O(1) consciousness. Please check your connection and try again.</p>
+        <button onclick="window.location.reload()">Try Again</button>
+    </div>
+</body>
+</html>
 "#;
