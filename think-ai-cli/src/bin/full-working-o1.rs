@@ -67,21 +67,39 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     println!("🚀 Think AI Full O(1) System Starting...");
     
+    // Debug: Print all environment variables that might affect port binding
+    println!("🔍 Environment variables:");
+    for (key, value) in std::env::vars() {
+        if key.contains("PORT") || key.contains("HOST") || key.contains("RAILWAY") {
+            println!("   {} = {}", key, value);
+        }
+    }
+    
     // Kill ports first as per user instruction
     let _ = port_manager::kill_port(8080);
     let _ = port_manager::kill_port(8081);
     let _ = port_manager::kill_port(3000);
     
-    let port = std::env::var("PORT")
+    // Check for Railway PORT environment variable
+    let port_env = std::env::var("PORT");
+    println!("🔍 PORT env var: {:?}", port_env);
+    
+    let port = port_env
         .ok()
-        .and_then(|p| p.parse::<u16>().ok())
+        .and_then(|p| {
+            println!("🔍 Attempting to parse PORT: {}", p);
+            p.parse::<u16>().ok()
+        })
         .unwrap_or_else(|| {
+            println!("⚠️  No valid PORT env var found, using default port logic");
             port_selector::find_available_port(Some(8080))
                 .unwrap_or_else(|_| {
                     let _ = port_manager::kill_port(8080);
                     8080
                 })
         });
+    
+    println!("✅ Using port: {}", port);
 
     // Initialize all components immediately (no hanging background tasks)
     println!("⚡ Initializing O(1) components instantly...");
@@ -130,6 +148,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🌐 Binding to 0.0.0.0:{}", port);
     let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
     println!("✅ Server bound successfully to port {}", port);
+    println!("🚂 Railway deployment: https://thinkai-production.up.railway.app");
+    println!("🏠 Local access: http://localhost:{}", port);
     
     println!("🧠 Full Think AI O(1) system ready!");
     println!("⚡ All O(1) optimizations active");

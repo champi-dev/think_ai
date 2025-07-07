@@ -14,8 +14,12 @@ COPY . .
 # Build the full working O(1) system
 RUN cargo build --release --bin full-working-o1
 
-# Expose default port (Railway will set PORT env var at runtime)
-EXPOSE 8080
+# Don't expose a specific port - Railway will set PORT env var at runtime
+# Railway handles port exposure automatically
+
+# Railway will set PORT environment variable at runtime
+# Log environment variables for debugging
+ENV RUST_LOG=info
 
 # Run the full working O(1) system (Complete Think AI, guaranteed O(1)/O(log n), no hanging)
 CMD ["./target/release/full-working-o1"]

@@ -842,6 +842,15 @@
             const startTime = performance.now();
             
             try {
+                // First check if server is responding
+                const healthResponse = await fetch('/health').catch(() => null);
+                if (!healthResponse) {
+                    removeLoadingMessage();
+                    addMessage('⚠️ Cannot connect to server. The server may not be running on the expected port.');
+                    console.error('Server health check failed');
+                    return;
+                }
+                
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -865,8 +874,14 @@
                 
             } catch (error) {
                 removeLoadingMessage();
-                addMessage('Sorry, I encountered an error. Please try again.');
+                let errorMsg = 'Sorry, I encountered an error.';
+                if (error.message.includes('Failed to fetch')) {
+                    errorMsg = '⚠️ Cannot connect to the server. Please check if the server is running on the correct port.';
+                }
+                addMessage(errorMsg);
                 console.error('Error:', error);
+                console.log('Current URL:', window.location.href);
+                console.log('API URL:', window.location.origin + '/api/chat');
             }
         }
         
