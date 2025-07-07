@@ -25,6 +25,10 @@ path = "src/bin/full-server.rs"
 name = "train-consciousness"
 path = "src/bin/train-consciousness.rs"
 
+[[bin]]
+name = "think-ai-coding"
+path = "src/bin/think-ai-coding.rs"
+
 [dependencies]
 think-ai-core = { path = "../think-ai-core" }
 think-ai-utils = { path = "../think-ai-utils" }

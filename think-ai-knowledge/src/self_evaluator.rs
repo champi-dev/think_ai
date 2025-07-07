@@ -342,14 +342,14 @@ impl SelfEvaluator {
                     cache.insert(q.question.clone(), quality.clone());
                 }
 
-                // Log evaluation results
+                // Log evaluation results (disabled to avoid terminal spam)
                 if iteration % 10 == 0 {
-                    println!("🔍 Self-eval #{}: {} (Quality: {:.2}) [{}ms]", 
-                        iteration, 
-                        &q.question[..50.min(q.question.len())],
-                        quality.overall_score,
-                        response_time.as_millis()
-                    );
+                    // println!("🔍 Self-eval #{}: {} (Quality: {:.2}) [{}ms]", 
+                    //     iteration, 
+                    //     &q.question[..50.min(q.question.len())],
+                    //     quality.overall_score,
+                    //     response_time.as_millis()
+                    // );
                 }
 
                 // Add follow-up questions if the quality is low
@@ -872,14 +872,14 @@ impl SelfEvaluatorAsync {
                     cache.insert(q.question.clone(), quality.clone());
                 }
 
-                // Log evaluation results
+                // Log evaluation results (disabled to avoid terminal spam)
                 if iteration % 10 == 0 {
-                    println!("🔍 Self-eval #{}: {} (Quality: {:.2}) [{}ms]", 
-                        iteration, 
-                        &q.question[..50.min(q.question.len())],
-                        quality.overall_score,
-                        response_time.as_millis()
-                    );
+                    // println!("🔍 Self-eval #{}: {} (Quality: {:.2}) [{}ms]", 
+                    //     iteration, 
+                    //     &q.question[..50.min(q.question.len())],
+                    //     quality.overall_score,
+                    //     response_time.as_millis()
+                    // );
                 }
 
                 // Add follow-up questions if the quality is low

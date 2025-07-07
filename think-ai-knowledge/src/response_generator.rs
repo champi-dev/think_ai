@@ -226,10 +226,10 @@ impl ComponentResponseGenerator {
             }
         }
         
-        // Component usage summary (debug logging)
-        if !used_components.is_empty() {
-            eprintln!("DEBUG: Used components: {:?}", used_components);
-        }
+        // Component usage summary (debug logging disabled to avoid terminal spam)
+        // if !used_components.is_empty() {
+        //     eprintln!("DEBUG: Used components: {:?}", used_components);
+        // }
         
         // Intelligently combine and refine
         let refined = self.refine_and_combine(response_parts, query);
@@ -1244,18 +1244,18 @@ impl ResponseComponent for HumorComponent {
         
         // CRITICAL: Humor requests get maximum priority for Turing test
         if query_lower.contains("tell me a joke") || query_lower.contains("tell a joke") {
-            println!("😂 Humor component: JOKE REQUEST for '{}'", query);
+            // Debug logging disabled
             return 1.0;
         }
         
         if query_lower.contains("joke") || query_lower.contains("funny") || 
            query_lower.contains("humor") || query_lower.contains("humour") {
-            println!("😂 Humor component: HUMOR REQUEST for '{}'", query);
+            // Debug logging disabled
             return 1.0;
         }
         
         if query_lower.contains("make me laugh") || query_lower.contains("something funny") {
-            println!("😂 Humor component: LAUGH REQUEST for '{}'", query);
+            // Debug logging disabled
             return 1.0;
         }
         
@@ -1320,29 +1320,29 @@ impl ResponseComponent for MathematicalComponent {
         if query_lower.contains("2+2") || query_lower.contains("2 + 2") ||
            query_lower.contains("1+1") || query_lower.contains("1 + 1") ||
            query_lower.contains("3+3") || query_lower.contains("3 + 3") {
-            println!("🔢 Mathematical component: EXACT MATCH for '{}'", query);
+            // Debug logging disabled
             return 1.0;
         }
         
         // What is/What's mathematical questions - HIGHEST PRIORITY
         if (query_lower.contains("what is") || query_lower.contains("what's")) {
             if query_lower.contains("2") && query_lower.contains("2") && query_lower.contains("+") {
-                println!("🔢 Mathematical component: WHAT IS 2+2 for '{}'", query);
+                // Debug logging disabled
                 return 1.0;
             }
             if query_lower.contains("1") && query_lower.contains("1") && query_lower.contains("+") {
-                println!("🔢 Mathematical component: WHAT IS 1+1 for '{}'", query);
+                // Debug logging disabled
                 return 1.0;
             }
             if query_lower.contains("3") && query_lower.contains("3") && query_lower.contains("+") {
-                println!("🔢 Mathematical component: WHAT IS 3+3 for '{}'", query);
+                // Debug logging disabled
                 return 1.0;
             }
             if query_lower.contains("+") || query_lower.contains("plus") ||
                query_lower.contains("-") || query_lower.contains("minus") ||
                query_lower.contains("*") || query_lower.contains("times") ||
                query_lower.contains("/") || query_lower.contains("divided") {
-                println!("🔢 Mathematical component: WHAT IS MATH for '{}'", query);
+                // Debug logging disabled
                 return 1.0;
             }
         }
@@ -1350,7 +1350,7 @@ impl ResponseComponent for MathematicalComponent {
         // Calculate commands
         if query_lower.starts_with("calculate") && 
            (query_lower.contains("+") || query_lower.contains("plus")) {
-            println!("🔢 Mathematical component: CALCULATE for '{}'", query);
+            // Debug logging disabled
             return 1.0;
         }
         
@@ -1365,13 +1365,13 @@ impl ResponseComponent for MathematicalComponent {
     
     fn generate(&self, query: &str, _context: &ResponseContext) -> Option<String> {
         let query_lower = query.to_lowercase();
-        println!("🔢 Mathematical generate called with: '{}'", query_lower);
+        // Debug logging disabled
         
         // Handle 2+2 in ALL formats - CRITICAL for Turing test
         if query_lower.contains("2+2") || query_lower.contains("2 + 2") ||
            (query_lower.contains("2") && query_lower.contains("2") && 
             (query_lower.contains("+") || query_lower.contains("plus"))) {
-            println!("🔢 Mathematical: Returning 2+2=4");
+            // Debug logging disabled
             return Some("2 + 2 = 4".to_string());
         }
         
