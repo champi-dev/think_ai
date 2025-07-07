@@ -47,6 +47,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `./scripts/deploy-all-libs.sh` - Deploy npm and PyPI packages with version bumps
 - `./test-full-deployment.sh` - Test entire deployment pipeline locally
 
+**Pre-commit Workflow (Automated Quality Assurance):**
+- `./pre-commit-test.sh` - Test pre-commit checks without committing
+- `git commit` - Triggers automatic pre-commit hook with:
+  - Rust formatting (`cargo fmt`)
+  - Rust linting (`cargo clippy`)
+  - Unit and integration tests
+  - Docker build simulation
+  - Library builds (npm & PyPI)
+  - Secret scanning
+  - Performance benchmarks
+- `./deploy-after-checks.sh` - Deploy libraries after successful checks
+- Set `THINK_AI_AUTO_DEPLOY=true` for automatic deployment on successful commits
+
 ## Architecture Overview
 
 **Rust Crate Structure:**
