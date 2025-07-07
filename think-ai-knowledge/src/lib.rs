@@ -32,6 +32,7 @@ pub mod semantic_response_component;
 pub mod dynamic_expression;
 pub mod natural_response_generator;
 pub mod sentient_response_component;
+pub mod human_conversation_trainer;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};

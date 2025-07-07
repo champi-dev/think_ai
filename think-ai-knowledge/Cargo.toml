@@ -55,6 +55,10 @@ path = "src/bin/build_with_tinyllama.rs"
 name = "benchmark-integrated-cli"
 path = "src/bin/benchmark_integrated_cli.rs"
 
+[[bin]]
+name = "train-human-conversation"
+path = "src/bin/train_human_conversation.rs"
+
 # Disabled benchmark_cli binary due to missing clap dependency
 # [[bin]]
 # name = "benchmark_cli"

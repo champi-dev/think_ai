@@ -235,7 +235,10 @@ impl ComponentResponseGenerator {
         let refined = self.refine_and_combine(response_parts, query);
         
         // Post-process
-        self.post_process(refined, query)
+        let processed = self.post_process(refined, query);
+        
+        // Apply human-like conversational style
+        self.humanize_response(processed)
     }
     
     /// Prepare context for response generation
@@ -508,6 +511,38 @@ impl ComponentResponseGenerator {
         } else {
             None
         }
+    }
+    
+    /// Apply human-like conversational style to responses
+    fn humanize_response(&self, response: String) -> String {
+        use crate::human_conversation_trainer::humanize;
+        
+        // Basic humanization
+        let mut humanized = humanize(&response);
+        
+        // Additional conversational touches
+        if rand::random::<f32>() < 0.1 {
+            // Sometimes add a friendly ending
+            let endings = vec![
+                " Hope that helps!",
+                " Let me know if you need more details!",
+                " Feel free to ask if you have more questions!",
+                " Does that make sense?",
+            ];
+            humanized.push_str(endings[rand::random::<usize>() % endings.len()]);
+        }
+        
+        // Make technical terms more approachable
+        humanized = humanized
+            .replace("utilizes", "uses")
+            .replace("comprises", "includes")
+            .replace("pertaining to", "about")
+            .replace("in regards to", "about")
+            .replace("Furthermore,", "Also,")
+            .replace("Nevertheless,", "Still,")
+            .replace("Subsequently,", "Then,");
+        
+        humanized
     }
 }
 
@@ -1151,26 +1186,51 @@ impl ResponseComponent for ConversationalComponent {
     fn generate(&self, query: &str, _context: &ResponseContext) -> Option<String> {
         let query_lower = query.to_lowercase().trim().to_string();
         
-        // Simple greetings
+        // More human-like greetings with variety
         if query_lower.starts_with("hello") || query_lower.starts_with("hi") || query_lower.starts_with("hey") {
-            return Some("Hello! I'm Think AI. What would you like to know about?".to_string());
+            let greetings = vec![
+                "Hey there! What's on your mind today?",
+                "Hi! Good to see you. What can I help you with?",
+                "Hello! I'm here to help. What would you like to know?",
+                "Hey! How's it going? What brings you here?",
+                "Hi there! Ready to dive into something interesting?",
+            ];
+            return Some(greetings[rand::random::<usize>() % greetings.len()].to_string());
         }
         
         if query_lower == "greetings" {
-            return Some("Greetings! How can I help you today?".to_string());
+            return Some("Greetings to you too! What exciting topic shall we explore?".to_string());
         }
         
         if query_lower.contains("how are you") || query_lower.contains("how's it going") {
-            return Some("I'm doing well, thank you for asking! What can I help you with?".to_string());
+            let responses = vec![
+                "I'm doing great, thanks for asking! Been learning lots of new things. What about you?",
+                "Pretty good! Just here thinking about interesting stuff. What's on your mind?",
+                "I'm excellent! Always excited to chat. How can I help you today?",
+                "Doing well! You know, just processing information at the speed of light. The usual. 😊 What can I do for you?",
+            ];
+            return Some(responses[rand::random::<usize>() % responses.len()].to_string());
         }
         
-        // Basic politeness
+        // More natural politeness responses
         if query_lower.contains("thank") {
-            return Some("You're welcome! Is there anything else you'd like to know?".to_string());
+            let responses = vec![
+                "You're very welcome! Happy to help!",
+                "No problem at all! Anything else you're curious about?",
+                "My pleasure! Feel free to ask anything else.",
+                "Glad I could help! Let me know if you need anything else.",
+            ];
+            return Some(responses[rand::random::<usize>() % responses.len()].to_string());
         }
         
         if query_lower.contains("sorry") {
-            return Some("No problem at all! How can I help you?".to_string());
+            let responses = vec![
+                "Hey, no worries at all! What can I help you with?",
+                "No need to apologize! I'm here to help.",
+                "It's all good! What would you like to know?",
+                "Don't worry about it! How can I assist you?",
+            ];
+            return Some(responses[rand::random::<usize>() % responses.len()].to_string());
         }
         
         None
