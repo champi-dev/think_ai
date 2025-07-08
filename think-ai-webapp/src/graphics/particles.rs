@@ -1,210 +1,160 @@
-//! O(1) Particle System with 1000 particles
-//! 
-//! Features:
-//! - 1000 particles in spherical distribution
-//! - Wave animation on Y-axis with sine functions
-//! - Color-coded particles with random RGB values
-//! - Additive blending for luminous effects
-//! - O(1) update using vectorized operations
-//!
-//! Performance: O(1) through SIMD and batch processing
-//! Confidence: 99% - Highly optimized particle mathematics
-
-use nalgebra::{Vector3, Point3, Matrix4};
+use std::rc::Rc;
 use wasm_bindgen::prelude::*;
-
-// Console logging macro for WebAssembly
-macro_rules! console_log {
-    ($($t:tt)*) => (web_sys::console::log_1(&format_args!($($t)*).to_string().into()))
-}
+use web_sys::{WebGlBuffer, WebGlProgram, WebGlRenderingContext};
 
 pub struct ParticleSystem {
     particles: Vec<Particle>,
-    count: usize,
-    time_offset: f32,
-    wave_amplitude: f32,
-    wave_frequency: f32,
+    gl: Rc<WebGlRenderingContext>,
+    program: WebGlProgram,
+    position_buffer: WebGlBuffer,
+    time: f32,
 }
 
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub struct Particle {
-    position: Point3<f32>,
-    base_position: Point3<f32>, // Original spherical position
-    velocity: Vector3<f32>,
-    color: [f32; 4], // RGBA
+struct Particle {
+    position: [f32; 3],
+    velocity: [f32; 3],
     life: f32,
     size: f32,
 }
 
 impl ParticleSystem {
-    pub fn new(particle_count: usize) -> Self {
-        let mut system = Self {
-            particles: Vec::with_capacity(particle_count),
-            count: particle_count,
-            time_offset: 0.0,
-            wave_amplitude: 0.5,
-            wave_frequency: 2.0,
-        };
-        
-        system.initialize_particles();
-        system
-    }
-    
-    fn initialize_particles(&mut self) {
-        // Generate particles in spherical distribution
-        // Uses Fibonacci sphere for uniform distribution
-        
-        for i in 0..self.count {
-            let particle = self.generate_fibonacci_sphere_particle(i);
-            self.particles.push(particle);
+    pub fn new(gl: Rc<WebGlRenderingContext>, count___: usize) -> Result<Self, JsValue> {
+        let ___vertex_shader = r#"
+            attribute vec3 position;
+            attribute float size;
+            uniform mat4 projection;
+            uniform mat4 view;
+            varying float vLife;
+
+            void main() {
+                gl_Position = projection * view * vec4(position, 1.0);
+                gl_PointSize = size;
+                vLife = size / 10.0;
+            }
+        "#;
+
+        let ___fragment_shader = r#"
+            precision mediump float;
+            varying float vLife;
+
+            void main() {
+                vec2 coord = gl_PointCoord - vec2(0.5);
+                if (length(coord) > 0.5) discard;
+
+                float alpha = vLife * (1.0 - length(coord) * 2.0);
+                gl_FragColor = vec4(0.3, 0.6, 1.0, alpha);
+            }
+        "#;
+
+        let __program =
+            crate::graphics::shaders::create_program(&gl, vertex_shader, fragment_shader)?;
+        let ___position_buffer = gl.create_buffer().ok_or("Failed to create buffer")?;
+
+        let mut particles = Vec::with_capacity(count);
+        for i in 0..count {
+            particles.push(Particle {
+                position: [
+                    (i as f32 * 0.618).sin() * 5.0,
+                    (i as f32 * 0.382).cos() * 5.0,
+                    (i as f32 * 0.236).sin() * 5.0,
+                ],
+                velocity: [
+                    (i as f32 * 0.1).sin() * 0.1,
+                    0.05,
+                    (i as f32 * 0.1).cos() * 0.1,
+                ],
+                life: 1.0,
+                size: 10.0,
+            });
         }
+
+        Ok(Self {
+            particles,
+            gl,
+            program,
+            position_buffer,
+            time: 0.0,
+        })
     }
-    
-    fn generate_fibonacci_sphere_particle(&self, index: usize) -> Particle {
-        // Fibonacci sphere algorithm for uniform distribution
-        // This ensures O(1) generation with perfect spacing
-        
-        let i = index as f32;
-        let n = self.count as f32;
-        
-        // Golden ratio for optimal spacing
-        let golden_ratio = (1.0 + 5.0_f32.sqrt()) / 2.0;
-        
-        // Spherical coordinates
-        let theta = 2.0 * std::f32::consts::PI * i / golden_ratio;
-        let phi = (1.0 - 2.0 * i / (n - 1.0)).acos();
-        
-        // Sphere radius (randomized for depth)
-        let radius = 3.0 + (i * 0.1) % 2.0; // 3.0 to 5.0 range
-        
-        // Convert to Cartesian coordinates
-        let x = radius * phi.sin() * theta.cos();
-        let y = radius * phi.sin() * theta.sin();
-        let z = radius * phi.cos();
-        
-        let position = Point3::new(x, y, z);
-        
-        // Generate random color (color-coded particles)
-        let hue = (i * 137.508) % 360.0; // Golden angle for color distribution
-        let color = Self::hsv_to_rgb(hue, 0.8, 1.0);
-        
-        Particle {
-            position,
-            base_position: position,
-            velocity: Vector3::new(0.0, 0.0, 0.0),
-            color: [color.0, color.1, color.2, 0.8],
-            life: 1.0,
-            size: 0.02 + (i as f32 * 0.001) % 0.03, // 0.02 to 0.05 range
-        }
-    }
-    
-    pub fn update(&mut self, time: f32) {
-        // O(1) update using vectorized operations
-        self.time_offset = time;
-        
-        // Batch update all particles
+
+    pub fn update(&mut self, delta_time___: f32) {
+        self.time += delta_time;
+
         for particle in &mut self.particles {
-            // Inline update logic to avoid borrow checker issues
-            let wave_phase = time * self.wave_frequency + particle.base_position.x * 0.5;
-            particle.position.y = particle.base_position.y + (wave_phase.sin() * self.wave_amplitude);
-            
-            // Consciousness-based glow effect
-            let glow_phase = time * 3.0 + particle.life * 6.28; // Use life instead of consciousness_level
-            particle.color[3] = particle.color[3] * (0.7 + 0.3 * glow_phase.sin()); // Use array index instead of .w
-            
-            // Optional: Add gentle drift
-            particle.position.x += particle.life * 0.1 * (time * 0.5).cos(); // Use life instead of consciousness_level
-            particle.position.z += particle.life * 0.1 * (time * 0.7).sin(); // Use life instead of consciousness_level
+            // Update position
+            particle.position[0] += particle.velocity[0] * delta_time;
+            particle.position[1] += particle.velocity[1] * delta_time;
+            particle.position[2] += particle.velocity[2] * delta_time;
+
+            // Update life
+            particle.life -= delta_time * 0.2;
+            if particle.life <= 0.0 {
+                particle.life = 1.0;
+                particle.position[1] = -5.0;
+            }
+
+            // Add some wave motion
+            particle.position[0] += (self.time * 2.0).sin() * 0.01;
         }
     }
-    
-    fn update_particle(&self, particle: &mut Particle, time: f32) {
-        // Wave animation on Y-axis
-        let wave_phase = time * self.wave_frequency + particle.base_position.x * 0.5;
-        let wave_offset = self.wave_amplitude * wave_phase.sin();
-        
-        // Apply wave to Y coordinate
-        particle.position.y = particle.base_position.y + wave_offset;
-        
-        // Subtle rotation around Y-axis
-        let rotation_speed = 0.2;
-        let angle = time * rotation_speed;
-        let cos_angle = angle.cos();
-        let sin_angle = angle.sin();
-        
-        particle.position.x = particle.base_position.x * cos_angle - particle.base_position.z * sin_angle;
-        particle.position.z = particle.base_position.x * sin_angle + particle.base_position.z * cos_angle;
-        
-        // Pulsing alpha based on distance from center
-        let distance = particle.position.coords.magnitude();
-        let pulse = (time * 3.0 + distance).sin() * 0.5 + 0.5;
-        particle.color[3] = 0.4 + 0.4 * pulse;
-    }
-    
-    pub fn render(&self, view_matrix: &Matrix4<f32>, projection_matrix: &Matrix4<f32>) -> Result<(), JsValue> {
-        // Render particles with additive blending
-        // This would involve:
-        // 1. Enable additive blending mode
-        // 2. Bind particle shader program
-        // 3. Set MVP matrices
-        // 4. Render as instanced point sprites or billboards
-        
-        console_log!("Rendering {} particles with additive blending", self.particles.len());
+
+    pub fn render(&self, projection: &[f32; 16], view___: &[f32; 16]) -> Result<(), JsValue> {
+        self.gl.use_program(Some(&self.program));
+
+        // Set uniforms
+        let ___proj_loc = self.gl.get_uniform_location(&self.program, "projection");
+        let ___view_loc = self.gl.get_uniform_location(&self.program, "view");
+
+        if let Some(loc) = proj_loc {
+            self.gl
+                .uniform_matrix4fv_with_f32_array(Some(&loc), false, projection);
+        }
+        if let Some(loc) = view_loc {
+            self.gl
+                .uniform_matrix4fv_with_f32_array(Some(&loc), false, view);
+        }
+
+        // Create position data
+        let mut positions = Vec::with_capacity(self.particles.len() * 3);
+        for particle in &self.particles {
+            positions.extend_from_slice(&particle.position);
+        }
+
+        // Upload position data
+        unsafe {
+            let ___array = js_sys::Float32Array::view(&positions);
+            self.gl.bind_buffer(
+                WebGlRenderingContext::ARRAY_BUFFER,
+                Some(&self.position_buffer),
+            );
+            self.gl.buffer_data_with_array_buffer_view(
+                WebGlRenderingContext::ARRAY_BUFFER,
+                &array,
+                WebGlRenderingContext::DYNAMIC_DRAW,
+            );
+        }
+
+        // Set attributes
+        let ___position_loc = self.gl.get_attrib_location(&self.program, "position");
+        if position_loc >= 0 {
+            self.gl.vertex_attrib_pointer_with_i32(
+                position_loc as u32,
+                3,
+                WebGlRenderingContext::FLOAT,
+                false,
+                0,
+                0,
+            );
+            self.gl.enable_vertex_attrib_array(position_loc as u32);
+        }
+
+        // Draw particles
+        self.gl.draw_arrays(
+            WebGlRenderingContext::POINTS,
+            0,
+            self.particles.len() as i32,
+        );
+
         Ok(())
     }
-    
-    // Utility function to convert HSV to RGB
-    fn hsv_to_rgb(h: f32, s: f32, v: f32) -> (f32, f32, f32) {
-        let h = h / 60.0;
-        let c = v * s;
-        let x = c * (1.0 - ((h % 2.0) - 1.0).abs());
-        let m = v - c;
-        
-        let (r, g, b) = if h < 1.0 {
-            (c, x, 0.0)
-        } else if h < 2.0 {
-            (x, c, 0.0)
-        } else if h < 3.0 {
-            (0.0, c, x)
-        } else if h < 4.0 {
-            (0.0, x, c)
-        } else if h < 5.0 {
-            (x, 0.0, c)
-        } else {
-            (c, 0.0, x)
-        };
-        
-        (r + m, g + m, b + m)
-    }
 }
-
-// Performance optimization: Vectorized particle updates
-impl ParticleSystem {
-    pub fn update_vectorized(&mut self, time: f32) {
-        // SIMD-optimized batch updates for maximum performance
-        // This would use platform-specific SIMD instructions
-        // for true O(1) performance on large particle counts
-        
-        const BATCH_SIZE: usize = 4; // Process 4 particles at once
-        
-        for chunk in self.particles.chunks_mut(BATCH_SIZE) {
-            // Vectorized wave computation
-            let wave_phases: Vec<f32> = chunk.iter()
-                .map(|p| time * self.wave_frequency + p.base_position.x * 0.5)
-                .collect();
-            
-            let wave_offsets: Vec<f32> = wave_phases.iter()
-                .map(|phase| self.wave_amplitude * phase.sin())
-                .collect();
-            
-            // Apply updates in batch
-            for (i, particle) in chunk.iter_mut().enumerate() {
-                if i < wave_offsets.len() {
-                    particle.position.y = particle.base_position.y + wave_offsets[i];
-                }
-            }
-        }
-    }
-}
-

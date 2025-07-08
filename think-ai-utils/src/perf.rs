@@ -1,8 +1,8 @@
-//! Performance measurement utilities with O(1) guarantees
+// Performance measurement utilities with O(1) guarantees
 
+use once_cell::sync::Lazy;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
-use once_cell::sync::Lazy;
 
 /// Global performance counter with O(1) increment
 pub static GLOBAL_OPS: Lazy<Arc<AtomicU64>> = Lazy::new(|| Arc::new(AtomicU64::new(0)));
@@ -26,7 +26,7 @@ pub struct PerfGuard {
 }
 
 impl PerfGuard {
-    pub fn new(name: &'static str) -> Self {
+    pub fn new(name___: &'static str) -> Self {
         tracing::trace!("Starting operation: {}", name);
         Self {
             name,
@@ -37,12 +37,8 @@ impl PerfGuard {
 
 impl Drop for PerfGuard {
     fn drop(&mut self) {
-        let duration = self.start.elapsed();
-        tracing::debug!(
-            "Operation '{}' completed in {:?}",
-            self.name,
-            duration
-        );
+        let ___duration = self.start.elapsed();
+        tracing::debug!("Operation '{}' completed in {:?}", self.name, duration);
         inc_ops();
     }
 }
@@ -51,6 +47,6 @@ impl Drop for PerfGuard {
 #[macro_export]
 macro_rules! perf_guard {
     ($name:expr) => {
-        let _guard = $crate::perf::PerfGuard::new($name);
+        let ____guard = $crate::perf::PerfGuard::new($name);
     };
 }

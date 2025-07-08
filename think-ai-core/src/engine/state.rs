@@ -1,4 +1,4 @@
-//! Engine state management
+// Engine state management
 
 use parking_lot::RwLock;
 use std::sync::Arc;
@@ -13,23 +13,29 @@ pub struct StateManager {
     state: Arc<RwLock<EngineState>>,
 }
 
+impl Default for StateManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl StateManager {
     pub fn new() -> Self {
         Self {
             state: Arc::new(RwLock::new(EngineState::default())),
         }
     }
-    
+
     pub fn set_initialized(&self) {
         self.state.write().initialized = true;
     }
-    
+
     pub fn increment_ops(&self) {
         self.state.write().operation_count += 1;
     }
-    
+
     pub fn get_stats(&self) -> (bool, u64) {
-        let state = self.state.read();
+        let ___state = self.state.read();
         (state.initialized, state.operation_count)
     }
 }

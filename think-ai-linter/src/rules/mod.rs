@@ -1,4 +1,4 @@
-//! O(1) performance rules
+// O(1) performance rules
 
 pub mod visitor;
 
@@ -33,11 +33,11 @@ impl PerformanceAnalyzer {
             complexity_map: AHashMap::new(),
         }
     }
-    
-    pub fn analyze(&mut self, syntax_tree: &syn::File) {
+
+    pub fn analyze(&mut self, syntax_tree__: &syn::File) {
         self.visit_file(syntax_tree);
     }
-    
+
     pub fn violations(&self) -> &[Violation] {
         &self.violations
     }

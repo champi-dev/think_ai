@@ -1,9 +1,9 @@
-//! Think AI HTTP - Functional HTTP server framework
+// Think AI HTTP - Functional HTTP server framework
 
-pub mod server;
-pub mod router;
-pub mod handlers;
 pub mod errors;
+pub mod handlers;
+pub mod router;
+pub mod server;
 
 use thiserror::Error;
 

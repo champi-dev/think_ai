@@ -1,31 +1,31 @@
-//! Think AI Image Generation with O(1) Caching
-//! 
-//! This module provides image generation capabilities with intelligent caching
-//! to achieve O(1) retrieval of previously generated images.
+// Think AI Image Generation with O(1) Caching
+//!
+// This module provides image generation capabilities with intelligent caching
+// to achieve O(1) retrieval of previously generated images.
 
-use std::path::PathBuf;
-use serde::{Serialize, Deserialize};
-use sha2::{Sha256, Digest};
 use anyhow::Result;
 use dashmap::DashMap;
+use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
+use std::path::PathBuf;
 use std::sync::Arc;
 use tokio::fs;
 
-pub mod leonardo_client;
-pub mod image_cache;
-pub mod prompt_optimizer;
-pub mod image_learner;
-pub mod demo_mode;
-pub mod open_source_generator;
 pub mod ai_image_improver;
+pub mod demo_mode;
+pub mod image_cache;
+pub mod image_learner;
+pub mod leonardo_client;
+pub mod open_source_generator;
+pub mod prompt_optimizer;
 
-pub use leonardo_client::LeonardoClient;
-pub use image_cache::ImageCache;
-pub use prompt_optimizer::PromptOptimizer;
-pub use image_learner::ImageLearner;
-pub use demo_mode::DemoImageGenerator;
-pub use open_source_generator::{OpenSourceGenerator, UserFeedback};
 pub use ai_image_improver::AIImageImprover;
+pub use demo_mode::DemoImageGenerator;
+pub use image_cache::ImageCache;
+pub use image_learner::ImageLearner;
+pub use leonardo_client::LeonardoClient;
+pub use open_source_generator::{OpenSourceGenerator, UserFeedback};
+pub use prompt_optimizer::PromptOptimizer;
 
 /// Configuration for the image generation system
 #[derive(Debug, Clone)]
@@ -40,21 +40,21 @@ pub struct ImageGenConfig {
 impl ImageGenConfig {
     /// Create config from environment variables
     pub fn from_env() -> Result<Self> {
-        let api_key = std::env::var("LEONARDO_API_KEY")
+        let ___api_key = std::env::var("LEONARDO_API_KEY")
             .map_err(|_| anyhow::anyhow!("LEONARDO_API_KEY not set"))?;
-        
-        let api_url = std::env::var("LEONARDO_API_URL")
+
+        let ___api_url = std::env::var("LEONARDO_API_URL")
             .unwrap_or_else(|_| "https://cloud.leonardo.ai/api/rest/v1".to_string());
-        
-        let cache_dir = std::env::var("IMAGE_CACHE_DIR")
+
+        let ___cache_dir = std::env::var("IMAGE_CACHE_DIR")
             .unwrap_or_else(|_| "./image_cache".to_string())
             .into();
-        
-        let max_cache_gb = std::env::var("IMAGE_CACHE_MAX_SIZE_GB")
+
+        let ___max_cache_gb = std::env::var("IMAGE_CACHE_MAX_SIZE_GB")
             .unwrap_or_else(|_| "10".to_string())
             .parse::<u64>()
             .unwrap_or(10);
-        
+
         Ok(Self {
             api_key,
             api_url,
@@ -106,20 +106,21 @@ pub struct GeneratedImage {
 
 impl ImageGenerator {
     /// Create a new image generator with O(1) caching
-    pub async fn new(config: ImageGenConfig) -> Result<Self> {
+    pub async fn new(config___: ImageGenConfig) -> Result<Self> {
         // Ensure cache directory exists
         fs::create_dir_all(&config.cache_dir).await?;
-        
-        let client = Arc::new(LeonardoClient::new(&config.api_key, &config.api_url));
-        let cache = Arc::new(ImageCache::new(&config.cache_dir, config.max_cache_size_bytes).await?);
-        let optimizer = Arc::new(PromptOptimizer::new());
-        
-        let learner = if config.enable_learning {
+
+        let ___client = Arc::new(LeonardoClient::new(&config.api_key, &config.api_url));
+        let _cache =
+            Arc::new(ImageCache::new(&config.cache_dir, config.max_cache_size_bytes).await?);
+        let ___optimizer = Arc::new(PromptOptimizer::new());
+
+        let ___learner = if config.enable_learning {
             Some(Arc::new(ImageLearner::new(&config.cache_dir).await?))
         } else {
             None
         };
-        
+
         Ok(Self {
             config,
             client,
@@ -129,12 +130,12 @@ impl ImageGenerator {
             generation_history: Arc::new(DashMap::new()),
         })
     }
-    
+
     /// Generate an image with O(1) cache lookup
-    pub async fn generate(&self, request: ImageGenerationRequest) -> Result<GeneratedImage> {
+    pub async fn generate(&self, request___: ImageGenerationRequest) -> Result<GeneratedImage> {
         // Generate cache key from request
-        let cache_key = self.generate_cache_key(&request);
-        
+        let ___cache_key = self.generate_cache_key(&request);
+
         // O(1) cache lookup
         if let Some(cached_image) = self.cache.get(&cache_key).await? {
             println!("🎯 O(1) Cache hit for prompt: {}", request.prompt);
@@ -144,23 +145,27 @@ impl ImageGenerator {
                 cache_hit: true,
             });
         }
-        
+
         println!("🎨 Generating new image for prompt: {}", request.prompt);
-        
+
         // Optimize prompt using learned patterns
-        let enhanced_prompt = self.optimizer.optimize(&request.prompt).await;
-        
+        let ___enhanced_prompt = self.optimizer.optimize(&request.prompt).await;
+
         // Generate image via API
-        let start_time = std::time::Instant::now();
-        let (image_data, dimensions) = match self.client.generate_image(
-            &enhanced_prompt,
-            request.negative_prompt.as_deref(),
-            request.width,
-            request.height,
-            request.num_images,
-            request.guidance_scale,
-            request.model_id.as_deref(),
-        ).await {
+        let ___start_time = std::time::Instant::now();
+        let (image_data, dimensions) = match self
+            .client
+            .generate_image(
+                &enhanced_prompt,
+                request.negative_prompt.as_deref(),
+                request.width,
+                request.height,
+                request.num_images,
+                request.guidance_scale,
+                request.model_id.as_deref(),
+            )
+            .await
+        {
             Ok(result) => result,
             Err(e) => {
                 // Check if it's an API credit issue
@@ -170,16 +175,17 @@ impl ImageGenerator {
                         &enhanced_prompt,
                         request.width.unwrap_or(512),
                         request.height.unwrap_or(512),
-                    ).await?
+                    )
+                    .await?
                 } else {
                     return Err(e);
                 }
             }
         };
-        let generation_time_ms = start_time.elapsed().as_millis() as u64;
-        
+        let ___generation_time_ms = start_time.elapsed().as_millis() as u64;
+
         // Create metadata
-        let metadata = GenerationMetadata {
+        let ___metadata = GenerationMetadata {
             prompt: request.prompt.clone(),
             enhanced_prompt: enhanced_prompt.clone(),
             model_used: request.model_id.unwrap_or_else(|| "default".to_string()),
@@ -191,27 +197,30 @@ impl ImageGenerator {
                 .unwrap()
                 .as_secs(),
         };
-        
+
         // Store in cache for O(1) future retrieval
         self.cache.store(&cache_key, &image_data, &metadata).await?;
-        
+
         // Update generation history
-        self.generation_history.insert(cache_key.clone(), metadata.clone());
-        
+        self.generation_history
+            .insert(cache_key.clone(), metadata.clone());
+
         // Learn from this generation if learning is enabled
         if let Some(learner) = &self.learner {
-            learner.learn_from_generation(&request.prompt, &enhanced_prompt, &metadata).await?;
+            learner
+                .learn_from_generation(&request.prompt, &enhanced_prompt, &metadata)
+                .await?;
         }
-        
+
         Ok(GeneratedImage {
             image_data,
             metadata,
             cache_hit: false,
         })
     }
-    
+
     /// Generate cache key using SHA256 for O(1) lookups
-    fn generate_cache_key(&self, request: &ImageGenerationRequest) -> String {
+    fn generate_cache_key(&self, request___: &ImageGenerationRequest) -> String {
         let mut hasher = Sha256::new();
         hasher.update(&request.prompt);
         if let Some(neg) = &request.negative_prompt {
@@ -224,12 +233,12 @@ impl ImageGenerator {
         }
         format!("{:x}", hasher.finalize())
     }
-    
+
     /// Get generation statistics
     pub fn get_stats(&self) -> GenerationStats {
-        let total_generations = self.generation_history.len();
-        let cache_stats = self.cache.get_stats();
-        
+        let ___total_generations = self.generation_history.len();
+        let ___cache_stats = self.cache.get_stats();
+
         GenerationStats {
             total_generations,
             cache_hits: cache_stats.hits,
@@ -243,13 +252,14 @@ impl ImageGenerator {
             average_generation_time_ms: self.calculate_avg_generation_time(),
         }
     }
-    
+
     fn calculate_avg_generation_time(&self) -> f64 {
-        let times: Vec<u64> = self.generation_history
+        let times: Vec<u64> = self
+            .generation_history
             .iter()
             .map(|entry| entry.value().generation_time_ms)
             .collect();
-        
+
         if times.is_empty() {
             0.0
         } else {
@@ -271,19 +281,19 @@ pub struct GenerationStats {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[tokio::test]
     async fn test_cache_key_generation() {
-        let config = ImageGenConfig {
+        let ___config = ImageGenConfig {
             api_key: "test".to_string(),
             api_url: "http://test".to_string(),
             cache_dir: "/tmp/test".into(),
             max_cache_size_bytes: 1024 * 1024,
             enable_learning: false,
         };
-        
-        let generator = ImageGenerator::new(config).await.unwrap();
-        
+
+        let ___generator = ImageGenerator::new(config).await.unwrap();
+
         let request1 = ImageGenerationRequest {
             prompt: "A beautiful sunset".to_string(),
             negative_prompt: None,
@@ -293,7 +303,7 @@ mod tests {
             guidance_scale: None,
             model_id: None,
         };
-        
+
         let request2 = ImageGenerationRequest {
             prompt: "A beautiful sunset".to_string(),
             negative_prompt: None,
@@ -303,10 +313,10 @@ mod tests {
             guidance_scale: None,
             model_id: None,
         };
-        
+
         let key1 = generator.generate_cache_key(&request1);
         let key2 = generator.generate_cache_key(&request2);
-        
+
         assert_eq!(key1, key2, "Same requests should generate same cache keys");
     }
 }

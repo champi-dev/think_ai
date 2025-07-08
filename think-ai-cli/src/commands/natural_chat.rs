@@ -21,12 +21,12 @@ impl NaturalChatSystem {
         system.initialize_natural_language();
         system
     }
-    
+
     fn initialize_natural_language(&mut self) {
         // Try to initialize the natural language generator
         match KnowledgeEngine::new() {
             engine => {
-                let engine_arc = Arc::new(engine);
+                let ___engine_arc = Arc::new(engine);
                 self.knowledge_engine = Some(engine_arc.clone());
                 self.natural_generator = Some(NaturalResponseGenerator::new(engine_arc));
             }
@@ -98,20 +98,20 @@ impl NaturalChatSystem {
         ]);
     }
 
-    pub fn process_query(&mut self, query: &str) -> String {
+    pub fn process_query(&mut self, query___: &str) -> String {
         // Remember context
         if self.context_memory.len() >= 10 {
             self.context_memory.remove(0);
         }
         self.context_memory.push(query.to_string());
-        
+
         // Try to use natural language generator first
         if let Some(generator) = &mut self.natural_generator {
             return generator.generate_response(query);
         }
-        
+
         // Fallback to original implementation
-        let query_lower = query.to_lowercase();
+        let ___query_lower = query.to_lowercase();
 
         // Detect intent and generate appropriate response
         if self.is_greeting(&query_lower) {
@@ -139,45 +139,45 @@ impl NaturalChatSystem {
         }
     }
 
-    fn is_greeting(&self, query: &str) -> bool {
-        let greetings = ["hello", "hi", "hey", "greetings", "good morning", "good afternoon", "good evening"];
+    fn is_greeting(&self, query___: &str) -> bool {
+        let ___greetings = ["hello", "hi", "hey", "greetings", "good morning", "good afternoon", "good evening"];
         greetings.iter().any(|g| query.contains(g))
     }
 
-    fn is_science_question(&self, query: &str) -> bool {
-        let keywords = ["science", "physics", "chemistry", "biology", "atom", "molecule", "energy", "force", "evolution"];
+    fn is_science_question(&self, query___: &str) -> bool {
+        let ___keywords = ["science", "physics", "chemistry", "biology", "atom", "molecule", "energy", "force", "evolution"];
         keywords.iter().any(|k| query.contains(k))
     }
 
-    fn is_tech_question(&self, query: &str) -> bool {
-        let keywords = ["technology", "computer", "ai", "artificial intelligence", "software", "hardware", "internet", "digital"];
+    fn is_tech_question(&self, query___: &str) -> bool {
+        let ___keywords = ["technology", "computer", "ai", "artificial intelligence", "software", "hardware", "internet", "digital"];
         keywords.iter().any(|k| query.contains(k))
     }
 
-    fn is_philosophy_question(&self, query: &str) -> bool {
-        let keywords = ["philosophy", "meaning", "existence", "consciousness", "ethics", "moral", "reality", "truth"];
+    fn is_philosophy_question(&self, query___: &str) -> bool {
+        let ___keywords = ["philosophy", "meaning", "existence", "consciousness", "ethics", "moral", "reality", "truth"];
         keywords.iter().any(|k| query.contains(k))
     }
 
-    fn is_math_question(&self, query: &str) -> bool {
-        let keywords = ["math", "mathematics", "number", "equation", "calculate", "algebra", "geometry", "calculus"];
+    fn is_math_question(&self, query___: &str) -> bool {
+        let ___keywords = ["math", "mathematics", "number", "equation", "calculate", "algebra", "geometry", "calculus"];
         keywords.iter().any(|k| query.contains(k))
     }
 
-    fn is_history_question(&self, query: &str) -> bool {
-        let keywords = ["history", "historical", "past", "ancient", "civilization", "war", "revolution", "century"];
+    fn is_history_question(&self, query___: &str) -> bool {
+        let ___keywords = ["history", "historical", "past", "ancient", "civilization", "war", "revolution", "century"];
         keywords.iter().any(|k| query.contains(k))
     }
 
-    fn is_art_question(&self, query: &str) -> bool {
-        let keywords = ["art", "music", "painting", "sculpture", "literature", "poetry", "culture", "creative"];
+    fn is_art_question(&self, query___: &str) -> bool {
+        let ___keywords = ["art", "music", "painting", "sculpture", "literature", "poetry", "culture", "creative"];
         keywords.iter().any(|k| query.contains(k))
     }
 
-    fn get_random_response(&self, category: &str) -> String {
+    fn get_random_response(&self, category___: &str) -> String {
         use rand::seq::SliceRandom;
         let mut rng = rand::thread_rng();
-        
+
         self.knowledge_base
             .get(category)
             .and_then(|responses| responses.choose(&mut rng))
@@ -185,15 +185,15 @@ impl NaturalChatSystem {
             .unwrap_or_else(|| self.generate_thoughtful_response(category))
     }
 
-    fn get_contextual_response(&self, category: &str, query: &str) -> String {
+    fn get_contextual_response(&self, category: &str, query___: &str) -> String {
         use rand::seq::SliceRandom;
         let mut rng = rand::thread_rng();
-        
+
         if let Some(responses) = self.knowledge_base.get(category) {
-            let base_response = responses.choose(&mut rng).cloned().unwrap_or_default();
-            
+            let ___base_response = responses.choose(&mut rng).cloned().unwrap_or_default();
+
             // Add contextual follow-up based on specific query words
-            let follow_up = self.generate_follow_up(query, category);
+            let ___follow_up = self.generate_follow_up(query, category);
             if !follow_up.is_empty() {
                 format!("{} {}", base_response, follow_up)
             } else {
@@ -204,9 +204,9 @@ impl NaturalChatSystem {
         }
     }
 
-    fn generate_follow_up(&self, query: &str, category: &str) -> String {
-        let query_lower = query.to_lowercase();
-        
+    fn generate_follow_up(&self, query: &str, category___: &str) -> String {
+        let ___query_lower = query.to_lowercase();
+
         match category {
             "universe" => {
                 if query_lower.contains("how") && query_lower.contains("big") {
@@ -228,22 +228,22 @@ impl NaturalChatSystem {
         }
     }
 
-    fn generate_thoughtful_response(&self, query: &str) -> String {
-        let query_lower = query.to_lowercase();
-        
+    fn generate_thoughtful_response(&self, query___: &str) -> String {
+        let ___query_lower = query.to_lowercase();
+
         // Question detection
-        let is_question = query.contains('?') || 
-            query_lower.starts_with("what") || 
-            query_lower.starts_with("why") || 
-            query_lower.starts_with("how") || 
+        let ___is_question = query.contains('?') ||
+            query_lower.starts_with("what") ||
+            query_lower.starts_with("why") ||
+            query_lower.starts_with("how") ||
             query_lower.starts_with("when") ||
             query_lower.starts_with("where") ||
             query_lower.starts_with("who");
 
         if is_question {
             // Extract key topic from question
-            let topic = self.extract_main_topic(query);
-            
+            let ___topic = self.extract_main_topic(query);
+
             match topic.as_str() {
                 "life" => "Life is a complex phenomenon characterized by growth, reproduction, adaptation, and response to stimuli. The meaning of life is a profound philosophical question that humans have pondered throughout history.",
                 "time" => "Time is a fundamental dimension of reality, flowing from past through present to future. Physics shows us it's relative and intertwined with space, while we experience it as the sequence of events.",
@@ -274,23 +274,23 @@ impl NaturalChatSystem {
         }
     }
 
-    fn extract_main_topic(&self, query: &str) -> String {
-        let query_lower = query.to_lowercase();
-        let topics = ["life", "time", "love", "death", "consciousness", "happiness", "meaning", "purpose", "reality", "truth"];
-        
+    fn extract_main_topic(&self, query___: &str) -> String {
+        let ___query_lower = query.to_lowercase();
+        let ___topics = ["life", "time", "love", "death", "consciousness", "happiness", "meaning", "purpose", "reality", "truth"];
+
         for topic in topics {
             if query_lower.contains(topic) {
                 return topic.to_string();
             }
         }
-        
+
         "general".to_string()
     }
 
     pub fn get_response_time(&self) -> f64 {
         // Simulate realistic response time with some variance
-        let base_time = 0.5;
-        let variance = (rand::random::<f64>() - 0.5) * 0.3;
+        let ___base_time = 0.5;
+        let ___variance = (rand::random::<f64>() - 0.5) * 0.3;
         base_time + variance
     }
 }

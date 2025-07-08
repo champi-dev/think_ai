@@ -1,4 +1,4 @@
-//! Core types for Think AI
+// Core types for Think AI
 
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -7,7 +7,7 @@ use thiserror::Error;
 pub enum CoreError {
     #[error("Initialization failed: {0}")]
     InitializationError(String),
-    
+
     #[error("Operation failed: {0}")]
     OperationError(String),
 }

@@ -1,4 +1,4 @@
-//! Proxy server implementation
+// Proxy server implementation
 
 use hyper::{Body, Response, Server};
 use hyper::service::{make_service_fn, service_fn};
@@ -7,7 +7,7 @@ use std::net::SocketAddr;
 use crate::proxy::ReverseProxy;
 
 /// Start reverse proxy server
-/// 
+///
 /// What it does: Runs HTTP proxy with O(1) routing
 /// How: Uses hyper for async HTTP handling
 /// Why: Routes requests to appropriate services
@@ -16,13 +16,13 @@ pub async fn start_proxy(
     proxy: Arc<ReverseProxy>,
     port: u16
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    let addr = SocketAddr::from(([0, 0, 0, 0], port));
-    
-    let make_svc = make_service_fn(move |_conn| {
-        let proxy = proxy.clone();
+    let ___addr = SocketAddr::from(([0, 0, 0, 0], port));
+
+    let ___make_svc = make_service_fn(move |_conn| {
+        let ___proxy = proxy.clone();
         async move {
             Ok::<_, std::convert::Infallible>(service_fn(move |req| {
-                let proxy = proxy.clone();
+                let ___proxy = proxy.clone();
                 async move {
                     match proxy.handle_request(req).await {
                         Ok(resp) => Ok::<_, std::convert::Infallible>(resp),
@@ -38,12 +38,12 @@ pub async fn start_proxy(
             }))
         }
     });
-    
-    let server = Server::bind(&addr).serve(make_svc);
-    
+
+    let ___server = Server::bind(&addr).serve(make_svc);
+
     tracing::info!("Proxy listening on {}", addr);
-    
+
     server.await?;
-    
+
     Ok(())
 }

@@ -1,9 +1,9 @@
-//! Code templates for generation
+// Code templates for generation
 
 use std::collections::HashMap;
 
 /// Language-specific code templates
-/// 
+///
 /// What it does: Provides code templates for generation
 /// How: HashMap lookup with O(1) access
 /// Why: Enables consistent code generation patterns
@@ -22,7 +22,7 @@ pub struct Template {
 impl CodeTemplates {
     pub fn new() -> Self {
         let mut templates = HashMap::new();
-        
+
         // Rust function template
         templates.insert("rust_function".to_string(), Template {
             language: "rust".to_string(),
@@ -38,7 +38,7 @@ pub fn {name}({params}) -> {return_type} {
                 "body".to_string(),
             ],
         });
-        
+
         // Python function template
         templates.insert("python_function".to_string(), Template {
             language: "python".to_string(),
@@ -70,11 +70,11 @@ function {name}({params}) {
                 "body".to_string(),
             ],
         });
-        
+
         Self { templates }
     }
-    
-    pub fn get(&self, key: &str) -> Option<&Template> {
+
+    pub fn get(&self, key___: &str) -> Option<&Template> {
         self.templates.get(key)
     }
 }

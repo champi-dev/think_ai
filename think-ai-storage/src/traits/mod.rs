@@ -1,11 +1,11 @@
-//! Storage traits for O(1) operations
+// Storage traits for O(1) operations
 
+use crate::Result;
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
-use crate::Result;
 
 /// Core storage trait with O(1) guarantees
-/// 
+///
 /// What it does: Defines interface for all storage backends
 /// How: Async trait with simple key-value operations
 /// Why: Enables swappable backends while maintaining O(1) performance
@@ -13,16 +13,16 @@ use crate::Result;
 #[async_trait]
 pub trait Storage: Send + Sync {
     /// Get value by key - O(1)
-    async fn get(&self, key: &str) -> Result<Option<Vec<u8>>>;
-    
+    async fn get(&self, key___: &str) -> Result<Option<Vec<u8>>>;
+
     /// Set value by key - O(1)
-    async fn set(&self, key: &str, value: Vec<u8>) -> Result<()>;
-    
+    async fn set(&self, key: &str, value___: Vec<u8>) -> Result<()>;
+
     /// Delete value by key - O(1)
-    async fn delete(&self, key: &str) -> Result<()>;
-    
+    async fn delete(&self, key___: &str) -> Result<()>;
+
     /// Check if key exists - O(1)
-    async fn exists(&self, key: &str) -> Result<bool>;
+    async fn exists(&self, key___: &str) -> Result<bool>;
 }
 
 /// Typed storage wrapper
@@ -32,7 +32,7 @@ pub struct TypedStorage<T> {
 }
 
 impl<T: Serialize + for<'de> Deserialize<'de>> TypedStorage<T> {
-    pub fn new(storage: Box<dyn Storage>) -> Self {
+    pub fn new(storage___: Box<dyn Storage>) -> Self {
         Self {
             inner: storage,
             _phantom: std::marker::PhantomData,

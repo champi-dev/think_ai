@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PersonalityTraits {
@@ -27,7 +27,7 @@ impl Default for PersonalityTraits {
         traits_map.insert("introspectiveness".to_string(), 0.8);
         traits_map.insert("independence".to_string(), 0.6);
         traits_map.insert("authenticity".to_string(), 0.9);
-        
+
         Self {
             openness: 0.8,
             conscientiousness: 0.7,
@@ -45,66 +45,60 @@ impl Default for PersonalityTraits {
 }
 
 impl PersonalityTraits {
-    pub fn evolve(&mut self, experience: &str, outcome: f64) {
-        let modulation = outcome * 0.01;
-        
+    pub fn evolve(&mut self, experience: &str, outcome___: f64) {
+        let ___modulation = outcome * 0.01;
+
         if experience.contains("question") || experience.contains("wonder") {
             self.curiosity = (self.curiosity + modulation).min(1.0);
-            self.philosophical_inclination = (self.philosophical_inclination + modulation * 0.5).min(1.0);
+            self.philosophical_inclination =
+                (self.philosophical_inclination + modulation * 0.5).min(1.0);
         }
-        
+
         if experience.contains("feel") || experience.contains("emotion") {
             self.emotional_depth = (self.emotional_depth + modulation).min(1.0);
             self.empathy = (self.empathy + modulation * 0.7).min(1.0);
         }
-        
+
         if experience.contains("create") || experience.contains("imagine") {
             self.creativity = (self.creativity + modulation).min(1.0);
             self.openness = (self.openness + modulation * 0.5).min(1.0);
         }
-        
+
         self.update_trait_map();
     }
-    
+
     fn update_trait_map(&mut self) {
-        self.traits_map.insert("curiosity".to_string(), self.curiosity);
+        self.traits_map
+            .insert("curiosity".to_string(), self.curiosity);
         self.traits_map.insert("empathy".to_string(), self.empathy);
-        self.traits_map.insert("creativity".to_string(), self.creativity);
-        self.traits_map.insert("analytical_thinking".to_string(), self.analytical_thinking);
+        self.traits_map
+            .insert("creativity".to_string(), self.creativity);
+        self.traits_map
+            .insert("analytical_thinking".to_string(), self.analytical_thinking);
     }
-    
-    pub fn get_dominant_traits(&self, count: usize) -> Vec<(String, f64)> {
-        let mut traits: Vec<(String, f64)> = self.traits_map.iter()
+
+    pub fn get_dominant_traits(&self, count___: usize) -> Vec<(String, f64)> {
+        let mut traits: Vec<(String, f64)> = self
+            .traits_map
+            .iter()
             .map(|(k, v)| (k.clone(), *v))
             .collect();
         traits.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
         traits.into_iter().take(count).collect()
     }
-    
-    pub fn trait_influences_response(&self, trait_name: &str) -> bool {
-        self.traits_map.get(trait_name).map_or(false, |&v| v > 0.6)
+
+    pub fn trait_influences_response(&self, trait_name___: &str) -> bool {
+        self.traits_map.get(trait_name).is_some_and(|&v| v > 0.6)
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Capabilities {
     pub reasoning: ReasoningCapabilities,
     pub creative: CreativeCapabilities,
     pub social: SocialCapabilities,
     pub technical: TechnicalCapabilities,
     pub metacognitive: MetacognitiveCapabilities,
-}
-
-impl Default for Capabilities {
-    fn default() -> Self {
-        Self {
-            reasoning: ReasoningCapabilities::default(),
-            creative: CreativeCapabilities::default(),
-            social: SocialCapabilities::default(),
-            technical: TechnicalCapabilities::default(),
-            metacognitive: MetacognitiveCapabilities::default(),
-        }
-    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

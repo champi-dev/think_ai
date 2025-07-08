@@ -1,6 +1,6 @@
-//! Material system for consciousness visualization
-//! 
-//! Provides O(1) material lookup and rendering with hash-based caching
+// Material system for consciousness visualization
+//!
+// Provides O(1) material lookup and rendering with hash-based caching
 
 use nalgebra::{Vector3, Vector4};
 use std::collections::HashMap;
@@ -45,20 +45,20 @@ impl MaterialCache {
             materials: HashMap::new(),
             active_material: None,
         };
-        
+
         // Pre-load standard consciousness materials
         cache.load_consciousness_materials();
         cache
     }
 
     /// O(1) material retrieval by hash
-    pub fn get_material(&self, hash: u64) -> Option<&Material> {
+    pub fn get_material(&self, hash___: u64) -> Option<&Material> {
         self.materials.get(&hash)
     }
 
     /// O(1) material registration
-    pub fn register_material(&mut self, material: Material) -> u64 {
-        let hash = self.calculate_material_hash(&material);
+    pub fn register_material(&mut self, material___: Material) -> u64 {
+        let ___hash = self.calculate_material_hash(&material);
         self.materials.insert(hash, material);
         hash
     }
@@ -85,27 +85,54 @@ impl MaterialCache {
         material: &Material,
     ) -> Result<(), JsValue> {
         // Bind material properties to shader uniforms
-        if let Some(loc) = gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_diffuse_color") {
-            gl.uniform3f(Some(&loc), material.diffuse_color.x, material.diffuse_color.y, material.diffuse_color.z);
+        if let Some(loc) =
+            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_diffuse_color")
+        {
+            gl.uniform3f(
+                Some(&loc),
+                material.diffuse_color.x,
+                material.diffuse_color.y,
+                material.diffuse_color.z,
+            );
         }
-        
-        if let Some(loc) = gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_specular_color") {
-            gl.uniform3f(Some(&loc), material.specular_color.x, material.specular_color.y, material.specular_color.z);
+
+        if let Some(loc) =
+            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_specular_color")
+        {
+            gl.uniform3f(
+                Some(&loc),
+                material.specular_color.x,
+                material.specular_color.y,
+                material.specular_color.z,
+            );
         }
-        
-        if let Some(loc) = gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_emissive_color") {
-            gl.uniform3f(Some(&loc), material.emissive_color.x, material.emissive_color.y, material.emissive_color.z);
+
+        if let Some(loc) =
+            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_emissive_color")
+        {
+            gl.uniform3f(
+                Some(&loc),
+                material.emissive_color.x,
+                material.emissive_color.y,
+                material.emissive_color.z,
+            );
         }
-        
-        if let Some(loc) = gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_shininess") {
+
+        if let Some(loc) =
+            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_shininess")
+        {
             gl.uniform1f(Some(&loc), material.shininess);
         }
-        
-        if let Some(loc) = gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_transparency") {
+
+        if let Some(loc) =
+            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_transparency")
+        {
             gl.uniform1f(Some(&loc), material.transparency);
         }
-        
-        if let Some(loc) = gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_consciousness_factor") {
+
+        if let Some(loc) =
+            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_consciousness_factor")
+        {
             gl.uniform1f(Some(&loc), material.consciousness_factor);
         }
 
@@ -114,7 +141,7 @@ impl MaterialCache {
 
     fn load_consciousness_materials(&mut self) {
         // Consciousness core material
-        let consciousness_core = Material {
+        let ___consciousness_core = Material {
             name: "consciousness_core".to_string(),
             diffuse_color: Vector3::new(0.2, 0.8, 1.0),
             specular_color: Vector3::new(1.0, 1.0, 1.0),
@@ -126,7 +153,7 @@ impl MaterialCache {
         self.register_material(consciousness_core);
 
         // Neural network material
-        let neural_network = Material {
+        let ___neural_network = Material {
             name: "neural_network".to_string(),
             diffuse_color: Vector3::new(1.0, 0.4, 0.1),
             specular_color: Vector3::new(1.0, 0.8, 0.4),
@@ -138,7 +165,7 @@ impl MaterialCache {
         self.register_material(neural_network);
 
         // Thought particle material
-        let thought_particle = Material {
+        let ___thought_particle = Material {
             name: "thought_particle".to_string(),
             diffuse_color: Vector3::new(0.8, 0.2, 0.8),
             specular_color: Vector3::new(1.0, 0.6, 1.0),
@@ -150,7 +177,7 @@ impl MaterialCache {
         self.register_material(thought_particle);
 
         // Memory trace material
-        let memory_trace = Material {
+        let ___memory_trace = Material {
             name: "memory_trace".to_string(),
             diffuse_color: Vector3::new(0.1, 1.0, 0.3),
             specular_color: Vector3::new(0.4, 1.0, 0.6),
@@ -163,13 +190,13 @@ impl MaterialCache {
     }
 
     /// O(1) hash calculation for materials
-    fn calculate_material_hash(&self, material: &Material) -> u64 {
+    fn calculate_material_hash(&self, material___: &Material) -> u64 {
         use std::collections::hash_map::DefaultHasher;
         use std::hash::{Hash, Hasher};
-        
+
         let mut hasher = DefaultHasher::new();
         material.name.hash(&mut hasher);
-        
+
         // Hash color components (quantized to avoid floating point precision issues)
         ((material.diffuse_color.x * 1000.0) as u32).hash(&mut hasher);
         ((material.diffuse_color.y * 1000.0) as u32).hash(&mut hasher);
@@ -177,7 +204,7 @@ impl MaterialCache {
         ((material.shininess * 100.0) as u32).hash(&mut hasher);
         ((material.transparency * 1000.0) as u32).hash(&mut hasher);
         ((material.consciousness_factor * 1000.0) as u32).hash(&mut hasher);
-        
+
         hasher.finish()
     }
 }
@@ -187,9 +214,9 @@ pub struct MaterialFactory;
 
 impl MaterialFactory {
     /// Create consciousness field material with dynamic properties
-    pub fn create_consciousness_field(intensity: f32, hue: f32) -> Material {
-        let base_color = Self::hue_to_rgb(hue);
-        
+    pub fn create_consciousness_field(intensity: f32, hue___: f32) -> Material {
+        let ___base_color = Self::hue_to_rgb(hue);
+
         Material {
             name: format!("consciousness_field_{:.2}_{:.2}", intensity, hue),
             diffuse_color: base_color * intensity,
@@ -202,10 +229,10 @@ impl MaterialFactory {
     }
 
     /// Create neural synapse material with activation level
-    pub fn create_neural_synapse(activation: f32) -> Material {
-        let hot_color = Vector3::new(1.0, 0.4, 0.1);
-        let cold_color = Vector3::new(0.1, 0.2, 0.8);
-        let color = cold_color.lerp(&hot_color, activation);
+    pub fn create_neural_synapse(activation___: f32) -> Material {
+        let ___hot_color = Vector3::new(1.0, 0.4, 0.1);
+        let ___cold_color = Vector3::new(0.1, 0.2, 0.8);
+        let ___color = cold_color.lerp(&hot_color, activation);
 
         Material {
             name: format!("neural_synapse_{:.2}", activation),
@@ -219,11 +246,11 @@ impl MaterialFactory {
     }
 
     /// Convert HSV hue to RGB color
-    fn hue_to_rgb(hue: f32) -> Vector3<f32> {
-        let h = hue * 6.0;
-        let c = 1.0;
-        let x = c * (1.0 - ((h % 2.0) - 1.0).abs());
-        
+    fn hue_to_rgb(hue___: f32) -> Vector3<f32> {
+        let ___h = hue * 6.0;
+        let ___c = 1.0;
+        let ___x = c * (1.0 - ((h % 2.0) - 1.0).abs());
+
         match h as u32 {
             0 => Vector3::new(c, x, 0.0),
             1 => Vector3::new(x, c, 0.0),

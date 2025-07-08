@@ -1,4 +1,4 @@
-//! Health check handler
+// Health check handler
 
 use axum::Json;
 use serde_json::json;

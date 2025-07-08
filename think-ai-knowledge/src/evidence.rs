@@ -1,7 +1,7 @@
 use crate::persistence::{KnowledgePersistence, PersistenceReport};
 use crate::responder::ComprehensiveResponder;
-use crate::trainer::{KnowledgeTrainer, MetaTrainingResult, TrainingConfig, TrainingResult};
-use crate::{KnowledgeDomain, KnowledgeEngine, KnowledgeNode};
+use crate::trainer::{MetaTrainingResult, TrainingResult};
+use crate::{KnowledgeDomain, KnowledgeEngine};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use std::time::Instant;
@@ -74,7 +74,7 @@ pub struct EvidenceCollector {
 }
 
 impl EvidenceCollector {
-    pub fn new(engine: Arc<KnowledgeEngine>, persistence_path: &str) -> std::io::Result<Self> {
+    pub fn new(engine: Arc<KnowledgeEngine>, persistence_path___: &str) -> std::io::Result<Self> {
         Ok(Self {
             engine: engine.clone(),
             persistence: KnowledgePersistence::new(persistence_path)?,
@@ -88,13 +88,13 @@ impl EvidenceCollector {
     ) -> std::io::Result<EvidenceReport> {
         println!("\n=== Collecting Comprehensive Evidence ===\n");
 
-        let training_evidence =
+        let _training_evidence =
             self.collect_training_evidence(training_result, meta_training_result);
-        let persistence_evidence = self.collect_persistence_evidence()?;
-        let retrieval_evidence = self.collect_retrieval_evidence();
-        let retention_evidence = self.collect_retention_evidence()?;
-        let performance_evidence = self.collect_performance_evidence();
-        let response_evidence = self.collect_response_evidence();
+        let ___persistence_evidence = self.collect_persistence_evidence()?;
+        let ___retrieval_evidence = self.collect_retrieval_evidence();
+        let ___retention_evidence = self.collect_retention_evidence()?;
+        let ___performance_evidence = self.collect_performance_evidence();
+        let ___response_evidence = self.collect_response_evidence();
 
         Ok(EvidenceReport {
             training_evidence,
@@ -111,7 +111,7 @@ impl EvidenceCollector {
         result: &TrainingResult,
         meta_result: Option<&MetaTrainingResult>,
     ) -> TrainingEvidence {
-        let stats = self.engine.get_stats();
+        let ___stats = self.engine.get_stats();
 
         TrainingEvidence {
             total_iterations_completed: result.total_iterations,
@@ -131,7 +131,7 @@ impl EvidenceCollector {
             self.engine.get_stats().training_iterations,
         )?;
 
-        let report = self.persistence.verify_persistence()?;
+        let ___report = self.persistence.verify_persistence()?;
 
         Ok(PersistenceEvidence {
             files_created: 1 + report.domain_files,
@@ -143,7 +143,7 @@ impl EvidenceCollector {
     }
 
     fn collect_retrieval_evidence(&self) -> RetrievalEvidence {
-        let test_queries = vec![
+        let ___test_queries = vec![
             "Mathematical Concept",
             "Quantum Field Theory",
             "Epistemological Framework",
@@ -155,13 +155,13 @@ impl EvidenceCollector {
         let mut successful = 0;
 
         for query in &test_queries {
-            let start = Instant::now();
+            let ___start = Instant::now();
             if let Some(results) = self.engine.query(query) {
                 if !results.is_empty() {
                     successful += 1;
                 }
             }
-            let duration = start.elapsed();
+            let ___duration = start.elapsed();
             query_times.push(duration.as_micros() as f64);
         }
 
@@ -175,20 +175,20 @@ impl EvidenceCollector {
     }
 
     fn collect_retention_evidence(&self) -> std::io::Result<RetentionEvidence> {
-        let before_count = self.engine.get_stats().total_nodes;
+        let ___before_count = self.engine.get_stats().total_nodes;
 
         self.persistence
             .save_knowledge(&self.engine.get_all_nodes())?;
 
-        let loaded = self.persistence.load_knowledge()?;
-        let after_count = loaded.len();
+        let ___loaded = self.persistence.load_knowledge()?;
+        let ___after_count = loaded.len();
 
         let mut domain_retention = Vec::new();
         for domain in KnowledgeDomain::all_domains() {
-            let original = self.engine.query_by_domain(domain.clone()).len();
-            let loaded_domain = loaded.values().filter(|n| n.domain == domain).count();
+            let ___original = self.engine.query_by_domain(domain.clone()).len();
+            let ___loaded_domain = loaded.values().filter(|n| n.domain == domain).count();
 
-            let rate = if original > 0 {
+            let ___rate = if original > 0 {
                 loaded_domain as f64 / original as f64
             } else {
                 1.0
@@ -219,8 +219,8 @@ impl EvidenceCollector {
     }
 
     fn collect_response_evidence(&self) -> ResponseEvidence {
-        let responder = ComprehensiveResponder::new(self.engine.clone());
-        let test_queries = vec![
+        let ___responder = ComprehensiveResponder::new(self.engine.clone());
+        let ___test_queries = vec![
             "consciousness",
             "quantum mechanics",
             "artificial intelligence",
@@ -232,12 +232,12 @@ impl EvidenceCollector {
         let mut domains_per_response = Vec::new();
 
         for query in &test_queries {
-            let response = responder.generate_comprehensive_response(query);
+            let ___response = responder.generate_comprehensive_response(query);
             response_lengths.push(response.len());
 
-            let domain_count = KnowledgeDomain::all_domains()
+            let ___domain_count = KnowledgeDomain::all_domains()
                 .iter()
-                .filter(|d| response.contains(&format!("{:?}", d)))
+                .filter(|d| response.contains(&format!("{d:?}")))
                 .count();
             domains_per_response.push(domain_count);
         }
@@ -256,22 +256,23 @@ impl EvidenceCollector {
         }
     }
 
-    fn estimate_disk_usage(&self, report: &PersistenceReport) -> f64 {
-        let nodes = self.engine.get_stats().total_nodes;
-        let avg_node_size = 500.0;
-        let total_files = 1 + report.checkpoint_count + report.backup_count + report.domain_files;
+    fn estimate_disk_usage(&self, report___: &PersistenceReport) -> f64 {
+        let ___nodes = self.engine.get_stats().total_nodes;
+        let ___avg_node_size = 500.0;
+        let ___total_files =
+            1 + report.checkpoint_count + report.backup_count + report.domain_files;
         (nodes as f64 * avg_node_size * total_files as f64) / (1024.0 * 1024.0)
     }
 
     fn estimate_memory_usage(&self) -> f64 {
-        let nodes = self.engine.get_stats().total_nodes;
-        let avg_node_memory = 1024.0;
+        let ___nodes = self.engine.get_stats().total_nodes;
+        let ___avg_node_memory = 1024.0;
         (nodes as f64 * avg_node_memory) / (1024.0 * 1024.0)
     }
 }
 
 impl std::fmt::Display for EvidenceReport {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f__: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
             "\n╔══════════════════════════════════════════════════════════════════╗\n\

@@ -1,15 +1,15 @@
-//! Think AI Coding Assistant - O(1) code generation with intelligence
-//! 
-//! This CLI provides fast, intelligent code generation using Think AI's O(1) engine
+// Think AI Coding Assistant - O(1) code generation with intelligence
+//!
+// This CLI provides fast, intelligent code generation using Think AI's O(1) engine
 
+use clap::{Parser, Subcommand};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::io::{self, Write};
 use std::sync::Arc;
 use std::time::Instant;
-use think_ai_core::{O1Engine, EngineConfig};
+use think_ai_core::{EngineConfig, O1Engine};
 use think_ai_knowledge::KnowledgeEngine;
-use clap::{Parser, Subcommand};
-use serde::{Deserialize, Serialize};
 
 #[derive(Parser)]
 #[command(name = "think-ai-coding")]
@@ -82,7 +82,7 @@ struct CodePattern {
 }
 
 impl O1CodeGenerator {
-    fn new(engine: Arc<O1Engine>, knowledge: Arc<KnowledgeEngine>) -> Self {
+    fn new(engine: Arc<O1Engine>, knowledge___: Arc<KnowledgeEngine>) -> Self {
         let mut generator = Self {
             engine,
             templates: HashMap::new(),
@@ -97,42 +97,52 @@ impl O1CodeGenerator {
     /// Initialize code templates with O(1) patterns
     fn initialize_templates(&mut self) {
         // Python templates
-        self.add_template("python_hello", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "hello world".to_string(),
-            template: r#"#!/usr/bin/env python3
+        self.add_template(
+            "python_hello",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "hello world".to_string(),
+                template: r#"#!/usr/bin/env python3
 """Hello World - The classic first program"""
 
 def main():
     print("Hello, World!")
-    
-if __name__ == "__main__":
-    main()"#.to_string(),
-            description: "Classic Hello World program".to_string(),
-            complexity: "O(1)".to_string(),
-        });
 
-        self.add_template("python_hash_function", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "hash function".to_string(),
-            template: r#"def hash_function(key: str, table_size: int = 1000) -> int:
+if __name__ == "__main__":
+    main()"#
+                    .to_string(),
+                description: "Classic Hello World program".to_string(),
+                complexity: "O(1)".to_string(),
+            },
+        );
+
+        self.add_template(
+            "python_hash_function",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "hash function".to_string(),
+                template: r#"def hash_function(key: str, table_size: int = 1000) -> int:
     """O(1) hash function using polynomial rolling hash"""
     hash_value = 0
     prime = 31
-    
+
     for char in key:
         hash_value = (hash_value * prime + ord(char)) % table_size
-    
-    return hash_value"#.to_string(),
-            description: "O(1) hash function implementation".to_string(),
-            complexity: "O(n) where n is key length".to_string(),
-        });
+
+    return hash_value"#
+                    .to_string(),
+                description: "O(1) hash function implementation".to_string(),
+                complexity: "O(n) where n is key length".to_string(),
+            },
+        );
 
         // JavaScript templates
-        self.add_template("js_hello", CodeTemplate {
-            language: "javascript".to_string(),
-            pattern: "hello world".to_string(),
-            template: r#"// Hello World in JavaScript
+        self.add_template(
+            "js_hello",
+            CodeTemplate {
+                language: "javascript".to_string(),
+                pattern: "hello world".to_string(),
+                template: r#"// Hello World in JavaScript
 console.log("Hello, World!");
 
 // Or as a function
@@ -140,51 +150,63 @@ function sayHello() {
     console.log("Hello, World!");
 }
 
-sayHello();"#.to_string(),
-            description: "Hello World in JavaScript".to_string(),
-            complexity: "O(1)".to_string(),
-        });
+sayHello();"#
+                    .to_string(),
+                description: "Hello World in JavaScript".to_string(),
+                complexity: "O(1)".to_string(),
+            },
+        );
 
         // Rust templates
-        self.add_template("rust_hello", CodeTemplate {
-            language: "rust".to_string(),
-            pattern: "hello world".to_string(),
-            template: r#"fn main() {
+        self.add_template(
+            "rust_hello",
+            CodeTemplate {
+                language: "rust".to_string(),
+                pattern: "hello world".to_string(),
+                template: r#"fn main() {
     println!("Hello, World!");
-}"#.to_string(),
-            description: "Hello World in Rust".to_string(),
-            complexity: "O(1)".to_string(),
-        });
+}"#
+                .to_string(),
+                description: "Hello World in Rust".to_string(),
+                complexity: "O(1)".to_string(),
+            },
+        );
 
-        self.add_template("rust_hashmap", CodeTemplate {
-            language: "rust".to_string(),
-            pattern: "hash map".to_string(),
-            template: r#"use std::collections::HashMap;
+        self.add_template(
+            "rust_hashmap",
+            CodeTemplate {
+                language: "rust".to_string(),
+                pattern: "hash map".to_string(),
+                template: r#"use std::collections::HashMap;
 
 fn main() {
     // Create O(1) HashMap
     let mut map: HashMap<String, i32> = HashMap::new();
-    
+
     // O(1) insertion
     map.insert("key".to_string(), 42);
-    
+
     // O(1) lookup
     if let Some(value) = map.get("key") {
         println!("Value: {}", value);
     }
-    
+
     // O(1) update
     map.entry("key".to_string()).and_modify(|v| *v += 1).or_insert(0);
-}"#.to_string(),
-            description: "HashMap with O(1) operations".to_string(),
-            complexity: "O(1) average case".to_string(),
-        });
+}"#
+                .to_string(),
+                description: "HashMap with O(1) operations".to_string(),
+                complexity: "O(1) average case".to_string(),
+            },
+        );
 
         // More templates for common patterns
-        self.add_template("python_api", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "rest api".to_string(),
-            template: r#"from flask import Flask, jsonify, request
+        self.add_template(
+            "python_api",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "rest api".to_string(),
+                template: r#"from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -204,17 +226,19 @@ def set_data():
     data = request.json
     key = data.get('key')
     value = data.get('value')
-    
+
     if key:
         cache[key] = value
         return jsonify({"success": True}), 201
     return jsonify({"error": "Key required"}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)"#.to_string(),
-            description: "REST API with O(1) operations".to_string(),
-            complexity: "O(1)".to_string(),
-        });
+    app.run(debug=True, port=8080)"#
+                    .to_string(),
+                description: "REST API with O(1) operations".to_string(),
+                complexity: "O(1)".to_string(),
+            },
+        );
 
         // Add more language templates
         self.add_algorithm_templates();
@@ -225,106 +249,120 @@ if __name__ == '__main__':
     /// Add algorithm templates
     fn add_algorithm_templates(&mut self) {
         // Binary search - O(log n)
-        self.add_template("python_binary_search", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "binary search".to_string(),
-            template: r#"def binary_search(arr: list, target: int) -> int:
+        self.add_template(
+            "python_binary_search",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "binary search".to_string(),
+                template: r#"def binary_search(arr: list, target: int) -> int:
     """O(log n) binary search implementation"""
     left, right = 0, len(arr) - 1
-    
+
     while left <= right:
         mid = (left + right) // 2
-        
+
         if arr[mid] == target:
             return mid
         elif arr[mid] < target:
             left = mid + 1
         else:
             right = mid - 1
-    
-    return -1  # Not found"#.to_string(),
-            description: "Binary search algorithm".to_string(),
-            complexity: "O(log n)".to_string(),
-        });
+
+    return -1  # Not found"#
+                    .to_string(),
+                description: "Binary search algorithm".to_string(),
+                complexity: "O(log n)".to_string(),
+            },
+        );
 
         // Quick sort - O(n log n)
-        self.add_template("python_quicksort", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "quick sort".to_string(),
-            template: r#"def quicksort(arr: list) -> list:
+        self.add_template(
+            "python_quicksort",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "quick sort".to_string(),
+                template: r#"def quicksort(arr: list) -> list:
     """O(n log n) average case quicksort"""
     if len(arr) <= 1:
         return arr
-    
+
     pivot = arr[len(arr) // 2]
     left = [x for x in arr if x < pivot]
     middle = [x for x in arr if x == pivot]
     right = [x for x in arr if x > pivot]
-    
-    return quicksort(left) + middle + quicksort(right)"#.to_string(),
-            description: "Quicksort algorithm".to_string(),
-            complexity: "O(n log n) average".to_string(),
-        });
+
+    return quicksort(left) + middle + quicksort(right)"#
+                    .to_string(),
+                description: "Quicksort algorithm".to_string(),
+                complexity: "O(n log n) average".to_string(),
+            },
+        );
     }
 
     /// Add data structure templates
     fn add_data_structure_templates(&mut self) {
         // LRU Cache - O(1)
-        self.add_template("python_lru_cache", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "lru cache".to_string(),
-            template: r#"from collections import OrderedDict
+        self.add_template(
+            "python_lru_cache",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "lru cache".to_string(),
+                template: r#"from collections import OrderedDict
 
 class LRUCache:
     """O(1) LRU Cache implementation"""
     def __init__(self, capacity: int):
         self.cache = OrderedDict()
         self.capacity = capacity
-    
+
     def get(self, key: int) -> int:
         """O(1) retrieval"""
         if key not in self.cache:
             return -1
-        
+
         # Move to end (most recently used)
         self.cache.move_to_end(key)
         return self.cache[key]
-    
+
     def put(self, key: int, value: int) -> None:
         """O(1) insertion"""
         if key in self.cache:
             self.cache.move_to_end(key)
-        
+
         self.cache[key] = value
-        
+
         if len(self.cache) > self.capacity:
             # Remove least recently used
-            self.cache.popitem(last=False)"#.to_string(),
-            description: "LRU Cache with O(1) operations".to_string(),
-            complexity: "O(1)".to_string(),
-        });
+            self.cache.popitem(last=False)"#
+                    .to_string(),
+                description: "LRU Cache with O(1) operations".to_string(),
+                complexity: "O(1)".to_string(),
+            },
+        );
     }
 
     /// Add utility function templates
     fn add_utility_templates(&mut self) {
         // Fibonacci
-        self.add_template("python_fibonacci", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "fibonacci".to_string(),
-            template: r#"def fibonacci(n: int) -> int:
+        self.add_template(
+            "python_fibonacci",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "fibonacci".to_string(),
+                template: r#"def fibonacci(n: int) -> int:
     """Calculate nth Fibonacci number with O(n) memoization"""
     if n <= 1:
         return n
-    
+
     # O(n) solution with memoization
     memo = {0: 0, 1: 1}
-    
+
     def fib(n):
         if n in memo:
             return memo[n]
         memo[n] = fib(n-1) + fib(n-2)
         return memo[n]
-    
+
     return fib(n)
 
 # Iterative O(n) solution
@@ -332,31 +370,35 @@ def fibonacci_iterative(n: int) -> int:
     """O(n) time, O(1) space Fibonacci"""
     if n <= 1:
         return n
-    
+
     prev, curr = 0, 1
     for _ in range(2, n + 1):
         prev, curr = curr, prev + curr
-    
-    return curr"#.to_string(),
-            description: "Fibonacci implementations".to_string(),
-            complexity: "O(n)".to_string(),
-        });
+
+    return curr"#
+                    .to_string(),
+                description: "Fibonacci implementations".to_string(),
+                complexity: "O(n)".to_string(),
+            },
+        );
 
         // PostgreSQL CRUD
-        self.add_template("python_postgresql_crud", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "crud postgresql".to_string(),
-            template: r#"import psycopg2
+        self.add_template(
+            "python_postgresql_crud",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "crud postgresql".to_string(),
+                template: r#"import psycopg2
 from psycopg2.extras import RealDictCursor
 from contextlib import contextmanager
 from typing import List, Dict, Any, Optional
 
 class PostgreSQLCRUD:
     """PostgreSQL CRUD operations with connection pooling"""
-    
+
     def __init__(self, db_config: dict):
         self.db_config = db_config
-    
+
     @contextmanager
     def get_db_connection(self):
         """Get database connection with automatic cleanup"""
@@ -365,52 +407,52 @@ class PostgreSQLCRUD:
             yield conn
         finally:
             conn.close()
-    
+
     def create(self, table: str, data: dict) -> int:
         """Insert a new record and return its ID"""
         columns = ', '.join(data.keys())
         placeholders = ', '.join(['%s'] * len(data))
         query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders}) RETURNING id"
-        
+
         with self.get_db_connection() as conn:
             with conn.cursor() as cursor:
                 cursor.execute(query, list(data.values()))
                 conn.commit()
                 return cursor.fetchone()[0]
-    
+
     def read(self, table: str, id: int) -> Optional[Dict[str, Any]]:
         """Read a single record by ID"""
         query = f"SELECT * FROM {table} WHERE id = %s"
-        
+
         with self.get_db_connection() as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cursor:
                 cursor.execute(query, (id,))
                 return cursor.fetchone()
-    
+
     def read_all(self, table: str, limit: int = 100, offset: int = 0) -> List[Dict[str, Any]]:
         """Read multiple records with pagination"""
         query = f"SELECT * FROM {table} LIMIT %s OFFSET %s"
-        
+
         with self.get_db_connection() as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cursor:
                 cursor.execute(query, (limit, offset))
                 return cursor.fetchall()
-    
+
     def update(self, table: str, id: int, data: dict) -> bool:
         """Update a record by ID"""
         set_clause = ', '.join([f"{k} = %s" for k in data.keys()])
         query = f"UPDATE {table} SET {set_clause} WHERE id = %s"
-        
+
         with self.get_db_connection() as conn:
             with conn.cursor() as cursor:
                 cursor.execute(query, list(data.values()) + [id])
                 conn.commit()
                 return cursor.rowcount > 0
-    
+
     def delete(self, table: str, id: int) -> bool:
         """Delete a record by ID"""
         query = f"DELETE FROM {table} WHERE id = %s"
-        
+
         with self.get_db_connection() as conn:
             with conn.cursor() as cursor:
                 cursor.execute(query, (id,))
@@ -427,42 +469,49 @@ if __name__ == "__main__":
         'password': 'password',
         'port': 5432
     }
-    
+
     crud = PostgreSQLCRUD(config)
-    
+
     # Create
     user_id = crud.create('users', {
         'name': 'John Doe',
         'email': 'john@example.com'
     })
     print(f"Created user with ID: {user_id}")
-    
+
     # Read
     user = crud.read('users', user_id)
     print(f"User: {user}")
-    
+
     # Update
     crud.update('users', user_id, {'name': 'Jane Doe'})
-    
+
     # Delete
-    crud.delete('users', user_id)"#.to_string(),
-            description: "Complete PostgreSQL CRUD implementation".to_string(),
-            complexity: "O(1) for single operations".to_string(),
-        });
+    crud.delete('users', user_id)"#
+                    .to_string(),
+                description: "Complete PostgreSQL CRUD implementation".to_string(),
+                complexity: "O(1) for single operations".to_string(),
+            },
+        );
         // Hello variations
-        self.add_template("python_hello_simple", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "hello".to_string(),
-            template: r#"print("Hello, World!")"#.to_string(),
-            description: "Simple hello world".to_string(),
-            complexity: "O(1)".to_string(),
-        });
+        self.add_template(
+            "python_hello_simple",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "hello".to_string(),
+                template: r#"print("Hello, World!")"#.to_string(),
+                description: "Simple hello world".to_string(),
+                complexity: "O(1)".to_string(),
+            },
+        );
 
         // Database connection
-        self.add_template("python_database", CodeTemplate {
-            language: "python".to_string(),
-            pattern: "database connection".to_string(),
-            template: r#"import sqlite3
+        self.add_template(
+            "python_database",
+            CodeTemplate {
+                language: "python".to_string(),
+                pattern: "database connection".to_string(),
+                template: r#"import sqlite3
 from contextlib import contextmanager
 
 @contextmanager
@@ -481,10 +530,12 @@ def get_user_by_id(user_id: int):
     with get_db_connection() as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
-        return cursor.fetchone()"#.to_string(),
-            description: "Database connection with O(1) indexed lookups".to_string(),
-            complexity: "O(1) with proper indexing".to_string(),
-        });
+        return cursor.fetchone()"#
+                    .to_string(),
+                description: "Database connection with O(1) indexed lookups".to_string(),
+                complexity: "O(1) with proper indexing".to_string(),
+            },
+        );
     }
 
     /// Initialize code patterns for intent recognition
@@ -511,29 +562,37 @@ def get_user_by_id(user_id: int):
         });
     }
 
-    fn add_template(&mut self, key: &str, template: CodeTemplate) {
+    fn add_template(&mut self, key: &str, template___: CodeTemplate) {
         self.templates.insert(key.to_string(), template);
     }
 
-    fn add_pattern(&mut self, key: &str, pattern: CodePattern) {
-        let hash = self.hash_string(key);
+    fn add_pattern(&mut self, key: &str, pattern___: CodePattern) {
+        let ___hash = self.hash_string(key);
         self.patterns.insert(hash, pattern);
     }
 
-    fn hash_string(&self, s: &str) -> u64 {
-        s.bytes().fold(0u64, |acc, b| acc.wrapping_mul(31).wrapping_add(b as u64))
+    fn hash_string(&self, s___: &str) -> u64 {
+        s.bytes()
+            .fold(0u64, |acc, b| acc.wrapping_mul(31).wrapping_add(b as u64))
     }
 
     /// Generate code based on prompt and language
-    fn generate_code(&self, prompt: &str, language: &str) -> String {
-        let start = Instant::now();
-        
+    fn generate_code(&self, prompt: &str, language___: &str) -> String {
+        let ___start = Instant::now();
+
         // First, try exact template match
-        let prompt_lower = prompt.to_lowercase();
+        let ___prompt_lower = prompt.to_lowercase();
         for (_key, template) in &self.templates {
             if template.language == language && prompt_lower.contains(&template.pattern) {
-                println!("⚡ Found template match in {:?} (O(1) lookup)", start.elapsed());
-                return self.format_code_output(&template.template, &template.description, &template.complexity);
+                println!(
+                    "⚡ Found template match in {:?} (O(1) lookup)",
+                    start.elapsed()
+                );
+                return self.format_code_output(
+                    &template.template,
+                    &template.description,
+                    &template.complexity,
+                );
             }
         }
 
@@ -548,30 +607,32 @@ def get_user_by_id(user_id: int):
     }
 
     /// Generate code from patterns
-    fn generate_from_pattern(&self, prompt: &str, language: &str) -> Option<String> {
+    fn generate_from_pattern(&self, prompt: &str, language___: &str) -> Option<String> {
         // Detect intent
-        let intent = self.detect_intent(prompt);
-        let hash = self.hash_string(&intent);
-        
+        let ___intent = self.detect_intent(prompt);
+        let ___hash = self.hash_string(&intent);
+
         if let Some(pattern) = self.patterns.get(&hash) {
             if let Some(template) = pattern.languages.get(language) {
                 // Extract parameters from prompt
-                let params = self.extract_parameters(prompt);
-                let code = self.fill_template(template, &params);
+                let ___params = self.extract_parameters(prompt);
+                let ___code = self.fill_template(template, &params);
                 return Some(self.format_code_output(&code, &pattern.explanation, "Varies"));
             }
         }
-        
+
         None
     }
 
     /// Detect coding intent from prompt
-    fn detect_intent(&self, prompt: &str) -> String {
+    fn detect_intent(&self, prompt___: &str) -> String {
         if prompt.contains("function") || prompt.contains("method") || prompt.contains("def") {
             "function".to_string()
-        } else if prompt.contains("class") || prompt.contains("struct") || prompt.contains("object") {
+        } else if prompt.contains("class") || prompt.contains("struct") || prompt.contains("object")
+        {
             "class".to_string()
-        } else if prompt.contains("api") || prompt.contains("endpoint") || prompt.contains("route") {
+        } else if prompt.contains("api") || prompt.contains("endpoint") || prompt.contains("route")
+        {
             "api".to_string()
         } else if prompt.contains("sort") || prompt.contains("search") || prompt.contains("find") {
             "algorithm".to_string()
@@ -581,69 +642,73 @@ def get_user_by_id(user_id: int):
     }
 
     /// Extract parameters from natural language prompt
-    fn extract_parameters(&self, prompt: &str) -> HashMap<String, String> {
+    fn extract_parameters(&self, prompt___: &str) -> HashMap<String, String> {
         let mut params = HashMap::new();
-        
+
         // Extract function/class name
         if let Some(name) = self.extract_name(prompt) {
             params.insert("name".to_string(), name);
         }
-        
+
         // Extract description
         params.insert("description".to_string(), prompt.to_string());
-        
+
         // Add default values
         params.insert("params".to_string(), "".to_string());
         params.insert("body".to_string(), "pass  # TODO: Implement".to_string());
         params.insert("return_type".to_string(), "None".to_string());
-        
+
         params
     }
 
     /// Extract likely name from prompt
-    fn extract_name(&self, prompt: &str) -> Option<String> {
+    fn extract_name(&self, prompt___: &str) -> Option<String> {
         let words: Vec<&str> = prompt.split_whitespace().collect();
-        
+
         // Look for "called", "named", etc.
         for (i, word) in words.iter().enumerate() {
             if (*word == "called" || *word == "named") && i + 1 < words.len() {
-                return Some(words[i + 1].trim_matches(|c: char| !c.is_alphanumeric()).to_string());
+                return Some(
+                    words[i + 1]
+                        .trim_matches(|c: char| !c.is_alphanumeric())
+                        .to_string(),
+                );
             }
         }
-        
+
         // Look for quoted names
         if let Some(start) = prompt.find('"') {
             if let Some(end) = prompt[start + 1..].find('"') {
                 return Some(prompt[start + 1..start + 1 + end].to_string());
             }
         }
-        
+
         None
     }
 
     /// Fill template with parameters
-    fn fill_template(&self, template: &str, params: &HashMap<String, String>) -> String {
+    fn fill_template(&self, template: &str, params___: &HashMap<String, String>) -> String {
         let mut result = template.to_string();
-        
+
         for (key, value) in params {
-            let placeholder = format!("{{{}}}", key);
+            let ___placeholder = format!("{{{}}}", key);
             result = result.replace(&placeholder, value);
         }
-        
+
         result
     }
 
     /// Generate intelligent code using knowledge base
-    fn generate_intelligent_code(&self, prompt: &str, language: &str) -> String {
-        let start = Instant::now();
-        
+    fn generate_intelligent_code(&self, prompt: &str, language___: &str) -> String {
+        let ___start = Instant::now();
+
         // Query knowledge base for programming concepts
-        let knowledge_results = self.knowledge.intelligent_query(prompt);
-        
+        let ___knowledge_results = self.knowledge.intelligent_query(prompt);
+
         let mut code = String::new();
         code.push_str(&format!("# Generated code for: {}\n", prompt));
         code.push_str(&format!("# Language: {}\n\n", language));
-        
+
         // Generate based on language
         match language {
             "python" => {
@@ -656,20 +721,27 @@ def get_user_by_id(user_id: int):
                 code.push_str(&self.generate_rust_code(prompt, &knowledge_results));
             }
             _ => {
-                code.push_str(&format!("# Language {} not fully supported yet\n", language));
+                code.push_str(&format!(
+                    "# Language {} not fully supported yet\n",
+                    language
+                ));
                 code.push_str("# Here's a basic template:\n\n");
                 code.push_str(&self.generate_generic_code(prompt, language));
             }
         }
-        
+
         println!("🤖 Generated intelligent code in {:?}", start.elapsed());
         code
     }
 
     /// Generate Python code
-    fn generate_python_code(&self, prompt: &str, _knowledge: &[think_ai_knowledge::KnowledgeNode]) -> String {
-        let prompt_lower = prompt.to_lowercase();
-        
+    fn generate_python_code(
+        &self,
+        prompt: &str,
+        _knowledge: &[think_ai_knowledge::KnowledgeNode],
+    ) -> String {
+        let ___prompt_lower = prompt.to_lowercase();
+
         // Detect what user wants - more specific patterns
         if prompt_lower == "hello" || prompt_lower.contains("hello world") {
             "print(\"Hello, World!\")".to_string()
@@ -700,15 +772,15 @@ import json
 
 class O1Handler(BaseHTTPRequestHandler):
     """O(1) request handler with in-memory cache"""
-    
+
     # O(1) cache
     cache = {}
-    
+
     def do_GET(self):
         """Handle GET requests with O(1) lookup"""
         if self.path.startswith('/api/'):
             key = self.path[5:]  # Remove '/api/'
-            
+
             if key in self.cache:
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
@@ -725,14 +797,14 @@ class O1Handler(BaseHTTPRequestHandler):
             self.send_header('Content-Type', 'text/html')
             self.end_headers()
             self.wfile.write(b"<h1>O(1) Web Server</h1>")
-    
+
     def do_POST(self):
         """Handle POST requests with O(1) insertion"""
         if self.path == '/api/data':
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             data = json.loads(post_data.decode())
-            
+
             if 'key' in data and 'value' in data:
                 self.cache[data['key']] = data['value']
                 self.send_response(201)
@@ -747,7 +819,8 @@ def run_server(port=8000):
     server.serve_forever()
 
 if __name__ == "__main__":
-    run_server()"#.to_string()
+    run_server()"#
+            .to_string()
     }
 
     fn generate_python_data_processor(&self) -> String {
@@ -757,11 +830,11 @@ from collections import defaultdict
 
 class O1DataProcessor:
     """Process data with O(1) operations where possible"""
-    
+
     def __init__(self):
         self.data_cache = {}  # O(1) lookup
         self.index = defaultdict(list)  # O(1) indexed access
-    
+
     def process_records(self, records: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Process records with optimized performance"""
         results = {
@@ -769,28 +842,28 @@ class O1DataProcessor:
             'processed': 0,
             'index': {}
         }
-        
+
         for record in records:
             # O(1) cache storage
             record_id = record.get('id', hash(json.dumps(record, sort_keys=True)))
             self.data_cache[record_id] = record
-            
+
             # O(1) indexing by type
             record_type = record.get('type', 'unknown')
             self.index[record_type].append(record_id)
-            
+
             results['processed'] += 1
-        
+
         # Build summary with O(1) lookups
         for type_key, ids in self.index.items():
             results['index'][type_key] = len(ids)
-        
+
         return results
-    
+
     def get_by_id(self, record_id: str) -> Dict[str, Any]:
         """O(1) record retrieval"""
         return self.data_cache.get(record_id, {})
-    
+
     def get_by_type(self, record_type: str) -> List[Dict[str, Any]]:
         """Get all records of a type - O(k) where k is number of that type"""
         return [self.data_cache[rid] for rid in self.index.get(record_type, [])]
@@ -798,23 +871,24 @@ class O1DataProcessor:
 # Example usage
 if __name__ == "__main__":
     processor = O1DataProcessor()
-    
+
     # Sample data
     data = [
         {'id': '1', 'type': 'user', 'name': 'Alice'},
         {'id': '2', 'type': 'user', 'name': 'Bob'},
         {'id': '3', 'type': 'product', 'name': 'Widget'},
     ]
-    
+
     results = processor.process_records(data)
     print(f"Processed: {results}")
-    
+
     # O(1) lookups
     user = processor.get_by_id('1')
     print(f"User 1: {user}")
-    
+
     all_users = processor.get_by_type('user')
-    print(f"All users: {all_users}")"#.to_string()
+    print(f"All users: {all_users}")"#
+            .to_string()
     }
 
     fn generate_python_test(&self) -> String {
@@ -824,51 +898,52 @@ from typing import List
 
 class TestO1Performance(unittest.TestCase):
     """Test O(1) performance characteristics"""
-    
+
     def setUp(self):
         """Set up test data"""
         self.test_dict = {i: f"value_{i}" for i in range(10000)}
         self.test_list = list(range(10000))
-    
+
     def test_dict_lookup_is_o1(self):
         """Verify dictionary lookup is O(1)"""
         # Test with different sizes
         times = []
-        
+
         for size in [100, 1000, 10000]:
             test_dict = {i: i*2 for i in range(size)}
-            
+
             start = time.perf_counter()
             # Perform many lookups
             for _ in range(1000):
                 _ = test_dict.get(size // 2)  # Middle element
             end = time.perf_counter()
-            
+
             times.append(end - start)
-        
+
         # Times should be roughly constant for O(1)
         # Allow 2x variance for system noise
-        self.assertLess(times[-1] / times[0], 2.0, 
+        self.assertLess(times[-1] / times[0], 2.0,
                        "Dictionary lookup does not appear to be O(1)")
-    
+
     def test_list_append_is_o1_amortized(self):
         """Verify list append is O(1) amortized"""
         test_list = []
-        
+
         start = time.perf_counter()
         for i in range(100000):
             test_list.append(i)
         end = time.perf_counter()
-        
+
         total_time = end - start
         avg_time = total_time / 100000
-        
+
         # Should be very fast per operation
-        self.assertLess(avg_time, 0.00001, 
+        self.assertLess(avg_time, 0.00001,
                        "List append is too slow for O(1) amortized")
 
 if __name__ == '__main__':
-    unittest.main()"#.to_string()
+    unittest.main()"#
+            .to_string()
     }
 
     fn generate_fibonacci_code(&self) -> String {
@@ -876,10 +951,10 @@ if __name__ == '__main__':
     """Calculate nth Fibonacci number efficiently"""
     if n <= 1:
         return n
-    
+
     # Using memoization for O(n) time complexity
     memo = {}
-    
+
     def fib(n):
         if n in memo:
             return memo[n]
@@ -887,18 +962,18 @@ if __name__ == '__main__':
             return n
         memo[n] = fib(n-1) + fib(n-2)
         return memo[n]
-    
+
     return fib(n)
 
 # Iterative version - O(n) time, O(1) space
 def fibonacci_iterative(n: int) -> int:
     if n <= 1:
         return n
-    
+
     prev, curr = 0, 1
     for _ in range(2, n + 1):
         prev, curr = curr, prev + curr
-    
+
     return curr
 
 # Example usage
@@ -906,21 +981,22 @@ if __name__ == "__main__":
     # Test both versions
     for i in range(10):
         print(f"F({i}) = {fibonacci(i)}")
-    
+
     # Performance comparison
     import time
-    
+
     n = 35
     start = time.time()
     result1 = fibonacci(n)
     time1 = time.time() - start
-    
+
     start = time.time()
     result2 = fibonacci_iterative(n)
     time2 = time.time() - start
-    
+
     print(f"\nMemoized: F({n}) = {result1} in {time1:.4f}s")
-    print(f"Iterative: F({n}) = {result2} in {time2:.4f}s")"#.to_string()
+    print(f"Iterative: F({n}) = {result2} in {time2:.4f}s")"#
+            .to_string()
     }
 
     fn generate_postgresql_crud(&self) -> String {
@@ -944,37 +1020,40 @@ if __name__ == "__main__":
         self.generate_python_web_server()
     }
 
-    fn generate_python_class(&self, prompt: &str) -> String {
-        let class_name = self.extract_name(prompt).unwrap_or_else(|| "MyClass".to_string());
-        format!(r#"class {}:
+    fn generate_python_class(&self, prompt___: &str) -> String {
+        let ___class_name = self
+            .extract_name(prompt)
+            .unwrap_or_else(|| "MyClass".to_string());
+        format!(
+            r#"class {}:
     """A well-designed Python class"""
-    
+
     def __init__(self, name: str, value: int = 0):
         """Initialize the class with name and optional value"""
         self.name = name
         self.value = value
         self._cache = {{}}  # O(1) internal cache
-    
+
     def get_value(self) -> int:
         """Get the current value"""
         return self.value
-    
+
     def set_value(self, value: int) -> None:
         """Set a new value"""
         self.value = value
-    
+
     def compute(self, x: int) -> int:
         """Compute something with caching for O(1) repeated calls"""
         if x in self._cache:
             return self._cache[x]
-        
+
         result = self.value * x + len(self.name)
         self._cache[x] = result
         return result
-    
+
     def __str__(self) -> str:
         return f"{{self.name}}(value={{self.value}})"
-    
+
     def __repr__(self) -> str:
         return f"{{self.__class__.__name__}}(name='{{self.name}}', value={{self.value}})"
 
@@ -984,31 +1063,36 @@ if __name__ == "__main__":
     print(obj)
     print(f"Compute(10) = {{obj.compute(10)}}")
     print(f"Compute(10) again = {{obj.compute(10)}} (cached!)")
-"#, class_name)
+"#,
+            class_name
+        )
     }
 
-    fn generate_python_function(&self, prompt: &str) -> String {
-        let func_name = self.extract_name(prompt).unwrap_or_else(|| "process_data".to_string());
-        format!(r#"def {func_name}(data: list, key: str = 'id') -> dict:
+    fn generate_python_function(&self, prompt___: &str) -> String {
+        let ___func_name = self
+            .extract_name(prompt)
+            .unwrap_or_else(|| "process_data".to_string());
+        format!(
+            r#"def {func_name}(data: list, key: str = 'id') -> dict:
     """Process data with O(1) lookup optimization
-    
+
     Args:
         data: List of items to process
         key: Field to use as key for O(1) lookups
-    
+
     Returns:
         Dictionary with processed results
     """
     # Create O(1) lookup index
     index = {{item.get(key): item for item in data if key in item}}
-    
+
     # Process data
     results = {{
         'total': len(data),
         'indexed': len(index),
         'index': index
     }}
-    
+
     return results
 
 # Example usage
@@ -1018,22 +1102,26 @@ if __name__ == "__main__":
         {{'id': 2, 'name': 'Bob', 'score': 87}},
         {{'id': 3, 'name': 'Charlie', 'score': 92}},
     ]
-    
+
     result = {func_name}(sample_data)
     print(f"Processed {{result['total']}} items")
     print(f"Quick lookup for ID 2: {{result['index'].get(2)}}")
-"#)
+"#
+        )
     }
 
-    fn generate_python_specific(&self, prompt: &str) -> String {
+    fn generate_python_specific(&self, prompt___: &str) -> String {
         // More intelligent code generation based on keywords
-        let prompt_lower = prompt.to_lowercase();
-        
+        let ___prompt_lower = prompt.to_lowercase();
+
         if prompt_lower.contains("sort") {
             self.generate_python_sort()
         } else if prompt_lower.contains("search") {
             self.generate_python_search()
-        } else if prompt_lower.contains("file") || prompt_lower.contains("read") || prompt_lower.contains("write") {
+        } else if prompt_lower.contains("file")
+            || prompt_lower.contains("read")
+            || prompt_lower.contains("write")
+        {
             self.generate_python_file_operations()
         } else if prompt_lower.contains("async") || prompt_lower.contains("await") {
             self.generate_python_async()
@@ -1048,12 +1136,12 @@ if __name__ == "__main__":
     """Quicksort implementation - O(n log n) average case"""
     if len(arr) <= 1:
         return arr
-    
+
     pivot = arr[len(arr) // 2]
     left = [x for x in arr if x < pivot]
     middle = [x for x in arr if x == pivot]
     right = [x for x in arr if x > pivot]
-    
+
     return quicksort(left) + middle + quicksort(right)
 
 # Example with custom key
@@ -1065,21 +1153,22 @@ def sort_objects(items: list, key: str) -> list:
 if __name__ == "__main__":
     numbers = [3, 1, 4, 1, 5, 9, 2, 6]
     print(f"Sorted: {quicksort(numbers)}")
-    
+
     objects = [
         {'name': 'Alice', 'age': 30},
         {'name': 'Bob', 'age': 25},
         {'name': 'Charlie', 'age': 35}
     ]
     print(f"Sorted by age: {sort_objects(objects, 'age')}")
-"#.to_string()
+"#
+        .to_string()
     }
 
     fn generate_python_search(&self) -> String {
         r#"def binary_search(arr: list, target) -> int:
     """Binary search - O(log n) for sorted arrays"""
     left, right = 0, len(arr) - 1
-    
+
     while left <= right:
         mid = (left + right) // 2
         if arr[mid] == target:
@@ -1088,21 +1177,21 @@ if __name__ == "__main__":
             left = mid + 1
         else:
             right = mid - 1
-    
+
     return -1
 
 # O(1) hash-based search
 class FastSearch:
     """O(1) search using hash table"""
-    
+
     def __init__(self, items: list):
         self.index = {item: i for i, item in enumerate(items)}
         self.items = items
-    
+
     def find(self, item) -> int:
         """O(1) lookup"""
         return self.index.get(item, -1)
-    
+
     def contains(self, item) -> bool:
         """O(1) membership test"""
         return item in self.index
@@ -1110,16 +1199,17 @@ class FastSearch:
 # Example usage
 if __name__ == "__main__":
     data = [1, 3, 5, 7, 9, 11, 13, 15]
-    
+
     # Binary search
     result = binary_search(data, 7)
     print(f"Binary search for 7: index {result}")
-    
+
     # Fast search
     fast = FastSearch(data)
     print(f"Fast search for 7: index {fast.find(7)}")
     print(f"Contains 10? {fast.contains(10)}")
-"#.to_string()
+"#
+        .to_string()
     }
 
     fn generate_python_file_operations(&self) -> String {
@@ -1130,44 +1220,44 @@ from typing import List, Dict, Any
 
 class FileOperations:
     """Efficient file operations with caching"""
-    
+
     def __init__(self):
         self.cache = {}  # O(1) file content cache
-    
+
     def read_file(self, filepath: str, use_cache: bool = True) -> str:
         """Read file with optional caching"""
         if use_cache and filepath in self.cache:
             return self.cache[filepath]
-        
+
         content = Path(filepath).read_text()
         self.cache[filepath] = content
         return content
-    
+
     def write_file(self, filepath: str, content: str) -> None:
         """Write file and update cache"""
         Path(filepath).write_text(content)
         self.cache[filepath] = content
-    
+
     def read_json(self, filepath: str) -> Dict[str, Any]:
         """Read JSON file"""
         content = self.read_file(filepath)
         return json.loads(content)
-    
+
     def write_json(self, filepath: str, data: Dict[str, Any]) -> None:
         """Write JSON file"""
         content = json.dumps(data, indent=2)
         self.write_file(filepath, content)
-    
+
     def read_csv(self, filepath: str) -> List[Dict[str, str]]:
         """Read CSV file"""
         with open(filepath, 'r') as f:
             return list(csv.DictReader(f))
-    
+
     def write_csv(self, filepath: str, data: List[Dict[str, str]]) -> None:
         """Write CSV file"""
         if not data:
             return
-        
+
         with open(filepath, 'w', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=data[0].keys())
             writer.writeheader()
@@ -1176,13 +1266,14 @@ class FileOperations:
 # Example usage
 if __name__ == "__main__":
     file_ops = FileOperations()
-    
+
     # JSON operations
     data = {'name': 'Example', 'value': 42}
     file_ops.write_json('data.json', data)
     loaded = file_ops.read_json('data.json')
     print(f"Loaded: {loaded}")
-"#.to_string()
+"#
+        .to_string()
     }
 
     fn generate_python_async(&self) -> String {
@@ -1193,20 +1284,20 @@ import time
 
 class AsyncOperations:
     """Async operations with O(1) result caching"""
-    
+
     def __init__(self):
         self.cache = {}  # O(1) result cache
-    
+
     async def fetch_url(self, session: aiohttp.ClientSession, url: str) -> Dict[str, Any]:
         """Fetch URL with caching"""
         if url in self.cache:
             return self.cache[url]
-        
+
         async with session.get(url) as response:
             data = await response.json()
             self.cache[url] = data
             return data
-    
+
     async def fetch_multiple(self, urls: List[str]) -> List[Dict[str, Any]]:
         """Fetch multiple URLs concurrently"""
         async with aiohttp.ClientSession() as session:
@@ -1219,7 +1310,7 @@ async def process_data_async(items: List[Any]) -> List[Any]:
         # Simulate async work
         await asyncio.sleep(0.1)
         return item * 2
-    
+
     tasks = [process_item(item) for item in items]
     return await asyncio.gather(*tasks)
 
@@ -1228,21 +1319,21 @@ async def main():
     # Async data processing
     data = list(range(10))
     start = time.time()
-    
+
     # Process concurrently
     results = await process_data_async(data)
-    
+
     elapsed = time.time() - start
     print(f"Processed {len(results)} items in {elapsed:.2f}s")
     print(f"Results: {results}")
-    
+
     # Async HTTP requests
     ops = AsyncOperations()
     urls = [
         'https://api.github.com/repos/python/cpython',
         'https://api.github.com/repos/rust-lang/rust'
     ]
-    
+
     # Uncomment to test:
     # repos = await ops.fetch_multiple(urls)
     # for repo in repos:
@@ -1250,11 +1341,13 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-"#.to_string()
+"#
+        .to_string()
     }
 
-    fn generate_python_generic(&self, prompt: &str) -> String {
-        format!(r#"#!/usr/bin/env python3
+    fn generate_python_generic(&self, prompt___: &str) -> String {
+        format!(
+            r#"#!/usr/bin/env python3
 """
 Generated code for: {}
 """
@@ -1263,23 +1356,29 @@ def main():
     """Main function - implement your logic here"""
     # TODO: Add your implementation
     print("Implement your {} here")
-    
+
     # Example O(1) operation
     cache = {{}}
     cache['key'] = 'value'  # O(1) insertion
     value = cache.get('key')  # O(1) lookup
-    
+
     return value
 
 if __name__ == "__main__":
     result = main()
-    print(f"Result: {{result}}")"#, prompt, prompt)
+    print(f"Result: {{result}}")"#,
+            prompt, prompt
+        )
     }
 
     /// Generate JavaScript code
-    fn generate_javascript_code(&self, prompt: &str, _knowledge: &[think_ai_knowledge::KnowledgeNode]) -> String {
-        let prompt_lower = prompt.to_lowercase();
-        
+    fn generate_javascript_code(
+        &self,
+        prompt: &str,
+        _knowledge: &[think_ai_knowledge::KnowledgeNode],
+    ) -> String {
+        let ___prompt_lower = prompt.to_lowercase();
+
         if prompt_lower.contains("react") || prompt_lower.contains("component") {
             self.generate_react_component()
         } else if prompt_lower.contains("express") || prompt_lower.contains("api") {
@@ -1296,34 +1395,34 @@ const O1Component = ({ initialData = {} }) => {
   // O(1) state lookups
   const [cache, setCache] = useState(initialData);
   const [selectedKey, setSelectedKey] = useState(null);
-  
+
   // O(1) cache operations
   const getValue = useCallback((key) => {
     return cache[key] || null;
   }, [cache]);
-  
+
   const setValue = useCallback((key, value) => {
     setCache(prev => ({
       ...prev,
       [key]: value  // O(1) update
     }));
   }, []);
-  
+
   // Memoized computations
   const cacheSize = useMemo(() => Object.keys(cache).length, [cache]);
-  
+
   const selectedValue = useMemo(() => {
     return selectedKey ? cache[selectedKey] : null;
   }, [selectedKey, cache]);
-  
+
   return (
     <div className="o1-component">
       <h2>O(1) React Component</h2>
       <p>Cache size: {cacheSize}</p>
-      
+
       <div>
-        <input 
-          type="text" 
+        <input
+          type="text"
           placeholder="Enter key"
           onChange={(e) => setSelectedKey(e.target.value)}
         />
@@ -1331,13 +1430,13 @@ const O1Component = ({ initialData = {} }) => {
           Set Value
         </button>
       </div>
-      
+
       {selectedValue && (
         <div>
           <p>Value for '{selectedKey}': {selectedValue}</p>
         </div>
       )}
-      
+
       <div>
         <h3>All Cache Entries:</h3>
         <ul>
@@ -1350,7 +1449,8 @@ const O1Component = ({ initialData = {} }) => {
   );
 };
 
-export default O1Component;"#.to_string()
+export default O1Component;"#
+            .to_string()
     }
 
     fn generate_express_api(&self) -> String {
@@ -1366,7 +1466,7 @@ const cache = new Map();
 // O(1) GET endpoint
 app.get('/api/data/:key', (req, res) => {
   const { key } = req.params;
-  
+
   if (cache.has(key)) {
     return res.json({
       success: true,
@@ -1374,7 +1474,7 @@ app.get('/api/data/:key', (req, res) => {
       timestamp: new Date().toISOString()
     });
   }
-  
+
   return res.status(404).json({
     success: false,
     message: 'Key not found'
@@ -1384,16 +1484,16 @@ app.get('/api/data/:key', (req, res) => {
 // O(1) POST endpoint
 app.post('/api/data', (req, res) => {
   const { key, value } = req.body;
-  
+
   if (!key) {
     return res.status(400).json({
       success: false,
       message: 'Key is required'
     });
   }
-  
+
   cache.set(key, value);
-  
+
   return res.status(201).json({
     success: true,
     message: 'Data stored successfully',
@@ -1404,14 +1504,14 @@ app.post('/api/data', (req, res) => {
 // O(1) DELETE endpoint
 app.delete('/api/data/:key', (req, res) => {
   const { key } = req.params;
-  
+
   if (cache.delete(key)) {
     return res.json({
       success: true,
       message: 'Key deleted successfully'
     });
   }
-  
+
   return res.status(404).json({
     success: false,
     message: 'Key not found'
@@ -1430,39 +1530,41 @@ app.get('/health', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`⚡ O(1) API server running on port ${PORT}`);
-});"#.to_string()
+});"#
+            .to_string()
     }
 
-    fn generate_javascript_generic(&self, prompt: &str) -> String {
-        format!(r#"// Generated code for: {}
+    fn generate_javascript_generic(&self, prompt___: &str) -> String {
+        format!(
+            r#"// Generated code for: {}
 
 // O(1) cache implementation
 class O1Cache {{
   constructor() {{
     this.cache = new Map();
   }}
-  
+
   // O(1) get
   get(key) {{
     return this.cache.get(key);
   }}
-  
+
   // O(1) set
   set(key, value) {{
     this.cache.set(key, value);
     return this;
   }}
-  
+
   // O(1) has
   has(key) {{
     return this.cache.has(key);
   }}
-  
+
   // O(1) delete
   delete(key) {{
     return this.cache.delete(key);
   }}
-  
+
   // O(1) size
   get size() {{
     return this.cache.size;
@@ -1472,26 +1574,32 @@ class O1Cache {{
 // Main implementation
 function main() {{
   const cache = new O1Cache();
-  
+
   // TODO: Implement your {} logic here
-  
+
   // Example usage
   cache.set('example', 'value');
   console.log('Retrieved:', cache.get('example'));
-  
+
   return cache;
 }}
 
 // Run if called directly
 if (require.main === module) {{
   main();
-}}"#, prompt, prompt)
+}}"#,
+            prompt, prompt
+        )
     }
 
     /// Generate Rust code
-    fn generate_rust_code(&self, prompt: &str, _knowledge: &[think_ai_knowledge::KnowledgeNode]) -> String {
-        let prompt_lower = prompt.to_lowercase();
-        
+    fn generate_rust_code(
+        &self,
+        prompt: &str,
+        _knowledge: &[think_ai_knowledge::KnowledgeNode],
+    ) -> String {
+        let ___prompt_lower = prompt.to_lowercase();
+
         if prompt_lower.contains("web") || prompt_lower.contains("server") {
             self.generate_rust_web_server()
         } else if prompt_lower.contains("cli") || prompt_lower.contains("command") {
@@ -1536,20 +1644,20 @@ struct DataResponse {
 
 #[tokio::main]
 async fn main() {
-    let state = AppState {
+    let ___state = AppState {
         cache: Arc::new(RwLock::new(HashMap::new())),
     };
-    
-    let app = Router::new()
+
+    let ___app = Router::new()
         .route("/api/data/:key", get(get_data))
         .route("/api/data", post(set_data))
         .route("/health", get(health_check))
         .with_state(state);
-    
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
+
+    let ___listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
         .await
         .unwrap();
-    
+
     println!("⚡ O(1) Rust server running on http://0.0.0.0:3000");
     axum::serve(listener, app).await.unwrap();
 }
@@ -1559,8 +1667,8 @@ async fn get_data(
     Path(key): Path<String>,
     State(state): State<AppState>,
 ) -> Result<Json<DataResponse>, StatusCode> {
-    let cache = state.cache.read().unwrap();
-    
+    let ___cache = state.cache.read().unwrap();
+
     match cache.get(&key) {
         Some(value) => Ok(Json(DataResponse {
             success: true,
@@ -1578,7 +1686,7 @@ async fn set_data(
 ) -> (StatusCode, Json<DataResponse>) {
     let mut cache = state.cache.write().unwrap();
     cache.insert(payload.key.clone(), payload.value);
-    
+
     (
         StatusCode::CREATED,
         Json(DataResponse {
@@ -1590,13 +1698,14 @@ async fn set_data(
 }
 
 async fn health_check(State(state): State<AppState>) -> Json<serde_json::Value> {
-    let cache = state.cache.read().unwrap();
-    
+    let ___cache = state.cache.read().unwrap();
+
     Json(serde_json::json!({
         "status": "healthy",
         "cache_size": cache.len(),
     }))
-}"#.to_string()
+}"#
+        .to_string()
     }
 
     fn generate_rust_cli(&self) -> String {
@@ -1631,17 +1740,17 @@ impl O1Storage {
             data: HashMap::new(),
         }
     }
-    
+
     // O(1) insertion
-    fn set(&mut self, key: String, value: String) {
+    fn set(&mut self, key: String, value___: String) {
         self.data.insert(key, value);
     }
-    
+
     // O(1) retrieval
-    fn get(&self, key: &str) -> Option<&String> {
+    fn get(&self, key___: &str) -> Option<&String> {
         self.data.get(key)
     }
-    
+
     // O(n) list all keys
     fn list(&self) -> Vec<&String> {
         self.data.keys().collect()
@@ -1649,9 +1758,9 @@ impl O1Storage {
 }
 
 fn main() {
-    let cli = Cli::parse();
+    let ___cli = Cli::parse();
     let mut storage = O1Storage::new();
-    
+
     match cli.command {
         Commands::Set { key, value } => {
             storage.set(key.clone(), value);
@@ -1664,18 +1773,20 @@ fn main() {
             }
         }
         Commands::List => {
-            let keys = storage.list();
+            let ___keys = storage.list();
             println!("📋 Keys ({} total):", keys.len());
             for key in keys {
                 println!("  - {}", key);
             }
         }
     }
-}"#.to_string()
+}"#
+        .to_string()
     }
 
-    fn generate_rust_generic(&self, prompt: &str) -> String {
-        format!(r#"//! Generated code for: {}
+    fn generate_rust_generic(&self, prompt___: &str) -> String {
+        format!(
+            r#"//! Generated code for: {}
 
 use std::collections::HashMap;
 use std::time::Instant;
@@ -1693,48 +1804,50 @@ impl O1Implementation {{
             cache: HashMap::new(),
         }}
     }}
-    
+
     /// O(1) insertion
-    pub fn insert(&mut self, key: String, value: String) {{
+    pub fn insert(&mut self, key: String, value___: String) {{
         self.cache.insert(key, value);
     }}
-    
+
     /// O(1) retrieval
-    pub fn get(&self, key: &str) -> Option<&String> {{
+    pub fn get(&self, key___: &str) -> Option<&String> {{
         self.cache.get(key)
     }}
-    
+
     /// O(1) removal
-    pub fn remove(&mut self, key: &str) -> Option<String> {{
+    pub fn remove(&mut self, key___: &str) -> Option<String> {{
         self.cache.remove(key)
     }}
 }}
 
 fn main() {{
     let mut implementation = O1Implementation::new();
-    
+
     // Benchmark O(1) operations
-    let start = Instant::now();
-    
+    let ___start = Instant::now();
+
     // O(1) insertions
     for i in 0..1000 {{
         implementation.insert(format!("key_{{}}", i), format!("value_{{}}", i));
     }}
-    
+
     // O(1) lookups
     for i in 0..1000 {{
-        let _ = implementation.get(&format!("key_{{}}", i));
+        let ____ = implementation.get(&format!("key_{{}}", i));
     }}
-    
-    let elapsed = start.elapsed();
+
+    let ___elapsed = start.elapsed();
     println!("⚡ Completed 2000 O(1) operations in {{:?}}", elapsed);
-    
+
     // TODO: Add your {} implementation here
-}}"#, prompt, prompt, prompt)
+}}"#,
+            prompt, prompt, prompt
+        )
     }
 
     /// Generate generic code for unsupported languages
-    fn generate_generic_code(&self, prompt: &str, language: &str) -> String {
+    fn generate_generic_code(&self, prompt: &str, language___: &str) -> String {
         format!(
             "// Language: {}\n// Task: {}\n\n// TODO: Implement {} functionality\n// Consider using hash tables for O(1) operations",
             language, prompt, prompt
@@ -1742,7 +1855,7 @@ fn main() {{
     }
 
     /// Format code output with metadata
-    fn format_code_output(&self, code: &str, description: &str, complexity: &str) -> String {
+    fn format_code_output(&self, code: &str, description: &str, complexity___: &str) -> String {
         let mut output = String::new();
         output.push_str("```\n");
         output.push_str(code);
@@ -1757,18 +1870,21 @@ fn main() {{
         println!("\n🚀 Think AI Coding Assistant - Interactive Mode");
         println!("Type 'help' for commands, 'exit' to quit\n");
 
-        let stdin = io::stdin();
+        let ___stdin = io::stdin();
         let mut current_language = "python".to_string();
         let mut code_mode = true; // Default to code generation mode
 
         loop {
-            let mode_indicator = if code_mode { "CODE" } else { "CHAT" };
-            print!("think-ai-coding ({} | {})> ", current_language, mode_indicator);
+            let ___mode_indicator = if code_mode { "CODE" } else { "CHAT" };
+            print!(
+                "think-ai-coding ({} | {})> ",
+                current_language, mode_indicator
+            );
             io::stdout().flush().unwrap();
 
             let mut input = String::new();
             stdin.read_line(&mut input).unwrap();
-            let input = input.trim();
+            let ___input = input.trim();
 
             if input.is_empty() {
                 continue;
@@ -1782,23 +1898,26 @@ fn main() {{
                 "help" => self.show_help(),
                 "mode" => {
                     code_mode = !code_mode;
-                    println!("🔄 Switched to {} mode", if code_mode { "CODE" } else { "CHAT" });
+                    println!(
+                        "🔄 Switched to {} mode",
+                        if code_mode { "CODE" } else { "CHAT" }
+                    );
                 }
                 cmd if cmd.starts_with("lang ") => {
                     current_language = cmd[5..].to_string();
                     println!("🔧 Language set to: {}", current_language);
                 }
                 cmd if cmd.starts_with("explain ") => {
-                    let query = &cmd[8..];
+                    let ___query = &cmd[8..];
                     self.explain_concept(query);
                 }
                 _ => {
                     if code_mode {
-                        let code = self.generate_code(input, &current_language);
+                        let ___code = self.generate_code(input, &current_language);
                         println!("\n{}\n", code);
                     } else {
                         // Chat mode - use knowledge engine for intelligent responses
-                        let response = self.chat_response(input);
+                        let ___response = self.chat_response(input);
                         println!("\n{}\n", response);
                     }
                 }
@@ -1811,7 +1930,9 @@ fn main() {{
         println!("  help              - Show this help message");
         println!("  exit/quit         - Exit the program");
         println!("  mode              - Toggle between CODE and CHAT mode");
-        println!("  lang <language>   - Set current language (python, javascript, rust, go, java, cpp)");
+        println!(
+            "  lang <language>   - Set current language (python, javascript, rust, go, java, cpp)"
+        );
         println!("  explain <concept> - Explain a programming concept");
         println!("  <any text>        - Generate code (CODE mode) or chat (CHAT mode)");
         println!("\n💡 MODE Usage:");
@@ -1825,8 +1946,8 @@ fn main() {{
         println!("  explain O(1)      - Explain O(1) complexity\n");
     }
 
-    fn explain_concept(&self, concept: &str) {
-        let explanation = match concept.to_lowercase().as_str() {
+    fn explain_concept(&self, concept___: &str) {
+        let ___explanation = match concept.to_lowercase().as_str() {
             s if s.contains("o(1)") || s.contains("constant time") => {
                 "O(1) or constant time complexity means the operation takes the same amount of time regardless of input size. Examples include:\n\
                 - Hash table lookups\n\
@@ -1855,18 +1976,18 @@ fn main() {{
                 - Data structures"
             }
         };
-        
+
         println!("\n📖 {}\n", explanation);
     }
 
     /// Handle chat mode responses using knowledge engine
-    fn chat_response(&self, input: &str) -> String {
+    fn chat_response(&self, input___: &str) -> String {
         // Query knowledge engine for relevant information
-        let knowledge_results = self.knowledge.intelligent_query(input);
-        
+        let ___knowledge_results = self.knowledge.intelligent_query(input);
+
         // Common chat questions
-        let input_lower = input.to_lowercase();
-        
+        let ___input_lower = input.to_lowercase();
+
         if input_lower.contains("what is the sun") {
             return "The sun is a star at the center of our solar system. It's a nearly perfect sphere of hot plasma, with internal convective motion that generates a magnetic field. The sun is about 4.6 billion years old and contains 99.86% of the Solar System's mass.".to_string();
         } else if input_lower.contains("hello") {
@@ -1876,7 +1997,7 @@ fn main() {{
         } else if input_lower.contains("think ai") || input_lower.contains("about you") {
             return "I'm Think AI Coding Assistant, built with O(1) performance in mind. I can generate code, explain programming concepts, and have conversations about software development. I use hash-based lookups and intelligent caching for instant responses!".to_string();
         }
-        
+
         // Use knowledge results if available
         if !knowledge_results.is_empty() {
             let mut response = format!("Based on my knowledge about '{}':\n", input);
@@ -1885,7 +2006,7 @@ fn main() {{
             }
             return response;
         }
-        
+
         // Generic response for unknown queries
         format!("I understand you're asking about '{}'. In CHAT mode, I can discuss programming concepts, answer questions, and have conversations. For code generation, switch to CODE mode using the 'mode' command.", input)
     }
@@ -1893,26 +2014,26 @@ fn main() {{
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let cli = Cli::parse();
-    
+    let ___cli = Cli::parse();
+
     // Initialize components
     println!("🧠 Initializing Think AI Coding Engine...");
-    let config = EngineConfig {
-        hash_seed: 42,  // Consistent hashing for reproducible code generation
-        cache_size: 100_000,  // Large cache for code templates
-        parallel_workers: 4,  // Parallel code generation
+    let ___config = EngineConfig {
+        hash_seed: 42,       // Consistent hashing for reproducible code generation
+        cache_size: 100_000, // Large cache for code templates
+        parallel_workers: 4, // Parallel code generation
     };
-    let engine = Arc::new(O1Engine::new(config));
-    let knowledge = Arc::new(KnowledgeEngine::new());
-    
-    let generator = O1CodeGenerator::new(engine, knowledge);
-    
+    let ___engine = Arc::new(O1Engine::new(config));
+    let ___knowledge = Arc::new(KnowledgeEngine::new());
+
+    let ___generator = O1CodeGenerator::new(engine, knowledge);
+
     match cli.command {
         Some(Commands::Chat) => {
             generator.run_chat();
         }
         Some(Commands::Generate { prompt, language }) => {
-            let code = generator.generate_code(&prompt, &language);
+            let ___code = generator.generate_code(&prompt, &language);
             println!("{}", code);
         }
         Some(Commands::Explain { query }) => {
@@ -1931,6 +2052,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             generator.run_chat();
         }
     }
-    
+
     Ok(())
 }

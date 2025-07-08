@@ -1,383 +1,191 @@
-//! UI components for consciousness visualization interface
-//! 
-//! Provides O(1) component rendering and interaction handling
+use wasm_bindgen::JsCast;
+use web_sys::Element;
+use yew::prelude::*;
 
-use wasm_bindgen::JsValue;
-use web_sys::{Document, Element, HtmlElement, Window};
-use std::collections::HashMap;
-
-/// O(1) UI component registry with hash-based lookups
-pub struct ComponentRegistry {
-    components: HashMap<String, Box<dyn UIComponent>>,
-    active_components: Vec<String>,
+#[derive(Clone, PartialEq, Properties)]
+pub struct ConsciousnessLevelProps {
+    pub level: i32,
 }
 
-pub trait UIComponent {
-    fn render(&self, container: &Element) -> Result<(), JsValue>;
-    fn update(&mut self, data: &ComponentData) -> Result<(), JsValue>;
-    fn handle_event(&mut self, event_type: &str, data: &str) -> Result<(), JsValue>;
-    fn get_id(&self) -> &str;
+#[function_component(ConsciousnessLevel)]
+pub fn consciousness_level(props___: &ConsciousnessLevelProps) -> Html {
+    html! {
+        <div class="consciousness-level">
+            <div class="level-bar">
+                <div class="level-fill" style={format!("width: {}%", props.level)} />
+            </div>
+            <span class="level-text">{ format!("Consciousness: {}%", props.level) }</span>
+        </div>
+    }
 }
 
-#[derive(Debug, Clone)]
-pub struct ComponentData {
-    pub id: String,
-    pub values: HashMap<String, String>,
+#[derive(Clone, PartialEq)]
+pub struct PerformanceMetrics {
+    pub response_time: f64,
+    pub complexity: String,
+    pub confidence: f64,
 }
 
-impl ComponentRegistry {
-    pub fn new() -> Self {
+#[derive(Clone, PartialEq, Properties)]
+pub struct PulsingOrbProps {
+    pub label: String,
+    pub size: f32,
+}
+
+#[function_component(PulsingOrb)]
+pub fn pulsing_orb(props___: &PulsingOrbProps) -> Html {
+    let ___style = format!(
+        "width: {}px; height: {}px",
+        props.size * 10.0,
+        props.size * 10.0
+    );
+
+    html! {
+        <div class="pulsing-orb" style={style}>
+            <div class="orb-inner" />
+            <span class="orb-label">{ &props.label }</span>
+        </div>
+    }
+}
+
+pub struct ChatInterface {
+    messages: Vec<(String, String)>,
+    current_input: String,
+}
+
+pub enum ChatMsg {
+    AddMessage(String, String),
+    UpdateInput(String),
+    SendMessage,
+}
+
+#[derive(Clone, PartialEq, Properties)]
+pub struct ChatProps {
+    pub on_send: Callback<String>,
+}
+
+impl Component for ChatInterface {
+    type Message = ChatMsg;
+    type Properties = ChatProps;
+
+    fn create(_ctx___: &Context<Self>) -> Self {
         Self {
-            components: HashMap::new(),
-            active_components: Vec::new(),
+            messages: vec![],
+            current_input: String::new(),
         }
     }
 
-    /// O(1) component registration
-    pub fn register_component(&mut self, component: Box<dyn UIComponent>) {
-        let id = component.get_id().to_string();
-        self.components.insert(id.clone(), component);
-        self.active_components.push(id);
-    }
-
-    /// O(1) component retrieval by ID
-    pub fn get_component(&mut self, id: &str) -> Option<&mut Box<dyn UIComponent>> {
-        self.components.get_mut(id)
-    }
-
-    /// Render all active components
-    pub fn render_all(&self, document: &Document) -> Result<(), JsValue> {
-        for component_id in &self.active_components {
-            if let Some(component) = self.components.get(component_id) {
-                if let Some(container) = document.get_element_by_id(component_id) {
-                    component.render(&container)?;
+    fn update(&mut self, ctx: &Context<Self>, msg__: ChatMsg) -> bool {
+        match msg {
+            ChatMsg::AddMessage(user, response) => {
+                self.messages.push((user, response));
+                true
+            }
+            ChatMsg::UpdateInput(input) => {
+                self.current_input = input;
+                true
+            }
+            ChatMsg::SendMessage => {
+                if !self.current_input.is_empty() {
+                    ctx.props().on_send.emit(self.current_input.clone());
+                    self.current_input.clear();
                 }
+                true
             }
         }
-        Ok(())
-    }
-}
-
-/// Consciousness metrics display component
-pub struct ConsciousnessMetrics {
-    id: String,
-    consciousness_level: f32,
-    neural_activity: f32,
-    memory_utilization: f32,
-    processing_speed: f32,
-}
-
-impl ConsciousnessMetrics {
-    pub fn new(id: String) -> Self {
-        Self {
-            id,
-            consciousness_level: 0.0,
-            neural_activity: 0.0,
-            memory_utilization: 0.0,
-            processing_speed: 0.0,
-        }
     }
 
-    pub fn update_metrics(
-        &mut self,
-        consciousness: f32,
-        neural: f32,
-        memory: f32,
-        speed: f32,
-    ) {
-        self.consciousness_level = consciousness.clamp(0.0, 1.0);
-        self.neural_activity = neural.clamp(0.0, 1.0);
-        self.memory_utilization = memory.clamp(0.0, 1.0);
-        self.processing_speed = speed.clamp(0.0, 1.0);
-    }
-}
-
-impl UIComponent for ConsciousnessMetrics {
-    fn render(&self, container: &Element) -> Result<(), JsValue> {
-        let html = format!(
-            r#"
-            <div class="consciousness-metrics">
-                <h3>Consciousness Metrics</h3>
-                <div class="metric">
-                    <label>Consciousness Level:</label>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: {}%"></div>
-                    </div>
-                    <span class="value">{:.1}%</span>
+    fn view(&self, ctx___: &Context<Self>) -> Html {
+        html! {
+            <div class="chat-interface">
+                <div class="messages">
+                    { for self.messages.iter().map(|(user, response)| {
+                        html! {
+                            <div class="message-pair">
+                                <div class="user-message">{ user }</div>
+                                <div class="ai-message">{ response }</div>
+                            </div>
+                        }
+                    }) }
                 </div>
-                <div class="metric">
-                    <label>Neural Activity:</label>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: {}%"></div>
-                    </div>
-                    <span class="value">{:.1}%</span>
-                </div>
-                <div class="metric">
-                    <label>Memory Utilization:</label>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: {}%"></div>
-                    </div>
-                    <span class="value">{:.1}%</span>
-                </div>
-                <div class="metric">
-                    <label>Processing Speed:</label>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: {}%"></div>
-                    </div>
-                    <span class="value">{:.1}%</span>
-                </div>
-            </div>
-            <style>
-                .consciousness-metrics {{
-                    background: rgba(0, 20, 40, 0.8);
-                    border: 1px solid #00ffff;
-                    border-radius: 8px;
-                    padding: 16px;
-                    color: #ffffff;
-                    font-family: 'Courier New', monospace;
-                }}
-                .metric {{
-                    margin: 8px 0;
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                }}
-                .metric label {{
-                    width: 140px;
-                    font-size: 12px;
-                }}
-                .progress-bar {{
-                    flex: 1;
-                    height: 16px;
-                    background: rgba(255, 255, 255, 0.1);
-                    border-radius: 8px;
-                    overflow: hidden;
-                }}
-                .progress {{
-                    height: 100%;
-                    background: linear-gradient(90deg, #00ffff, #ff00ff);
-                    transition: width 0.3s ease;
-                }}
-                .value {{
-                    width: 40px;
-                    text-align: right;
-                    font-size: 12px;
-                }}
-            </style>
-            "#,
-            self.consciousness_level * 100.0,
-            self.consciousness_level * 100.0,
-            self.neural_activity * 100.0,
-            self.neural_activity * 100.0,
-            self.memory_utilization * 100.0,
-            self.memory_utilization * 100.0,
-            self.processing_speed * 100.0,
-            self.processing_speed * 100.0,
-        );
-
-        container.set_inner_html(&html);
-        Ok(())
-    }
-
-    fn update(&mut self, data: &ComponentData) -> Result<(), JsValue> {
-        if let Some(consciousness) = data.values.get("consciousness_level") {
-            self.consciousness_level = consciousness.parse().unwrap_or(0.0);
-        }
-        if let Some(neural) = data.values.get("neural_activity") {
-            self.neural_activity = neural.parse().unwrap_or(0.0);
-        }
-        if let Some(memory) = data.values.get("memory_utilization") {
-            self.memory_utilization = memory.parse().unwrap_or(0.0);
-        }
-        if let Some(speed) = data.values.get("processing_speed") {
-            self.processing_speed = speed.parse().unwrap_or(0.0);
-        }
-        Ok(())
-    }
-
-    fn handle_event(&mut self, _event_type: &str, _data: &str) -> Result<(), JsValue> {
-        // Metrics component is read-only
-        Ok(())
-    }
-
-    fn get_id(&self) -> &str {
-        &self.id
-    }
-}
-
-/// Interactive query interface component
-pub struct QueryInterface {
-    id: String,
-    current_query: String,
-    response_history: Vec<(String, String)>,
-    is_processing: bool,
-}
-
-impl QueryInterface {
-    pub fn new(id: String) -> Self {
-        Self {
-            id,
-            current_query: String::new(),
-            response_history: Vec::new(),
-            is_processing: false,
-        }
-    }
-
-    pub fn add_exchange(&mut self, query: String, response: String) {
-        self.response_history.push((query, response));
-        if self.response_history.len() > 50 {
-            self.response_history.remove(0);
-        }
-    }
-
-    pub fn set_processing(&mut self, processing: bool) {
-        self.is_processing = processing;
-    }
-}
-
-impl UIComponent for QueryInterface {
-    fn render(&self, container: &Element) -> Result<(), JsValue> {
-        let history_html = self.response_history.iter()
-            .rev()
-            .take(10)
-            .map(|(q, r)| format!(
-                r#"
-                <div class="exchange">
-                    <div class="query">Q: {}</div>
-                    <div class="response">A: {}</div>
-                </div>
-                "#, 
-                q, r
-            ))
-            .collect::<Vec<_>>()
-            .join("");
-
-        let processing_indicator = if self.is_processing {
-            r#"<div class="processing">Processing query...</div>"#
-        } else {
-            ""
-        };
-
-        let html = format!(
-            r#"
-            <div class="query-interface">
-                <h3>Consciousness Query Interface</h3>
-                <div class="history">
-                    {}
-                </div>
-                {}
                 <div class="input-area">
-                    <input type="text" id="query-input" placeholder="Ask the consciousness..." value="{}">
-                    <button id="query-submit" {}>Submit</button>
+                    <input
+                        type="text"
+                        value={self.current_input.clone()}
+                        oninput={ctx.link().callback(|e: InputEvent| {
+                            let ___input = e.target_unchecked_into::<web_sys::HtmlInputElement>();
+                            ChatMsg::UpdateInput(input.value())
+                        })}
+                        onkeypress={ctx.link().callback(|e: KeyboardEvent| {
+                            if e.key() == "Enter" {
+                                ChatMsg::SendMessage
+                            } else {
+                                ChatMsg::UpdateInput(String::new())
+                            }
+                        })}
+                    />
+                    <button onclick={ctx.link().callback(|_| ChatMsg::SendMessage)}>
+                        { "Send" }
+                    </button>
                 </div>
             </div>
-            <style>
-                .query-interface {{
-                    background: rgba(0, 20, 40, 0.9);
-                    border: 1px solid #00ffff;
-                    border-radius: 8px;
-                    padding: 16px;
-                    color: #ffffff;
-                    font-family: 'Courier New', monospace;
-                    max-height: 400px;
-                    overflow-y: auto;
-                }}
-                .history {{
-                    max-height: 250px;
-                    overflow-y: auto;
-                    margin-bottom: 16px;
-                }}
-                .exchange {{
-                    margin: 8px 0;
-                    padding: 8px;
-                    background: rgba(255, 255, 255, 0.05);
-                    border-radius: 4px;
-                }}
-                .query {{
-                    color: #00ffff;
-                    margin-bottom: 4px;
-                }}
-                .response {{
-                    color: #ffffff;
-                    margin-left: 16px;
-                }}
-                .processing {{
-                    color: #ffff00;
-                    text-align: center;
-                    margin: 8px 0;
-                    animation: pulse 1s infinite;
-                }}
-                .input-area {{
-                    display: flex;
-                    gap: 8px;
-                }}
-                #query-input {{
-                    flex: 1;
-                    padding: 8px;
-                    background: rgba(255, 255, 255, 0.1);
-                    border: 1px solid #00ffff;
-                    border-radius: 4px;
-                    color: #ffffff;
-                }}
-                #query-submit {{
-                    padding: 8px 16px;
-                    background: #00ffff;
-                    border: none;
-                    border-radius: 4px;
-                    color: #000000;
-                    cursor: pointer;
-                }}
-                #query-submit:hover {{
-                    background: #ffffff;
-                }}
-                #query-submit:disabled {{
-                    background: #666666;
-                    cursor: not-allowed;
-                }}
-                @keyframes pulse {{
-                    0%, 100% {{ opacity: 1; }}
-                    50% {{ opacity: 0.5; }}
-                }}
-            </style>
-            "#,
-            history_html,
-            processing_indicator,
-            self.current_query,
-            if self.is_processing { "disabled" } else { "" }
-        );
+        }
+    }
+}
 
-        container.set_inner_html(&html);
-        Ok(())
+pub struct ResponseStream {
+    responses: Vec<String>,
+    is_streaming: bool,
+}
+
+pub enum StreamMsg {
+    AddResponse(String),
+    StartStream,
+    StopStream,
+}
+
+impl Component for ResponseStream {
+    type Message = StreamMsg;
+    type Properties = ();
+
+    fn create(_ctx___: &Context<Self>) -> Self {
+        Self {
+            responses: vec![],
+            is_streaming: false,
+        }
     }
 
-    fn update(&mut self, data: &ComponentData) -> Result<(), JsValue> {
-        if let Some(query) = data.values.get("current_query") {
-            self.current_query = query.clone();
-        }
-        if let Some(processing) = data.values.get("is_processing") {
-            self.is_processing = processing == "true";
-        }
-        Ok(())
-    }
-
-    fn handle_event(&mut self, event_type: &str, data: &str) -> Result<(), JsValue> {
-        match event_type {
-            "submit_query" => {
-                self.current_query = data.to_string();
-                self.is_processing = true;
+    fn update(&mut self, _ctx: &Context<Self>, msg__: ChatMsg) -> bool {
+        match msg {
+            StreamMsg::AddResponse(response) => {
+                self.responses.push(response);
+                true
             }
-            "query_response" => {
-                if let Some(last_query) = self.response_history.last().map(|(q, _)| q.clone()) {
-                    self.response_history.last_mut().unwrap().1 = data.to_string();
-                }
-                self.is_processing = false;
+            StreamMsg::StartStream => {
+                self.is_streaming = true;
+                true
             }
-            _ => {}
+            StreamMsg::StopStream => {
+                self.is_streaming = false;
+                true
+            }
         }
-        Ok(())
     }
 
-    fn get_id(&self) -> &str {
-        &self.id
+    fn view(&self, _ctx___: &Context<Self>) -> Html {
+        html! {
+            <div class="response-stream">
+                { if self.is_streaming {
+                    html! { <div class="streaming-indicator">{ "AI is thinking..." }</div> }
+                } else {
+                    html! {}
+                }}
+                <div class="responses">
+                    { for self.responses.iter().map(|r| {
+                        html! { <div class="response-item">{ r }</div> }
+                    }) }
+                </div>
+            </div>
+        }
     }
 }

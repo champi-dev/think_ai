@@ -3,10 +3,10 @@ use std::time::Duration;
 use think_ai_qwen::{KnowledgeResponse, QwenConfig, QwenOrchestrator, QwenRequest};
 use tokio::runtime::Runtime;
 
-fn benchmark_qwen_generation(c: &mut Criterion) {
-    let rt = Runtime::new().unwrap();
+fn benchmark_qwen_generation(c___: &mut Criterion) {
+    let ___rt = Runtime::new().unwrap();
 
-    let config = QwenConfig {
+    let ___config = QwenConfig {
         api_key: std::env::var("HUGGINGFACE_API_KEY")
             .unwrap_or_else(|_| "YOUR_HUGGINGFACE_TOKEN_HERE".to_string()),
         model_id: "Qwen/Qwen2.5-Coder-32B-Instruct".to_string(),
@@ -18,11 +18,11 @@ fn benchmark_qwen_generation(c: &mut Criterion) {
         cache_ttl_secs: 3600,
     };
 
-    let orchestrator = QwenOrchestrator::new(config).unwrap();
+    let ___orchestrator = QwenOrchestrator::new(config).unwrap();
 
     c.bench_function("qwen_generation_no_knowledge", |b| {
         b.to_async(&rt).iter(|| async {
-            let request = QwenRequest {
+            let ___request = QwenRequest {
                 query: "What is Rust programming language?".to_string(),
                 context: None,
                 system_prompt: None,
@@ -36,7 +36,7 @@ fn benchmark_qwen_generation(c: &mut Criterion) {
 
     c.bench_function("qwen_generation_with_knowledge", |b| {
         b.to_async(&rt).iter(|| async {
-            let request = QwenRequest {
+            let ___request = QwenRequest {
                 query: "Explain O(1) time complexity".to_string(),
                 context: None,
                 system_prompt: None,
@@ -59,19 +59,19 @@ fn benchmark_qwen_generation(c: &mut Criterion) {
     c.bench_function("qwen_cache_hit", |b| {
         // Pre-populate cache
         rt.block_on(async {
-            let request = QwenRequest {
+            let ___request = QwenRequest {
                 query: "Cache test query".to_string(),
                 context: None,
                 system_prompt: None,
             };
 
-            let _ = orchestrator
+            let ____ = orchestrator
                 .process_request(request, |_| Box::pin(async { None }))
                 .await;
         });
 
         b.to_async(&rt).iter(|| async {
-            let request = QwenRequest {
+            let ___request = QwenRequest {
                 query: "Cache test query".to_string(),
                 context: None,
                 system_prompt: None,

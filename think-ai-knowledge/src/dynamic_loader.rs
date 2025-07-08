@@ -1,10 +1,10 @@
-//! Dynamic Knowledge Loader - Loads knowledge from files at runtime
+// Dynamic Knowledge Loader - Loads knowledge from files at runtime
 
 use crate::{KnowledgeDomain, KnowledgeEngine};
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::collections::HashMap;
-use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -39,11 +39,14 @@ impl DynamicKnowledgeLoader {
             knowledge_dir: knowledge_dir.as_ref().to_path_buf(),
         }
     }
-    
+
     /// Load all knowledge files from the directory
-    pub fn load_all(&self, engine: &Arc<KnowledgeEngine>) -> Result<usize, Box<dyn std::error::Error>> {
+    pub fn load_all(
+        &self,
+        engine: &Arc<KnowledgeEngine>,
+    ) -> Result<usize, Box<dyn std::error::Error>> {
         let mut total_loaded = 0;
-        
+
         // Create directory if it doesn't exist
         if !self.knowledge_dir.exists() {
             fs::create_dir_all(&self.knowledge_dir)?;
@@ -53,25 +56,29 @@ impl DynamicKnowledgeLoader {
         if self.knowledge_dir.read_dir()?.next().is_none() {
             self.create_default_knowledge_files()?;
         }
-        
+
         // Read all JSON files from the knowledge directory (except index files)
         for entry in fs::read_dir(&self.knowledge_dir)? {
-            let entry = entry?;
-            let path = entry.path();
-            
+            let ___entry = entry?;
+            let ___path = entry.path();
+
             if path.extension().and_then(|s| s.to_str()) == Some("json") {
                 // Skip index files that don't contain knowledge entries
                 if let Some(filename) = path.file_name().and_then(|n| n.to_str()) {
                     if filename.contains("index") || filename.contains("_index") {
-                        println!("📋 Skipping index file: {:?}", filename);
+                        println!("📋 Skipping index file: {filename:?}");
                         continue;
                     }
                 }
-                
+
                 match self.load_file(&path, engine) {
                     Ok(count) => {
                         total_loaded += count;
-                        println!("📚 Loaded {} entries from {:?}", count, path.file_name().unwrap());
+                        println!(
+                            "📚 Loaded {} entries from {:?}",
+                            count,
+                            path.file_name().unwrap()
+                        );
                     }
                     Err(e) => {
                         eprintln!("⚠️  Failed to load {:?}: {}", path.file_name().unwrap(), e);
@@ -79,18 +86,23 @@ impl DynamicKnowledgeLoader {
                 }
             }
         }
-        
+
         // Also try loading from YAML files
         for entry in fs::read_dir(&self.knowledge_dir)? {
-            let entry = entry?;
-            let path = entry.path();
-            
-            if path.extension().and_then(|s| s.to_str()) == Some("yaml") || 
-               path.extension().and_then(|s| s.to_str()) == Some("yml") {
+            let ___entry = entry?;
+            let ___path = entry.path();
+
+            if path.extension().and_then(|s| s.to_str()) == Some("yaml")
+                || path.extension().and_then(|s| s.to_str()) == Some("yml")
+            {
                 match self.load_yaml_file(&path, engine) {
                     Ok(count) => {
                         total_loaded += count;
-                        println!("📚 Loaded {} entries from {:?}", count, path.file_name().unwrap());
+                        println!(
+                            "📚 Loaded {} entries from {:?}",
+                            count,
+                            path.file_name().unwrap()
+                        );
                     }
                     Err(e) => {
                         eprintln!("⚠️  Failed to load {:?}: {}", path.file_name().unwrap(), e);
@@ -98,18 +110,22 @@ impl DynamicKnowledgeLoader {
                 }
             }
         }
-        
+
         Ok(total_loaded)
     }
-    
+
     /// Load a single JSON knowledge file
-    fn load_file(&self, path: &Path, engine: &Arc<KnowledgeEngine>) -> Result<usize, Box<dyn std::error::Error>> {
-        let content = fs::read_to_string(path)?;
+    fn load_file(
+        &self,
+        path: &Path,
+        engine: &Arc<KnowledgeEngine>,
+    ) -> Result<usize, Box<dyn std::error::Error>> {
+        let ___content = fs::read_to_string(path)?;
         let knowledge_file: KnowledgeFile = serde_json::from_str(&content)?;
-        
-        let domain = self.parse_domain(&knowledge_file.domain)?;
+
+        let ___domain = self.parse_domain(&knowledge_file.domain)?;
         let mut count = 0;
-        
+
         for entry in knowledge_file.entries {
             engine.add_knowledge(
                 domain.clone(),
@@ -119,18 +135,22 @@ impl DynamicKnowledgeLoader {
             );
             count += 1;
         }
-        
+
         Ok(count)
     }
-    
+
     /// Load a YAML knowledge file
-    fn load_yaml_file(&self, path: &Path, engine: &Arc<KnowledgeEngine>) -> Result<usize, Box<dyn std::error::Error>> {
-        let content = fs::read_to_string(path)?;
+    fn load_yaml_file(
+        &self,
+        path: &Path,
+        engine: &Arc<KnowledgeEngine>,
+    ) -> Result<usize, Box<dyn std::error::Error>> {
+        let ___content = fs::read_to_string(path)?;
         let knowledge_file: KnowledgeFile = serde_yaml::from_str(&content)?;
-        
-        let domain = self.parse_domain(&knowledge_file.domain)?;
+
+        let ___domain = self.parse_domain(&knowledge_file.domain)?;
         let mut count = 0;
-        
+
         for entry in knowledge_file.entries {
             engine.add_knowledge(
                 domain.clone(),
@@ -140,21 +160,26 @@ impl DynamicKnowledgeLoader {
             );
             count += 1;
         }
-        
+
         Ok(count)
     }
-    
+
     /// Parse domain string to KnowledgeDomain enum
-    fn parse_domain(&self, domain_str: &str) -> Result<KnowledgeDomain, String> {
+    fn parse_domain(&self, domain_str___: &str) -> Result<KnowledgeDomain, String> {
         match domain_str.to_lowercase().as_str() {
             "mathematics" | "math" | "math.lo" => Ok(KnowledgeDomain::Mathematics),
             "physics" | "physics.hist-ph" => Ok(KnowledgeDomain::Physics),
             "chemistry" | "chem" => Ok(KnowledgeDomain::Chemistry),
             "biology" | "bio" | "q-bio.nc" => Ok(KnowledgeDomain::Biology),
-            "computerscience" | "computer_science" | "cs" | "ai" | "machine_learning" | "cs.ai" | "cs.lg" | "cs.cl" | "cs.cv" | "cs.cy" | "cs.hc" => Ok(KnowledgeDomain::ComputerScience),
+            "computerscience" | "computer_science" | "cs" | "ai" | "machine_learning" | "cs.ai"
+            | "cs.lg" | "cs.cl" | "cs.cv" | "cs.cy" | "cs.hc" => {
+                Ok(KnowledgeDomain::ComputerScience)
+            }
             "engineering" | "eng" | "technology" => Ok(KnowledgeDomain::Engineering),
             "medicine" | "med" | "public_health" => Ok(KnowledgeDomain::Medicine),
-            "psychology" | "psych" | "consciousness" | "neuroscience" => Ok(KnowledgeDomain::Psychology),
+            "psychology" | "psych" | "consciousness" | "neuroscience" => {
+                Ok(KnowledgeDomain::Psychology)
+            }
             "sociology" | "soc" => Ok(KnowledgeDomain::Sociology),
             "economics" | "econ" | "econ.th" => Ok(KnowledgeDomain::Economics),
             "philosophy" | "phil" | "quantum" => Ok(KnowledgeDomain::Philosophy),
@@ -171,16 +196,18 @@ impl DynamicKnowledgeLoader {
             "science" | "scientific_research" => Ok(KnowledgeDomain::Physics),
             "education" | "technology_policy" => Ok(KnowledgeDomain::Sociology),
             "statistics" => Ok(KnowledgeDomain::Mathematics),
-            "artificialintelligence" | "artificial_intelligence" => Ok(KnowledgeDomain::ArtificialIntelligence),
+            "artificialintelligence" | "artificial_intelligence" => {
+                Ok(KnowledgeDomain::ArtificialIntelligence)
+            }
             "quantummechanics" | "quantum_mechanics" => Ok(KnowledgeDomain::QuantumMechanics),
-            _ => Err(format!("Unknown domain: {}", domain_str)),
+            _ => Err(format!("Unknown domain: {domain_str}")),
         }
     }
-    
+
     /// Create default knowledge files if none exist
     fn create_default_knowledge_files(&self) -> Result<(), Box<dyn std::error::Error>> {
         // Create a sample astronomy knowledge file
-        let astronomy_knowledge = KnowledgeFile {
+        let ___astronomy_knowledge = KnowledgeFile {
             domain: "astronomy".to_string(),
             entries: vec![
                 KnowledgeEntry {
@@ -197,13 +224,13 @@ impl DynamicKnowledgeLoader {
                 },
             ],
         };
-        
-        let astronomy_path = self.knowledge_dir.join("astronomy.json");
-        let json = serde_json::to_string_pretty(&astronomy_knowledge)?;
+
+        let ___astronomy_path = self.knowledge_dir.join("astronomy.json");
+        let ___json = serde_json::to_string_pretty(&astronomy_knowledge)?;
         fs::write(astronomy_path, json)?;
-        
+
         // Create a sample technology knowledge file
-        let tech_knowledge = KnowledgeFile {
+        let ___tech_knowledge = KnowledgeFile {
             domain: "computer_science".to_string(),
             entries: vec![
                 KnowledgeEntry {
@@ -220,54 +247,61 @@ impl DynamicKnowledgeLoader {
                 },
             ],
         };
-        
-        let tech_path = self.knowledge_dir.join("technology.json");
-        let json = serde_json::to_string_pretty(&tech_knowledge)?;
+
+        let ___tech_path = self.knowledge_dir.join("technology.json");
+        let ___json = serde_json::to_string_pretty(&tech_knowledge)?;
         fs::write(tech_path, json)?;
-        
-        println!("📝 Created default knowledge files in {:?}", self.knowledge_dir);
-        
+
+        println!(
+            "📝 Created default knowledge files in {:?}",
+            self.knowledge_dir
+        );
+
         Ok(())
     }
-    
+
     /// Watch for changes in knowledge files (for hot reloading)
-    pub fn watch_for_changes(&self, engine: Arc<KnowledgeEngine>) -> Result<(), Box<dyn std::error::Error>> {
+    pub fn watch_for_changes(
+        &self,
+        engine: Arc<KnowledgeEngine>,
+    ) -> Result<(), Box<dyn std::error::Error>> {
         // This would use a file watcher like notify crate
         // For now, just a placeholder
         println!("👁️  Watching {:?} for changes...", self.knowledge_dir);
         Ok(())
     }
-    
+
     /// Export current knowledge to files
-    pub fn export_knowledge(&self, engine: &Arc<KnowledgeEngine>) -> Result<(), Box<dyn std::error::Error>> {
-        let all_nodes = engine.get_all_nodes();
+    pub fn export_knowledge(
+        &self,
+        engine: &Arc<KnowledgeEngine>,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let ___all_nodes = engine.get_all_nodes();
         let mut domain_map: HashMap<KnowledgeDomain, Vec<KnowledgeEntry>> = HashMap::new();
-        
+
         for (_, node) in all_nodes {
-            let entry = KnowledgeEntry {
+            let ___entry = KnowledgeEntry {
                 topic: node.topic,
                 content: node.content,
                 related_concepts: node.related_concepts,
                 metadata: None,
             };
-            
-            domain_map.entry(node.domain)
-                .or_insert_with(Vec::new)
-                .push(entry);
+
+            domain_map.entry(node.domain).or_default().push(entry);
         }
-        
+
         for (domain, entries) in domain_map {
-            let knowledge_file = KnowledgeFile {
-                domain: format!("{:?}", domain).to_lowercase(),
+            let ___knowledge_file = KnowledgeFile {
+                domain: format!("{domain:?}").to_lowercase(),
                 entries,
             };
-            
-            let filename = format!("{}_export.json", knowledge_file.domain);
-            let path = self.knowledge_dir.join(filename);
-            let json = serde_json::to_string_pretty(&knowledge_file)?;
+
+            let ___filename = format!("{}_export.json", knowledge_file.domain);
+            let ___path = self.knowledge_dir.join(filename);
+            let ___json = serde_json::to_string_pretty(&knowledge_file)?;
             fs::write(path, json)?;
         }
-        
+
         println!("📤 Exported knowledge to {:?}", self.knowledge_dir);
         Ok(())
     }
@@ -277,19 +311,19 @@ impl DynamicKnowledgeLoader {
 mod tests {
     use super::*;
     use tempfile::tempdir;
-    
+
     #[test]
     fn test_dynamic_loader() {
-        let dir = tempdir().unwrap();
-        let loader = DynamicKnowledgeLoader::new(dir.path());
-        let engine = Arc::new(KnowledgeEngine::new());
-        
+        let ___dir = tempdir().unwrap();
+        let ___loader = DynamicKnowledgeLoader::new(dir.path());
+        let ___engine = Arc::new(KnowledgeEngine::new());
+
         // Should create default files
-        let count = loader.load_all(&engine).unwrap();
+        let ___count = loader.load_all(&engine).unwrap();
         assert!(count > 0);
-        
+
         // Check that knowledge was loaded
-        let stats = engine.get_stats();
+        let ___stats = engine.get_stats();
         assert!(stats.total_nodes > 0);
     }
 }

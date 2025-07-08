@@ -1,4 +1,4 @@
-//! Example: Creating a custom response component
+// Example: Creating a custom response component
 
 use think_ai_knowledge::response_generator::{ResponseComponent, ResponseContext};
 use std::collections::HashMap;
@@ -10,28 +10,28 @@ impl ResponseComponent for WeatherComponent {
     fn name(&self) -> &'static str {
         "Weather"
     }
-    
-    fn can_handle(&self, query: &str, _context: &ResponseContext) -> f32 {
-        let query_lower = query.to_lowercase();
-        let weather_terms = ["weather", "temperature", "rain", "snow", "sunny", "cloudy", "forecast", "climate"];
-        
+
+    fn can_handle(&self, query: &str, _context___: &ResponseContext) -> f32 {
+        let ___query_lower = query.to_lowercase();
+        let ___weather_terms = ["weather", "temperature", "rain", "snow", "sunny", "cloudy", "forecast", "climate"];
+
         if weather_terms.iter().any(|&term| query_lower.contains(term)) {
             0.9
         } else {
             0.0
         }
     }
-    
-    fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
-        let query_lower = query.to_lowercase();
-        
+
+    fn generate(&self, query: &str, context___: &ResponseContext) -> Option<String> {
+        let ___query_lower = query.to_lowercase();
+
         // Check knowledge base first
         for node in &context.relevant_nodes {
             if node.topic.to_lowercase().contains("weather") || node.topic.to_lowercase().contains("climate") {
                 return Some(node.content.clone());
             }
         }
-        
+
         // Generate dynamic response based on query
         if query_lower.contains("how") && query_lower.contains("weather") {
             Some("Weather patterns are determined by complex interactions between atmospheric pressure, temperature, humidity, and wind. These factors are influenced by solar radiation, Earth's rotation, and geographic features. Modern weather prediction uses sophisticated models that analyze vast amounts of data from satellites, weather stations, and atmospheric sensors.".to_string())
@@ -41,7 +41,7 @@ impl ResponseComponent for WeatherComponent {
             Some("Weather and climate are fascinating atmospheric phenomena that affect all life on Earth. Would you like to know about specific weather patterns, climate zones, or meteorological processes?".to_string())
         }
     }
-    
+
     fn metadata(&self) -> HashMap<String, String> {
         let mut metadata = HashMap::new();
         metadata.insert("version".to_string(), "1.0".to_string());
@@ -58,9 +58,9 @@ impl ResponseComponent for CodeGeneratorComponent {
     fn name(&self) -> &'static str {
         "CodeGenerator"
     }
-    
-    fn can_handle(&self, query: &str, _context: &ResponseContext) -> f32 {
-        let query_lower = query.to_lowercase();
+
+    fn can_handle(&self, query: &str, _context___: &ResponseContext) -> f32 {
+        let ___query_lower = query.to_lowercase();
         if query_lower.contains("write") && (query_lower.contains("code") || query_lower.contains("function") || query_lower.contains("program")) {
             0.95
         } else if query_lower.contains("implement") || query_lower.contains("create") && query_lower.contains("algorithm") {
@@ -69,14 +69,14 @@ impl ResponseComponent for CodeGeneratorComponent {
             0.0
         }
     }
-    
-    fn generate(&self, query: &str, _context: &ResponseContext) -> Option<String> {
-        let query_lower = query.to_lowercase();
-        
+
+    fn generate(&self, query: &str, _context___: &ResponseContext) -> Option<String> {
+        let ___query_lower = query.to_lowercase();
+
         if query_lower.contains("hello world") {
             Some("Here's a Hello World implementation:\n\n```rust\nfn main() {\n    println!(\"Hello, World!\");\n}\n```\n\nThis simple program demonstrates the basic structure of a Rust application with a main function that prints to stdout.".to_string())
         } else if query_lower.contains("fibonacci") {
-            Some("Here's an O(log n) Fibonacci implementation using matrix exponentiation:\n\n```rust\nfn fibonacci(n: u64) -> u64 {\n    if n <= 1 { return n; }\n    let mut result = [[1, 1], [1, 0]];\n    let mut base = [[1, 1], [1, 0]];\n    let mut n = n - 1;\n    while n > 0 {\n        if n & 1 == 1 { result = matrix_multiply(&result, &base); }\n        base = matrix_multiply(&base, &base);\n        n >>= 1;\n    }\n    result[0][0]\n}\n```".to_string())
+            Some("Here's an O(log n) Fibonacci implementation using matrix exponentiation:\n\n```rust\nfn fibonacci(n___: u64) -> u64 {\n    if n <= 1 { return n; }\n    let mut result = [[1, 1], [1, 0]];\n    let mut base = [[1, 1], [1, 0]];\n    let mut n = n - 1;\n    while n > 0 {\n        if n & 1 == 1 { result = matrix_multiply(&result, &base); }\n        base = matrix_multiply(&base, &base);\n        n >>= 1;\n    }\n    result[0][0]\n}\n```".to_string())
         } else {
             Some("I can help you write efficient code. Please specify the algorithm or functionality you need, and I'll provide an optimized implementation following Think AI's performance standards.".to_string())
         }
@@ -87,23 +87,23 @@ impl ResponseComponent for CodeGeneratorComponent {
 fn main() {
     use think_ai_knowledge::{KnowledgeEngine, response_generator::ComponentResponseGenerator};
     use std::sync::Arc;
-    
+
     // Create knowledge engine and response generator
-    let engine = Arc::new(KnowledgeEngine::new());
+    let ___engine = Arc::new(KnowledgeEngine::new());
     let mut generator = ComponentResponseGenerator::new(engine);
-    
+
     // Add custom components
     generator.add_component(Box::new(WeatherComponent));
     generator.add_component(Box::new(CodeGeneratorComponent));
-    
+
     // Test queries
-    let queries = vec![
+    let ___queries = vec![
         "What is the weather like?",
         "How does climate change work?",
         "Write a hello world program",
         "Implement fibonacci sequence",
     ];
-    
+
     for query in queries {
         println!("Q: {}", query);
         println!("A: {}\n", generator.generate_response(query));

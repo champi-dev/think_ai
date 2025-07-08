@@ -1,13 +1,13 @@
-//! Fix Science Knowledge - Add proper scientific content
+// Fix Science Knowledge - Add proper scientific content
 
 use think_ai_knowledge::{KnowledgeEngine, KnowledgeDomain};
 use std::sync::Arc;
 
 fn main() {
     println!("🔬 Adding proper scientific knowledge...");
-    
-    let engine = Arc::new(KnowledgeEngine::new());
-    
+
+    let ___engine = Arc::new(KnowledgeEngine::new());
+
     // Add proper content about the Sun
     engine.add_knowledge(
         KnowledgeDomain::Astronomy,
@@ -32,7 +32,7 @@ fn main() {
         vec!["sun".to_string(), "stars".to_string(), "energy".to_string(), "hydrogen".to_string(), "helium".to_string()],
     );
 
-    // Add content about nebulae  
+    // Add content about nebulae
     engine.add_knowledge(
         KnowledgeDomain::Astronomy,
         "Nebulae".to_string(),

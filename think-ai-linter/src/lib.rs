@@ -1,4 +1,4 @@
-//! Think AI O(1) Linter - Performance-focused code analyzer
+// Think AI O(1) Linter - Performance-focused code analyzer
 
 pub mod rules;
 pub mod analyzer;
@@ -11,13 +11,13 @@ use thiserror::Error;
 pub enum LintError {
     #[error("Parse error: {0}")]
     ParseError(String),
-    
+
     #[error("Analysis error: {0}")]
     AnalysisError(String),
-    
+
     #[error("Fix error: {0}")]
     FixError(String),
-    
+
     #[error("IO error: {0}")]
     IoError(#[from] std::io::Error),
 }

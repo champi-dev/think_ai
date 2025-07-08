@@ -12,6 +12,9 @@ tower-http = { version = "0.5", features = ["fs", "cors"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
+# Yew Framework
+yew = { version = "0.21", features = ["csr"] }
+
 # WebGL and Graphics
 wasm-bindgen = "0.2"
 web-sys = { version = "0.3", features = [
@@ -19,23 +22,23 @@ web-sys = { version = "0.3", features = [
   "Document", 
   "Element",
   "HtmlElement",
+  "HtmlInputElement",
   "HtmlCanvasElement",
   "CanvasRenderingContext2d",
   "WebGlRenderingContext",
   "WebGlShader",
   "WebGlProgram",
+  "WebGlBuffer",
+  "WebGlUniformLocation",
   "WebSocket",
   "MessageEvent",
   "CloseEvent",
+  "InputEvent",
+  "SubmitEvent",
+  "KeyboardEvent",
   "console"
 ] }
 js-sys = "0.3"
-wgpu = "0.19"
-winit = "0.29"
-
-# 3D Math and Rendering
-nalgebra = "0.32"
-glam = "0.25"
 
 # Templates and Static Files
 askama = "0.12"
@@ -47,6 +50,8 @@ tracing = "0.1"
 anyhow = "1.0"
 base64 = "0.21"
 futures = "0.3"
+rand = "0.8"
+env_logger = "0.11"
 
 # Think AI Dependencies
 think-ai-core = { path = "../think-ai-core" }

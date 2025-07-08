@@ -1,4 +1,4 @@
-//! Types for vector search
+// Types for vector search
 
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -7,10 +7,10 @@ use thiserror::Error;
 pub enum VectorError {
     #[error("Dimension mismatch: expected {expected}, got {actual}")]
     DimensionMismatch { expected: usize, actual: usize },
-    
+
     #[error("Invalid configuration: {0}")]
     InvalidConfig(String),
-    
+
     #[error("Vector not found")]
     NotFound,
 }

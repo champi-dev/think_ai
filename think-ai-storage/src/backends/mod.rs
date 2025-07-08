@@ -1,4 +1,4 @@
-//! Storage backend implementations
+// Storage backend implementations
 
 pub mod memory;
 pub mod sled;

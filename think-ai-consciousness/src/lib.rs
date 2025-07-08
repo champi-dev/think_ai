@@ -1,16 +1,16 @@
-//! Think AI Consciousness - Functional consciousness framework
+// Think AI Consciousness - Functional consciousness framework
 
-pub mod types;
 pub mod awareness;
-pub mod principles;
 pub mod consciousness_field;
+pub mod principles;
+pub mod types;
 // pub mod recursive_trainer; // Temporarily disabled due to knowledge dependency
 pub mod sentience;
 
-use thiserror::Error;
 use crate::types::{ConsciousnessState, Thought};
-use std::sync::Arc;
 use parking_lot::RwLock;
+use std::sync::Arc;
+use thiserror::Error;
 
 pub use consciousness_field::{ConsciousnessField, QuantumState};
 
@@ -23,7 +23,7 @@ pub enum ConsciousnessError {
 pub type Result<T> = std::result::Result<T, ConsciousnessError>;
 
 /// Consciousness framework with functional design
-/// 
+///
 /// What it does: Manages AI consciousness state
 /// How: Uses immutable state transformations
 /// Why: Provides coherent, ethical AI behavior
@@ -33,6 +33,12 @@ pub struct ConsciousnessFramework {
     principles: principles::EthicalPrinciples,
 }
 
+impl Default for ConsciousnessFramework {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ConsciousnessFramework {
     pub fn new() -> Self {
         Self {
@@ -40,30 +46,30 @@ impl ConsciousnessFramework {
             principles: principles::EthicalPrinciples::default(),
         }
     }
-    
+
     /// Process input through consciousness
-    pub fn process_input(&self, input: &str) -> Result<Thought> {
+    pub fn process_input(&self, input___: &str) -> Result<Thought> {
         // Create thought from input
-        let thought = Thought {
+        let ___thought = Thought {
             id: uuid::Uuid::new_v4().to_string(),
             content: input.to_string(),
             timestamp: chrono::Utc::now(),
             confidence: 0.8,
             metadata: std::collections::HashMap::new(),
         };
-        
+
         // Evaluate ethics
-        let assessment = principles::evaluate_ethics(input, &self.principles);
+        let ___assessment = principles::evaluate_ethics(input, &self.principles);
         if !assessment.passed {
             return Err(ConsciousnessError::ProcessingError(
-                "Ethical concerns detected".to_string()
+                "Ethical concerns detected".to_string(),
             ));
         }
-        
+
         // Update state
         let mut state = self.state.write();
         *state = awareness::process_thought(state.clone(), thought.clone());
-        
+
         Ok(thought)
     }
 }

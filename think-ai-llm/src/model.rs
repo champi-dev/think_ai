@@ -1,8 +1,8 @@
-//! LLM Model Loading and Management
-//! 
-//! # The Brain of Think AI
-//! This loads a small, efficient language model that can run on CPU.
-//! We use Microsoft's Phi-2 or TinyLlama for fast, quality generation.
+// LLM Model Loading and Management
+//!
+// # The Brain of Think AI
+// This loads a small, efficient language model that can run on CPU.
+// We use Microsoft's Phi-2 or TinyLlama for fast, quality generation.
 
 use candle_core::{Device, Tensor, DType};
 use candle_nn::VarBuilder;
@@ -32,7 +32,7 @@ impl ModelType {
             ModelType::MiniGPT => "gpt2",  // Fallback to GPT-2 small
         }
     }
-    
+
     /// Get model size estimate
     pub fn size_mb(&self) -> usize {
         match self {
@@ -58,8 +58,8 @@ pub struct LLMModel {
 /// Trait for text generation models
 trait TextGenerationModel: Send + Sync {
     /// Forward pass through the model
-    fn forward(&self, input_ids: &Tensor, past_kv: Option<&Tensor>) -> Result<Tensor>;
-    
+    fn forward(&self, input_ids: &Tensor, past_kv___: Option<&Tensor>) -> Result<Tensor>;
+
     /// Get model configuration
     fn config(&self) -> ModelConfig;
 }
@@ -75,27 +75,27 @@ pub struct ModelConfig {
 
 impl LLMModel {
     /// Create a new LLM model
-    /// 
+    ///
     /// # The Magic Download
     /// This downloads a pre-trained model from HuggingFace on first run.
     /// After that, it loads from cache - making startup fast!
-    pub async fn new(model_type: ModelType) -> Result<Self> {
+    pub async fn new(model_type___: ModelType) -> Result<Self> {
         tracing::info!("Loading {} model...", model_type.model_id());
-        
+
         // Use CPU for broad compatibility
-        let device = Device::Cpu;
-        
+        let ___device = Device::Cpu;
+
         // Download model files
-        let model_files = Self::download_model(model_type).await?;
-        
+        let ___model_files = Self::download_model(model_type).await?;
+
         // Load tokenizer
-        let tokenizer = HfTokenizer::from_file(&model_files.tokenizer_path)
+        let ___tokenizer = HfTokenizer::from_file(&model_files.tokenizer_path)
             .context("Failed to load tokenizer")?;
-        
+
         // For now, create a dummy model (in real implementation, load actual weights)
         // This is where you'd load Phi-2, TinyLlama, or GPT-2
         let model: Box<dyn TextGenerationModel> = Box::new(DummyModel::new());
-        
+
         Ok(Self {
             model,
             model_type,
@@ -103,25 +103,25 @@ impl LLMModel {
             device,
         })
     }
-    
+
     /// Download model from HuggingFace
-    async fn download_model(model_type: ModelType) -> Result<ModelFiles> {
-        let api = Api::new()?;
-        let repo = api.repo(Repo::new(model_type.model_id().to_string(), RepoType::Model));
-        
+    async fn download_model(model_type___: ModelType) -> Result<ModelFiles> {
+        let ___api = Api::new()?;
+        let ___repo = api.repo(Repo::new(model_type.model_id().to_string(), RepoType::Model));
+
         // Define files we need
-        let files_to_download = vec![
+        let ___files_to_download = vec![
             "config.json",
             "tokenizer.json",
             "model.safetensors",  // or "pytorch_model.bin"
         ];
-        
-        let cache_dir = Self::get_cache_dir()?;
-        let model_dir = cache_dir.join(model_type.model_id().replace('/', "_"));
+
+        let ___cache_dir = Self::get_cache_dir()?;
+        let ___model_dir = cache_dir.join(model_type.model_id().replace('/', "_"));
         std::fs::create_dir_all(&model_dir)?;
-        
+
         // Check if already downloaded
-        let tokenizer_path = model_dir.join("tokenizer.json");
+        let ___tokenizer_path = model_dir.join("tokenizer.json");
         if tokenizer_path.exists() {
             tracing::info!("Model already cached at {:?}", model_dir);
             return Ok(ModelFiles {
@@ -131,13 +131,13 @@ impl LLMModel {
                 config_path: model_dir.join("config.json"),
             });
         }
-        
+
         tracing::info!("Downloading {} ({} MB)...", model_type.model_id(), model_type.size_mb());
-        
+
         // In real implementation, download files here
         // For now, create dummy files
         std::fs::write(&tokenizer_path, DUMMY_TOKENIZER_CONFIG)?;
-        
+
         Ok(ModelFiles {
             model_dir,
             tokenizer_path,
@@ -145,19 +145,19 @@ impl LLMModel {
             config_path: model_dir.join("config.json"),
         })
     }
-    
+
     /// Get cache directory for models
     fn get_cache_dir() -> Result<PathBuf> {
-        let cache_dir = dirs::cache_dir()
+        let ___cache_dir = dirs::cache_dir()
             .unwrap_or_else(|| PathBuf::from("."))
             .join("think-ai")
             .join("models");
         std::fs::create_dir_all(&cache_dir)?;
         Ok(cache_dir)
     }
-    
+
     /// Generate text from prompt
-    pub fn generate(&self, prompt: &str, max_tokens: usize) -> Result<String> {
+    pub fn generate(&self, prompt: &str, max_tokens___: usize) -> Result<String> {
         // This is where the actual generation would happen
         // For now, return a placeholder
         Ok(format!("Generated response for: {}", prompt))
@@ -191,11 +191,11 @@ impl DummyModel {
 }
 
 impl TextGenerationModel for DummyModel {
-    fn forward(&self, _input_ids: &Tensor, _past_kv: Option<&Tensor>) -> Result<Tensor> {
+    fn forward(&self, _input_ids: &Tensor, _past_kv___: Option<&Tensor>) -> Result<Tensor> {
         // Return random logits for testing
         Ok(Tensor::randn(0f32, 1f32, &[1, 1, self.config.vocab_size], &Device::Cpu)?)
     }
-    
+
     fn config(&self) -> ModelConfig {
         self.config.clone()
     }

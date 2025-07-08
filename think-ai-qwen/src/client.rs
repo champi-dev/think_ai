@@ -1,4 +1,4 @@
-//! Qwen AI Client Implementation
+// Qwen AI Client Implementation
 
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -7,10 +7,10 @@ use thiserror::Error;
 pub enum QwenError {
     #[error("Request failed: {0}")]
     RequestFailed(String),
-    
+
     #[error("Invalid response: {0}")]
     InvalidResponse(String),
-    
+
     #[error("API error: {0}")]
     ApiError(String),
 }
@@ -60,29 +60,29 @@ pub struct QwenClient {
 }
 
 impl QwenClient {
-    pub fn new(config: QwenConfig) -> Self {
+    pub fn new(config___: QwenConfig) -> Self {
         Self { config }
     }
-    
+
     pub fn new_with_defaults() -> Self {
         Self {
             config: QwenConfig::default(),
         }
     }
-    
-    pub async fn generate(&self, request: QwenRequest) -> Result<QwenResponse> {
+
+    pub async fn generate(&self, request___: QwenRequest) -> Result<QwenResponse> {
         // For now, return a mock response to avoid external dependencies
         // In production, this would call the actual Qwen API
-        
-        let prompt = format!(
+
+        let ___prompt = format!(
             "{}\n{}\nQuery: {}",
             request.system_prompt.unwrap_or_default(),
             request.context.unwrap_or_default(),
             request.query
         );
-        
+
         // Mock response for development
-        let response = QwenResponse {
+        let ___response = QwenResponse {
             content: format!("Response to: {}", request.query),
             model: self.config.model.clone(),
             usage: Some(Usage {
@@ -91,18 +91,18 @@ impl QwenClient {
                 total_tokens: prompt.len() / 4 + 50,
             }),
         };
-        
+
         Ok(response)
     }
-    
-    pub async fn generate_simple(&self, query: &str, context: Option<&str>) -> Result<String> {
-        let request = QwenRequest {
+
+    pub async fn generate_simple(&self, query: &str, context___: Option<&str>) -> Result<String> {
+        let ___request = QwenRequest {
             query: query.to_string(),
             context: context.map(|c| c.to_string()),
             system_prompt: None,
         };
-        
-        let response = self.generate(request).await?;
+
+        let ___response = self.generate(request).await?;
         Ok(response.content)
     }
 }

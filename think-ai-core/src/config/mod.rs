@@ -1,4 +1,4 @@
-//! Configuration module for O(1) engine
+// Configuration module for O(1) engine
 
 use serde::{Deserialize, Serialize};
 

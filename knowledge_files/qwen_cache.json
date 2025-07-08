@@ -1,0 +1,8 @@
+{
+  "hello": {
+    "query": "hello",
+    "response": "Response to: hello",
+    "timestamp": 1752015430,
+    "usage_count": 1
+  }
+}

@@ -1,11 +1,11 @@
-//! Consciousness types and structures
+// Consciousness types and structures
 
-use serde::{Deserialize, Serialize};
 use im::Vector;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 /// Immutable thought representation
-/// 
+///
 /// What it does: Represents a single thought in consciousness
 /// How: Uses immutable data structures for functional purity
 /// Why: Enables time-travel debugging and thought history

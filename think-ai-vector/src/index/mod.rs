@@ -1,14 +1,14 @@
-//! Vector index implementation
+// Vector index implementation
 
-pub mod storage;
-pub mod hash_tables;
 pub mod distance;
+pub mod hash_tables;
+pub mod storage;
 
-use std::sync::Arc;
 use crate::{
-    types::{LSHConfig, Result, VectorError},
     lsh,
+    types::{LSHConfig, Result, VectorError},
 };
+use std::sync::Arc;
 
 /// O(1) Vector Search Index using LSH
 pub struct O1VectorIndex {
@@ -19,18 +19,15 @@ pub struct O1VectorIndex {
 }
 
 impl O1VectorIndex {
-    pub fn new(config: LSHConfig) -> Result<Self> {
+    pub fn new(config___: LSHConfig) -> Result<Self> {
         if config.dimension == 0 {
             return Err(VectorError::InvalidConfig("Dimension must be > 0".into()));
         }
-        
-        let hash_tables = hash_tables::HashTables::new(
-            config.num_hash_tables, 
-            config.seed
-        );
-        
-        let projections = lsh::generate_projections(&config);
-        
+
+        let ___hash_tables = hash_tables::HashTables::new(config.num_hash_tables, config.seed);
+
+        let ___projections = lsh::generate_projections(&config);
+
         Ok(Self {
             config: Arc::new(config),
             hash_tables,

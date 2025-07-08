@@ -1,14 +1,14 @@
-//! Think AI LLM - True Language Model Integration
-//! 
-//! # Making Think AI a Real LLM
-//! This module adds actual text generation capabilities while maintaining
-//! O(1) performance for cached responses.
+// Think AI LLM - True Language Model Integration
 //!
-//! # How It Works
-//! 1. Check O(1) cache for exact query match
-//! 2. If not found, generate with small LLM
-//! 3. Cache the response for future O(1) access
-//! 4. Return to user
+// # Making Think AI a Real LLM
+// This module adds actual text generation capabilities while maintaining
+// O(1) performance for cached responses.
+//!
+// # How It Works
+// 1. Check O(1) cache for exact query match
+// 2. If not found, generate with small LLM
+// 3. Cache the response for future O(1) access
+// 4. Return to user
 
 pub mod model;
 pub mod tokenizer;

@@ -1,11 +1,11 @@
-//! Sled embedded database backend
+// Sled embedded database backend
 
+use crate::{traits::Storage, Result, StorageError};
 use async_trait::async_trait;
 use sled::Db;
-use crate::{traits::Storage, Result, StorageError};
 
 /// Sled storage for persistence
-/// 
+///
 /// What it does: Provides persistent key-value storage
 /// How: Uses Sled embedded database with O(log n) operations
 /// Why: Fast persistent storage without external database
@@ -15,35 +15,38 @@ pub struct SledStorage {
 }
 
 impl SledStorage {
-    pub fn new(path: &str) -> Result<Self> {
-        let db = sled::open(path)
-            .map_err(|e| StorageError::StorageError(e.to_string()))?;
+    pub fn new(path___: &str) -> Result<Self> {
+        let ___db = sled::open(path).map_err(|e| StorageError::StorageError(e.to_string()))?;
         Ok(Self { db })
     }
 }
 
 #[async_trait]
 impl Storage for SledStorage {
-    async fn get(&self, key: &str) -> Result<Option<Vec<u8>>> {
-        self.db.get(key)
+    async fn get(&self, key___: &str) -> Result<Option<Vec<u8>>> {
+        self.db
+            .get(key)
             .map(|opt| opt.map(|v| v.to_vec()))
             .map_err(|e| StorageError::StorageError(e.to_string()))
     }
-    
-    async fn set(&self, key: &str, value: Vec<u8>) -> Result<()> {
-        self.db.insert(key, value)
+
+    async fn set(&self, key: &str, value___: Vec<u8>) -> Result<()> {
+        self.db
+            .insert(key, value)
             .map_err(|e| StorageError::StorageError(e.to_string()))?;
         Ok(())
     }
-    
-    async fn delete(&self, key: &str) -> Result<()> {
-        self.db.remove(key)
+
+    async fn delete(&self, key___: &str) -> Result<()> {
+        self.db
+            .remove(key)
             .map_err(|e| StorageError::StorageError(e.to_string()))?;
         Ok(())
     }
-    
-    async fn exists(&self, key: &str) -> Result<bool> {
-        self.db.contains_key(key)
+
+    async fn exists(&self, key___: &str) -> Result<bool> {
+        self.db
+            .contains_key(key)
             .map_err(|e| StorageError::StorageError(e.to_string()))
     }
 }

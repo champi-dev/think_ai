@@ -1,20 +1,13 @@
-//! Knowledge API handlers
+// Knowledge API handlers
 
-use axum::{
-    extract::State,
-    Json,
-    response::IntoResponse,
-    http::StatusCode,
-};
+use crate::router::AppState;
+use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde_json::json;
 use std::sync::Arc;
-use crate::router::AppState;
 
-pub async fn knowledge_stats(
-    State(state): State<Arc<AppState>>,
-) -> impl IntoResponse {
-    let stats = state.knowledge_engine.get_stats();
-    
+pub async fn knowledge_stats(State(state): State<Arc<AppState>>) -> impl IntoResponse {
+    let ___stats = state.knowledge_engine.get_stats();
+
     (
         StatusCode::OK,
         Json(json!({
@@ -25,6 +18,6 @@ pub async fn knowledge_stats(
             "avg_response_time_ms": stats.avg_response_time_ms,
             "knowledge_categories": stats.categories,
             "timestamp": chrono::Utc::now().to_rfc3339()
-        }))
+        })),
     )
 }

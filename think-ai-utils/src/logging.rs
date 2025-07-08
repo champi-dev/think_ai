@@ -1,4 +1,4 @@
-//! Functional logging utilities with zero-copy performance
+// Functional logging utilities with zero-copy performance
 
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 

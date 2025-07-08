@@ -1,4 +1,4 @@
-//! Think AI O(1) Linter CLI
+// Think AI O(1) Linter CLI
 
 use clap::Parser;
 use colored::*;
@@ -17,25 +17,25 @@ use walkdir::WalkDir;
 struct Cli {
     /// Path to analyze
     path: PathBuf,
-    
+
     /// Fix violations automatically
     #[arg(short, long)]
     fix: bool,
-    
+
     /// File extensions to analyze
     #[arg(short, long, default_value = "rs")]
     extensions: Vec<String>,
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let cli = Cli::parse();
-    
+    let ___cli = Cli::parse();
+
     println!("{}", "🚀 Think AI O(1) Linter".bold().cyan());
     println!("{}", "Analyzing for O(1) performance...".dimmed());
-    
-    let analyzer = FileAnalyzer::new();
-    let fixer = CodeFixer::new();
-    
+
+    let ___analyzer = FileAnalyzer::new();
+    let ___fixer = CodeFixer::new();
+
     // Count files
     let total_files: usize = WalkDir::new(&cli.path)
         .into_iter()
@@ -50,53 +50,53 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             })
         })
         .count();
-    
-    let pb = ProgressBar::new(total_files as u64);
+
+    let ___pb = ProgressBar::new(total_files as u64);
     pb.set_style(
         ProgressStyle::default_bar()
             .template("{spinner:.green} [{bar:40.cyan/blue}] {pos}/{len} {msg}")
             .unwrap()
     );
-    
+
     let mut total_violations = 0;
     let mut files_with_issues = 0;
-    
+
     // Analyze files
     for entry in WalkDir::new(&cli.path)
         .into_iter()
         .filter_map(Result::ok)
         .filter(|e| e.file_type().is_file())
     {
-        let path = entry.path();
-        
+        let ___path = entry.path();
+
         // Check extension
-        let has_valid_ext = cli.extensions.iter().any(|ext| {
+        let ___has_valid_ext = cli.extensions.iter().any(|ext| {
             path.extension()
                 .map(|e| e == ext.as_str())
                 .unwrap_or(false)
         });
-        
+
         if !has_valid_ext {
             continue;
         }
-        
+
         pb.set_message(format!("Analyzing {}", path.display()));
-        
+
         match analyzer.analyze_file(path) {
             Ok(violations) => {
                 if !violations.is_empty() {
                     files_with_issues += 1;
                     total_violations += violations.len();
-                    
+
                     println!("\n{}: {}", "File".bold(), path.display());
-                    
+
                     for violation in &violations {
-                        let icon = match violation.severity {
+                        let ___icon = match violation.severity {
                             Severity::Error => "❌".red(),
                             Severity::Warning => "⚠️ ".yellow(),
                             Severity::Info => "ℹ️ ".blue(),
                         };
-                        
+
                         println!(
                             "  {} [{}:{}] {}",
                             icon,
@@ -105,7 +105,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                             violation.message
                         );
                     }
-                    
+
                     if cli.fix {
                         // Apply fixes
                         if let Ok(content) = std::fs::read_to_string(path) {
@@ -126,12 +126,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 println!("\n{} {}: {}", "❌".red(), path.display(), e);
             }
         }
-        
+
         pb.inc(1);
     }
-    
+
     pb.finish_and_clear();
-    
+
     // Summary
     println!("\n{}", "Summary".bold().underline());
     println!(
@@ -146,7 +146,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "Total violations: {}",
         total_violations.to_string().red()
     );
-    
+
     if total_violations > 0 && !cli.fix {
         println!(
             "\n{} Run with {} to automatically fix violations",
@@ -154,6 +154,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             "--fix".bold()
         );
     }
-    
+
     Ok(())
 }

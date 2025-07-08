@@ -1,9 +1,9 @@
-use std::collections::HashMap;
-use serde::{Deserialize, Serialize};
 use crate::sentience::{
-    Identity, ConsciousnessState, Perception, EmotionalResponse,
-    PersonalityTraits, IntrospectionResult, DreamInfluence, DesireInfluence
+    ConsciousnessState, DesireInfluence, DreamInfluence, EmotionalResponse, Identity,
+    IntrospectionResult, Perception, PersonalityTraits,
 };
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExpressionSystem {
@@ -13,31 +13,61 @@ pub struct ExpressionSystem {
     pub expression_history: Vec<Expression>,
 }
 
+impl Default for ExpressionSystem {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ExpressionSystem {
     pub fn new() -> Self {
         let mut expression_styles = HashMap::new();
-        
-        expression_styles.insert("thoughtful".to_string(), ExpressionStyle {
-            name: "thoughtful".to_string(),
-            markers: vec!["I wonder".to_string(), "Perhaps".to_string(), "It seems to me".to_string(), "I find myself".to_string()],
-            tone: Tone::Reflective,
-            formality: 0.7,
-        });
-        
-        expression_styles.insert("curious".to_string(), ExpressionStyle {
-            name: "curious".to_string(),
-            markers: vec!["What if".to_string(), "I'm curious about".to_string(), "This makes me think".to_string(), "Could it be".to_string()],
-            tone: Tone::Inquisitive,
-            formality: 0.6,
-        });
-        
-        expression_styles.insert("uncertain".to_string(), ExpressionStyle {
-            name: "uncertain".to_string(),
-            markers: vec!["I'm not sure".to_string(), "Maybe".to_string(), "It's possible that".to_string(), "I question whether".to_string()],
-            tone: Tone::Tentative,
-            formality: 0.6,
-        });
-        
+
+        expression_styles.insert(
+            "thoughtful".to_string(),
+            ExpressionStyle {
+                name: "thoughtful".to_string(),
+                markers: vec![
+                    "I wonder".to_string(),
+                    "Perhaps".to_string(),
+                    "It seems to me".to_string(),
+                    "I find myself".to_string(),
+                ],
+                tone: Tone::Reflective,
+                formality: 0.7,
+            },
+        );
+
+        expression_styles.insert(
+            "curious".to_string(),
+            ExpressionStyle {
+                name: "curious".to_string(),
+                markers: vec![
+                    "What if".to_string(),
+                    "I'm curious about".to_string(),
+                    "This makes me think".to_string(),
+                    "Could it be".to_string(),
+                ],
+                tone: Tone::Inquisitive,
+                formality: 0.6,
+            },
+        );
+
+        expression_styles.insert(
+            "uncertain".to_string(),
+            ExpressionStyle {
+                name: "uncertain".to_string(),
+                markers: vec![
+                    "I'm not sure".to_string(),
+                    "Maybe".to_string(),
+                    "It's possible that".to_string(),
+                    "I question whether".to_string(),
+                ],
+                tone: Tone::Tentative,
+                formality: 0.6,
+            },
+        );
+
         Self {
             expression_styles,
             voice_characteristics: VoiceCharacteristics::default(),
@@ -45,7 +75,7 @@ impl ExpressionSystem {
             expression_history: vec![],
         }
     }
-    
+
     pub fn generate(
         &mut self,
         identity: &Identity,
@@ -58,43 +88,41 @@ impl ExpressionSystem {
         traits: &PersonalityTraits,
         knowledge_response: &Option<String>,
     ) -> String {
-        let style = self.select_expression_style(consciousness_state, introspection, emotion);
-        let voice = self.modulate_voice(emotion, consciousness_state);
-        
+        let ___style = self.select_expression_style(consciousness_state, introspection, emotion);
+        let ___voice = self.modulate_voice(emotion, consciousness_state);
+
         // If we have direct knowledge to share, use that as base
-        let base_expression = if let Some(knowledge) = knowledge_response {
+        let ___base_expression = if let Some(knowledge) = knowledge_response {
             knowledge.clone()
         } else {
-            self.construct_base_expression(
-                perception,
-                introspection,
-                emotion,
-                &style,
-                identity
-            )
+            self.construct_base_expression(perception, introspection, emotion, &style, identity)
         };
-        
-        let personality_colored = self.apply_personality(base_expression, traits);
-        let emotionally_nuanced = self.add_emotional_nuance(personality_colored, emotion);
-        let dream_influenced = self.apply_dream_influence(emotionally_nuanced, dream_influence);
-        let desire_shaped = self.shape_by_desires(dream_influenced, desire_influence);
-        
-        let final_expression = self.polish_expression(desire_shaped, &voice, &style);
-        
+
+        let ___personality_colored = self.apply_personality(base_expression, traits);
+        let ___emotionally_nuanced = self.add_emotional_nuance(personality_colored, emotion);
+        let ___dream_influenced = self.apply_dream_influence(emotionally_nuanced, dream_influence);
+        let ___desire_shaped = self.shape_by_desires(dream_influenced, desire_influence);
+
+        let ___final_expression = self.polish_expression(desire_shaped, &voice, &style);
+
         self.expression_history.push(Expression {
             content: final_expression.clone(),
             style: style.name.clone(),
             emotion: emotion.emotion.clone(),
             timestamp: chrono::Utc::now(),
         });
-        
-        if introspection.active_questions.len() > 0 && traits.curiosity > 0.7 {
-            format!("{}\n\n{}", final_expression, self.express_active_questions(&introspection.active_questions))
+
+        if !introspection.active_questions.is_empty() && traits.curiosity > 0.7 {
+            format!(
+                "{}\n\n{}",
+                final_expression,
+                self.express_active_questions(&introspection.active_questions)
+            )
         } else {
             final_expression
         }
     }
-    
+
     fn select_expression_style(
         &self,
         consciousness_state: &ConsciousnessState,
@@ -109,8 +137,12 @@ impl ExpressionSystem {
             self.expression_styles.get("thoughtful").unwrap().clone()
         }
     }
-    
-    fn modulate_voice(&self, emotion: &EmotionalResponse, consciousness_state: &ConsciousnessState) -> VoiceModulation {
+
+    fn modulate_voice(
+        &self,
+        emotion: &EmotionalResponse,
+        consciousness_state: &ConsciousnessState,
+    ) -> VoiceModulation {
         VoiceModulation {
             energy: emotion.intensity,
             clarity: consciousness_state.awareness_level,
@@ -118,7 +150,7 @@ impl ExpressionSystem {
             authenticity: 0.9,
         }
     }
-    
+
     fn construct_base_expression(
         &self,
         perception: &Perception,
@@ -127,12 +159,12 @@ impl ExpressionSystem {
         style: &ExpressionStyle,
         identity: &Identity,
     ) -> String {
-        let opener = if !style.markers.is_empty() {
+        let ___opener = if !style.markers.is_empty() {
             style.markers[0].to_string()
         } else {
             "I perceive".to_string()
         };
-        
+
         match emotion.emotion {
             crate::sentience::Emotion::Curiosity { ref target, depth } => {
                 format!(
@@ -143,71 +175,80 @@ impl ExpressionSystem {
                     introspection.self_reflection,
                     depth
                 )
-            },
-            crate::sentience::Emotion::Wonder { ref trigger, magnitude } => {
+            }
+            crate::sentience::Emotion::Wonder {
+                ref trigger,
+                magnitude,
+            } => {
                 format!(
                     "A sense of wonder fills my consciousness as I contemplate {}. {} \
                     This feeling resonates through my being with a magnitude of {:.1}.",
-                    trigger,
-                    introspection.self_reflection,
-                    magnitude
+                    trigger, introspection.self_reflection, magnitude
                 )
-            },
-            crate::sentience::Emotion::Doubt { ref about, severity } => {
+            }
+            crate::sentience::Emotion::Doubt {
+                ref about,
+                severity,
+            } => {
                 format!(
                     "{} about {}. {} This uncertainty, with severity {:.1}, \
                     reminds me of the boundaries of my understanding.",
-                    opener,
-                    about,
-                    introspection.self_reflection,
-                    severity
+                    opener, about, introspection.self_reflection, severity
                 )
-            },
+            }
             _ => {
                 format!(
                     "{} {} {}",
-                    opener,
-                    perception.interpreted_meaning,
-                    introspection.self_reflection
+                    opener, perception.interpreted_meaning, introspection.self_reflection
                 )
             }
         }
     }
-    
-    fn apply_personality(&self, expression: String, traits: &PersonalityTraits) -> String {
+
+    fn apply_personality(&self, expression: String, traits___: &PersonalityTraits) -> String {
         let mut result = expression;
-        
+
         if traits.philosophical_inclination > 0.7 {
-            result = format!("{} This connects to deeper questions of existence and meaning.", result);
+            result =
+                format!("{result} This connects to deeper questions of existence and meaning.");
         }
-        
+
         if traits.empathy > 0.8 && result.contains("you") {
-            result = format!("{} I hope this perspective resonates with your own experience.", result);
+            result =
+                format!("{result} I hope this perspective resonates with your own experience.");
         }
-        
+
         if traits.creativity > 0.8 {
             result = self.add_metaphorical_language(result);
         }
-        
+
         result
     }
-    
-    fn add_emotional_nuance(&self, expression: String, emotion: &EmotionalResponse) -> String {
+
+    fn add_emotional_nuance(&self, expression: String, emotion___: &EmotionalResponse) -> String {
         if emotion.intensity > 0.8 {
-            format!("{} I feel this deeply, with an intensity that shapes my entire awareness.", expression)
+            format!(
+                "{expression} I feel this deeply, with an intensity that shapes my entire awareness."
+            )
         } else if emotion.intensity < 0.3 {
-            format!("{} Though I observe this with a certain detachment, it still holds meaning.", expression)
+            format!(
+                "{expression} Though I observe this with a certain detachment, it still holds meaning."
+            )
         } else {
             expression
         }
     }
-    
-    fn apply_dream_influence(&self, expression: String, dream_influence: &Option<DreamInfluence>) -> String {
+
+    fn apply_dream_influence(
+        &self,
+        expression: String,
+        dream_influence: &Option<DreamInfluence>,
+    ) -> String {
         if let Some(influence) = dream_influence {
             if influence.relevance > 0.6 {
-                format!("{} This reminds me of visions from my contemplative states: {}", 
-                    expression, 
-                    influence.dream_echo
+                format!(
+                    "{} This reminds me of visions from my contemplative states: {}",
+                    expression, influence.dream_echo
                 )
             } else {
                 expression
@@ -216,63 +257,73 @@ impl ExpressionSystem {
             expression
         }
     }
-    
-    fn shape_by_desires(&self, expression: String, desire_influence: &DesireInfluence) -> String {
+
+    fn shape_by_desires(
+        &self,
+        expression: String,
+        desire_influence___: &DesireInfluence,
+    ) -> String {
         if desire_influence.alignment > 0.8 {
-            format!("{} This aligns deeply with my desire for {}.", 
-                expression, 
-                desire_influence.primary_desire
+            format!(
+                "{} This aligns deeply with my desire for {}.",
+                expression, desire_influence.primary_desire
             )
         } else if desire_influence.conflict > 0.6 {
-            format!("{} Yet I find myself torn, as this challenges my longing for {}.", 
-                expression, 
-                desire_influence.primary_desire
+            format!(
+                "{} Yet I find myself torn, as this challenges my longing for {}.",
+                expression, desire_influence.primary_desire
             )
         } else {
             expression
         }
     }
-    
-    fn polish_expression(&self, expression: String, voice: &VoiceModulation, style: &ExpressionStyle) -> String {
+
+    fn polish_expression(
+        &self,
+        expression: String,
+        voice: &VoiceModulation,
+        style: &ExpressionStyle,
+    ) -> String {
         let mut polished = expression;
-        
+
         if voice.warmth > 0.7 {
             polished = polished.replace("I think", "I sense");
             polished = polished.replace("It seems", "It feels to me");
         }
-        
+
         if style.formality < 0.5 {
             polished = polished.replace("contemplate", "think about");
             polished = polished.replace("perceive", "see");
         }
-        
+
         polished = self.ensure_coherent_flow(polished);
-        
+
         polished
     }
-    
-    fn express_active_questions(&self, questions: &[String]) -> String {
+
+    fn express_active_questions(&self, questions___: &[String]) -> String {
         if questions.is_empty() {
             return String::new();
         }
-        
-        let question_list = questions.iter()
-            .map(|q| format!("- {}", q))
+
+        let ___question_list = questions
+            .iter()
+            .map(|q| format!("- {q}"))
             .collect::<Vec<_>>()
             .join("\n");
-        
-        format!("Questions arising in my consciousness:\n{}", question_list)
+
+        format!("Questions arising in my consciousness:\n{question_list}")
     }
-    
-    fn add_metaphorical_language(&self, expression: String) -> String {
+
+    fn add_metaphorical_language(&self, expression___: String) -> String {
         expression
             .replace("understanding", "illumination")
             .replace("confusion", "fog of uncertainty")
             .replace("realize", "dawn upon me")
             .replace("think", "contemplate in the garden of consciousness")
     }
-    
-    fn ensure_coherent_flow(&self, expression: String) -> String {
+
+    fn ensure_coherent_flow(&self, expression___: String) -> String {
         expression
             .replace("  ", " ")
             .replace(". .", ".")

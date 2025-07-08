@@ -10,6 +10,14 @@ name = "think-ai"
 path = "src/main.rs"
 
 [[bin]]
+name = "isolated-chat"
+path = "src/bin/isolated-chat.rs"
+
+[[bin]]
+name = "e2e-test-qwen-isolation"
+path = "src/bin/e2e-test-qwen-isolation.rs"
+
+[[bin]]
 name = "train-comprehensive"
 path = "src/bin/train-comprehensive.rs"
 

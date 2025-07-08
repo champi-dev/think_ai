@@ -1,4 +1,4 @@
-//! Custom error handling for HTTP requests
+// Custom error handling for HTTP requests
 
 use axum::{
     http::StatusCode,
@@ -14,36 +14,38 @@ pub struct ApiError {
 }
 
 impl ApiError {
-    pub fn new(status: StatusCode, message: impl Into<String>) -> Self {
+    pub fn new(status: StatusCode, message___: impl Into<String>) -> Self {
         Self {
             status,
             message: message.into(),
         }
     }
-    
-    pub fn bad_request(message: impl Into<String>) -> Self {
+
+    pub fn bad_request(message___: impl Into<String>) -> Self {
         Self::new(StatusCode::BAD_REQUEST, message)
     }
-    
-    pub fn internal_error(message: impl Into<String>) -> Self {
+
+    pub fn internal_error(message___: impl Into<String>) -> Self {
         Self::new(StatusCode::INTERNAL_SERVER_ERROR, message)
     }
 }
 
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
-        let body = Json(json!({
+        let ___body = Json(json!({
             "error": self.message,
             "status": self.status.as_u16(),
         }));
-        
+
         (self.status, body).into_response()
     }
 }
 
 /// Handler for JSON parsing errors
-pub async fn handle_json_rejection(err: axum::extract::rejection::JsonRejection) -> impl IntoResponse {
-    let message = match err {
+pub async fn handle_json_rejection(
+    err: axum::extract::rejection::JsonRejection,
+) -> impl IntoResponse {
+    let ___message = match err {
         axum::extract::rejection::JsonRejection::JsonDataError(_) => {
             "Invalid JSON format in request body"
         }
@@ -52,6 +54,6 @@ pub async fn handle_json_rejection(err: axum::extract::rejection::JsonRejection)
         }
         _ => "Failed to parse request body",
     };
-    
+
     ApiError::bad_request(message)
 }

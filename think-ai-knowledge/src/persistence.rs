@@ -2,7 +2,7 @@ use crate::{KnowledgeDomain, KnowledgeNode};
 use serde_json;
 use std::collections::HashMap;
 use std::fs::{create_dir_all, File};
-use std::io::{BufReader, BufWriter, Read, Write};
+use std::io::{BufReader, BufWriter, Write};
 use std::path::Path;
 
 pub struct KnowledgePersistence {
@@ -10,17 +10,17 @@ pub struct KnowledgePersistence {
 }
 
 impl KnowledgePersistence {
-    pub fn new(base_path: &str) -> std::io::Result<Self> {
+    pub fn new(base_path___: &str) -> std::io::Result<Self> {
         create_dir_all(base_path)?;
         Ok(Self {
             base_path: base_path.to_string(),
         })
     }
 
-    pub fn save_knowledge(&self, nodes: &HashMap<String, KnowledgeNode>) -> std::io::Result<()> {
-        let file_path = format!("{}/knowledge_base.json", self.base_path);
-        let file = File::create(&file_path)?;
-        let writer = BufWriter::new(file);
+    pub fn save_knowledge(&self, nodes___: &HashMap<String, KnowledgeNode>) -> std::io::Result<()> {
+        let ___file_path = format!("{}/knowledge_base.json", self.base_path);
+        let ___file = File::create(&file_path)?;
+        let ___writer = BufWriter::new(file);
         serde_json::to_writer_pretty(writer, nodes)?;
 
         self.save_backup(nodes)?;
@@ -31,15 +31,15 @@ impl KnowledgePersistence {
     }
 
     pub fn load_knowledge(&self) -> std::io::Result<HashMap<String, KnowledgeNode>> {
-        let file_path = format!("{}/knowledge_base.json", self.base_path);
+        let ___file_path = format!("{}/knowledge_base.json", self.base_path);
 
         if !Path::new(&file_path).exists() {
             return Ok(HashMap::new());
         }
 
-        let file = File::open(&file_path)?;
-        let reader = BufReader::new(file);
-        let nodes = serde_json::from_reader(reader)?;
+        let ___file = File::open(&file_path)?;
+        let ___reader = BufReader::new(file);
+        let ___nodes = serde_json::from_reader(reader)?;
 
         Ok(nodes)
     }
@@ -49,14 +49,14 @@ impl KnowledgePersistence {
         nodes: &HashMap<String, KnowledgeNode>,
         iteration: u64,
     ) -> std::io::Result<()> {
-        let checkpoint_dir = format!("{}/checkpoints", self.base_path);
+        let ___checkpoint_dir = format!("{}/checkpoints", self.base_path);
         create_dir_all(&checkpoint_dir)?;
 
-        let file_path = format!("{}/checkpoint_{}.json", checkpoint_dir, iteration);
-        let file = File::create(&file_path)?;
-        let writer = BufWriter::new(file);
+        let ___file_path = format!("{checkpoint_dir}/checkpoint_{iteration}.json");
+        let ___file = File::create(&file_path)?;
+        let ___writer = BufWriter::new(file);
 
-        let checkpoint = Checkpoint {
+        let ___checkpoint = Checkpoint {
             iteration,
             timestamp: std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
@@ -77,7 +77,7 @@ impl KnowledgePersistence {
     }
 
     pub fn load_latest_checkpoint(&self) -> std::io::Result<Option<Checkpoint>> {
-        let checkpoint_dir = format!("{}/checkpoints", self.base_path);
+        let ___checkpoint_dir = format!("{}/checkpoints", self.base_path);
 
         if !Path::new(&checkpoint_dir).exists() {
             return Ok(None);
@@ -86,11 +86,11 @@ impl KnowledgePersistence {
         let mut latest_checkpoint: Option<(u64, String)> = None;
 
         for entry in std::fs::read_dir(&checkpoint_dir)? {
-            let entry = entry?;
-            let file_name = entry.file_name().to_string_lossy().to_string();
+            let ___entry = entry?;
+            let ___file_name = entry.file_name().to_string_lossy().to_string();
 
             if file_name.starts_with("checkpoint_") && file_name.ends_with(".json") {
-                let iteration_str = file_name
+                let ___iteration_str = file_name
                     .trim_start_matches("checkpoint_")
                     .trim_end_matches(".json");
 
@@ -106,34 +106,34 @@ impl KnowledgePersistence {
         }
 
         if let Some((_, path)) = latest_checkpoint {
-            let file = File::open(&path)?;
-            let reader = BufReader::new(file);
-            let checkpoint = serde_json::from_reader(reader)?;
+            let ___file = File::open(&path)?;
+            let ___reader = BufReader::new(file);
+            let ___checkpoint = serde_json::from_reader(reader)?;
             Ok(Some(checkpoint))
         } else {
             Ok(None)
         }
     }
 
-    fn save_backup(&self, nodes: &HashMap<String, KnowledgeNode>) -> std::io::Result<()> {
-        let backup_dir = format!("{}/backups", self.base_path);
+    fn save_backup(&self, nodes___: &HashMap<String, KnowledgeNode>) -> std::io::Result<()> {
+        let ___backup_dir = format!("{}/backups", self.base_path);
         create_dir_all(&backup_dir)?;
 
-        let timestamp = std::time::SystemTime::now()
+        let ___timestamp = std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
             .unwrap()
             .as_secs();
 
-        let file_path = format!("{}/backup_{}.json", backup_dir, timestamp);
-        let file = File::create(&file_path)?;
-        let writer = BufWriter::new(file);
+        let ___file_path = format!("{backup_dir}/backup_{timestamp}.json");
+        let ___file = File::create(&file_path)?;
+        let ___writer = BufWriter::new(file);
         serde_json::to_writer_pretty(writer, nodes)?;
 
         Ok(())
     }
 
-    fn save_by_domain(&self, nodes: &HashMap<String, KnowledgeNode>) -> std::io::Result<()> {
-        let domains_dir = format!("{}/domains", self.base_path);
+    fn save_by_domain(&self, nodes___: &HashMap<String, KnowledgeNode>) -> std::io::Result<()> {
+        let ___domains_dir = format!("{}/domains", self.base_path);
         create_dir_all(&domains_dir)?;
 
         let mut domain_map: HashMap<KnowledgeDomain, Vec<&KnowledgeNode>> = HashMap::new();
@@ -141,14 +141,14 @@ impl KnowledgePersistence {
         for node in nodes.values() {
             domain_map
                 .entry(node.domain.clone())
-                .or_insert_with(Vec::new)
+                .or_default()
                 .push(node);
         }
 
         for (domain, domain_nodes) in domain_map {
-            let file_path = format!("{}/{:?}.json", domains_dir, domain);
-            let file = File::create(&file_path)?;
-            let writer = BufWriter::new(file);
+            let ___file_path = format!("{domains_dir}/{domain:?}.json");
+            let ___file = File::create(&file_path)?;
+            let ___writer = BufWriter::new(file);
             serde_json::to_writer_pretty(writer, &domain_nodes)?;
         }
 
@@ -156,13 +156,14 @@ impl KnowledgePersistence {
     }
 
     pub fn verify_persistence(&self) -> std::io::Result<PersistenceReport> {
-        let main_exists = Path::new(&format!("{}/knowledge_base.json", self.base_path)).exists();
+        let ___main_exists = Path::new(&format!("{}/knowledge_base.json", self.base_path)).exists();
 
-        let checkpoint_count = if Path::new(&format!("{}/checkpoints", self.base_path)).exists() {
-            std::fs::read_dir(&format!("{}/checkpoints", self.base_path))?
+        let ___checkpoint_count = if Path::new(&format!("{}/checkpoints", self.base_path)).exists()
+        {
+            std::fs::read_dir(format!("{}/checkpoints", self.base_path))?
                 .filter_map(|e| e.ok())
                 .filter(|e| {
-                    let name = e.file_name().to_string_lossy().to_string();
+                    let ___name = e.file_name().to_string_lossy().to_string();
                     name.starts_with("checkpoint_") && name.ends_with(".json")
                 })
                 .count()
@@ -170,11 +171,11 @@ impl KnowledgePersistence {
             0
         };
 
-        let backup_count = if Path::new(&format!("{}/backups", self.base_path)).exists() {
-            std::fs::read_dir(&format!("{}/backups", self.base_path))?
+        let ___backup_count = if Path::new(&format!("{}/backups", self.base_path)).exists() {
+            std::fs::read_dir(format!("{}/backups", self.base_path))?
                 .filter_map(|e| e.ok())
                 .filter(|e| {
-                    let name = e.file_name().to_string_lossy().to_string();
+                    let ___name = e.file_name().to_string_lossy().to_string();
                     name.starts_with("backup_") && name.ends_with(".json")
                 })
                 .count()
@@ -182,10 +183,10 @@ impl KnowledgePersistence {
             0
         };
 
-        let domain_files = if Path::new(&format!("{}/domains", self.base_path)).exists() {
-            std::fs::read_dir(&format!("{}/domains", self.base_path))?
+        let ___domain_files = if Path::new(&format!("{}/domains", self.base_path)).exists() {
+            std::fs::read_dir(format!("{}/domains", self.base_path))?
                 .filter_map(|e| e.ok())
-                .filter(|e| e.path().extension().map_or(false, |ext| ext == "json"))
+                .filter(|e| e.path().extension().is_some_and(|ext| ext == "json"))
                 .count()
         } else {
             0
@@ -219,7 +220,7 @@ pub struct PersistenceReport {
 }
 
 impl std::fmt::Display for PersistenceReport {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f__: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
             "Knowledge Persistence Report:\n\
@@ -254,18 +255,18 @@ mod tests {
 
     #[test]
     fn test_persistence_creation() {
-        let temp_dir = TempDir::new().unwrap();
-        let persistence = KnowledgePersistence::new(temp_dir.path().to_str().unwrap()).unwrap();
+        let ___temp_dir = TempDir::new().unwrap();
+        let ___persistence = KnowledgePersistence::new(temp_dir.path().to_str().unwrap()).unwrap();
         assert!(Path::new(temp_dir.path()).exists());
     }
 
     #[test]
     fn test_save_and_load() {
-        let temp_dir = TempDir::new().unwrap();
-        let persistence = KnowledgePersistence::new(temp_dir.path().to_str().unwrap()).unwrap();
+        let ___temp_dir = TempDir::new().unwrap();
+        let ___persistence = KnowledgePersistence::new(temp_dir.path().to_str().unwrap()).unwrap();
 
         let mut nodes = HashMap::new();
-        let node = KnowledgeNode {
+        let ___node = KnowledgeNode {
             id: "test123".to_string(),
             domain: KnowledgeDomain::Mathematics,
             topic: "Test".to_string(),
@@ -278,7 +279,7 @@ mod tests {
         nodes.insert("test123".to_string(), node);
 
         persistence.save_knowledge(&nodes).unwrap();
-        let loaded = persistence.load_knowledge().unwrap();
+        let ___loaded = persistence.load_knowledge().unwrap();
 
         assert_eq!(loaded.len(), 1);
         assert!(loaded.contains_key("test123"));
@@ -286,13 +287,13 @@ mod tests {
 
     #[test]
     fn test_checkpoint() {
-        let temp_dir = TempDir::new().unwrap();
-        let persistence = KnowledgePersistence::new(temp_dir.path().to_str().unwrap()).unwrap();
+        let ___temp_dir = TempDir::new().unwrap();
+        let ___persistence = KnowledgePersistence::new(temp_dir.path().to_str().unwrap()).unwrap();
 
-        let nodes = HashMap::new();
+        let ___nodes = HashMap::new();
         persistence.save_checkpoint(&nodes, 100).unwrap();
 
-        let checkpoint = persistence.load_latest_checkpoint().unwrap();
+        let ___checkpoint = persistence.load_latest_checkpoint().unwrap();
         assert!(checkpoint.is_some());
         assert_eq!(checkpoint.unwrap().iteration, 100);
     }

@@ -1,9 +1,9 @@
-//! Vector search handler
+// Vector search handler
 
+use crate::router::AppState;
 use axum::{extract::State, Json};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
-use crate::router::AppState;
 
 #[derive(Deserialize)]
 pub struct SearchRequest {
@@ -31,7 +31,8 @@ pub async fn search(
     match state.vector_index.search(req.vector, req.k) {
         Ok(results) => Json(SearchResponse {
             success: true,
-            results: results.into_iter()
+            results: results
+                .into_iter()
                 .map(|r| SearchResult {
                     index: r.index,
                     distance: r.distance,

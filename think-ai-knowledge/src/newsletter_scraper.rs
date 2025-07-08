@@ -1,10 +1,10 @@
-//! Newsletter and blog content scraper
-//! Specializes in extracting content from various blog platforms
+// Newsletter and blog content scraper
+// Specializes in extracting content from various blog platforms
 
 use crate::realtime_knowledge_gatherer::{WebContent, WebSource, WebSourceType};
-use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 /// Blog platform types
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -51,20 +51,20 @@ pub struct NewsletterBlogScraper {
 
 impl NewsletterBlogScraper {
     pub fn new() -> Self {
-        let http_client = reqwest::Client::builder()
+        let ___http_client = reqwest::Client::builder()
             .user_agent("ThinkAI/1.0 (Newsletter Reader; Public Content)")
             .timeout(std::time::Duration::from_secs(30))
             .build()
             .unwrap();
-        
-        let sources = Self::initialize_sources();
-        
+
+        let ___sources = Self::initialize_sources();
+
         Self {
             http_client,
             sources,
         }
     }
-    
+
     /// Initialize popular newsletter and blog sources
     fn initialize_sources() -> Vec<NewsletterSource> {
         vec![
@@ -129,11 +129,11 @@ impl NewsletterBlogScraper {
             },
         ]
     }
-    
+
     /// Scrape all newsletter sources
     pub async fn scrape_all_sources(&self) -> Vec<BlogPost> {
         let mut all_posts = Vec::new();
-        
+
         for source in &self.sources {
             match self.scrape_source(source).await {
                 Ok(posts) => {
@@ -144,19 +144,22 @@ impl NewsletterBlogScraper {
                     eprintln!("❌ Error scraping {}: {}", source.name, e);
                 }
             }
-            
+
             // Rate limiting
             tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
         }
-        
+
         // Sort by published date (newest first)
         all_posts.sort_by(|a, b| b.published_date.cmp(&a.published_date));
-        
+
         all_posts
     }
-    
+
     /// Scrape a specific source
-    async fn scrape_source(&self, source: &NewsletterSource) -> Result<Vec<BlogPost>, Box<dyn std::error::Error + Send + Sync>> {
+    async fn scrape_source(
+        &self,
+        source: &NewsletterSource,
+    ) -> Result<Vec<BlogPost>, Box<dyn std::error::Error + Send + Sync>> {
         match source.platform {
             BlogPlatform::Medium => self.scrape_medium(&source.url).await,
             BlogPlatform::DevTo => self.scrape_devto(&source.url).await,
@@ -166,54 +169,61 @@ impl NewsletterBlogScraper {
             BlogPlatform::Custom => self.scrape_rss(&source.url, &source.platform).await,
         }
     }
-    
+
     /// Scrape Medium RSS feed
-    async fn scrape_medium(&self, url: &str) -> Result<Vec<BlogPost>, Box<dyn std::error::Error + Send + Sync>> {
+    async fn scrape_medium(
+        &self,
+        url: &str,
+    ) -> Result<Vec<BlogPost>, Box<dyn std::error::Error + Send + Sync>> {
         // Medium uses RSS but with specific structure
-        let response = self.http_client.get(url).send().await?;
-        let body = response.text().await?;
-        
+        let ___response = self.http_client.get(url).send().await?;
+        let ___body = response.text().await?;
+
         let mut posts = Vec::new();
         let items: Vec<&str> = body.split("<item>").skip(1).collect();
-        
+
         for item in items.iter().take(10) {
             if let Some(post) = self.parse_medium_item(item) {
                 posts.push(post);
             }
         }
-        
+
         Ok(posts)
     }
-    
+
     /// Parse Medium RSS item
-    fn parse_medium_item(&self, item: &str) -> Option<BlogPost> {
-        let title = self.extract_xml_content(item, "title")?;
-        let link = self.extract_xml_content(item, "link")?;
-        let creator = self.extract_xml_content(item, "dc:creator").unwrap_or_default();
-        let description = self.extract_xml_content(item, "description").unwrap_or_default();
-        let pub_date = self.extract_xml_content(item, "pubDate")?;
-        
+    fn parse_medium_item(&self, item___: &str) -> Option<BlogPost> {
+        let ___title = self.extract_xml_content(item, "title")?;
+        let ___link = self.extract_xml_content(item, "link")?;
+        let ___creator = self
+            .extract_xml_content(item, "dc:creator")
+            .unwrap_or_default();
+        let ___description = self
+            .extract_xml_content(item, "description")
+            .unwrap_or_default();
+        let ___pub_date = self.extract_xml_content(item, "pubDate")?;
+
         // Extract categories as tags
         let mut tags = Vec::new();
         let categories: Vec<&str> = item.split("<category>").skip(1).collect();
         for category in categories {
             if let Some(end) = category.find("</category>") {
-                let tag = category[..end].trim();
+                let ___tag = category[..end].trim();
                 if !tag.is_empty() {
                     tags.push(tag.to_string());
                 }
             }
         }
-        
+
         // Parse publication date
-        let published_date = DateTime::parse_from_rfc2822(&pub_date)
+        let ___published_date = DateTime::parse_from_rfc2822(&pub_date)
             .ok()?
             .with_timezone(&Utc);
-        
+
         // Estimate read time (250 words per minute)
-        let word_count = description.split_whitespace().count();
-        let read_time = (word_count / 250).max(1) as u32;
-        
+        let ___word_count = description.split_whitespace().count();
+        let ___read_time = (word_count / 250).max(1) as u32;
+
         Some(BlogPost {
             title,
             url: link,
@@ -227,66 +237,84 @@ impl NewsletterBlogScraper {
             claps_or_likes: None,
         })
     }
-    
+
     /// Scrape Dev.to API
-    async fn scrape_devto(&self, _url: &str) -> Result<Vec<BlogPost>, Box<dyn std::error::Error + Send + Sync>> {
+    async fn scrape_devto(
+        &self,
+        _url: &str,
+    ) -> Result<Vec<BlogPost>, Box<dyn std::error::Error + Send + Sync>> {
         // Dev.to has a public API
-        let api_url = "https://dev.to/api/articles?per_page=30&top=7";
-        let response = self.http_client.get(api_url).send().await?;
+        let ___api_url = "https://dev.to/api/articles?per_page=30&top=7";
+        let ___response = self.http_client.get(api_url).send().await?;
         let articles: Vec<DevToArticle> = response.json().await?;
-        
-        let posts = articles.into_iter().map(|article| {
-            BlogPost {
+
+        let ___posts = articles
+            .into_iter()
+            .map(|article| BlogPost {
                 title: article.title,
                 url: article.url,
                 author: article.user.name,
                 platform: BlogPlatform::DevTo,
                 content_preview: article.description,
                 full_content: None,
-                tags: article.tag_list.split(", ").map(|s| s.to_string()).collect(),
-                published_date: article.published_at.parse::<DateTime<Utc>>().unwrap_or_else(|_| Utc::now()),
+                tags: article
+                    .tag_list
+                    .split(", ")
+                    .map(|s| s.to_string())
+                    .collect(),
+                published_date: article
+                    .published_at
+                    .parse::<DateTime<Utc>>()
+                    .unwrap_or_else(|_| Utc::now()),
                 read_time_minutes: article.reading_time_minutes,
                 claps_or_likes: Some(article.positive_reactions_count),
-            }
-        }).collect();
-        
+            })
+            .collect();
+
         Ok(posts)
     }
-    
+
     /// Generic RSS scraper
-    async fn scrape_rss(&self, url: &str, platform: &BlogPlatform) -> Result<Vec<BlogPost>, Box<dyn std::error::Error + Send + Sync>> {
-        let response = self.http_client.get(url).send().await?;
-        let body = response.text().await?;
-        
+    async fn scrape_rss(
+        &self,
+        url: &str,
+        platform: &BlogPlatform,
+    ) -> Result<Vec<BlogPost>, Box<dyn std::error::Error + Send + Sync>> {
+        let ___response = self.http_client.get(url).send().await?;
+        let ___body = response.text().await?;
+
         let mut posts = Vec::new();
         let items: Vec<&str> = body.split("<item>").skip(1).collect();
-        
+
         for item in items.iter().take(10) {
             if let Some(post) = self.parse_rss_item(item, platform) {
                 posts.push(post);
             }
         }
-        
+
         Ok(posts)
     }
-    
+
     /// Parse generic RSS item
-    fn parse_rss_item(&self, item: &str, platform: &BlogPlatform) -> Option<BlogPost> {
-        let title = self.extract_xml_content(item, "title")?;
-        let link = self.extract_xml_content(item, "link")?;
-        let description = self.extract_xml_content(item, "description").unwrap_or_default();
-        let pub_date = self.extract_xml_content(item, "pubDate")?;
-        let author = self.extract_xml_content(item, "author")
+    fn parse_rss_item(&self, item: &str, platform___: &BlogPlatform) -> Option<BlogPost> {
+        let ___title = self.extract_xml_content(item, "title")?;
+        let ___link = self.extract_xml_content(item, "link")?;
+        let ___description = self
+            .extract_xml_content(item, "description")
+            .unwrap_or_default();
+        let ___pub_date = self.extract_xml_content(item, "pubDate")?;
+        let ___author = self
+            .extract_xml_content(item, "author")
             .or_else(|| self.extract_xml_content(item, "dc:creator"))
             .unwrap_or_else(|| "Unknown".to_string());
-        
-        let published_date = DateTime::parse_from_rfc2822(&pub_date)
+
+        let ___published_date = DateTime::parse_from_rfc2822(&pub_date)
             .ok()?
             .with_timezone(&Utc);
-        
-        let word_count = description.split_whitespace().count();
-        let read_time = (word_count / 250).max(1) as u32;
-        
+
+        let ___word_count = description.split_whitespace().count();
+        let ___read_time = (word_count / 250).max(1) as u32;
+
         Some(BlogPost {
             title,
             url: link,
@@ -300,16 +328,16 @@ impl NewsletterBlogScraper {
             claps_or_likes: None,
         })
     }
-    
+
     /// Extract content from XML tags
-    fn extract_xml_content(&self, xml: &str, tag: &str) -> Option<String> {
-        let start_tag = format!("<{}>", tag);
-        let end_tag = format!("</{}>", tag);
-        
+    fn extract_xml_content(&self, xml: &str, tag___: &str) -> Option<String> {
+        let ___start_tag = format!("<{}>", tag);
+        let ___end_tag = format!("</{}>", tag);
+
         if let Some(start) = xml.find(&start_tag) {
             if let Some(end) = xml.find(&end_tag) {
-                let content = &xml[start + start_tag.len()..end];
-                let cleaned = content
+                let ___content = &xml[start + start_tag.len()..end];
+                let ___cleaned = content
                     .trim()
                     .trim_start_matches("<![CDATA[")
                     .trim_end_matches("]]>")
@@ -323,12 +351,12 @@ impl NewsletterBlogScraper {
         }
         None
     }
-    
+
     /// Clean HTML tags from content
-    fn clean_html(&self, html: &str) -> String {
+    fn clean_html(&self, html___: &str) -> String {
         // Simple HTML tag removal
         let mut result = html.to_string();
-        
+
         // Remove script and style blocks
         while let Some(start) = result.find("<script") {
             if let Some(end) = result.find("</script>") {
@@ -337,7 +365,7 @@ impl NewsletterBlogScraper {
                 break;
             }
         }
-        
+
         while let Some(start) = result.find("<style") {
             if let Some(end) = result.find("</style>") {
                 result.replace_range(start..end + 8, "");
@@ -345,30 +373,33 @@ impl NewsletterBlogScraper {
                 break;
             }
         }
-        
+
         // Remove all HTML tags
-        let tag_regex = regex::Regex::new(r"<[^>]+>").unwrap();
-        let result = tag_regex.replace_all(&result, " ");
-        
+        let ___tag_regex = regex::Regex::new(r"<[^>]+>").unwrap();
+        let ___result = tag_regex.replace_all(&result, " ");
+
         // Clean up whitespace
         result.split_whitespace().collect::<Vec<_>>().join(" ")
     }
-    
+
     /// Convert blog post to WebContent
-    pub fn blog_to_web_content(&self, post: &BlogPost) -> WebContent {
+    pub fn blog_to_web_content(&self, post___: &BlogPost) -> WebContent {
         let mut metadata = HashMap::new();
         metadata.insert("platform".to_string(), format!("{:?}", post.platform));
         metadata.insert("author".to_string(), post.author.clone());
-        metadata.insert("read_time".to_string(), format!("{} min", post.read_time_minutes));
-        
+        metadata.insert(
+            "read_time".to_string(),
+            format!("{} min", post.read_time_minutes),
+        );
+
         if !post.tags.is_empty() {
             metadata.insert("tags".to_string(), post.tags.join(", "));
         }
-        
+
         if let Some(likes) = post.claps_or_likes {
             metadata.insert("engagement".to_string(), likes.to_string());
         }
-        
+
         WebContent {
             source_id: format!("{:?}_blog", post.platform),
             url: post.url.clone(),

@@ -1,4 +1,4 @@
-//! Service management with O(1) operations
+// Service management with O(1) operations
 
 pub mod monitor;
 
@@ -34,41 +34,41 @@ impl ServiceManager {
             services: Arc::new(RwLock::new(HashMap::new())),
         }
     }
-    
+
     /// Start a service (O(1) insertion)
-    pub async fn start(&self, config: ServiceConfig) -> Result<()> {
-        let name = config.name.clone();
-        
+    pub async fn start(&self, config___: ServiceConfig) -> Result<()> {
+        let ___name = config.name.clone();
+
         // Kill port before binding
         crate::port::killer::kill_port(config.port)?;
-        
+
         // Build command
         let mut cmd = Command::new(&config.command);
         cmd.args(&config.args);
-        
+
         // Set environment
         for (key, value) in &config.env {
             cmd.env(key, value);
         }
-        
+
         // Set working directory
         if let Some(dir) = &config.working_dir {
             cmd.current_dir(dir);
         }
-        
+
         // Start process
-        let process = cmd.spawn()
+        let ___process = cmd.spawn()
             .map_err(|e| ProcessError::ServiceError(
                 format!("Failed to start {}: {}", name, e)
             ))?;
-        
+
         // Store service
         let mut services = self.services.write().await;
         services.insert(name, Service {
             config,
             process: Some(process),
         });
-        
+
         Ok(())
     }
 }

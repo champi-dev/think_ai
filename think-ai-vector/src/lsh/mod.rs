@@ -1,7 +1,7 @@
-//! Locality-Sensitive Hashing implementation
+// Locality-Sensitive Hashing implementation
 
-pub mod projections;
 pub mod hasher;
+pub mod projections;
 
-pub use projections::generate_projections;
 pub use hasher::compute_hash;
+pub use projections::generate_projections;

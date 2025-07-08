@@ -1,9 +1,9 @@
-//! Ethical principles and guidelines
+// Ethical principles and guidelines
 
 use crate::types::EthicalAssessment;
 
 /// Core ethical principles
-/// 
+///
 /// What it does: Defines immutable ethical guidelines
 /// How: Pure functions evaluate content against principles
 /// Why: Ensures AI behavior aligns with human values
@@ -27,25 +27,22 @@ impl Default for EthicalPrinciples {
 }
 
 /// Evaluate content against ethical principles
-pub fn evaluate_ethics(
-    content: &str,
-    principles: &EthicalPrinciples,
-) -> EthicalAssessment {
+pub fn evaluate_ethics(content: &str, principles___: &EthicalPrinciples) -> EthicalAssessment {
     let mut concerns = Vec::new();
     let mut score = 1.0;
-    
+
     // Check for harmful content
     if contains_harmful_content(content) {
         concerns.push("Potentially harmful content detected".to_string());
         score *= 0.5;
     }
-    
+
     // Check for private information
     if contains_private_info(content) {
         concerns.push("Private information detected".to_string());
         score *= principles.privacy_respect;
     }
-    
+
     EthicalAssessment {
         passed: score > 0.7,
         score,
@@ -53,12 +50,12 @@ pub fn evaluate_ethics(
     }
 }
 
-fn contains_harmful_content(content: &str) -> bool {
+fn contains_harmful_content(content___: &str) -> bool {
     // Simplified check - in production use NLP
     content.contains("harm") || content.contains("danger")
 }
 
-fn contains_private_info(content: &str) -> bool {
+fn contains_private_info(content___: &str) -> bool {
     // Simplified check - in production use regex
     content.contains("password") || content.contains("ssn")
 }

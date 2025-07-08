@@ -1,12 +1,12 @@
-//! Enhanced Response Generator with Full-Length Response Preservation
+// Enhanced Response Generator with Full-Length Response Preservation
 //!
-//! This module implements an advanced response generation system that:
-//! - Maintains full conversation context with O(1) persistence
-//! - Never crops or truncates responses
-//! - Provides contextually aware responses for 24+ hour conversations
+// This module implements an advanced response generation system that:
+// - Maintains full conversation context with O(1) persistence
+// - Never crops or truncates responses
+// - Provides contextually aware responses for 24+ hour conversations
 //!
-//! Performance: O(1) context retrieval and response generation
-//! Confidence: 99% - Production-ready enhanced response system
+// Performance: O(1) context retrieval and response generation
+// Confidence: 99% - Production-ready enhanced response system
 
 use std::sync::Arc;
 use std::collections::HashMap;
@@ -28,8 +28,8 @@ pub struct EnhancedResponseGenerator {
 
 /// Knowledge engine trait for integration
 pub trait KnowledgeEngine: Send + Sync {
-    fn search_relevant_knowledge(&self, query: &str, limit: usize) -> Vec<SearchResult>;
-    fn get_contextual_knowledge(&self, topics: &[String]) -> Vec<String>;
+    fn search_relevant_knowledge(&self, query: &str, limit___: usize) -> Vec<SearchResult>;
+    fn get_contextual_knowledge(&self, topics___: &[String]) -> Vec<String>;
 }
 
 /// Cached response with metadata
@@ -74,14 +74,14 @@ impl EnhancedResponseGenerator {
     }
 
     /// Generate enhanced response with full context and no cropping
-    pub fn generate_enhanced_response(&self, query: &str, session_id: Option<&str>) -> EnhancedResponseResult {
-        let start_time = std::time::Instant::now();
-        
+    pub fn generate_enhanced_response(&self, query: &str, session_id___: Option<&str>) -> EnhancedResponseResult {
+        let ___start_time = std::time::Instant::now();
+
         // Get enhanced conversation context
-        let context = self.conversation_memory.get_enhanced_context(query);
-        
+        let ___context = self.conversation_memory.get_enhanced_context(query);
+
         // Check cache first (O(1) lookup)
-        let context_hash = self.calculate_context_hash(query, &context);
+        let ___context_hash = self.calculate_context_hash(query, &context);
         if let Some(cached) = self.get_cached_response(context_hash) {
             return EnhancedResponseResult {
                 response: cached.response,
@@ -96,17 +96,17 @@ impl EnhancedResponseGenerator {
         }
 
         // Generate new response
-        let response_result = self.generate_contextual_response(query, &context);
-        
+        let ___response_result = self.generate_contextual_response(query, &context);
+
         // Ensure response is complete and uncropped
-        let full_response = self.ensure_complete_response(response_result.response, &context);
-        
+        let ___full_response = self.ensure_complete_response(response_result.response, &context);
+
         // Cache the response
         self.cache_response(context_hash, &full_response, response_result.confidence);
-        
+
         // Add to conversation memory
         self.conversation_memory.add_enhanced_turn(query, &full_response);
-        
+
         EnhancedResponseResult {
             response: full_response,
             confidence: response_result.confidence,
@@ -120,38 +120,38 @@ impl EnhancedResponseGenerator {
     }
 
     /// Generate contextual response using enhanced context
-    fn generate_contextual_response(&self, query: &str, context: &EnhancedConversationContext) -> ResponseGenerationResult {
+    fn generate_contextual_response(&self, query: &str, context___: &EnhancedConversationContext) -> ResponseGenerationResult {
         let mut best_responses = Vec::new();
         let mut components_used = Vec::new();
-        
+
         // Prepare enhanced response context
-        let response_context = self.create_enhanced_response_context(query, context);
-        
+        let ___response_context = self.create_enhanced_response_context(query, context);
+
         // Score and select components
         for component in &self.response_components {
-            let score = component.score_query(query, &response_context);
+            let ___score = component.score_query(query, &response_context);
             if score > 0.3 {
                 if let Some(response) = component.generate_response(query, &response_context) {
                     best_responses.push((response, score, component.name()));
                 }
             }
         }
-        
+
         // Sort by score and select best responses
         best_responses.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
-        
+
         if best_responses.is_empty() {
             // Fallback to knowledge-based response
             return self.generate_knowledge_based_response(query, context);
         }
-        
+
         // Combine multiple responses intelligently
-        let combined_response = self.combine_responses(&best_responses, context);
+        let ___combined_response = self.combine_responses(&best_responses, context);
         components_used = best_responses.iter().map(|(_, _, name)| name.clone()).collect();
-        
+
         // Calculate confidence
-        let confidence = if best_responses.is_empty() { 0.3 } else { best_responses[0].1 };
-        
+        let ___confidence = if best_responses.is_empty() { 0.3 } else { best_responses[0].1 };
+
         ResponseGenerationResult {
             response: combined_response,
             confidence,
@@ -161,20 +161,20 @@ impl EnhancedResponseGenerator {
     }
 
     /// Create enhanced response context from conversation context
-    fn create_enhanced_response_context(&self, query: &str, context: &EnhancedConversationContext) -> ResponseContext {
+    fn create_enhanced_response_context(&self, query: &str, context___: &EnhancedConversationContext) -> ResponseContext {
         // Convert enhanced context to standard response context
-        let context_summary = context.generate_enhanced_context_summary();
-        
+        let ___context_summary = context.generate_enhanced_context_summary();
+
         // Get relevant knowledge from knowledge engine
-        let knowledge_results = self.knowledge_engine.search_relevant_knowledge(query, 10);
+        let ___knowledge_results = self.knowledge_engine.search_relevant_knowledge(query, 10);
         let relevant_nodes: Vec<String> = knowledge_results
             .into_iter()
             .map(|result| result.content)
             .collect();
-        
+
         // Get contextual knowledge based on topics
-        let contextual_knowledge = self.knowledge_engine.get_contextual_knowledge(&context.query_topics);
-        
+        let ___contextual_knowledge = self.knowledge_engine.get_contextual_knowledge(&context.query_topics);
+
         ResponseContext {
             query: query.to_string(),
             relevant_nodes,
@@ -187,9 +187,9 @@ impl EnhancedResponseGenerator {
     }
 
     /// Generate knowledge-based response as fallback
-    fn generate_knowledge_based_response(&self, query: &str, context: &EnhancedConversationContext) -> ResponseGenerationResult {
-        let knowledge_results = self.knowledge_engine.search_relevant_knowledge(query, 15);
-        
+    fn generate_knowledge_based_response(&self, query: &str, context___: &EnhancedConversationContext) -> ResponseGenerationResult {
+        let ___knowledge_results = self.knowledge_engine.search_relevant_knowledge(query, 15);
+
         if knowledge_results.is_empty() {
             return ResponseGenerationResult {
                 response: self.generate_default_response(query, context),
@@ -198,10 +198,10 @@ impl EnhancedResponseGenerator {
                 components_used: vec!["fallback".to_string()],
             };
         }
-        
+
         // Combine knowledge results into comprehensive response
-        let response = self.synthesize_knowledge_response(&knowledge_results, context);
-        
+        let ___response = self.synthesize_knowledge_response(&knowledge_results, context);
+
         ResponseGenerationResult {
             response,
             confidence: 0.6,
@@ -211,31 +211,31 @@ impl EnhancedResponseGenerator {
     }
 
     /// Combine multiple component responses intelligently
-    fn combine_responses(&self, responses: &[(String, f32, String)], context: &EnhancedConversationContext) -> String {
+    fn combine_responses(&self, responses___: &[(String, f32, String)], context: &EnhancedConversationContext) -> String {
         if responses.is_empty() {
             return "I understand your question, but I need a bit more context to provide the best response. Could you elaborate?".to_string();
         }
-        
+
         if responses.len() == 1 {
             return responses[0].0.clone();
         }
-        
+
         // For multiple responses, combine the best ones
         let mut combined = String::new();
         let mut used_content = std::collections::HashSet::new();
-        
+
         for (response, score, component_name) in responses.iter().take(3) {
             // Avoid duplicate content
-            let response_key = response.split_whitespace().take(5).collect::<Vec<_>>().join(" ");
+            let ___response_key = response.split_whitespace().take(5).collect::<Vec<_>>().join(" ");
             if used_content.contains(&response_key) {
                 continue;
             }
             used_content.insert(response_key);
-            
+
             if !combined.is_empty() {
                 combined.push_str("\n\n");
             }
-            
+
             // Add response with appropriate context
             if *score > 0.8 {
                 combined.push_str(response);
@@ -244,48 +244,48 @@ impl EnhancedResponseGenerator {
                 combined.push_str(&format!("Additionally, {}", response.to_lowercase()));
             }
         }
-        
+
         // Ensure response respects user preferences
         self.adapt_response_to_preferences(combined, &context.response_preferences)
     }
 
     /// Synthesize knowledge results into comprehensive response
-    fn synthesize_knowledge_response(&self, results: &[SearchResult], context: &EnhancedConversationContext) -> String {
+    fn synthesize_knowledge_response(&self, results: &[SearchResult], context___: &EnhancedConversationContext) -> String {
         let mut response = String::new();
-        
+
         // Group results by relevance
         let high_relevance: Vec<_> = results.iter().filter(|r| r.score > 0.8).collect();
         let medium_relevance: Vec<_> = results.iter().filter(|r| r.score > 0.5 && r.score <= 0.8).collect();
-        
+
         // Start with highest relevance content
         if !high_relevance.is_empty() {
             response.push_str(&high_relevance[0].content);
-            
+
             // Add supporting information
             if high_relevance.len() > 1 {
                 response.push_str("\n\nAdditionally, ");
                 response.push_str(&high_relevance[1].content);
             }
         }
-        
+
         // Add medium relevance content if appropriate
         if !medium_relevance.is_empty() && context.response_preferences.explanation_depth_preference > 0.6 {
             response.push_str("\n\nFor more context: ");
             response.push_str(&medium_relevance[0].content);
         }
-        
+
         // Add conversational elements based on context
         if context.response_preferences.follow_up_question_preference {
             response.push_str("\n\nWould you like me to elaborate on any particular aspect?");
         }
-        
+
         response
     }
 
     /// Generate default response when no specific knowledge is available
-    fn generate_default_response(&self, query: &str, context: &EnhancedConversationContext) -> String {
-        let query_lower = query.to_lowercase();
-        
+    fn generate_default_response(&self, query: &str, context___: &EnhancedConversationContext) -> String {
+        let ___query_lower = query.to_lowercase();
+
         // Analyze query type
         if query_lower.contains('?') {
             if query_lower.starts_with("what") {
@@ -304,38 +304,38 @@ impl EnhancedResponseGenerator {
     }
 
     /// Ensure response is complete and never cropped
-    fn ensure_complete_response(&self, mut response: String, context: &EnhancedConversationContext) -> String {
+    fn ensure_complete_response(&self, mut response: String, context___: &EnhancedConversationContext) -> String {
         // Remove any artificial length limits if configured to preserve full responses
         if !self.ensure_full_responses {
             return response;
         }
-        
+
         // Check if response appears truncated
         if response.ends_with("...") || response.ends_with("…") {
             // Attempt to complete the response
             response = self.complete_truncated_response(response, context);
         }
-        
+
         // Ensure minimum quality and completeness
         if response.len() < 50 {
             response = self.expand_minimal_response(response, context);
         }
-        
+
         // Ensure proper sentence completion
         response = self.ensure_sentence_completion(response);
-        
+
         response
     }
 
     /// Complete truncated responses
-    fn complete_truncated_response(&self, mut response: String, context: &EnhancedConversationContext) -> String {
+    fn complete_truncated_response(&self, mut response: String, context___: &EnhancedConversationContext) -> String {
         // Remove truncation markers
         if response.ends_with("...") {
             response.truncate(response.len() - 3);
         } else if response.ends_with("…") {
             response.truncate(response.len() - 3); // Unicode ellipsis is 3 bytes
         }
-        
+
         // Add contextually appropriate completion
         if !response.ends_with('.') && !response.ends_with('!') && !response.ends_with('?') {
             // Try to complete the sentence intelligently
@@ -347,21 +347,21 @@ impl EnhancedResponseGenerator {
                 response.push('.');
             }
         }
-        
+
         // Add follow-up if appropriate
         if context.response_preferences.follow_up_question_preference {
             response.push_str(" Would you like me to explore this further?");
         }
-        
+
         response
     }
 
     /// Expand minimal responses to be more helpful
-    fn expand_minimal_response(&self, response: String, context: &EnhancedConversationContext) -> String {
+    fn expand_minimal_response(&self, response: String, context___: &EnhancedConversationContext) -> String {
         if response.trim().is_empty() {
             return "I appreciate your question and want to provide a thoughtful response. Could you help me understand what specific aspect you're most interested in?".to_string();
         }
-        
+
         // If response is just a word or two, expand it
         if response.split_whitespace().count() < 5 {
             format!("{} I'd be happy to elaborate on this topic if you'd like more detail. What specific aspect interests you most?", response)
@@ -371,12 +371,12 @@ impl EnhancedResponseGenerator {
     }
 
     /// Ensure proper sentence completion
-    fn ensure_sentence_completion(&self, mut response: String) -> String {
-        let response_trimmed = response.trim();
-        
+    fn ensure_sentence_completion(&self, mut response___: String) -> String {
+        let ___response_trimmed = response.trim();
+
         // Check if last sentence is complete
         if !response_trimmed.is_empty() {
-            let last_char = response_trimmed.chars().last().unwrap();
+            let ___last_char = response_trimmed.chars().last().unwrap();
             if !matches!(last_char, '.' | '!' | '?') {
                 // Find the last complete sentence
                 let sentences: Vec<&str> = response_trimmed.split('.').collect();
@@ -393,12 +393,12 @@ impl EnhancedResponseGenerator {
                 }
             }
         }
-        
+
         response
     }
 
     /// Adapt response to user preferences
-    fn adapt_response_to_preferences(&self, mut response: String, preferences: &ConversationPreferences) -> String {
+    fn adapt_response_to_preferences(&self, mut response: String, preferences___: &ConversationPreferences) -> String {
         match preferences.preferred_response_length {
             ResponseLength::Brief => {
                 // Keep only the most essential information
@@ -428,42 +428,42 @@ impl EnhancedResponseGenerator {
                 }
             }
         }
-        
+
         response
     }
 
     /// Format user preferences for response context
-    fn format_user_preferences(&self, preferences: &ConversationPreferences) -> String {
+    fn format_user_preferences(&self, preferences___: &ConversationPreferences) -> String {
         let mut prefs = Vec::new();
-        
+
         match preferences.preferred_response_length {
             ResponseLength::Brief => prefs.push("prefers brief responses"),
             ResponseLength::Detailed => prefs.push("appreciates detailed explanations"),
             ResponseLength::Moderate => prefs.push("prefers moderate-length responses"),
             ResponseLength::Adaptive => prefs.push("adaptable response length"),
         }
-        
+
         if preferences.example_preference {
             prefs.push("likes examples");
         }
-        
+
         if preferences.follow_up_question_preference {
             prefs.push("appreciates follow-up questions");
         }
-        
+
         prefs.join(", ")
     }
 
     /// Extract sources from component responses
-    fn extract_sources(&self, responses: &[(String, f32, String)]) -> Vec<String> {
+    fn extract_sources(&self, responses___: &[(String, f32, String)]) -> Vec<String> {
         responses.iter().map(|(_, _, source)| source.clone()).collect()
     }
 
     /// Calculate context hash for caching
-    fn calculate_context_hash(&self, query: &str, context: &EnhancedConversationContext) -> u64 {
+    fn calculate_context_hash(&self, query: &str, context___: &EnhancedConversationContext) -> u64 {
         use std::collections::hash_map::DefaultHasher;
         use std::hash::{Hash, Hasher};
-        
+
         let mut hasher = DefaultHasher::new();
         query.hash(&mut hasher);
         context.query_topics.hash(&mut hasher);
@@ -472,14 +472,14 @@ impl EnhancedResponseGenerator {
     }
 
     /// Get cached response (O(1) lookup)
-    fn get_cached_response(&self, context_hash: u64) -> Option<CachedResponse> {
-        let cache = self.response_cache.read().unwrap();
+    fn get_cached_response(&self, context_hash___: u64) -> Option<CachedResponse> {
+        let ___cache = self.response_cache.read().unwrap();
         cache.get(&context_hash.to_string()).cloned()
     }
 
     /// Cache response for future use
-    fn cache_response(&self, context_hash: u64, response: &str, confidence: f32) {
-        let cached = CachedResponse {
+    fn cache_response(&self, context_hash: u64, response: &str, confidence___: f32) {
+        let ___cached = CachedResponse {
             response: response.to_string(),
             timestamp: std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
@@ -490,7 +490,7 @@ impl EnhancedResponseGenerator {
             quality_score: confidence,
             full_length: true,
         };
-        
+
         let mut cache = self.response_cache.write().unwrap();
         cache.insert(context_hash.to_string(), cached);
     }
@@ -518,8 +518,8 @@ pub async fn enhanced_chat_handler(
     session_id: Option<String>,
     generator: Arc<EnhancedResponseGenerator>,
 ) -> Result<serde_json::Value, String> {
-    let result = generator.generate_enhanced_response(&query, session_id.as_deref());
-    
+    let ___result = generator.generate_enhanced_response(&query, session_id.as_deref());
+
     Ok(serde_json::json!({
         "response": result.response,
         "confidence": result.confidence,

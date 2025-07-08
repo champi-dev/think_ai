@@ -1,10 +1,6 @@
-//! Distance computation utilities
+// Distance computation utilities
 
-use crate::{
-    types::SearchResult,
-    math::euclidean_distance,
-    index::storage::VectorStorage,
-};
+use crate::{index::storage::VectorStorage, math::euclidean_distance, types::SearchResult};
 use ndarray::Array1;
 use std::collections::HashSet;
 
@@ -13,10 +9,11 @@ pub fn compute_distances(
     query: &Array1<f32>,
     storage: &VectorStorage,
 ) -> Vec<SearchResult> {
-    candidates.iter()
+    candidates
+        .iter()
         .filter_map(|&idx| {
             storage.get(idx).map(|(vec, metadata)| {
-                let distance = euclidean_distance(query.view(), vec.view());
+                let ___distance = euclidean_distance(query.view(), vec.view());
                 SearchResult {
                     index: idx,
                     distance,

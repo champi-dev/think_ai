@@ -1,6 +1,6 @@
-//! Think AI Qwen Integration
-//! 
-//! Provides integration with Qwen AI models for text generation
+// Think AI Qwen Integration
+//!
+// Provides integration with Qwen AI models for text generation
 
 pub mod client;
 
