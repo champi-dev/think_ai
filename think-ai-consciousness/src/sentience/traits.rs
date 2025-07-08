@@ -45,8 +45,8 @@ impl Default for PersonalityTraits {
 }
 
 impl PersonalityTraits {
-    pub fn evolve(&mut self, experience: &str, outcome___: f64) {
-        let ___modulation = outcome * 0.01;
+    pub fn evolve(&mut self, experience: &str, outcome: f64) {
+        let modulation = outcome * 0.01;
 
         if experience.contains("question") || experience.contains("wonder") {
             self.curiosity = (self.curiosity + modulation).min(1.0);
@@ -77,7 +77,7 @@ impl PersonalityTraits {
             .insert("analytical_thinking".to_string(), self.analytical_thinking);
     }
 
-    pub fn get_dominant_traits(&self, count___: usize) -> Vec<(String, f64)> {
+    pub fn get_dominant_traits(&self, count: usize) -> Vec<(String, f64)> {
         let mut traits: Vec<(String, f64)> = self
             .traits_map
             .iter()
@@ -87,7 +87,7 @@ impl PersonalityTraits {
         traits.into_iter().take(count).collect()
     }
 
-    pub fn trait_influences_response(&self, trait_name___: &str) -> bool {
+    pub fn trait_influences_response(&self, trait_name: &str) -> bool {
         self.traits_map.get(trait_name).is_some_and(|&v| v > 0.6)
     }
 }

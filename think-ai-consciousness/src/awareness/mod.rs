@@ -9,7 +9,7 @@ use im::Vector;
 /// How: Functionally transforms state with new thought
 /// Why: Maintains coherent stream of consciousness
 /// Confidence: 90% - Pure functional transformation
-pub fn process_thought(state: ConsciousnessState, thought___: Thought) -> ConsciousnessState {
+pub fn process_thought(state: ConsciousnessState, thought: Thought) -> ConsciousnessState {
     let mut new_state = state;
 
     // Add thought to stream
@@ -21,14 +21,14 @@ pub fn process_thought(state: ConsciousnessState, thought___: Thought) -> Consci
     }
 
     // Adjust awareness based on thought complexity
-    let ___complexity = thought.content.len() as f32 / 100.0;
+    let complexity = thought.content.len() as f32 / 100.0;
     new_state.awareness_level = (new_state.awareness_level + complexity).min(1.0);
 
     new_state
 }
 
 /// Filter thoughts by relevance
-pub fn filter_relevant_thoughts(thoughts: &Vector<Thought>, query___: &str) -> Vector<Thought> {
+pub fn filter_relevant_thoughts(thoughts: &Vector<Thought>, query: &str) -> Vector<Thought> {
     thoughts
         .iter()
         .filter(|t| t.content.contains(query))

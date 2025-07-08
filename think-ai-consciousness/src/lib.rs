@@ -48,9 +48,9 @@ impl ConsciousnessFramework {
     }
 
     /// Process input through consciousness
-    pub fn process_input(&self, input___: &str) -> Result<Thought> {
+    pub fn process_input(&self, input: &str) -> Result<Thought> {
         // Create thought from input
-        let ___thought = Thought {
+        let thought = Thought {
             id: uuid::Uuid::new_v4().to_string(),
             content: input.to_string(),
             timestamp: chrono::Utc::now(),
@@ -59,7 +59,7 @@ impl ConsciousnessFramework {
         };
 
         // Evaluate ethics
-        let ___assessment = principles::evaluate_ethics(input, &self.principles);
+        let assessment = principles::evaluate_ethics(input, &self.principles);
         if !assessment.passed {
             return Err(ConsciousnessError::ProcessingError(
                 "Ethical concerns detected".to_string(),

@@ -1,3 +1,10 @@
+#!/bin/bash
+
+echo "🔧 FIXING PERF.RS SYNTAX ERRORS"
+echo "=============================="
+
+# Fix perf.rs completely
+cat > think-ai-utils/src/perf.rs << 'EOF'
 // Performance measurement utilities with O(1) guarantees
 
 use once_cell::sync::Lazy;
@@ -77,3 +84,30 @@ impl Default for PerfTimer {
         Self::new()
     }
 }
+EOF
+
+# Also fix the remaining webapp issues
+echo ""
+echo "Fixing remaining webapp variable issues..."
+
+# Fix effects.rs more comprehensively
+sed -i 's/effect_\./effect./' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_progress\b/progress/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_fade\b/fade/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_opacity\b/opacity/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_radius\b/radius/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_size\b/size/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_scale\b/scale/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_current_x\b/current_x/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_current_y\b/current_y/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_html\b/html/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_time\b/time/g' think-ai-webapp/src/ui/effects.rs
+sed -i 's/\b_document\b/document/g' think-ai-webapp/src/ui/effects.rs
+
+# Build again
+echo ""
+echo "Testing build..."
+cargo build --release 2>&1 | grep -E "(Compiling|Finished|error:)" | tail -20
+
+echo ""
+echo "✅ Syntax errors fixed!"

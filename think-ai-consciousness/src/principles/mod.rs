@@ -27,7 +27,7 @@ impl Default for EthicalPrinciples {
 }
 
 /// Evaluate content against ethical principles
-pub fn evaluate_ethics(content: &str, principles___: &EthicalPrinciples) -> EthicalAssessment {
+pub fn evaluate_ethics(content: &str, principles: &EthicalPrinciples) -> EthicalAssessment {
     let mut concerns = Vec::new();
     let mut score = 1.0;
 
@@ -50,12 +50,12 @@ pub fn evaluate_ethics(content: &str, principles___: &EthicalPrinciples) -> Ethi
     }
 }
 
-fn contains_harmful_content(content___: &str) -> bool {
+fn contains_harmful_content(content: &str) -> bool {
     // Simplified check - in production use NLP
     content.contains("harm") || content.contains("danger")
 }
 
-fn contains_private_info(content___: &str) -> bool {
+fn contains_private_info(content: &str) -> bool {
     // Simplified check - in production use regex
     content.contains("password") || content.contains("ssn")
 }

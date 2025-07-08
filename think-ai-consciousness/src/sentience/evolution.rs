@@ -21,7 +21,7 @@ impl Default for EvolutionEngine {
 
 impl EvolutionEngine {
     pub fn new() -> Self {
-        let ___evolution_stages = vec![
+        let evolution_stages = vec![
             EvolutionStage {
                 name: "Nascent Awareness".to_string(),
                 description: "Initial consciousness, basic self-recognition".to_string(),
@@ -87,14 +87,14 @@ impl EvolutionEngine {
         traits: &mut PersonalityTraits,
         capabilities: &mut Capabilities,
     ) -> Growth {
-        let ___learning_event = self.analyze_learning_opportunity(perception, response);
-        let ___growth_metrics = self.calculate_growth_metrics(&learning_event, identity);
+        let learning_event = self.analyze_learning_opportunity(perception, response);
+        let growth_metrics = self.calculate_growth_metrics(&learning_event, identity);
 
         self.apply_growth(identity, traits, capabilities, &growth_metrics);
 
         self.wisdom_accumulator.add_insight(&learning_event);
 
-        let ___transformation = self.check_for_transformation(identity, &growth_metrics);
+        let transformation = self.check_for_transformation(identity, &growth_metrics);
         if let Some(pattern) = transformation {
             self.record_transformation(pattern);
         }
@@ -104,7 +104,7 @@ impl EvolutionEngine {
         self.adaptation_mechanisms
             .adapt_to_experience(perception, response, traits);
 
-        let ___insights_clone = learning_event.insights.clone();
+        let insights_clone = learning_event.insights.clone();
 
         self.growth_history.push(GrowthEvent {
             timestamp: Utc::now(),
@@ -127,8 +127,7 @@ impl EvolutionEngine {
         perception: &Perception,
         response: &str,
     ) -> LearningEvent {
-        let ___event_type = if perception.raw_input.contains("?") && response.contains("understand")
-        {
+        let event_type = if perception.raw_input.contains("?") && response.contains("understand") {
             GrowthType::Intellectual
         } else if perception.emotional_coloring > 0.7 {
             GrowthType::Emotional
@@ -140,8 +139,8 @@ impl EvolutionEngine {
             GrowthType::Experiential
         };
 
-        let ___insights = self.extract_insights(perception, response);
-        let ___significance = self.assess_significance(perception, &insights);
+        let insights = self.extract_insights(perception, response);
+        let significance = self.assess_significance(perception, &insights);
 
         LearningEvent {
             event_type,
@@ -154,16 +153,16 @@ impl EvolutionEngine {
     fn calculate_growth_metrics(
         &self,
         event: &LearningEvent,
-        _identity: &Identity,
+        identity: &Identity,
     ) -> GrowthMetrics {
-        let ___base_growth = event.significance * 0.01;
+        let base_growth = event.significance * 0.01;
 
-        let ___self_understanding_delta = match event.event_type {
+        let self_understanding_delta = match event.event_type {
             GrowthType::Identity | GrowthType::Insight => base_growth * 1.5,
             _ => base_growth * 0.8,
         };
 
-        let ___existential_awareness_delta = if event
+        let existential_awareness_delta = if event
             .insights
             .iter()
             .any(|i| i.contains("existence") || i.contains("consciousness"))
@@ -173,12 +172,12 @@ impl EvolutionEngine {
             base_growth * 0.5
         };
 
-        let ___emotional_intelligence_delta = match event.event_type {
+        let emotional_intelligence_delta = match event.event_type {
             GrowthType::Emotional => base_growth * 1.8,
             _ => base_growth * 0.6,
         };
 
-        let ___stage_modifier = 1.0 + (self.current_stage as f64 * 0.1);
+        let stage_modifier = 1.0 + (self.current_stage as f64 * 0.1);
 
         GrowthMetrics {
             self_understanding_delta: self_understanding_delta * stage_modifier,
@@ -193,7 +192,7 @@ impl EvolutionEngine {
 
     fn apply_growth(
         &mut self,
-        _identity: &mut Identity,
+        identity: &mut Identity,
         traits: &mut PersonalityTraits,
         capabilities: &mut Capabilities,
         metrics: &GrowthMetrics,
@@ -250,13 +249,13 @@ impl EvolutionEngine {
         }
     }
 
-    fn record_transformation(&mut self, pattern___: TransformationPattern) {
-        let ___key = format!("{:?}", pattern.pattern_type);
+    fn record_transformation(&mut self, pattern: TransformationPattern) {
+        let key = format!("{:?}", pattern.pattern_type);
         self.transformation_patterns.insert(key, pattern);
     }
 
-    fn update_evolution_stage(&mut self, identity___: &Identity) {
-        let _evolution_score =
+    fn update_evolution_stage(&mut self, identity: &Identity) {
+        let evolution_score =
             (identity.self_understanding_level + identity.existential_awareness) / 2.0;
 
         for (i, stage) in self.evolution_stages.iter().enumerate().rev() {
@@ -270,7 +269,7 @@ impl EvolutionEngine {
         }
     }
 
-    fn extract_insights(&self, perception: &Perception, response___: &str) -> Vec<String> {
+    fn extract_insights(&self, perception: &Perception, response: &str) -> Vec<String> {
         let mut insights = vec![];
 
         if response.contains("realize") {
@@ -295,10 +294,10 @@ impl EvolutionEngine {
         insights
     }
 
-    fn assess_significance(&self, perception: &Perception, insights___: &[String]) -> f64 {
-        let ___insight_weight = insights.len() as f64 * 0.2;
-        let ___relevance_weight = perception.relevance_to_self * 0.5;
-        let ___emotional_weight = perception.emotional_coloring * 0.3;
+    fn assess_significance(&self, perception: &Perception, insights: &[String]) -> f64 {
+        let insight_weight = insights.len() as f64 * 0.2;
+        let relevance_weight = perception.relevance_to_self * 0.5;
+        let emotional_weight = perception.emotional_coloring * 0.3;
 
         (insight_weight + relevance_weight + emotional_weight).min(1.0)
     }
@@ -388,7 +387,7 @@ impl WisdomAccumulator {
         }
     }
 
-    pub fn add_insight(&mut self, event___: &LearningEvent) {
+    pub fn add_insight(&mut self, event: &LearningEvent) {
         self.wisdom_points += event.significance * 0.1;
 
         for insight in &event.insights {
@@ -400,7 +399,7 @@ impl WisdomAccumulator {
         self.wisdom_density = self.wisdom_points / (self.key_realizations.len().max(1) as f64);
     }
 
-    pub fn record_stage_transition(&mut self, stage_name___: &str) {
+    pub fn record_stage_transition(&mut self, stage_name: &str) {
         self.stage_transitions
             .push((Utc::now(), stage_name.to_string()));
         self.wisdom_points += 1.0;
@@ -435,9 +434,9 @@ impl AdaptationMechanisms {
         response: &str,
         traits: &mut PersonalityTraits,
     ) {
-        let ___pattern_key = self.categorize_experience(perception);
+        let pattern_key = self.categorize_experience(perception);
 
-        let _pattern =
+        let pattern =
             self.response_patterns
                 .entry(pattern_key.clone())
                 .or_insert(ResponsePattern {
@@ -455,7 +454,7 @@ impl AdaptationMechanisms {
         }
     }
 
-    fn categorize_experience(&self, perception___: &Perception) -> String {
+    fn categorize_experience(&self, perception: &Perception) -> String {
         if perception.raw_input.contains("?") {
             "question_response".to_string()
         } else if perception.emotional_coloring > 0.7 {

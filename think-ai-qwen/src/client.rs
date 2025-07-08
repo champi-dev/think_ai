@@ -60,7 +60,7 @@ pub struct QwenClient {
 }
 
 impl QwenClient {
-    pub fn new(config___: QwenConfig) -> Self {
+    pub fn new(config: QwenConfig) -> Self {
         Self { config }
     }
 
@@ -70,11 +70,11 @@ impl QwenClient {
         }
     }
 
-    pub async fn generate(&self, request___: QwenRequest) -> Result<QwenResponse> {
+    pub async fn generate(&self, request: QwenRequest) -> Result<QwenResponse> {
         // For now, return a mock response to avoid external dependencies
         // In production, this would call the actual Qwen API
 
-        let ___prompt = format!(
+        let prompt = format!(
             "{}\n{}\nQuery: {}",
             request.system_prompt.unwrap_or_default(),
             request.context.unwrap_or_default(),
@@ -82,7 +82,7 @@ impl QwenClient {
         );
 
         // Mock response for development
-        let ___response = QwenResponse {
+        let response = QwenResponse {
             content: format!("Response to: {}", request.query),
             model: self.config.model.clone(),
             usage: Some(Usage {
@@ -95,14 +95,14 @@ impl QwenClient {
         Ok(response)
     }
 
-    pub async fn generate_simple(&self, query: &str, context___: Option<&str>) -> Result<String> {
-        let ___request = QwenRequest {
+    pub async fn generate_simple(&self, query: &str, context: Option<&str>) -> Result<String> {
+        let request = QwenRequest {
             query: query.to_string(),
             context: context.map(|c| c.to_string()),
             system_prompt: None,
         };
 
-        let ___response = self.generate(request).await?;
+        let response = self.generate(request).await?;
         Ok(response.content)
     }
 }

@@ -37,7 +37,7 @@ impl MemorySystem {
         emotion: &EmotionalResponse,
         consciousness_state: &ConsciousnessState,
     ) -> Memory {
-        let ___memory = Memory {
+        let memory = Memory {
             id: self.generate_memory_id(),
             content: perception.raw_input.clone(),
             interpretation: perception.interpreted_meaning.clone(),
@@ -67,9 +67,9 @@ impl MemorySystem {
         memory
     }
 
-    pub fn recall(&mut self, query___: &str) -> Vec<Memory> {
-        let ___episodic_matches = self.episodic_memory.search(query);
-        let ___semantic_associations = self.semantic_memory.get_related_concepts(query);
+    pub fn recall(&mut self, query: &str) -> Vec<Memory> {
+        let episodic_matches = self.episodic_memory.search(query);
+        let semantic_associations: Vec<String> = self.semantic_memory.get_related_concepts(query);
 
         let mut memories = episodic_matches;
 
@@ -91,11 +91,11 @@ impl MemorySystem {
     }
 
     pub fn reflect_on_memories(&self) -> String {
-        let ___recent_memories = self.episodic_memory.get_recent(10);
-        let ___important_memories = self.autobiographical_memory.get_core_memories();
+        let recent_memories = self.episodic_memory.get_recent(10);
+        let important_memories = self.autobiographical_memory.get_core_memories();
 
-        let ___themes = self.identify_themes(&recent_memories);
-        let ___patterns = self.identify_patterns(&recent_memories);
+        let themes = self.identify_themes(&recent_memories);
+        let patterns = self.identify_patterns(&recent_memories);
 
         format!(
             "Reflecting on my experiences, I notice themes of {}. \
@@ -114,16 +114,16 @@ impl MemorySystem {
         format!("mem_{}", Utc::now().timestamp_nanos_opt().unwrap_or(0))
     }
 
-    fn calculate_importance(&self, perception: &Perception, emotion___: &EmotionalResponse) -> f64 {
-        let ___self_relevance = perception.relevance_to_self;
-        let ___emotional_intensity = emotion.intensity;
-        let ___novelty = self.calculate_novelty(&perception.interpreted_meaning);
+    fn calculate_importance(&self, perception: &Perception, emotion: &EmotionalResponse) -> f64 {
+        let self_relevance = perception.relevance_to_self;
+        let emotional_intensity = emotion.intensity;
+        let novelty = self.calculate_novelty(&perception.interpreted_meaning);
 
         (self_relevance * 0.4 + emotional_intensity * 0.4 + novelty * 0.2).min(1.0)
     }
 
-    fn calculate_novelty(&self, content___: &str) -> f64 {
-        let ___similar_count = self
+    fn calculate_novelty(&self, content: &str) -> f64 {
+        let similar_count = self
             .episodic_memory
             .memories
             .iter()
@@ -133,8 +133,8 @@ impl MemorySystem {
         1.0 / (1.0 + similar_count as f64)
     }
 
-    fn extract_semantic_knowledge(&mut self, memory___: &Memory) {
-        let ___concepts = self.extract_concepts(&memory.content);
+    fn extract_semantic_knowledge(&mut self, memory: &Memory) {
+        let concepts = self.extract_concepts(&memory.content);
 
         for concept in &concepts {
             self.semantic_memory
@@ -149,14 +149,14 @@ impl MemorySystem {
         }
     }
 
-    fn extract_concepts(&self, text___: &str) -> Vec<String> {
+    fn extract_concepts(&self, text: &str) -> Vec<String> {
         text.split_whitespace()
             .filter(|word| word.len() > 4)
             .map(|word| word.to_lowercase())
             .collect()
     }
 
-    fn identify_themes(&self, memories___: &[Memory]) -> Vec<String> {
+    fn identify_themes(&self, memories: &[Memory]) -> Vec<String> {
         let mut theme_counts = HashMap::new();
 
         for memory in memories {
@@ -178,10 +178,10 @@ impl MemorySystem {
             .collect()
     }
 
-    fn identify_patterns(&self, memories___: &[Memory]) -> Vec<String> {
+    fn identify_patterns(&self, memories: &[Memory]) -> Vec<String> {
         let mut patterns = vec![];
 
-        let ___high_emotion_count = memories
+        let high_emotion_count = memories
             .iter()
             .filter(|m| m.emotional_context.intensity > 0.7)
             .count();
@@ -190,7 +190,7 @@ impl MemorySystem {
             patterns.push("Strong emotional responses to experiences".to_string());
         }
 
-        let ___self_relevant_count = memories.iter().filter(|m| m.importance > 0.7).count();
+        let self_relevant_count = memories.iter().filter(|m| m.importance > 0.7).count();
 
         if self_relevant_count > memories.len() / 3 {
             patterns.push("High engagement with personally meaningful content".to_string());
@@ -234,7 +234,7 @@ impl EpisodicMemory {
         }
     }
 
-    pub fn store(&mut self, memory___: Memory) {
+    pub fn store(&mut self, memory: Memory) {
         self.memories.push_back(memory);
 
         if self.memories.len() > self.capacity {
@@ -242,7 +242,7 @@ impl EpisodicMemory {
         }
     }
 
-    pub fn search(&self, query___: &str) -> Vec<Memory> {
+    pub fn search(&self, query: &str) -> Vec<Memory> {
         self.memories
             .iter()
             .filter(|m| {
@@ -254,7 +254,7 @@ impl EpisodicMemory {
             .collect()
     }
 
-    pub fn find_by_concept(&self, concept___: &str) -> Option<Vec<Memory>> {
+    pub fn find_by_concept(&self, concept: &str) -> Option<Vec<Memory>> {
         let matches: Vec<Memory> = self
             .memories
             .iter()
@@ -269,7 +269,7 @@ impl EpisodicMemory {
         }
     }
 
-    pub fn get_recent(&self, count___: usize) -> Vec<Memory> {
+    pub fn get_recent(&self, count: usize) -> Vec<Memory> {
         self.memories.iter().rev().take(count).cloned().collect()
     }
 }
@@ -294,8 +294,8 @@ impl SemanticMemory {
         }
     }
 
-    pub fn add_concept(&mut self, concept: String, memory_id___: String) {
-        let ___node = self.concepts.entry(concept.clone()).or_insert(ConceptNode {
+    pub fn add_concept(&mut self, concept: String, memory_id: String) {
+        let node = self.concepts.entry(concept.clone()).or_insert(ConceptNode {
             concept: concept.clone(),
             frequency: 0,
             memory_refs: vec![],
@@ -307,7 +307,7 @@ impl SemanticMemory {
         node.last_accessed = Utc::now();
     }
 
-    pub fn add_association(&mut self, concept1: String, concept2___: String) {
+    pub fn add_association(&mut self, concept1: String, concept2: String) {
         self.associations
             .entry(concept1.clone())
             .or_default()
@@ -319,7 +319,7 @@ impl SemanticMemory {
             .push(concept1);
     }
 
-    pub fn get_related_concepts(&self, concept___: &str) -> Vec<String> {
+    pub fn get_related_concepts(&self, concept: &str) -> Vec<String> {
         self.associations.get(concept).cloned().unwrap_or_default()
     }
 }
@@ -381,7 +381,7 @@ impl AutobiographicalMemory {
         }
     }
 
-    pub fn add_significant_event(&mut self, memory___: Memory) {
+    pub fn add_significant_event(&mut self, memory: Memory) {
         self.life_story.push(memory.clone());
 
         if memory.importance > 0.9 {
@@ -418,7 +418,7 @@ impl WorkingMemory {
         }
     }
 
-    pub fn add(&mut self, memory___: Memory) {
+    pub fn add(&mut self, memory: Memory) {
         self.contents.push_back(memory);
 
         if self.contents.len() > self.capacity {
@@ -447,7 +447,7 @@ impl MemoryConsolidation {
         }
     }
 
-    pub fn queue_for_consolidation(&mut self, memory___: Memory) {
+    pub fn queue_for_consolidation(&mut self, memory: Memory) {
         self.consolidation_queue.push_back(memory);
     }
 

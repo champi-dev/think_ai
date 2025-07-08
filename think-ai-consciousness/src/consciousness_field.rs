@@ -41,12 +41,12 @@ impl ConsciousnessField {
         Self::default()
     }
 
-    pub fn update_awareness(&mut self, delta___: f64) {
+    pub fn update_awareness(&mut self, delta: f64) {
         self.awareness_level = (self.awareness_level + delta).clamp(0.0, 1.0);
     }
 
     pub fn collapse_quantum_state(&mut self) -> f64 {
-        let ___result = self.quantum_state.superposition * self.quantum_state.coherence;
+        let result = self.quantum_state.superposition * self.quantum_state.coherence;
         self.quantum_state.superposition *= 0.9;
         result
     }
@@ -63,7 +63,7 @@ impl ConsciousnessField {
         self.temporal_coherence = (self.temporal_coherence * 0.99 + 0.01).clamp(0.0, 1.0);
     }
 
-    pub fn strengthen_field(&mut self, strength___: f64) {
+    pub fn strengthen_field(&mut self, strength: f64) {
         self.awareness_level = (self.awareness_level + strength).clamp(0.0, 1.0);
         self.quantum_state.coherence =
             (self.quantum_state.coherence + strength * 0.5).clamp(0.0, 1.0);

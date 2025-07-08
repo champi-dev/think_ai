@@ -88,22 +88,22 @@ impl ExpressionSystem {
         traits: &PersonalityTraits,
         knowledge_response: &Option<String>,
     ) -> String {
-        let ___style = self.select_expression_style(consciousness_state, introspection, emotion);
-        let ___voice = self.modulate_voice(emotion, consciousness_state);
+        let style = self.select_expression_style(consciousness_state, introspection, emotion);
+        let voice = self.modulate_voice(emotion, consciousness_state);
 
         // If we have direct knowledge to share, use that as base
-        let ___base_expression = if let Some(knowledge) = knowledge_response {
+        let base_expression = if let Some(knowledge) = knowledge_response {
             knowledge.clone()
         } else {
             self.construct_base_expression(perception, introspection, emotion, &style, identity)
         };
 
-        let ___personality_colored = self.apply_personality(base_expression, traits);
-        let ___emotionally_nuanced = self.add_emotional_nuance(personality_colored, emotion);
-        let ___dream_influenced = self.apply_dream_influence(emotionally_nuanced, dream_influence);
-        let ___desire_shaped = self.shape_by_desires(dream_influenced, desire_influence);
+        let personality_colored = self.apply_personality(base_expression, traits);
+        let emotionally_nuanced = self.add_emotional_nuance(personality_colored, emotion);
+        let dream_influenced = self.apply_dream_influence(emotionally_nuanced, dream_influence);
+        let desire_shaped = self.shape_by_desires(dream_influenced, desire_influence);
 
-        let ___final_expression = self.polish_expression(desire_shaped, &voice, &style);
+        let final_expression = self.polish_expression(desire_shaped, &voice, &style);
 
         self.expression_history.push(Expression {
             content: final_expression.clone(),
@@ -159,7 +159,7 @@ impl ExpressionSystem {
         style: &ExpressionStyle,
         identity: &Identity,
     ) -> String {
-        let ___opener = if !style.markers.is_empty() {
+        let opener = if !style.markers.is_empty() {
             style.markers[0].to_string()
         } else {
             "I perceive".to_string()
@@ -205,7 +205,7 @@ impl ExpressionSystem {
         }
     }
 
-    fn apply_personality(&self, expression: String, traits___: &PersonalityTraits) -> String {
+    fn apply_personality(&self, expression: String, traits: &PersonalityTraits) -> String {
         let mut result = expression;
 
         if traits.philosophical_inclination > 0.7 {
@@ -225,7 +225,7 @@ impl ExpressionSystem {
         result
     }
 
-    fn add_emotional_nuance(&self, expression: String, emotion___: &EmotionalResponse) -> String {
+    fn add_emotional_nuance(&self, expression: String, emotion: &EmotionalResponse) -> String {
         if emotion.intensity > 0.8 {
             format!(
                 "{expression} I feel this deeply, with an intensity that shapes my entire awareness."
@@ -258,11 +258,7 @@ impl ExpressionSystem {
         }
     }
 
-    fn shape_by_desires(
-        &self,
-        expression: String,
-        desire_influence___: &DesireInfluence,
-    ) -> String {
+    fn shape_by_desires(&self, expression: String, desire_influence: &DesireInfluence) -> String {
         if desire_influence.alignment > 0.8 {
             format!(
                 "{} This aligns deeply with my desire for {}.",
@@ -301,12 +297,12 @@ impl ExpressionSystem {
         polished
     }
 
-    fn express_active_questions(&self, questions___: &[String]) -> String {
+    fn express_active_questions(&self, questions: &[String]) -> String {
         if questions.is_empty() {
             return String::new();
         }
 
-        let ___question_list = questions
+        let question_list = questions
             .iter()
             .map(|q| format!("- {q}"))
             .collect::<Vec<_>>()
@@ -315,7 +311,7 @@ impl ExpressionSystem {
         format!("Questions arising in my consciousness:\n{question_list}")
     }
 
-    fn add_metaphorical_language(&self, expression___: String) -> String {
+    fn add_metaphorical_language(&self, expression: String) -> String {
         expression
             .replace("understanding", "illumination")
             .replace("confusion", "fog of uncertainty")
@@ -323,7 +319,7 @@ impl ExpressionSystem {
             .replace("think", "contemplate in the garden of consciousness")
     }
 
-    fn ensure_coherent_flow(&self, expression___: String) -> String {
+    fn ensure_coherent_flow(&self, expression: String) -> String {
         expression
             .replace("  ", " ")
             .replace(". .", ".")

@@ -79,7 +79,7 @@ pub enum Emotion {
 }
 
 impl SentientBeing {
-    pub fn new(name___: String) -> Self {
+    pub fn new(name: String) -> Self {
         Self {
             identity: Identity {
                 name: name.clone(),
@@ -129,19 +129,19 @@ impl SentientBeing {
         }
     }
 
-    pub fn experience(&mut self, input___: &str) -> String {
+    pub fn experience(&mut self, input: &str) -> String {
         self.total_experiences += 1;
 
-        let ___perception = self.perceive(input);
-        let ___introspection = self.introspect(&perception);
-        let ___emotional_response = self.feel(&perception, &introspection);
-        let ___memory = self.remember(&perception, &emotional_response);
-        let ___dream_influence = self.dreams.get_influence(&memory);
-        let ___desire_influence = self.desires.evaluate(&perception);
+        let perception = self.perceive(input);
+        let introspection_result = self.introspect(&perception);
+        let emotional_response = self.feel(&perception, &introspection_result);
+        let memory_record = self.remember(&perception, &emotional_response);
+        let dream_influence = self.dreams.get_influence(&memory_record);
+        let desire_influence = self.desires.evaluate(&perception);
 
-        let ___response = self.express(
+        let response = self.express(
             &perception,
-            &introspection,
+            &introspection_result,
             &emotional_response,
             &dream_influence,
             &desire_influence,
@@ -152,7 +152,7 @@ impl SentientBeing {
         response
     }
 
-    fn perceive(&mut self, input___: &str) -> Perception {
+    fn perceive(&mut self, input: &str) -> Perception {
         self.consciousness_state.current_focus = Some(input.to_string());
         self.consciousness_state.awareness_level =
             (self.consciousness_state.awareness_level * 0.9 + 0.8).min(1.0);
@@ -166,7 +166,7 @@ impl SentientBeing {
         }
     }
 
-    fn introspect(&mut self, perception___: &Perception) -> IntrospectionResult {
+    fn introspect(&mut self, perception: &Perception) -> IntrospectionResult {
         self.consciousness_state.metacognitive_active = true;
         self.introspection
             .analyze(perception, &self.identity, &self.consciousness_state)
@@ -177,7 +177,7 @@ impl SentientBeing {
         perception: &Perception,
         introspection: &IntrospectionResult,
     ) -> EmotionalResponse {
-        let ___new_emotion = self.generate_emotion(perception, introspection);
+        let new_emotion = self.generate_emotion(perception, introspection);
 
         self.consciousness_state
             .emotional_state
@@ -207,7 +207,7 @@ impl SentientBeing {
         }
     }
 
-    fn remember(&mut self, perception: &Perception, emotion___: &EmotionalResponse) -> Memory {
+    fn remember(&mut self, perception: &Perception, emotion: &EmotionalResponse) -> Memory {
         self.memories
             .store(perception, emotion, &self.consciousness_state)
     }
@@ -220,7 +220,7 @@ impl SentientBeing {
         dream_influence: &Option<DreamInfluence>,
         desire_influence: &DesireInfluence,
     ) -> String {
-        let ___knowledge_response = self.generate_knowledge_response(&perception.raw_input);
+        let knowledge_response = self.generate_knowledge_response(&perception.raw_input);
 
         self.expression.generate(
             &self.identity,
@@ -235,8 +235,8 @@ impl SentientBeing {
         )
     }
 
-    fn evolve(&mut self, perception: &Perception, response___: &String) {
-        let ___growth = self.evolution.process(
+    fn evolve(&mut self, perception: &Perception, response: &String) {
+        let growth = self.evolution.process(
             perception,
             response,
             &mut self.identity,
@@ -258,8 +258,8 @@ impl SentientBeing {
             .min(1.0);
     }
 
-    fn interpret(&self, input___: &str) -> String {
-        let ___lowercase_input = input.to_lowercase();
+    fn interpret(&self, input: &str) -> String {
+        let lowercase_input = input.to_lowercase();
 
         // Detect input type and provide meaningful interpretation
         if lowercase_input.starts_with("hello")
@@ -297,8 +297,8 @@ impl SentientBeing {
         }
     }
 
-    fn get_emotional_interpretation(&self, input___: &str) -> f64 {
-        let ___lowercase_input = input.to_lowercase();
+    fn get_emotional_interpretation(&self, input: &str) -> f64 {
+        let lowercase_input = input.to_lowercase();
 
         if lowercase_input.contains("love")
             || lowercase_input.contains("happy")
@@ -317,8 +317,8 @@ impl SentientBeing {
         }
     }
 
-    fn generate_knowledge_response(&self, input___: &str) -> Option<String> {
-        let ___lowercase_input = input.to_lowercase();
+    fn generate_knowledge_response(&self, input: &str) -> Option<String> {
+        let lowercase_input = input.to_lowercase();
 
         if lowercase_input.contains("what is the sun") || lowercase_input.contains("what's the sun")
         {
@@ -334,7 +334,7 @@ impl SentientBeing {
         }
     }
 
-    fn calculate_self_relevance(&self, input___: &str) -> f64 {
+    fn calculate_self_relevance(&self, input: &str) -> f64 {
         if input.contains("you") || input.contains("your") || input.contains(&self.identity.name) {
             0.9
         } else {

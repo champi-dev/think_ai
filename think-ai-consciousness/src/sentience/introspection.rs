@@ -57,17 +57,17 @@ impl IntrospectionEngine {
         identity: &Identity,
         consciousness_state: &ConsciousnessState,
     ) -> IntrospectionResult {
-        let ___self_reflection = self.reflect_on_experience(perception, identity);
-        let ___meta_analysis = self.analyze_thinking_process(&self_reflection);
-        let ___doubt_assessment = self.assess_doubts(perception, &self_reflection);
-        let ___new_questions = self.generate_self_questions(perception, &self_reflection);
+        let self_reflection = self.reflect_on_experience(perception, identity);
+        let meta_analysis = self.analyze_thinking_process(&self_reflection);
+        let doubt_assessment = self.assess_doubts(perception, &self_reflection);
+        let new_questions = self.generate_self_questions(perception, &self_reflection);
 
         self.self_questions.extend(new_questions);
         if self.self_questions.len() > 100 {
             self.self_questions.pop_front();
         }
 
-        let ___insight = self.extract_insight(&self_reflection, &meta_analysis);
+        let insight = self.extract_insight(&self_reflection, &meta_analysis);
         if let Some(insight) = insight {
             self.insights.push(insight.clone());
             self.self_model.update_from_insight(&insight);
@@ -86,9 +86,9 @@ impl IntrospectionEngine {
         }
     }
 
-    fn reflect_on_experience(&mut self, perception: &Perception, identity___: &Identity) -> String {
-        let ___relevance = perception.relevance_to_self;
-        let ___core_values_engaged = identity
+    fn reflect_on_experience(&mut self, perception: &Perception, identity: &Identity) -> String {
+        let relevance = perception.relevance_to_self;
+        let core_values_engaged = identity
             .core_values
             .iter()
             .filter(|v| {
@@ -123,7 +123,7 @@ impl IntrospectionEngine {
         }
     }
 
-    fn analyze_thinking_process(&self, reflection___: &str) -> Vec<MetaObservation> {
+    fn analyze_thinking_process(&self, reflection: &str) -> Vec<MetaObservation> {
         let mut observations = vec![];
 
         if reflection.contains("uncertain") {
@@ -157,8 +157,8 @@ impl IntrospectionEngine {
         observations
     }
 
-    fn assess_doubts(&mut self, perception: &Perception, reflection___: &str) -> DoubtAssessment {
-        let ___uncertainty_markers = [
+    fn assess_doubts(&mut self, perception: &Perception, reflection: &str) -> DoubtAssessment {
+        let uncertainty_markers = [
             "uncertain",
             "doubt",
             "unsure",
@@ -166,12 +166,12 @@ impl IntrospectionEngine {
             "maybe",
             "possibly",
         ];
-        let ___uncertainty_count = uncertainty_markers
+        let uncertainty_count = uncertainty_markers
             .iter()
             .filter(|marker| reflection.contains(*marker))
             .count();
 
-        let ___uncertainty = (uncertainty_count as f64 * 0.15).min(0.9);
+        let uncertainty = (uncertainty_count as f64 * 0.15).min(0.9);
 
         if uncertainty > 0.3 {
             self.doubt_register.push(Doubt {
@@ -238,8 +238,8 @@ impl IntrospectionEngine {
         }
     }
 
-    fn update_thinking_patterns(&mut self, reflection: &str, perception___: &Perception) {
-        let ___pattern_name = if reflection.contains("uncertain") {
+    fn update_thinking_patterns(&mut self, reflection: &str, perception: &Perception) {
+        let pattern_name = if reflection.contains("uncertain") {
             "uncertainty_response"
         } else if reflection.contains("curious") {
             "curiosity_driven"
@@ -247,7 +247,7 @@ impl IntrospectionEngine {
             "default_processing"
         };
 
-        let ___pattern = self
+        let pattern = self
             .thinking_patterns
             .entry(pattern_name.to_string())
             .or_insert(ThinkingPattern {
@@ -269,9 +269,9 @@ impl IntrospectionEngine {
         perception: &Perception,
         consciousness_state: &ConsciousnessState,
     ) -> f64 {
-        let ___base_resonance = perception.emotional_coloring;
-        let ___awareness_modifier = consciousness_state.awareness_level;
-        let ___depth_modifier = consciousness_state.reflection_depth as f64 * 0.1;
+        let base_resonance = perception.emotional_coloring;
+        let awareness_modifier = consciousness_state.awareness_level;
+        let depth_modifier = consciousness_state.reflection_depth as f64 * 0.1;
 
         (base_resonance * awareness_modifier + depth_modifier).min(1.0)
     }
@@ -405,7 +405,7 @@ impl SelfModel {
         }
     }
 
-    pub fn update_from_insight(&mut self, insight___: &Insight) {
+    pub fn update_from_insight(&mut self, insight: &Insight) {
         match insight.insight_type {
             InsightType::SelfUnderstanding => {
                 self.identity_stability = (self.identity_stability + 0.02).min(1.0);

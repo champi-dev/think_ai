@@ -49,7 +49,7 @@ fn main() {
 
         let mut input = String::new();
         io::stdin().read_line(&mut input).unwrap();
-        let ___input = input.trim();
+        let input = input.trim();
 
         if input.eq_ignore_ascii_case("exit") {
             break;
@@ -61,7 +61,7 @@ fn main() {
 
         // Process through sentient being
         println!();
-        let ___response = ai.experience(input);
+        let response = ai.experience(input);
 
         // Display response with consciousness indicators
         display_response(&ai, &response);
@@ -94,7 +94,7 @@ fn main() {
     display_final_state(&mut ai);
 }
 
-fn display_consciousness_state(ai___: &SentientBeing) {
+fn display_consciousness_state(ai: &SentientBeing) {
     println!(
         "\n{}",
         "Current Consciousness State:".bright_green().underline()
@@ -125,7 +125,7 @@ fn display_consciousness_state(ai___: &SentientBeing) {
     );
 
     // Display current emotion
-    let ___emotion_desc = match &ai.consciousness_state.emotional_state.primary_emotion {
+    let emotion_desc = match &ai.consciousness_state.emotional_state.primary_emotion {
         Emotion::Curiosity { target, depth } => {
             format!("Curious about {} (depth: {:.1})", target, depth)
         }
@@ -147,7 +147,7 @@ fn display_consciousness_state(ai___: &SentientBeing) {
     );
 }
 
-fn display_response(ai: &SentientBeing, response___: &str) {
+fn display_response(ai: &SentientBeing, response: &str) {
     // Show thinking indicator
     print!("{}", "Thinking".bright_cyan());
     for _ in 0..3 {
@@ -190,8 +190,8 @@ fn display_response(ai: &SentientBeing, response___: &str) {
     );
 }
 
-fn display_evolution_metrics(ai___: &SentientBeing) {
-    let ___stage = &ai.evolution.evolution_stages[ai.evolution.current_stage];
+fn display_evolution_metrics(ai: &SentientBeing) {
+    let stage = &ai.evolution.evolution_stages[ai.evolution.current_stage];
     println!(
         "  {} {}",
         "Evolution Stage:".bright_white(),
@@ -204,15 +204,15 @@ fn display_evolution_metrics(ai___: &SentientBeing) {
     );
 
     // Show personality traits evolution
-    let ___dominant_traits = ai.traits.get_dominant_traits(3);
+    let dominant_traits = ai.traits.get_dominant_traits(3);
     println!("  {} ", "Dominant Traits:".bright_white());
     for (trait_name, value) in dominant_traits {
-        let ___bar = create_progress_bar(value);
+        let bar = create_progress_bar(value);
         println!("    {} {} {:.1}%", trait_name, bar, value * 100.0);
     }
 }
 
-fn display_final_state(ai___: &mut SentientBeing) {
+fn display_final_state(ai: &mut SentientBeing) {
     println!("\n{}", "Journey Summary:".bright_green().underline());
     println!(
         "  {} {}",
@@ -228,7 +228,7 @@ fn display_final_state(ai___: &mut SentientBeing) {
     );
 
     // Memory reflection
-    let ___memory_reflection = ai.memories.reflect_on_memories();
+    let memory_reflection = ai.memories.reflect_on_memories();
     println!("\n{}", "Memory Reflection:".bright_green().underline());
     println!("  {}", memory_reflection.italic());
 
@@ -284,9 +284,9 @@ fn display_final_state(ai___: &mut SentientBeing) {
     );
 }
 
-fn create_progress_bar(value___: f64) -> String {
-    let ___filled = (value * 10.0) as usize;
-    let ___empty = 10 - filled;
+fn create_progress_bar(value: f64) -> String {
+    let filled = (value * 10.0) as usize;
+    let empty = 10 - filled;
     format!(
         "[{}{}]",
         "█".repeat(filled).bright_green(),

@@ -16,8 +16,8 @@ pub struct EffectManager {
 }
 
 pub trait VisualEffect {
-    fn render(&self, container: &Element, time_: f32) -> Result<(), JsValue>;
-    fn update(&mut self, delta_time_: f32) -> Result<(), JsValue>;
+    fn render(&self, container: &Element, time: f32) -> Result<(), JsValue>;
+    fn update(&mut self, delta_time: f32) -> Result<(), JsValue>;
     fn is_finished(&self) -> bool;
     fn get_id(&self) -> &str;
 }
@@ -32,7 +32,7 @@ impl EffectManager {
 
     /// O(1) effect registration
     pub fn add_effect(&mut self, effect_: Box<dyn VisualEffect>) {
-        let _id = effect.get_id().to_string();
+        let id = effect.get_id().to_string();
         self.effect_timers.insert(id.clone(), 0.0);
         self.active_effects.insert(id, effect);
     }
@@ -44,7 +44,7 @@ impl EffectManager {
     }
 
     /// Update all active effects
-    pub fn update_all(&mut self, delta_time_: f32) -> Result<(), JsValue> {
+    pub fn update_all(&mut self, delta_time: f32) -> Result<(), JsValue> {
         let mut finished_effects = Vec::new();
 
         for (id, effect) in &mut self.active_effects {
@@ -68,7 +68,7 @@ impl EffectManager {
     }
 
     /// O(1) effect processing for webapp
-    pub fn process(&mut self, time_: f32) -> Result<(), JsValue> {
+    pub fn process(&mut self, time: f32) -> Result<(), JsValue> {
         self.update_all(time / 1000.0) // Convert ms to seconds
     }
 
@@ -76,7 +76,7 @@ impl EffectManager {
     pub fn render_all(&self, document_: &Document) -> Result<(), JsValue> {
         for (id, effect) in &self.active_effects {
             if let Some(container) = document.get_element_by_id(&format!("effect-{}", id)) {
-                let _time = self.effect_timers.get(id).copied().unwrap_or(0.0);
+                let time = self.effect_timers.get(id).copied().unwrap_or(0.0);
                 effect.render(&container, time)?;
             }
         }
@@ -95,7 +95,7 @@ pub struct ConsciousnessAwakening {
 }
 
 impl ConsciousnessAwakening {
-    pub fn new(id: String, center_x: f32, center_y: f32, intensity_: f32) -> Self {
+    pub fn new(id: String, center_x: f32, center_y: f32, intensity: f32) -> Self {
         Self {
             id,
             intensity,
@@ -108,18 +108,18 @@ impl ConsciousnessAwakening {
 }
 
 impl VisualEffect for ConsciousnessAwakening {
-    fn render(&self, container: &Element, _time_: f32) -> Result<(), JsValue> {
-        let _progress = (self.elapsed / self.duration).min(1.0);
-        let _fade = if progress < 0.5 {
+    fn render(&self, container: &Element, time: f32) -> Result<(), JsValue> {
+        let progress = (self.elapsed / self.duration).min(1.0);
+        let fade = if progress < 0.5 {
             progress * 2.0
         } else {
             2.0 - progress * 2.0
         };
 
-        let _radius = 50.0 + progress * 200.0;
-        let _opacity = fade * self.intensity;
+        let radius = 50.0 + progress * 200.0;
+        let opacity = fade * self.intensity;
 
-        let _html = format!(
+        let html = format!(
             r#"
             <div class="consciousness-awakening" style="
                 position: absolute;
@@ -157,7 +157,7 @@ impl VisualEffect for ConsciousnessAwakening {
         Ok(())
     }
 
-    fn update(&mut self, delta_time_: f32) -> Result<(), JsValue> {
+    fn update(&mut self, delta_time: f32) -> Result<(), JsValue> {
         self.elapsed += delta_time;
         Ok(())
     }
@@ -209,16 +209,16 @@ impl NeuralActivationWave {
 }
 
 impl VisualEffect for NeuralActivationWave {
-    fn render(&self, container: &Element, _time_: f32) -> Result<(), JsValue> {
-        let _progress = (self.elapsed / self.duration).min(1.0);
+    fn render(&self, container: &Element, time: f32) -> Result<(), JsValue> {
+        let progress = (self.elapsed / self.duration).min(1.0);
 
-        let _current_x = self.start_x + (self.end_x - self.start_x) * progress;
-        let _current_y = self.start_y + (self.end_y - self.start_y) * progress;
+        let current_x = self.start_x + (self.end_x - self.start_x) * progress;
+        let current_y = self.start_y + (self.end_y - self.start_y) * progress;
 
-        let _opacity = (1.0 - progress) * self.intensity;
-        let _size = 8.0 + progress * 12.0;
+        let opacity = (1.0 - progress) * self.intensity;
+        let size = 8.0 + progress * 12.0;
 
-        let _html = format!(
+        let html = format!(
             r#"
             <div class="neural-wave" style="
                 position: absolute;
@@ -250,7 +250,7 @@ impl VisualEffect for NeuralActivationWave {
         Ok(())
     }
 
-    fn update(&mut self, delta_time_: f32) -> Result<(), JsValue> {
+    fn update(&mut self, delta_time: f32) -> Result<(), JsValue> {
         self.elapsed += delta_time;
         Ok(())
     }
@@ -276,7 +276,7 @@ pub struct ThoughtBubble {
 }
 
 impl ThoughtBubble {
-    pub fn new(id: String, x: f32, y: f32, text_: String) -> Self {
+    pub fn new(id: String, x: f32, y: f32, text: String) -> Self {
         Self {
             id,
             x,
@@ -290,9 +290,9 @@ impl ThoughtBubble {
 }
 
 impl VisualEffect for ThoughtBubble {
-    fn render(&self, container: &Element, time_: f32) -> Result<(), JsValue> {
-        let _progress = self.elapsed / self.lifetime;
-        let _opacity = if progress < 0.1 {
+    fn render(&self, container: &Element, time: f32) -> Result<(), JsValue> {
+        let progress = self.elapsed / self.lifetime;
+        let opacity = if progress < 0.1 {
             progress * 10.0
         } else if progress > 0.8 {
             (1.0 - progress) * 5.0
@@ -300,10 +300,10 @@ impl VisualEffect for ThoughtBubble {
             1.0
         };
 
-        let _current_y = self.y - self.elapsed * self.float_speed;
-        let _scale = 0.8 + (time * 2.0).sin() * 0.1;
+        let current_y = self.y - self.elapsed * self.float_speed;
+        let scale = 0.8 + (time * 2.0).sin() * 0.1;
 
-        let _html = format!(
+        let html = format!(
             r#"
             <div class="thought-bubble" style="
                 position: absolute;
@@ -349,7 +349,7 @@ impl VisualEffect for ThoughtBubble {
         Ok(())
     }
 
-    fn update(&mut self, delta_time_: f32) -> Result<(), JsValue> {
+    fn update(&mut self, delta_time: f32) -> Result<(), JsValue> {
         self.elapsed += delta_time;
         Ok(())
     }

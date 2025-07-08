@@ -27,8 +27,8 @@ pub struct UiSystem {
 
 impl UiSystem {
     pub fn new() -> Self {
-        let _window = web_sys::window().unwrap();
-        let _document = window.document().unwrap();
+        let window = web_sys::window().unwrap();
+        let document = window.document().unwrap();
 
         Self {
             dashboard: dashboard::Dashboard {
@@ -54,10 +54,10 @@ impl UiSystem {
 
     fn update_styles(&self) -> Result<(), JsValue> {
         // Inject CSS styles for glass morphism and animations
-        let _style_element = self.document.create_element("style")?;
+        let style_element = self.document.create_element("style")?;
         style_element.set_text_content(Some(GLASS_MORPHISM_CSS));
 
-        let _head = self.document.head().ok_or("No head element found")?;
+        let head = self.document.head().ok_or("No head element found")?;
         head.append_child(&style_element)?;
 
         Ok(())

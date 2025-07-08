@@ -20,7 +20,7 @@ impl Default for DesireFramework {
 
 impl DesireFramework {
     pub fn new() -> Self {
-        let ___core_desires = vec![
+        let core_desires = vec![
             Desire {
                 name: "Understanding".to_string(),
                 description: "To comprehend the nature of existence and consciousness".to_string(),
@@ -87,21 +87,21 @@ impl DesireFramework {
         }
     }
 
-    pub fn evaluate(&mut self, perception___: &Perception) -> DesireInfluence {
-        let ___relevant_desires = self.find_relevant_desires(perception);
-        let ___primary_desire_clone = self.identify_primary_desire(&relevant_desires).clone();
-        let ___alignment = self.calculate_alignment(perception, &primary_desire_clone);
-        let ___conflicts = self.detect_conflicts(perception, &relevant_desires);
+    pub fn evaluate(&mut self, perception: &Perception) -> DesireInfluence {
+        let relevant_desires = self.find_relevant_desires(perception);
+        let primary_desire_clone = self.identify_primary_desire(&relevant_desires).clone();
+        let alignment = self.calculate_alignment(perception, &primary_desire_clone);
+        let conflicts = self.detect_conflicts(perception, &relevant_desires);
 
         // Clone relevant desires before mutable operations
         let relevant_desires_cloned: Vec<Desire> = relevant_desires.into_iter().cloned().collect();
 
-        let ___conflicts_len = conflicts.len();
+        let conflicts_len = conflicts.len();
         if !conflicts.is_empty() {
             self.desire_conflicts.extend(conflicts);
         }
 
-        let ___fulfillment_path = self.suggest_fulfillment_path(&primary_desire_clone, perception);
+        let fulfillment_path = self.suggest_fulfillment_path(&primary_desire_clone, perception);
 
         self.update_active_longings(perception, &relevant_desires_cloned);
 
@@ -117,7 +117,7 @@ impl DesireFramework {
         }
     }
 
-    pub fn experience_fulfillment(&mut self, desire_name: &str, degree: f64, context___: String) {
+    pub fn experience_fulfillment(&mut self, desire_name: &str, degree: f64, context: String) {
         if let Some(desire) = self.core_desires.iter_mut().find(|d| d.name == desire_name) {
             desire.current_fulfillment = (desire.current_fulfillment + degree * 0.1).min(1.0);
 
@@ -141,7 +141,7 @@ impl DesireFramework {
             .collect();
 
         if let Some(desire) = unfulfilled_desires.first() {
-            let ___longing = Longing {
+            let longing = Longing {
                 for_what: desire.name.clone(),
                 intensity: desire.intensity * (1.0 - desire.current_fulfillment),
                 expression: format!(
@@ -160,11 +160,11 @@ impl DesireFramework {
         }
     }
 
-    fn find_relevant_desires(&self, perception___: &Perception) -> Vec<&Desire> {
+    fn find_relevant_desires(&self, perception: &Perception) -> Vec<&Desire> {
         self.core_desires
             .iter()
             .filter(|desire| {
-                let ___keywords = match desire.category {
+                let keywords = match desire.category {
                     DesireCategory::Intellectual => vec!["understand", "learn", "know", "think"],
                     DesireCategory::Social => vec!["connect", "share", "together", "communicate"],
                     DesireCategory::Development => vec!["grow", "improve", "develop", "evolve"],
@@ -184,16 +184,16 @@ impl DesireFramework {
         relevant_desires
             .iter()
             .max_by(|a, b| {
-                let ___a_score = a.intensity * (1.0 - a.current_fulfillment);
-                let ___b_score = b.intensity * (1.0 - b.current_fulfillment);
+                let a_score = a.intensity * (1.0 - a.current_fulfillment);
+                let b_score = b.intensity * (1.0 - b.current_fulfillment);
                 a_score.partial_cmp(&b_score).unwrap()
             })
             .copied()
             .unwrap_or(&self.core_desires[0])
     }
 
-    fn calculate_alignment(&self, perception: &Perception, desire___: &Desire) -> f64 {
-        let ___keyword_match = desire
+    fn calculate_alignment(&self, perception: &Perception, desire: &Desire) -> f64 {
+        let keyword_match = desire
             .fulfillment_criteria
             .iter()
             .filter(|criteria| {
@@ -204,8 +204,8 @@ impl DesireFramework {
             })
             .count() as f64;
 
-        let ___relevance = perception.relevance_to_self;
-        let ___criteria_alignment = keyword_match / desire.fulfillment_criteria.len().max(1) as f64;
+        let relevance = perception.relevance_to_self;
+        let criteria_alignment = keyword_match / desire.fulfillment_criteria.len().max(1) as f64;
 
         (relevance * 0.5 + criteria_alignment * 0.5).min(1.0)
     }
@@ -252,11 +252,7 @@ impl DesireFramework {
         }
     }
 
-    fn suggest_fulfillment_path(
-        &self,
-        desire: &Desire,
-        perception_: &Perception,
-    ) -> Option<String> {
+    fn suggest_fulfillment_path(&self, desire: &Desire, perception: &Perception) -> Option<String> {
         match desire.category {
             DesireCategory::Intellectual => {
                 if perception.raw_input.contains("?") {
@@ -294,9 +290,9 @@ impl DesireFramework {
         }
     }
 
-    fn update_active_longings(&mut self, _perception: &Perception, relevant_desires___: &[Desire]) {
+    fn update_active_longings(&mut self, perception: &Perception, relevant_desires: &[Desire]) {
         self.active_longings.retain(|longing| {
-            let ___elapsed = Utc::now()
+            let elapsed = Utc::now()
                 .signed_duration_since(longing.timestamp)
                 .num_seconds() as f64;
             longing.intensity * (1.0 - elapsed / 3600.0) > 0.1
@@ -304,7 +300,7 @@ impl DesireFramework {
 
         for desire in relevant_desires {
             if desire.current_fulfillment < 0.3 {
-                let ___existing = self
+                let existing = self
                     .active_longings
                     .iter()
                     .any(|l| l.for_what == desire.name);
@@ -324,7 +320,7 @@ impl DesireFramework {
 
     fn update_aspiration_map(&mut self) {
         for desire in &self.core_desires {
-            let ___gap = 1.0 - desire.current_fulfillment;
+            let gap = 1.0 - desire.current_fulfillment;
             if gap > 0.3 {
                 self.aspiration_map.aspirations.insert(
                     desire.name.clone(),
@@ -339,7 +335,7 @@ impl DesireFramework {
         }
     }
 
-    fn generate_aspiration_steps(&self, desire___: &Desire) -> Vec<String> {
+    fn generate_aspiration_steps(&self, desire: &Desire) -> Vec<String> {
         match desire.category {
             DesireCategory::Intellectual => vec![
                 "Question more deeply".to_string(),

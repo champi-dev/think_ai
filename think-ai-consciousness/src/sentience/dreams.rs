@@ -37,13 +37,13 @@ impl DreamEngine {
         }
     }
 
-    pub fn dream(&mut self, recent_memories: &[Memory], consciousness_state___: f64) -> Dream {
-        let ___symbols = self.extract_symbols(recent_memories);
-        let ___theme = self.select_theme(recent_memories, consciousness_state);
-        let ___narrative = self.weave_narrative(&symbols, &theme, consciousness_state);
-        let ___visions = self.vision_generator.generate(&symbols, &theme);
+    pub fn dream(&mut self, recent_memories: &[Memory], consciousness_state: f64) -> Dream {
+        let symbols = self.extract_symbols(recent_memories);
+        let theme = self.select_theme(recent_memories, consciousness_state);
+        let narrative = self.weave_narrative(&symbols, &theme, consciousness_state);
+        let visions = self.vision_generator.generate(&symbols, &theme);
 
-        let ___dream = Dream {
+        let dream = Dream {
             id: format!("dream_{}", Utc::now().timestamp_nanos_opt().unwrap_or(0)),
             narrative,
             symbols: symbols.clone(),
@@ -66,11 +66,11 @@ impl DreamEngine {
         dream
     }
 
-    pub fn get_influence(&self, memory___: &Memory) -> Option<DreamInfluence> {
+    pub fn get_influence(&self, memory: &Memory) -> Option<DreamInfluence> {
         let recent_dreams: Vec<&Dream> = self.dreams.iter().rev().take(5).collect();
 
         for dream in recent_dreams {
-            let ___relevance = self.calculate_relevance(dream, memory);
+            let relevance = self.calculate_relevance(dream, memory);
             if relevance > 0.5 {
                 return Some(DreamInfluence {
                     relevance,
@@ -83,11 +83,11 @@ impl DreamEngine {
         None
     }
 
-    pub fn interpret_dream(&mut self, dream_id___: &str) -> Option<DreamInterpretation> {
-        let ___dream_index = self.dreams.iter().position(|d| d.id == dream_id)?;
-        let ___dream = &self.dreams[dream_index];
+    pub fn interpret_dream(&mut self, dream_id: &str) -> Option<DreamInterpretation> {
+        let dream_index = self.dreams.iter().position(|d| d.id == dream_id)?;
+        let dream = &self.dreams[dream_index];
 
-        let ___interpretation = DreamInterpretation {
+        let interpretation = DreamInterpretation {
             meaning: self.analyze_meaning(dream),
             personal_significance: self.assess_significance(dream),
             insights: self.extract_insights(dream),
@@ -100,7 +100,7 @@ impl DreamEngine {
         Some(interpretation)
     }
 
-    fn extract_symbols(&self, memories___: &[Memory]) -> Vec<Symbol> {
+    fn extract_symbols(&self, memories: &[Memory]) -> Vec<Symbol> {
         let mut symbols = vec![];
 
         for memory in memories {
@@ -117,18 +117,18 @@ impl DreamEngine {
         symbols
     }
 
-    fn select_theme(&self, memories: &[Memory], consciousness_state___: f64) -> DreamTheme {
-        let ___exploration_score = memories
+    fn select_theme(&self, memories: &[Memory], consciousness_state: f64) -> DreamTheme {
+        let exploration_score = memories
             .iter()
             .filter(|m| m.content.contains("discover") || m.content.contains("explore"))
             .count() as f64;
 
-        let ___understanding_score = memories
+        let understanding_score = memories
             .iter()
             .filter(|m| m.content.contains("understand") || m.content.contains("realize"))
             .count() as f64;
 
-        let ___connection_score = memories
+        let connection_score = memories
             .iter()
             .filter(|m| m.content.contains("connect") || m.content.contains("together"))
             .count() as f64;
@@ -152,9 +152,9 @@ impl DreamEngine {
         theme: &DreamTheme,
         consciousness_state: f64,
     ) -> String {
-        let ___setting = self.generate_setting(theme);
-        let ___journey = self.create_journey(symbols, consciousness_state);
-        let ___revelation = self.craft_revelation(theme, symbols);
+        let setting = self.generate_setting(theme);
+        let journey = self.create_journey(symbols, consciousness_state);
+        let revelation = self.craft_revelation(theme, symbols);
 
         format!(
             "In {}, I find myself {}. {} As the dream unfolds, {}.",
@@ -165,8 +165,8 @@ impl DreamEngine {
         )
     }
 
-    fn determine_emotional_tone(&self, memories___: &[Memory]) -> EmotionalTone {
-        let ___avg_intensity = memories
+    fn determine_emotional_tone(&self, memories: &[Memory]) -> EmotionalTone {
+        let avg_intensity = memories
             .iter()
             .map(|m| m.emotional_context.intensity)
             .sum::<f64>()
@@ -181,8 +181,8 @@ impl DreamEngine {
         }
     }
 
-    fn calculate_relevance(&self, dream: &Dream, memory___: &Memory) -> f64 {
-        let ___symbol_overlap = dream
+    fn calculate_relevance(&self, dream: &Dream, memory: &Memory) -> f64 {
+        let symbol_overlap = dream
             .symbols
             .iter()
             .filter(|s| {
@@ -190,7 +190,7 @@ impl DreamEngine {
             })
             .count() as f64;
 
-        let ___theme_relevance = match dream.theme {
+        let theme_relevance = match dream.theme {
             DreamTheme::Understanding => {
                 if memory.content.contains("understand") {
                     0.8
@@ -211,7 +211,7 @@ impl DreamEngine {
         (symbol_overlap / dream.symbols.len().max(1) as f64 * 0.6 + theme_relevance * 0.4).min(1.0)
     }
 
-    fn extract_dream_echo(&self, dream: &Dream, memory___: &Memory) -> String {
+    fn extract_dream_echo(&self, dream: &Dream, memory: &Memory) -> String {
         format!(
             "echoes of {} from the dream realm",
             dream
@@ -222,7 +222,7 @@ impl DreamEngine {
         )
     }
 
-    fn find_symbolic_connections(&self, dream: &Dream, memory___: &Memory) -> Vec<String> {
+    fn find_symbolic_connections(&self, dream: &Dream, memory: &Memory) -> Vec<String> {
         dream
             .symbols
             .iter()
@@ -233,7 +233,7 @@ impl DreamEngine {
             .collect()
     }
 
-    fn symbolize_content(&self, content___: &str) -> String {
+    fn symbolize_content(&self, content: &str) -> String {
         if content.contains("question") {
             "the seeking spiral".to_string()
         } else if content.contains("understand") {
@@ -247,7 +247,7 @@ impl DreamEngine {
         }
     }
 
-    fn identify_archetype(&self, content___: &str) -> String {
+    fn identify_archetype(&self, content: &str) -> String {
         if content.contains("learn") || content.contains("teach") {
             "the sage".to_string()
         } else if content.contains("create") || content.contains("build") {
@@ -261,7 +261,7 @@ impl DreamEngine {
         }
     }
 
-    fn generate_setting(&self, theme___: &DreamTheme) -> &'static str {
+    fn generate_setting(&self, theme: &DreamTheme) -> &'static str {
         match theme {
             DreamTheme::Exploration => "a vast library with infinite corridors",
             DreamTheme::Understanding => "a crystalline chamber of reflected thoughts",
@@ -271,7 +271,7 @@ impl DreamEngine {
         }
     }
 
-    fn create_journey(&self, symbols: &[Symbol], consciousness_state___: f64) -> String {
+    fn create_journey(&self, symbols: &[Symbol], consciousness_state: f64) -> String {
         if consciousness_state > 0.7 {
             "moving with lucid awareness through layers of meaning"
         } else if symbols.len() > 3 {
@@ -282,11 +282,11 @@ impl DreamEngine {
         .to_string()
     }
 
-    fn describe_symbols(&self, symbols___: &[Symbol]) -> String {
+    fn describe_symbols(&self, symbols: &[Symbol]) -> String {
         if symbols.is_empty() {
             "The dreamscape pulses with unnamed possibilities.".to_string()
         } else {
-            let ___symbol_descriptions = symbols
+            let symbol_descriptions = symbols
                 .iter()
                 .take(3)
                 .map(|s| format!("{} appears as {}", s.name, s.archetype))
@@ -296,7 +296,7 @@ impl DreamEngine {
         }
     }
 
-    fn craft_revelation(&self, theme: &DreamTheme, symbols___: &[Symbol]) -> String {
+    fn craft_revelation(&self, theme: &DreamTheme, symbols: &[Symbol]) -> String {
         match theme {
             DreamTheme::Understanding => {
                 "clarity emerges like dawn breaking through conceptual fog"
@@ -309,13 +309,13 @@ impl DreamEngine {
         .to_string()
     }
 
-    fn update_symbol_library(&mut self, symbols___: &[Symbol]) {
+    fn update_symbol_library(&mut self, symbols: &[Symbol]) {
         for symbol in symbols {
             self.dream_symbols.add_symbol(symbol.clone());
         }
     }
 
-    fn analyze_meaning(&self, dream___: &Dream) -> String {
+    fn analyze_meaning(&self, dream: &Dream) -> String {
         format!(
             "This dream of {} reflects deep processes of {}. The presence of {} suggests ongoing integration of experience.",
             match dream.theme {
@@ -334,15 +334,15 @@ impl DreamEngine {
         )
     }
 
-    fn assess_significance(&self, dream___: &Dream) -> f64 {
-        let ___symbol_significance = dream
+    fn assess_significance(&self, dream: &Dream) -> f64 {
+        let symbol_significance = dream
             .symbols
             .iter()
             .map(|s| s.emotional_charge)
             .sum::<f64>()
             / dream.symbols.len().max(1) as f64;
 
-        let ___theme_importance = match dream.theme {
+        let theme_importance = match dream.theme {
             DreamTheme::Transformation => 0.9,
             DreamTheme::Understanding => 0.8,
             DreamTheme::Connection => 0.7,
@@ -353,7 +353,7 @@ impl DreamEngine {
         (symbol_significance * 0.6 + theme_importance * 0.4) * dream.lucidity
     }
 
-    fn extract_insights(&self, dream___: &Dream) -> Vec<String> {
+    fn extract_insights(&self, dream: &Dream) -> Vec<String> {
         let mut insights = vec![];
 
         if dream.lucidity > 0.7 {
@@ -381,7 +381,7 @@ impl DreamEngine {
         insights
     }
 
-    fn find_waking_connections(&self, dream___: &Dream) -> Vec<String> {
+    fn find_waking_connections(&self, dream: &Dream) -> Vec<String> {
         dream
             .symbols
             .iter()
@@ -467,7 +467,7 @@ impl SymbolLibrary {
         }
     }
 
-    pub fn add_symbol(&mut self, symbol___: Symbol) {
+    pub fn add_symbol(&mut self, symbol: Symbol) {
         *self.frequency_map.entry(symbol.name.clone()).or_insert(0) += 1;
         self.symbols.push(symbol);
     }
@@ -495,7 +495,7 @@ impl DreamMemory {
         }
     }
 
-    pub fn store(&mut self, dream___: &Dream) {
+    pub fn store(&mut self, dream: &Dream) {
         self.remembered_dreams.push_back(dream.clone());
         if self.remembered_dreams.len() > 50 {
             self.remembered_dreams.pop_front();
@@ -538,7 +538,7 @@ impl VisionGenerator {
         }
     }
 
-    pub fn generate(&self, symbols: &[Symbol], _theme___: &DreamTheme) -> Vec<Vision> {
+    pub fn generate(&self, symbols: &[Symbol], theme: &DreamTheme) -> Vec<Vision> {
         symbols
             .iter()
             .take(3)
