@@ -18,7 +18,7 @@ use think_ai_knowledge::{
     enhanced_quantum_llm::{EnhancedQuantumLLMEngine, AttentionMechanism, PrecisionMode},
     response_generator::ComponentResponseGenerator,
 };
-use think_ai_tinyllama::{TinyLlamaClient, enhanced::EnhancedTinyLlama};
+use think_ai_qwen::client::QwenClient;
 use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{O1VectorIndex, types::LSHConfig};
 use tokio::sync::RwLock;
@@ -29,8 +29,7 @@ struct FullO1State {
     o1_engine: Arc<O1Engine>,
     vector_index: Arc<O1VectorIndex>,
     knowledge_engine: Arc<KnowledgeEngine>,
-    tinyllama_client: Arc<TinyLlamaClient>,
-    enhanced_llama: Arc<EnhancedTinyLlama>,
+    qwen_client: Arc<QwenClient>,
     enhanced_quantum_llm: Arc<RwLock<EnhancedQuantumLLMEngine>>,
     response_generator: Arc<ComponentResponseGenerator>,
     conversation_history: Arc<RwLock<Vec<(String, String)>>>,
@@ -107,8 +106,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let o1_engine = Arc::new(O1Engine::new(EngineConfig::default()));
     let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
-    let tinyllama_client = Arc::new(TinyLlamaClient::new());
-    let enhanced_llama = Arc::new(EnhancedTinyLlama::new());
+    let qwen_client = Arc::new(QwenClient::new_with_defaults());
     
     // Pre-configure Enhanced Quantum LLM with O(1) optimizations
     let enhanced_quantum_llm = {
@@ -124,8 +122,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         o1_engine,
         vector_index,
         knowledge_engine,
-        tinyllama_client,
-        enhanced_llama,
+        qwen_client,
         enhanced_quantum_llm,
         response_generator,
         conversation_history: Arc::new(RwLock::new(Vec::new())),

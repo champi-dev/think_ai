@@ -20,7 +20,7 @@ use think_ai_knowledge::{
     response_generator::ComponentResponseGenerator,
     self_evaluator::SelfEvaluator,
 };
-use think_ai_tinyllama::{TinyLlamaClient, enhanced::EnhancedTinyLlama};
+use think_ai_qwen::client::QwenClient;
 use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{O1VectorIndex, types::LSHConfig};
 use tokio::sync::RwLock;

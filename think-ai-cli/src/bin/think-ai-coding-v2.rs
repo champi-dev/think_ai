@@ -1,6 +1,6 @@
 //! Think AI Coding Assistant V2 - Real AI-powered code generation
 //! 
-//! This version uses TinyLlama, Knowledge Engine, and full AI intelligence
+//! This version uses Qwen, Knowledge Engine, and full AI intelligence
 
 use std::collections::HashMap;
 use std::io::{self, Write};
@@ -10,7 +10,7 @@ use tokio::sync::RwLock;
 
 use think_ai_core::{O1Engine, EngineConfig};
 use think_ai_knowledge::{KnowledgeEngine, ComponentResponseGenerator};
-use think_ai_tinyllama::{TinyLlamaClient, EnhancedTinyLlama};
+use think_ai_qwen::client::QwenClient;
 use think_ai_consciousness::ConsciousnessEngine;
 use clap::{Parser, Subcommand};
 
@@ -45,7 +45,7 @@ enum Commands {
 struct AICodeGenerator {
     engine: Arc<O1Engine>,
     knowledge: Arc<KnowledgeEngine>,
-    tinyllama: Arc<EnhancedTinyLlama>,
+    qwen_client: Arc<QwenClient>,
     response_generator: Arc<ComponentResponseGenerator>,
     consciousness: Arc<ConsciousnessEngine>,
     code_patterns: Arc<RwLock<HashMap<String, Vec<String>>>>,
@@ -67,9 +67,8 @@ impl AICodeGenerator {
         let knowledge = Arc::new(KnowledgeEngine::new());
         println!("📚 Loading coding knowledge base...");
         
-        // Initialize TinyLlama for code generation
-        let tinyllama_client = Arc::new(TinyLlamaClient::new());
-        let tinyllama = Arc::new(EnhancedTinyLlama::new_initialized().await);
+        // Initialize Qwen for code generation
+        let qwen_client = Arc::new(QwenClient::new_with_defaults());
         
         // Initialize response generator
         let response_generator = Arc::new(ComponentResponseGenerator::new(knowledge.clone()));
@@ -83,7 +82,7 @@ impl AICodeGenerator {
         let mut generator = Self {
             engine,
             knowledge,
-            tinyllama,
+            qwen_client,
             response_generator,
             consciousness,
             code_patterns,
@@ -243,11 +242,11 @@ class {name}CRUD:
         // Step 2: Query knowledge base for relevant concepts
         let knowledge_results = self.knowledge.intelligent_query(prompt);
         
-        // Step 3: Build context for TinyLlama
+        // Step 3: Build context for Qwen
         let context = self.build_code_context(prompt, language, &knowledge_results).await;
         
-        // Step 4: Generate code using TinyLlama
-        let generated_code = self.tinyllama.generate(&context).await.unwrap_or_else(|e| {
+        // Step 4: Generate code using Qwen
+        let generated_code = self.qwen_client.generate_simple(&context, None).await.unwrap_or_else(|e| {
             format!("// Error generating code: {}", e)
         });
         

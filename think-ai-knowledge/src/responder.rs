@@ -281,6 +281,8 @@ impl ComprehensiveResponder {
             KnowledgeDomain::Astronomy => "Astronomical Sciences",
             KnowledgeDomain::General => "General Knowledge",
             KnowledgeDomain::Technology => "Technology & Innovation",
+            KnowledgeDomain::ArtificialIntelligence => "Artificial Intelligence",
+            KnowledgeDomain::QuantumMechanics => "Quantum Mechanics",
         }
     }
 }

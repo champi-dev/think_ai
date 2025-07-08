@@ -156,3 +156,16 @@ venv*/
 */venv*/
 
 .env
+
+# API Keys and Secrets
+.env
+.env.local
+.env.*.local
+**/secrets.json
+**/api_keys.json
+test_huggingface_api.sh
+setup-huggingface-token.sh
+
+# Files with potential secrets
+*_with_token.sh
+*_api_key*

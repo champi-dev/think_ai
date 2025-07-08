@@ -1,6 +1,6 @@
 //! CLI command implementations
 
-mod natural_chat;
+// mod natural_chat; // Disabled: depends on non-existent NaturalResponseGenerator
 mod knowledge_chat;
 
 use clap::Subcommand;

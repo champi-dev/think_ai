@@ -1,8 +1,8 @@
-//! TinyLlama-based Knowledge Builder
-//! Generates, evaluates, and refines knowledge entries using TinyLlama
+//! Qwen-based Knowledge Builder
+//! Generates, evaluates, and refines knowledge entries using Qwen
 
 use crate::{KnowledgeEngine, KnowledgeDomain};
-use think_ai_tinyllama::enhanced::EnhancedTinyLlama;
+use think_ai_qwen::client::QwenClient;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use std::collections::HashMap;
@@ -29,26 +29,26 @@ pub struct CachedResponse {
     pub usefulness_score: f32,
 }
 
-pub struct TinyLlamaKnowledgeBuilder {
-    tiny_llama: Arc<EnhancedTinyLlama>,
+pub struct QwenKnowledgeBuilder {
+    qwen_client: Arc<QwenClient>,
     knowledge_engine: Arc<KnowledgeEngine>,
     evaluation_cache: Arc<RwLock<HashMap<String, EvaluatedKnowledge>>>,
     response_cache: Arc<RwLock<HashMap<String, String>>>, // O(1) query->response cache
 }
 
-impl TinyLlamaKnowledgeBuilder {
+impl QwenKnowledgeBuilder {
     pub fn new(knowledge_engine: Arc<KnowledgeEngine>) -> Self {
         Self {
-            tiny_llama: Arc::new(EnhancedTinyLlama::new()),
+            qwen_client: Arc::new(QwenClient::new_with_defaults()),
             knowledge_engine,
             evaluation_cache: Arc::new(RwLock::new(HashMap::new())),
             response_cache: Arc::new(RwLock::new(HashMap::new())),
         }
     }
     
-    /// Build comprehensive knowledge from scratch using TinyLlama
+    /// Build comprehensive knowledge from scratch using Qwen
     pub async fn build_from_scratch(&self) {
-        println!("🔨 Building knowledge from scratch with TinyLlama evaluation...");
+        println!("🔨 Building knowledge from scratch with Qwen evaluation...");
         
         // Core topics to build knowledge about
         let core_topics = vec![
@@ -264,7 +264,7 @@ impl TinyLlamaKnowledgeBuilder {
         let help_patterns = vec![
             ("help", "I can help you understand topics in science, technology, philosophy, and more. Just ask me anything!"),
             ("what can you do", "I can explain concepts, answer questions, and have natural conversations about almost any topic."),
-            ("how do you work", "I use TinyLlama-evaluated knowledge to provide accurate, useful, and conversational responses."),
+            ("how do you work", "I use Qwen-evaluated knowledge to provide accurate, useful, and conversational responses."),
         ];
         
         // Cache all patterns
@@ -311,7 +311,7 @@ impl TinyLlamaKnowledgeBuilder {
         cache.get(query).cloned()
     }
     
-    /// Generate response with TinyLlama evaluation
+    /// Generate response with Qwen evaluation
     pub async fn generate_evaluated_response(&self, query: &str) -> String {
         // Check cache first (O(1))
         if let Some(cached) = self.get_cached_response(query).await {
@@ -319,15 +319,14 @@ impl TinyLlamaKnowledgeBuilder {
         }
         
         // Generate new response
-        let response = self.tiny_llama.generate(query, None)
+        let response = self.qwen_client.generate_simple(query, None)
             .await.unwrap_or_else(|_| "I'm still learning about that topic.".to_string());
         
         // Refine for quality
-        let refined = self.tiny_llama.refine_response(
-            &response,
-            query,
-            "relevance_and_usefulness"
-        ).await;
+        let refined = self.qwen_client.generate_simple(
+            &format!("Refine this response for relevance and usefulness to the query '{}': {}", query, response),
+            None
+        ).await.unwrap_or(response.clone());
         
         // Cache for future O(1) access
         let mut cache = self.response_cache.write().await;
@@ -448,7 +447,7 @@ mod tests {
     #[tokio::test(flavor = "multi_thread", worker_threads = 1)]
     async fn test_knowledge_builder() {
         let engine = Arc::new(KnowledgeEngine::new());
-        let builder = TinyLlamaKnowledgeBuilder::new(engine);
+        let builder = QwenKnowledgeBuilder::new(engine);
         
         // Test building knowledge for a topic
         builder.build_topic_knowledge("test", "a test concept").await;

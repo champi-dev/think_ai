@@ -33,17 +33,6 @@ path = "src/bin/think-ai-coding.rs"
 name = "think-ai-llm"
 path = "src/bin/think-ai-llm.rs"
 
-[[bin]]
-name = "think-ai-image"
-path = "src/bin/think-ai-image.rs"
-
-[[bin]]
-name = "think-ai-art"
-path = "src/bin/think-ai-art.rs"
-
-[[bin]]
-name = "full-server-with-images"
-path = "src/bin/full-server-with-images.rs"
 
 [dependencies]
 think-ai-core = { path = "../think-ai-core" }
@@ -51,9 +40,8 @@ think-ai-utils = { path = "../think-ai-utils" }
 think-ai-knowledge = { path = "../think-ai-knowledge" }
 think-ai-vector = { path = "../think-ai-vector" }
 think-ai-http = { path = "../think-ai-http" }
-think-ai-tinyllama = { path = "../think-ai-tinyllama" }
 think-ai-consciousness = { path = "../think-ai-consciousness" }
-think-ai-image-gen = { path = "../think-ai-image-gen" }
+think-ai-qwen = { path = "../think-ai-qwen" }
 tokio.workspace = true
 dotenv = "0.15"
 async-trait.workspace = true
@@ -70,6 +58,7 @@ clap = { version = "4.5", features = ["derive", "env"] }
 # Terminal UI
 ratatui = "0.29"
 crossterm = "0.28"
+strum = { version = "0.26", features = ["derive"] }
 
 # Natural chat system
 rand = "0.8"

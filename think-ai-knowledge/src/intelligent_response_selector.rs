@@ -2,8 +2,7 @@
 //! Ensures accurate, realistic, useful, and relevant data for users
 
 use crate::{KnowledgeEngine, response_generator::ComponentResponseGenerator};
-use think_ai_tinyllama::o1_response_generator::O1ResponseGenerator;
-use think_ai_tinyllama::enhanced::EnhancedTinyLlama;
+use think_ai_qwen::client::QwenClient;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use std::time::Instant;
@@ -37,8 +36,7 @@ pub struct ResponseMetadata {
 pub struct IntelligentResponseSelector {
     knowledge_engine: Arc<KnowledgeEngine>,
     response_generator: Arc<ComponentResponseGenerator>,
-    o1_generator: Arc<O1ResponseGenerator>,
-    tiny_llama: Arc<EnhancedTinyLlama>,
+    qwen_client: Arc<QwenClient>,
     decision_history: Arc<RwLock<Vec<DecisionRecord>>>,
 }
 
@@ -58,8 +56,7 @@ impl IntelligentResponseSelector {
         Self {
             knowledge_engine,
             response_generator,
-            o1_generator: Arc::new(O1ResponseGenerator::new()),
-            tiny_llama: Arc::new(EnhancedTinyLlama::new()),
+            qwen_client: Arc::new(QwenClient::new_with_defaults()),
             decision_history: Arc::new(RwLock::new(Vec::new())),
         }
     }
@@ -82,12 +79,11 @@ impl IntelligentResponseSelector {
             thinkai_response.metadata.has_specific_facts
         ).await;
         
-        // Use TinyLlama for final relevancy and usefulness transformation
-        let refined_response = self.tiny_llama.refine_response(
-            &combined_response,
-            query,
-            "relevance_and_usefulness"
-        ).await;
+        // Use Qwen for final relevancy and usefulness transformation
+        let refined_response = self.qwen_client.generate_simple(
+            &format!("Refine this response for relevance and usefulness to the query '{}': {}", query, combined_response),
+            None
+        ).await.unwrap_or(combined_response.clone());
         
         let elapsed = start.elapsed().as_secs_f64() * 1000.0;
         
@@ -95,10 +91,12 @@ impl IntelligentResponseSelector {
         (refined_response, ResponseSource::Combined, elapsed)
     }
     
-    /// Generate response using LLaMA O(1) generator
+    /// Generate response using Qwen
     async fn generate_llama_response(&self, query: &str) -> ResponseCandidate {
         let start = Instant::now();
-        let content = self.o1_generator.generate_response(query);
+        let content = self.qwen_client.generate_simple(query, None)
+            .await
+            .unwrap_or_else(|_| "I encountered an error generating a response.".to_string());
         let response_time = start.elapsed().as_secs_f64() * 1000.0;
         
         ResponseCandidate {

@@ -11,7 +11,7 @@ pub mod enhanced_quantum_llm;
 pub mod dynamic_loader;
 pub mod response_generator;
 pub mod intelligent_response_selector;
-pub mod tinyllama_knowledge_builder;
+pub mod qwen_knowledge_builder;
 pub mod self_evaluator;
 pub mod intelligent_relevance;
 pub mod feynman_explainer;
@@ -78,6 +78,8 @@ pub enum KnowledgeDomain {
     Astronomy,
     General,
     Technology,
+    ArtificialIntelligence,
+    QuantumMechanics,
 }
 
 impl KnowledgeDomain {
@@ -105,6 +107,8 @@ impl KnowledgeDomain {
             Self::Astronomy,
             Self::General,
             Self::Technology,
+            Self::ArtificialIntelligence,
+            Self::QuantumMechanics,
         ]
     }
 }

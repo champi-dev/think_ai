@@ -6,50 +6,48 @@ use think_ai_knowledge::{
     dynamic_loader::DynamicKnowledgeLoader, 
     response_generator::ComponentResponseGenerator,
     intelligent_response_selector::{IntelligentResponseSelector, ResponseSource},
-    tinyllama_knowledge_builder::TinyLlamaKnowledgeBuilder,
+    qwen_knowledge_builder::QwenKnowledgeBuilder,
     self_evaluator::SelfEvaluator,
-    conversation_memory::ConversationMemory,
-    natural_response_generator::NaturalResponseGenerator,
+    enhanced_conversation_memory::EnhancedConversationMemory,
 };
-use think_ai_tinyllama::TinyLlamaClient;
+use think_ai_qwen::client::QwenClient;
 use std::io::Write;
 use std::path::PathBuf;
 
 pub struct KnowledgeChat {
     engine: Arc<KnowledgeEngine>,
-    tinyllama_client: Arc<TinyLlamaClient>,
+    qwen_client: Arc<QwenClient>,
     response_generator: Arc<ComponentResponseGenerator>,
     intelligent_selector: Arc<IntelligentResponseSelector>,
-    tinyllama_builder: Arc<TinyLlamaKnowledgeBuilder>,
+    qwen_builder: Arc<QwenKnowledgeBuilder>,
     self_evaluator: Arc<SelfEvaluator>,
-    conversation_memory: Arc<ConversationMemory>,
+    conversation_memory: Arc<EnhancedConversationMemory>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
-    natural_generator: Option<Arc<std::sync::Mutex<NaturalResponseGenerator>>>,
 }
 
 impl KnowledgeChat {
     pub fn new() -> Self {
         let engine = Arc::new(KnowledgeEngine::new());
-        let tinyllama_builder = Arc::new(TinyLlamaKnowledgeBuilder::new(engine.clone()));
+        let qwen_builder = Arc::new(QwenKnowledgeBuilder::new(engine.clone()));
         
-        // Check if we have cached knowledge from TinyLlama
+        // Check if we have cached knowledge from Qwen
         let cache_dir = PathBuf::from("./cache");
         let knowledge_files_dir = PathBuf::from("./knowledge_files");
         
         if cache_dir.exists() && cache_dir.join("response_cache.json").exists() {
             // Load cached knowledge
-            println!("📂 Loading TinyLlama-built knowledge from cache...");
+            println!("📂 Loading Qwen-built knowledge from cache...");
             let dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_files_dir);
             match dynamic_loader.load_all(&engine) {
-                Ok(count) => println!("✅ Loaded {} items from TinyLlama knowledge", count),
+                Ok(count) => println!("✅ Loaded {} items from Qwen knowledge", count),
                 Err(e) => println!("⚠️  Could not load knowledge files: {}", e),
             }
         } else {
-            // Build knowledge from scratch with TinyLlama
-            println!("🧠 Building knowledge from scratch with TinyLlama...");
+            // Build knowledge from scratch with Qwen
+            println!("🧠 Building knowledge from scratch with Qwen...");
             println!("⚡ This will take a moment but will provide O(1) cached responses!");
             
-            let builder_clone = tinyllama_builder.clone();
+            let builder_clone = qwen_builder.clone();
             // Run the knowledge building in a separate thread to avoid runtime conflict
             std::thread::spawn(move || {
                 let rt = tokio::runtime::Runtime::new().unwrap();
@@ -58,7 +56,7 @@ impl KnowledgeChat {
                 });
             }).join().unwrap();
             
-            println!("✅ TinyLlama knowledge building complete!");
+            println!("✅ Qwen knowledge building complete!");
         }
         
         let stats = engine.get_stats();
@@ -68,7 +66,7 @@ impl KnowledgeChat {
         );
         
         // Initialize conversation memory for long-term contextual dialogue
-        let conversation_memory = Arc::new(ConversationMemory::new(1000));
+        let conversation_memory = Arc::new(EnhancedConversationMemory::new(1000, 24));
         
         let response_generator = Arc::new(ComponentResponseGenerator::new_with_memory(
             engine.clone(),
@@ -85,21 +83,16 @@ impl KnowledgeChat {
             response_generator.clone()
         ));
         
-        // Initialize natural language generator
-        let natural_gen = Arc::new(std::sync::Mutex::new(
-            NaturalResponseGenerator::new(engine.clone())
-        ));
         
         let chat = Self { 
             engine,
-            tinyllama_client: Arc::new(TinyLlamaClient::new()),
+            qwen_client: Arc::new(QwenClient::new_with_defaults()),
             response_generator,
             intelligent_selector,
-            tinyllama_builder,
+            qwen_builder,
             self_evaluator,
             conversation_memory,
             conversation_history: Vec::new(),
-            natural_generator: Some(natural_gen),
         };
         
         // Start self-evaluation system in background
@@ -130,7 +123,7 @@ impl KnowledgeChat {
         let elapsed = start.elapsed().as_secs_f64() * 1000.0;
         
         // Store in conversation memory for long-term context
-        self.conversation_memory.add_turn(query, &response);
+        self.conversation_memory.add_enhanced_turn(query, &response);
         
         // Also keep in local history for backward compatibility
         self.conversation_history.push((query.to_string(), response.clone()));
@@ -199,15 +192,9 @@ impl KnowledgeChat {
     async fn generate_response(&self, query: &str) -> String {
         let query_lower = query.to_lowercase();
         
-        // Try natural language generator first if available
-        if let Some(natural_gen) = &self.natural_generator {
-            if let Ok(mut generator) = natural_gen.try_lock() {
-                return generator.generate_response(query);
-            }
-        }
         
         // Try O(1) cached response as fallback
-        if let Some(cached) = self.tinyllama_builder.get_cached_response(&query_lower).await {
+        if let Some(cached) = self.qwen_builder.get_cached_response(&query_lower).await {
             print!(" [⚡ O(1) Cache]");
             println!();
             return cached;
@@ -299,11 +286,11 @@ impl KnowledgeChat {
             return knowledge_response;
         }
         
-        // Otherwise fall back to TinyLlama evaluation
-        let response = self.tinyllama_builder.generate_evaluated_response(expanded_query).await;
+        // Otherwise fall back to Qwen evaluation
+        let response = self.qwen_builder.generate_evaluated_response(expanded_query).await;
         
-        // Show that it's TinyLlama evaluated
-        print!(" [🤖 TinyLlama Evaluated]");
+        // Show that it's Qwen evaluated
+        print!(" [🤖 Qwen Evaluated]");
         println!(); // New line after indicator
         
         response

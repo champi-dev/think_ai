@@ -171,6 +171,8 @@ impl DynamicKnowledgeLoader {
             "science" | "scientific_research" => Ok(KnowledgeDomain::Physics),
             "education" | "technology_policy" => Ok(KnowledgeDomain::Sociology),
             "statistics" => Ok(KnowledgeDomain::Mathematics),
+            "artificialintelligence" | "artificial_intelligence" => Ok(KnowledgeDomain::ArtificialIntelligence),
+            "quantummechanics" | "quantum_mechanics" => Ok(KnowledgeDomain::QuantumMechanics),
             _ => Err(format!("Unknown domain: {}", domain_str)),
         }
     }

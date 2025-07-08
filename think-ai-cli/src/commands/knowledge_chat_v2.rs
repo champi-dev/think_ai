@@ -6,13 +6,13 @@ use think_ai_knowledge::{
     response_generator::ComponentResponseGenerator,
     comprehensive_knowledge::ComprehensiveKnowledgeGenerator,
 };
-use think_ai_tinyllama::TinyLlamaClient;
+use think_ai_qwen::client::QwenClient;
 use std::io::Write;
 use std::path::PathBuf;
 
 pub struct KnowledgeChat {
     engine: Arc<KnowledgeEngine>,
-    tinyllama_client: Arc<TinyLlamaClient>,
+    qwen_client: Arc<QwenClient>,
     response_generator: Arc<ComponentResponseGenerator>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
 }
@@ -64,7 +64,7 @@ impl KnowledgeChat {
         
         Self { 
             engine,
-            tinyllama_client: Arc::new(TinyLlamaClient::new()),
+            qwen_client: Arc::new(QwenClient::new_with_defaults()),
             response_generator,
             conversation_history: Vec::new(),
         }
