@@ -4,57 +4,11 @@ use std::sync::Arc;
 pub struct ComprehensiveKnowledgeGenerator;
 
 impl ComprehensiveKnowledgeGenerator {
-    pub fn populate_deep_knowledge(engine: &Arc<KnowledgeEngine>) {
-        println!("🌍 Populating comprehensive deep knowledge base...");
+    pub fn populate_deep_knowledge(_engine: &Arc<KnowledgeEngine>) {
+        println!("🔄 Knowledge reset - starting with empty knowledge base");
+        // All knowledge loading disabled - starting from zero
         
-        // Programming & Technology
-        Self::add_deep_programming_knowledge(engine);
-        Self::add_web_technologies(engine);
-        Self::add_database_knowledge(engine);
-        Self::add_ai_ml_knowledge(engine);
-        Self::add_cybersecurity_knowledge(engine);
-        
-        // Sciences
-        Self::add_deep_physics_knowledge(engine);
-        Self::add_chemistry_knowledge(engine);
-        Self::add_biology_knowledge(engine);
-        Self::add_astronomy_knowledge(engine);
-        Self::add_earth_sciences(engine);
-        
-        // Mathematics
-        Self::add_deep_mathematics(engine);
-        Self::add_statistics_knowledge(engine);
-        
-        // Engineering
-        Self::add_engineering_knowledge(engine);
-        Self::add_electronics_knowledge(engine);
-        
-        // Medicine & Health
-        Self::add_medical_knowledge(engine);
-        Self::add_psychology_knowledge(engine);
-        
-        // Social Sciences
-        Self::add_economics_knowledge(engine);
-        Self::add_sociology_knowledge(engine);
-        Self::add_political_science(engine);
-        
-        // Humanities
-        Self::add_philosophy_knowledge(engine);
-        Self::add_history_knowledge(engine);
-        Self::add_literature_knowledge(engine);
-        Self::add_linguistics_knowledge(engine);
-        
-        // Arts & Culture
-        Self::add_music_knowledge(engine);
-        Self::add_visual_arts(engine);
-        Self::add_architecture_knowledge(engine);
-        
-        // Practical Knowledge
-        Self::add_business_knowledge(engine);
-        Self::add_finance_knowledge(engine);
-        Self::add_law_knowledge(engine);
-        
-        println!("✅ Comprehensive knowledge base populated!");
+        // All knowledge loading disabled - reset to zero
     }
     
     fn add_deep_programming_knowledge(engine: &Arc<KnowledgeEngine>) {

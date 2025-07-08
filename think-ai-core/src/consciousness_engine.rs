@@ -223,7 +223,8 @@ impl O1ConsciousnessEngine {
             }),
         };
         
-        self.core.store(&format!("thought_{}", thought_id), result)?;
+        // TODO: Make this method async to support async store
+        // self.core.store(&format!("thought_{}", thought_id), result).await?;
         
         self.update_metrics(start.elapsed(), false);
         Ok((thought_id, awareness))
@@ -278,7 +279,8 @@ impl O1ConsciousnessEngine {
             }),
         };
         
-        self.core.store(&format!("assoc_{}", association_hash), result)?;
+        // TODO: Make this method async to support async store
+        // self.core.store(&format!("assoc_{}", association_hash), result).await?;
         Ok(())
     }
     

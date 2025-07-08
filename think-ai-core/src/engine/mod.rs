@@ -16,10 +16,10 @@ pub mod hasher;
 
 use std::sync::Arc;
 use crate::{
-    cache::O1Cache,
     config::EngineConfig,
     types::{ComputeResult, EngineStats, Result},
 };
+use think_ai_cache::MemoryCache;
 use self::{state::StateManager, hasher::hash_key};
 
 /// Core O(1) Engine with functional design
@@ -37,7 +37,7 @@ use self::{state::StateManager, hasher::hash_key};
 pub struct O1Engine {
     pub(crate) config: Arc<EngineConfig>,
     pub(crate) state: StateManager,
-    pub(crate) cache: O1Cache,
+    pub(crate) cache: MemoryCache,
 }
 
 impl O1Engine {
@@ -50,7 +50,7 @@ impl O1Engine {
     /// 3. We build the shelves (cache)
     /// 4. We put up an "Opening Soon" sign (state)
     pub fn new(config: EngineConfig) -> Self {
-        let cache = O1Cache::new(config.cache_size, config.hash_seed);
+        let cache = MemoryCache::new(config.cache_size);
         Self {
             config: Arc::new(config),
             state: StateManager::new(),
@@ -85,14 +85,20 @@ impl O1Engine {
     /// let result = engine.compute("What is the meaning of life?");
     /// // Instantly returns the answer if we've seen this question before
     /// ```
-    pub fn compute(&self, key: &str) -> Option<Arc<ComputeResult>> {
-        // Step 1: Turn the key into a magic number (hash)
+    pub async fn compute(&self, key: &str) -> Option<ComputeResult> {
+        // Step 1: Turn the key into a magic number (hash) for internal use
         // This ALWAYS takes the same time, whether key is 1 char or 1 million chars
-        let hash = hash_key(key, self.config.hash_seed);
+        let _hash = hash_key(key, self.config.hash_seed);
         
-        // Step 2: Use the magic number to instantly find the answer
+        // Step 2: Use the key directly with the cache (it handles hashing internally)
         // Like teleporting to the exact shelf in our library
-        self.cache.get(hash)
+        match self.cache.get(key).await {
+            Ok(data) => {
+                // Deserialize the cached data
+                serde_json::from_slice(&data).ok()
+            }
+            Err(_) => None,
+        }
     }
 }
 

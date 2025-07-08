@@ -5,7 +5,7 @@
 
 pub mod types;
 pub mod config;
-pub mod cache;
+// pub mod cache; // Module removed - using think-ai-cache crate instead
 pub mod engine;
 pub mod consciousness_engine;
 pub mod lsh_engine;

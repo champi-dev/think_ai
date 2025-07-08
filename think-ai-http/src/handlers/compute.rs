@@ -27,11 +27,11 @@ pub async fn compute(
             value: value.clone(),
             metadata: serde_json::json!({"timestamp": chrono::Utc::now()}),
         };
-        state.engine.store(&req.key, result).ok();
+        state.engine.store(&req.key, result).await.ok();
     }
     
     // Retrieve computation
-    let result = state.engine.compute(&req.key)
+    let result = state.engine.compute(&req.key).await
         .map(|r| r.value.clone());
     
     Json(ComputeResponse {

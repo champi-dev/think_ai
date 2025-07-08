@@ -3,13 +3,15 @@ pub mod persistence;
 pub mod responder;
 pub mod trainer;
 pub mod real_knowledge;
-pub mod training_system;
+// pub mod training_system; // Module removed - starting from zero knowledge
 pub mod comprehensive_knowledge;
 pub mod self_learning;
 pub mod comprehensive_trainer;
 pub mod enhanced_quantum_llm;
 pub mod dynamic_loader;
 pub mod response_generator;
+pub mod minimal_response_generator;
+pub mod qwen_cache;
 pub mod intelligent_response_selector;
 pub mod qwen_knowledge_builder;
 pub mod self_evaluator;
