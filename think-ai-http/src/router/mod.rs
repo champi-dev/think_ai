@@ -19,6 +19,7 @@ pub struct AppState {
     pub vector_index: Arc<think_ai_vector::O1VectorIndex>,
     pub knowledge_engine: Arc<think_ai_knowledge::KnowledgeEngine>,
     pub conversation_memory: Arc<think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory>,
+    pub image_state: Arc<handlers::ImageGenerationState>,
 }
 
 pub fn create_router(state: Arc<AppState>) -> Router {
@@ -32,6 +33,8 @@ pub fn create_router(state: Arc<AppState>) -> Router {
         .route("/", get(serve_webapp))
         .route("/webapp", get(serve_webapp))
         .route("/chat.html", get(serve_chat))
+        .route("/image-generator", get(serve_image_generator))
+        .route("/images", get(serve_image_generator))
         
         // API routes
         .route("/health", get(handlers::health))
@@ -42,6 +45,24 @@ pub fn create_router(state: Arc<AppState>) -> Router {
         .route("/api/chat", post(handlers::chat))
         .route("/api/process", post(handlers::chat))
         .route("/api/knowledge/stats", get(handlers::knowledge_stats))
+        
+        // Image generation routes
+        .route("/api/image/generate", post({
+            let image_state = state.image_state.clone();
+            move |body| handlers::generate_image(axum::extract::State(image_state.clone()), body)
+        }))
+        .route("/api/image/stats", get({
+            let image_state = state.image_state.clone();
+            move || handlers::get_image_stats(axum::extract::State(image_state.clone()))
+        }))
+        .route("/api/image/feedback", post({
+            let image_state = state.image_state.clone();
+            move |body| handlers::provide_feedback(axum::extract::State(image_state.clone()), body)
+        }))
+        .route("/api/image/serve", get({
+            let image_state = state.image_state.clone();
+            move |query| handlers::serve_image(axum::extract::State(image_state.clone()), query)
+        }))
         
         // WebSocket endpoint (placeholder for now)
         .route("/ws", get(websocket_placeholder))
@@ -55,6 +76,7 @@ pub fn create_router(state: Arc<AppState>) -> Router {
         .route_service("/favicon.ico", ServeFile::new(static_dir.join("icons/icon-32x32.png")))
         .route_service("/static/chat.html", ServeFile::new(static_dir.join("chat.html")))
         .route_service("/static/simple_webapp.html", ServeFile::new(static_dir.join("simple_webapp.html")))
+        .route_service("/static/image_generator.html", ServeFile::new(static_dir.join("image_generator.html")))
         
         .layer(CorsLayer::permissive())
         .with_state(state)
@@ -94,4 +116,15 @@ async fn serve_chat() -> Html<String> {
 
 async fn websocket_placeholder() -> Html<&'static str> {
     Html("WebSocket endpoint - not yet implemented")
+}
+
+async fn serve_image_generator() -> Html<String> {
+    let image_gen_path = std::env::current_dir()
+        .map(|p| p.join("static/image_generator.html"))
+        .unwrap_or_else(|_| std::path::PathBuf::from("./static/image_generator.html"));
+    
+    match std::fs::read_to_string(image_gen_path) {
+        Ok(content) => Html(content),
+        Err(_) => Html(String::from("<h1>Image generator not found</h1>"))
+    }
 }

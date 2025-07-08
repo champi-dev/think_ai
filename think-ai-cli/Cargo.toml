@@ -33,6 +33,18 @@ path = "src/bin/think-ai-coding.rs"
 name = "think-ai-llm"
 path = "src/bin/think-ai-llm.rs"
 
+[[bin]]
+name = "think-ai-image"
+path = "src/bin/think-ai-image.rs"
+
+[[bin]]
+name = "think-ai-art"
+path = "src/bin/think-ai-art.rs"
+
+[[bin]]
+name = "full-server-with-images"
+path = "src/bin/full-server-with-images.rs"
+
 [dependencies]
 think-ai-core = { path = "../think-ai-core" }
 think-ai-utils = { path = "../think-ai-utils" }
@@ -41,11 +53,14 @@ think-ai-vector = { path = "../think-ai-vector" }
 think-ai-http = { path = "../think-ai-http" }
 think-ai-tinyllama = { path = "../think-ai-tinyllama" }
 think-ai-consciousness = { path = "../think-ai-consciousness" }
+think-ai-image-gen = { path = "../think-ai-image-gen" }
 tokio.workspace = true
+dotenv = "0.15"
 async-trait.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
+anyhow.workspace = true
 tracing.workspace = true
 tracing-subscriber = "0.3"
 

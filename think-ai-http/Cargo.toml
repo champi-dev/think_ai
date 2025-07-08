@@ -10,6 +10,7 @@ think-ai-core = { path = "../think-ai-core" }
 think-ai-vector = { path = "../think-ai-vector" }
 think-ai-utils = { path = "../think-ai-utils" }
 think-ai-knowledge = { path = "../think-ai-knowledge" }
+think-ai-image-gen = { path = "../think-ai-image-gen" }
 tokio.workspace = true
 async-trait.workspace = true
 serde.workspace = true
@@ -29,3 +30,6 @@ chrono = "0.4"
 
 # UUID for unique port generation
 uuid = { version = "1.17", features = ["v4"] }
+
+# Image handling
+base64 = "0.21"

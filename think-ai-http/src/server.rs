@@ -38,11 +38,24 @@ pub async fn run_server(
         .map_err(|e: std::net::AddrParseError| 
             crate::HttpError::ServerError(e.to_string()))?;
     
+    // Initialize image generation
+    let cache_dir = std::path::PathBuf::from("./webapp_image_cache");
+    let ai_improver = Arc::new(
+        think_ai_image_gen::AIImageImprover::new(&cache_dir, None)
+            .await
+            .map_err(|e| crate::HttpError::ServerError(e.to_string()))?
+    );
+    
+    let image_state = Arc::new(crate::handlers::ImageGenerationState {
+        ai_improver,
+    });
+    
     let state = Arc::new(AppState {
         engine,
         vector_index,
         knowledge_engine,
         conversation_memory,
+        image_state,
     });
     
     let app = create_router(state);

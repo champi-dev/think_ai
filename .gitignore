@@ -119,6 +119,13 @@ exponential_training_results.json.pypirc
 think_ai_v3_ready_*.tar.gz
 # Local development environment variables
 .env.local
+.env.production
+
+# Image generation cache
+image_cache/
+*.img
+learning_data.json
+cache_index.json
 
 # Setup scripts with sensitive data
 setup_hf.sh
@@ -148,3 +155,4 @@ trained_knowledge/checkpoints/*.json
 venv*/
 */venv*/
 
+.env
