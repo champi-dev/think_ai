@@ -1,0 +1,37 @@
+# Final working Dockerfile with Ollama
+FROM rust:1.82 as builder
+WORKDIR /app
+COPY . .
+RUN cargo build --release --bin full-working-o1
+
+# Ollama setup stage
+FROM ubuntu:22.04 as ollama-setup
+RUN apt-get update && apt-get install -y curl ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
+# Download model during build
+RUN ollama serve & sleep 10 && ollama pull qwen2.5:1.5b && pkill ollama
+
+# Final stage
+FROM ubuntu:22.04
+RUN apt-get update && apt-get install -y ca-certificates curl && rm -rf /var/lib/apt/lists/*
+
+# Copy Ollama and models
+COPY --from=ollama-setup /usr/local/bin/ollama /usr/local/bin/ollama
+COPY --from=ollama-setup /root/.ollama /root/.ollama
+
+# Copy app
+COPY --from=builder /app/target/release/full-working-o1 /app/full-working-o1
+COPY --from=builder /app/minimal_3d.html /app/minimal_3d.html
+COPY --from=builder /app/static /app/static
+
+# Simple start script
+RUN echo '#!/bin/bash' > /app/start.sh && \
+    echo 'ollama serve &' >> /app/start.sh && \
+    echo 'sleep 15' >> /app/start.sh && \
+    echo 'cd /app && ./full-working-o1' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
+WORKDIR /app
+EXPOSE 8080
+CMD ["/app/start.sh"]

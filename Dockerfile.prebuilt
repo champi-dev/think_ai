@@ -1,0 +1,45 @@
+# Pre-built Docker image with everything included
+# Build this locally and push to Docker Hub for Railway to use
+
+FROM rust:1.82 as builder
+
+WORKDIR /app
+COPY . .
+RUN cargo build --release --bin full-working-o1
+
+# Create final image with everything pre-installed
+FROM ubuntu:22.04
+
+# Install minimal runtime dependencies
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Ollama
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
+# Pre-download and cache the Qwen model
+RUN ollama serve & \
+    sleep 10 && \
+    ollama pull qwen2.5:1.5b && \
+    sleep 5 && \
+    pkill ollama && \
+    sleep 2
+
+# Copy the built binary and assets
+COPY --from=builder /app/target/release/full-working-o1 /app/full-working-o1
+COPY --from=builder /app/minimal_3d.html /app/minimal_3d.html
+COPY --from=builder /app/static /app/static
+
+# Create simple startup script
+RUN echo '#!/bin/bash' > /app/start.sh && \
+    echo 'ollama serve &' >> /app/start.sh && \
+    echo 'sleep 5' >> /app/start.sh && \
+    echo 'cd /app && exec ./full-working-o1' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
+WORKDIR /app
+EXPOSE 8080
+
+CMD ["/app/start.sh"]

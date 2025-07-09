@@ -1,0 +1,5 @@
+# Simple Dockerfile for Railway - just pull and run pre-built image
+FROM champidev/think-ai-ollama:latest
+
+# Railway will just pull this image and run it
+# Everything is already installed and configured
