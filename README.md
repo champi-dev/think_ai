@@ -6,7 +6,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/thinkai-quantum.svg)](https://pypi.org/project/thinkai-quantum/)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/champi-dev/think_ai)
 [![Performance: O(1)](https://img.shields.io/badge/Performance-O(1)-brightgreen.svg)](https://github.com/champi-dev/think_ai)
-[![Live Deployment](https://img.shields.io/badge/Railway-Live-green.svg)](https://thinkai-production.up.railway.app)
+[![GPU Deployment](https://img.shields.io/badge/DatabaseMart-GPU-green.svg)](https://github.com/champi-dev/think_ai)
 
 > **Production-ready AI system with O(1) performance, coding capabilities, and instant CLI tools for developers**
 
@@ -24,7 +24,7 @@ Next-generation AI system featuring proven O(1) performance algorithms, multi-pl
 ### 📱 **Multi-Platform Deployment**
 - **📦 JavaScript/TypeScript** - [`thinkai-quantum`](https://www.npmjs.com/package/thinkai-quantum) v1.0.6 on npm
 - **🐍 Python** - [`thinkai-quantum`](https://pypi.org/project/thinkai-quantum/) v1.0.3 on PyPI  
-- **🌐 Live Web App** - [Railway deployment](https://thinkai-production.up.railway.app)
+- **🚀 GPU Server** - DatabaseMart dedicated GPU deployment
 - **🎮 5 Demo Projects** - Interactive examples of O(1) implementations
 - **⚡ O(1) Performance** - Hash-based lookups and LSH for constant-time operations
 
@@ -48,7 +48,7 @@ Next-generation AI system featuring proven O(1) performance algorithms, multi-pl
 
 ### 🛠️ **Core Components**
 - **O(1) Algorithm Engine** - Proven constant-time implementations
-- **HTTP API Server** - RESTful API with WebSocket support deployed on Railway
+- **HTTP API Server** - RESTful API with WebSocket support on GPU server
 - **Knowledge Enhancement Pipeline** - Automated legal content harvesting
 - **Multi-Language Support** - Rust core, JavaScript SDK, Python SDK
 - **TinyLlama Integration** - Local AI model, no API keys required
@@ -144,9 +144,9 @@ cd knowledge-enhancement
 
 #### Usage
 
-**🌐 Live Deployment (No Setup Required):**
-- Web App: https://thinkai-production.up.railway.app
-- API Base: https://thinkai-production.up.railway.app/api
+**🌐 GPU Server Deployment:**
+- Deployed on DatabaseMart dedicated GPU server
+- Enhanced performance with NVIDIA GPU acceleration
 
 **🚀 Run Local System:**
 ```bash
@@ -279,18 +279,36 @@ docker build -t think-ai .
 docker run -p 8080:8080 think-ai
 ```
 
-### Railway (Current Deployment)
-The system is already deployed at: https://thinkai-production.up.railway.app
+### DatabaseMart GPU Server (Production Deployment)
+The system is deployed on a dedicated GPU server at DatabaseMart for enhanced performance.
 
 ```bash
-# Deploy updates to Railway
-railway up
+# Deploy to DatabaseMart GPU server
+./deploy-databasemart-gpu.sh
+
+# Setup GPU environment (run on server)
+sudo ./setup-nvidia-gpu.sh
+
+# Monitor GPU performance
+./monitor-gpu-performance.sh
 ```
+
+**GPU Deployment Features:**
+- 🚀 NVIDIA GPU acceleration for AI operations
+- 📊 Real-time GPU monitoring and alerts
+- 🔧 Systemd service management
+- 🐳 Docker with NVIDIA Container Toolkit
+- ⚡ O(1) performance with GPU optimization
+
+### Railway (Previous Deployment)
+Previously deployed at: https://thinkai-production.up.railway.app
 
 ### Environment Variables
 - `PORT` - HTTP server port (default: 8080)
 - `RUST_LOG` - Log level (default: info)
-- `RAILWAY_ENVIRONMENT` - Auto-detected on Railway
+- `THINK_AI_GPU_ENABLED` - Enable GPU acceleration (default: true on GPU server)
+- `THINK_AI_GPU_MEMORY_FRACTION` - GPU memory allocation (default: 0.8)
+- `CUDA_VISIBLE_DEVICES` - GPU device selection (default: 0)
 - `NPM_TOKEN` - npm publishing token (for library updates)
 - `PYPI_TOKEN` - PyPI publishing token (for library updates)
 

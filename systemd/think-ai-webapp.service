@@ -1,0 +1,25 @@
+[Unit]
+Description=Think AI WebApp with 3D Visualization
+After=network.target think-ai-http.service
+
+[Service]
+Type=simple
+User=think-ai
+Group=think-ai
+WorkingDirectory=/opt/think-ai
+Environment="RUST_LOG=info"
+Environment="THINK_AI_BACKEND_URL=http://localhost:8080"
+ExecStart=/opt/think-ai/target/release/think-ai-webapp
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/think-ai/webapp.log
+StandardError=append:/var/log/think-ai/webapp-error.log
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/think-ai/data /var/log/think-ai
+
+[Install]
+WantedBy=multi-user.target
