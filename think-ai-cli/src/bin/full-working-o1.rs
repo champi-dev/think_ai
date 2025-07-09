@@ -185,17 +185,23 @@ async fn chat_handler(
         }
     }
 
-    // Generate response using Qwen 1.5B
-    let response = match state
-        .qwen_client
-        .generate_simple(&request.query, None)
-        .await
+    // Generate response using Qwen 1.5B with timeout
+    let response = match tokio::time::timeout(
+        std::time::Duration::from_secs(10),
+        state.qwen_client.generate_simple(&request.query, None),
+    )
+    .await
     {
-        Ok(qwen_response) => qwen_response,
-        Err(e) => {
+        Ok(Ok(qwen_response)) => qwen_response,
+        Ok(Err(e)) => {
             // Log error for debugging but don't show to user
             eprintln!("Qwen unavailable: {}", e);
             // Fallback to response generator if Qwen fails
+            state.response_generator.generate_response(&request.query)
+        }
+        Err(_) => {
+            eprintln!("Qwen request timed out after 10 seconds");
+            // Fallback to response generator if timeout
             state.response_generator.generate_response(&request.query)
         }
     };
