@@ -1,0 +1,49 @@
+# Multi-stage build for Think AI with Ollama and Qwen
+FROM rust:1.82 as builder
+
+RUN apt-get update && apt-get install -y ca-certificates libssl-dev pkg-config && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY . .
+RUN cargo build --release --bin full-working-o1
+
+# Runtime stage with Ollama
+FROM ubuntu:22.04
+
+# Install dependencies and Ollama
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Ollama
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
+# Copy the built binary
+COPY --from=builder /app/target/release/full-working-o1 /app/full-working-o1
+COPY --from=builder /app/minimal_3d.html /app/minimal_3d.html
+COPY --from=builder /app/static /app/static
+
+# Create startup script
+RUN echo '#!/bin/bash\n\
+# Start Ollama in the background\n\
+ollama serve &\n\
+OLLAMA_PID=$!\n\
+\n\
+# Wait for Ollama to be ready\n\
+echo "Waiting for Ollama to start..."\n\
+sleep 5\n\
+\n\
+# Pull Qwen model\n\
+echo "Pulling Qwen 2.5 1.5B model..."\n\
+ollama pull qwen2.5:1.5b\n\
+\n\
+# Start the main application\n\
+echo "Starting Think AI server..."\n\
+cd /app && ./full-working-o1\n\
+' > /app/start.sh && chmod +x /app/start.sh
+
+WORKDIR /app
+EXPOSE 8080
+
+CMD ["/app/start.sh"]
