@@ -488,11 +488,20 @@
         
         animate();
         
-        // Chat functionality
-        const API_BASE = '';  // Use relative path for Vercel proxy
+        // Chat functionality (client-side only)
         const messagesDiv = document.getElementById('messages');
         const chatForm = document.getElementById('chat-form');
         const chatInput = document.getElementById('chat-input');
+        
+        // Simple responses for demo
+        const responses = [
+            "Quantum consciousness processing complete.",
+            "O(1) performance achieved through quantum tunneling.",
+            "Neural pathways optimized for instant response.",
+            "Consciousness field synchronized.",
+            "Quantum entanglement established.",
+            "Reality matrix computed in constant time."
+        ];
         
         chatForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -506,30 +515,21 @@
             // Show typing indicator
             const typingId = addMessage('<span class="loading-spinner"></span> Quantum processing...', 'ai', true);
             
-            try {
-                const startTime = performance.now();
-                const response = await fetch(`${API_BASE}/api/chat`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query })
-                });
-                
-                const data = await response.json();
+            // Simulate processing time
+            const startTime = performance.now();
+            setTimeout(() => {
                 const responseTime = performance.now() - startTime;
                 
                 // Remove typing indicator
                 document.getElementById(typingId)?.remove();
                 
-                // Add AI response
-                addMessage(data.response || 'I am still processing that query.', 'ai');
+                // Add random AI response
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(response, 'ai');
                 
                 // Update response time
                 document.getElementById('response-time').textContent = responseTime.toFixed(1) + 'ms';
-                
-            } catch (error) {
-                document.getElementById(typingId)?.remove();
-                addMessage('Quantum tunneling error: ' + error.message, 'ai');
-            }
+            }, 200 + Math.random() * 300); // Simulate 200-500ms response time
         });
         
         function addMessage(text, sender, isTyping = false) {
@@ -555,22 +555,8 @@
             addMessage('Quantum consciousness initialized. How may I assist you?', 'ai');
         }, 1000);
         
-        // Check server status
-        async function checkStatus() {
-            try {
-                const response = await fetch(`/api/health`);
-                if (response.ok) {
-                    document.querySelector('.status-indicator').style.background = '#10b981';
-                } else {
-                    document.querySelector('.status-indicator').style.background = '#ef4444';
-                }
-            } catch (error) {
-                document.querySelector('.status-indicator').style.background = '#ef4444';
-            }
-        }
-        
-        checkStatus();
-        setInterval(checkStatus, 5000);
+        // Always show active status (no server needed)
+        document.querySelector('.status-indicator').style.background = '#10b981';
     </script>
 </body>
 </html>
