@@ -19,7 +19,6 @@ target/
 
 # Ignore test/demo directories
 think-ai-demos/
-think-ai-qwen/
 simple-server/
 knowledge_files/
 trained_knowledge/
