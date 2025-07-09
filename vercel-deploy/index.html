@@ -837,6 +837,11 @@
             if (loading) loading.remove();
         }
         
+        // Configure your GPU server URL here
+        const GPU_SERVER_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:8080'  // Local development
+            : 'http://69.197.178.37:8080';  // Your GPU server IP
+        
         async function sendQuery() {
             const query = queryInput.value.trim();
             if (!query) return;
@@ -849,15 +854,15 @@
             
             try {
                 // First check if server is responding
-                const healthResponse = await fetch('/health').catch(() => null);
+                const healthResponse = await fetch(`${GPU_SERVER_URL}/health`).catch(() => null);
                 if (!healthResponse) {
                     removeLoadingMessage();
-                    addMessage('⚠️ Cannot connect to server. The server may not be running on the expected port.');
-                    console.error('Server health check failed');
+                    addMessage('⚠️ Cannot connect to GPU server. Please ensure the server is running and accessible.');
+                    console.error('GPU server health check failed');
                     return;
                 }
                 
-                const response = await fetch('/api/chat', {
+                const response = await fetch(`${GPU_SERVER_URL}/api/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: query })
