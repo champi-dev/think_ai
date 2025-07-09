@@ -86,7 +86,7 @@ impl ParallelProcessor {
             .unwrap()
             .as_secs();
         let process_info = ProcessInfo {
-            process_type: process_type,
+            process_type,
             state: ProcessState::Running,
             handle: None,
             started_at: now,

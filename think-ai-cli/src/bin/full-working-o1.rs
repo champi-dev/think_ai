@@ -18,7 +18,7 @@ use think_ai_knowledge::{
     response_generator::ComponentResponseGenerator,
     KnowledgeEngine, KnowledgeNode,
 };
-use think_ai_qwen::client::QwenClient;
+use think_ai_qwen::client::{QwenClient, QwenConfig};
 use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{types::LSHConfig, O1VectorIndex};
 use tokio::sync::RwLock;
@@ -77,7 +77,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let o1_engine = Arc::new(O1Engine::new(EngineConfig::default())?);
     let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default())?);
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
-    let qwen_client = Arc::new(QwenClient::new(None));
+    let qwen_client = Arc::new(QwenClient::new(QwenConfig::default()));
 
     let enhanced_quantum_llm = Arc::new(RwLock::new(
         EnhancedQuantumLLMEngine::builder()
@@ -184,8 +184,18 @@ async fn chat_handler(
         }
     }
 
-    // Generate response using O(1) components
-    let response = state.response_generator.generate_response(&request.query);
+    // Generate response using Qwen 1.5B
+    let response = match state
+        .qwen_client
+        .generate_simple(&request.query, None)
+        .await
+    {
+        Ok(qwen_response) => qwen_response,
+        Err(_) => {
+            // Fallback to response generator if Qwen fails
+            state.response_generator.generate_response(&request.query)
+        }
+    };
 
     // Store in cache
     {
