@@ -1,0 +1,116 @@
+# Railway-optimized Dockerfile for Think AI with Ollama
+FROM rust:1.82 as builder
+
+RUN apt-get update && apt-get install -y ca-certificates libssl-dev pkg-config && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY . .
+RUN cargo build --release --bin full-working-o1
+
+# Runtime stage with Ollama
+FROM ubuntu:22.04
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    curl \
+    htop \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Ollama with specific version for stability
+RUN curl -L https://github.com/ollama/ollama/releases/download/v0.1.48/ollama-linux-amd64 -o /usr/local/bin/ollama && \
+    chmod +x /usr/local/bin/ollama
+
+# Copy the built binary and assets
+COPY --from=builder /app/target/release/full-working-o1 /app/full-working-o1
+COPY --from=builder /app/minimal_3d.html /app/minimal_3d.html
+COPY --from=builder /app/static /app/static
+
+# Create optimized startup script for Railway
+RUN echo '#!/bin/bash\n\
+set -e\n\
+\n\
+echo "🚀 Think AI with Ollama Starting on Railway..."\n\
+echo "📊 System Information:"\n\
+echo "  - Memory: $(free -h | grep Mem | awk '\''{print $2}'\'')" \n\
+echo "  - CPU: $(nproc) cores"\n\
+echo "  - Port: ${PORT:-8080}"\n\
+\n\
+# Create Ollama data directory\n\
+mkdir -p /root/.ollama\n\
+\n\
+# Start Ollama with optimized settings for Railway\n\
+echo "🔧 Starting Ollama server with Railway optimizations..."\n\
+OLLAMA_HOST=0.0.0.0:11434 \n\
+OLLAMA_MODELS=/root/.ollama/models \n\
+OLLAMA_KEEP_ALIVE=5m \n\
+ollama serve > /tmp/ollama.log 2>&1 &\n\
+OLLAMA_PID=$!\n\
+\n\
+# Wait for Ollama with detailed status\n\
+echo "⏳ Waiting for Ollama to start..."\n\
+for i in {1..60}; do\n\
+    if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then\n\
+        echo "✅ Ollama is ready after $i seconds!"\n\
+        \n\
+        # Pull Qwen model with retry logic\n\
+        echo "📥 Pulling Qwen 2.5 1.5B model..."\n\
+        RETRY_COUNT=0\n\
+        MAX_RETRIES=3\n\
+        \n\
+        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do\n\
+            if ollama pull qwen2.5:1.5b; then\n\
+                echo "✅ Qwen model ready!"\n\
+                break\n\
+            else\n\
+                RETRY_COUNT=$((RETRY_COUNT + 1))\n\
+                echo "⚠️ Model pull failed, retry $RETRY_COUNT/$MAX_RETRIES..."\n\
+                sleep 5\n\
+            fi\n\
+        done\n\
+        \n\
+        # Test the model\n\
+        echo "🧪 Testing Qwen model..."\n\
+        TEST_RESPONSE=$(echo '\''{"model": "qwen2.5:1.5b", "prompt": "Say hello", "stream": false}'\'' | \n\
+                       curl -s -X POST http://localhost:11434/api/generate \n\
+                       -H "Content-Type: application/json" -d @- 2>/dev/null || echo "{}")\n\
+        \n\
+        if echo "$TEST_RESPONSE" | grep -q "response"; then\n\
+            echo "✅ Qwen model test successful!"\n\
+            echo "📝 Test response: $(echo "$TEST_RESPONSE" | grep -o '\''"response":"[^"]*"'\'' | head -1)"\n\
+        else\n\
+            echo "⚠️ Qwen model test failed, but continuing..."\n\
+        fi\n\
+        break\n\
+    fi\n\
+    \n\
+    # Show progress\n\
+    if [ $((i % 10)) -eq 0 ]; then\n\
+        echo "  Still waiting... ($i/60)"\n\
+        # Check if Ollama crashed\n\
+        if ! kill -0 $OLLAMA_PID 2>/dev/null; then\n\
+            echo "❌ Ollama process died. Checking logs..."\n\
+            tail -20 /tmp/ollama.log 2>/dev/null || echo "No logs available"\n\
+            break\n\
+        fi\n\
+    fi\n\
+    sleep 1\n\
+done\n\
+\n\
+# Final status check\n\
+if ! curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then\n\
+    echo "⚠️ Ollama failed to start, but continuing with fallback responses..."\n\
+    echo "📋 Ollama logs:"\n\
+    tail -50 /tmp/ollama.log 2>/dev/null || echo "No logs available"\n\
+fi\n\
+\n\
+# Start the main application\n\
+echo "🌐 Starting Think AI server on port ${PORT:-8080}..."\n\
+cd /app && exec ./full-working-o1\n\
+' > /app/start.sh && chmod +x /app/start.sh
+
+WORKDIR /app
+EXPOSE 8080
+
+# Use shell form to ensure proper signal handling
+CMD ["/bin/bash", "/app/start.sh"]
