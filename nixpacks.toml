@@ -1,8 +1,8 @@
 [phases.setup]
-nixPkgs = ["rustc", "cargo"]
+nixPkgs = ["rustc", "cargo", "gcc", "pkg-config", "openssl"]
 
 [phases.build]
-cmds = ["cd simple-server && cargo build --release"]
+cmds = ["cargo build --release --bin think-ai-full"]
 
 [start]
-cmd = "./simple-server/target/release/simple-server"
+cmd = "./target/release/think-ai-full"

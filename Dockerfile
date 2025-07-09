@@ -1,49 +1,23 @@
-FROM rust:1.82-slim as builder
+# Use a simpler single-stage build to avoid network issues
+FROM rust:1.82
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    pkg-config \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+# Install minimal dependencies
+RUN apt-get update && apt-get install -y ca-certificates libssl-dev pkg-config && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy all workspace members
-COPY Cargo.toml Cargo.lock ./
-COPY think-ai-core ./think-ai-core
-COPY think-ai-vector ./think-ai-vector
-COPY think-ai-http ./think-ai-http
-COPY think-ai-storage ./think-ai-storage
-COPY think-ai-cli ./think-ai-cli
-COPY think-ai-consciousness ./think-ai-consciousness
-COPY think-ai-cache ./think-ai-cache
-COPY think-ai-utils ./think-ai-utils
-COPY think-ai-knowledge ./think-ai-knowledge
-COPY think-ai-webapp ./think-ai-webapp
-COPY full-system ./full-system
+# Copy all files
+COPY . .
 
-# Build the full system
+# Build only the full-system binary
 RUN cargo build --release --bin think-ai-full
 
-# Runtime stage
-FROM debian:bookworm-slim
+# Create a non-root user
+RUN useradd -m -u 1001 appuser && chown -R appuser:appuser /app
 
-RUN apt-get update && apt-get install -y \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-
-# Copy the binary
-COPY --from=builder /app/target/release/think-ai-full /app/think-ai-full
-
-# Copy static files
-COPY --from=builder /app/full-system/static ./static
-
-# Set environment
-ENV RUST_LOG=info
-
-EXPOSE 8080
+USER appuser
 
 # The PORT env var is set by Railway
-CMD ["./think-ai-full"]
+EXPOSE 8080
+
+CMD ["./target/release/think-ai-full"]

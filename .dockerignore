@@ -1,201 +1,32 @@
-# Elite .dockerignore for O(1) build performance
+# Ignore build artifacts
+target/
+**/target/
 
-# Version control
-.git
+# Ignore git files
+.git/
 .gitignore
 
-# Python
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-.Python
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-.pytest_cache/
-nosetests.xml
-coverage.xml
-*.cover
+# Ignore documentation and scripts
+*.md
+*.sh
 *.log
-.mypy_cache
-.hypothesis
 
-# Virtual environments
-venv/
-env/
-ENV/
-.venv
-think-ai-env/
-
-# Node
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.npm
-.next/
-out/
-dist/
-webapp/node_modules/
-webapp/.next/
-webapp/out/
-webapp/dist/
-
-# IDE
-.idea
-.vscode
+# Ignore IDE files
+.vscode/
+.idea/
 *.swp
 *.swo
-*~
-.project
-.pydevproject
 
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Ignore test/demo directories
+think-ai-demos/
+think-ai-qwen/
+simple-server/
 
-# Project specific
-*.db
-*.sqlite
-*.sqlite3
-logs/
-tmp/
-temp/
-THINK_AI_DEPLOYMENT_*/
-deployment_test_*/
-test_venv/
-
-# Documentation
-docs/_build/
-site/
-
-# Secrets
-.env
-.env.*
-!.env.example
-!.env.production
-
-# Test files
-test_*.py
-demo_*.py
-proof_*.py
-test_*.sh
-!tests/test_*.py
-*.test.js
-*.spec.js
-
-# O(1) Build Optimizations - Exclude heavy directories
-# webapp/ - NEEDED for build, don't exclude!
-examples/
-notebooks/
-scripts/
-benchmarks/
-plugins/
-servers/
-deployment/
-generated_code/
-
-# Exclude all heavy Think AI v3 tarballs
-think_ai_v3_ready_*.tar.gz
-think_ai_*.tar.gz
-
-# Exclude test and evidence files
-EVIDENCE_*.py
-EVIDENCE_*.md
-*_EVIDENCE_*.md
-PRODUCTION_*.json
-PRODUCTION_*.py
-test_*.py
-demo_*.py
-verify_*.py
-quick_*.py
-simple_*.py
-!railway_fast_start.py
-
-# Exclude docs and guides
-*.md
-!README.md
-DEPLOYMENT_*.md
-*_GUIDE.md
-*_DOCUMENTATION.md
-
-# Exclude configs we don't need
-configs/
-config/
-!think_ai/config/
-
-# Exclude all backup files
-*.bak
-*.backup
-*.old
-*.temp
-*.tmp
-
-# Exclude large test result files
-*.json.bak
-*_results*.json
-*_report*.json
-*_logs*.json
-
-# Exclude all cache and build directories
-.o1-ultra-cache/
-.o1-demo-cache/
-railway-cache/
-O1_*
-o1_*
-*.tar.xz
-*.whl
-
-# Build artifacts
-build/
-*.egg-info/
-.eggs/
-wheels/
-*.egg
-
-# Rust build artifacts
-target/
-
-# Keep deployment files
-!deployment/
-
-# Exclude heavy test directories
-test_evidence/
-FULL_TEST_EVIDENCE/
-COMPLETE_TEST_EVIDENCE/
-htmlcov/
-logs/
-archives/
-colab_archive/
-
-# Exclude deployment test directories
-deployment_test_*/
-think_ai_deployment_*/
-THINK_AI_DEPLOYMENT_*/
-
-# Model weights and cache
-*.bin
-*.safetensors
-*.onnx
-*.pt
-*.pth
-*.pkl
-*.h5
-*.model
-
-# Exclude venv everywhere
-**/venv/
-**/.venv/
-
-# Jupyter notebooks
-*.ipynb
-**/*.ipynb
+# Ignore unnecessary crates for the build
+think-ai-server/
+think-ai-coding/
+think-ai-linter/
+think-ai-llm/
+think-ai-llm-simple/
+think-ai-image-gen/
+think-ai-process-manager/
