@@ -14,7 +14,6 @@ use think_ai_knowledge::{
     response_generator::ComponentResponseGenerator,
     self_evaluator::SelfEvaluator,
     KnowledgeEngine,
-};
 use think_ai_qwen::client::QwenClient;
 
 pub struct KnowledgeChat {
@@ -27,20 +26,17 @@ pub struct KnowledgeChat {
     conversation_memory: Arc<EnhancedConversationMemory>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
 }
-
 impl KnowledgeChat {
     pub fn new() -> Self {
-        let ___engine = Arc::new(KnowledgeEngine::new());
-        let ___qwen_builder = Arc::new(QwenKnowledgeBuilder::new(engine.clone()));
-
+        let engine = Arc::new(KnowledgeEngine::new());
+        let qwen_builder = Arc::new(QwenKnowledgeBuilder::new(engine.clone()));
         // Check if we have cached knowledge from Qwen
-        let ___cache_dir = PathBuf::from("./cache");
-        let ___knowledge_files_dir = PathBuf::from("./knowledge_files");
-
+        let cache_dir = PathBuf::from("./cache");
+        let knowledge_files_dir = PathBuf::from("./knowledge_files");
         if cache_dir.exists() && cache_dir.join("response_cache.json").exists() {
             // Load cached knowledge
             println!("📂 Loading Qwen-built knowledge from cache...");
-            let ___dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_files_dir);
+            let dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_files_dir);
             match dynamic_loader.load_all(&engine) {
                 Ok(count) => println!("✅ Loaded {} items from Qwen knowledge", count),
                 Err(e) => println!("⚠️  Could not load knowledge files: {}", e),
@@ -49,47 +45,35 @@ impl KnowledgeChat {
             // Build knowledge from scratch with Qwen
             println!("🧠 Building knowledge from scratch with Qwen...");
             println!("⚡ This will take a moment but will provide O(1) cached responses!");
-
-            let ___builder_clone = qwen_builder.clone();
+            let builder_clone = qwen_builder.clone();
             // Run the knowledge building in a separate thread to avoid runtime conflict
             std::thread::spawn(move || {
-                let ___rt = tokio::runtime::Runtime::new().unwrap();
+                let rt = tokio::runtime::Runtime::new().unwrap();
                 rt.block_on(async {
                     builder_clone.build_from_scratch().await;
                 });
             })
             .join()
             .unwrap();
-
             println!("✅ Qwen knowledge building complete!");
         }
-
-        let ___stats = engine.get_stats();
+        let stats = engine.get_stats();
         println!(
             "✅ Knowledge base ready with {} items across {} domains\n",
             stats.total_nodes,
             stats.domain_distribution.len()
         );
-
         // Initialize conversation memory for long-term contextual dialogue
-        let ___conversation_memory = Arc::new(EnhancedConversationMemory::new(1000, 24));
-
-        let ___response_generator = Arc::new(ComponentResponseGenerator::new_with_memory(
+        let conversation_memory = Arc::new(EnhancedConversationMemory::new(1000, 24));
+        let response_generator = Arc::new(ComponentResponseGenerator::new_with_memory(
             engine.clone(),
             conversation_memory.clone(),
         ));
-        let ___intelligent_selector = Arc::new(IntelligentResponseSelector::new(
-            engine.clone(),
+        let intelligent_selector = Arc::new(IntelligentResponseSelector::new(
             response_generator.clone(),
-        ));
-
         // Initialize self-evaluator for continuous improvement
-        let ___self_evaluator = Arc::new(SelfEvaluator::new(
-            engine.clone(),
-            response_generator.clone(),
-        ));
-
-        let ___chat = Self {
+        let self_evaluator = Arc::new(SelfEvaluator::new(
+        let chat = Self {
             engine,
             qwen_client: Arc::new(QwenClient::new_with_defaults()),
             response_generator,
@@ -99,128 +83,89 @@ impl KnowledgeChat {
             conversation_memory,
             conversation_history: Vec::new(),
         };
-
         // Start self-evaluation system in background
-        let ___evaluator = chat.self_evaluator.clone();
+        let evaluator = chat.self_evaluator.clone();
         tokio::spawn(async move {
             println!("🧠 Starting self-evaluation system...");
             evaluator.start_background_evaluation().await;
         });
-
         chat
     }
-
-    pub async fn process_query(&mut self, query___: &str) -> (String, f64) {
-        let ___start = Instant::now();
-
+    pub async fn process_query(&mut self, query: &str) -> (String, f64) {
+        let start = Instant::now();
         // Handle special commands
         if query.trim().to_lowercase() == "help" {
             return (self.get_help_text(), start.elapsed().as_secs_f64() * 1000.0);
-        }
-
         if query.trim().to_lowercase() == "stats" {
             return (
                 self.get_stats_text(),
                 start.elapsed().as_secs_f64() * 1000.0,
             );
-        }
-
         // Process knowledge query with context
-        let ___contextualized_query = self.add_context_if_needed(query);
-        let ___response = self.generate_response(&contextualized_query).await;
-        let ___elapsed = start.elapsed().as_secs_f64() * 1000.0;
-
+        let contextualized_query = self.add_context_if_needed(query);
+        let response = self.generate_response(&contextualized_query).await;
+        let elapsed = start.elapsed().as_secs_f64() * 1000.0;
         // Store in conversation memory for long-term context
         self.conversation_memory.add_enhanced_turn(query, &response);
-
         // Also keep in local history for backward compatibility
         self.conversation_history
             .push((query.to_string(), response.clone()));
         // Keep only last 10 exchanges
         if self.conversation_history.len() > 10 {
             self.conversation_history.remove(0);
-        }
-
         (response, elapsed)
-    }
-
-    fn add_context_if_needed(&self, query___: &str) -> String {
-        let ___query_lower = query.to_lowercase();
-
+    fn add_context_if_needed(&self, query: &str) -> String {
+        let query_lower = query.to_lowercase();
         // Check if query contains context-dependent words
-        let ___context_words = [
+        let context_words = [
             "it", "its", "that", "this", "they", "their", "them", "those", "these",
         ];
-        let ___needs_context = context_words
+        let needs_context = context_words
             .iter()
             .any(|word| query_lower.split_whitespace().any(|w| w == *word));
-
         if needs_context && !self.conversation_history.is_empty() {
             // Get the last topic discussed
             if let Some((prev_query, prev_response)) = self.conversation_history.last() {
                 // Extract the main topic from previous response
                 if let Some(topic) = self.extract_topic_from_response(prev_response) {
                     // Rewrite query with context
-                    let ___contextualized = query
+                    let contextualized = query
                         .replace("it", &topic)
                         .replace("its", &format!("{}'s", topic))
                         .replace("that", &topic)
                         .replace("this", &topic);
-
                     if contextualized != query {
                         return contextualized;
                     }
                 }
-            }
-        }
-
         query.to_string()
-    }
-
-    fn extract_topic_from_response(&self, response___: &str) -> Option<String> {
+    fn extract_topic_from_response(&self, response: &str) -> Option<String> {
         // Simple heuristic: look for "The X is" or "X is" pattern
         if let Some(start) = response.find("The ") {
             if let Some(is_pos) = response[start..].find(" is") {
-                let ___topic = &response[start + 4..start + is_pos];
+                let topic = &response[start + 4..start + is_pos];
                 if topic.len() < 50 {
                     // Reasonable topic length
                     return Some(topic.to_string());
-                }
-            }
-        }
-
         // Try without "The"
         if response.starts_with(|c: char| c.is_uppercase()) {
             if let Some(is_pos) = response.find(" is") {
-                let ___topic = &response[..is_pos];
+                let topic = &response[..is_pos];
                 if topic.len() < 50 && !topic.contains(' ') {
-                    return Some(topic.to_string());
-                }
-            }
-        }
-
         None
-    }
-
-    async fn generate_response(&self, query___: &str) -> String {
-        let ___query_lower = query.to_lowercase();
-
+    async fn generate_response(&self, query: &str) -> String {
         // Try O(1) cached response as fallback
         if let Some(cached) = self.qwen_builder.get_cached_response(&query_lower).await {
             print!(" [⚡ O(1) Cache]");
             println!();
             return cached;
-        }
-
         // O(1) fast path for system commands and greetings
         match query_lower.as_str() {
             "help" => return self.get_help_text(),
             "stats" => return self.get_stats_text(),
             _ => {}
-        }
-
         // Handle common abbreviations
-        let ___expanded_query = match query_lower.as_str() {
+        let expanded_query = match query_lower.as_str() {
             "js" | "what is js" => "javascript",
             "ts" | "what is ts" => "typescript",
             "py" | "what is py" => "python",
@@ -229,56 +174,40 @@ impl KnowledgeChat {
             "ai" | "what is ai" => "artificial intelligence",
             "ds" | "what is ds" => "data structures",
             _ => query,
-        };
-
         // Use intelligent selector to get best response
         print!("🔄 Thinking");
         std::io::Write::flush(&mut std::io::stdout()).unwrap();
-
         // Show progress indicator
-        let ___stop_progress = Arc::new(AtomicBool::new(false));
-        let ___stop_flag = stop_progress.clone();
-
-        let ___progress_handle = std::thread::spawn(move || {
+        let stop_progress = Arc::new(AtomicBool::new(false));
+        let stop_flag = stop_progress.clone();
+        let progress_handle = std::thread::spawn(move || {
             while !stop_flag.load(Ordering::Relaxed) {
                 std::thread::sleep(std::time::Duration::from_millis(500));
                 if !stop_flag.load(Ordering::Relaxed) {
                     print!(".");
                     std::io::Write::flush(&mut std::io::stdout()).unwrap();
-                }
-            }
-        });
-
         // Generate response using actual knowledge base
-        let ___knowledge_response = self.response_generator.generate_response(expanded_query);
-
+        let knowledge_response = self.response_generator.generate_response(expanded_query);
         // Stop progress indicator
         stop_progress.store(true, Ordering::Relaxed);
-        let ____ = progress_handle.join();
-
+        let _ = progress_handle.join();
         // Check if response contains fallback text and clean it if needed
         if knowledge_response.contains("Additionally, i don't have specific information")
             || knowledge_response.contains("Furthermore, i can help with topics")
         {
             // Extract just the knowledge content, remove fallback text
-            let ___clean_response = knowledge_response
+            let clean_response = knowledge_response
                 .split("Additionally, i don't have specific information")
                 .next()
                 .unwrap_or(&knowledge_response)
                 .split("Furthermore, i can help with topics")
-                .next()
-                .unwrap_or(&knowledge_response)
                 .trim_end_matches(". ")
                 .trim()
                 .to_string();
-
             if clean_response.len() > 50 {
                 print!(" [📚 Enhanced Knowledge]");
                 println!();
                 return clean_response;
-            }
-        }
-
         // CRITICAL: Check for high-quality conversational responses first (Turing test)
         // Perfect responses from Conversational, Identity, Humor, Mathematical components
         if (knowledge_response.contains("Hello! I'm Think AI")
@@ -287,61 +216,38 @@ impl KnowledgeChat {
             || knowledge_response.contains("Here's a joke for you")
             || knowledge_response.contains("=") && knowledge_response.len() < 20)
             && !knowledge_response.contains("I don't have specific information")
-        {
             print!(" [🎯 Perfect Response]");
-            println!();
             return knowledge_response;
-        }
-
         // If we got a good knowledge response without fallback text, use it
         if !knowledge_response.contains("I don't have specific information")
             && !knowledge_response.contains("Could you please elaborate")
             && knowledge_response.len() > 50
-        {
             print!(" [📚 Knowledge Base]");
-            println!();
-            return knowledge_response;
-        }
-
         // Otherwise fall back to Qwen evaluation
-        let ___response = self
+        let response = self
             .qwen_builder
             .generate_evaluated_response(expanded_query)
             .await;
-
         // Show that it's Qwen evaluated
         print!(" [🤖 Qwen Evaluated]");
         println!(); // New line after indicator
-
         response
-    }
-
     // Removed hardcoded direct answers - everything comes from knowledge base
-
     // Removed has_exact_match - not needed for O(1) performance
-
     // Removed complex synthesis - not needed for O(1) performance
-
-    fn generate_fallback_response(&self, query___: &str) -> String {
-        let ___query_lower = query.to_lowercase();
-
+    fn generate_fallback_response(&self, query: &str) -> String {
         // Handle greetings
         if query_lower == "hi" || query_lower == "hello" || query_lower == "hey" {
             return "Hello! I'm Think AI with a knowledge base of science, programming, and more. What would you like to know?".to_string();
-        }
-
         // Handle personal introductions
         if query_lower.starts_with("i'm ") || query_lower.starts_with("i am ") {
             let words: Vec<&str> = query.split_whitespace().collect();
-            let ___name = if words.len() > 1 { words[1] } else { "there" };
+            let name = if words.len() > 1 { words[1] } else { "there" };
             return format!(
                 "Nice to meet you, {}! I'm Think AI. How can I help you today?",
                 name
-            );
-        }
-
         // Try to extract the core concept and suggest related topics
-        let ___stats = self.engine.get_stats();
+        let stats = self.engine.get_stats();
         format!(
             "I don't have specific information about '{}' in my {} knowledge items. \n\n\
             I can help with topics like:\n\
@@ -353,8 +259,6 @@ impl KnowledgeChat {
             Try asking about one of these areas!",
             query, stats.total_nodes
         )
-    }
-
     fn get_help_text(&self) -> String {
         "🧠 Think AI Knowledge System Commands:\n\n\
         • Type any question to query the knowledge base\n\
@@ -369,19 +273,12 @@ impl KnowledgeChat {
         • How do hash tables work?\n\
         • What is the Industrial Revolution?"
             .to_string()
-    }
-
     fn get_stats_text(&self) -> String {
-        let ___stats = self.engine.get_stats();
-        let ___eval_stats = self.self_evaluator.get_evaluation_stats();
+        let eval_stats = self.self_evaluator.get_evaluation_stats();
         let mut domain_info = String::new();
-
-        let ___domain_count = stats.domain_distribution.len();
+        let domain_count = stats.domain_distribution.len();
         for (domain, count) in &stats.domain_distribution {
             domain_info.push_str(&format!("  • {:?}: {} items\n", domain, count));
-        }
-
-        format!(
             "📊 Knowledge Base Statistics:\n\n\
             Total Knowledge Items: {}\n\
             Domains Covered: {}\n\
@@ -393,9 +290,7 @@ impl KnowledgeChat {
             Recent Quality Trend: {:.2}\n\
             Improvement Areas: {}\n\
             Auto-Evaluation Active: {}\n\
-            \n\
             Domain Distribution:\n{}",
-            stats.total_nodes,
             domain_count,
             stats.average_confidence,
             eval_stats.total_evaluations,
@@ -408,6 +303,3 @@ impl KnowledgeChat {
                 "❌ No"
             },
             domain_info
-        )
-    }
-}

@@ -1,0 +1,7 @@
+[build]
+nixpacksPlan = "rust"
+rustVersion = "1.82"
+
+[deploy]
+buildCommand = "cargo build --release"
+startCommand = "./target/release/think-ai-server"

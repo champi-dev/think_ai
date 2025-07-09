@@ -61,12 +61,12 @@ struct FeedbackRecord {
 
 impl AIImageImprover {
     /// Create a new AI Image Improver
-    pub async fn new(cache_dir: &std::path::Path, api_token___: Option<String>) -> Result<Self> {
-        let ___generator = Arc::new(OpenSourceGenerator::new(api_token));
-        let ___cache = Arc::new(ImageCache::new(cache_dir, 10 * 1024 * 1024 * 1024).await?); // 10GB
-        let ___learner = Arc::new(ImageLearner::new(cache_dir).await?);
+    pub async fn new(cache_dir: &std::path::Path, api_token: Option<String>) -> Result<Self> {
+        let generator = Arc::new(OpenSourceGenerator::new(api_token));
+        let cache = Arc::new(ImageCache::new(cache_dir, 10 * 1024 * 1024 * 1024).await?); // 10GB
+        let learner = Arc::new(ImageLearner::new(cache_dir).await?);
 
-        let ___improvement_model = Arc::new(RwLock::new(ImprovementModel {
+        let improvement_model = Arc::new(RwLock::new(ImprovementModel {
             enhancement_strategies: Self::initialize_strategies(),
             style_combinations: Self::initialize_styles(),
             negative_patterns: Self::initialize_negative_patterns(),
@@ -95,7 +95,7 @@ impl AIImageImprover {
         height: Option<u32>,
     ) -> Result<(Vec<u8>, String)> {
         // Get cache key
-        let ___cache_key = self.generate_cache_key(prompt, width, height);
+        let cache_key = self.generate_cache_key(prompt, width, height);
 
         // Check O(1) cache
         if let Some(cached) = self.cache.get(&cache_key).await? {
@@ -104,8 +104,8 @@ impl AIImageImprover {
         }
 
         // Apply AI improvements to prompt
-        let ___improved_prompt = self.apply_ai_improvements(prompt).await?;
-        let ___negative_prompt = self.generate_negative_prompt(prompt).await;
+        let improved_prompt = self.apply_ai_improvements(prompt).await?;
+        let negative_prompt = self.generate_negative_prompt(prompt).await;
 
         println!("🤖 AI Enhanced prompt: {improved_prompt}");
         if let Some(neg) = &negative_prompt {
@@ -113,13 +113,13 @@ impl AIImageImprover {
         }
 
         // Generate image
-        let ___image_data = self
+        let image_data = self
             .generator
             .generate(&improved_prompt, negative_prompt.as_deref(), width, height)
             .await?;
 
         // Store in cache
-        let ___metadata = crate::GenerationMetadata {
+        let metadata = crate::GenerationMetadata {
             prompt: prompt.to_string(),
             enhanced_prompt: improved_prompt.clone(),
             model_used: "open-source".to_string(),
@@ -146,12 +146,12 @@ impl AIImageImprover {
     }
 
     /// Apply AI improvements to the prompt
-    async fn apply_ai_improvements(&self, prompt___: &str) -> Result<String> {
-        let ___model = self.improvement_model.read().await;
+    async fn apply_ai_improvements(&self, prompt: &str) -> Result<String> {
+        let model = self.improvement_model.read().await;
         let mut improved = prompt.to_string();
 
         // Analyze prompt for improvement opportunities
-        let ___prompt_analysis = self.analyze_prompt(prompt);
+        let prompt_analysis = self.analyze_prompt(prompt);
 
         // Apply enhancement strategies based on success rates
         let mut applied_strategies = Vec::new();
@@ -187,8 +187,8 @@ impl AIImageImprover {
     }
 
     /// Generate negative prompt to avoid common issues
-    async fn generate_negative_prompt(&self, prompt___: &str) -> Option<String> {
-        let ___model = self.improvement_model.read().await;
+    async fn generate_negative_prompt(&self, prompt: &str) -> Option<String> {
+        let model = self.improvement_model.read().await;
 
         let mut negative_terms = vec![
             "low quality",
@@ -230,7 +230,7 @@ impl AIImageImprover {
             .await?;
 
         // Record feedback
-        let ___record = FeedbackRecord {
+        let record = FeedbackRecord {
             prompt: prompt.to_string(),
             enhanced_prompt: String::new(), // TODO: Track this
             feedback: feedback.clone(),
@@ -248,16 +248,16 @@ impl AIImageImprover {
             .await?;
 
         // Update metrics
-        let ___is_success = matches!(feedback, UserFeedback::Excellent | UserFeedback::Good);
+        let is_success = matches!(feedback, UserFeedback::Excellent | UserFeedback::Good);
         self.update_metrics(is_success).await;
 
         Ok(())
     }
 
     /// Analyze prompt to determine improvement needs
-    fn analyze_prompt(&self, prompt___: &str) -> PromptAnalysis {
+    fn analyze_prompt(&self, prompt: &str) -> PromptAnalysis {
         let words: Vec<&str> = prompt.split_whitespace().collect();
-        let ___word_count = words.len();
+        let word_count = words.len();
 
         PromptAnalysis {
             needs_detail: word_count < 5,
@@ -271,10 +271,10 @@ impl AIImageImprover {
     }
 
     /// Determine if a strategy should be applied
-    fn should_apply_strategy(&self, prompt: &str, strategy___: &EnhancementStrategy) -> bool {
+    fn should_apply_strategy(&self, prompt: &str, strategy: &EnhancementStrategy) -> bool {
         // Check if the strategy pattern matches the prompt context
-        let ___prompt_lower = prompt.to_lowercase();
-        let ___pattern_lower = strategy.pattern.to_lowercase();
+        let prompt_lower = prompt.to_lowercase();
+        let pattern_lower = strategy.pattern.to_lowercase();
 
         // Simple pattern matching - in production, use NLP
         prompt_lower.contains(&pattern_lower)
@@ -282,7 +282,7 @@ impl AIImageImprover {
     }
 
     /// Apply a specific enhancement strategy
-    fn apply_strategy(&self, prompt: &str, strategy___: &EnhancementStrategy) -> String {
+    fn apply_strategy(&self, prompt: &str, strategy: &EnhancementStrategy) -> String {
         // Apply the strategy based on its examples
         if let Some(example) = strategy.examples.first() {
             format!("{prompt}, {example}")
@@ -300,7 +300,7 @@ impl AIImageImprover {
         let mut model = self.improvement_model.write().await;
 
         // Update style combinations based on feedback
-        let ___score_delta = match feedback {
+        let score_delta = match feedback {
             UserFeedback::Excellent => 0.1,
             UserFeedback::Good => 0.05,
             UserFeedback::Average => -0.02,
@@ -310,7 +310,7 @@ impl AIImageImprover {
         // If we have suggestions, they might be styles to improve
         if let Some(suggestions) = suggestions {
             for suggestion in suggestions {
-                let ___score = model
+                let score = model
                     .style_combinations
                     .entry(suggestion.clone())
                     .or_insert(0.5);
@@ -322,9 +322,9 @@ impl AIImageImprover {
     }
 
     /// Update model metrics
-    async fn update_metrics(&self, is_success___: bool) {
+    async fn update_metrics(&self, is_success: bool) {
         let mut model = self.improvement_model.write().await;
-        let ___metrics = &mut model.model_metrics;
+        let metrics = &mut model.model_metrics;
 
         metrics.total_generations += 1;
         if is_success {
@@ -338,9 +338,9 @@ impl AIImageImprover {
 
         // Calculate improvement rate (comparing recent vs overall performance)
         if metrics.total_generations > 10 {
-            let ___recent_rate = if metrics.total_generations > 100 {
+            let recent_rate = if metrics.total_generations > 100 {
                 // Last 10% of generations
-                let ___recent_window = metrics.total_generations / 10;
+                let recent_window = metrics.total_generations / 10;
                 metrics.successful_generations as f32 / recent_window as f32
             } else {
                 success_rate
@@ -368,11 +368,11 @@ impl AIImageImprover {
 
     /// Get AI learning statistics
     pub async fn get_ai_stats(&self) -> AILearningStats {
-        let ___model = self.improvement_model.read().await;
-        let ___generator_stats = self.generator.get_learning_stats().await;
-        let ___feedback_history = self.feedback_history.read().await;
+        let model = self.improvement_model.read().await;
+        let generator_stats = self.generator.get_learning_stats().await;
+        let feedback_history = self.feedback_history.read().await;
 
-        let ___excellent_feedback = feedback_history
+        let excellent_feedback = feedback_history
             .iter()
             .filter(|r| matches!(r.feedback, UserFeedback::Excellent))
             .count();
@@ -495,8 +495,8 @@ mod tests {
 
     #[tokio::test]
     async fn test_ai_improvement() {
-        let ___temp_dir = TempDir::new().unwrap();
-        let ___improver = AIImageImprover::new(temp_dir.path(), None).await.unwrap();
+        let temp_dir = TempDir::new().unwrap();
+        let improver = AIImageImprover::new(temp_dir.path(), None).await.unwrap();
 
         let (data, enhanced) = improver
             .generate_improved("a simple cat", Some(256), Some(256))

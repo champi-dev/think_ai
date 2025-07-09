@@ -49,8 +49,8 @@ struct GeneratedImageData {
 
 impl LeonardoClient {
     /// Create a new Leonardo AI client
-    pub fn new(api_key: &str, base_url___: &str) -> Self {
-        let ___client = Client::builder()
+    pub fn new(api_key: &str, base_url: &str) -> Self {
+        let client = Client::builder()
             .timeout(Duration::from_secs(300)) // 5 minute timeout for image generation
             .build()
             .expect("Failed to create HTTP client");
@@ -74,7 +74,7 @@ impl LeonardoClient {
         model_id: Option<&str>,
     ) -> Result<(Vec<u8>, (u32, u32))> {
         // Step 1: Initiate generation
-        let ___generation_id = self
+        let generation_id = self
             .initiate_generation(
                 prompt,
                 negative_prompt,
@@ -87,11 +87,11 @@ impl LeonardoClient {
             .await?;
 
         // Step 2: Poll for completion (with exponential backoff)
-        let ___result = self.poll_generation_status(&generation_id).await?;
+        let result = self.poll_generation_status(&generation_id).await?;
 
         // Step 3: Download the generated image
         if let Some(image_data) = result.generated_images.first() {
-            let ___image_bytes = self.download_image(&image_data.url).await?;
+            let image_bytes = self.download_image(&image_data.url).await?;
             Ok((image_bytes, (image_data.width, image_data.height)))
         } else {
             Err(anyhow!("No images generated"))
@@ -108,7 +108,7 @@ impl LeonardoClient {
         guidance_scale: Option<f32>,
         model_id: Option<&str>,
     ) -> Result<String> {
-        let ___request = GenerationRequest {
+        let request = GenerationRequest {
             prompt: prompt.to_string(),
             negative_prompt: negative_prompt.map(|s| s.to_string()),
             width,
@@ -118,7 +118,7 @@ impl LeonardoClient {
             model_id: model_id.map(|s| s.to_string()),
         };
 
-        let ___response = self
+        let response = self
             .client
             .post(format!("{}/generations", self.base_url))
             .header(header::AUTHORIZATION, format!("Bearer {}", self.api_key))
@@ -128,8 +128,8 @@ impl LeonardoClient {
             .await?;
 
         if !response.status().is_success() {
-            let ___status = response.status();
-            let ___error_body = response
+            let status = response.status();
+            let error_body = response
                 .text()
                 .await
                 .unwrap_or_else(|_| "Unable to read error body".to_string());
@@ -144,14 +144,14 @@ impl LeonardoClient {
         Ok(generation_response.generation_id)
     }
 
-    async fn poll_generation_status(&self, generation_id___: &str) -> Result<GenerationResult> {
+    async fn poll_generation_status(&self, generation_id: &str) -> Result<GenerationResult> {
         let mut attempts = 0;
-        let ___max_attempts = 60; // 5 minutes with 5 second intervals
+        let max_attempts = 60; // 5 minutes with 5 second intervals
 
         loop {
             tokio::time::sleep(Duration::from_secs(5)).await;
 
-            let ___response = self
+            let response = self
                 .client
                 .get(format!("{}/generations/{}", self.base_url, generation_id))
                 .header(header::AUTHORIZATION, format!("Bearer {}", self.api_key))
@@ -182,8 +182,8 @@ impl LeonardoClient {
         }
     }
 
-    async fn download_image(&self, url___: &str) -> Result<Vec<u8>> {
-        let ___response = self.client.get(url).send().await?;
+    async fn download_image(&self, url: &str) -> Result<Vec<u8>> {
+        let response = self.client.get(url).send().await?;
 
         if !response.status().is_success() {
             return Err(anyhow!("Failed to download image: {}", response.status()));
@@ -199,7 +199,7 @@ mod tests {
 
     #[test]
     fn test_client_creation() {
-        let ___client = LeonardoClient::new("test_key", "https://api.test.com");
+        let client = LeonardoClient::new("test_key", "https://api.test.com");
         assert_eq!(client.api_key, "test_key");
         assert_eq!(client.base_url, "https://api.test.com");
     }

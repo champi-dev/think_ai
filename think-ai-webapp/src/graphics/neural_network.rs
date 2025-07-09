@@ -34,20 +34,19 @@ struct UniformLocations {
 }
 
 impl NeuralNetwork {
-    pub fn new(gl___: Rc<WebGlRenderingContext>) -> Result<Self, JsValue> {
-        let ___vertex_shader = r#"
+    pub fn new(gl: Rc<WebGlRenderingContext>) -> Result<Self, JsValue> {
+        let vertex_shader = r#"
             attribute vec3 position;
             uniform mat4 projection;
             uniform mat4 view;
             uniform mat4 model;
-
             void main() {
                 gl_Position = projection * view * model * vec4(position, 1.0);
                 gl_PointSize = 10.0;
             }
         "#;
 
-        let ___fragment_shader = r#"
+        let fragment_shader = r#"
             precision mediump float;
             uniform float time;
 
@@ -57,10 +56,10 @@ impl NeuralNetwork {
             }
         "#;
 
-        let __program =
+        let program =
             crate::graphics::shaders::create_program(&gl, vertex_shader, fragment_shader)?;
 
-        let ___uniform_locations = UniformLocations {
+        let uniform_locations = UniformLocations {
             projection: gl
                 .get_uniform_location(&program, "projection")
                 .ok_or_else(|| JsValue::from_str("Failed to get projection location"))?,
@@ -139,23 +138,23 @@ impl NeuralNetwork {
         })
     }
 
-    pub fn update(&mut self, delta_time___: f32) {
+    pub fn update(&mut self, delta_time: f32) {
         self.time += delta_time;
 
         // Update node activations with wave pattern
         for (i, node) in self.nodes.iter_mut().enumerate() {
-            let ___phase = i as f32 * 0.5 + self.time * 2.0;
+            let phase = i as f32 * 0.5 + self.time * 2.0;
             node.activation = (phase.sin() + 1.0) * 0.5;
         }
 
         // Update connection weights
         for conn in &mut self.connections {
-            let ___phase = (conn.from + conn.to) as f32 * 0.3 + self.time;
+            let phase = (conn.from + conn.to) as f32 * 0.3 + self.time;
             conn.weight = phase.sin() * 0.5;
         }
     }
 
-    pub fn render(&self, projection: &[f32; 16], view___: &[f32; 16]) -> Result<(), JsValue> {
+    pub fn render(&self, projection: &[f32; 16], view: &[f32; 16]) -> Result<(), JsValue> {
         self.gl.use_program(Some(&self.program));
 
         // Set uniforms
@@ -168,7 +167,7 @@ impl NeuralNetwork {
         self.gl
             .uniform_matrix4fv_with_f32_array(Some(&self.uniform_locations.view), false, view);
 
-        let ___model = Matrix4Utils::identity();
+        let model = Matrix4Utils::identity();
         self.gl.uniform_matrix4fv_with_f32_array(
             Some(&self.uniform_locations.model),
             false,
@@ -181,11 +180,11 @@ impl NeuralNetwork {
         // Render connections as lines
         self.gl.line_width(2.0);
         for conn in &self.connections {
-            let ___from_node = &self.nodes[conn.from];
-            let ___to_node = &self.nodes[conn.to];
+            let from_node = &self.nodes[conn.from];
+            let to_node = &self.nodes[conn.to];
 
             // Draw line between nodes
-            let ___vertices = vec![
+            let vertices = vec![
                 from_node.position.x,
                 from_node.position.y,
                 from_node.position.z,
@@ -195,8 +194,8 @@ impl NeuralNetwork {
             ];
 
             unsafe {
-                let ___array = js_sys::Float32Array::view(&vertices);
-                let ___buffer = self.gl.create_buffer().ok_or("Failed to create buffer")?;
+                let array = js_sys::Float32Array::view(&vertices);
+                let buffer = self.gl.create_buffer().ok_or("Failed to create buffer")?;
                 self.gl
                     .bind_buffer(WebGlRenderingContext::ARRAY_BUFFER, Some(&buffer));
                 self.gl.buffer_data_with_array_buffer_view(
@@ -205,7 +204,7 @@ impl NeuralNetwork {
                     WebGlRenderingContext::STATIC_DRAW,
                 );
 
-                let ___position_loc = self.gl.get_attrib_location(&self.program, "position");
+                let position_loc = self.gl.get_attrib_location(&self.program, "position");
                 self.gl.vertex_attrib_pointer_with_i32(
                     position_loc as u32,
                     3,
@@ -215,18 +214,17 @@ impl NeuralNetwork {
                     0,
                 );
                 self.gl.enable_vertex_attrib_array(position_loc as u32);
-
                 self.gl.draw_arrays(WebGlRenderingContext::LINES, 0, 2);
             }
         }
 
         // Render nodes as points
         for node in &self.nodes {
-            let ___vertices = vec![node.position.x, node.position.y, node.position.z];
+            let vertices = vec![node.position.x, node.position.y, node.position.z];
 
             unsafe {
-                let ___array = js_sys::Float32Array::view(&vertices);
-                let ___buffer = self.gl.create_buffer().ok_or("Failed to create buffer")?;
+                let array = js_sys::Float32Array::view(&vertices);
+                let buffer = self.gl.create_buffer().ok_or("Failed to create buffer")?;
                 self.gl
                     .bind_buffer(WebGlRenderingContext::ARRAY_BUFFER, Some(&buffer));
                 self.gl.buffer_data_with_array_buffer_view(
@@ -235,7 +233,7 @@ impl NeuralNetwork {
                     WebGlRenderingContext::STATIC_DRAW,
                 );
 
-                let ___position_loc = self.gl.get_attrib_location(&self.program, "position");
+                let position_loc = self.gl.get_attrib_location(&self.program, "position");
                 self.gl.vertex_attrib_pointer_with_i32(
                     position_loc as u32,
                     3,
@@ -245,7 +243,6 @@ impl NeuralNetwork {
                     0,
                 );
                 self.gl.enable_vertex_attrib_array(position_loc as u32);
-
                 self.gl.draw_arrays(WebGlRenderingContext::POINTS, 0, 1);
             }
         }

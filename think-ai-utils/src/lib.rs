@@ -5,10 +5,8 @@
 
 pub mod logging;
 pub mod perf;
-
 use serde::{Deserialize, Serialize};
 use std::time::Instant;
-
 /// Measure the execution time of a closure and return both the result and duration
 pub fn measure<F, T>(f: F) -> (T, std::time::Duration)
 where
@@ -19,7 +17,6 @@ where
     let duration = start.elapsed();
     (result, duration)
 }
-
 /// Measure async execution time
 pub async fn measure_async<F, Fut, T>(f: F) -> (T, std::time::Duration)
 where
@@ -31,7 +28,6 @@ where
     let duration = start.elapsed();
     (result, duration)
 }
-
 /// O(1) performance metrics
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PerfMetrics {
@@ -39,7 +35,6 @@ pub struct PerfMetrics {
     pub duration_ns: u128,
     pub complexity: String,
 }
-
 impl PerfMetrics {
     pub fn new(operation: impl Into<String>, duration: std::time::Duration) -> Self {
         Self {
@@ -48,7 +43,6 @@ impl PerfMetrics {
             complexity: "O(1)".to_string(),
         }
     }
-
     pub fn log(&self) {
         tracing::info!(
             "Performance: {} completed in {}ns ({})",

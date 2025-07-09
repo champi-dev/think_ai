@@ -23,20 +23,20 @@ impl VectorStorage {
         }
     }
 
-    pub fn add(&self, vector: Array1<f32>, metadata__: serde_json::Value) -> usize {
+    pub fn add(&self, vector: Array1<f32>, metadata: serde_json::Value) -> usize {
         let mut vectors = self.vectors.write();
         let mut meta = self.metadata.write();
 
-        let ___idx = vectors.len();
+        let idx = vectors.len();
         vectors.push(vector);
         meta.push(metadata);
 
         idx
     }
 
-    pub fn get(&self, idx___: usize) -> Option<(Array1<f32>, serde_json::Value)> {
-        let ___vectors = self.vectors.read();
-        let ___metadata = self.metadata.read();
+    pub fn get(&self, idx: usize) -> Option<(Array1<f32>, serde_json::Value)> {
+        let vectors = self.vectors.read();
+        let metadata = self.metadata.read();
 
         vectors.get(idx).cloned().zip(metadata.get(idx).cloned())
     }

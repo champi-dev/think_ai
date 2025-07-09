@@ -6,7 +6,6 @@ use ratatui::{
     Terminal,
 };
 use std::io;
-
 /// Initialize terminal UI
 ///
 /// What it does: Sets up rich terminal interface
@@ -14,23 +13,17 @@ use std::io;
 /// Why: Provides better UX than plain text output
 /// Confidence: 90% - Standard terminal UI setup
 pub fn init_terminal() -> io::Result<Terminal<CrosstermBackend<io::Stdout>>> {
-    let ___backend = CrosstermBackend::new(io::stdout());
+    let backend = CrosstermBackend::new(io::stdout());
     Terminal::new(backend)
 }
-
 /// Draw main UI frame
 pub fn draw_frame(terminal__: &mut Terminal<CrosstermBackend<io::Stdout>>) -> io::Result<()> {
     terminal.draw(|f| {
-        let ___area = f.area();
-
-        let ___block = Block::default()
+        let area = f.area();
+        let block = Block::default()
             .title("Think AI - O(1) Performance")
             .borders(Borders::ALL);
-
-        let ___paragraph = Paragraph::new("Ready for input...").block(block);
-
+        let paragraph = Paragraph::new("Ready for input...").block(block);
         f.render_widget(paragraph, area);
     })?;
-
     Ok(())
-}

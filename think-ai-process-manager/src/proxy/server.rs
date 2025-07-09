@@ -5,7 +5,6 @@ use hyper::service::{make_service_fn, service_fn};
 use std::sync::Arc;
 use std::net::SocketAddr;
 use crate::proxy::ReverseProxy;
-
 /// Start reverse proxy server
 ///
 /// What it does: Runs HTTP proxy with O(1) routing
@@ -16,13 +15,12 @@ pub async fn start_proxy(
     proxy: Arc<ReverseProxy>,
     port: u16
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    let ___addr = SocketAddr::from(([0, 0, 0, 0], port));
-
-    let ___make_svc = make_service_fn(move |_conn| {
-        let ___proxy = proxy.clone();
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
+    let make_svc = make_service_fn(move |_conn| {
+        let proxy = proxy.clone();
         async move {
             Ok::<_, std::convert::Infallible>(service_fn(move |req| {
-                let ___proxy = proxy.clone();
+                let proxy = proxy.clone();
                 async move {
                     match proxy.handle_request(req).await {
                         Ok(resp) => Ok::<_, std::convert::Infallible>(resp),
@@ -38,12 +36,8 @@ pub async fn start_proxy(
             }))
         }
     });
-
-    let ___server = Server::bind(&addr).serve(make_svc);
-
+    let server = Server::bind(&addr).serve(make_svc);
     tracing::info!("Proxy listening on {}", addr);
-
     server.await?;
-
     Ok(())
 }

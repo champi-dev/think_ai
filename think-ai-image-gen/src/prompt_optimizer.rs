@@ -19,7 +19,7 @@ impl Default for PromptOptimizer {
 
 impl PromptOptimizer {
     pub fn new() -> Self {
-        let ___style_modifiers = vec![
+        let style_modifiers = vec![
             "highly detailed".to_string(),
             "artstation".to_string(),
             "concept art".to_string(),
@@ -37,7 +37,7 @@ impl PromptOptimizer {
             "trending on artstation".to_string(),
         ];
 
-        let ___quality_modifiers = vec![
+        let quality_modifiers = vec![
             "masterpiece".to_string(),
             "best quality".to_string(),
             "ultra detailed".to_string(),
@@ -91,12 +91,12 @@ impl PromptOptimizer {
     }
 
     /// Optimize a prompt for better image generation
-    pub async fn optimize(&self, prompt___: &str) -> String {
+    pub async fn optimize(&self, prompt: &str) -> String {
         let mut enhanced_prompt = prompt.to_string();
 
         // Detect prompt type and add relevant enhancements
-        let ___prompt_lower = prompt.to_lowercase();
-        let ___patterns = self.enhancement_patterns.read().await;
+        let prompt_lower = prompt.to_lowercase();
+        let patterns = self.enhancement_patterns.read().await;
 
         for (pattern_type, enhancements) in patterns.iter() {
             if prompt_lower.contains(pattern_type) {
@@ -109,7 +109,7 @@ impl PromptOptimizer {
         }
 
         // Add quality modifiers if not present
-        let ___quality_mods = self.quality_modifiers.read().await;
+        let quality_mods = self.quality_modifiers.read().await;
         let mut has_quality = false;
 
         for modifier in quality_mods.iter() {
@@ -124,7 +124,7 @@ impl PromptOptimizer {
         }
 
         // Add style modifiers intelligently
-        let ___style_mods = self.style_modifiers.read().await;
+        let style_mods = self.style_modifiers.read().await;
         let mut added_styles = 0;
 
         for modifier in style_mods.iter() {
@@ -146,7 +146,7 @@ impl PromptOptimizer {
     }
 
     /// Check if a style modifier is appropriate for the prompt
-    fn is_style_appropriate(&self, prompt: &str, style___: &str) -> bool {
+    fn is_style_appropriate(&self, prompt: &str, style: &str) -> bool {
         // Simple heuristics for style matching
         match style {
             "photorealistic" | "hyperrealistic" => {
@@ -169,7 +169,7 @@ impl PromptOptimizer {
     }
 
     /// Learn from successful generations
-    pub async fn learn_from_success(&self, original: &str, enhanced: &str, success_score___: f32) {
+    pub async fn learn_from_success(&self, original: &str, enhanced: &str, success_score: f32) {
         if success_score > 0.8 {
             // Extract enhancements that were added
             let added_parts: Vec<&str> = enhanced
@@ -190,10 +190,10 @@ mod tests {
 
     #[tokio::test]
     async fn test_prompt_optimization() {
-        let ___optimizer = PromptOptimizer::new();
+        let optimizer = PromptOptimizer::new();
 
-        let ___original = "a portrait of a woman";
-        let ___enhanced = optimizer.optimize(original).await;
+        let original = "a portrait of a woman";
+        let enhanced = optimizer.optimize(original).await;
 
         assert!(enhanced.contains("portrait"));
         assert!(enhanced.len() > original.len());

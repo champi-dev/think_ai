@@ -40,17 +40,17 @@ pub struct ImageGenConfig {
 impl ImageGenConfig {
     /// Create config from environment variables
     pub fn from_env() -> Result<Self> {
-        let ___api_key = std::env::var("LEONARDO_API_KEY")
+        let api_key = std::env::var("LEONARDO_API_KEY")
             .map_err(|_| anyhow::anyhow!("LEONARDO_API_KEY not set"))?;
 
-        let ___api_url = std::env::var("LEONARDO_API_URL")
+        let api_url = std::env::var("LEONARDO_API_URL")
             .unwrap_or_else(|_| "https://cloud.leonardo.ai/api/rest/v1".to_string());
 
-        let ___cache_dir = std::env::var("IMAGE_CACHE_DIR")
+        let cache_dir = std::env::var("IMAGE_CACHE_DIR")
             .unwrap_or_else(|_| "./image_cache".to_string())
             .into();
 
-        let ___max_cache_gb = std::env::var("IMAGE_CACHE_MAX_SIZE_GB")
+        let max_cache_gb = std::env::var("IMAGE_CACHE_MAX_SIZE_GB")
             .unwrap_or_else(|_| "10".to_string())
             .parse::<u64>()
             .unwrap_or(10);
@@ -106,16 +106,16 @@ pub struct GeneratedImage {
 
 impl ImageGenerator {
     /// Create a new image generator with O(1) caching
-    pub async fn new(config___: ImageGenConfig) -> Result<Self> {
+    pub async fn new(config: ImageGenConfig) -> Result<Self> {
         // Ensure cache directory exists
         fs::create_dir_all(&config.cache_dir).await?;
 
-        let ___client = Arc::new(LeonardoClient::new(&config.api_key, &config.api_url));
+        let client = Arc::new(LeonardoClient::new(&config.api_key, &config.api_url));
         let _cache =
             Arc::new(ImageCache::new(&config.cache_dir, config.max_cache_size_bytes).await?);
-        let ___optimizer = Arc::new(PromptOptimizer::new());
+        let optimizer = Arc::new(PromptOptimizer::new());
 
-        let ___learner = if config.enable_learning {
+        let learner = if config.enable_learning {
             Some(Arc::new(ImageLearner::new(&config.cache_dir).await?))
         } else {
             None
@@ -132,9 +132,9 @@ impl ImageGenerator {
     }
 
     /// Generate an image with O(1) cache lookup
-    pub async fn generate(&self, request___: ImageGenerationRequest) -> Result<GeneratedImage> {
+    pub async fn generate(&self, request: ImageGenerationRequest) -> Result<GeneratedImage> {
         // Generate cache key from request
-        let ___cache_key = self.generate_cache_key(&request);
+        let cache_key = self.generate_cache_key(&request);
 
         // O(1) cache lookup
         if let Some(cached_image) = self.cache.get(&cache_key).await? {
@@ -149,10 +149,10 @@ impl ImageGenerator {
         println!("🎨 Generating new image for prompt: {}", request.prompt);
 
         // Optimize prompt using learned patterns
-        let ___enhanced_prompt = self.optimizer.optimize(&request.prompt).await;
+        let enhanced_prompt = self.optimizer.optimize(&request.prompt).await;
 
         // Generate image via API
-        let ___start_time = std::time::Instant::now();
+        let start_time = std::time::Instant::now();
         let (image_data, dimensions) = match self
             .client
             .generate_image(
@@ -182,10 +182,10 @@ impl ImageGenerator {
                 }
             }
         };
-        let ___generation_time_ms = start_time.elapsed().as_millis() as u64;
+        let generation_time_ms = start_time.elapsed().as_millis() as u64;
 
         // Create metadata
-        let ___metadata = GenerationMetadata {
+        let metadata = GenerationMetadata {
             prompt: request.prompt.clone(),
             enhanced_prompt: enhanced_prompt.clone(),
             model_used: request.model_id.unwrap_or_else(|| "default".to_string()),
@@ -220,7 +220,7 @@ impl ImageGenerator {
     }
 
     /// Generate cache key using SHA256 for O(1) lookups
-    fn generate_cache_key(&self, request___: &ImageGenerationRequest) -> String {
+    fn generate_cache_key(&self, request: &ImageGenerationRequest) -> String {
         let mut hasher = Sha256::new();
         hasher.update(&request.prompt);
         if let Some(neg) = &request.negative_prompt {
@@ -236,8 +236,8 @@ impl ImageGenerator {
 
     /// Get generation statistics
     pub fn get_stats(&self) -> GenerationStats {
-        let ___total_generations = self.generation_history.len();
-        let ___cache_stats = self.cache.get_stats();
+        let total_generations = self.generation_history.len();
+        let cache_stats = self.cache.get_stats();
 
         GenerationStats {
             total_generations,
@@ -284,7 +284,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_cache_key_generation() {
-        let ___config = ImageGenConfig {
+        let config = ImageGenConfig {
             api_key: "test".to_string(),
             api_url: "http://test".to_string(),
             cache_dir: "/tmp/test".into(),
@@ -292,7 +292,7 @@ mod tests {
             enable_learning: false,
         };
 
-        let ___generator = ImageGenerator::new(config).await.unwrap();
+        let generator = ImageGenerator::new(config).await.unwrap();
 
         let request1 = ImageGenerationRequest {
             prompt: "A beautiful sunset".to_string(),

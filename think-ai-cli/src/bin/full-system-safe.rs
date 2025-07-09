@@ -20,14 +20,12 @@ use think_ai_knowledge::{
     response_generator::ComponentResponseGenerator,
     self_evaluator::SelfEvaluator,
     KnowledgeEngine,
-};
 use think_ai_qwen::client::QwenClient;
 use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{types::LSHConfig, O1VectorIndex};
 use tokio::sync::RwLock;
 use tokio::time::{timeout, Duration};
 use tower_http::cors::CorsLayer;
-
 #[derive(Clone)]
 struct FullSystemState {
     o1_engine: Arc<O1Engine>,
@@ -42,12 +40,9 @@ struct FullSystemState {
     processing_locks: Arc<RwLock<HashMap<String, Arc<tokio::sync::Mutex<()>>>>>,
     initialization_complete: Arc<RwLock<bool>>,
 }
-
 #[derive(Debug, Deserialize)]
 struct ChatRequest {
     query: String,
-}
-
 #[derive(Debug, Serialize)]
 struct ChatResponse {
     response: String,
@@ -55,60 +50,48 @@ struct ChatResponse {
     context: Option<Vec<String>>,
     response_time_ms: f64,
     processing_details: ProcessingDetails,
-}
-
-#[derive(Debug, Serialize)]
 struct ProcessingDetails {
     o1_optimization: String,
     vector_search_time_ms: f64,
     knowledge_retrieval_ms: f64,
     llm_generation_ms: f64,
     cache_hit: bool,
-}
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize logging
     init_tracing();
-
     println!("🧠 Think AI Full System Starting...");
-
     // Kill any existing processes on common ports first
-    let ____ = port_manager::kill_port(8080);
-    let ____ = port_manager::kill_port(8081);
-    let ____ = port_manager::kill_port(3000);
-
+    let _ = port_manager::kill_port(8080);
+    let _ = port_manager::kill_port(8081);
+    let _ = port_manager::kill_port(3000);
     // Get port configuration
-    let ___port = std::env::var("PORT")
+    let port = std::env::var("PORT")
         .ok()
         .and_then(|p| p.parse::<u16>().ok())
         .unwrap_or_else(|| {
             println!("🔧 PORT env var not set, using default port logic");
             port_selector::find_available_port(Some(8080)).unwrap_or_else(|_| {
-                let ____ = port_manager::kill_port(8080);
+                let _ = port_manager::kill_port(8080);
                 8080
             })
         });
-
     // Initialize all components with timeout protection
     println!("⚡ Initializing O(1) optimized components...");
-
     let o1_engine = Arc::new(O1Engine::new(EngineConfig::default()));
     let _vector_index =
         Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
-    let ___knowledge_engine = Arc::new(KnowledgeEngine::new());
-    let ___qwen_client = Arc::new(QwenClient::new_with_defaults());
-    let ___enhanced_quantum_llm = Arc::new(RwLock::new(
+    let knowledge_engine = Arc::new(KnowledgeEngine::new());
+    let qwen_client = Arc::new(QwenClient::new_with_defaults());
+    let enhanced_quantum_llm = Arc::new(RwLock::new(
         EnhancedQuantumLLMEngine::with_knowledge_engine(knowledge_engine.clone()),
     ));
-    let ___response_generator = Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
-    let ___self_evaluator = Arc::new(SelfEvaluator::new(
+    let response_generator = Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
+    let self_evaluator = Arc::new(SelfEvaluator::new(
         knowledge_engine.clone(),
         response_generator.clone(),
-    ));
-
     // Create full system state
-    let ___state = Arc::new(FullSystemState {
+    let state = Arc::new(FullSystemState {
         o1_engine,
         vector_index,
         knowledge_engine: knowledge_engine.clone(),
@@ -121,9 +104,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         processing_locks: Arc::new(RwLock::new(HashMap::new())),
         initialization_complete: Arc::new(RwLock::new(false)),
     });
-
     // Create routes
-    let ___app = Router::new()
+    let app = Router::new()
         .route("/", get(webapp_3d_handler))
         .route("/health", get(health_check))
         .route("/api/chat", post(chat_handler))
@@ -134,9 +116,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/api/vector-search", post(vector_search_handler))
         .layer(CorsLayer::permissive())
         .with_state(state.clone());
-
     println!("🌐 Binding to 0.0.0.0:{}", port);
-    let ___listener = match tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
+    let listener = match tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
         Ok(listener) => {
             println!("✅ Server bound successfully to port {}", port);
             listener
@@ -144,92 +125,62 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Err(e) => {
             eprintln!("❌ Failed to bind to port {}: {}", port, e);
             std::process::exit(1);
-        }
     };
-
     // Start AI initialization in background with timeout protection
-    let ___state_clone = state.clone();
+    let state_clone = state.clone();
     tokio::spawn(async move {
         initialize_full_system_safe(state_clone).await;
-    });
-
     println!("🧠 Full Think AI system with 3D consciousness ready!");
     println!("⚡ O(1) optimizations: Linear Attention + INT8 + Neural Cache");
     println!("🛡️  Timeout protection: No hanging guaranteed");
-
     // Start server
     axum::serve(listener, app).await?;
-
     Ok(())
-}
-
-async fn initialize_full_system_safe(state___: Arc<FullSystemState>) {
+async fn initialize_full_system_safe(state: Arc<FullSystemState>) {
     println!("🧠 Initializing full AI system with timeout protection...");
-
     // Load enhanced knowledge with timeout
     match timeout(Duration::from_secs(30), load_knowledge_safe(&state)).await {
         Ok(_) => println!("📚 Knowledge loading completed"),
         Err(_) => println!("⚠️  Knowledge loading timed out - continuing with basic setup"),
     }
-
     // Initialize Quantum LLM engines with timeout
     match timeout(Duration::from_secs(15), setup_quantum_engines(&state)).await {
         Ok(_) => println!("🤖 Quantum LLM engines initialized"),
         Err(_) => println!("⚠️  Quantum LLM setup timed out - using fallback"),
-    }
-
     // Configure Enhanced Quantum LLM with O(1) optimizations
     match timeout(Duration::from_secs(10), configure_o1_optimizations(&state)).await {
         Ok(_) => println!("⚡ O(1) optimizations configured"),
         Err(_) => println!("⚠️  O(1) optimization setup timed out"),
-    }
-
     // Start controlled self-evaluation (with limits to prevent hanging)
-    let ___evaluator_clone = state.self_evaluator.clone();
-    tokio::spawn(async move {
+    let evaluator_clone = state.self_evaluator.clone();
         controlled_self_evaluation(evaluator_clone).await;
-    });
-
     // Mark initialization complete
     *state.initialization_complete.write().await = true;
     println!("✅ Full AI system initialized with hanging protection");
-}
-
-async fn load_knowledge_safe(state___: &FullSystemState) {
-    let ___knowledge_files_dir = std::path::PathBuf::from("./knowledge_files");
+async fn load_knowledge_safe(state: &FullSystemState) {
+    let knowledge_files_dir = std::path::PathBuf::from("./knowledge_files");
     if knowledge_files_dir.exists() {
-        let ___dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_files_dir);
+        let dynamic_loader = DynamicKnowledgeLoader::new(&knowledge_files_dir);
         match dynamic_loader.load_all(&state.knowledge_engine) {
             Ok(count) => println!("📚 Loaded {} enhanced knowledge items", count),
             Err(e) => println!("⚠️  Could not load enhanced knowledge: {}", e),
-        }
-    }
-}
-
-async fn setup_quantum_engines(state___: &FullSystemState) {
-    let ___quantum_llm = QuantumLLMEngine::with_knowledge_engine(state.knowledge_engine.clone());
+async fn setup_quantum_engines(state: &FullSystemState) {
+    let quantum_llm = QuantumLLMEngine::with_knowledge_engine(state.knowledge_engine.clone());
     state.knowledge_engine.set_quantum_llm(quantum_llm);
-}
-
 async fn configure_o1_optimizations(state: &FullSystemState) {
     let mut enhanced_quantum_llm = state.enhanced_quantum_llm.write().await;
     enhanced_quantum_llm.set_attention_mode(AttentionMechanism::Linear);
     enhanced_quantum_llm.set_precision_mode(PrecisionMode::INT8);
-}
-
-async fn controlled_self_evaluation(evaluator___: Arc<SelfEvaluator>) {
+async fn controlled_self_evaluation(evaluator: Arc<SelfEvaluator>) {
     // Run self-evaluation with strict limits to prevent hanging
     let mut evaluation_count = 0;
-    let ___max_evaluations = 100; // Limit to prevent infinite loops
-
+    let max_evaluations = 100; // Limit to prevent infinite loops
     loop {
         if evaluation_count >= max_evaluations {
             println!("🛡️  Self-evaluation reached safe limit - pausing");
             tokio::time::sleep(Duration::from_secs(300)).await; // 5 minute break
             evaluation_count = 0;
             continue;
-        }
-
         // Run evaluation with timeout (using start_background_evaluation)
         match timeout(Duration::from_secs(30), async {
             evaluator.start_background_evaluation().await;
@@ -244,28 +195,18 @@ async fn controlled_self_evaluation(evaluator___: Arc<SelfEvaluator>) {
             Err(_) => {
                 println!("⚠️  Self-evaluation timed out - continuing safely");
                 tokio::time::sleep(Duration::from_secs(120)).await; // 2 minute cooldown
-            }
-        }
-    }
-}
-
 async fn health_check() -> Result<&'static str, StatusCode> {
     Ok("OK")
-}
-
 async fn webapp_3d_handler() -> Html<String> {
     // Return the full 3D consciousness visualization
     Html(include_str!("../../../minimal_3d.html").to_string())
-}
-
 async fn chat_handler(
     State(state): State<Arc<FullSystemState>>,
     Json(request): Json<ChatRequest>,
 ) -> Result<Json<ChatResponse>, StatusCode> {
     println!("📨 Full system received query: {}", request.query);
-
     // Check if system is initialized
-    let ___is_initialized = *state.initialization_complete.read().await;
+    let is_initialized = *state.initialization_complete.read().await;
     if !is_initialized {
         return Ok(Json(ChatResponse {
             response: "🧠 Full AI systems are still initializing. Please try again in a moment."
@@ -281,12 +222,9 @@ async fn chat_handler(
                 cache_hit: false,
             },
         }));
-    }
-
-    let ___start_time = std::time::Instant::now();
-
+    let start_time = std::time::Instant::now();
     // Full system processing with timeout protection
-    let ___response = match timeout(
+    let response = match timeout(
         Duration::from_secs(15),
         process_full_system_query(&state, &request.query),
     )
@@ -296,18 +234,9 @@ async fn chat_handler(
         Err(_) => FullSystemResponse {
             response: "⏱️ Processing timed out - system remains stable".to_string(),
             sources: vec!["timeout_protection".to_string()],
-            processing_details: ProcessingDetails {
                 o1_optimization: "timeout_protected".to_string(),
-                vector_search_time_ms: 0.0,
-                knowledge_retrieval_ms: 0.0,
-                llm_generation_ms: 0.0,
-                cache_hit: false,
-            },
         },
-    };
-
-    let ___response_time = start_time.elapsed();
-
+    let response_time = start_time.elapsed();
     Ok(Json(ChatResponse {
         response: response.response,
         sources: response.sources,
@@ -315,45 +244,31 @@ async fn chat_handler(
         response_time_ms: response_time.as_secs_f64() * 1000.0,
         processing_details: response.processing_details,
     }))
-}
-
 struct FullSystemResponse {
-    response: String,
-    sources: Vec<String>,
-    processing_details: ProcessingDetails,
-}
-
-async fn process_full_system_query(state: &FullSystemState, query___: &str) -> FullSystemResponse {
-    let ___start_time = std::time::Instant::now();
-
+async fn process_full_system_query(state: &FullSystemState, query: &str) -> FullSystemResponse {
     // O(1) Vector search (convert query to vector for demo)
-    let ___vector_start = std::time::Instant::now();
+    let vector_start = std::time::Instant::now();
     let query_vector: Vec<f32> = query
         .chars()
         .take(128)
         .map(|c| c as u8 as f32)
         .chain(std::iter::repeat(0.0))
-        .take(128)
         .collect();
-    let ____vector_results = state
+    let _vector_results = state
         .vector_index
         .search(query_vector, 5)
         .unwrap_or_default();
-    let ___vector_time = vector_start.elapsed();
-
+    let vector_time = vector_start.elapsed();
     // Knowledge retrieval
-    let ___knowledge_start = std::time::Instant::now();
-    let ____knowledge_nodes = state.knowledge_engine.query(query).unwrap_or_default();
-    let ___knowledge_time = knowledge_start.elapsed();
-
+    let knowledge_start = std::time::Instant::now();
+    let _knowledge_nodes = state.knowledge_engine.query(query).unwrap_or_default();
+    let knowledge_time = knowledge_start.elapsed();
     // Enhanced Quantum LLM generation
-    let ___llm_start = std::time::Instant::now();
-    let ___response = {
-        let ___enhanced_llm = state.enhanced_quantum_llm.read().await;
+    let llm_start = std::time::Instant::now();
+    let response = {
+        let enhanced_llm = state.enhanced_quantum_llm.read().await;
         enhanced_llm.generate_response_readonly(query)
-    };
-    let ___llm_time = llm_start.elapsed();
-
+    let llm_time = llm_start.elapsed();
     FullSystemResponse {
         response,
         sources: vec![
@@ -367,25 +282,18 @@ async fn process_full_system_query(state: &FullSystemState, query___: &str) -> F
             knowledge_retrieval_ms: knowledge_time.as_secs_f64() * 1000.0,
             llm_generation_ms: llm_time.as_secs_f64() * 1000.0,
             cache_hit: false, // Would check actual cache
-        },
-    }
-}
-
 async fn vector_search_handler(
-    State(state): State<Arc<FullSystemState>>,
     Json(request): Json<serde_json::Value>,
 ) -> Result<Json<serde_json::Value>, StatusCode> {
-    let ___query = request.get("query").and_then(|q| q.as_str()).unwrap_or("");
-
+    let query = request.get("query").and_then(|q| q.as_str()).unwrap_or("");
     match timeout(Duration::from_secs(5), async {
         let query_vector: Vec<f32> = query
             .chars()
             .take(128)
             .map(|c| c as u8 as f32)
             .chain(std::iter::repeat(0.0))
-            .take(128)
             .collect();
-        let ___results = state
+        let results = state
             .vector_index
             .search(query_vector, 5)
             .unwrap_or_default();
@@ -393,24 +301,14 @@ async fn vector_search_handler(
             "results": results,
             "query": query,
             "optimization": "O(1) LSH Vector Search"
-        })
     })
-    .await
-    {
         Ok(result) => Ok(Json(result)),
         Err(_) => Ok(Json(serde_json::json!({
             "error": "Vector search timed out",
             "query": query
         }))),
-    }
-}
-
 async fn consciousness_handler(
-    State(state): State<Arc<FullSystemState>>,
-) -> Result<Json<serde_json::Value>, StatusCode> {
-    let ___stats = state.knowledge_engine.get_stats();
-    let ___is_initialized = *state.initialization_complete.read().await;
-
+    let stats = state.knowledge_engine.get_stats();
     Ok(Json(serde_json::json!({
         "consciousness_level": if is_initialized { "fully_aware" } else { "awakening" },
         "knowledge_nodes": stats.total_nodes,
@@ -421,63 +319,36 @@ async fn consciousness_handler(
             "int8_quantization": "active",
             "neural_cache": "active",
             "vector_search": "o1_lsh_enabled"
-        },
         "visualization": "3d_consciousness_active"
     })))
-}
-
 async fn stats_handler(
-    State(state): State<Arc<FullSystemState>>,
-) -> Result<Json<serde_json::Value>, StatusCode> {
-    let ___stats = state.knowledge_engine.get_stats();
-    let ___is_initialized = *state.initialization_complete.read().await;
-
-    Ok(Json(serde_json::json!({
         "full_system_status": "✅ Complete Think AI with hanging protection",
         "knowledge_engine": {
             "total_nodes": stats.total_nodes,
             "domain_distribution": stats.domain_distribution,
             "total_knowledge_items": stats.total_knowledge_items,
             "status": if is_initialized { "✅ Fully initialized" } else { "🔄 Initializing..." }
-        },
         "components": {
             "o1_engine": "✅ Active",
             "vector_index": "✅ O(1) LSH enabled",
             "enhanced_llm": "✅ Linear Attention + INT8",
             "self_evaluator": "✅ Controlled evaluation",
             "3d_visualization": "✅ Full consciousness display"
-        },
         "safety": {
             "timeout_protection": "✅ 15 second max response",
             "hanging_prevention": "✅ All operations protected",
             "controlled_evaluation": "✅ Limited and supervised"
-        }
-    })))
-}
-
 async fn evaluation_stats_handler(
-    State(state): State<Arc<FullSystemState>>,
-) -> Result<Json<serde_json::Value>, StatusCode> {
-    let ___eval_stats = state.self_evaluator.get_evaluation_stats();
-
-    Ok(Json(serde_json::json!({
+    let eval_stats = state.self_evaluator.get_evaluation_stats();
         "self_evaluation": {
             "total_evaluations": eval_stats.total_evaluations,
             "average_quality": eval_stats.average_quality,
             "recent_quality": eval_stats.recent_quality,
             "is_running": eval_stats.is_running,
             "safety_mode": "✅ Controlled with timeouts"
-        }
-    })))
-}
-
 async fn performance_stats_handler(
-    State(state): State<Arc<FullSystemState>>,
-) -> Result<Json<serde_json::Value>, StatusCode> {
-    let ___enhanced_llm = state.enhanced_quantum_llm.read().await;
+    let enhanced_llm = state.enhanced_quantum_llm.read().await;
     let (inference_count, avg_latency_ms, cache_hit_rate) = enhanced_llm.get_performance_stats();
-
-    Ok(Json(serde_json::json!({
         "full_system_performance": {
             "system_type": "Complete Think AI with O(1) optimizations",
             "optimization_level": "Linear Attention + INT8 Quantization + Neural Cache + O(1) Vector Search",
@@ -491,7 +362,3 @@ async fn performance_stats_handler(
                 "knowledge_retrieval": "Hash-based O(1) lookup",
                 "llm_generation": "Linear attention O(1) per token",
                 "self_evaluation": "Controlled and limited"
-            }
-        }
-    })))
-}

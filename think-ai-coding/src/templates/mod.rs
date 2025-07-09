@@ -1,7 +1,6 @@
 // Code templates for generation
 
 use std::collections::HashMap;
-
 /// Language-specific code templates
 ///
 /// What it does: Provides code templates for generation
@@ -11,18 +10,14 @@ use std::collections::HashMap;
 pub struct CodeTemplates {
     templates: HashMap<String, Template>,
 }
-
 #[derive(Clone)]
 pub struct Template {
     pub language: String,
     pub pattern: String,
     pub placeholders: Vec<String>,
-}
-
 impl CodeTemplates {
     pub fn new() -> Self {
         let mut templates = HashMap::new();
-
         // Rust function template
         templates.insert("rust_function".to_string(), Template {
             language: "rust".to_string(),
@@ -38,22 +33,12 @@ pub fn {name}({params}) -> {return_type} {
                 "body".to_string(),
             ],
         });
-
         // Python function template
         templates.insert("python_function".to_string(), Template {
             language: "python".to_string(),
             pattern: r#"def {name}({params}) -> {return_type}:
     """{doc}"""
     {body}"#.to_string(),
-            placeholders: vec![
-                "name".to_string(),
-                "params".to_string(),
-                "return_type".to_string(),
-                "doc".to_string(),
-                "body".to_string(),
-            ],
-        });
-
         // JavaScript function template
         templates.insert("javascript_function".to_string(), Template {
             language: "javascript".to_string(),
@@ -61,20 +46,7 @@ pub fn {name}({params}) -> {return_type} {
  * {doc}
  */
 function {name}({params}) {
-    {body}
-}"#.to_string(),
-            placeholders: vec![
-                "doc".to_string(),
-                "name".to_string(),
-                "params".to_string(),
-                "body".to_string(),
-            ],
-        });
-
         Self { templates }
     }
-
-    pub fn get(&self, key___: &str) -> Option<&Template> {
+    pub fn get(&self, key: &str) -> Option<&Template> {
         self.templates.get(key)
-    }
-}

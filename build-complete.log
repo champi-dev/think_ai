@@ -1,0 +1,29 @@
+   Compiling think-ai-utils v0.1.0 (/home/champi/Dev/think_ai/think-ai-utils)
+   Compiling think-ai-qwen v0.1.0 (/home/champi/Dev/think_ai/think-ai-qwen)
+   Compiling think-ai-image-gen v0.1.0 (/home/champi/Dev/think_ai/think-ai-image-gen)
+error: this file contains an unclosed delimiter
+   --> think-ai-image-gen/src/lib.rs:250:3
+    |
+36  | impl ImageGenConfig {
+    |                     - unclosed delimiter
+...
+59  | pub struct ImageGenerator {
+    |                           - unclosed delimiter
+...
+67  | pub struct GenerationMetadata {
+    |                               - unclosed delimiter
+...
+75  | pub struct ImageGenerationRequest {
+    |                                   - unclosed delimiter
+...
+82  | pub struct GeneratedImage {
+    |                           - unclosed delimiter
+...
+86  | impl ImageGenerator {
+    |                     - another 16 unclosed delimiters begin from here
+...
+250 | }
+    |  ^
+
+error: could not compile `think-ai-image-gen` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...

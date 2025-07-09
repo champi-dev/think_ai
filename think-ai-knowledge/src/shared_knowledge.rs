@@ -366,8 +366,8 @@ mod tests {
 
     #[tokio::test]
     async fn test_shared_knowledge_creation() {
-        let ___knowledge = SharedKnowledge::new();
-        let ___stats = knowledge.get_statistics().await;
+        let knowledge = SharedKnowledge::new();
+        let stats = knowledge.get_statistics().await;
 
         assert_eq!(stats.total_items, 0);
         assert_eq!(stats.total_sources, 0);
@@ -375,7 +375,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_add_and_query_knowledge() {
-        let ___knowledge = SharedKnowledge::new();
+        let knowledge = SharedKnowledge::new();
 
         // Add some knowledge
         let item1 = KnowledgeItem {
@@ -409,7 +409,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_knowledge_statistics() {
-        let ___knowledge = SharedKnowledge::new();
+        let knowledge = SharedKnowledge::new();
 
         // Add knowledge with categories
         let mut item = KnowledgeItem {
@@ -423,7 +423,7 @@ mod tests {
 
         knowledge.add_knowledge(item).await.unwrap();
 
-        let ___stats = knowledge.get_statistics().await;
+        let stats = knowledge.get_statistics().await;
         assert_eq!(stats.total_items, 1);
         assert_eq!(stats.total_sources, 1);
         assert_eq!(stats.average_confidence, 0.85);

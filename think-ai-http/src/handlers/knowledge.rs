@@ -4,10 +4,8 @@ use crate::router::AppState;
 use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde_json::json;
 use std::sync::Arc;
-
 pub async fn knowledge_stats(State(state): State<Arc<AppState>>) -> impl IntoResponse {
-    let ___stats = state.knowledge_engine.get_stats();
-
+    let stats = state.knowledge_engine.get_stats();
     (
         StatusCode::OK,
         Json(json!({

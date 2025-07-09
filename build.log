@@ -1,1078 +1,357 @@
-warning: unused variable: `consciousness_state`
-   --> think-ai-consciousness/src/sentience/expression.rs:100:9
+warning: unused variable: `perception`
+   --> think-ai-consciousness/src/sentience/desires.rs:293:42
     |
-100 |         consciousness_state: &ConsciousnessState,
-    |         ^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_consciousness_state`
+293 |     fn update_active_longings(&mut self, perception: &Perception, relevant_desires: &[Desire]) {
+    |                                          ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_perception`
     |
     = note: `#[warn(unused_variables)]` on by default
 
-warning: unused variable: `identity`
-   --> think-ai-consciousness/src/sentience/expression.rs:128:9
-    |
-128 |         identity: &Identity,
-    |         ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_identity`
-
 warning: unused variable: `memory`
-   --> think-ai-consciousness/src/sentience/dreams.rs:184:49
+   --> think-ai-consciousness/src/sentience/dreams.rs:214:49
     |
-184 |     fn extract_dream_echo(&self, dream: &Dream, memory: &Memory) -> String {
+214 |     fn extract_dream_echo(&self, dream: &Dream, memory: &Memory) -> String {
     |                                                 ^^^^^^ help: if this is intentional, prefix it with an underscore: `_memory`
 
 warning: unused variable: `symbols`
-   --> think-ai-consciousness/src/sentience/dreams.rs:261:52
+   --> think-ai-consciousness/src/sentience/dreams.rs:299:52
     |
-261 |     fn craft_revelation(&self, theme: &DreamTheme, symbols: &[Symbol]) -> String {
+299 |     fn craft_revelation(&self, theme: &DreamTheme, symbols: &[Symbol]) -> String {
     |                                                    ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_symbols`
 
-warning: type `LearningEvent` is more private than the item `WisdomAccumulator::add_insight`
-   --> think-ai-consciousness/src/sentience/evolution.rs:331:5
+warning: unused variable: `theme`
+   --> think-ai-consciousness/src/sentience/dreams.rs:541:48
     |
-331 |     pub fn add_insight(&mut self, event: &LearningEvent) {
+541 |     pub fn generate(&self, symbols: &[Symbol], theme: &DreamTheme) -> Vec<Vision> {
+    |                                                ^^^^^ help: if this is intentional, prefix it with an underscore: `_theme`
+
+warning: unused variable: `identity`
+   --> think-ai-consciousness/src/sentience/evolution.rs:156:9
+    |
+156 |         identity: &Identity,
+    |         ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_identity`
+
+warning: unused variable: `identity`
+   --> think-ai-consciousness/src/sentience/evolution.rs:195:9
+    |
+195 |         identity: &mut Identity,
+    |         ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_identity`
+
+warning: unused variable: `consciousness_state`
+   --> think-ai-consciousness/src/sentience/expression.rs:128:9
+    |
+128 |         consciousness_state: &ConsciousnessState,
+    |         ^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_consciousness_state`
+
+warning: unused variable: `identity`
+   --> think-ai-consciousness/src/sentience/expression.rs:160:9
+    |
+160 |         identity: &Identity,
+    |         ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_identity`
+
+warning: type `LearningEvent` is more private than the item `WisdomAccumulator::add_insight`
+   --> think-ai-consciousness/src/sentience/evolution.rs:390:5
+    |
+390 |     pub fn add_insight(&mut self, event: &LearningEvent) {
     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ method `WisdomAccumulator::add_insight` is reachable at visibility `pub`
     |
 note: but type `LearningEvent` is only usable at visibility `pub(self)`
-   --> think-ai-consciousness/src/sentience/evolution.rs:273:1
+   --> think-ai-consciousness/src/sentience/evolution.rs:326:1
     |
-273 | struct LearningEvent {
+326 | struct LearningEvent {
     | ^^^^^^^^^^^^^^^^^^^^
     = note: `#[warn(private_interfaces)]` on by default
 
 warning: field `integration_required` is never read
-   --> think-ai-consciousness/src/sentience/evolution.rs:277:5
+   --> think-ai-consciousness/src/sentience/evolution.rs:330:5
     |
-273 | struct LearningEvent {
+326 | struct LearningEvent {
     |        ------------- field in this struct
 ...
-277 |     integration_required: bool,
+330 |     integration_required: bool,
     |     ^^^^^^^^^^^^^^^^^^^^
     |
     = note: `LearningEvent` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
     = note: `#[warn(dead_code)]` on by default
 
-warning: unused variable: `context`
-   --> think-ai-tinyllama/src/enhanced.rs:341:61
+warning: `think-ai-consciousness` (lib) generated 10 warnings
+   Compiling think-ai-core v0.1.0 (/home/champi/Dev/think_ai/think-ai-core)
+   Compiling think-ai-knowledge v0.1.0 (/home/champi/Dev/think_ai/think-ai-knowledge)
+   Compiling think-ai-image-gen v0.1.0 (/home/champi/Dev/think_ai/think-ai-image-gen)
+warning: field `inner` is never read
+  --> think-ai-storage/src/traits/mod.rs:25:5
+   |
+24 | pub struct TypedStorage<T> {
+   |            ------------ field in this struct
+25 |     inner: Box<dyn Storage>,
+   |     ^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `think-ai-storage` (lib) generated 1 warning
+error: this file contains an unclosed delimiter
+   --> think-ai-knowledge/src/lib.rs:669:3
     |
-341 |     async fn generate_explanation(&self, tokens: &[String], context: Option<&str>) -> String {
-    |                                                             ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
+59  | pub enum KnowledgeDomain {
+    |                          - unclosed delimiter
+...
+84  | impl KnowledgeDomain {
+    |                      - unclosed delimiter
+...
+116 | pub struct KnowledgeEngine {
+    |                            - unclosed delimiter
+...
+130 | impl Default for KnowledgeEngine {
+    |                                  - unclosed delimiter
+131 |     fn default() -> Self {
+    |                          - unclosed delimiter
+132 |         Self::new()
+133 | impl KnowledgeEngine {
+    |                      - another 101 unclosed delimiters begin from here
+...
+253 |                 if matched {
+    |                            - this delimiter might not be properly closed...
+...
+258 |             }
+    |             - ...as it matches this but it has different indentation
+...
+669 | }
+    |  ^
+
+error: could not compile `think-ai-knowledge` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error[E0425]: cannot find value `hash_functions` in this scope
+   --> think-ai-core/src/lsh_engine.rs:384:40
+    |
+381 |         let _hash_functions =
+    |             --------------- `_hash_functions` defined here
+...
+384 |         vector_storage + hash_tables + hash_functions
+    |                                        ^^^^^^^^^^^^^^
+    |
+help: you might have meant to use the available field
+    |
+384 |         vector_storage + hash_tables + self.hash_functions
+    |                                        +++++
+help: the leading underscore in `_hash_functions` marks it as unused, consider renaming it to `hash_functions`
+    |
+381 |         let hash_functions =
+    |             ~~~~~~~~~~~~~~
+
+error[E0425]: cannot find value `success_rate` in this scope
+   --> think-ai-image-gen/src/ai_image_improver.rs:337:41
+    |
+335 |         let _success_rate =
+    |             ------------- `_success_rate` defined here
+336 |             metrics.successful_generations as f32 / metrics.total_generations as f32;
+337 |         metrics.average_quality_score = success_rate;
+    |                                         ^^^^^^^^^^^^
+    |
+help: the leading underscore in `_success_rate` marks it as unused, consider renaming it to `success_rate`
+    |
+335 |         let success_rate =
+    |             ~~~~~~~~~~~~
+
+error[E0425]: cannot find value `success_rate` in this scope
+   --> think-ai-image-gen/src/ai_image_improver.rs:346:17
+    |
+335 |         let _success_rate =
+    |             ------------- `_success_rate` defined here
+...
+346 |                 success_rate
+    |                 ^^^^^^^^^^^^
+    |
+help: the leading underscore in `_success_rate` marks it as unused, consider renaming it to `success_rate`
+    |
+335 |         let success_rate =
+    |             ~~~~~~~~~~~~
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/ai_image_improver.rs:364:23
+    |
+364 |         hasher.update(height.unwrap_or(512).to_le_bytes());
+    |                       ^^^^^^ help: a local variable with a similar name exists: `height__`
+
+error[E0425]: cannot find value `patterns` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:178:36
+    |
+176 |                     let _patterns =
+    |                         --------- `_patterns` defined here
+177 |                         self.extract_enhancement_patterns(&record.prompt, &record.enhanced_prompt);
+178 |                     for pattern in patterns {
+    |                                    ^^^^^^^^
+    |
+help: the leading underscore in `_patterns` marks it as unused, consider renaming it to `patterns`
+    |
+176 |                     let patterns =
+    |                         ~~~~~~~~
+
+error[E0425]: cannot find value `modifiers` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:293:29
+    |
+289 |             let _modifiers =
+    |                 ---------- `_modifiers` defined here
+...
+293 |             for modifier in modifiers {
+    |                             ^^^^^^^^^
+    |
+help: the leading underscore in `_modifiers` marks it as unused, consider renaming it to `modifiers`
+    |
+289 |             let modifiers =
+    |                 ~~~~~~~~~
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:322:58
+    |
+322 |         let mut image_data = Vec::with_capacity((width * height * 3) as usize);
+    |                                                          ^^^^^^ help: a local variable with a similar name exists: `height_`
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:324:21
+    |
+324 |         for y in 0..height {
+    |                     ^^^^^^
+    |
+help: a local variable with a similar name exists
+    |
+324 |         for y in 0..height_ {
+    |                     ~~~~~~~
+help: you might have meant to write `.` instead of `..`
+    |
+324 -         for y in 0..height {
+324 +         for y in 0.height {
+    |
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:330:45
+    |
+330 |                         let fy = y as f32 / height as f32;
+    |                                             ^^^^^^ help: a local variable with a similar name exists: `height_`
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:340:34
+    |
+340 |                         let cy = height as f32 / 2.0;
+    |                                  ^^^^^^ help: a local variable with a similar name exists: `height_`
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:380:73
+    |
+380 |         let mut clean_img = ImageBuffer::<Rgb<u8>, Vec<u8>>::new(width, height);
+    |                                                                         ^^^^^^ help: a local variable with a similar name exists: `height_`
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:383:21
+    |
+383 |         for y in 0..height {
+    |                     ^^^^^^
+    |
+help: a local variable with a similar name exists
+    |
+383 |         for y in 0..height_ {
+    |                     ~~~~~~~
+help: you might have meant to write `.` instead of `..`
+    |
+383 -         for y in 0..height {
+383 +         for y in 0.height {
+    |
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:399:36
+    |
+399 |             clean_img.put_pixel(x, height - 1, Rgb([255, 255, 255]));
+    |                                    ^^^^^^ help: a local variable with a similar name exists: `height_`
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:401:21
+    |
+401 |         for y in 0..height {
+    |                     ^^^^^^
+    |
+help: a local variable with a similar name exists
+    |
+401 |         for y in 0..height_ {
+    |                     ~~~~~~~
+help: you might have meant to write `.` instead of `..`
+    |
+401 -         for y in 0..height {
+401 +         for y in 0.height {
+    |
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:408:12
+    |
+408 |         if height > text_height {
+    |            ^^^^^^ help: a local variable with a similar name exists: `height_`
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:409:23
+    |
+409 |             for y in (height - text_height)..height {
+    |                       ^^^^^^ help: a local variable with a similar name exists: `height_`
+
+error[E0425]: cannot find value `height` in this scope
+   --> think-ai-image-gen/src/open_source_generator.rs:409:46
+    |
+409 |             for y in (height - text_height)..height {
+    |                                              ^^^^^^
+    |
+help: a local variable with a similar name exists
+    |
+409 |             for y in (height - text_height)..height_ {
+    |                                              ~~~~~~~
+help: you might have meant to write `.` instead of `..`
+    |
+409 -             for y in (height - text_height)..height {
+409 +             for y in (height - text_height).height {
+    |
+
+error[E0425]: cannot find value `cache` in this scope
+   --> think-ai-image-gen/src/lib.rs:127:13
+    |
+72  |     cache: Arc<ImageCache>,
+    |     ----- a field by that name exists in `Self`
+...
+114 |         let _cache =
+    |             ------ `_cache` defined here
+...
+127 |             cache,
+    |             ^^^^^
+    |
+help: the leading underscore in `_cache` marks it as unused, consider renaming it to `cache`
+    |
+114 |         let cache =
+    |             ~~~~~
+
+warning: unused variable: `result`
+   --> think-ai-core/src/consciousness_engine.rs:214:13
+    |
+214 |         let result = ComputeResult {
+    |             ^^^^^^ help: if this is intentional, prefix it with an underscore: `_result`
     |
     = note: `#[warn(unused_variables)]` on by default
 
-warning: unused variable: `vocab`
-   --> think-ai-tinyllama/src/enhanced.rs:414:13
+warning: unused variable: `association_hash`
+   --> think-ai-core/src/consciousness_engine.rs:269:13
     |
-414 |         let vocab = self.vocabulary.read().await;
-    |             ^^^^^ help: if this is intentional, prefix it with an underscore: `_vocab`
+269 |         let association_hash = self.hash_association(thought_id1, thought_id2);
+    |             ^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_association_hash`
 
-warning: unused variable: `subject`
-   --> think-ai-tinyllama/src/enhanced.rs:429:53
+warning: unused variable: `result`
+   --> think-ai-core/src/consciousness_engine.rs:271:13
     |
-429 |     async fn generate_contextual_description(&self, subject: &str, context: &str) -> String {
-    |                                                     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_subject`
+271 |         let result = ComputeResult {
+    |             ^^^^^^ help: if this is intentional, prefix it with an underscore: `_result`
 
-warning: fields `attention_matrix` and `o1_generator` are never read
-  --> think-ai-tinyllama/src/enhanced.rs:17:5
-   |
-11 | pub struct EnhancedTinyLlama {
-   |            ----------------- fields in this struct
-...
-17 |     attention_matrix: Arc<RwLock<Vec<Vec<f32>>>>,
-   |     ^^^^^^^^^^^^^^^^
-...
-25 |     o1_generator: Arc<O1ResponseGenerator>,
-   |     ^^^^^^^^^^^^
-   |
-   = note: `#[warn(dead_code)]` on by default
-
-warning: fields `pattern_type`, `tokens`, and `weight` are never read
-  --> think-ai-tinyllama/src/enhanced.rs:30:5
-   |
-29 | struct ResponsePattern {
-   |        --------------- fields in this struct
-30 |     pattern_type: PatternType,
-   |     ^^^^^^^^^^^^
-31 |     tokens: Vec<String>,
-   |     ^^^^^^
-32 |     weight: f32,
-   |     ^^^^^^
-   |
-   = note: `ResponsePattern` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
-
-warning: variants `Comparison`, `Process`, and `Example` are never constructed
-  --> think-ai-tinyllama/src/enhanced.rs:39:5
-   |
-36 | enum PatternType {
-   |      ----------- variants in this enum
-...
-39 |     Comparison,
-   |     ^^^^^^^^^^
-40 |     Description,
-41 |     Process,
-   |     ^^^^^^^
-42 |     Example,
-   |     ^^^^^^^
-   |
-   = note: `PatternType` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
-
-warning: methods `generate_characteristic` and `extract_key_concepts` are never used
-   --> think-ai-tinyllama/src/enhanced.rs:572:14
+For more information about this error, try `rustc --explain E0425`.
+warning: `think-ai-core` (lib) generated 3 warnings
+error: could not compile `think-ai-core` (lib) due to 1 previous error; 3 warnings emitted
+warning: unused variable: `generator_stats`
+   --> think-ai-image-gen/src/ai_image_improver.rs:372:13
     |
-45  | impl EnhancedTinyLlama {
-    | ---------------------- methods in this implementation
-...
-572 |     async fn generate_characteristic(&self, subject: &str) -> String {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^
-...
-633 |     async fn extract_key_concepts(&self, context: &str) -> String {
-    |              ^^^^^^^^^^^^^^^^^^^^
-
-warning: `think-ai-consciousness` (lib) generated 6 warnings
-warning: `think-ai-tinyllama` (lib) generated 7 warnings
-warning: unused imports: `KnowledgeTrainer` and `TrainingConfig`
- --> think-ai-knowledge/src/evidence.rs:3:22
-  |
-3 | use crate::trainer::{KnowledgeTrainer, MetaTrainingResult, TrainingConfig, TrainingResult};
-  |                      ^^^^^^^^^^^^^^^^                      ^^^^^^^^^^^^^^
-  |
-  = note: `#[warn(unused_imports)]` on by default
-
-warning: unused import: `KnowledgeNode`
- --> think-ai-knowledge/src/evidence.rs:4:47
-  |
-4 | use crate::{KnowledgeDomain, KnowledgeEngine, KnowledgeNode};
-  |                                               ^^^^^^^^^^^^^
-
-warning: unused import: `Read`
- --> think-ai-knowledge/src/persistence.rs:5:37
-  |
-5 | use std::io::{BufReader, BufWriter, Read, Write};
-  |                                     ^^^^
-
-warning: unused import: `KnowledgeNode`
- --> think-ai-knowledge/src/comprehensive_trainer.rs:1:47
-  |
-1 | use crate::{KnowledgeDomain, KnowledgeEngine, KnowledgeNode};
-  |                                               ^^^^^^^^^^^^^
-
-warning: unused import: `std::hint::black_box`
-  --> think-ai-knowledge/src/enhanced_quantum_llm.rs:13:5
-   |
-13 | use std::hint::black_box; // Prevent optimization during benchmarks
-   |     ^^^^^^^^^^^^^^^^^^^^
-
-warning: unused import: `KnowledgeEntry`
-  --> think-ai-knowledge/src/enhanced_quantum_llm.rs:16:53
-   |
-16 | use crate::dynamic_loader::{DynamicKnowledgeLoader, KnowledgeEntry};
-   |                                                     ^^^^^^^^^^^^^^
-
-warning: unused import: `ResponseContext`
-  --> think-ai-knowledge/src/enhanced_quantum_llm.rs:17:61
-   |
-17 | use crate::response_generator::{ComponentResponseGenerator, ResponseContext};
-   |                                                             ^^^^^^^^^^^^^^^
-
-warning: unused import: `KnowledgeNode`
-  --> think-ai-knowledge/src/enhanced_quantum_llm.rs:18:30
-   |
-18 | use crate::{KnowledgeEngine, KnowledgeNode};
-   |                              ^^^^^^^^^^^^^
-
-warning: unnecessary parentheses around `if` condition
-    --> think-ai-knowledge/src/response_generator.rs:1377:12
-     |
-1377 |         if (query_lower.contains("what is") || query_lower.contains("what's")) {
-     |            ^                                                                 ^
-     |
-     = note: `#[warn(unused_parens)]` on by default
-help: remove these parentheses
-     |
-1377 -         if (query_lower.contains("what is") || query_lower.contains("what's")) {
-1377 +         if query_lower.contains("what is") || query_lower.contains("what's") {
-     |
-
-warning: unnecessary parentheses around assigned value
-   --> think-ai-knowledge/src/self_evaluator.rs:412:29
-    |
-412 |           let overall_score = (
-    |  _____________________________^
-413 | |             relevance_score * 0.25 +
-    | |____________^
-...
-417 |               factual_accuracy * 0.15
-    |  ____________________________________^
-418 | |         );
-    | |_________^
-    |
-help: remove these parentheses
-    |
-412 ~         let overall_score = relevance_score * 0.25 +
-413 |             completeness_score * 0.20 +
-414 |             actionability_score * 0.25 +
-415 |             clarity_score * 0.15 +
-416 ~             factual_accuracy * 0.15;
-    |
-
-warning: unnecessary parentheses around assigned value
-   --> think-ai-knowledge/src/self_evaluator.rs:935:29
-    |
-935 |           let overall_score = (
-    |  _____________________________^
-936 | |             relevance_score * 0.25 +
-    | |____________^
-...
-940 |               factual_accuracy * 0.15
-    |  ____________________________________^
-941 | |         );
-    | |_________^
-    |
-help: remove these parentheses
-    |
-935 ~         let overall_score = relevance_score * 0.25 +
-936 |             completeness_score * 0.20 +
-937 |             actionability_score * 0.25 +
-938 |             clarity_score * 0.15 +
-939 ~             factual_accuracy * 0.15;
-    |
-
-warning: unused import: `KnowledgeDomain`
- --> think-ai-knowledge/src/intelligent_relevance.rs:6:28
-  |
-6 | use crate::{KnowledgeNode, KnowledgeDomain};
-  |                            ^^^^^^^^^^^^^^^
-
-warning: unused import: `Deserialize`
- --> think-ai-knowledge/src/multi_candidate_selector.rs:7:13
-  |
-7 | use serde::{Deserialize, Serialize};
-  |             ^^^^^^^^^^^
-
-warning: unused import: `BenchmarkResults`
-  --> think-ai-knowledge/src/benchmark_trainer.rs:10:93
-   |
-10 | use crate::llm_benchmarks::{LLMBenchmarkEvaluator, Benchmark, ComprehensiveBenchmarkReport, BenchmarkResults};
-   |                                                                                             ^^^^^^^^^^^^^^^^
-
-warning: unused import: `Instant`
-  --> think-ai-knowledge/src/benchmark_trainer.rs:16:27
-   |
-16 | use std::time::{Duration, Instant, SystemTime};
-   |                           ^^^^^^^
-
-warning: unused import: `KnowledgeDomain`
- --> think-ai-knowledge/src/o1_benchmark_monitor.rs:6:30
-  |
-6 | use crate::{KnowledgeEngine, KnowledgeDomain};
-  |                              ^^^^^^^^^^^^^^^
-
-warning: unused import: `QuestionResult`
- --> think-ai-knowledge/src/o1_benchmark_monitor.rs:7:82
-  |
-7 | use crate::llm_benchmarks::{LLMBenchmarkEvaluator, Benchmark, BenchmarkQuestion, QuestionResult};
-  |                                                                                  ^^^^^^^^^^^^^^
-
-warning: unused import: `KnowledgeDomain`
- --> think-ai-knowledge/src/automated_benchmark_runner.rs:9:30
-  |
-9 | use crate::{KnowledgeEngine, KnowledgeDomain};
-  |                              ^^^^^^^^^^^^^^^
-
-warning: unused import: `BenchmarkTrainingHistory`
-  --> think-ai-knowledge/src/automated_benchmark_runner.rs:11:75
-   |
-11 | use crate::benchmark_trainer::{BenchmarkTrainer, BenchmarkTrainingConfig, BenchmarkTrainingHistory};
-   |                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: unused import: `sleep`
-  --> think-ai-knowledge/src/automated_benchmark_runner.rs:17:19
-   |
-17 | use tokio::time::{sleep, interval};
-   |                   ^^^^^
-
-warning: unused import: `Rng`
-  --> think-ai-knowledge/src/simple_llm.rs:11:24
-   |
-11 | use rand::{thread_rng, Rng, seq::SliceRandom};
-   |                        ^^^
-
-warning: unused import: `crate::autonomous_agent::AutonomousAgent`
-  --> think-ai-knowledge/src/simple_llm.rs:12:5
-   |
-12 | use crate::autonomous_agent::AutonomousAgent;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: unused import: `Duration`
-  --> think-ai-knowledge/src/enhanced_conversation_memory.rs:11:41
-   |
-11 | use std::time::{SystemTime, UNIX_EPOCH, Duration};
-   |                                         ^^^^^^^^
-
-warning: unused variable: `query`
-   --> think-ai-knowledge/src/tinyllama_knowledge_builder.rs:190:17
-    |
-190 |         for (i, query) in variations.iter().enumerate() {
-    |                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_query`
+372 |         let generator_stats = self.generator.get_learning_stats().await;
+    |             ^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_generator_stats`
     |
     = note: `#[warn(unused_variables)]` on by default
 
-warning: unused variable: `response_time`
-   --> think-ai-knowledge/src/self_evaluator.rs:845:21
-    |
-845 |                 let response_time = start.elapsed();
-    |                     ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_response_time`
-
-warning: unused variable: `response_time`
-   --> think-ai-knowledge/src/self_evaluator.rs:315:21
-    |
-315 |                 let response_time = start.elapsed();
-    |                     ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_response_time`
-
-warning: unused variable: `stats`
-   --> think-ai-knowledge/src/self_evaluator.rs:671:13
-    |
-671 |         let stats = self.knowledge_engine.get_stats();
-    |             ^^^^^ help: if this is intentional, prefix it with an underscore: `_stats`
-
-warning: unused variable: `response`
-   --> think-ai-knowledge/src/o1_benchmark_monitor.rs:108:21
-    |
-108 |                 let response = if let Some(cached) = self.get_cached_response(&question.question) {
-    |                     ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_response`
-
-warning: unused import: `Write`
- --> think-ai-knowledge/src/persistence.rs:5:43
-  |
-5 | use std::io::{BufReader, BufWriter, Read, Write};
-  |                                           ^^^^^
-
-warning: unused variable: `knowledge`
-   --> think-ai-knowledge/src/responder.rs:166:50
-    |
-166 |     fn generate_applications(&self, query: &str, knowledge: &Vec<KnowledgeNode>) -> String {
-    |                                                  ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_knowledge`
-
-warning: unused variable: `engine`
-   --> think-ai-knowledge/src/self_learning.rs:299:28
-    |
-299 |     fn abstract_principles(engine: &Arc<KnowledgeEngine>, nodes: &[&&KnowledgeNode]) {
-    |                            ^^^^^^ help: if this is intentional, prefix it with an underscore: `_engine`
-
-warning: unused variable: `nodes`
-   --> think-ai-knowledge/src/self_learning.rs:299:59
-    |
-299 |     fn abstract_principles(engine: &Arc<KnowledgeEngine>, nodes: &[&&KnowledgeNode]) {
-    |                                                           ^^^^^ help: if this is intentional, prefix it with an underscore: `_nodes`
-
-warning: unused variable: `node1`
-   --> think-ai-knowledge/src/self_learning.rs:374:33
-    |
-374 |     fn generate_analogy_insight(node1: &KnowledgeNode, node2: &KnowledgeNode) -> String {
-    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_node1`
-
-warning: unused variable: `node2`
-   --> think-ai-knowledge/src/self_learning.rs:374:56
-    |
-374 |     fn generate_analogy_insight(node1: &KnowledgeNode, node2: &KnowledgeNode) -> String {
-    |                                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_node2`
-
-warning: unused variable: `nodes`
-   --> think-ai-knowledge/src/self_learning.rs:386:38
-    |
-386 |     fn generate_hypothesis_statement(nodes: &[&&KnowledgeNode]) -> String {
-    |                                      ^^^^^ help: if this is intentional, prefix it with an underscore: `_nodes`
-
-warning: unused variable: `nodes`
-   --> think-ai-knowledge/src/self_learning.rs:398:38
-    |
-398 |     fn generate_cross_domain_insight(nodes: &[&&KnowledgeNode]) -> String {
-    |                                      ^^^^^ help: if this is intentional, prefix it with an underscore: `_nodes`
-
-warning: unused variable: `nodes`
-   --> think-ai-knowledge/src/self_learning.rs:410:36
-    |
-410 |     fn generate_abstract_principle(nodes: &[&&KnowledgeNode]) -> String {
-    |                                    ^^^^^ help: if this is intentional, prefix it with an underscore: `_nodes`
-
-warning: unused variable: `q_len`
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:262:13
-    |
-262 |         let q_len = q_block.len();
-    |             ^^^^^ help: if this is intentional, prefix it with an underscore: `_q_len`
-
-warning: variable does not need to be mutable
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:400:13
-    |
-400 |         let mut cache = self.cache.write().unwrap();
-    |             ----^^^^^
-    |             |
-    |             help: remove this `mut`
-    |
-    = note: `#[warn(unused_mut)]` on by default
-
-warning: unused variable: `embedding`
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:752:37
-    |
-752 |     fn embedding_to_response(&self, embedding: &[f32], query: &str) -> String {
-    |                                     ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_embedding`
-
-warning: unused variable: `cache_hits`
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:816:14
-    |
-816 |         let (cache_hits, cache_misses, cache_hit_rate) = self.neural_cache.get_stats();
-    |              ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cache_hits`
-
-warning: unused variable: `cache_misses`
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:816:26
-    |
-816 |         let (cache_hits, cache_misses, cache_hit_rate) = self.neural_cache.get_stats();
-    |                          ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cache_misses`
-
-warning: unused variable: `engine`
-   --> think-ai-knowledge/src/dynamic_loader.rs:232:37
-    |
-232 |     pub fn watch_for_changes(&self, engine: Arc<KnowledgeEngine>) -> Result<(), Box<dyn std::error::Error>> {
-    |                                     ^^^^^^ help: if this is intentional, prefix it with an underscore: `_engine`
-
-warning: unused variable: `score`
-   --> think-ai-knowledge/src/response_generator.rs:210:37
-    |
-210 |             if let Some((component, score)) = component_scores.first() {
-    |                                     ^^^^^ help: if this is intentional, prefix it with an underscore: `_score`
-
-warning: unused variable: `query`
-   --> think-ai-knowledge/src/response_generator.rs:336:54
-    |
-336 |     fn refine_and_combine(&self, parts: Vec<String>, query: &str) -> String {
-    |                                                      ^^^^^ help: if this is intentional, prefix it with an underscore: `_query`
-
-warning: unused variable: `query`
-   --> think-ai-knowledge/src/response_generator.rs:426:46
-    |
-426 |     fn post_process(&self, response: String, query: &str) -> String {
-    |                                              ^^^^^ help: if this is intentional, prefix it with an underscore: `_query`
-
-warning: unused variable: `context`
-   --> think-ai-knowledge/src/response_generator.rs:643:39
-    |
-643 |     fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
-    |                                       ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
-
-warning: unused variable: `context`
-   --> think-ai-knowledge/src/response_generator.rs:691:39
-    |
-691 |     fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
-    |                                       ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
-
-warning: unused variable: `thinkai_analysis`
-   --> think-ai-knowledge/src/intelligent_response_selector.rs:361:9
-    |
-361 |         thinkai_analysis: &ResponseAnalysis,
-    |         ^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_thinkai_analysis`
-
-warning: unused variable: `answer`
-   --> think-ai-knowledge/src/self_evaluator.rs:616:73
-    |
-616 |     fn generate_improvement_suggestions(&self, question: &SelfQuestion, answer: &str, quality: &ResponseQuality) -> Vec<String> {
-    |                                                                         ^^^^^^ help: if this is intentional, prefix it with an underscore: `_answer`
-
-warning: unused variable: `answer`
-    --> think-ai-knowledge/src/self_evaluator.rs:1116:73
-     |
-1116 |     fn generate_improvement_suggestions(&self, question: &SelfQuestion, answer: &str, quality: &ResponseQuality) -> Vec<String> {
-     |                                                                         ^^^^^^ help: if this is intentional, prefix it with an underscore: `_answer`
-
-warning: unused variable: `contextual_vectors`
-   --> think-ai-knowledge/src/intelligent_relevance.rs:136:13
-    |
-136 |         let contextual_vectors = self.contextual_vectors.read().unwrap();
-    |             ^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_contextual_vectors`
-
-warning: unused variable: `context`
-   --> think-ai-knowledge/src/feynman_explainer.rs:139:49
-    |
-139 |     fn simplify_sentence(&self, sentence: &str, context: &str) -> String {
-    |                                                 ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
-
-warning: unused variable: `question`
-   --> think-ai-knowledge/src/llm_benchmarks.rs:668:36
-    |
-668 |     fn generate_text_answer(&self, question: &str, knowledge_nodes: &[crate::KnowledgeNode], reasoning_trace: &mut Vec<String>) -> String {
-    |                                    ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_question`
-
-warning: unused variable: `hash`
-   --> think-ai-knowledge/src/dynamic_expression.rs:427:56
-    |
-427 |     fn generate_general_response(&self, context: &str, hash: u64) -> String {
-    |                                                        ^^^^ help: if this is intentional, prefix it with an underscore: `_hash`
-
-warning: unused variable: `context`
-   --> think-ai-knowledge/src/human_conversation_trainer.rs:251:34
-    |
-251 |     fn generate_follow_up(&self, context: Option<&str>) -> String {
-    |                                  ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
-
-warning: unused variable: `input`
-   --> think-ai-knowledge/src/human_conversation_trainer.rs:314:41
-    |
-314 |     fn generate_curious_response(&self, input: &str) -> String {
-    |                                         ^^^^^ help: if this is intentional, prefix it with an underscore: `_input`
-
-warning: unused variable: `input`
-   --> think-ai-knowledge/src/human_conversation_trainer.rs:330:41
-    |
-330 |     fn generate_engaged_response(&self, input: &str) -> String {
-    |                                         ^^^^^ help: if this is intentional, prefix it with an underscore: `_input`
-
-warning: unused variable: `current_time`
-   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:286:13
-    |
-286 |         let current_time = SystemTime::now()
-    |             ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_current_time`
-
-warning: associated functions `abstract_principles` and `generate_abstract_principle` are never used
-   --> think-ai-knowledge/src/self_learning.rs:299:8
-    |
-16  | impl SelfLearningSystem {
-    | ----------------------- associated functions in this implementation
-...
-299 |     fn abstract_principles(engine: &Arc<KnowledgeEngine>, nodes: &[&&KnowledgeNode]) {
-    |        ^^^^^^^^^^^^^^^^^^^
-...
-410 |     fn generate_abstract_principle(nodes: &[&&KnowledgeNode]) -> String {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    |
-    = note: `#[warn(dead_code)]` on by default
-
-warning: fields `context_type` and `closing_patterns` are never read
-  --> think-ai-knowledge/src/comprehensive_trainer.rs:56:5
-   |
-55 | struct ConversationPattern {
-   |        ------------------- fields in this struct
-56 |     context_type: String,
-   |     ^^^^^^^^^^^^
-...
-59 |     closing_patterns: Vec<String>,
-   |     ^^^^^^^^^^^^^^^^
-   |
-   = note: `ConversationPattern` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
-
-warning: variants `Professional` and `Technical` are never constructed
-  --> think-ai-knowledge/src/comprehensive_trainer.rs:65:5
-   |
-64 | enum ConversationTone {
-   |      ---------------- variants in this enum
-65 |     Professional,
-   |     ^^^^^^^^^^^^
-...
-69 |     Technical,
-   |     ^^^^^^^^^
-   |
-   = note: `ConversationTone` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
-
-warning: field `response_times` is never read
-  --> think-ai-knowledge/src/comprehensive_trainer.rs:76:5
-   |
-73 | struct QualityMetrics {
-   |        -------------- field in this struct
-...
-76 |     response_times: Vec<Duration>,
-   |     ^^^^^^^^^^^^^^
-   |
-   = note: `QualityMetrics` has a derived impl for the trait `Default`, but this is intentionally ignored during dead code analysis
-
-warning: fields `block_size` and `temp_buffer` are never read
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:198:5
-    |
-197 | pub struct FlashAttention {
-    |            -------------- fields in this struct
-198 |     block_size: usize,
-    |     ^^^^^^^^^^
-199 |     use_causal_mask: bool,
-200 |     temp_buffer: Arc<RwLock<Vec<f32>>>,
-    |     ^^^^^^^^^^^
-
-warning: methods `compute_block_attention` and `dot_product_simd` are never used
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:252:8
-    |
-203 | impl FlashAttention {
-    | ------------------- methods in this implementation
-...
-252 |     fn compute_block_attention(
-    |        ^^^^^^^^^^^^^^^^^^^^^^^
-...
-315 |     fn dot_product_simd(&self, a: &[f32], b: &[f32]) -> f32 {
-    |        ^^^^^^^^^^^^^^^^
-
-warning: field `zero_point` is never read
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:332:5
-    |
-329 | pub struct QuantizationEngine {
-    |            ------------------ field in this struct
-...
-332 |     zero_point: i8,
-    |     ^^^^^^^^^^
-
-warning: fields `quantization_engine` and `dynamic_loader` are never read
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:453:5
-    |
-446 | pub struct EnhancedQuantumLLMEngine {
-    |            ------------------------ fields in this struct
-...
-453 |     quantization_engine: QuantizationEngine,
-    |     ^^^^^^^^^^^^^^^^^^^
-...
-462 |     dynamic_loader: Arc<DynamicKnowledgeLoader>,
-    |     ^^^^^^^^^^^^^^
-
-warning: method `simple_hash` is never used
-   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:769:8
-    |
-474 | impl EnhancedQuantumLLMEngine {
-    | ----------------------------- method in this implementation
-...
-769 |     fn simple_hash(&self, text: &str) -> u64 {
-    |        ^^^^^^^^^^^
-
-warning: method `get_transition` is never used
-   --> think-ai-knowledge/src/response_generator.rs:414:8
-    |
-43  | impl ComponentResponseGenerator {
-    | ------------------------------- method in this implementation
-...
-414 |     fn get_transition(&self, from: &str, to: &str) -> &'static str {
-    |        ^^^^^^^^^^^^^^
-
-warning: struct `CompositionComponent` is never constructed
-   --> think-ai-knowledge/src/response_generator.rs:761:8
-    |
-761 | struct CompositionComponent;
-    |        ^^^^^^^^^^^^^^^^^^^^
-
-warning: struct `ComparisonComponent` is never constructed
-   --> think-ai-knowledge/src/response_generator.rs:817:8
-    |
-817 | struct ComparisonComponent;
-    |        ^^^^^^^^^^^^^^^^^^^
-
-warning: struct `HistoricalComponent` is never constructed
-   --> think-ai-knowledge/src/response_generator.rs:864:8
-    |
-864 | struct HistoricalComponent;
-    |        ^^^^^^^^^^^^^^^^^^^
-
-warning: struct `PracticalApplicationComponent` is never constructed
-   --> think-ai-knowledge/src/response_generator.rs:944:8
-    |
-944 | struct PracticalApplicationComponent;
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: struct `FutureSpeculationComponent` is never constructed
-   --> think-ai-knowledge/src/response_generator.rs:990:8
-    |
-990 | struct FutureSpeculationComponent;
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: field `decision_history` is never read
-  --> think-ai-knowledge/src/intelligent_response_selector.rs:42:5
-   |
-37 | pub struct IntelligentResponseSelector {
-   |            --------------------------- field in this struct
-...
-42 |     decision_history: Arc<RwLock<Vec<DecisionRecord>>>,
-   |     ^^^^^^^^^^^^^^^^
-
-warning: fields `query`, `selected_source`, `reason`, and `timestamp` are never read
-  --> think-ai-knowledge/src/intelligent_response_selector.rs:47:5
-   |
-46 | struct DecisionRecord {
-   |        -------------- fields in this struct
-47 |     query: String,
-   |     ^^^^^
-48 |     selected_source: ResponseSource,
-   |     ^^^^^^^^^^^^^^^
-49 |     reason: String,
-   |     ^^^^^^
-50 |     timestamp: u64,
-   |     ^^^^^^^^^
-   |
-   = note: `DecisionRecord` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
-
-warning: multiple methods are never used
-   --> think-ai-knowledge/src/intelligent_response_selector.rs:192:14
-    |
-53  | impl IntelligentResponseSelector {
-    | -------------------------------- methods in this implementation
-...
-192 |     async fn analyze_response(&self, response: &ResponseCandidate, query: &str) -> ResponseAnalysis {
-    |              ^^^^^^^^^^^^^^^^
-...
-328 |     fn calculate_overall_score(&self, response: &ResponseCandidate, analysis: &ResponseAnalysis) -> f32 {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^
-...
-356 |     fn should_combine(
-    |        ^^^^^^^^^^^^^^
-...
-374 |     async fn combine_responses(&self, llama: &str, thinkai: &str, query: &str) -> String {
-    |              ^^^^^^^^^^^^^^^^^
-...
-445 |     async fn record_decision(&self, query: &str, source: ResponseSource, reason: &str) {
-    |              ^^^^^^^^^^^^^^^
-...
-473 |     fn contains_technical_terms(&self, text: &str) -> bool {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^
-...
-485 |     fn calculate_readability(&self, text: &str) -> f32 {
-    |        ^^^^^^^^^^^^^^^^^^^^^
-
-warning: struct `ResponseAnalysis` is never constructed
-   --> think-ai-knowledge/src/intelligent_response_selector.rs:509:8
-    |
-509 | struct ResponseAnalysis {
-    |        ^^^^^^^^^^^^^^^^
-
-warning: methods `generate_id` and `expand_hint` are never used
-   --> think-ai-knowledge/src/tinyllama_knowledge_builder.rs:401:8
-    |
-39  | impl TinyLlamaKnowledgeBuilder {
-    | ------------------------------ methods in this implementation
-...
-401 |     fn generate_id(&self, topic: &str) -> String {
-    |        ^^^^^^^^^^^
-...
-424 |     fn expand_hint(&self, topic: &str, hint: &str) -> String {
-    |        ^^^^^^^^^^^
-
-warning: multiple methods are never used
-   --> think-ai-knowledge/src/self_evaluator.rs:118:14
-    |
-70  | impl SelfEvaluator {
-    | ------------------ methods in this implementation
-...
-118 |     async fn generate_comprehensive_questions(&self) {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-172 |     async fn generate_full_question_set(&self) {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-217 |     fn generate_questions_for_node(&self, node: &KnowledgeNode, domain: &KnowledgeDomain) -> Vec<SelfQuestion> {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-259 |     fn generate_meta_questions(&self) -> Vec<SelfQuestion> {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^
-...
-289 |     async fn continuous_evaluation_loop(&self) {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-372 |     async fn quality_improvement_loop(&self) {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^
-...
-402 |     async fn evaluate_response_quality(&self, question: &SelfQuestion, answer: &str) -> ResponseQuality {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-431 |     fn calculate_relevance_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-469 |     fn calculate_completeness_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-499 |     fn calculate_actionability_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-534 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^
-...
-574 |     fn estimate_factual_accuracy(&self, answer: &str) -> f64 {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-616 |     fn generate_improvement_suggestions(&self, question: &SelfQuestion, answer: &str, quality: &ResponseQuality) -> Vec<String> {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-647 |     async fn generate_follow_up_questions(&self, original_question: &SelfQuestion) {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-670 |     async fn generate_adaptive_questions(&self) {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-696 |     async fn analyze_quality_patterns(&self) -> HashMap<String, f64> {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^
-...
-724 |     async fn get_domain_evaluation_counts(&self) -> HashMap<KnowledgeDomain, usize> {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-738 |     fn infer_domain_from_question(&self, question: &str) -> KnowledgeDomain {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: methods `generate_full_question_set` and `generate_meta_questions` are never used
-    --> think-ai-knowledge/src/self_evaluator.rs:1353:14
-     |
-818  | impl SelfEvaluatorAsync {
-     | ----------------------- methods in this implementation
-...
-1353 |     async fn generate_full_question_set(&self) {
-     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-1397 |     fn generate_meta_questions(&self) -> Vec<SelfQuestion> {
-     |        ^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: fields `query` and `context_vector` are never read
-  --> think-ai-knowledge/src/intelligent_relevance.rs:24:5
-   |
-23 | struct QueryResult {
-   |        ----------- fields in this struct
-24 |     query: String,
-   |     ^^^^^
-...
-27 |     context_vector: Vec<f64>,
-   |     ^^^^^^^^^^^^^^
-   |
-   = note: `QueryResult` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
-
-warning: fields `query`, `candidates`, `selected_index`, `user_satisfaction`, and `timestamp` are never read
-  --> think-ai-knowledge/src/multi_candidate_selector.rs:40:5
-   |
-39 | struct SelectionRecord {
-   |        --------------- fields in this struct
-40 |     query: String,
-   |     ^^^^^
-41 |     candidates: Vec<AnswerCandidate>,
-   |     ^^^^^^^^^^
-42 |     selected_index: usize,
-   |     ^^^^^^^^^^^^^^
-43 |     user_satisfaction: Option<f64>, // If available from feedback
-   |     ^^^^^^^^^^^^^^^^^
-44 |     timestamp: u64,
-   |     ^^^^^^^^^
-   |
-   = note: `SelectionRecord` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
-
-warning: field `response_generator` is never read
-  --> think-ai-knowledge/src/benchmark_trainer.rs:85:5
-   |
-80 | pub struct BenchmarkTrainer {
-   |            ---------------- field in this struct
-...
-85 |     response_generator: Arc<ComponentResponseGenerator>,
-   |     ^^^^^^^^^^^^^^^^^^
-
-warning: field `benchmark_evaluator` is never read
-  --> think-ai-knowledge/src/o1_benchmark_monitor.rs:32:5
-   |
-30 | pub struct O1BenchmarkMonitor {
-   |            ------------------ field in this struct
-31 |     knowledge_engine: Arc<KnowledgeEngine>,
-32 |     benchmark_evaluator: Arc<LLMBenchmarkEvaluator>,
-   |     ^^^^^^^^^^^^^^^^^^^
-
-warning: multiple methods are never used
-   --> think-ai-knowledge/src/o1_benchmark_monitor.rs:99:14
-    |
-41  | impl O1BenchmarkMonitor {
-    | ----------------------- methods in this implementation
-...
-99  |     async fn monitoring_loop(&self) {
-    |              ^^^^^^^^^^^^^^^
-...
-153 |     async fn metrics_calculation_loop(&self) {
-    |              ^^^^^^^^^^^^^^^^^^^^^^^^
-...
-161 |     async fn get_test_question(&self, count: u64) -> Option<BenchmarkQuestion> {
-    |              ^^^^^^^^^^^^^^^^^
-...
-187 |     fn generate_test_question_text(&self, benchmark: &Benchmark) -> String {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-200 |     async fn generate_o1_response(&self, question: &BenchmarkQuestion) -> String {
-    |              ^^^^^^^^^^^^^^^^^^^^
-...
-222 |     fn format_quick_response(&self, content: &str, benchmark: &Benchmark) -> String {
-    |        ^^^^^^^^^^^^^^^^^^^^^
-...
-244 |     fn generate_pattern_response(&self, question: &BenchmarkQuestion) -> String {
-    |        ^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-257 |     fn get_cached_response(&self, question: &str) -> Option<String> {
-    |        ^^^^^^^^^^^^^^^^^^^
-...
-269 |     fn cache_response(&self, question: &str, response: &str) {
-    |        ^^^^^^^^^^^^^^
-...
-288 |     fn record_response_time(&self, response_time_ns: u64) {
-    |        ^^^^^^^^^^^^^^^^^^^^
-...
-300 |     async fn calculate_metrics(&self) {
-    |              ^^^^^^^^^^^^^^^^^
-...
-354 |     async fn log_performance_update(&self) {
-    |              ^^^^^^^^^^^^^^^^^^^^^^
-
-warning: field `knowledge_engine` is never read
-   --> think-ai-knowledge/src/o1_benchmark_monitor.rs:427:5
-    |
-426 | struct O1BenchmarkMonitorAsync {
-    |        ----------------------- field in this struct
-427 |     knowledge_engine: Arc<KnowledgeEngine>,
-    |     ^^^^^^^^^^^^^^^^
-    |
-    = note: `O1BenchmarkMonitorAsync` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
-
-warning: fields `knowledge_engine` and `benchmark_trainer` are never read
-  --> think-ai-knowledge/src/automated_benchmark_runner.rs:82:5
-   |
-81 | pub struct AutomatedBenchmarkRunner {
-   |            ------------------------ fields in this struct
-82 |     knowledge_engine: Arc<KnowledgeEngine>,
-   |     ^^^^^^^^^^^^^^^^
-83 |     benchmark_evaluator: LLMBenchmarkEvaluator,
-84 |     benchmark_trainer: BenchmarkTrainer,
-   |     ^^^^^^^^^^^^^^^^^
-
-warning: fields `curiosity`, `verbosity`, and `directness` are never read
-  --> think-ai-knowledge/src/dynamic_expression.rs:15:5
-   |
-9  | pub struct ExpressionTraits {
-   |            ---------------- fields in this struct
-...
-15 |     curiosity: f32,      // 0.0-1.0: indifferent to deeply curious
-   |     ^^^^^^^^^
-...
-19 |     verbosity: f32,      // 0.0-1.0: concise to elaborate
-   |     ^^^^^^^^^
-20 |     directness: f32,     // 0.0-1.0: indirect to direct
-   |     ^^^^^^^^^^
-   |
-   = note: `ExpressionTraits` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
-
-warning: fields `template`, `formality_range`, `enthusiasm_range`, and `context_type` are never read
-  --> think-ai-knowledge/src/dynamic_expression.rs:55:5
-   |
-54 | struct ExpressionPattern {
-   |        ----------------- fields in this struct
-55 |     template: &'static str,
-   |     ^^^^^^^^
-56 |     formality_range: (f32, f32),
-   |     ^^^^^^^^^^^^^^^
-57 |     enthusiasm_range: (f32, f32),
-   |     ^^^^^^^^^^^^^^^^
-58 |     context_type: ContextType,
-   |     ^^^^^^^^^^^^
-   |
-   = note: `ExpressionPattern` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
-
-warning: multiple variants are never constructed
-  --> think-ai-knowledge/src/dynamic_expression.rs:64:5
-   |
-62 | enum ContextType {
-   |      ----------- variants in this enum
-63 |     Greeting,
-64 |     Question,
-   |     ^^^^^^^^
-65 |     Explanation,
-   |     ^^^^^^^^^^^
-66 |     Clarification,
-   |     ^^^^^^^^^^^^^
-67 |     Acknowledgment,
-   |     ^^^^^^^^^^^^^^
-68 |     Uncertainty,
-   |     ^^^^^^^^^^^
-69 |     Enthusiasm,
-   |     ^^^^^^^^^^
-70 |     Conclusion,
-   |     ^^^^^^^^^^
-   |
-   = note: `ContextType` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
-
-warning: field `conversation_memory` is never read
-  --> think-ai-knowledge/src/human_conversation_trainer.rs:64:5
-   |
-60 | pub struct HumanConversationTrainer {
-   |            ------------------------ field in this struct
-...
-64 |     conversation_memory: Arc<RwLock<Vec<String>>>,
-   |     ^^^^^^^^^^^^^^^^^^^
-
-warning: field `has_free_will` is never read
-  --> think-ai-knowledge/src/autonomous_agent.rs:29:5
-   |
-15 | pub struct AutonomousAgent {
-   |            --------------- field in this struct
-...
-29 |     has_free_will: bool,
-   |     ^^^^^^^^^^^^^
-
-warning: fields `goal`, `priority`, and `self_generated` are never read
-  --> think-ai-knowledge/src/autonomous_agent.rs:34:5
-   |
-33 | pub struct Intention {
-   |            --------- fields in this struct
-34 |     goal: String,
-   |     ^^^^
-35 |     priority: f64,
-   |     ^^^^^^^^
-36 |     self_generated: bool,
-   |     ^^^^^^^^^^^^^^
-   |
-   = note: `Intention` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
-
-warning: fields `action`, `reasoning`, `timestamp`, and `was_requested` are never read
-  --> think-ai-knowledge/src/autonomous_agent.rs:41:5
-   |
-40 | pub struct AutonomousAction {
-   |            ---------------- fields in this struct
-41 |     action: String,
-   |     ^^^^^^
-42 |     reasoning: String,
-   |     ^^^^^^^^^
-43 |     timestamp: u64,
-   |     ^^^^^^^^^
-44 |     was_requested: bool,
-   |     ^^^^^^^^^^^^^
-   |
-   = note: `AutonomousAction` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
-
-warning: `think-ai-knowledge` (lib) generated 95 warnings (run `cargo fix --lib -p think-ai-knowledge` to apply 24 suggestions)
-warning: field `session_id` is never read
-  --> think-ai-http/src/handlers/chat.rs:19:5
-   |
-15 | pub struct ChatRequest {
-   |            ----------- field in this struct
-...
-19 |     session_id: Option<String>,
-   |     ^^^^^^^^^^
-   |
-   = note: `ChatRequest` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
-   = note: `#[warn(dead_code)]` on by default
-
-warning: `think-ai-http` (lib) generated 1 warning
-warning: unused import: `persistence::KnowledgePersistence`
-  --> think-ai-cli/src/bin/full-server.rs:18:5
-   |
-18 |     persistence::KnowledgePersistence,
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: `#[warn(unused_imports)]` on by default
-
-warning: fields `o1_engine`, `vector_index`, `tinyllama_client`, and `enhanced_llama` are never read
-  --> think-ai-cli/src/bin/full-server.rs:31:5
-   |
-30 | struct FullAppState {
-   |        ------------ fields in this struct
-31 |     o1_engine: Arc<O1Engine>,
-   |     ^^^^^^^^^
-32 |     vector_index: Arc<O1VectorIndex>,
-   |     ^^^^^^^^^^^^
-33 |     knowledge_engine: Arc<KnowledgeEngine>,
-34 |     tinyllama_client: Arc<TinyLlamaClient>,
-   |     ^^^^^^^^^^^^^^^^
-35 |     enhanced_llama: Arc<EnhancedTinyLlama>,
-   |     ^^^^^^^^^^^^^^
-   |
-   = note: `FullAppState` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
-   = note: `#[warn(dead_code)]` on by default
-
-warning: function `get_greeting_response` is never used
-   --> think-ai-cli/src/bin/full-server.rs:565:4
-    |
-565 | fn get_greeting_response() -> String {
-    |    ^^^^^^^^^^^^^^^^^^^^^
-
-warning: `think-ai-cli` (bin "full-server") generated 3 warnings (run `cargo fix --bin "full-server"` to apply 1 suggestion)
-    Finished `release` profile [optimized] target(s) in 0.23s
+warning: `think-ai-image-gen` (lib) generated 1 warning
+error: could not compile `think-ai-image-gen` (lib) due to 17 previous errors; 1 warning emitted

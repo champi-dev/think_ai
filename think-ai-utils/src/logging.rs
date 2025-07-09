@@ -1,7 +1,6 @@
 // Functional logging utilities with zero-copy performance
 
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-
 /// Initialize tracing with optimized settings
 pub fn init_tracing() {
     tracing_subscriber::registry()
@@ -12,7 +11,6 @@ pub fn init_tracing() {
         .with(tracing_subscriber::fmt::layer())
         .init();
 }
-
 /// Log with O(1) performance using compile-time optimization
 #[macro_export]
 macro_rules! o1_log {

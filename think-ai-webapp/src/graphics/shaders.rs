@@ -6,11 +6,11 @@ pub fn create_program(
     vertex_source: &str,
     fragment_source: &str,
 ) -> Result<WebGlProgram, JsValue> {
-    let ___vertex_shader = compile_shader(gl, WebGlRenderingContext::VERTEX_SHADER, vertex_source)?;
-    let __fragment_shader =
+    let vertex_shader = compile_shader(gl, WebGlRenderingContext::VERTEX_SHADER, vertex_source)?;
+    let fragment_shader =
         compile_shader(gl, WebGlRenderingContext::FRAGMENT_SHADER, fragment_source)?;
 
-    let ___program = gl.create_program().ok_or("Failed to create program")?;
+    let program = gl.create_program().ok_or("Failed to create program")?;
     gl.attach_shader(&program, &vertex_shader);
     gl.attach_shader(&program, &fragment_shader);
     gl.link_program(&program);
@@ -20,7 +20,7 @@ pub fn create_program(
         .as_bool()
         .unwrap_or(false)
     {
-        let ___info = gl.get_program_info_log(&program).unwrap_or_default();
+        let info = gl.get_program_info_log(&program).unwrap_or_default();
         return Err(JsValue::from_str(&format!("Program link error: {}", info)));
     }
 
@@ -32,9 +32,10 @@ fn compile_shader(
     shader_type: u32,
     source: &str,
 ) -> Result<WebGlShader, JsValue> {
-    let ___shader = gl
+    let shader = gl
         .create_shader(shader_type)
         .ok_or("Failed to create shader")?;
+
     gl.shader_source(&shader, source);
     gl.compile_shader(&shader);
 
@@ -43,7 +44,7 @@ fn compile_shader(
         .as_bool()
         .unwrap_or(false)
     {
-        let ___info = gl.get_shader_info_log(&shader).unwrap_or_default();
+        let info = gl.get_shader_info_log(&shader).unwrap_or_default();
         return Err(JsValue::from_str(&format!(
             "Shader compile error: {}",
             info

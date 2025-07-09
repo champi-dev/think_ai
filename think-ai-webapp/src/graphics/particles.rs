@@ -18,14 +18,13 @@ struct Particle {
 }
 
 impl ParticleSystem {
-    pub fn new(gl: Rc<WebGlRenderingContext>, count___: usize) -> Result<Self, JsValue> {
-        let ___vertex_shader = r#"
+    pub fn new(gl: Rc<WebGlRenderingContext>, count: usize) -> Result<Self, JsValue> {
+        let vertex_shader = r#"
             attribute vec3 position;
             attribute float size;
             uniform mat4 projection;
             uniform mat4 view;
             varying float vLife;
-
             void main() {
                 gl_Position = projection * view * vec4(position, 1.0);
                 gl_PointSize = size;
@@ -33,22 +32,21 @@ impl ParticleSystem {
             }
         "#;
 
-        let ___fragment_shader = r#"
+        let fragment_shader = r#"
             precision mediump float;
             varying float vLife;
 
             void main() {
                 vec2 coord = gl_PointCoord - vec2(0.5);
                 if (length(coord) > 0.5) discard;
-
                 float alpha = vLife * (1.0 - length(coord) * 2.0);
                 gl_FragColor = vec4(0.3, 0.6, 1.0, alpha);
             }
         "#;
 
-        let __program =
+        let program =
             crate::graphics::shaders::create_program(&gl, vertex_shader, fragment_shader)?;
-        let ___position_buffer = gl.create_buffer().ok_or("Failed to create buffer")?;
+        let position_buffer = gl.create_buffer().ok_or("Failed to create buffer")?;
 
         let mut particles = Vec::with_capacity(count);
         for i in 0..count {
@@ -77,7 +75,7 @@ impl ParticleSystem {
         })
     }
 
-    pub fn update(&mut self, delta_time___: f32) {
+    pub fn update(&mut self, delta_time: f32) {
         self.time += delta_time;
 
         for particle in &mut self.particles {
@@ -98,17 +96,18 @@ impl ParticleSystem {
         }
     }
 
-    pub fn render(&self, projection: &[f32; 16], view___: &[f32; 16]) -> Result<(), JsValue> {
+    pub fn render(&self, projection: &[f32; 16], view: &[f32; 16]) -> Result<(), JsValue> {
         self.gl.use_program(Some(&self.program));
 
         // Set uniforms
-        let ___proj_loc = self.gl.get_uniform_location(&self.program, "projection");
-        let ___view_loc = self.gl.get_uniform_location(&self.program, "view");
+        let proj_loc = self.gl.get_uniform_location(&self.program, "projection");
+        let view_loc = self.gl.get_uniform_location(&self.program, "view");
 
         if let Some(loc) = proj_loc {
             self.gl
                 .uniform_matrix4fv_with_f32_array(Some(&loc), false, projection);
         }
+
         if let Some(loc) = view_loc {
             self.gl
                 .uniform_matrix4fv_with_f32_array(Some(&loc), false, view);
@@ -122,7 +121,7 @@ impl ParticleSystem {
 
         // Upload position data
         unsafe {
-            let ___array = js_sys::Float32Array::view(&positions);
+            let array = js_sys::Float32Array::view(&positions);
             self.gl.bind_buffer(
                 WebGlRenderingContext::ARRAY_BUFFER,
                 Some(&self.position_buffer),
@@ -135,7 +134,7 @@ impl ParticleSystem {
         }
 
         // Set attributes
-        let ___position_loc = self.gl.get_attrib_location(&self.program, "position");
+        let position_loc = self.gl.get_attrib_location(&self.program, "position");
         if position_loc >= 0 {
             self.gl.vertex_attrib_pointer_with_i32(
                 position_loc as u32,

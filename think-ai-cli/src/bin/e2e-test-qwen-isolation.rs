@@ -7,7 +7,6 @@ use think_ai_knowledge::{
 };
 use think_ai_qwen::client::QwenClient;
 use tokio::sync::RwLock;
-
 #[derive(Clone)]
 struct IsolatedQwenSession {
     id: String,
@@ -15,9 +14,8 @@ struct IsolatedQwenSession {
     cache: Arc<QwenCache>,
     context: Arc<RwLock<Vec<(String, String)>>>, // (query, response) pairs
 }
-
 impl IsolatedQwenSession {
-    fn new(id___: String) -> Self {
+    fn new(id: String) -> Self {
         Self {
             id,
             qwen_client: Arc::new(QwenClient::new_with_defaults()),
@@ -25,20 +23,17 @@ impl IsolatedQwenSession {
             context: Arc::new(RwLock::new(Vec::new())),
         }
     }
-
-    async fn process(&self, query___: &str) -> String {
+    async fn process(&self, query: &str) -> String {
         // Check cache first
         if let Some(cached) = self.cache.get(query) {
             println!("  💾 Cache hit for session {}", self.id);
             return cached;
-        }
-
         // Build context from conversation history
-        let ___context_history = self.context.read().await;
-        let ___context_str = if context_history.is_empty() {
+        let context_history = self.context.read().await;
+        let context_str = if context_history.is_empty() {
             format!("New conversation with user in session {}", self.id)
         } else {
-            let ___recent = context_history
+            let recent = context_history
                 .iter()
                 .rev()
                 .take(3)
@@ -47,9 +42,8 @@ impl IsolatedQwenSession {
                 .join("\n");
             format!("Session {} conversation history:\n{}", self.id, recent)
         };
-
         // Generate response with context
-        let ___response = match self
+        let response = match self
             .qwen_client
             .generate_simple(query, Some(&context_str))
             .await
@@ -64,49 +58,35 @@ impl IsolatedQwenSession {
                     _ => format!("Let me help you with: {}", query),
                 }
             }
-        };
-
         // Store in cache
         self.cache.store(query, &response);
-
         // Update context
         let mut context = self.context.write().await;
         context.push((query.to_string(), response.clone()));
         if context.len() > 10 {
             context.remove(0);
-        }
-
         response
-    }
-}
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("\n🧪 E2E Test: Qwen AI with Isolated Sessions");
     println!("==========================================");
     println!("Proving that each session maintains proper context\n");
-
     // Create multiple isolated sessions
     let session1 = IsolatedQwenSession::new("User1".to_string());
     let session2 = IsolatedQwenSession::new("User2".to_string());
     let session3 = IsolatedQwenSession::new("User3".to_string());
-
     println!("📋 Test 1: Isolated Contextual Responses");
     println!("---------------------------------------");
-
     // Test the problematic queries
     println!("\n👤 Session 1 - User asks: 'hello'");
     let response1 = session1.process("hello").await;
     println!("🤖 Response: {}", response1);
-
     println!("\n👤 Session 2 - User asks: 'what is love?'");
     let response2 = session2.process("what is love?").await;
     println!("🤖 Response: {}", response2);
-
     println!("\n👤 Session 3 - User asks: 'what is poop?'");
     let response3 = session3.process("what is poop?").await;
     println!("🤖 Response: {}", response3);
-
     // Verify responses
     println!("\n🔍 Verification:");
     let test1_pass = response1.to_lowercase().contains("hello")
@@ -118,82 +98,60 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let test3_pass = response3.to_lowercase().contains("poop")
         || response3.to_lowercase().contains("waste")
         || response3.to_lowercase().contains("feces");
-
     println!(
         "  ✓ 'hello' → greeting: {}",
         if test1_pass { "✅ PASS" } else { "❌ FAIL" }
     );
-    println!(
         "  ✓ 'what is love?' → about love: {}",
         if test2_pass { "✅ PASS" } else { "❌ FAIL" }
-    );
-    println!(
         "  ✓ 'what is poop?' → about waste: {}",
         if test3_pass { "✅ PASS" } else { "❌ FAIL" }
-    );
-
     // Test 2: Context persistence
     println!("\n📋 Test 2: Context Persistence in Sessions");
     println!("-----------------------------------------");
-
     println!("\n👤 Session 1 - Follow-up: 'what's your name?'");
     let response4 = session1.process("what's your name?").await;
     println!("🤖 Response: {}", response4);
-
     println!("\n👤 Session 1 - Follow-up: 'tell me a joke'");
     let response5 = session1.process("tell me a joke").await;
     println!("🤖 Response: {}", response5);
-
     // Test 3: Parallel sessions don't interfere
     println!("\n📋 Test 3: Session Isolation");
     println!("---------------------------");
-
     println!("\n👤 Session 2 - Different context: 'hello'");
     let response6 = session2.process("hello").await;
     println!("🤖 Response: {}", response6);
     println!("  ℹ️  Note: Session 2's 'hello' is independent of Session 1");
-
     // Test 4: Cache performance
     println!("\n📋 Test 4: O(1) Cache Performance");
     println!("--------------------------------");
-
     println!("\n👤 Session 1 - Repeat: 'hello'");
-    let ___start = std::time::Instant::now();
+    let start = std::time::Instant::now();
     let response7 = session1.process("hello").await;
-    let ___elapsed = start.elapsed();
+    let elapsed = start.elapsed();
     println!("🤖 Response: {} (Time: {:?})", response7, elapsed);
-
     // Test 5: Parallel processing simulation
     println!("\n📋 Test 5: Parallel Processing");
     println!("-----------------------------");
-
     let mut handles = vec![];
-
     // Simulate multiple users asking questions simultaneously
-    let ___queries = vec![
+    let queries = vec![
         ("Session4", "what is the sun?"),
         ("Session5", "what is water?"),
         ("Session6", "what is coding?"),
     ];
-
     for (session_id, query) in queries {
-        let ___session = IsolatedQwenSession::new(session_id.to_string());
-        let ___query = query.to_string();
-
-        let ___handle = tokio::spawn(async move {
-            let ___response = session.process(&query).await;
+        let session = IsolatedQwenSession::new(session_id.to_string());
+        let query = query.to_string();
+        let handle = tokio::spawn(async move {
+            let response = session.process(&query).await;
             (session_id, query, response)
         });
-
         handles.push(handle);
-    }
-
     // Wait for all parallel queries
     for handle in handles {
         let (session_id, query, response) = handle.await?;
         println!("\n👤 {} - '{}'\n🤖 {}", session_id, query, response);
-    }
-
     // Summary
     println!("\n🎉 E2E TEST SUMMARY");
     println!("===================");
@@ -206,6 +164,4 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("✅ Parallel sessions work independently");
     println!("✅ Context persists within sessions");
     println!("\n📊 System is working as expected with Qwen AI!");
-
     Ok(())
-}

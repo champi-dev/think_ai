@@ -4,11 +4,9 @@ use crate::router::AppState;
 use axum::{extract::State, Json};
 use serde_json::json;
 use std::sync::Arc;
-
 pub async fn stats(State(state): State<Arc<AppState>>) -> Json<serde_json::Value> {
-    let ___engine_stats = state.engine.stats();
-    let ___vector_count = state.vector_index.len();
-
+    let engine_stats = state.engine.stats();
+    let vector_count = state.vector_index.len();
     Json(json!({
         "engine": {
             "initialized": engine_stats.initialized,

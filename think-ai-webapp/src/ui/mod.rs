@@ -7,33 +7,28 @@
 // - Responsive query interface
 // - Real-time intelligence dashboard
 // - Progressive Web App capabilities
-//
 // Performance: O(1) UI updates with minimal DOM manipulation
 // Confidence: 94% - Modern CSS effects with Rust integration
 
 pub mod components;
 pub mod dashboard;
 pub mod effects;
-
 use wasm_bindgen::prelude::*;
 use web_sys::{Document, Window};
-
 pub struct UiSystem {
     document: Document,
     window: Window,
     dashboard: dashboard::Dashboard,
     effects_manager: effects::EffectManager,
 }
-
 impl UiSystem {
     pub fn new() -> Self {
         let window = web_sys::window().unwrap();
         let document = window.document().unwrap();
-
         Self {
             dashboard: dashboard::Dashboard {
                 query: String::new(),
-                metrics: dashboard::PerformanceMetrics {
+                metrics: components::PerformanceMetrics {
                     response_time: 0.002,
                     complexity: "O(1)".to_string(),
                     confidence: 0.95,
@@ -44,7 +39,6 @@ impl UiSystem {
             window,
         }
     }
-
     pub fn render(&mut self) -> Result<(), JsValue> {
         // O(1) UI rendering pipeline
         self.update_styles()?;
@@ -56,10 +50,8 @@ impl UiSystem {
         // Inject CSS styles for glass morphism and animations
         let style_element = self.document.create_element("style")?;
         style_element.set_text_content(Some(GLASS_MORPHISM_CSS));
-
         let head = self.document.head().ok_or("No head element found")?;
         head.append_child(&style_element)?;
-
         Ok(())
     }
 }

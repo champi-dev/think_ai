@@ -1,79 +1,44 @@
-// Performance measurement utilities with O(1) guarantees
-
 use once_cell::sync::Lazy;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
+use std::time::Instant;
 
-/// Global performance counter with O(1) increment
+/// Global operation counter for O(1) performance tracking
 pub static GLOBAL_OPS: Lazy<Arc<AtomicU64>> = Lazy::new(|| Arc::new(AtomicU64::new(0)));
-
 /// Increment global operation counter - O(1)
 #[inline(always)]
 pub fn inc_ops() {
     GLOBAL_OPS.fetch_add(1, Ordering::Relaxed);
 }
-
 /// Get total operations - O(1)
-#[inline(always)]
 pub fn get_ops() -> u64 {
     GLOBAL_OPS.load(Ordering::Relaxed)
 }
-
 /// Performance guard that measures duration on drop
 pub struct PerfGuard {
     name: &'static str,
-    start: std::time::Instant,
+    start: Instant,
 }
-
 impl PerfGuard {
     pub fn new(name: &'static str) -> Self {
         tracing::trace!("Starting operation: {}", name);
         Self {
             name,
-            start: std::time::Instant::now(),
+            start: Instant::now(),
         }
     }
 }
-
 impl Drop for PerfGuard {
     fn drop(&mut self) {
         let duration = self.start.elapsed();
-        tracing::debug!("Operation '{}' completed in {:?}", self.name, duration);
+        tracing::trace!("{} completed in {:?}", self.name, duration);
         inc_ops();
     }
 }
-
-/// Macro for O(1) performance measurement
+/// Macro for performance tracking
 #[macro_export]
 macro_rules! perf_guard {
     ($name:expr) => {
         let _guard = $crate::perf::PerfGuard::new($name);
     };
-}
-
-/// Simple performance timer
-pub struct PerfTimer {
-    start: std::time::Instant,
-}
-
-impl PerfTimer {
-    pub fn new() -> Self {
-        Self {
-            start: std::time::Instant::now(),
-        }
-    }
-
-    pub fn elapsed(&self) -> std::time::Duration {
-        self.start.elapsed()
-    }
-
-    pub fn elapsed_ms(&self) -> f64 {
-        self.elapsed().as_secs_f64() * 1000.0
-    }
-}
-
-impl Default for PerfTimer {
-    fn default() -> Self {
-        Self::new()
-    }
 }

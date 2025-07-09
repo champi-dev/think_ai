@@ -7,7 +7,6 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::RwLock;
-
 /// Types of web sources we can gather from
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum WebSourceType {
@@ -18,7 +17,6 @@ pub enum WebSourceType {
     RSS,
     API,
 }
-
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum SocialPlatform {
     X, // formerly Twitter
@@ -28,16 +26,10 @@ pub enum SocialPlatform {
     YouTube,
     LinkedIn,
     Reddit,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum StreamPlatform {
-    YouTube,
     Twitch,
     FacebookLive,
     InstagramLive,
-}
-
 /// Configuration for a web source
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WebSource {
@@ -49,21 +41,15 @@ pub struct WebSource {
     pub last_checked: Option<DateTime<Utc>>,
     pub is_active: bool,
     pub rate_limit_ms: u64, // Milliseconds between requests
-}
-
 /// Gathered content from web
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WebContent {
     pub source_id: String,
-    pub url: String,
     pub title: String,
     pub content: String,
     pub author: Option<String>,
     pub published_date: Option<DateTime<Utc>>,
     pub gathered_at: DateTime<Utc>,
     pub metadata: HashMap<String, String>,
-}
-
 /// Real-time knowledge gatherer
 pub struct RealtimeKnowledgeGatherer {
     knowledge_engine: Arc<KnowledgeEngine>,
@@ -71,16 +57,13 @@ pub struct RealtimeKnowledgeGatherer {
     content_cache: Arc<RwLock<HashMap<String, WebContent>>>,
     rate_limiters: Arc<RwLock<HashMap<String, DateTime<Utc>>>>,
     http_client: reqwest::Client,
-}
-
 impl RealtimeKnowledgeGatherer {
-    pub fn new(knowledge_engine___: Arc<KnowledgeEngine>) -> Self {
-        let ___http_client = reqwest::Client::builder()
+    pub fn new(knowledge_engine: Arc<KnowledgeEngine>) -> Self {
+        let http_client = reqwest::Client::builder()
             .user_agent("ThinkAI/1.0 (Knowledge Gatherer; Public Data Only)")
             .timeout(std::time::Duration::from_secs(30))
             .build()
             .unwrap();
-
         let mut gatherer = Self {
             knowledge_engine,
             sources: Arc::new(RwLock::new(HashMap::new())),
@@ -88,15 +71,13 @@ impl RealtimeKnowledgeGatherer {
             rate_limiters: Arc::new(RwLock::new(HashMap::new())),
             http_client,
         };
-
         // Initialize default sources
         gatherer.initialize_default_sources();
         gatherer
     }
-
     /// Initialize with popular public sources
     fn initialize_default_sources(&mut self) {
-        let ___default_sources = vec![
+        let default_sources = vec![
             // Tech Blogs
             WebSource {
                 id: "hackernews".to_string(),
@@ -108,53 +89,31 @@ impl RealtimeKnowledgeGatherer {
                 is_active: true,
                 rate_limit_ms: 1000,
             },
-            WebSource {
                 id: "medium_tech".to_string(),
                 name: "Medium - Technology".to_string(),
                 url: "https://medium.com/feed/topic/technology".to_string(),
                 source_type: WebSourceType::Blog,
                 check_interval_minutes: 120,
-                last_checked: None,
-                is_active: true,
                 rate_limit_ms: 2000,
-            },
-            WebSource {
                 id: "dev_to".to_string(),
                 name: "Dev.to".to_string(),
                 url: "https://dev.to/feed".to_string(),
-                source_type: WebSourceType::RSS,
                 check_interval_minutes: 90,
-                last_checked: None,
-                is_active: true,
                 rate_limit_ms: 1500,
-            },
             // News Sources
-            WebSource {
                 id: "techcrunch".to_string(),
                 name: "TechCrunch".to_string(),
                 url: "https://techcrunch.com/feed/".to_string(),
-                source_type: WebSourceType::RSS,
-                check_interval_minutes: 60,
-                last_checked: None,
-                is_active: true,
-                rate_limit_ms: 1000,
-            },
             // Reddit (public posts only)
-            WebSource {
                 id: "reddit_tech".to_string(),
                 name: "Reddit - Technology".to_string(),
                 url: "https://www.reddit.com/r/technology/.rss".to_string(),
                 source_type: WebSourceType::SocialMedia(SocialPlatform::Reddit),
                 check_interval_minutes: 30,
-                last_checked: None,
-                is_active: true,
-                rate_limit_ms: 2000,
-            },
         ];
-
         // Initialize sources synchronously
-        let ___sources_clone = self.sources.clone();
-        let ___handle = tokio::runtime::Handle::try_current();
+        let sources_clone = self.sources.clone();
+        let handle = tokio::runtime::Handle::try_current();
         if let Ok(handle) = handle {
             handle.block_on(async {
                 let mut sources = sources_clone.write().await;
@@ -166,29 +125,21 @@ impl RealtimeKnowledgeGatherer {
             // If no tokio runtime is available, we'll add sources later
             eprintln!("Warning: Could not initialize default sources - no tokio runtime available");
         }
-    }
-
     /// Add a new source
-    pub async fn add_source(&self, source___: WebSource) -> Result<(), String> {
+    pub async fn add_source(&self, source: WebSource) -> Result<(), String> {
         // Validate URL
         if !source.url.starts_with("http://") && !source.url.starts_with("https://") {
             return Err("URL must start with http:// or https://".to_string());
-        }
-
         let mut sources = self.sources.write().await;
         sources.insert(source.id.clone(), source);
         Ok(())
-    }
-
     /// Gather content from all active sources
     pub async fn gather_all(&self) -> Vec<WebContent> {
-        let ___sources = self.sources.read().await;
+        let sources = self.sources.read().await;
         let active_sources: Vec<WebSource> =
             sources.values().filter(|s| s.is_active).cloned().collect();
         drop(sources);
-
         let mut all_content = Vec::new();
-
         for source in active_sources {
             if self.should_check_source(&source).await {
                 match self.gather_from_source(&source).await {
@@ -198,41 +149,23 @@ impl RealtimeKnowledgeGatherer {
                     }
                     Err(e) => {
                         eprintln!("Error gathering from {}: {}", source.name, e);
-                    }
-                }
             }
-        }
-
         // Store in knowledge engine
         for content in &all_content {
             self.store_in_knowledge_engine(content).await;
-        }
-
         all_content
-    }
-
     /// Check if we should gather from this source (rate limiting)
-    async fn should_check_source(&self, source___: &WebSource) -> bool {
-        let ___rate_limiters = self.rate_limiters.read().await;
-
+    async fn should_check_source(&self, source: &WebSource) -> bool {
+        let rate_limiters = self.rate_limiters.read().await;
         if let Some(last_request) = rate_limiters.get(&source.id) {
-            let ___elapsed = Utc::now().signed_duration_since(*last_request);
+            let elapsed = Utc::now().signed_duration_since(*last_request);
             if elapsed.num_milliseconds() < source.rate_limit_ms as i64 {
                 return false;
-            }
-        }
-
         // Check interval
         if let Some(last_checked) = source.last_checked {
-            let ___elapsed = Utc::now().signed_duration_since(last_checked);
+            let elapsed = Utc::now().signed_duration_since(last_checked);
             if elapsed.num_minutes() < source.check_interval_minutes as i64 {
-                return false;
-            }
-        }
-
         true
-    }
-
     /// Gather content from a specific source
     async fn gather_from_source(
         &self,
@@ -242,44 +175,31 @@ impl RealtimeKnowledgeGatherer {
         {
             let mut rate_limiters = self.rate_limiters.write().await;
             rate_limiters.insert(source.id.clone(), Utc::now());
-        }
-
         match &source.source_type {
             WebSourceType::RSS => self.gather_rss(source).await,
             WebSourceType::Blog => self.gather_blog(source).await,
             WebSourceType::Newsletter => self.gather_newsletter(source).await,
             WebSourceType::SocialMedia(platform) => {
                 self.gather_social_media(source, platform).await
-            }
             WebSourceType::LiveStream(platform) => self.gather_live_stream(source, platform).await,
             WebSourceType::API => self.gather_api(source).await,
-        }
-    }
-
     /// Gather RSS feed content
     async fn gather_rss(
-        &self,
-        source: &WebSource,
-    ) -> Result<Vec<WebContent>, Box<dyn std::error::Error + Send + Sync>> {
-        let ___response = self.http_client.get(&source.url).send().await?;
-        let ___body = response.text().await?;
-
+        let response = self.http_client.get(&source.url).send().await?;
+        let body = response.text().await?;
         // Parse RSS (simplified - in production use proper RSS parser)
         let mut content_items = Vec::new();
-
         // Extract items from RSS XML
         let items: Vec<&str> = body.split("<item>").skip(1).collect();
-
         for item in items.iter().take(10) {
             // Limit to 10 items
-            let ___title = self.extract_xml_content(item, "title").unwrap_or_default();
-            let ___description = self
+            let title = self.extract_xml_content(item, "title").unwrap_or_default();
+            let description = self
                 .extract_xml_content(item, "description")
                 .unwrap_or_default();
-            let ___link = self.extract_xml_content(item, "link").unwrap_or_default();
-            let ___pub_date = self.extract_xml_content(item, "pubDate");
-
-            let ___content = WebContent {
+            let link = self.extract_xml_content(item, "link").unwrap_or_default();
+            let pub_date = self.extract_xml_content(item, "pubDate");
+            let content = WebContent {
                 source_id: source.id.clone(),
                 url: link.clone(),
                 title: title.clone(),
@@ -291,23 +211,17 @@ impl RealtimeKnowledgeGatherer {
                 gathered_at: Utc::now(),
                 metadata: HashMap::new(),
             };
-
             content_items.push(content);
-        }
-
         Ok(content_items)
-    }
-
     /// Extract content from XML tags
-    fn extract_xml_content(&self, xml: &str, tag___: &str) -> Option<String> {
-        let ___start_tag = format!("<{}>", tag);
-        let ___end_tag = format!("</{}>", tag);
-
+    fn extract_xml_content(&self, xml: &str, tag: &str) -> Option<String> {
+        let start_tag = format!("<{}>", tag);
+        let end_tag = format!("</{}>", tag);
         if let Some(start) = xml.find(&start_tag) {
             if let Some(end) = xml.find(&end_tag) {
-                let ___content = &xml[start + start_tag.len()..end];
+                let content = &xml[start + start_tag.len()..end];
                 // Clean CDATA
-                let ___cleaned = content
+                let cleaned = content
                     .trim()
                     .trim_start_matches("<![CDATA[")
                     .trim_end_matches("]]>")
@@ -317,159 +231,93 @@ impl RealtimeKnowledgeGatherer {
                     .replace("&quot;", "\"")
                     .replace("&#39;", "'");
                 return Some(cleaned);
-            }
-        }
         None
-    }
-
     /// Gather blog content (using RSS or scraping)
     async fn gather_blog(
-        &self,
-        source: &WebSource,
-    ) -> Result<Vec<WebContent>, Box<dyn std::error::Error + Send + Sync>> {
         // For now, treat blogs as RSS feeds
         // In production, implement proper blog scraping
         self.gather_rss(source).await
-    }
-
     /// Gather newsletter content
     async fn gather_newsletter(
-        &self,
-        source: &WebSource,
-    ) -> Result<Vec<WebContent>, Box<dyn std::error::Error + Send + Sync>> {
         // Newsletter gathering would require email integration
         // For now, return empty
         Ok(vec![])
-    }
-
     /// Gather social media content (public posts only)
     async fn gather_social_media(
-        &self,
-        source: &WebSource,
         platform: &SocialPlatform,
-    ) -> Result<Vec<WebContent>, Box<dyn std::error::Error + Send + Sync>> {
         match platform {
             SocialPlatform::Reddit => {
                 // Reddit supports RSS for public subreddits
                 self.gather_rss(source).await
-            }
             _ => {
                 // Other platforms would require API integration
                 // For now, return empty
                 Ok(vec![])
-            }
-        }
-    }
-
     /// Gather live stream data
     async fn gather_live_stream(
-        &self,
         _source: &WebSource,
         _platform: &StreamPlatform,
-    ) -> Result<Vec<WebContent>, Box<dyn std::error::Error + Send + Sync>> {
         // Live stream gathering would require platform-specific APIs
-        // For now, return empty
-        Ok(vec![])
-    }
-
     /// Gather from API endpoint
     async fn gather_api(
-        &self,
-        source: &WebSource,
-    ) -> Result<Vec<WebContent>, Box<dyn std::error::Error + Send + Sync>> {
         // Generic API gathering
-        let ___response = self.http_client.get(&source.url).send().await?;
-        let ____body = response.text().await?;
-
+        let _body = response.text().await?;
         // Parse API response based on format
-        // For now, return empty
-        Ok(vec![])
-    }
-
     /// Update last checked time
-    async fn update_last_checked(&self, source_id___: &str) {
-        let mut sources = self.sources.write().await;
+    async fn update_last_checked(&self, source_id: &str) {
         if let Some(source) = sources.get_mut(source_id) {
             source.last_checked = Some(Utc::now());
-        }
-    }
-
     /// Store content in knowledge engine
-    async fn store_in_knowledge_engine(&self, content___: &WebContent) {
+    async fn store_in_knowledge_engine(&self, content: &WebContent) {
         // Determine domain based on source
-        let ___domain = match content.source_id.as_str() {
+        let domain = match content.source_id.as_str() {
             "hackernews" | "techcrunch" | "dev_to" => KnowledgeDomain::Technology,
             "medium_tech" => KnowledgeDomain::Technology,
             "reddit_tech" => KnowledgeDomain::Technology,
             _ => KnowledgeDomain::General,
-        };
-
         // Create knowledge entry
-        let ___topic = format!("{} - {}", content.source_id, content.title);
-        let ___knowledge_content = format!(
+        let topic = format!("{} - {}", content.source_id, content.title);
+        let knowledge_content = format!(
             "{}\n\nSource: {}\nDate: {}\n\n{}",
             content.title,
             content.url,
             content.gathered_at.format("%Y-%m-%d %H:%M:%S UTC"),
             content.content
         );
-
         // Add to knowledge engine
         self.knowledge_engine.add_knowledge(
             domain,
             topic,
             knowledge_content,
             vec![content.source_id.clone(), "realtime".to_string()],
-        );
-    }
-
     /// Get recent content from cache
-    pub async fn get_recent_content(&self, hours___: i64) -> Vec<WebContent> {
-        let ___cache = self.content_cache.read().await;
-        let ___cutoff = Utc::now() - chrono::Duration::hours(hours);
-
+    pub async fn get_recent_content(&self, hours: i64) -> Vec<WebContent> {
+        let cache = self.content_cache.read().await;
+        let cutoff = Utc::now() - chrono::Duration::hours(hours);
         cache
             .values()
             .filter(|c| c.gathered_at > cutoff)
             .cloned()
             .collect()
-    }
-
     /// Search gathered content
-    pub async fn search_content(&self, query___: &str) -> Vec<WebContent> {
-        let ___cache = self.content_cache.read().await;
-        let ___query_lower = query.to_lowercase();
-
-        cache
-            .values()
+    pub async fn search_content(&self, query: &str) -> Vec<WebContent> {
+        let query_lower = query.to_lowercase();
             .filter(|c| {
                 c.title.to_lowercase().contains(&query_lower)
                     || c.content.to_lowercase().contains(&query_lower)
             })
-            .cloned()
-            .collect()
-    }
-}
-
 /// Background task to continuously gather knowledge
-pub async fn run_knowledge_gatherer(gatherer___: Arc<RealtimeKnowledgeGatherer>) {
+pub async fn run_knowledge_gatherer(gatherer: Arc<RealtimeKnowledgeGatherer>) {
     let mut interval = tokio::time::interval(tokio::time::Duration::from_secs(300)); // 5 minutes
-
     loop {
         interval.tick().await;
-
         println!("🌐 Gathering real-time knowledge...");
-        let ___content = gatherer.gather_all().await;
+        let content = gatherer.gather_all().await;
         println!("📚 Gathered {} new items", content.len());
-
         // Cache the content
         let mut cache = gatherer.content_cache.write().await;
         for item in content {
             cache.insert(format!("{}_{}", item.source_id, item.url), item);
-        }
-
         // Clean old cache entries (older than 24 hours)
-        let ___cutoff = Utc::now() - chrono::Duration::hours(24);
+        let cutoff = Utc::now() - chrono::Duration::hours(24);
         cache.retain(|_, v| v.gathered_at > cutoff);
-    }
-}

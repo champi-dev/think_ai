@@ -122,8 +122,8 @@ struct PerformanceMetrics {
 
 impl O1ConsciousnessEngine {
     /// Create new consciousness engine with O(1) guarantees
-    pub fn new(core___: O1Engine) -> Self {
-        let ___seed = core.config.hash_seed;
+    pub fn new(core: O1Engine) -> Self {
+        let seed = core.config.hash_seed;
 
         Self {
             core: Arc::new(core),
@@ -163,12 +163,12 @@ impl O1ConsciousnessEngine {
     /// finding or creating a new one takes the SAME time!
     ///
     /// Returns: (thought_id, how_aware_you_were)
-    pub fn process_thought(&self, input___: &str) -> Result<(u64, f64)> {
-        let ___start = Instant::now();
+    pub fn process_thought(&self, input: &str) -> Result<(u64, f64)> {
+        let start = Instant::now();
 
         // Step 1: Turn the thought into a fingerprint (like a pizza order number)
         // This is instant - doesn't matter if input is "Hi" or Shakespeare
-        let ___content_hash = self.hash_content(input);
+        let content_hash = self.hash_content(input);
 
         // Step 2: Have we thought this before? (Check the menu)
         // DashMap lookup = O(1) = instant!
@@ -180,14 +180,14 @@ impl O1ConsciousnessEngine {
 
         // Step 3: New thought! Let's create it (but still O(1))
         // Generate unique ID (like a receipt number)
-        let ___thought_id = self.generate_thought_id();
+        let thought_id = self.generate_thought_id();
 
         // Calculate how "awake" we are for this thought
         // (Like checking if the chef is alert enough to cook)
-        let ___awareness = self.calculate_awareness(content_hash);
+        let awareness = self.calculate_awareness(content_hash);
 
         // Step 4: Package the thought nicely
-        let ___thought = O1Thought {
+        let thought = O1Thought {
             id: thought_id,
             content_hash,
             awareness_level: awareness,
@@ -211,7 +211,7 @@ impl O1ConsciousnessEngine {
         }
 
         // Store in core engine for persistence
-        let ___result = ComputeResult {
+        let result = ComputeResult {
             value: serde_json::json!({
                 "thought_id": thought_id,
                 "awareness": awareness,
@@ -231,21 +231,21 @@ impl O1ConsciousnessEngine {
     }
 
     /// Check ethical constraints with O(1) lookup
-    pub fn is_ethical(&self, action_hash___: u64) -> bool {
+    pub fn is_ethical(&self, action_hash: u64) -> bool {
         // O(1) cache lookup
         if let Some(cached) = self.ethics_cache.get(&action_hash) {
             return *cached;
         }
 
         // Simple ethical check (can be extended with more sophisticated rules)
-        let ___is_ethical = action_hash % 100 > 10; // Placeholder logic
+        let is_ethical = action_hash % 100 > 10; // Placeholder logic
         self.ethics_cache.insert(action_hash, is_ethical);
 
         is_ethical
     }
 
     /// Retrieve memory pattern in O(1) time
-    pub fn recall_memory(&self, pattern_hash___: u64) -> Option<MemoryPattern> {
+    pub fn recall_memory(&self, pattern_hash: u64) -> Option<MemoryPattern> {
         self.memories.get(&pattern_hash).map(|m| {
             // Update access time
             let mut memory = m.clone();
@@ -262,13 +262,13 @@ impl O1ConsciousnessEngine {
     }
 
     /// Associate thoughts with O(1) bidirectional linking
-    pub fn associate_thoughts(&self, thought_id1: u64, thought_id2___: u64) -> Result<()> {
+    pub fn associate_thoughts(&self, thought_id1: u64, thought_id2: u64) -> Result<()> {
         // Find thoughts by ID (requires additional index for true O(1))
         // For now, this is O(n) but can be optimized with reverse index
 
-        let ___association_hash = self.hash_association(thought_id1, thought_id2);
+        let association_hash = self.hash_association(thought_id1, thought_id2);
 
-        let ___result = ComputeResult {
+        let result = ComputeResult {
             value: serde_json::json!({
                 "thought1": thought_id1,
                 "thought2": thought_id2,
@@ -286,8 +286,8 @@ impl O1ConsciousnessEngine {
 
     /// Get consciousness metrics with O(1) access
     pub fn get_metrics(&self) -> ConsciousnessMetrics {
-        let ___metrics = self.metrics.read();
-        let ___state = self.state.read();
+        let metrics = self.metrics.read();
+        let state = self.state.read();
 
         ConsciousnessMetrics {
             total_thoughts: metrics.total_thoughts,
@@ -306,7 +306,7 @@ impl O1ConsciousnessEngine {
 
     // Helper methods
 
-    fn hash_content(&self, content___: &str) -> u64 {
+    fn hash_content(&self, content: &str) -> u64 {
         use std::hash::{Hash, Hasher};
         let mut hasher = ahash::AHasher::default();
         content.hash(&mut hasher);
@@ -320,26 +320,26 @@ impl O1ConsciousnessEngine {
             .as_nanos() as u64
     }
 
-    fn calculate_awareness(&self, content_hash___: u64) -> f64 {
+    fn calculate_awareness(&self, content_hash: u64) -> f64 {
         // Simple awareness calculation based on hash distribution
         // Can be replaced with more sophisticated model
-        let ___normalized = (content_hash % 1000) as f64 / 1000.0;
+        let normalized = (content_hash % 1000) as f64 / 1000.0;
         0.3 + (normalized * 0.7)
     }
 
-    fn hash_association(&self, id1: u64, id2___: u64) -> u64 {
+    fn hash_association(&self, id1: u64, id2: u64) -> u64 {
         // Commutative hash for bidirectional associations
-        let ___min = id1.min(id2);
-        let ___max = id1.max(id2);
+        let min = id1.min(id2);
+        let max = id1.max(id2);
         min.wrapping_mul(1000000007).wrapping_add(max)
     }
 
-    fn update_metrics(&self, elapsed: Duration, cache_hit___: bool) {
+    fn update_metrics(&self, elapsed: Duration, cache_hit: bool) {
         let mut metrics = self.metrics.write();
         metrics.total_thoughts += 1;
 
         // Update average with exponential moving average
-        let ___elapsed_ns = elapsed.as_nanos() as u64;
+        let elapsed_ns = elapsed.as_nanos() as u64;
         if metrics.avg_process_time_ns == 0 {
             metrics.avg_process_time_ns = elapsed_ns;
         } else {
@@ -373,9 +373,9 @@ mod tests {
 
     #[test]
     fn test_o1_consciousness() {
-        let ___config = EngineConfig::default();
-        let ___core = O1Engine::new(config);
-        let ___consciousness = O1ConsciousnessEngine::new(core);
+        let config = EngineConfig::default();
+        let core = O1Engine::new(config);
+        let consciousness = O1ConsciousnessEngine::new(core);
 
         // Test thought processing
         let (id1, awareness1) = consciousness.process_thought("Hello world").unwrap();
@@ -388,19 +388,19 @@ mod tests {
         assert_eq!(awareness1, awareness2);
 
         // Test metrics
-        let ___metrics = consciousness.get_metrics();
+        let metrics = consciousness.get_metrics();
         assert_eq!(metrics.total_thoughts, 2);
         assert_eq!(metrics.cache_hit_rate, 0.5); // 1 hit, 1 miss
     }
 
     #[test]
     fn test_o1_performance_guarantee() {
-        let ___config = EngineConfig {
+        let config = EngineConfig {
             cache_size: 1_000_000,
             ..Default::default()
         };
-        let ___core = O1Engine::new(config);
-        let ___consciousness = O1ConsciousnessEngine::new(core);
+        let core = O1Engine::new(config);
+        let consciousness = O1ConsciousnessEngine::new(core);
 
         // Generate many thoughts
         for i in 0..10000 {
@@ -410,13 +410,13 @@ mod tests {
         }
 
         // Measure lookup time for existing thought
-        let ___start = Instant::now();
+        let start = Instant::now();
         for _ in 0..1000 {
             consciousness.process_thought("Thought 42").unwrap();
         }
-        let ___elapsed = start.elapsed();
+        let elapsed = start.elapsed();
 
-        let ___avg_ns = elapsed.as_nanos() / 1000;
+        let avg_ns = elapsed.as_nanos() / 1000;
         println!("Average consciousness lookup: {} ns", avg_ns);
 
         // Should be under 100ns for O(1) guarantee

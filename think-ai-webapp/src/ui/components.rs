@@ -1,5 +1,5 @@
 use wasm_bindgen::JsCast;
-use web_sys::Element;
+use web_sys::{Element, InputEvent, KeyboardEvent};
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]
@@ -8,7 +8,7 @@ pub struct ConsciousnessLevelProps {
 }
 
 #[function_component(ConsciousnessLevel)]
-pub fn consciousness_level(props___: &ConsciousnessLevelProps) -> Html {
+pub fn consciousness_level(props: &ConsciousnessLevelProps) -> Html {
     html! {
         <div class="consciousness-level">
             <div class="level-bar">
@@ -33,8 +33,8 @@ pub struct PulsingOrbProps {
 }
 
 #[function_component(PulsingOrb)]
-pub fn pulsing_orb(props___: &PulsingOrbProps) -> Html {
-    let ___style = format!(
+pub fn pulsing_orb(props: &PulsingOrbProps) -> Html {
+    let style = format!(
         "width: {}px; height: {}px",
         props.size * 10.0,
         props.size * 10.0
@@ -68,14 +68,14 @@ impl Component for ChatInterface {
     type Message = ChatMsg;
     type Properties = ChatProps;
 
-    fn create(_ctx___: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
             messages: vec![],
             current_input: String::new(),
         }
     }
 
-    fn update(&mut self, ctx: &Context<Self>, msg__: ChatMsg) -> bool {
+    fn update(&mut self, ctx: &Context<Self>, msg: ChatMsg) -> bool {
         match msg {
             ChatMsg::AddMessage(user, response) => {
                 self.messages.push((user, response));
@@ -95,7 +95,7 @@ impl Component for ChatInterface {
         }
     }
 
-    fn view(&self, ctx___: &Context<Self>) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div class="chat-interface">
                 <div class="messages">
@@ -113,7 +113,7 @@ impl Component for ChatInterface {
                         type="text"
                         value={self.current_input.clone()}
                         oninput={ctx.link().callback(|e: InputEvent| {
-                            let ___input = e.target_unchecked_into::<web_sys::HtmlInputElement>();
+                            let input = e.target_unchecked_into::<web_sys::HtmlInputElement>();
                             ChatMsg::UpdateInput(input.value())
                         })}
                         onkeypress={ctx.link().callback(|e: KeyboardEvent| {
@@ -148,14 +148,14 @@ impl Component for ResponseStream {
     type Message = StreamMsg;
     type Properties = ();
 
-    fn create(_ctx___: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
             responses: vec![],
             is_streaming: false,
         }
     }
 
-    fn update(&mut self, _ctx: &Context<Self>, msg__: ChatMsg) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: StreamMsg) -> bool {
         match msg {
             StreamMsg::AddResponse(response) => {
                 self.responses.push(response);
@@ -172,7 +172,7 @@ impl Component for ResponseStream {
         }
     }
 
-    fn view(&self, _ctx___: &Context<Self>) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div class="response-stream">
                 { if self.is_streaming {

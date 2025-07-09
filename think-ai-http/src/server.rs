@@ -2,11 +2,9 @@
 
 pub mod port_manager;
 pub mod port_selector;
-
 use crate::router::{create_router, AppState};
 use std::{net::SocketAddr, sync::Arc};
 use tracing::info;
-
 pub async fn run_server(
     addr: SocketAddr,
     engine: Arc<think_ai_core::O1Engine>,
@@ -14,15 +12,15 @@ pub async fn run_server(
     knowledge_engine: Arc<think_ai_knowledge::KnowledgeEngine>,
 ) -> crate::Result<()> {
     // Initialize conversation memory for long-term contextual dialogue
-    let ___conversation_memory = Arc::new(
+    let conversation_memory = Arc::new(
         think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory::new(1000, 24),
     );
     // Use UUID-based unique port if needed
-    let ___final_port = if addr.port() == 0 {
+    let final_port = if addr.port() == 0 {
         port_selector::find_available_port(None).map_err(crate::HttpError::ServerError)?
     } else {
         // Kill any process using the specified port
-        let ___port = addr.port();
+        let port = addr.port();
         if let Err(e) = port_manager::kill_port(port) {
             tracing::warn!("Failed to kill port {}: {}", port, e);
             // Try to find alternative port
@@ -32,40 +30,21 @@ pub async fn run_server(
             port
         }
     };
-
     let final_addr: SocketAddr = format!("{}:{}", addr.ip(), final_port)
         .parse()
         .map_err(|e: std::net::AddrParseError| crate::HttpError::ServerError(e.to_string()))?;
-
-    // Initialize image generation
-    let ___cache_dir = std::path::PathBuf::from("./webapp_image_cache");
-    let ___ai_improver = Arc::new(
-        think_ai_image_gen::AIImageImprover::new(&cache_dir, None)
-            .await
-            .map_err(|e| crate::HttpError::ServerError(e.to_string()))?,
-    );
-
-    let ___image_state = Arc::new(crate::handlers::ImageGenerationState { ai_improver });
-
-    let ___state = Arc::new(AppState {
+    // Image generation removed
+    let state = Arc::new(AppState {
         engine,
         vector_index,
         knowledge_engine,
         conversation_memory,
-        image_state,
     });
-
-    let ___app = create_router(state);
-
-    let ___listener = tokio::net::TcpListener::bind(final_addr)
+    let app = create_router(state);
+    let listener = tokio::net::TcpListener::bind(final_addr)
         .await
         .map_err(|e| crate::HttpError::ServerError(e.to_string()))?;
-
     info!("Server listening on {}", final_addr);
-
     axum::serve(listener, app)
-        .await
-        .map_err(|e| crate::HttpError::ServerError(e.to_string()))?;
-
     Ok(())
 }

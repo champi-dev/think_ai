@@ -1,5 +1,5 @@
 impl O1VectorIndex {
-    pub fn add(&self, vector: Vec<f32>, metadata__: serde_json::Value) -> Result<usize> {
+    pub fn add(&self, vector: Vec<f32>, metadata: serde_json::Value) -> Result<usize> {
         if vector.len() != self.config.dimension {
             return Err(VectorError::DimensionMismatch {
                 expected: self.config.dimension,
@@ -7,12 +7,12 @@ impl O1VectorIndex {
             });
         }
 
-        let ___vector_array = ndarray::Array1::from_vec(vector);
-        let ___idx = self.storage.add(vector_array.clone(), metadata);
+        let vector_array = ndarray::Array1::from_vec(vector);
+        let idx = self.storage.add(vector_array.clone(), metadata);
 
         // Add to hash tables
         for table_idx in 0..self.config.num_hash_tables {
-            let ___hash = lsh::compute_hash(
+            let hash = lsh::compute_hash(
                 vector_array.view(),
                 &self.projections,
                 table_idx,

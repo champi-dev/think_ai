@@ -1,0 +1,25 @@
+   Compiling icu_provider v2.0.0
+   Compiling think-ai-utils v0.1.0 (/home/champi/Dev/think_ai/think-ai-utils)
+   Compiling tower-http v0.5.2
+   Compiling tower-http v0.6.6
+   Compiling askama_derive v0.12.5
+error: this file contains an unclosed delimiter
+  --> think-ai-utils/src/lib.rs:54:9
+   |
+27 | pub struct PerfMetrics {
+   |                        - unclosed delimiter
+...
+31 | impl PerfMetrics {
+   |                  - unclosed delimiter
+...
+39 |     pub fn log(&self) {
+   |                       - unclosed delimiter
+...
+48 | macro_rules! time_operation {
+   |                             - unclosed delimiter
+...
+54 |     }};
+   |        ^
+
+error: could not compile `think-ai-utils` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...

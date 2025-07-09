@@ -49,8 +49,8 @@ impl O1Engine {
     /// 2. We create a special spell for finding books (hash_seed)
     /// 3. We build the shelves (cache)
     /// 4. We put up an "Opening Soon" sign (state)
-    pub fn new(config___: EngineConfig) -> Self {
-        let ___cache = MemoryCache::new(config.cache_size);
+    pub fn new(config: EngineConfig) -> Self {
+        let cache = MemoryCache::new(config.cache_size);
         Self {
             config: Arc::new(config),
             state: StateManager::new(),
@@ -82,13 +82,13 @@ impl O1Engine {
     ///
     /// # Example
     /// ```
-    /// let ___result = engine.compute("What is the meaning of life?");
+    /// let result = engine.compute("What is the meaning of life?");
     /// // Instantly returns the answer if we've seen this question before
     /// ```
-    pub async fn compute(&self, key___: &str) -> Option<ComputeResult> {
+    pub async fn compute(&self, key: &str) -> Option<ComputeResult> {
         // Step 1: Turn the key into a magic number (hash) for internal use
         // This ALWAYS takes the same time, whether key is 1 char or 1 million chars
-        let ____hash = hash_key(key, self.config.hash_seed);
+        let _hash = hash_key(key, self.config.hash_seed);
 
         // Step 2: Use the key directly with the cache (it handles hashing internally)
         // Like teleporting to the exact shelf in our library

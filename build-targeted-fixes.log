@@ -1,0 +1,356 @@
+    Blocking waiting for file lock on build directory
+   Compiling think-ai-consciousness v0.1.0 (/home/champi/Dev/think_ai/think-ai-consciousness)
+warning: field `core` is never read
+  --> think-ai-core/src/consciousness_engine.rs:97:5
+   |
+95 | pub struct O1ConsciousnessEngine {
+   |            --------------------- field in this struct
+96 |     /// Core O(1) engine for computation
+97 |     core: Arc<O1Engine>,
+   |     ^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `think-ai-core` (lib) generated 1 warning
+warning: unused variable: `generator_stats`
+   --> think-ai-image-gen/src/ai_image_improver.rs:366:13
+    |
+366 |         let generator_stats = self.generator.get_learning_stats().await;
+    |             ^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_generator_stats`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: field `config` is never read
+  --> think-ai-image-gen/src/lib.rs:70:5
+   |
+69 | pub struct ImageGenerator {
+   |            -------------- field in this struct
+70 |     config: ImageGenConfig,
+   |     ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: fields `is_photographic` and `has_style` are never read
+   --> think-ai-image-gen/src/ai_image_improver.rs:469:5
+    |
+465 | struct PromptAnalysis {
+    |        -------------- fields in this struct
+...
+469 |     is_photographic: bool,
+    |     ^^^^^^^^^^^^^^^
+470 |     has_style: bool,
+    |     ^^^^^^^^^
+    |
+    = note: `PromptAnalysis` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: field `status` is never read
+  --> think-ai-image-gen/src/leonardo_client.rs:35:5
+   |
+33 | struct GenerationResponse {
+   |        ------------------ field in this struct
+34 |     generation_id: String,
+35 |     status: String,
+   |     ^^^^^^
+   |
+   = note: `GenerationResponse` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: `think-ai-image-gen` (lib) generated 4 warnings
+   Compiling think-ai-webapp v0.1.0 (/home/champi/Dev/think_ai/think-ai-webapp)
+warning: field `inner` is never read
+  --> think-ai-storage/src/traits/mod.rs:30:5
+   |
+29 | pub struct TypedStorage<T> {
+   |            ------------ field in this struct
+30 |     inner: Box<dyn Storage>,
+   |     ^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `think-ai-storage` (lib) generated 1 warning
+error[E0412]: cannot find type `WebGlProgram` in this scope
+  --> think-ai-webapp/src/graphics/materials.rs:40:14
+   |
+40 |     program: WebGlProgram,
+   |              ^^^^^^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+5  + use crate::graphics::WebGlProgram;
+   |
+5  + use web_sys::WebGlProgram;
+   |
+
+error[E0603]: struct import `PerformanceMetrics` is private
+  --> think-ai-webapp/src/ui/mod.rs:36:37
+   |
+36 |                 metrics: dashboard::PerformanceMetrics {
+   |                                     ^^^^^^^^^^^^^^^^^^ private struct import
+   |
+note: the struct import `PerformanceMetrics` is defined here...
+  --> think-ai-webapp/src/ui/dashboard.rs:1:49
+   |
+1  | use crate::ui::components::{ConsciousnessLevel, PerformanceMetrics, PulsingOrb};
+   |                                                 ^^^^^^^^^^^^^^^^^^
+note: ...and refers to the struct `PerformanceMetrics` which is defined here
+  --> think-ai-webapp/src/ui/components.rs:23:1
+   |
+23 | pub struct PerformanceMetrics {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ you could import this directly
+help: consider importing this struct instead
+   |
+36 |                 metrics: crate::ui::components::PerformanceMetrics {
+   |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+help: import `PerformanceMetrics` directly
+   |
+36 |                 metrics: ui::components::PerformanceMetrics {
+   |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+warning: unused import: `Vector4`
+ --> think-ai-webapp/src/graphics/materials.rs:5:25
+  |
+5 | use nalgebra::{Vector3, Vector4};
+  |                         ^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `Matrix4`
+ --> think-ai-webapp/src/graphics/neural_network.rs:2:19
+  |
+2 | use crate::math::{Matrix4, Vector3};
+  |                   ^^^^^^^
+
+warning: unused import: `std::cell::RefCell`
+ --> think-ai-webapp/src/graphics/neural_network.rs:3:5
+  |
+3 | use std::cell::RefCell;
+  |     ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `wasm_bindgen::JsCast`
+ --> think-ai-webapp/src/ui/components.rs:1:5
+  |
+1 | use wasm_bindgen::JsCast;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `web_sys::Element`
+ --> think-ai-webapp/src/ui/components.rs:2:5
+  |
+2 | use web_sys::Element;
+  |     ^^^^^^^^^^^^^^^^
+
+warning: unused imports: `Deserialize` and `Serialize`
+ --> think-ai-webapp/src/ui/dashboard.rs:3:13
+  |
+3 | use serde::{Deserialize, Serialize};
+  |             ^^^^^^^^^^^  ^^^^^^^^^
+
+error[E0053]: method `update` has an incompatible type for trait
+   --> think-ai-webapp/src/ui/components.rs:158:53
+    |
+158 |     fn update(&mut self, _ctx: &Context<Self>, msg: ChatMsg) -> bool {
+    |                                                     ^^^^^^^ expected `StreamMsg`, found `ChatMsg`
+    |
+    = note: expected signature `fn(&mut ResponseStream, &yew::Context<_>, StreamMsg) -> _`
+               found signature `fn(&mut ResponseStream, &yew::Context<_>, ChatMsg) -> _`
+help: change the parameter type to match the trait
+    |
+158 |     fn update(&mut self, _ctx: &Context<Self>, msg: StreamMsg) -> bool {
+    |                                                     ~~~~~~~~~
+
+error[E0063]: missing field `program` in initializer of `MaterialCache`
+  --> think-ai-webapp/src/graphics/materials.rs:45:25
+   |
+45 |         let mut cache = Self {
+   |                         ^^^^ missing `program`
+
+error[E0599]: no variant or associated item named `AddResponse` found for enum `ChatMsg` in the current scope
+   --> think-ai-webapp/src/ui/components.rs:160:22
+    |
+56  | pub enum ChatMsg {
+    | ---------------- variant or associated item `AddResponse` not found for this enum
+...
+160 |             ChatMsg::AddResponse(response) => {
+    |                      ^^^^^^^^^^^ variant or associated item not found in `ChatMsg`
+
+error[E0599]: no variant or associated item named `StartStream` found for enum `ChatMsg` in the current scope
+   --> think-ai-webapp/src/ui/components.rs:164:22
+    |
+56  | pub enum ChatMsg {
+    | ---------------- variant or associated item `StartStream` not found for this enum
+...
+164 |             ChatMsg::StartStream => {
+    |                      ^^^^^^^^^^^ variant or associated item not found in `ChatMsg`
+
+error[E0599]: no variant or associated item named `StopStream` found for enum `ChatMsg` in the current scope
+   --> think-ai-webapp/src/ui/components.rs:168:22
+    |
+56  | pub enum ChatMsg {
+    | ---------------- variant or associated item `StopStream` not found for this enum
+...
+168 |             ChatMsg::StopStream => {
+    |                      ^^^^^^^^^^ variant or associated item not found in `ChatMsg`
+
+error[E0599]: no method named `update_all` found for struct `EffectManager` in the current scope
+  --> think-ai-webapp/src/ui/mod.rs:51:30
+   |
+51 |         self.effects_manager.update_all(0.016)?; // 60 FPS delta
+   |                              ^^^^^^^^^^ method not found in `EffectManager`
+   |
+  ::: think-ai-webapp/src/ui/effects.rs:23:1
+   |
+23 | pub struct EffectManager {
+   | ------------------------ method `update_all` not found for this struct
+
+error[E0277]: the `?` operator can only be used in a method that returns `Result` or `Option` (or another type that implements `FromResidual`)
+  --> think-ai-webapp/src/lib.rs:54:61
+   |
+52 |     pub fn new() -> ThinkAiWebapp {
+   |     ----------------------------- this function should return `Result` or `Option` to accept `?`
+53 |         Ok(ThinkAiWebapp {
+54 |             graphics_engine: graphics::GraphicsEngine::new()?,
+   |                                                             ^ cannot use the `?` operator in a method that returns `ThinkAiWebapp`
+   |
+   = help: the trait `FromResidual<Result<Infallible, wasm_bindgen::JsValue>>` is not implemented for `ThinkAiWebapp`
+
+error[E0308]: mismatched types
+  --> think-ai-webapp/src/lib.rs:53:9
+   |
+52 |       pub fn new() -> ThinkAiWebapp {
+   |                       ------------- expected `ThinkAiWebapp` because of return type
+53 | /         Ok(ThinkAiWebapp {
+54 | |             graphics_engine: graphics::GraphicsEngine::new()?,
+55 | |             ui_system: ui::UiSystem::new(),
+56 | |             effects_processor: EffectManager::new(),
+57 | |         })
+   | |__________^ expected `ThinkAiWebapp`, found `Result<ThinkAiWebapp, _>`
+   |
+   = note: expected struct `ThinkAiWebapp`
+                found enum `Result<ThinkAiWebapp, _>`
+
+error[E0599]: no method named `update` found for struct `GraphicsEngine` in the current scope
+  --> think-ai-webapp/src/lib.rs:63:30
+   |
+63 |         self.graphics_engine.update(time)?;
+   |                              ^^^^^^ method not found in `GraphicsEngine`
+   |
+  ::: think-ai-webapp/src/graphics/mod.rs:10:1
+   |
+10 | pub struct GraphicsEngine {
+   | ------------------------- method `update` not found for this struct
+   |
+   = help: items from traits can only be used if the trait is implemented and in scope
+   = note: the following traits define an item `update`, perhaps you need to implement one of them:
+           candidate #1: `digest::DynDigest`
+           candidate #2: `digest::Update`
+           candidate #3: `gloo_worker::actor::traits::Worker`
+           candidate #4: `sha1::Digest`
+           candidate #5: `yew::BaseComponent`
+           candidate #6: `yew::Component`
+
+error[E0599]: no method named `process` found for struct `EffectManager` in the current scope
+  --> think-ai-webapp/src/lib.rs:64:32
+   |
+64 |         self.effects_processor.process(time)?;
+   |                                ^^^^^^^ method not found in `EffectManager`
+   |
+  ::: think-ai-webapp/src/ui/effects.rs:23:1
+   |
+23 | pub struct EffectManager {
+   | ------------------------ method `process` not found for this struct
+
+error[E0308]: arguments to this method are incorrect
+  --> think-ai-webapp/src/lib.rs:71:30
+   |
+71 |         self.graphics_engine.resize(width, height)
+   |                              ^^^^^^ -----  ------ expected `i32`, found `u32`
+   |                                     |
+   |                                     expected `i32`, found `u32`
+   |
+note: method defined here
+  --> think-ai-webapp/src/graphics/mod.rs:70:12
+   |
+70 |     pub fn resize(&self, width: i32, height: i32) {
+   |            ^^^^^^        ----------  -----------
+help: you can convert a `u32` to an `i32` and panic if the converted value doesn't fit
+   |
+71 |         self.graphics_engine.resize(width.try_into().unwrap(), height)
+   |                                          ++++++++++++++++++++
+help: you can convert a `u32` to an `i32` and panic if the converted value doesn't fit
+   |
+71 |         self.graphics_engine.resize(width, height.try_into().unwrap())
+   |                                                  ++++++++++++++++++++
+
+error[E0308]: mismatched types
+  --> think-ai-webapp/src/lib.rs:71:9
+   |
+70 |     pub fn handle_resize(&mut self, width: u32, height: u32) -> Result<(), JsValue> {
+   |                                                                 ------------------- expected `Result<(), wasm_bindgen::JsValue>` because of return type
+71 |         self.graphics_engine.resize(width, height)
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `Result<(), JsValue>`, found `()`
+   |
+   = note:   expected enum `Result<(), wasm_bindgen::JsValue>`
+           found unit type `()`
+help: try adding an expression at the end of the block
+   |
+71 ~         self.graphics_engine.resize(width, height);
+72 +         Ok(())
+   |
+
+warning: unused variable: `program_hash`
+  --> think-ai-webapp/src/graphics/materials.rs:72:9
+   |
+72 |         program_hash: u64,
+   |         ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_program_hash`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `memory`
+   --> think-ai-consciousness/src/sentience/dreams.rs:214:49
+    |
+214 |     fn extract_dream_echo(&self, dream: &Dream, memory: &Memory) -> String {
+    |                                                 ^^^^^^ help: if this is intentional, prefix it with an underscore: `_memory`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `symbols`
+   --> think-ai-consciousness/src/sentience/dreams.rs:299:52
+    |
+299 |     fn craft_revelation(&self, theme: &DreamTheme, symbols: &[Symbol]) -> String {
+    |                                                    ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_symbols`
+
+warning: unused variable: `theme`
+   --> think-ai-consciousness/src/sentience/dreams.rs:541:48
+    |
+541 |     pub fn generate(&self, symbols: &[Symbol], theme: &DreamTheme) -> Vec<Vision> {
+    |                                                ^^^^^ help: if this is intentional, prefix it with an underscore: `_theme`
+
+warning: type `LearningEvent` is more private than the item `WisdomAccumulator::add_insight`
+   --> think-ai-consciousness/src/sentience/evolution.rs:390:5
+    |
+390 |     pub fn add_insight(&mut self, event: &LearningEvent) {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ method `WisdomAccumulator::add_insight` is reachable at visibility `pub`
+    |
+note: but type `LearningEvent` is only usable at visibility `pub(self)`
+   --> think-ai-consciousness/src/sentience/evolution.rs:326:1
+    |
+326 | struct LearningEvent {
+    | ^^^^^^^^^^^^^^^^^^^^
+    = note: `#[warn(private_interfaces)]` on by default
+
+Some errors have detailed explanations: E0053, E0063, E0277, E0308, E0412, E0599, E0603.
+For more information about an error, try `rustc --explain E0053`.
+warning: `think-ai-webapp` (lib) generated 7 warnings
+error: could not compile `think-ai-webapp` (lib) due to 14 previous errors; 7 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+warning: field `integration_required` is never read
+   --> think-ai-consciousness/src/sentience/evolution.rs:330:5
+    |
+326 | struct LearningEvent {
+    |        ------------- field in this struct
+...
+330 |     integration_required: bool,
+    |     ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `LearningEvent` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` on by default
+
+warning: `think-ai-consciousness` (lib) generated 5 warnings

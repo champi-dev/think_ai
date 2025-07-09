@@ -15,6 +15,9 @@ serde_json = "1.0"
 # Yew Framework
 yew = { version = "0.21", features = ["csr"] }
 
+# Math
+nalgebra = "0.32"
+
 # WebGL and Graphics
 wasm-bindgen = "0.2"
 web-sys = { version = "0.3", features = [

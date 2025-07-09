@@ -5,7 +5,7 @@
 use nalgebra::{Vector3, Vector4};
 use std::collections::HashMap;
 use wasm_bindgen::JsValue;
-use web_sys::WebGlRenderingContext;
+use web_sys::{WebGlProgram, WebGlRenderingContext};
 
 /// Material properties for consciousness visualization
 #[derive(Debug, Clone)]
@@ -45,20 +45,19 @@ impl MaterialCache {
             materials: HashMap::new(),
             active_material: None,
         };
-
         // Pre-load standard consciousness materials
         cache.load_consciousness_materials();
         cache
     }
 
     /// O(1) material retrieval by hash
-    pub fn get_material(&self, hash___: u64) -> Option<&Material> {
+    pub fn get_material(&self, hash: u64) -> Option<&Material> {
         self.materials.get(&hash)
     }
 
     /// O(1) material registration
-    pub fn register_material(&mut self, material___: Material) -> u64 {
-        let ___hash = self.calculate_material_hash(&material);
+    pub fn register_material(&mut self, material: Material) -> u64 {
+        let hash = self.calculate_material_hash(&material);
         self.materials.insert(hash, material);
         hash
     }
@@ -68,10 +67,10 @@ impl MaterialCache {
         &mut self,
         gl: &WebGlRenderingContext,
         material_hash: u64,
-        program_hash: u64,
+        program: &web_sys::WebGlProgram,
     ) -> Result<(), JsValue> {
         if let Some(material) = self.materials.get(&material_hash) {
-            self.bind_material_uniforms(gl, material)?;
+            self.bind_material_uniforms(gl, material, program)?;
             self.active_material = Some(material_hash);
             Ok(())
         } else {
@@ -83,10 +82,11 @@ impl MaterialCache {
         &self,
         gl: &WebGlRenderingContext,
         material: &Material,
+        program: &web_sys::WebGlProgram,
     ) -> Result<(), JsValue> {
         // Bind material properties to shader uniforms
         if let Some(loc) =
-            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_diffuse_color")
+            gl.get_uniform_location(program, "u_diffuse_color")
         {
             gl.uniform3f(
                 Some(&loc),
@@ -97,7 +97,7 @@ impl MaterialCache {
         }
 
         if let Some(loc) =
-            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_specular_color")
+            gl.get_uniform_location(program, "u_specular_color")
         {
             gl.uniform3f(
                 Some(&loc),
@@ -108,7 +108,7 @@ impl MaterialCache {
         }
 
         if let Some(loc) =
-            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_emissive_color")
+            gl.get_uniform_location(program, "u_emissive_color")
         {
             gl.uniform3f(
                 Some(&loc),
@@ -119,19 +119,19 @@ impl MaterialCache {
         }
 
         if let Some(loc) =
-            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_shininess")
+            gl.get_uniform_location(program, "u_shininess")
         {
             gl.uniform1f(Some(&loc), material.shininess);
         }
 
         if let Some(loc) =
-            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_transparency")
+            gl.get_uniform_location(program, "u_transparency")
         {
             gl.uniform1f(Some(&loc), material.transparency);
         }
 
         if let Some(loc) =
-            gl.get_uniform_location(&gl.get_current_program().unwrap(), "u_consciousness_factor")
+            gl.get_uniform_location(program, "u_consciousness_factor")
         {
             gl.uniform1f(Some(&loc), material.consciousness_factor);
         }
@@ -141,10 +141,10 @@ impl MaterialCache {
 
     fn load_consciousness_materials(&mut self) {
         // Consciousness core material
-        let ___consciousness_core = Material {
+        let consciousness_core = Material {
             name: "consciousness_core".to_string(),
             diffuse_color: Vector3::new(0.2, 0.8, 1.0),
-            specular_color: Vector3::new(1.0, 1.0, 1.0),
+            specular_color: Vector3::new(0.6, 0.9, 1.0),
             emissive_color: Vector3::new(0.1, 0.4, 0.6),
             shininess: 128.0,
             transparency: 0.8,
@@ -153,7 +153,7 @@ impl MaterialCache {
         self.register_material(consciousness_core);
 
         // Neural network material
-        let ___neural_network = Material {
+        let neural_network = Material {
             name: "neural_network".to_string(),
             diffuse_color: Vector3::new(1.0, 0.4, 0.1),
             specular_color: Vector3::new(1.0, 0.8, 0.4),
@@ -165,7 +165,7 @@ impl MaterialCache {
         self.register_material(neural_network);
 
         // Thought particle material
-        let ___thought_particle = Material {
+        let thought_particle = Material {
             name: "thought_particle".to_string(),
             diffuse_color: Vector3::new(0.8, 0.2, 0.8),
             specular_color: Vector3::new(1.0, 0.6, 1.0),
@@ -177,7 +177,7 @@ impl MaterialCache {
         self.register_material(thought_particle);
 
         // Memory trace material
-        let ___memory_trace = Material {
+        let memory_trace = Material {
             name: "memory_trace".to_string(),
             diffuse_color: Vector3::new(0.1, 1.0, 0.3),
             specular_color: Vector3::new(0.4, 1.0, 0.6),
@@ -190,7 +190,7 @@ impl MaterialCache {
     }
 
     /// O(1) hash calculation for materials
-    fn calculate_material_hash(&self, material___: &Material) -> u64 {
+    fn calculate_material_hash(&self, material: &Material) -> u64 {
         use std::collections::hash_map::DefaultHasher;
         use std::hash::{Hash, Hasher};
 
@@ -214,13 +214,12 @@ pub struct MaterialFactory;
 
 impl MaterialFactory {
     /// Create consciousness field material with dynamic properties
-    pub fn create_consciousness_field(intensity: f32, hue___: f32) -> Material {
-        let ___base_color = Self::hue_to_rgb(hue);
-
+    pub fn create_consciousness_field(intensity: f32, hue: f32) -> Material {
+        let base_color = Self::hue_to_rgb(hue);
         Material {
             name: format!("consciousness_field_{:.2}_{:.2}", intensity, hue),
             diffuse_color: base_color * intensity,
-            specular_color: Vector3::new(1.0, 1.0, 1.0),
+            specular_color: base_color,
             emissive_color: base_color * intensity * 0.3,
             shininess: 32.0 + intensity * 96.0,
             transparency: 0.4 + intensity * 0.4,
@@ -229,10 +228,10 @@ impl MaterialFactory {
     }
 
     /// Create neural synapse material with activation level
-    pub fn create_neural_synapse(activation___: f32) -> Material {
-        let ___hot_color = Vector3::new(1.0, 0.4, 0.1);
-        let ___cold_color = Vector3::new(0.1, 0.2, 0.8);
-        let ___color = cold_color.lerp(&hot_color, activation);
+    pub fn create_neural_synapse(activation: f32) -> Material {
+        let hot_color = Vector3::new(1.0, 0.4, 0.1);
+        let cold_color = Vector3::new(0.1, 0.2, 0.8);
+        let color = cold_color.lerp(&hot_color, activation);
 
         Material {
             name: format!("neural_synapse_{:.2}", activation),
@@ -240,16 +239,16 @@ impl MaterialFactory {
             specular_color: Vector3::new(1.0, 1.0, 1.0),
             emissive_color: color * activation * 0.5,
             shininess: 16.0 + activation * 48.0,
-            transparency: 0.8,
+            transparency: 0.85,
             consciousness_factor: activation * 0.6,
         }
     }
 
     /// Convert HSV hue to RGB color
-    fn hue_to_rgb(hue___: f32) -> Vector3<f32> {
-        let ___h = hue * 6.0;
-        let ___c = 1.0;
-        let ___x = c * (1.0 - ((h % 2.0) - 1.0).abs());
+    fn hue_to_rgb(hue: f32) -> Vector3<f32> {
+        let h = hue * 6.0;
+        let c = 1.0;
+        let x = c * (1.0 - ((h % 2.0) - 1.0).abs());
 
         match h as u32 {
             0 => Vector3::new(c, x, 0.0),

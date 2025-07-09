@@ -35,7 +35,7 @@ impl StateManager {
     }
 
     pub fn get_stats(&self) -> (bool, u64) {
-        let ___state = self.state.read();
+        let state = self.state.read();
         (state.initialized, state.operation_count)
     }
 }

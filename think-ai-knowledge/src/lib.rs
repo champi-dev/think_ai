@@ -28,28 +28,22 @@ pub mod live_stream_monitor;
 pub mod llm_benchmarks;
 pub mod minimal_response_generator;
 pub mod multi_candidate_selector;
-#[cfg(feature = "web-scraping")]
 pub mod newsletter_scraper;
 pub mod o1_benchmark_monitor;
 pub mod qwen_cache;
 pub mod qwen_knowledge_builder;
-#[cfg(feature = "web-scraping")]
 pub mod realtime_knowledge_component;
-#[cfg(feature = "web-scraping")]
 pub mod realtime_knowledge_gatherer;
 pub mod response_generator;
 pub mod self_evaluator;
 pub mod self_learning;
 pub mod simple_cache_component;
 pub mod simple_llm;
-#[cfg(feature = "web-scraping")]
 pub mod social_media_gatherer;
-
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct KnowledgeNode {
     pub id: String,
@@ -61,7 +55,6 @@ pub struct KnowledgeNode {
     pub usage_count: u64,
     pub last_accessed: u64,
 }
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
 pub enum KnowledgeDomain {
     Mathematics,
@@ -124,7 +117,6 @@ impl KnowledgeDomain {
 use crate::enhanced_quantum_llm::EnhancedQuantumLLMEngine;
 use crate::feynman_explainer::FeynmanExplainer;
 use crate::intelligent_relevance::IntelligentRelevanceEngine;
-
 pub struct KnowledgeEngine {
     nodes: Arc<RwLock<HashMap<String, KnowledgeNode>>>,
     domain_index: Arc<RwLock<HashMap<KnowledgeDomain, Vec<String>>>>,
@@ -149,7 +141,7 @@ impl Default for KnowledgeEngine {
 
 impl KnowledgeEngine {
     pub fn new() -> Self {
-        let ___nodes = Arc::new(RwLock::new(HashMap::new()));
+        let nodes = Arc::new(RwLock::new(HashMap::new()));
         Self {
             nodes: nodes.clone(),
             domain_index: Arc::new(RwLock::new(HashMap::new())),
@@ -174,9 +166,8 @@ impl KnowledgeEngine {
         content: String,
         related: Vec<String>,
     ) -> String {
-        let ___id = Self::generate_id(&domain, &topic, &content);
-
-        let ___node = KnowledgeNode {
+        let id = Self::generate_id(&domain, &topic, &content);
+        let node = KnowledgeNode {
             id: id.clone(),
             domain: domain.clone(),
             topic: topic.clone(),
@@ -186,52 +177,41 @@ impl KnowledgeEngine {
             usage_count: 0,
             last_accessed: Self::current_timestamp(),
         };
-
         let mut nodes = self.nodes.write().unwrap();
         nodes.insert(id.clone(), node.clone());
-
         let mut domain_index = self.domain_index.write().unwrap();
         domain_index.entry(domain).or_default().push(id.clone());
-
         let mut concept_graph = self.concept_graph.write().unwrap();
         concept_graph.insert(topic.clone(), related.clone());
-
         // Update O(1) Performance Indexes
         self.update_indexes(&id, &node);
-
         let mut total = self.total_knowledge_items.write().unwrap();
         *total += 1;
-
         id
     }
 
-    pub fn query(&self, query___: &str) -> Option<Vec<KnowledgeNode>> {
-        let ___query_lower = query.to_lowercase();
-
+    pub fn query(&self, query: &str) -> Option<Vec<KnowledgeNode>> {
+        let query_lower = query.to_lowercase();
         // Check if this is a definition query ("what is X", "define X", etc.)
-        let ___is_definition_query = query_lower.starts_with("what is ")
+        let is_definition_query = query_lower.starts_with("what is ")
             || query_lower.starts_with("what's ")
             || query_lower.starts_with("define ")
             || query_lower.starts_with("explain ");
-        let ___key_concept = if is_definition_query {
+        let key_concept = if is_definition_query {
             self.extract_key_concept(query).to_lowercase()
         } else {
             query_lower.clone()
         };
-
         // Collect results with scoring
         let mut scored_results = Vec::new();
         let mut node_ids_to_update = Vec::new();
-
         {
-            let ___nodes = self.nodes.read().unwrap();
-
+            let nodes = self.nodes.read().unwrap();
             for (_, node) in nodes.iter() {
-                let ___topic_lower = node.topic.to_lowercase();
-                let ___content_lower = node.content.to_lowercase();
+                let topic_lower = node.topic.to_lowercase();
+                let content_lower = node.content.to_lowercase();
                 let mut score = 0.0f32;
                 let mut matched = false;
-
                 // Score exact topic matches highest
                 if is_definition_query && topic_lower == key_concept {
                     score = 100.0;
@@ -252,7 +232,7 @@ impl KnowledgeEngine {
                 else if Self::word_boundary_match(&topic_lower, &query_lower) {
                     if is_definition_query {
                         // For definition queries, prioritize based on how central the concept is
-                        let ___words = topic_lower.split_whitespace().collect::<Vec<_>>();
+                        let words = topic_lower.split_whitespace().collect::<Vec<_>>();
                         if words.len() <= 3 && words.contains(&key_concept.as_str()) {
                             score = 85.0; // Short, focused topics
                         } else if words.contains(&key_concept.as_str()) {
@@ -269,7 +249,7 @@ impl KnowledgeEngine {
                 else if Self::word_boundary_match(&content_lower, &query_lower) {
                     if is_definition_query {
                         // For definition queries, content that directly defines the concept should score higher
-                        let ___content_start = content_lower
+                        let content_start = content_lower
                             .split_whitespace()
                             .take(20)
                             .collect::<Vec<_>>()
@@ -277,17 +257,17 @@ impl KnowledgeEngine {
                         if content_start.contains(&key_concept) {
                             score = 70.0; // Higher score for content that defines the concept
                         } else {
-                            score = 30.0; // Standard content match
+                            score = 50.0; // Standard content match for definition queries
                         }
                     } else {
-                        score = 30.0;
+                        score = 30.0; // Standard content match
                     }
                     matched = true;
                 }
                 // Check related concepts
                 else {
                     for concept in &node.related_concepts {
-                        let ___concept_lower = concept.to_lowercase();
+                        let concept_lower = concept.to_lowercase();
                         if query_lower.contains(&concept_lower)
                             || query_lower
                                 .split_whitespace()
@@ -299,42 +279,35 @@ impl KnowledgeEngine {
                         }
                     }
                 }
-
                 if matched {
                     // Apply domain relevance boost for definition queries
                     if is_definition_query {
                         score += Self::calculate_domain_relevance_boost(&key_concept, &node.domain);
                     }
-
                     scored_results.push((node.clone(), score));
                     node_ids_to_update.push(node.id.clone());
                 }
             }
         } // Read lock dropped here
-
         if scored_results.is_empty() {
             None
         } else {
             // Sort by score (highest first)
             scored_results
                 .sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
-
             // Extract sorted nodes
             let exact_matches: Vec<KnowledgeNode> =
                 scored_results.into_iter().map(|(node, _)| node).collect();
-
             // Skip updating access count during queries to maintain O(1) performance
             // This avoids write lock contention under load
             // Usage tracking can be done asynchronously if needed
-
             Some(exact_matches)
         }
     }
 
-    pub fn query_by_domain(&self, domain___: KnowledgeDomain) -> Vec<KnowledgeNode> {
-        let ___domain_index = self.domain_index.read().unwrap();
-        let ___nodes = self.nodes.read().unwrap();
-
+    pub fn query_by_domain(&self, domain: KnowledgeDomain) -> Vec<KnowledgeNode> {
+        let domain_index = self.domain_index.read().unwrap();
+        let nodes = self.nodes.read().unwrap();
         if let Some(ids) = domain_index.get(&domain) {
             ids.iter().filter_map(|id| nodes.get(id).cloned()).collect()
         } else {
@@ -342,17 +315,16 @@ impl KnowledgeEngine {
         }
     }
 
-    pub fn intelligent_query(&self, query___: &str) -> Vec<KnowledgeNode> {
+    pub fn intelligent_query(&self, query: &str) -> Vec<KnowledgeNode> {
+        let nodes = self.nodes.read().unwrap();
         // Extract key concept from "what is X" questions
-        let ___processed_query = self.extract_key_concept(query);
-
+        let processed_query = self.extract_key_concept(query);
         // First try direct query for exact matches on processed query
         if let Some(results) = self.fast_query(&processed_query) {
             if !results.is_empty() {
                 return results;
             }
         }
-
         // If no results from processed query, try original query
         if processed_query != query {
             if let Some(results) = self.fast_query(query) {
@@ -361,14 +333,11 @@ impl KnowledgeEngine {
                 }
             }
         }
-
         // Use intelligent relevance engine for semantic understanding
-        let ___nodes = self.nodes.read().unwrap();
         let mut scored_results: Vec<(KnowledgeNode, f64)> = Vec::new();
-
         // Try relevance search with processed query first
         for (_, node) in nodes.iter() {
-            let ___relevance_score = self
+            let relevance_score = self
                 .intelligent_relevance
                 .compute_relevance(&processed_query, node);
             if relevance_score > 0.1 {
@@ -376,17 +345,15 @@ impl KnowledgeEngine {
                 scored_results.push((node.clone(), relevance_score));
             }
         }
-
         // If no good results from processed query, try original query
         if scored_results.is_empty() && processed_query != query {
             for (_, node) in nodes.iter() {
-                let ___relevance_score = self.intelligent_relevance.compute_relevance(query, node);
+                let relevance_score = self.intelligent_relevance.compute_relevance(query, node);
                 if relevance_score > 0.1 {
                     scored_results.push((node.clone(), relevance_score));
                 }
             }
         }
-
         // Sort by relevance score (highest first) and take top results
         scored_results.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
         let results: Vec<KnowledgeNode> = scored_results
@@ -394,64 +361,56 @@ impl KnowledgeEngine {
             .take(10)
             .map(|(node, _)| node)
             .collect();
-
         // Learn from this interaction (assume neutral success for now)
         if let Some(selected_node) = results.first() {
             self.intelligent_relevance
                 .learn_from_interaction(query, selected_node, 0.5);
         }
-
         results
     }
 
-    pub fn get_top_relevant(&self, query: &str, limit___: usize) -> Vec<KnowledgeNode> {
+    pub fn get_top_relevant(&self, query: &str, limit: usize) -> Vec<KnowledgeNode> {
+        let query_lower = query.to_lowercase();
+        let nodes = self.nodes.read().unwrap();
+
         // Try intelligent query to get scored results
-        let ___results = self.intelligent_query(query);
+        let results = self.intelligent_query(query);
         if !results.is_empty() {
             return results.into_iter().take(limit).collect();
         }
-
         // If still no results, do a broader keyword search
-        let ___query_lower = query.to_lowercase();
         let keywords: Vec<&str> = query_lower
             .split_whitespace()
             .filter(|w| w.len() > 2) // Skip short words
             .collect();
-
         if keywords.is_empty() {
             return Vec::new();
         }
-
-        let ___nodes = self.nodes.read().unwrap();
         let mut scored_results: Vec<(KnowledgeNode, usize)> = Vec::new();
-
         for (_, node) in nodes.iter() {
             let mut score: usize = 0;
-            let ___topic_lower = node.topic.to_lowercase();
-            let ___content_lower = node.content.to_lowercase();
-
+            let topic_lower = node.topic.to_lowercase();
+            let content_lower = node.content.to_lowercase();
             // Looser matching - any keyword match counts
             for keyword in &keywords {
                 if topic_lower.contains(keyword) || content_lower.contains(keyword) {
                     score += 1;
                 }
             }
-
             if score > 0 {
                 scored_results.push((node.clone(), score));
             }
         }
-
         // Sort by score and return top results
         scored_results.sort_by(|a, b| b.1.cmp(&a.1));
         scored_results
             .into_iter()
-            .take(limit)
             .map(|(node, _)| node)
+            .take(limit)
             .collect()
     }
 
-    pub fn generate_llm_response(&self, query___: &str) -> String {
+    pub fn generate_llm_response(&self, query: &str) -> String {
         // Use lazy initialization to avoid circular dependency
         let mut llm_lock = self.quantum_llm.write().unwrap();
         if llm_lock.is_none() {
@@ -462,7 +421,7 @@ impl KnowledgeEngine {
         llm_lock.as_mut().unwrap().generate_response(query)
     }
 
-    pub fn set_quantum_llm(&self, llm___: EnhancedQuantumLLMEngine) {
+    pub fn set_quantum_llm(&self, llm: EnhancedQuantumLLMEngine) {
         let mut llm_lock = self.quantum_llm.write().unwrap();
         *llm_lock = Some(llm);
     }
@@ -474,26 +433,22 @@ impl KnowledgeEngine {
         for (domain, topic, content, related) in knowledge_pairs {
             self.add_knowledge(domain, topic, content, related);
         }
-
         let mut iterations = self.training_iterations.write().unwrap();
         *iterations += 1;
     }
 
     pub fn get_stats(&self) -> KnowledgeStats {
-        let ___nodes = self.nodes.read().unwrap();
-        let ___iterations = self.training_iterations.read().unwrap();
-        let ___total = self.total_knowledge_items.read().unwrap();
-
+        let nodes = self.nodes.read().unwrap();
+        let iterations = self.training_iterations.read().unwrap();
+        let total = self.total_knowledge_items.read().unwrap();
         let mut domain_counts = HashMap::new();
         let mut domains = std::collections::HashSet::new();
         let mut categories = std::collections::HashSet::new();
-
         for node in nodes.values() {
             *domain_counts.entry(node.domain.clone()).or_insert(0) += 1;
             domains.insert(format!("{:?}", node.domain));
             categories.insert(node.topic.clone());
         }
-
         KnowledgeStats {
             total_nodes: nodes.len(),
             training_iterations: *iterations,
@@ -515,34 +470,33 @@ impl KnowledgeEngine {
         self.nodes.read().unwrap().clone()
     }
 
-    pub fn load_nodes(&self, nodes___: HashMap<String, KnowledgeNode>) {
+    pub fn load_nodes(&self, nodes: HashMap<String, KnowledgeNode>) {
         let mut self_nodes = self.nodes.write().unwrap();
-        let mut domain_index = self.domain_index.write().unwrap();
-        let mut concept_graph = self.concept_graph.write().unwrap();
-        let mut total = self.total_knowledge_items.write().unwrap();
-
         *self_nodes = nodes;
-        domain_index.clear();
-        concept_graph.clear();
 
+        let mut domain_index = self.domain_index.write().unwrap();
+        domain_index.clear();
+
+        let mut concept_graph = self.concept_graph.write().unwrap();
+        concept_graph.clear();
         for node in self_nodes.values() {
             domain_index
                 .entry(node.domain.clone())
                 .or_default()
                 .push(node.id.clone());
-
             concept_graph.insert(node.topic.clone(), node.related_concepts.clone());
         }
 
+        let mut total = self.total_knowledge_items.write().unwrap();
         *total = self_nodes.len() as u64;
     }
 
-    fn generate_id(domain: &KnowledgeDomain, topic: &str, content___: &str) -> String {
-        let ___data = format!("{domain:?}:{topic}:{content}");
+    fn generate_id(domain: &KnowledgeDomain, topic: &str, content: &str) -> String {
+        let data = format!("{domain:?}:{topic}:{content}");
         Self::hash_string(&data)
     }
 
-    fn hash_string(input___: &str) -> String {
+    fn hash_string(input: &str) -> String {
         let mut hasher = Sha256::new();
         hasher.update(input.as_bytes());
         format!("{:x}", hasher.finalize())
@@ -556,54 +510,48 @@ impl KnowledgeEngine {
     }
 
     /// Extract key concept from definition questions like "what is X" -> "X"
-    fn extract_key_concept(&self, query___: &str) -> String {
-        let ___query_lower = query.to_lowercase().trim().to_string();
-
+    fn extract_key_concept(&self, query: &str) -> String {
+        let query_lower = query.to_lowercase().trim().to_string();
         // Handle "what is X" questions
         if query_lower.starts_with("what is ") {
-            let ___concept = query_lower.strip_prefix("what is ").unwrap_or(&query_lower);
+            let concept = query_lower.strip_prefix("what is ").unwrap_or(&query_lower);
             // Remove common question words and punctuation
-            let ___cleaned = concept.replace("the ", "").replace("?", "");
+            let cleaned = concept.replace("the ", "").replace("?", "");
             return cleaned.trim().to_string();
         }
-
         // Handle "what's X" questions
         if query_lower.starts_with("what's ") {
-            let ___concept = query_lower.strip_prefix("what's ").unwrap_or(&query_lower);
-            let ___cleaned = concept.replace("the ", "").replace("?", "");
+            let concept = query_lower.strip_prefix("what's ").unwrap_or(&query_lower);
+            let cleaned = concept.replace("the ", "").replace("?", "");
             return cleaned.trim().to_string();
         }
-
         // Handle "define X" questions
         if query_lower.starts_with("define ") {
-            let ___concept = query_lower.strip_prefix("define ").unwrap_or(&query_lower);
-            let ___cleaned = concept.replace("the ", "").replace("?", "");
+            let concept = query_lower.strip_prefix("define ").unwrap_or(&query_lower);
+            let cleaned = concept.replace("the ", "").replace("?", "");
             return cleaned.trim().to_string();
         }
-
         // Handle "explain X" questions
         if query_lower.starts_with("explain ") {
-            let ___concept = query_lower.strip_prefix("explain ").unwrap_or(&query_lower);
-            let ___cleaned = concept.replace("the ", "").replace("?", "");
+            let concept = query_lower.strip_prefix("explain ").unwrap_or(&query_lower);
+            let cleaned = concept.replace("the ", "").replace("?", "");
             return cleaned.trim().to_string();
         }
-
         // Return original query if no pattern matches
         query.to_string()
     }
 
     /// Get all nodes as vector for training
     pub fn get_all_nodes_vec(&self) -> Vec<KnowledgeNode> {
-        let ___nodes = self.nodes.read().unwrap();
+        let nodes = self.nodes.read().unwrap();
         nodes.values().cloned().collect()
     }
 
     /// Generate a Feynman-style explanation for any concept
-    pub fn explain_concept(&self, concept___: &str) -> String {
-        let ___explanation = self.feynman_explainer.explain(concept);
+    pub fn explain_concept(&self, concept: &str) -> String {
+        let explanation = self.feynman_explainer.explain(concept);
         explanation.format_for_human()
     }
-
     /// Get access to the intelligent relevance engine
     pub fn get_intelligent_relevance(&self) -> Arc<IntelligentRelevanceEngine> {
         self.intelligent_relevance.clone()
@@ -617,7 +565,6 @@ impl KnowledgeEngine {
     ) -> Vec<KnowledgeNode> {
         // First try intelligent query
         let mut results = self.intelligent_query(query);
-
         // If limited results, try direct query
         if results.len() < 5 {
             if let Some(direct_results) = self.fast_query(query) {
@@ -628,41 +575,36 @@ impl KnowledgeEngine {
                 }
             }
         }
-
         // If still limited results, try broader keyword search
         if results.len() < 5 {
-            let ___broader_results = self.get_top_relevant(query, 10);
+            let broader_results = self.get_top_relevant(query, 10);
             for node in broader_results {
                 if !results.iter().any(|r| r.id == node.id) {
                     results.push(node);
                 }
             }
         }
-
         // Filter by domain if specified
         if let Some(domain) = domain_filter {
             results.retain(|node| node.domain == domain);
         }
-
         // Limit to top 10 results
         results.truncate(10);
         results
     }
 
     /// Word boundary aware matching to prevent false positives like "matter" matching "matters"
-    fn word_boundary_match(text: &str, query___: &str) -> bool {
+    fn word_boundary_match(text: &str, query: &str) -> bool {
         // Split query into words for multi-word queries
         let query_words: Vec<&str> = query.split_whitespace().collect();
-
         if query_words.len() == 1 {
             // Single word query - use word boundary matching
-            let ___word = query_words[0];
+            let word = query_words[0];
             let text_words: Vec<&str> = text.split_whitespace().collect();
-
             // Check if any word in text exactly matches the query word
             text_words.iter().any(|&text_word| {
                 // Remove punctuation for comparison
-                let ___clean_text_word = text_word.trim_matches(|c: char| !c.is_alphanumeric());
+                let clean_text_word = text_word.trim_matches(|c: char| !c.is_alphanumeric());
                 clean_text_word == word
             })
         } else {
@@ -671,7 +613,6 @@ impl KnowledgeEngine {
                 .split_whitespace()
                 .map(|w| w.trim_matches(|c: char| !c.is_alphanumeric()).to_string())
                 .collect();
-
             query_words
                 .iter()
                 .all(|&query_word| text_words.iter().any(|text_word| text_word == query_word))
@@ -679,7 +620,7 @@ impl KnowledgeEngine {
     }
 
     /// Calculate domain relevance boost for definition queries
-    fn calculate_domain_relevance_boost(concept: &str, domain___: &KnowledgeDomain) -> f32 {
+    fn calculate_domain_relevance_boost(concept: &str, domain: &KnowledgeDomain) -> f32 {
         match concept {
             // Space concepts - prioritize astronomy and physics
             "space" | "universe" | "cosmos" | "galaxy" | "star" | "planet" => match domain {
@@ -697,7 +638,7 @@ impl KnowledgeEngine {
             },
             // Time concepts - prioritize physics and philosophy
             "time" | "temporal" | "duration" => match domain {
-                KnowledgeDomain::Physics => 15.0,
+                KnowledgeDomain::Physics => 12.0,
                 KnowledgeDomain::Philosophy => 10.0,
                 KnowledgeDomain::Astronomy => 8.0,
                 _ => 0.0,
@@ -732,20 +673,17 @@ impl KnowledgeEngine {
             _ => 0.0,
         }
     }
-
     // O(1) Performance Methods
-    fn update_indexes(&self, node_id: &str, node___: &KnowledgeNode) {
+    fn update_indexes(&self, node_id: &str, node: &KnowledgeNode) {
         // Update topic index for O(1) topic lookups
-        let ___topic_key = node.topic.to_lowercase();
+        let topic_key = node.topic.to_lowercase();
         let mut topic_index = self.topic_index.write().unwrap();
         topic_index
             .entry(topic_key)
             .or_default()
             .push(node_id.to_string());
-
         // Update keyword index for O(1) keyword lookups
         let mut keyword_index = self.keyword_index.write().unwrap();
-
         // Index topic words
         for word in node.topic.to_lowercase().split_whitespace() {
             if word.len() > 2 {
@@ -756,12 +694,11 @@ impl KnowledgeEngine {
                     .push(node_id.to_string());
             }
         }
-
         // Index content words (first 50 words to avoid bloat)
         for word in node.content.to_lowercase().split_whitespace().take(50) {
             if word.len() > 3 {
                 // Only meaningful words
-                let ___clean_word = word.trim_matches(|c: char| !c.is_alphanumeric());
+                let clean_word = word.trim_matches(|c: char| !c.is_alphanumeric());
                 if clean_word.len() > 3 {
                     keyword_index
                         .entry(clean_word.to_string())
@@ -770,36 +707,33 @@ impl KnowledgeEngine {
                 }
             }
         }
-
         // Index related concepts
         for concept in &node.related_concepts {
-            let ___concept_key = concept.to_lowercase();
+            let concept_key = concept.to_lowercase();
             keyword_index
                 .entry(concept_key)
                 .or_default()
                 .push(node_id.to_string());
         }
-
         // Update content hash index for exact duplicate detection
-        let ___content_hash = Self::hash_content(&node.content);
+        let content_hash = Self::hash_content(&node.content);
         let mut content_hash_index = self.content_hash_index.write().unwrap();
         content_hash_index.insert(content_hash, node_id.to_string());
     }
-
-    fn hash_content(content___: &str) -> String {
-        use sha2::{Digest, Sha256};
+    fn hash_content(content: &str) -> String {
         let mut hasher = Sha256::new();
         hasher.update(content.as_bytes());
         format!("{:x}", hasher.finalize())
     }
 
     // O(1) Fast Query - replaces the slow O(n) query method
-    pub fn fast_query(&self, query___: &str) -> Option<Vec<KnowledgeNode>> {
-        let ___query_key = query.to_lowercase();
+    pub fn fast_query(&self, query: &str) -> Option<Vec<KnowledgeNode>> {
+        let query_key = query.to_lowercase();
+        let nodes = self.nodes.read().unwrap();
 
         // Check cache first - O(1) lookup
         {
-            let ___cache = self.quick_lookup_cache.read().unwrap();
+            let cache = self.quick_lookup_cache.read().unwrap();
             if let Some(cached_results) = cache.get(&query_key) {
                 return Some(
                     cached_results
@@ -811,8 +745,6 @@ impl KnowledgeEngine {
         }
 
         let mut candidate_nodes = Vec::new();
-        let ___nodes = self.nodes.read().unwrap();
-
         // O(1) Topic exact match lookup
         if let Some(node_ids) = self.topic_index.read().unwrap().get(&query_key) {
             for node_id in node_ids {
@@ -821,16 +753,15 @@ impl KnowledgeEngine {
                 }
             }
         }
-
         // O(1) Keyword lookups
-        let ___keyword_index = self.keyword_index.read().unwrap();
+        let keyword_index = self.keyword_index.read().unwrap();
         for word in query_key.split_whitespace() {
             if let Some(node_ids) = keyword_index.get(word) {
                 for node_id in node_ids {
                     if let Some(node) = nodes.get(node_id) {
                         // Check if already added from topic match
                         if !candidate_nodes.iter().any(|(n, _)| n.id == node.id) {
-                            let ___score = if node.topic.to_lowercase().contains(word) {
+                            let score = if node.topic.to_lowercase().contains(word) {
                                 75.0
                             } else {
                                 50.0
@@ -841,20 +772,18 @@ impl KnowledgeEngine {
                 }
             }
         }
-
         // Sort by score and limit results
         candidate_nodes.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
         candidate_nodes.truncate(10);
-
         // Cache results for O(1) future lookups
         let results: Vec<KnowledgeNode> = candidate_nodes
             .iter()
             .map(|(node, _)| node.clone())
             .collect();
+
         {
             let mut cache = self.quick_lookup_cache.write().unwrap();
             cache.insert(query_key, candidate_nodes.clone());
-
             // Limit cache size to prevent memory bloat
             if cache.len() > 1000 {
                 cache.clear(); // Simple cache eviction
@@ -869,7 +798,6 @@ impl KnowledgeEngine {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct KnowledgeStats {
     pub total_nodes: usize,
     pub training_iterations: u64,
@@ -888,16 +816,17 @@ mod tests {
 
     #[test]
     fn test_knowledge_engine_creation() {
-        let ___engine = KnowledgeEngine::new();
-        let ___stats = engine.get_stats();
+        let engine = KnowledgeEngine::new();
+        let stats = engine.get_stats();
         assert_eq!(stats.total_nodes, 0);
         assert_eq!(stats.training_iterations, 0);
     }
 
     #[test]
     fn test_add_knowledge() {
-        let ___engine = KnowledgeEngine::new();
-        let ___id = engine.add_knowledge(
+        let engine = KnowledgeEngine::new();
+
+        let id = engine.add_knowledge(
             KnowledgeDomain::Mathematics,
             "Pythagorean Theorem".to_string(),
             "In a right triangle, a² + b² = c²".to_string(),
@@ -905,14 +834,16 @@ mod tests {
         );
 
         assert!(!id.is_empty());
-        let ___stats = engine.get_stats();
+
+        let stats = engine.get_stats();
         assert_eq!(stats.total_nodes, 1);
         assert_eq!(stats.total_knowledge_items, 1);
     }
 
     #[test]
     fn test_query() {
-        let ___engine = KnowledgeEngine::new();
+        let engine = KnowledgeEngine::new();
+
         engine.add_knowledge(
             KnowledgeDomain::Physics,
             "Newton's First Law".to_string(),
@@ -920,14 +851,15 @@ mod tests {
             vec!["mechanics".to_string(), "motion".to_string()],
         );
 
-        let ___results = engine.query("Newton's First Law");
+        let results = engine.query("Newton's First Law");
         assert!(results.is_some());
         assert_eq!(results.unwrap().len(), 1);
     }
 
     #[test]
     fn test_domain_query() {
-        let ___engine = KnowledgeEngine::new();
+        let engine = KnowledgeEngine::new();
+
         engine.add_knowledge(
             KnowledgeDomain::Philosophy,
             "Cogito ergo sum".to_string(),
@@ -935,16 +867,14 @@ mod tests {
             vec!["Descartes".to_string(), "epistemology".to_string()],
         );
 
-        let ___results = engine.query_by_domain(KnowledgeDomain::Philosophy);
+        let results = engine.query_by_domain(KnowledgeDomain::Philosophy);
         assert_eq!(results.len(), 1);
     }
 }
 
 pub mod quantum_llm_engine {
     use std::sync::Arc;
-
     pub struct QuantumLLMEngine;
-
     impl QuantumLLMEngine {
         pub fn new() -> Self {
             Self
@@ -954,10 +884,6 @@ pub mod quantum_llm_engine {
 
 pub mod training_system {
     pub struct DirectAnswerTrainer;
-
     impl DirectAnswerTrainer {
-        pub fn new() -> Self {
-            Self
-        }
     }
 }

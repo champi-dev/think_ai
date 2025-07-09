@@ -31,14 +31,14 @@ impl EffectManager {
     }
 
     /// O(1) effect registration
-    pub fn add_effect(&mut self, effect_: Box<dyn VisualEffect>) {
+    pub fn add_effect(&mut self, effect: Box<dyn VisualEffect>) {
         let id = effect.get_id().to_string();
         self.effect_timers.insert(id.clone(), 0.0);
         self.active_effects.insert(id, effect);
     }
 
     /// O(1) effect removal
-    pub fn remove_effect(&mut self, id_: &str) {
+    pub fn remove_effect(&mut self, id: &str) {
         self.active_effects.remove(id);
         self.effect_timers.remove(id);
     }
@@ -51,9 +51,7 @@ impl EffectManager {
             if let Some(timer) = self.effect_timers.get_mut(id) {
                 *timer += delta_time;
             }
-
             effect.update(delta_time)?;
-
             if effect.is_finished() {
                 finished_effects.push(id.clone());
             }
@@ -73,55 +71,51 @@ impl EffectManager {
     }
 
     /// Render all active effects
-    pub fn render_all(&self, document_: &Document) -> Result<(), JsValue> {
+    pub fn render_all(&self, document: &Document) -> Result<(), JsValue> {
         for (id, effect) in &self.active_effects {
             if let Some(container) = document.get_element_by_id(&format!("effect-{}", id)) {
-                let time = self.effect_timers.get(id).copied().unwrap_or(0.0);
-                effect.render(&container, time)?;
+                let timer = self.effect_timers.get(id).unwrap_or(&0.0);
+                effect.render(&container, *timer)?;
             }
         }
         Ok(())
     }
 }
 
-/// Consciousness awakening effect
-pub struct ConsciousnessAwakening {
+/// Consciousness pulse effect
+pub struct ConsciousnessPulse {
     id: String,
+    center_x: f32,
+    center_y: f32,
+    radius: f32,
     intensity: f32,
     duration: f32,
     elapsed: f32,
-    center_x: f32,
-    center_y: f32,
 }
 
-impl ConsciousnessAwakening {
-    pub fn new(id: String, center_x: f32, center_y: f32, intensity: f32) -> Self {
+impl ConsciousnessPulse {
+    pub fn new(id: String, center_x: f32, center_y: f32, radius: f32, intensity: f32) -> Self {
         Self {
             id,
-            intensity,
-            duration: 3.0, // 3 seconds
-            elapsed: 0.0,
             center_x,
             center_y,
+            radius,
+            intensity,
+            duration: 2.0,
+            elapsed: 0.0,
         }
     }
 }
 
-impl VisualEffect for ConsciousnessAwakening {
-    fn render(&self, container: &Element, time: f32) -> Result<(), JsValue> {
-        let progress = (self.elapsed / self.duration).min(1.0);
-        let fade = if progress < 0.5 {
-            progress * 2.0
-        } else {
-            2.0 - progress * 2.0
-        };
-
-        let radius = 50.0 + progress * 200.0;
-        let opacity = fade * self.intensity;
+impl VisualEffect for ConsciousnessPulse {
+    fn render(&self, container: &Element, _time: f32) -> Result<(), JsValue> {
+        let progress = self.elapsed / self.duration;
+        let opacity = (1.0 - progress) * self.intensity;
+        let radius = self.radius * (1.0 + progress);
 
         let html = format!(
             r#"
-            <div class="consciousness-awakening" style="
+            <div class="consciousness-pulse" style="
                 position: absolute;
                 left: {}px;
                 top: {}px;
@@ -146,8 +140,8 @@ impl VisualEffect for ConsciousnessAwakening {
             "#,
             self.center_x,
             self.center_y,
-            radius,
-            radius,
+            radius * 2.0,
+            radius * 2.0,
             opacity,
             opacity * 0.7,
             self.duration
@@ -193,7 +187,7 @@ impl NeuralActivationWave {
         end_y: f32,
         intensity: f32,
     ) -> Self {
-        let _distance = ((end_x - start_x).powi(2) + (end_y - start_y).powi(2)).sqrt();
+        let distance = ((end_x - start_x).powi(2) + (end_y - start_y).powi(2)).sqrt();
         Self {
             id,
             start_x,
@@ -209,12 +203,10 @@ impl NeuralActivationWave {
 }
 
 impl VisualEffect for NeuralActivationWave {
-    fn render(&self, container: &Element, time: f32) -> Result<(), JsValue> {
+    fn render(&self, container: &Element, _time: f32) -> Result<(), JsValue> {
         let progress = (self.elapsed / self.duration).min(1.0);
-
         let current_x = self.start_x + (self.end_x - self.start_x) * progress;
         let current_y = self.start_y + (self.end_y - self.start_y) * progress;
-
         let opacity = (1.0 - progress) * self.intensity;
         let size = 8.0 + progress * 12.0;
 
@@ -231,19 +223,19 @@ impl VisualEffect for NeuralActivationWave {
                     rgba(255, 165, 0, {}) 0%,
                     rgba(255, 69, 0, {}) 70%,
                     transparent 100%);
+                box-shadow: 0 0 {}px rgba(255, 165, 0, {});
                 transform: translate(-50%, -50%);
                 pointer-events: none;
-                box-shadow: 0 0 {}px rgba(255, 165, 0, {});
             "></div>
             "#,
             current_x,
             current_y,
             size,
             size,
-            opacity,
             opacity * 0.8,
+            opacity * 0.6,
             size * 0.5,
-            opacity * 0.5,
+            opacity * 0.5
         );
 
         container.set_inner_html(&html);
@@ -318,7 +310,6 @@ impl VisualEffect for ThoughtBubble {
                 max-width: 200px;
                 opacity: {};
                 transform: translate(-50%, -100%) scale({});
-                pointer-events: none;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
                 animation: thought-float 0.5s ease-out;
             ">
@@ -363,15 +354,18 @@ impl VisualEffect for ThoughtBubble {
     }
 }
 
-/// Particle background effect
-pub struct ParticleBackground;
+/// Particle background effect component
+use yew::prelude::*;
 
-// Simple random module
-mod rand {
-    pub fn random<T>() -> T
-    where
-        T: Default,
-    {
-        T::default()
+#[function_component(ParticleBackground)]
+pub fn particle_background() -> Html {
+    html! {
+        <div class="particle-background">
+            <div class="particle" style="animation-delay: 0s;" />
+            <div class="particle" style="animation-delay: 1s;" />
+            <div class="particle" style="animation-delay: 2s;" />
+            <div class="particle" style="animation-delay: 3s;" />
+            <div class="particle" style="animation-delay: 4s;" />
+        </div>
     }
 }

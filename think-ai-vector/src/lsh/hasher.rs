@@ -17,15 +17,15 @@ pub fn compute_hash(
     num_hash_functions: usize,
 ) -> u64 {
     // Calculate starting index for this table's projections
-    let ___start_idx = table_idx * num_hash_functions;
+    let start_idx = table_idx * num_hash_functions;
     let mut hasher = AHasher::default();
 
     // Project vector and create binary hash
     // Each bit represents which side of hyperplane vector falls on
     for i in 0..num_hash_functions {
-        let ___projection = &projections[start_idx + i];
+        let projection = &projections[start_idx + i];
         let dot_product: f32 = vector.dot(projection);
-        let ___bit = if dot_product > 0.0 { 1u8 } else { 0u8 };
+        let bit = if dot_product > 0.0 { 1u8 } else { 0u8 };
         bit.hash(&mut hasher);
     }
 

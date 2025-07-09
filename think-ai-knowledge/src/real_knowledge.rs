@@ -4,30 +4,24 @@ use std::sync::Arc;
 pub struct RealKnowledgeGenerator;
 
 impl RealKnowledgeGenerator {
-    pub fn populate_comprehensive_knowledge(engine___: &Arc<KnowledgeEngine>) {
+    pub fn populate_comprehensive_knowledge(engine: &Arc<KnowledgeEngine>) {
         // Computer Science - Programming Languages
         Self::add_programming_knowledge(engine);
-
         // Mathematics
         Self::add_mathematics_knowledge(engine);
-
         // Physics
         Self::add_physics_knowledge(engine);
-
         // Philosophy
         Self::add_philosophy_knowledge(engine);
-
         // History
         Self::add_history_knowledge(engine);
-
         // Biology
         Self::add_biology_knowledge(engine);
-
         // Art and Culture
         Self::add_art_knowledge(engine);
     }
 
-    fn add_programming_knowledge(engine___: &Arc<KnowledgeEngine>) {
+    fn add_programming_knowledge(engine: &Arc<KnowledgeEngine>) {
         // JavaScript
         engine.add_knowledge(
             KnowledgeDomain::ComputerScience,
@@ -93,7 +87,7 @@ impl RealKnowledgeGenerator {
         );
     }
 
-    fn add_mathematics_knowledge(engine___: &Arc<KnowledgeEngine>) {
+    fn add_mathematics_knowledge(engine: &Arc<KnowledgeEngine>) {
         engine.add_knowledge(
             KnowledgeDomain::Mathematics,
             "Calculus".to_string(),
@@ -116,7 +110,7 @@ impl RealKnowledgeGenerator {
         );
     }
 
-    fn add_physics_knowledge(engine___: &Arc<KnowledgeEngine>) {
+    fn add_physics_knowledge(engine: &Arc<KnowledgeEngine>) {
         engine.add_knowledge(
             KnowledgeDomain::Physics,
             "Quantum Mechanics".to_string(),
@@ -154,7 +148,7 @@ impl RealKnowledgeGenerator {
         );
     }
 
-    fn add_philosophy_knowledge(engine___: &Arc<KnowledgeEngine>) {
+    fn add_philosophy_knowledge(engine: &Arc<KnowledgeEngine>) {
         engine.add_knowledge(
             KnowledgeDomain::Philosophy,
             "Consciousness".to_string(),
@@ -177,7 +171,7 @@ impl RealKnowledgeGenerator {
         );
     }
 
-    fn add_history_knowledge(engine___: &Arc<KnowledgeEngine>) {
+    fn add_history_knowledge(engine: &Arc<KnowledgeEngine>) {
         engine.add_knowledge(
             KnowledgeDomain::History,
             "Industrial Revolution".to_string(),
@@ -193,7 +187,7 @@ impl RealKnowledgeGenerator {
         );
     }
 
-    fn add_biology_knowledge(engine___: &Arc<KnowledgeEngine>) {
+    fn add_biology_knowledge(engine: &Arc<KnowledgeEngine>) {
         engine.add_knowledge(
             KnowledgeDomain::Biology,
             "DNA".to_string(),
@@ -216,7 +210,7 @@ impl RealKnowledgeGenerator {
         );
     }
 
-    fn add_art_knowledge(engine___: &Arc<KnowledgeEngine>) {
+    fn add_art_knowledge(engine: &Arc<KnowledgeEngine>) {
         engine.add_knowledge(
             KnowledgeDomain::Art,
             "Impressionism".to_string(),

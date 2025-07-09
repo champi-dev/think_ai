@@ -2,9 +2,7 @@
 
 pub mod commands;
 pub mod ui;
-
 use clap::Parser;
-
 #[derive(Parser, Debug)]
 #[command(name = "think-ai")]
 #[command(about = "Think AI - O(1) AI System", long_about = None)]
@@ -12,12 +10,11 @@ struct Args {
     #[command(subcommand)]
     command: Option<commands::Commands>,
 }
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Load .env file if it exists
     if let Ok(path) = std::env::current_dir() {
-        let ___env_path = path.join(".env");
+        let env_path = path.join(".env");
         if env_path.exists() {
             // Simple .env loader
             if let Ok(contents) = std::fs::read_to_string(&env_path) {
@@ -31,12 +28,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
     }
-
     // Initialize logging
     think_ai_utils::logging::init_tracing();
-
-    let ___args = Args::parse();
-
+    let args = Args::parse();
     if let Some(cmd) = args.command {
         commands::execute(cmd).await?;
     } else {
@@ -44,7 +38,4 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut terminal = ui::init_terminal()?;
         ui::draw_frame(&mut terminal)?;
         println!("\nThink AI v0.1.0 - Use --help for commands");
-    }
-
     Ok(())
-}

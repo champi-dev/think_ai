@@ -12,44 +12,35 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
 use tokio::time::{timeout, Duration};
 use tower_http::cors::CorsLayer;
-
 #[derive(Clone)]
 struct StableAppState {
     request_counter: Arc<AtomicU64>,
     start_time: std::time::Instant,
 }
-
 #[derive(Debug, Deserialize)]
 struct ChatRequest {
     query: String,
-}
-
 #[derive(Debug, Serialize)]
 struct ChatResponse {
     response: String,
     sources: Vec<String>,
     context: Option<Vec<String>>,
     response_time_ms: f64,
-}
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🛡️  Think AI Stable Server Starting...");
-
     // Get port from Railway
-    let ___port = std::env::var("PORT")
+    let port = std::env::var("PORT")
         .ok()
         .and_then(|p| p.parse::<u16>().ok())
         .unwrap_or(8080);
-
     // Create minimal state
-    let ___state = Arc::new(StableAppState {
+    let state = Arc::new(StableAppState {
         request_counter: Arc::new(AtomicU64::new(0)),
         start_time: std::time::Instant::now(),
     });
-
     // Create routes - minimal and reliable
-    let ___app = Router::new()
+    let app = Router::new()
         .route("/", get(webapp_handler))
         .route("/health", get(health_check))
         .route("/api/chat", post(chat_handler))
@@ -57,9 +48,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/api/performance", get(performance_handler))
         .layer(CorsLayer::permissive())
         .with_state(state);
-
     println!("🌐 Binding to 0.0.0.0:{}", port);
-    let ___listener = match tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
+    let listener = match tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
         Ok(listener) => {
             println!("✅ Server bound successfully to port {}", port);
             listener
@@ -67,22 +57,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Err(e) => {
             eprintln!("❌ Failed to bind to port {}: {}", port, e);
             std::process::exit(1);
-        }
     };
-
     println!("🛡️  Stable server ready - no hanging guaranteed");
-
     // Start server
     axum::serve(listener, app).await?;
-
     Ok(())
-}
-
 async fn health_check() -> Result<&'static str, StatusCode> {
     // Always respond immediately
     Ok("OK")
-}
-
 async fn webapp_handler() -> Html<String> {
     Html(r#"
 <!DOCTYPE html>
@@ -101,12 +83,10 @@ async fn webapp_handler() -> Html<String> {
 </head>
 <body>
     <h1>🛡️ Think AI - Stable Deployment</h1>
-
     <div class="status success">
         <h3>✅ Deployment Status: STABLE</h3>
         <p>Server is running with guaranteed no-hang architecture</p>
     </div>
-
     <div class="status info">
         <h3>🎯 O(1) Performance Features</h3>
         <ul>
@@ -116,22 +96,17 @@ async fn webapp_handler() -> Html<String> {
             <li>✅ Timeout protection on all operations</li>
             <li>✅ No self-evaluation (production optimized)</li>
         </ul>
-    </div>
-
     <h3>🧪 Test the API</h3>
     <input type="text" id="queryInput" placeholder="Enter your query..." style="width: 60%; padding: 8px;">
     <button onclick="testChat()">Send Query</button>
     <button onclick="testStats()">Get Stats</button>
     <button onclick="testPerformance()">Performance</button>
-
     <div id="response"></div>
-
     <script>
         async function testChat() {
             const query = document.getElementById('queryInput').value || 'Hello Think AI!';
             const responseDiv = document.getElementById('response');
             responseDiv.innerHTML = '🔄 Processing...';
-
             try {
                 const response = await fetch('/api/chat', {
                     method: 'POST',
@@ -147,46 +122,24 @@ async fn webapp_handler() -> Html<String> {
             } catch (error) {
                 responseDiv.innerHTML = `❌ Error: ${error.message}`;
             }
-        }
-
         async function testStats() {
-            const responseDiv = document.getElementById('response');
-            try {
                 const response = await fetch('/api/stats');
-                const data = await response.json();
                 responseDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-            } catch (error) {
-                responseDiv.innerHTML = `❌ Error: ${error.message}`;
-            }
-        }
-
         async function testPerformance() {
-            const responseDiv = document.getElementById('response');
-            try {
                 const response = await fetch('/api/performance');
-                const data = await response.json();
-                responseDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-            } catch (error) {
-                responseDiv.innerHTML = `❌ Error: ${error.message}`;
-            }
-        }
     </script>
 </body>
 </html>
     "#.to_string())
-}
-
 async fn chat_handler(
     axum::extract::State(state): axum::extract::State<Arc<StableAppState>>,
     Json(request): Json<ChatRequest>,
 ) -> Result<Json<ChatResponse>, StatusCode> {
     println!("📨 Stable server received query: {}", request.query);
-
-    let ___start_time = std::time::Instant::now();
+    let start_time = std::time::Instant::now();
     state.request_counter.fetch_add(1, Ordering::SeqCst);
-
     // Generate response with timeout protection (no hanging possible)
-    let ___response = match timeout(
+    let response = match timeout(
         Duration::from_secs(5),
         generate_safe_response(&request.query),
     )
@@ -194,39 +147,29 @@ async fn chat_handler(
     {
         Ok(response) => response,
         Err(_) => "⏱️ Response timeout - server remains stable".to_string(),
-    };
-
-    let ___response_time = start_time.elapsed();
-
+    let response_time = start_time.elapsed();
     Ok(Json(ChatResponse {
         response,
         sources: vec!["stable_o1_engine".to_string()],
         context: None,
         response_time_ms: response_time.as_secs_f64() * 1000.0,
     }))
-}
-
-async fn generate_safe_response(query___: &str) -> String {
+async fn generate_safe_response(query: &str) -> String {
     // Simple O(1) response generation - guaranteed no hanging
-    let ___responses = [
+    let responses = [
         "Think AI is operating with O(1) performance optimizations including Linear Attention and INT8 Quantization.",
         "This stable deployment ensures no hanging with timeout protection on all operations.",
         "The server uses FAVOR+ approximation for Linear Attention achieving constant-time inference.",
         "INT8 Quantization provides 2x memory reduction while maintaining response quality.",
         "Neural Cache delivers 18.3x latency improvements for frequently accessed patterns.",
     ];
-
     // Simple hash-based selection for O(1) lookup
-    let ___hash = query.len() % responses.len();
+    let hash = query.len() % responses.len();
     format!("{} Your query: '{}'", responses[hash], query)
-}
-
 async fn stats_handler(
-    axum::extract::State(state): axum::extract::State<Arc<StableAppState>>,
 ) -> Result<Json<serde_json::Value>, StatusCode> {
-    let ___uptime_secs = state.start_time.elapsed().as_secs();
-    let ___request_count = state.request_counter.load(Ordering::SeqCst);
-
+    let uptime_secs = state.start_time.elapsed().as_secs();
+    let request_count = state.request_counter.load(Ordering::SeqCst);
     Ok(Json(serde_json::json!({
         "server_status": "✅ STABLE - No hanging guaranteed",
         "uptime_seconds": uptime_secs,
@@ -238,22 +181,12 @@ async fn stats_handler(
             "neural_cache": "✅ 18.3x latency improvement",
             "timeout_protection": "✅ 5 second max response time",
             "self_evaluation": "❌ Disabled for stability"
-        }
     })))
-}
-
 async fn performance_handler(
-    axum::extract::State(state): axum::extract::State<Arc<StableAppState>>,
-) -> Result<Json<serde_json::Value>, StatusCode> {
-    let ___uptime_secs = state.start_time.elapsed().as_secs();
-    let ___request_count = state.request_counter.load(Ordering::SeqCst);
-    let ___avg_requests_per_sec = if uptime_secs > 0 {
+    let avg_requests_per_sec = if uptime_secs > 0 {
         request_count as f64 / uptime_secs as f64
     } else {
         0.0
-    };
-
-    Ok(Json(serde_json::json!({
         "stable_o1_engine": {
             "optimization_level": "O(1) Linear Attention + INT8 Quantization + Timeout Protection",
             "total_requests": request_count,
@@ -262,6 +195,3 @@ async fn performance_handler(
             "guaranteed_max_latency_ms": 5000,
             "performance_status": "🛡️ Ultra-stable",
             "hanging_risk": "ZERO - Timeout protected"
-        }
-    })))
-}

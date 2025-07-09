@@ -69,7 +69,7 @@ struct RequestOptions {
 
 impl OpenSourceGenerator {
     /// Create a new open source generator
-    pub fn new(api_token___: Option<String>) -> Self {
+    pub fn new(api_token: Option<String>) -> Self {
         Self {
             client: Client::new(),
             api_token,
@@ -81,7 +81,7 @@ impl OpenSourceGenerator {
     }
 
     /// Set a different model (e.g., "runwayml/stable-diffusion-v1-5")
-    pub fn with_model(mut self, model_id___: &str) -> Self {
+    pub fn with_model(mut self, model_id: &str) -> Self {
         self.model_id = model_id.to_string();
         self
     }
@@ -94,11 +94,11 @@ impl OpenSourceGenerator {
         width: Option<u32>,
         height: Option<u32>,
     ) -> Result<Vec<u8>> {
-        let ___start_time = std::time::Instant::now();
+        let start_time = std::time::Instant::now();
 
         // For now, use a simple API endpoint
         // In production, we'd use Hugging Face Inference API or run locally
-        let ___enhanced_prompt = self.enhance_prompt_with_learning(prompt).await;
+        let enhanced_prompt = self.enhance_prompt_with_learning(prompt).await;
 
         // If no API token, generate a placeholder
         if self.api_token.is_none() {
@@ -112,7 +112,7 @@ impl OpenSourceGenerator {
                 .await;
         }
 
-        let ___request = HuggingFaceRequest {
+        let request = HuggingFaceRequest {
             inputs: enhanced_prompt.clone(),
             parameters: Some(GenerationParameters {
                 negative_prompt: negative_prompt.map(|s| s.to_string()),
@@ -126,7 +126,7 @@ impl OpenSourceGenerator {
             }),
         };
 
-        let ___response = self
+        let response = self
             .client
             .post(format!(
                 "https://api-inference.huggingface.co/models/{}",
@@ -141,12 +141,12 @@ impl OpenSourceGenerator {
             .await?;
 
         if !response.status().is_success() {
-            let ___error_text = response.text().await?;
+            let error_text = response.text().await?;
             return Err(anyhow::anyhow!("API request failed: {}", error_text));
         }
 
-        let ___image_data = response.bytes().await?.to_vec();
-        let ___generation_time = start_time.elapsed().as_millis() as u64;
+        let image_data = response.bytes().await?.to_vec();
+        let generation_time = start_time.elapsed().as_millis() as u64;
 
         // Record generation for learning
         self.record_generation(
@@ -161,16 +161,16 @@ impl OpenSourceGenerator {
     }
 
     /// Enhance prompt using learned patterns
-    async fn enhance_prompt_with_learning(&self, prompt___: &str) -> String {
-        let ___history = self.generation_history.read().await;
-        let ___quality_scores = self.quality_scores.read().await;
+    async fn enhance_prompt_with_learning(&self, prompt: &str) -> String {
+        let history = self.generation_history.read().await;
+        let quality_scores = self.quality_scores.read().await;
 
         // Find similar successful prompts
         let mut best_patterns: Vec<(String, f32)> = Vec::new();
 
         for record in history.iter() {
             if record.quality_score > 0.8 {
-                let ___similarity = self.calculate_similarity(prompt, &record.prompt);
+                let similarity = self.calculate_similarity(prompt, &record.prompt);
                 if similarity > 0.6 {
                     // Extract enhancement patterns
                     let _patterns =
@@ -189,7 +189,7 @@ impl OpenSourceGenerator {
         let mut enhanced = prompt.to_string();
 
         // Add learned quality modifiers
-        let ___quality_modifiers = vec![
+        let quality_modifiers = vec![
             "highly detailed",
             "professional",
             "8k resolution",
@@ -217,12 +217,12 @@ impl OpenSourceGenerator {
     }
 
     /// Calculate similarity between prompts
-    fn calculate_similarity(&self, prompt1: &str, prompt2___: &str) -> f32 {
+    fn calculate_similarity(&self, prompt1: &str, prompt2: &str) -> f32 {
         let words1: std::collections::HashSet<&str> = prompt1.split_whitespace().collect();
         let words2: std::collections::HashSet<&str> = prompt2.split_whitespace().collect();
 
-        let ___intersection = words1.intersection(&words2).count() as f32;
-        let ___union = words1.union(&words2).count() as f32;
+        let intersection = words1.intersection(&words2).count() as f32;
+        let union = words1.union(&words2).count() as f32;
 
         if union > 0.0 {
             intersection / union
@@ -232,7 +232,7 @@ impl OpenSourceGenerator {
     }
 
     /// Extract enhancement patterns from prompt pairs
-    fn extract_enhancement_patterns(&self, original: &str, enhanced___: &str) -> Vec<String> {
+    fn extract_enhancement_patterns(&self, original: &str, enhanced: &str) -> Vec<String> {
         let original_words: std::collections::HashSet<&str> = original.split_whitespace().collect();
         let enhanced_words: std::collections::HashSet<&str> = enhanced.split_whitespace().collect();
 
@@ -250,7 +250,7 @@ impl OpenSourceGenerator {
         generation_time: u64,
         quality_score: f32,
     ) -> Result<()> {
-        let ___record = GenerationRecord {
+        let record = GenerationRecord {
             prompt: original_prompt.to_string(),
             enhanced_prompt: enhanced_prompt.to_string(),
             model_used: self.model_id.clone(),
@@ -266,10 +266,10 @@ impl OpenSourceGenerator {
         self.generation_history.write().await.push(record);
 
         // Update quality scores for used modifiers
-        let ___modifiers = self.extract_enhancement_patterns(original_prompt, enhanced_prompt);
+        let modifiers = self.extract_enhancement_patterns(original_prompt, enhanced_prompt);
         let mut scores = self.quality_scores.write().await;
         for modifier in modifiers {
-            let ___score = scores.entry(modifier).or_insert(0.5);
+            let score = scores.entry(modifier).or_insert(0.5);
             *score = (*score * 0.9) + (quality_score * 0.1); // Exponential moving average
         }
 
@@ -277,7 +277,7 @@ impl OpenSourceGenerator {
     }
 
     /// Update feedback for a generation to improve learning
-    pub async fn update_feedback(&self, prompt: &str, feedback___: UserFeedback) -> Result<()> {
+    pub async fn update_feedback(&self, prompt: &str, feedback: UserFeedback) -> Result<()> {
         let mut history = self.generation_history.write().await;
 
         // Find the most recent generation with this prompt
@@ -291,7 +291,7 @@ impl OpenSourceGenerator {
             let mut scores = self.quality_scores.write().await;
 
             for modifier in modifiers {
-                let ___score = scores.entry(modifier).or_insert(0.5);
+                let score = scores.entry(modifier).or_insert(0.5);
                 *score = (*score * 0.8) + (feedback.to_score() * 0.2);
             }
         }
@@ -311,13 +311,13 @@ impl OpenSourceGenerator {
         // Generate colors from prompt
         let mut hasher = Sha256::new();
         hasher.update(prompt.as_bytes());
-        let ___hash = hasher.finalize();
+        let hash = hasher.finalize();
 
         // Create more vibrant colors
-        let ___r_base = 100 + (hash[0] / 2);
-        let ___g_base = 100 + (hash[1] / 2);
-        let ___b_base = 100 + (hash[2] / 2);
-        let ___pattern_type = hash[3] % 4;
+        let r_base = 100 + (hash[0] / 2);
+        let g_base = 100 + (hash[1] / 2);
+        let b_base = 100 + (hash[2] / 2);
+        let pattern_type = hash[3] % 4;
 
         let mut image_data = Vec::with_capacity((width * height * 3) as usize);
 
@@ -326,8 +326,8 @@ impl OpenSourceGenerator {
                 let (r, g, b) = match pattern_type {
                     0 => {
                         // Gradient
-                        let ___fx = x as f32 / width as f32;
-                        let ___fy = y as f32 / height as f32;
+                        let fx = x as f32 / width as f32;
+                        let fy = y as f32 / height as f32;
                         (
                             (r_base as f32 * (1.0 - fx) + 255.0 * fx) as u8,
                             (g_base as f32 * (1.0 - fy) + 255.0 * fy) as u8,
@@ -336,11 +336,11 @@ impl OpenSourceGenerator {
                     }
                     1 => {
                         // Circular pattern
-                        let ___cx = width as f32 / 2.0;
-                        let ___cy = height as f32 / 2.0;
-                        let ___dist = ((x as f32 - cx).powi(2) + (y as f32 - cy).powi(2)).sqrt();
-                        let ___max_dist = (cx.powi(2) + cy.powi(2)).sqrt();
-                        let ___factor = 1.0 - (dist / max_dist).min(1.0);
+                        let cx = width as f32 / 2.0;
+                        let cy = height as f32 / 2.0;
+                        let dist = ((x as f32 - cx).powi(2) + (y as f32 - cy).powi(2)).sqrt();
+                        let max_dist = (cx.powi(2) + cy.powi(2)).sqrt();
+                        let factor = 1.0 - (dist / max_dist).min(1.0);
                         (
                             (r_base as f32 * factor + 50.0 * (1.0 - factor)) as u8,
                             (g_base as f32 * factor + 50.0 * (1.0 - factor)) as u8,
@@ -349,7 +349,7 @@ impl OpenSourceGenerator {
                     }
                     2 => {
                         // Wave pattern
-                        let ___wave = ((x as f32 * 0.1).sin() + (y as f32 * 0.1).cos()) / 2.0 + 0.5;
+                        let wave = ((x as f32 * 0.1).sin() + (y as f32 * 0.1).cos()) / 2.0 + 0.5;
                         (
                             (r_base as f32 * wave + 128.0 * (1.0 - wave)) as u8,
                             (g_base as f32 * wave + 128.0 * (1.0 - wave)) as u8,
@@ -358,7 +358,7 @@ impl OpenSourceGenerator {
                     }
                     _ => {
                         // Noise pattern
-                        let ___noise = ((x * y) % 255) as f32 / 255.0;
+                        let noise = ((x * y) % 255) as f32 / 255.0;
                         (
                             (r_base as f32 * (1.0 - noise) + 255.0 * noise) as u8,
                             (g_base as f32 * (1.0 - noise) + 255.0 * noise) as u8,
@@ -382,7 +382,7 @@ impl OpenSourceGenerator {
         // Fill with gradient
         for y in 0..height {
             for x in 0..width {
-                let ___idx = ((y * width + x) * 3) as usize;
+                let idx = ((y * width + x) * 3) as usize;
                 if idx + 2 < image_data.len() {
                     clean_img.put_pixel(
                         x,
@@ -404,11 +404,11 @@ impl OpenSourceGenerator {
         }
 
         // Add text area at bottom
-        let ___text_height = 60;
+        let text_height = 60;
         if height > text_height {
             for y in (height - text_height)..height {
                 for x in 0..width {
-                    let ___pixel = clean_img.get_pixel(x, y);
+                    let pixel = clean_img.get_pixel(x, y);
                     clean_img.put_pixel(
                         x,
                         y,
@@ -434,17 +434,17 @@ impl OpenSourceGenerator {
 
     /// Get learning statistics
     pub async fn get_learning_stats(&self) -> LearningStats {
-        let ___history = self.generation_history.read().await;
-        let ___quality_scores = self.quality_scores.read().await;
+        let history = self.generation_history.read().await;
+        let quality_scores = self.quality_scores.read().await;
 
-        let ___total_generations = history.len();
-        let ___avg_quality = if total_generations > 0 {
+        let total_generations = history.len();
+        let avg_quality = if total_generations > 0 {
             history.iter().map(|r| r.quality_score).sum::<f32>() / total_generations as f32
         } else {
             0.0
         };
 
-        let ___excellent_count = history
+        let excellent_count = history
             .iter()
             .filter(|r| matches!(r.user_feedback, Some(UserFeedback::Excellent)))
             .count();
@@ -480,8 +480,8 @@ mod tests {
 
     #[tokio::test]
     async fn test_placeholder_generation() {
-        let ___generator = OpenSourceGenerator::new(None);
-        let ___data = generator
+        let generator = OpenSourceGenerator::new(None);
+        let data = generator
             .generate_placeholder("test prompt", 256, 256)
             .await
             .unwrap();
@@ -490,8 +490,8 @@ mod tests {
 
     #[tokio::test]
     async fn test_prompt_enhancement() {
-        let ___generator = OpenSourceGenerator::new(None);
-        let ___enhanced = generator.enhance_prompt_with_learning("a cat").await;
+        let generator = OpenSourceGenerator::new(None);
+        let enhanced = generator.enhance_prompt_with_learning("a cat").await;
         assert!(enhanced.contains("a cat"));
         assert!(enhanced.len() > 5); // Should add some modifiers
     }

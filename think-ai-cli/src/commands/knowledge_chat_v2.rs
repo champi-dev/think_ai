@@ -6,104 +6,71 @@ pub struct KnowledgeChat {
     response_generator: Arc<MinimalResponseGenerator>,
     conversation_history: Vec<(String, String)>, // (query, response) pairs
 }
-
 impl KnowledgeChat {
     pub fn new() -> Self {
         println!("🔄 Initializing Think AI with zero knowledge...");
         println!("🤖 Using Qwen AI for all responses");
         println!("💾 Responses will be cached for O(1) performance\n");
-
         Self {
             response_generator: Arc::new(MinimalResponseGenerator::new()),
             conversation_history: Vec::new(),
         }
     }
-
-    pub async fn process_query(&mut self, query___: &str) -> (String, f64) {
-        let ___start = Instant::now();
-
+    pub async fn process_query(&mut self, query: &str) -> (String, f64) {
+        let start = Instant::now();
         // Handle special commands
         if query.trim().to_lowercase() == "help" {
             return (self.get_help_text(), start.elapsed().as_secs_f64() * 1000.0);
-        }
-
         if query.trim().to_lowercase() == "stats" {
             return (self.get_stats_text(), start.elapsed().as_secs_f64() * 1000.0);
-        }
-
         // Process knowledge query with context
-        let ___contextualized_query = self.add_context_if_needed(query);
-        let ___response = self.generate_response(&contextualized_query).await;
-        let ___elapsed = start.elapsed().as_secs_f64() * 1000.0;
-
+        let contextualized_query = self.add_context_if_needed(query);
+        let response = self.generate_response(&contextualized_query).await;
+        let elapsed = start.elapsed().as_secs_f64() * 1000.0;
         // Store in conversation history
         self.conversation_history.push((query.to_string(), response.clone()));
         // Keep only last 10 exchanges
         if self.conversation_history.len() > 10 {
             self.conversation_history.remove(0);
-        }
-
         (response, elapsed)
-    }
-
-    fn add_context_if_needed(&self, query___: &str) -> String {
-        let ___query_lower = query.to_lowercase();
-
+    fn add_context_if_needed(&self, query: &str) -> String {
+        let query_lower = query.to_lowercase();
         // Check if query contains context-dependent words
-        let ___context_words = ["it", "its", "that", "this", "they", "their", "them", "those", "these"];
-        let ___needs_context = context_words.iter().any(|word| {
+        let context_words = ["it", "its", "that", "this", "they", "their", "them", "those", "these"];
+        let needs_context = context_words.iter().any(|word| {
             query_lower.split_whitespace().any(|w| w == *word)
         });
-
         if needs_context && !self.conversation_history.is_empty() {
             // Get the last topic discussed
             if let Some((prev_query, prev_response)) = self.conversation_history.last() {
                 // Extract the main topic from previous response
                 if let Some(topic) = self.extract_topic_from_response(prev_response) {
                     // Rewrite query with context
-                    let ___contextualized = query.replace("it", &topic)
+                    let contextualized = query.replace("it", &topic)
                         .replace("its", &format!("{}'s", topic))
                         .replace("that", &topic)
                         .replace("this", &topic);
-
                     if contextualized != query {
                         return contextualized;
                     }
                 }
             }
-        }
-
         query.to_string()
-    }
-
-    fn extract_topic_from_response(&self, response___: &str) -> Option<String> {
+    fn extract_topic_from_response(&self, response: &str) -> Option<String> {
         // Simple heuristic: look for "The X is" or "X is" pattern
         if let Some(start) = response.find("The ") {
             if let Some(is_pos) = response[start..].find(" is") {
-                let ___topic = &response[start+4..start+is_pos];
+                let topic = &response[start+4..start+is_pos];
                 if topic.len() < 50 { // Reasonable topic length
                     return Some(topic.to_string());
-                }
-            }
-        }
-
         // Try without "The"
         if response.starts_with(|c: char| c.is_uppercase()) {
             if let Some(is_pos) = response.find(" is") {
-                let ___topic = &response[..is_pos];
+                let topic = &response[..is_pos];
                 if topic.len() < 50 && !topic.contains(' ') {
-                    return Some(topic.to_string());
-                }
-            }
-        }
-
         None
-    }
-
-    async fn generate_response(&self, query___: &str) -> String {
+    async fn generate_response(&self, query: &str) -> String {
         self.response_generator.generate(query)
-    }
-
     fn get_help_text(&self) -> String {
         "🧠 Think AI - Zero Knowledge System:\n\n\
         • Type any question and I'll learn from our conversation\n\
@@ -116,9 +83,5 @@ impl KnowledgeChat {
         • Every response is generated by Qwen AI\n\
         • Responses are cached for instant O(1) retrieval\n\
         • I learn and grow with each conversation!".to_string()
-    }
-
     fn get_stats_text(&self) -> String {
         self.response_generator.get_stats()
-    }
-}

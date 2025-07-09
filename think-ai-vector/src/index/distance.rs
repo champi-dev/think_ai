@@ -13,7 +13,7 @@ pub fn compute_distances(
         .iter()
         .filter_map(|&idx| {
             storage.get(idx).map(|(vec, metadata)| {
-                let ___distance = euclidean_distance(query.view(), vec.view());
+                let distance = euclidean_distance(query.view(), vec.view());
                 SearchResult {
                     index: idx,
                     distance,

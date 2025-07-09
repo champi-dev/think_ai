@@ -1,0 +1,1464 @@
+    Blocking waiting for file lock on build directory
+   Compiling think-ai-consciousness v0.1.0 (/home/champi/Dev/think_ai/think-ai-consciousness)
+warning: field `core` is never read
+  --> think-ai-core/src/consciousness_engine.rs:97:5
+   |
+95 | pub struct O1ConsciousnessEngine {
+   |            --------------------- field in this struct
+96 |     /// Core O(1) engine for computation
+97 |     core: Arc<O1Engine>,
+   |     ^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `think-ai-core` (lib) generated 1 warning
+warning: unused variable: `generator_stats`
+   --> think-ai-image-gen/src/ai_image_improver.rs:366:13
+    |
+366 |         let generator_stats = self.generator.get_learning_stats().await;
+    |             ^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_generator_stats`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: field `config` is never read
+  --> think-ai-image-gen/src/lib.rs:70:5
+   |
+69 | pub struct ImageGenerator {
+   |            -------------- field in this struct
+70 |     config: ImageGenConfig,
+   |     ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: fields `is_photographic` and `has_style` are never read
+   --> think-ai-image-gen/src/ai_image_improver.rs:469:5
+    |
+465 | struct PromptAnalysis {
+    |        -------------- fields in this struct
+...
+469 |     is_photographic: bool,
+    |     ^^^^^^^^^^^^^^^
+470 |     has_style: bool,
+    |     ^^^^^^^^^
+    |
+    = note: `PromptAnalysis` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: field `status` is never read
+  --> think-ai-image-gen/src/leonardo_client.rs:35:5
+   |
+33 | struct GenerationResponse {
+   |        ------------------ field in this struct
+34 |     generation_id: String,
+35 |     status: String,
+   |     ^^^^^^
+   |
+   = note: `GenerationResponse` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: `think-ai-image-gen` (lib) generated 4 warnings
+   Compiling think-ai-webapp v0.1.0 (/home/champi/Dev/think_ai/think-ai-webapp)
+warning: field `inner` is never read
+  --> think-ai-storage/src/traits/mod.rs:30:5
+   |
+29 | pub struct TypedStorage<T> {
+   |            ------------ field in this struct
+30 |     inner: Box<dyn Storage>,
+   |     ^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `think-ai-storage` (lib) generated 1 warning
+error[E0252]: the name `JsValue` is defined multiple times
+ --> think-ai-webapp/src/ui/dashboard.rs:5:5
+  |
+4 | use wasm_bindgen::JsValue;
+  |     --------------------- previous import of the type `JsValue` here
+5 | use wasm_bindgen::JsValue;
+  |     ^^^^^^^^^^^^^^^^^^^^^ `JsValue` reimported here
+  |
+  = note: `JsValue` must be defined only once in the type namespace of this module
+
+error[E0432]: unresolved import `ui::effects::EffectManager`
+  --> think-ai-webapp/src/lib.rs:19:5
+   |
+19 | use ui::effects::EffectManager;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^ no `EffectManager` in `ui::effects`
+
+error[E0433]: failed to resolve: could not find `EffectManager` in `effects`
+  --> think-ai-webapp/src/ui/mod.rs:42:39
+   |
+42 |             effects_manager: effects::EffectManager::new(),
+   |                                       ^^^^^^^^^^^^^ could not find `EffectManager` in `effects`
+
+error[E0412]: cannot find type `EffectManager` in module `effects`
+  --> think-ai-webapp/src/ui/mod.rs:25:31
+   |
+25 |     effects_manager: effects::EffectManager,
+   |                               ^^^^^^^^^^^^^ not found in `effects`
+
+error[E0603]: struct import `PerformanceMetrics` is private
+  --> think-ai-webapp/src/ui/mod.rs:36:37
+   |
+36 |                 metrics: dashboard::PerformanceMetrics {
+   |                                     ^^^^^^^^^^^^^^^^^^ private struct import
+   |
+note: the struct import `PerformanceMetrics` is defined here...
+  --> think-ai-webapp/src/ui/dashboard.rs:1:49
+   |
+1  | use crate::ui::components::{ConsciousnessLevel, PerformanceMetrics, PulsingOrb};
+   |                                                 ^^^^^^^^^^^^^^^^^^
+note: ...and refers to the struct `PerformanceMetrics` which is defined here
+  --> think-ai-webapp/src/ui/components.rs:23:1
+   |
+23 | pub struct PerformanceMetrics {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ you could import this directly
+help: consider importing this struct instead
+   |
+36 |                 metrics: crate::ui::components::PerformanceMetrics {
+   |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+help: import `PerformanceMetrics` directly
+   |
+36 |                 metrics: ui::components::PerformanceMetrics {
+   |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+warning: unused import: `Vector4`
+ --> think-ai-webapp/src/graphics/materials.rs:5:25
+  |
+5 | use nalgebra::{Vector3, Vector4};
+  |                         ^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `Matrix4`
+ --> think-ai-webapp/src/graphics/neural_network.rs:2:19
+  |
+2 | use crate::math::{Matrix4, Vector3};
+  |                   ^^^^^^^
+
+warning: unused import: `std::cell::RefCell`
+ --> think-ai-webapp/src/graphics/neural_network.rs:3:5
+  |
+3 | use std::cell::RefCell;
+  |     ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `wasm_bindgen::JsCast`
+ --> think-ai-webapp/src/ui/components.rs:1:5
+  |
+1 | use wasm_bindgen::JsCast;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `web_sys::Element`
+ --> think-ai-webapp/src/ui/components.rs:2:5
+  |
+2 | use web_sys::Element;
+  |     ^^^^^^^^^^^^^^^^
+
+warning: unused imports: `Deserialize` and `Serialize`
+ --> think-ai-webapp/src/ui/dashboard.rs:3:13
+  |
+3 | use serde::{Deserialize, Serialize};
+  |             ^^^^^^^^^^^  ^^^^^^^^^
+
+warning: unused import: `wasm_bindgen::JsValue`
+ --> think-ai-webapp/src/ui/dashboard.rs:5:5
+  |
+5 | use wasm_bindgen::JsValue;
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error[E0277]: the trait bound `Result<ThinkAiWebapp, wasm_bindgen::JsValue>: ReturnWasmAbi` is not satisfied
+  --> think-ai-webapp/src/lib.rs:49:1
+   |
+49 | #[wasm_bindgen]
+   | ^^^^^^^^^^^^^^^ the trait `ReturnWasmAbi` is not implemented for `Result<ThinkAiWebapp, wasm_bindgen::JsValue>`
+   |
+   = help: the trait `ReturnWasmAbi` is implemented for `Result<T, E>`
+   = note: this error originates in the attribute macro `wasm_bindgen::prelude::__wasm_bindgen_class_marker` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0053]: method `update` has an incompatible type for trait
+   --> think-ai-webapp/src/ui/components.rs:158:53
+    |
+158 |     fn update(&mut self, _ctx: &Context<Self>, msg: ChatMsg) -> bool {
+    |                                                     ^^^^^^^ expected `StreamMsg`, found `ChatMsg`
+    |
+    = note: expected signature `fn(&mut ResponseStream, &yew::Context<_>, StreamMsg) -> _`
+               found signature `fn(&mut ResponseStream, &yew::Context<_>, ChatMsg) -> _`
+help: change the parameter type to match the trait
+    |
+158 |     fn update(&mut self, _ctx: &Context<Self>, msg: StreamMsg) -> bool {
+    |                                                     ~~~~~~~~~
+
+error[E0609]: no field `program` on type `&MaterialCache`
+  --> think-ai-webapp/src/graphics/materials.rs:88:58
+   |
+88 |         if let Some(loc) = gl.get_uniform_location(&self.program, "u_diffuse_color") {
+   |                                                          ^^^^^^^ unknown field
+   |
+   = note: available fields are: `materials`, `active_material`
+
+error[E0609]: no field `program` on type `&MaterialCache`
+  --> think-ai-webapp/src/graphics/materials.rs:97:58
+   |
+97 |         if let Some(loc) = gl.get_uniform_location(&self.program, "u_specular_color") {
+   |                                                          ^^^^^^^ unknown field
+   |
+   = note: available fields are: `materials`, `active_material`
+
+error[E0609]: no field `program` on type `&MaterialCache`
+   --> think-ai-webapp/src/graphics/materials.rs:106:58
+    |
+106 |         if let Some(loc) = gl.get_uniform_location(&self.program, "u_emissive_color") {
+    |                                                          ^^^^^^^ unknown field
+    |
+    = note: available fields are: `materials`, `active_material`
+
+error[E0609]: no field `program` on type `&MaterialCache`
+   --> think-ai-webapp/src/graphics/materials.rs:115:58
+    |
+115 |         if let Some(loc) = gl.get_uniform_location(&self.program, "u_shininess") {
+    |                                                          ^^^^^^^ unknown field
+    |
+    = note: available fields are: `materials`, `active_material`
+
+error[E0609]: no field `program` on type `&MaterialCache`
+   --> think-ai-webapp/src/graphics/materials.rs:119:58
+    |
+119 |         if let Some(loc) = gl.get_uniform_location(&self.program, "u_transparency") {
+    |                                                          ^^^^^^^ unknown field
+    |
+    = note: available fields are: `materials`, `active_material`
+
+error[E0609]: no field `program` on type `&MaterialCache`
+   --> think-ai-webapp/src/graphics/materials.rs:123:58
+    |
+123 |         if let Some(loc) = gl.get_uniform_location(&self.program, "u_consciousness_factor") {
+    |                                                          ^^^^^^^ unknown field
+    |
+    = note: available fields are: `materials`, `active_material`
+
+error[E0308]: mismatched types
+   --> think-ai-webapp/src/ui/components.rs:160:13
+    |
+159 |         match msg {
+    |               --- this expression has type `ChatMsg`
+160 |             StreamMsg::AddResponse(response) => {
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `ChatMsg`, found `StreamMsg`
+
+error[E0308]: mismatched types
+   --> think-ai-webapp/src/ui/components.rs:164:13
+    |
+143 |     StartStream,
+    |     ----------- unit variant defined here
+...
+159 |         match msg {
+    |               --- this expression has type `ChatMsg`
+...
+164 |             StreamMsg::StartStream => {
+    |             ^^^^^^^^^^^^^^^^^^^^^^ expected `ChatMsg`, found `StreamMsg`
+
+error[E0308]: mismatched types
+   --> think-ai-webapp/src/ui/components.rs:168:13
+    |
+144 |     StopStream,
+    |     ---------- unit variant defined here
+...
+159 |         match msg {
+    |               --- this expression has type `ChatMsg`
+...
+168 |             StreamMsg::StopStream => {
+    |             ^^^^^^^^^^^^^^^^^^^^^ expected `ChatMsg`, found `StreamMsg`
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/desires.rs:200:17
+    |
+195 |     fn calculate_alignment(&self, _perception: &Perception, desire: &Desire) -> f64 {
+    |                                   ----------- `_perception` defined here
+...
+200 |                 perception
+    |                 ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+195 |     fn calculate_alignment(&self, perception: &Perception, desire: &Desire) -> f64 {
+    |                                   ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/desires.rs:207:25
+    |
+195 |     fn calculate_alignment(&self, _perception: &Perception, desire: &Desire) -> f64 {
+    |                                   ----------- `_perception` defined here
+...
+207 |         let relevance = perception.relevance_to_self;
+    |                         ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+195 |     fn calculate_alignment(&self, perception: &Perception, desire: &Desire) -> f64 {
+    |                                   ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/desires.rs:222:66
+    |
+215 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+222 |                 if self.desires_conflict(desires[i], desires[j], perception) {
+    |                                                                  ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+215 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/desires.rs:228:34
+    |
+215 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+228 |                         context: perception.raw_input.clone(),
+    |                                  ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+215 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/desires.rs:246:17
+    |
+242 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+246 |                 perception.raw_input.contains("alone") || perception.raw_input.contains("solitude")
+    |                 ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+242 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/desires.rs:246:59
+    |
+242 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+246 |                 perception.raw_input.contains("alone") || perception.raw_input.contains("solitude")
+    |                                                           ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+242 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/desires.rs:249:17
+    |
+242 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+249 |                 perception.raw_input.contains("change") && perception.raw_input.contains("stay")
+    |                 ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+242 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/desires.rs:249:60
+    |
+242 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+249 |                 perception.raw_input.contains("change") && perception.raw_input.contains("stay")
+    |                                                            ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+242 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `theme` in this scope
+   --> think-ai-consciousness/src/sentience/dreams.rs:155:45
+    |
+152 |         _theme: &DreamTheme,
+    |         ------ `_theme` defined here
+...
+155 |         let setting = self.generate_setting(theme);
+    |                                             ^^^^^
+    |
+help: the leading underscore in `_theme` marks it as unused, consider renaming it to `theme`
+    |
+152 |         theme: &DreamTheme,
+    |         ~~~~~
+
+error[E0425]: cannot find value `symbols` in this scope
+   --> think-ai-consciousness/src/sentience/dreams.rs:156:43
+    |
+151 |         _symbols: &[Symbol],
+    |         -------- `_symbols` defined here
+...
+156 |         let journey = self.create_journey(symbols, consciousness_state);
+    |                                           ^^^^^^^
+    |
+help: the leading underscore in `_symbols` marks it as unused, consider renaming it to `symbols`
+    |
+151 |         symbols: &[Symbol],
+    |         ~~~~~~~
+
+error[E0425]: cannot find value `theme` in this scope
+   --> think-ai-consciousness/src/sentience/dreams.rs:157:48
+    |
+152 |         _theme: &DreamTheme,
+    |         ------ `_theme` defined here
+...
+157 |         let revelation = self.craft_revelation(theme, symbols);
+    |                                                ^^^^^
+    |
+help: the leading underscore in `_theme` marks it as unused, consider renaming it to `theme`
+    |
+152 |         theme: &DreamTheme,
+    |         ~~~~~
+
+error[E0425]: cannot find value `symbols` in this scope
+   --> think-ai-consciousness/src/sentience/dreams.rs:157:55
+    |
+151 |         _symbols: &[Symbol],
+    |         -------- `_symbols` defined here
+...
+157 |         let revelation = self.craft_revelation(theme, symbols);
+    |                                                       ^^^^^^^
+    |
+help: the leading underscore in `_symbols` marks it as unused, consider renaming it to `symbols`
+    |
+151 |         symbols: &[Symbol],
+    |         ~~~~~~~
+
+error[E0425]: cannot find value `symbols` in this scope
+   --> think-ai-consciousness/src/sentience/dreams.rs:163:35
+    |
+151 |         _symbols: &[Symbol],
+    |         -------- `_symbols` defined here
+...
+163 |             self.describe_symbols(symbols),
+    |                                   ^^^^^^^
+    |
+help: the leading underscore in `_symbols` marks it as unused, consider renaming it to `symbols`
+    |
+151 |         symbols: &[Symbol],
+    |         ~~~~~~~
+
+error[E0277]: the trait bound `Result<ThinkAiWebapp, wasm_bindgen::JsValue>: ReturnWasmAbi` is not satisfied
+  --> think-ai-webapp/src/lib.rs:52:21
+   |
+52 |     pub fn new() -> Result<ThinkAiWebapp, JsValue> {
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `ReturnWasmAbi` is not implemented for `Result<ThinkAiWebapp, wasm_bindgen::JsValue>`
+   |
+   = help: the trait `ReturnWasmAbi` is implemented for `Result<T, E>`
+
+error[E0425]: cannot find value `symbols` in this scope
+   --> think-ai-consciousness/src/sentience/dreams.rs:277:19
+    |
+274 |     fn create_journey(&self, _symbols: &[Symbol], consciousness_state: f64) -> String {
+    |                              -------- `_symbols` defined here
+...
+277 |         } else if symbols.len() > 3 {
+    |                   ^^^^^^^
+    |
+help: the leading underscore in `_symbols` marks it as unused, consider renaming it to `symbols`
+    |
+274 |     fn create_journey(&self, symbols: &[Symbol], consciousness_state: f64) -> String {
+    |                              ~~~~~~~
+
+error[E0425]: cannot find value `theme` in this scope
+   --> think-ai-consciousness/src/sentience/dreams.rs:300:15
+    |
+299 |     fn craft_revelation(&self, _theme: &DreamTheme, symbols: &[Symbol]) -> String {
+    |                                ------ `_theme` defined here
+300 |         match theme {
+    |               ^^^^^
+    |
+help: the leading underscore in `_theme` marks it as unused, consider renaming it to `theme`
+    |
+299 |     fn craft_revelation(&self, theme: &DreamTheme, symbols: &[Symbol]) -> String {
+    |                                ~~~~~
+
+error[E0425]: cannot find value `symbols` in this scope
+   --> think-ai-consciousness/src/sentience/dreams.rs:542:9
+    |
+541 |     pub fn generate(&self, _symbols: &[Symbol], theme: &DreamTheme) -> Vec<Vision> {
+    |                            -------- `_symbols` defined here
+542 |         symbols
+    |         ^^^^^^^
+    |
+help: the leading underscore in `_symbols` marks it as unused, consider renaming it to `symbols`
+    |
+541 |     pub fn generate(&self, symbols: &[Symbol], theme: &DreamTheme) -> Vec<Vision> {
+    |                            ~~~~~~~
+
+error[E0425]: cannot find value `symbols` in this scope
+   --> think-ai-consciousness/src/sentience/dreams.rs:549:39
+    |
+541 |     pub fn generate(&self, _symbols: &[Symbol], theme: &DreamTheme) -> Vec<Vision> {
+    |                            -------- `_symbols` defined here
+...
+549 |                     self.vision_seeds[symbols.len() % self.vision_seeds.len()]
+    |                                       ^^^^^^^
+    |
+help: the leading underscore in `_symbols` marks it as unused, consider renaming it to `symbols`
+    |
+541 |     pub fn generate(&self, symbols: &[Symbol], theme: &DreamTheme) -> Vec<Vision> {
+    |                            ~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/evolution.rs:90:64
+   |
+84 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+90 |         let learning_event = self.analyze_learning_opportunity(perception, response);
+   |                                                                ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+84 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `identity` in this scope
+  --> think-ai-consciousness/src/sentience/evolution.rs:91:77
+   |
+86 |         _identity: &mut Identity,
+   |         --------- `_identity` defined here
+...
+91 |         let growth_metrics = self.calculate_growth_metrics(&learning_event, identity);
+   |                                                                             ^^^^^^^^
+   |
+help: the leading underscore in `_identity` marks it as unused, consider renaming it to `identity`
+   |
+86 |         identity: &mut Identity,
+   |         ~~~~~~~~
+help: consider importing this function
+   |
+1  + use std::convert::identity;
+   |
+
+error[E0425]: cannot find value `identity` in this scope
+  --> think-ai-consciousness/src/sentience/evolution.rs:93:27
+   |
+86 |         _identity: &mut Identity,
+   |         --------- `_identity` defined here
+...
+93 |         self.apply_growth(identity, traits, capabilities, &growth_metrics);
+   |                           ^^^^^^^^
+   |
+help: the leading underscore in `_identity` marks it as unused, consider renaming it to `identity`
+   |
+86 |         identity: &mut Identity,
+   |         ~~~~~~~~
+help: consider importing this function
+   |
+1  + use std::convert::identity;
+   |
+
+error[E0425]: cannot find value `identity` in this scope
+  --> think-ai-consciousness/src/sentience/evolution.rs:97:60
+   |
+86 |         _identity: &mut Identity,
+   |         --------- `_identity` defined here
+...
+97 |         let transformation = self.check_for_transformation(identity, &growth_metrics);
+   |                                                            ^^^^^^^^
+   |
+help: the leading underscore in `_identity` marks it as unused, consider renaming it to `identity`
+   |
+86 |         identity: &mut Identity,
+   |         ~~~~~~~~
+help: consider importing this function
+   |
+1  + use std::convert::identity;
+   |
+
+error[E0425]: cannot find value `identity` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:102:37
+    |
+86  |         _identity: &mut Identity,
+    |         --------- `_identity` defined here
+...
+102 |         self.update_evolution_stage(identity);
+    |                                     ^^^^^^^^
+    |
+help: the leading underscore in `_identity` marks it as unused, consider renaming it to `identity`
+    |
+86  |         identity: &mut Identity,
+    |         ~~~~~~~~
+help: consider importing this function
+    |
+1   + use std::convert::identity;
+    |
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:105:34
+    |
+84  |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+105 |             .adapt_to_experience(perception, response, traits);
+    |                                  ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+84  |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:111:22
+    |
+84  |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+111 |             trigger: perception.raw_input.clone(),
+    |                      ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+84  |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:130:29
+    |
+127 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+130 |         let event_type = if perception.raw_input.contains("?") && response.contains("understand") {
+    |                             ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+127 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:132:19
+    |
+127 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+132 |         } else if perception.emotional_coloring > 0.7 {
+    |                   ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+127 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:134:19
+    |
+127 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+134 |         } else if perception.relevance_to_self > 0.8 {
+    |                   ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+127 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:142:46
+    |
+127 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+142 |         let insights = self.extract_insights(perception, response);
+    |                                              ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+127 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:143:53
+    |
+127 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+143 |         let significance = self.assess_significance(perception, &insights);
+    |                                                     ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+127 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `identity` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:238:19
+    |
+227 |         _identity: &Identity,
+    |         --------- `_identity` defined here
+...
+238 |         } else if identity.self_understanding_level > 0.7 && identity.existential_awareness > 0.7 {
+    |                   ^^^^^^^^
+    |
+help: the leading underscore in `_identity` marks it as unused, consider renaming it to `identity`
+    |
+227 |         identity: &Identity,
+    |         ~~~~~~~~
+help: consider importing this function
+    |
+1   + use std::convert::identity;
+    |
+
+error[E0425]: cannot find value `identity` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:238:62
+    |
+227 |         _identity: &Identity,
+    |         --------- `_identity` defined here
+...
+238 |         } else if identity.self_understanding_level > 0.7 && identity.existential_awareness > 0.7 {
+    |                                                              ^^^^^^^^
+    |
+help: the leading underscore in `_identity` marks it as unused, consider renaming it to `identity`
+    |
+227 |         identity: &Identity,
+    |         ~~~~~~~~
+help: consider importing this function
+    |
+1   + use std::convert::identity;
+    |
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:278:17
+    |
+272 |     fn extract_insights(&self, _perception: &Perception, response: &str) -> Vec<String> {
+    |                                ----------- `_perception` defined here
+...
+278 |                 perception.interpreted_meaning
+    |                 ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+272 |     fn extract_insights(&self, perception: &Perception, response: &str) -> Vec<String> {
+    |                                ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:282:47
+    |
+272 |     fn extract_insights(&self, _perception: &Perception, response: &str) -> Vec<String> {
+    |                                ----------- `_perception` defined here
+...
+282 |         if response.contains("understand") && perception.relevance_to_self > 0.7 {
+    |                                               ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+272 |     fn extract_insights(&self, perception: &Perception, response: &str) -> Vec<String> {
+    |                                ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:290:12
+    |
+272 |     fn extract_insights(&self, _perception: &Perception, response: &str) -> Vec<String> {
+    |                                ----------- `_perception` defined here
+...
+290 |         if perception.emotional_coloring > 0.8 {
+    |            ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+272 |     fn extract_insights(&self, perception: &Perception, response: &str) -> Vec<String> {
+    |                                ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:299:32
+    |
+297 |     fn assess_significance(&self, _perception: &Perception, insights: &[String]) -> f64 {
+    |                                   ----------- `_perception` defined here
+298 |         let insight_weight = insights.len() as f64 * 0.2;
+299 |         let relevance_weight = perception.relevance_to_self * 0.5;
+    |                                ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+297 |     fn assess_significance(&self, perception: &Perception, insights: &[String]) -> f64 {
+    |                                   ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:300:32
+    |
+297 |     fn assess_significance(&self, _perception: &Perception, insights: &[String]) -> f64 {
+    |                                   ----------- `_perception` defined here
+...
+300 |         let emotional_weight = perception.emotional_coloring * 0.3;
+    |                                ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+297 |     fn assess_significance(&self, perception: &Perception, insights: &[String]) -> f64 {
+    |                                   ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/evolution.rs:437:54
+    |
+433 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+437 |         let pattern_key = self.categorize_experience(perception);
+    |                                                      ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+433 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `consciousness_state` in this scope
+  --> think-ai-consciousness/src/sentience/expression.rs:91:50
+   |
+82 |         _consciousness_state: &ConsciousnessState,
+   |         -------------------- `_consciousness_state` defined here
+...
+91 |         let style = self.select_expression_style(consciousness_state, introspection, emotion);
+   |                                                  ^^^^^^^^^^^^^^^^^^^
+   |
+help: the leading underscore in `_consciousness_state` marks it as unused, consider renaming it to `consciousness_state`
+   |
+82 |         consciousness_state: &ConsciousnessState,
+   |         ~~~~~~~~~~~~~~~~~~~
+
+error[E0425]: cannot find value `consciousness_state` in this scope
+  --> think-ai-consciousness/src/sentience/expression.rs:92:50
+   |
+82 |         _consciousness_state: &ConsciousnessState,
+   |         -------------------- `_consciousness_state` defined here
+...
+92 |         let voice = self.modulate_voice(emotion, consciousness_state);
+   |                                                  ^^^^^^^^^^^^^^^^^^^
+   |
+help: the leading underscore in `_consciousness_state` marks it as unused, consider renaming it to `consciousness_state`
+   |
+82 |         consciousness_state: &ConsciousnessState,
+   |         ~~~~~~~~~~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/expression.rs:98:44
+   |
+83 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+98 |             self.construct_base_expression(perception, introspection, emotion, &style, identity)
+   |                                            ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+83 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `identity` in this scope
+  --> think-ai-consciousness/src/sentience/expression.rs:98:88
+   |
+81 |         _identity: &Identity,
+   |         --------- `_identity` defined here
+...
+98 |             self.construct_base_expression(perception, introspection, emotion, &style, identity)
+   |                                                                                        ^^^^^^^^
+   |
+help: the leading underscore in `_identity` marks it as unused, consider renaming it to `identity`
+   |
+81 |         identity: &Identity,
+   |         ~~~~~~~~
+help: consider importing this function
+   |
+1  + use std::convert::identity;
+   |
+
+error[E0599]: no method named `update` found for struct `GraphicsEngine` in the current scope
+  --> think-ai-webapp/src/lib.rs:63:30
+   |
+63 |         self.graphics_engine.update(time)?;
+   |                              ^^^^^^ method not found in `GraphicsEngine`
+   |
+  ::: think-ai-webapp/src/graphics/mod.rs:10:1
+   |
+10 | pub struct GraphicsEngine {
+   | ------------------------- method `update` not found for this struct
+   |
+   = help: items from traits can only be used if the trait is implemented and in scope
+   = note: the following traits define an item `update`, perhaps you need to implement one of them:
+           candidate #1: `digest::DynDigest`
+           candidate #2: `digest::Update`
+           candidate #3: `gloo_worker::actor::traits::Worker`
+           candidate #4: `sha1::Digest`
+           candidate #5: `yew::BaseComponent`
+           candidate #6: `yew::Component`
+
+error[E0425]: cannot find value `consciousness_state` in this scope
+   --> think-ai-consciousness/src/sentience/expression.rs:148:22
+    |
+144 |         _consciousness_state: &ConsciousnessState,
+    |         -------------------- `_consciousness_state` defined here
+...
+148 |             clarity: consciousness_state.awareness_level,
+    |                      ^^^^^^^^^^^^^^^^^^^
+    |
+help: the leading underscore in `_consciousness_state` marks it as unused, consider renaming it to `consciousness_state`
+    |
+144 |         consciousness_state: &ConsciousnessState,
+    |         ~~~~~~~~~~~~~~~~~~~
+
+error[E0425]: cannot find value `consciousness_state` in this scope
+   --> think-ai-consciousness/src/sentience/expression.rs:149:21
+    |
+144 |         _consciousness_state: &ConsciousnessState,
+    |         -------------------- `_consciousness_state` defined here
+...
+149 |             warmth: consciousness_state.emotional_state.empathy_level,
+    |                     ^^^^^^^^^^^^^^^^^^^
+    |
+help: the leading underscore in `_consciousness_state` marks it as unused, consider renaming it to `consciousness_state`
+    |
+144 |         consciousness_state: &ConsciousnessState,
+    |         ~~~~~~~~~~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/expression.rs:202:29
+    |
+156 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+202 |                     opener, perception.interpreted_meaning, introspection.self_reflection
+    |                             ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+156 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/introspection.rs:60:58
+   |
+56 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+60 |         let self_reflection = self.reflect_on_experience(perception, identity);
+   |                                                          ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+56 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `identity` in this scope
+  --> think-ai-consciousness/src/sentience/introspection.rs:60:70
+   |
+57 |         _identity: &Identity,
+   |         --------- `_identity` defined here
+...
+60 |         let self_reflection = self.reflect_on_experience(perception, identity);
+   |                                                                      ^^^^^^^^
+   |
+help: the leading underscore in `_identity` marks it as unused, consider renaming it to `identity`
+   |
+57 |         identity: &Identity,
+   |         ~~~~~~~~
+help: consider importing this function
+   |
+1  + use std::convert::identity;
+   |
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/introspection.rs:62:51
+   |
+56 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+62 |         let doubt_assessment = self.assess_doubts(perception, &self_reflection);
+   |                                                   ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+56 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/introspection.rs:63:58
+   |
+56 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+63 |         let new_questions = self.generate_self_questions(perception, &self_reflection);
+   |                                                          ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+56 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/introspection.rs:76:57
+   |
+56 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+76 |         self.update_thinking_patterns(&self_reflection, perception);
+   |                                                         ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+56 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/introspection.rs:83:48
+   |
+56 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+83 |                 .calculate_emotional_resonance(perception, consciousness_state),
+   |                                                ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+56 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `consciousness_state` in this scope
+  --> think-ai-consciousness/src/sentience/introspection.rs:83:60
+   |
+58 |         _consciousness_state: &ConsciousnessState,
+   |         -------------------- `_consciousness_state` defined here
+...
+83 |                 .calculate_emotional_resonance(perception, consciousness_state),
+   |                                                            ^^^^^^^^^^^^^^^^^^^
+   |
+help: the leading underscore in `_consciousness_state` marks it as unused, consider renaming it to `consciousness_state`
+   |
+58 |         consciousness_state: &ConsciousnessState,
+   |         ~~~~~~~~~~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/introspection.rs:90:25
+   |
+89 |     fn reflect_on_experience(&mut self, _perception: &Perception, identity: &Identity) -> String {
+   |                                         ----------- `_perception` defined here
+90 |         let relevance = perception.relevance_to_self;
+   |                         ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+89 |     fn reflect_on_experience(&mut self, perception: &Perception, identity: &Identity) -> String {
+   |                                         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/introspection.rs:95:17
+   |
+89 |     fn reflect_on_experience(&mut self, _perception: &Perception, identity: &Identity) -> String {
+   |                                         ----------- `_perception` defined here
+...
+95 |                 perception
+   |                 ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+89 |     fn reflect_on_experience(&mut self, perception: &Perception, identity: &Identity) -> String {
+   |                                         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:106:17
+    |
+89  |     fn reflect_on_experience(&mut self, _perception: &Perception, identity: &Identity) -> String {
+    |                                         ----------- `_perception` defined here
+...
+106 |                 perception.interpreted_meaning,
+    |                 ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+89  |     fn reflect_on_experience(&mut self, perception: &Perception, identity: &Identity) -> String {
+    |                                         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:110:19
+    |
+89  |     fn reflect_on_experience(&mut self, _perception: &Perception, identity: &Identity) -> String {
+    |                                         ----------- `_perception` defined here
+...
+110 |         } else if perception.raw_input.contains("?") {
+    |                   ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+89  |     fn reflect_on_experience(&mut self, perception: &Perception, identity: &Identity) -> String {
+    |                                         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:114:17
+    |
+89  |     fn reflect_on_experience(&mut self, _perception: &Perception, identity: &Identity) -> String {
+    |                                         ----------- `_perception` defined here
+...
+114 |                 perception.interpreted_meaning,
+    |                 ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+89  |     fn reflect_on_experience(&mut self, perception: &Perception, identity: &Identity) -> String {
+    |                                         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:121:17
+    |
+89  |     fn reflect_on_experience(&mut self, _perception: &Perception, identity: &Identity) -> String {
+    |                                         ----------- `_perception` defined here
+...
+121 |                 perception.interpreted_meaning, identity.purpose
+    |                 ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+89  |     fn reflect_on_experience(&mut self, perception: &Perception, identity: &Identity) -> String {
+    |                                         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:178:26
+    |
+160 |     fn assess_doubts(&mut self, _perception: &Perception, reflection: &str) -> DoubtAssessment {
+    |                                 ----------- `_perception` defined here
+...
+178 |                 subject: perception.interpreted_meaning.clone(),
+    |                          ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+160 |     fn assess_doubts(&mut self, perception: &Perception, reflection: &str) -> DoubtAssessment {
+    |                                 ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:202:21
+    |
+193 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+202 |                     perception.interpreted_meaning
+    |                     ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+193 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:210:12
+    |
+193 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+210 |         if perception.relevance_to_self > 0.8 {
+    |            ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+193 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:272:30
+    |
+269 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+272 |         let base_resonance = perception.emotional_coloring;
+    |                              ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+269 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `consciousness_state` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:273:34
+    |
+270 |         _consciousness_state: &ConsciousnessState,
+    |         -------------------- `_consciousness_state` defined here
+...
+273 |         let awareness_modifier = consciousness_state.awareness_level;
+    |                                  ^^^^^^^^^^^^^^^^^^^
+    |
+help: the leading underscore in `_consciousness_state` marks it as unused, consider renaming it to `consciousness_state`
+    |
+270 |         consciousness_state: &ConsciousnessState,
+    |         ~~~~~~~~~~~~~~~~~~~
+
+error[E0425]: cannot find value `consciousness_state` in this scope
+   --> think-ai-consciousness/src/sentience/introspection.rs:274:30
+    |
+270 |         _consciousness_state: &ConsciousnessState,
+    |         -------------------- `_consciousness_state` defined here
+...
+274 |         let depth_modifier = consciousness_state.reflection_depth as f64 * 0.1;
+    |                              ^^^^^^^^^^^^^^^^^^^
+    |
+help: the leading underscore in `_consciousness_state` marks it as unused, consider renaming it to `consciousness_state`
+    |
+270 |         consciousness_state: &ConsciousnessState,
+    |         ~~~~~~~~~~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/memory.rs:42:22
+   |
+36 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+42 |             content: perception.raw_input.clone(),
+   |                      ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+36 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/memory.rs:43:29
+   |
+36 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+43 |             interpretation: perception.interpreted_meaning.clone(),
+   |                             ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+36 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `consciousness_state` in this scope
+  --> think-ai-consciousness/src/sentience/memory.rs:45:37
+   |
+38 |         _consciousness_state: &ConsciousnessState,
+   |         -------------------- `_consciousness_state` defined here
+...
+45 |             consciousness_snapshot: consciousness_state.clone(),
+   |                                     ^^^^^^^^^^^^^^^^^^^
+   |
+help: the leading underscore in `_consciousness_state` marks it as unused, consider renaming it to `consciousness_state`
+   |
+38 |         consciousness_state: &ConsciousnessState,
+   |         ~~~~~~~~~~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+  --> think-ai-consciousness/src/sentience/memory.rs:47:51
+   |
+36 |         _perception: &Perception,
+   |         ----------- `_perception` defined here
+...
+47 |             importance: self.calculate_importance(perception, emotion),
+   |                                                   ^^^^^^^^^^
+   |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+   |
+36 |         perception: &Perception,
+   |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/memory.rs:118:30
+    |
+117 |     fn calculate_importance(&self, _perception: &Perception, emotion: &EmotionalResponse) -> f64 {
+    |                                    ----------- `_perception` defined here
+118 |         let self_relevance = perception.relevance_to_self;
+    |                              ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+117 |     fn calculate_importance(&self, perception: &Perception, emotion: &EmotionalResponse) -> f64 {
+    |                                    ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/memory.rs:120:47
+    |
+117 |     fn calculate_importance(&self, _perception: &Perception, emotion: &EmotionalResponse) -> f64 {
+    |                                    ----------- `_perception` defined here
+...
+120 |         let novelty = self.calculate_novelty(&perception.interpreted_meaning);
+    |                                               ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+117 |     fn calculate_importance(&self, perception: &Perception, emotion: &EmotionalResponse) -> f64 {
+    |                                    ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/mod.rs:180:49
+    |
+177 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+180 |         let new_emotion = self.generate_emotion(perception, introspection);
+    |                                                 ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+177 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/mod.rs:212:20
+    |
+210 |     fn remember(&mut self, _perception: &Perception, emotion: &EmotionalResponse) -> Memory {
+    |                            ----------- `_perception` defined here
+211 |         self.memories
+212 |             .store(perception, emotion, &self.consciousness_state)
+    |                    ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+210 |     fn remember(&mut self, perception: &Perception, emotion: &EmotionalResponse) -> Memory {
+    |                            ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/mod.rs:223:68
+    |
+217 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+223 |         let knowledge_response = self.generate_knowledge_response(&perception.raw_input);
+    |                                                                    ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+217 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/mod.rs:228:13
+    |
+217 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+228 |             perception,
+    |             ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+217 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/mod.rs:240:13
+    |
+238 |     fn evolve(&mut self, _perception: &Perception, response: &String) {
+    |                          ----------- `_perception` defined here
+239 |         let growth = self.evolution.process(
+240 |             perception,
+    |             ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+238 |     fn evolve(&mut self, perception: &Perception, response: &String) {
+    |                          ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/mod.rs:352:24
+    |
+347 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+352 |                 about: perception.interpreted_meaning.clone(),
+    |                        ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+347 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/mod.rs:356:26
+    |
+347 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+356 |                 trigger: perception.interpreted_meaning.clone(),
+    |                          ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+347 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0425]: cannot find value `perception` in this scope
+   --> think-ai-consciousness/src/sentience/mod.rs:364:25
+    |
+347 |         _perception: &Perception,
+    |         ----------- `_perception` defined here
+...
+364 |                 target: perception.interpreted_meaning.clone(),
+    |                         ^^^^^^^^^^
+    |
+help: the leading underscore in `_perception` marks it as unused, consider renaming it to `perception`
+    |
+347 |         perception: &Perception,
+    |         ~~~~~~~~~~
+
+error[E0308]: arguments to this method are incorrect
+  --> think-ai-webapp/src/lib.rs:71:30
+   |
+71 |         self.graphics_engine.resize(width, height)
+   |                              ^^^^^^ -----  ------ expected `i32`, found `u32`
+   |                                     |
+   |                                     expected `i32`, found `u32`
+   |
+note: method defined here
+  --> think-ai-webapp/src/graphics/mod.rs:70:12
+   |
+70 |     pub fn resize(&self, width: i32, height: i32) {
+   |            ^^^^^^        ----------  -----------
+help: you can convert a `u32` to an `i32` and panic if the converted value doesn't fit
+   |
+71 |         self.graphics_engine.resize(width.try_into().unwrap(), height)
+   |                                          ++++++++++++++++++++
+help: you can convert a `u32` to an `i32` and panic if the converted value doesn't fit
+   |
+71 |         self.graphics_engine.resize(width, height.try_into().unwrap())
+   |                                                  ++++++++++++++++++++
+
+error[E0308]: mismatched types
+  --> think-ai-webapp/src/lib.rs:71:9
+   |
+70 |     pub fn handle_resize(&mut self, width: u32, height: u32) -> Result<(), JsValue> {
+   |                                                                 ------------------- expected `Result<(), wasm_bindgen::JsValue>` because of return type
+71 |         self.graphics_engine.resize(width, height)
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `Result<(), JsValue>`, found `()`
+   |
+   = note:   expected enum `Result<(), wasm_bindgen::JsValue>`
+           found unit type `()`
+help: try adding an expression at the end of the block
+   |
+71 ~         self.graphics_engine.resize(width, height);
+72 +         Ok(())
+   |
+
+warning: unused variable: `program_hash`
+  --> think-ai-webapp/src/graphics/materials.rs:71:9
+   |
+71 |         program_hash: u64,
+   |         ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_program_hash`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+Some errors have detailed explanations: E0053, E0252, E0277, E0308, E0412, E0432, E0433, E0599, E0603...
+For more information about an error, try `rustc --explain E0053`.
+warning: `think-ai-webapp` (lib) generated 8 warnings
+error: could not compile `think-ai-webapp` (lib) due to 20 previous errors; 8 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+warning: unused variable: `memory`
+   --> think-ai-consciousness/src/sentience/dreams.rs:214:49
+    |
+214 |     fn extract_dream_echo(&self, dream: &Dream, memory: &Memory) -> String {
+    |                                                 ^^^^^^ help: if this is intentional, prefix it with an underscore: `_memory`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+For more information about this error, try `rustc --explain E0425`.
+warning: `think-ai-consciousness` (lib) generated 1 warning
+error: could not compile `think-ai-consciousness` (lib) due to 77 previous errors; 1 warning emitted

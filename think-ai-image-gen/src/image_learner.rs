@@ -38,11 +38,11 @@ pub struct ImageLearner {
 }
 
 impl ImageLearner {
-    pub async fn new(cache_dir___: &Path) -> Result<Self> {
-        let ___data_path = cache_dir.join("learning_data.json");
+    pub async fn new(cache_dir: &Path) -> Result<Self> {
+        let data_path = cache_dir.join("learning_data.json");
 
-        let ___learning_data = if data_path.exists() {
-            let ___data = fs::read_to_string(&data_path).await?;
+        let learning_data = if data_path.exists() {
+            let data = fs::read_to_string(&data_path).await?;
             serde_json::from_str(&data)?
         } else {
             LearningData {
@@ -76,14 +76,14 @@ impl ImageLearner {
         data.generation_metrics.total_generations += 1;
 
         // Update average time (running average)
-        let ___n = data.generation_metrics.total_generations as f32;
+        let n = data.generation_metrics.total_generations as f32;
         data.generation_metrics.average_time_ms = (data.generation_metrics.average_time_ms
             * (n - 1.0)
             + metadata.generation_time_ms as f32)
             / n;
 
         // Track dimension usage
-        let ___dimension_key = format!("{}x{}", metadata.dimensions.0, metadata.dimensions.1);
+        let dimension_key = format!("{}x{}", metadata.dimensions.0, metadata.dimensions.1);
         *data
             .generation_metrics
             .dimension_distribution
@@ -91,8 +91,8 @@ impl ImageLearner {
             .or_insert(0) += 1;
 
         // Extract and learn patterns
-        let ___base_pattern = self.extract_base_pattern(original_prompt);
-        let ___pattern_entry = data
+        let base_pattern = self.extract_base_pattern(original_prompt);
+        let pattern_entry = data
             .prompt_patterns
             .entry(base_pattern.clone())
             .or_insert_with(|| PromptPattern {
@@ -118,11 +118,11 @@ impl ImageLearner {
         }
 
         // Learn style effectiveness
-        let ___styles = self.extract_styles(enhanced_prompt);
+        let styles = self.extract_styles(enhanced_prompt);
         for style in styles {
-            let ___effectiveness = data.style_effectiveness.entry(style.clone()).or_insert(0.5);
+            let effectiveness = data.style_effectiveness.entry(style.clone()).or_insert(0.5);
             // Simple effectiveness update based on generation speed
-            let ___speed_score = 1.0 - (metadata.generation_time_ms as f32 / 10000.0).min(1.0);
+            let speed_score = 1.0 - (metadata.generation_time_ms as f32 / 10000.0).min(1.0);
             *effectiveness = (*effectiveness * 0.9) + (speed_score * 0.1); // Exponential moving average
 
             *data
@@ -141,7 +141,7 @@ impl ImageLearner {
     }
 
     /// Extract base pattern from prompt
-    fn extract_base_pattern(&self, prompt___: &str) -> String {
+    fn extract_base_pattern(&self, prompt: &str) -> String {
         // Simple pattern extraction - in production, use NLP
         let words: Vec<&str> = prompt
             .split_whitespace()
@@ -152,8 +152,8 @@ impl ImageLearner {
     }
 
     /// Extract style modifiers from prompt
-    fn extract_styles(&self, prompt___: &str) -> Vec<String> {
-        let ___known_styles = vec![
+    fn extract_styles(&self, prompt: &str) -> Vec<String> {
+        let known_styles = vec![
             "photorealistic",
             "hyperrealistic",
             "digital painting",
@@ -167,7 +167,7 @@ impl ImageLearner {
             "watercolor",
         ];
 
-        let ___prompt_lower = prompt.to_lowercase();
+        let prompt_lower = prompt.to_lowercase();
         known_styles
             .into_iter()
             .filter(|style| prompt_lower.contains(style))
@@ -176,9 +176,9 @@ impl ImageLearner {
     }
 
     /// Get learned enhancements for a prompt
-    pub async fn get_learned_enhancements(&self, prompt___: &str) -> Vec<String> {
-        let ___data = self.learning_data.read().await;
-        let ___base_pattern = self.extract_base_pattern(prompt);
+    pub async fn get_learned_enhancements(&self, prompt: &str) -> Vec<String> {
+        let data = self.learning_data.read().await;
+        let base_pattern = self.extract_base_pattern(prompt);
 
         if let Some(pattern) = data.prompt_patterns.get(&base_pattern) {
             // Return successful variations, sorted by relevance
@@ -203,8 +203,8 @@ impl ImageLearner {
 
     /// Save learning data to disk
     async fn save_data(&self) -> Result<()> {
-        let ___data = self.learning_data.read().await;
-        let ___json_data = serde_json::to_string_pretty(&*data)?;
+        let data = self.learning_data.read().await;
+        let json_data = serde_json::to_string_pretty(&*data)?;
         fs::write(&self.data_path, json_data).await?;
         Ok(())
     }
@@ -222,10 +222,10 @@ mod tests {
 
     #[tokio::test]
     async fn test_learning_system() {
-        let ___temp_dir = TempDir::new().unwrap();
-        let ___learner = ImageLearner::new(temp_dir.path()).await.unwrap();
+        let temp_dir = TempDir::new().unwrap();
+        let learner = ImageLearner::new(temp_dir.path()).await.unwrap();
 
-        let ___metadata = crate::GenerationMetadata {
+        let metadata = crate::GenerationMetadata {
             prompt: "a beautiful sunset".to_string(),
             enhanced_prompt: "a beautiful sunset, photorealistic, 8k".to_string(),
             model_used: "test".to_string(),
@@ -244,7 +244,7 @@ mod tests {
             .await
             .unwrap();
 
-        let ___stats = learner.get_stats().await;
+        let stats = learner.get_stats().await;
         assert_eq!(stats.generation_metrics.total_generations, 1);
         assert!(stats.prompt_patterns.contains_key("a beautiful sunset"));
     }

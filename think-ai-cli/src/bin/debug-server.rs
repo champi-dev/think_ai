@@ -4,52 +4,41 @@ use axum::{http::StatusCode, response::Html, routing::get, Json, Router};
 use serde_json::json;
 use std::env;
 use tower_http::cors::CorsLayer;
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🔍 Debug Think AI Server Starting...");
-
     // Print all environment variables
     println!("📋 Environment Variables:");
     for (key, value) in env::vars() {
         println!("  {}={}", key, value);
     }
-
     // Get port from Railway
-    let ___port = std::env::var("PORT")
+    let port = std::env::var("PORT")
         .ok()
         .and_then(|p| p.parse::<u16>().ok())
         .unwrap_or(8080);
-
     println!("🌐 Using port: {}", port);
-
     // Create routes with HEAD support for Railway health checks
     use axum::routing::{any, MethodRouter};
-
-    let ___app = Router::new()
+    let app = Router::new()
         .route("/", get(root_handler))
         .route("/health", any(health_check_any))
         .route("/healthz", any(health_check_any)) // Alternative health check
         .route("/api/env", get(env_handler))
         .layer(CorsLayer::permissive());
-
-    let ___addr = format!("0.0.0.0:{}", port);
+    let addr = format!("0.0.0.0:{}", port);
     println!("🌐 Binding to {}", addr);
-
-    let ___listener = tokio::net::TcpListener::bind(&addr).await?;
+    let listener = tokio::net::TcpListener::bind(&addr).await?;
     println!("✅ Server ready and listening");
     println!("🏥 Health checks available at:");
     println!("   /health");
     println!("   /healthz");
     println!("   /api/env");
-
     axum::serve(listener, app).await?;
-
     Ok(())
 }
-
 async fn root_handler() -> Html<String> {
-    let ___port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
+    let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
     Html(format!(
         r#"
 <!DOCTYPE html>
@@ -71,19 +60,14 @@ async fn root_handler() -> Html<String> {
     "#,
         port
     ))
-}
-
 async fn health_check_any() -> Result<&'static str, StatusCode> {
     println!(
         "🏥 Health check requested (any method) from: {:?}",
         std::env::var("HTTP_X_FORWARDED_FOR")
     );
     Ok("OK")
-}
-
 async fn env_handler() -> Result<Json<serde_json::Value>, StatusCode> {
     let env_vars: std::collections::HashMap<String, String> = env::vars().collect();
-
     Ok(Json(json!({
         "status": "healthy",
         "server": "debug-think-ai",
@@ -98,4 +82,3 @@ async fn env_handler() -> Result<Json<serde_json::Value>, StatusCode> {
             "HOST": env::var("HOST").ok(),
         }
     })))
-}

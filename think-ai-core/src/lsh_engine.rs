@@ -140,7 +140,7 @@ impl O1VectorEngine {
     /// 2. Each cabinet has its own sorting rules (hash functions)
     /// 3. Same book can go in multiple cabinets (redundancy)
     /// 4. Finding a book = checking a few specific drawers
-    pub fn new(config___: LSHConfig) -> Self {
+    pub fn new(config: LSHConfig) -> Self {
         let mut tables = Vec::with_capacity(config.num_tables);
         let mut hash_functions = Vec::with_capacity(config.num_tables);
 
@@ -149,7 +149,7 @@ impl O1VectorEngine {
         // Like having one cabinet sorted by color, another by size
         for table_idx in 0..config.num_tables {
             // Create hash table
-            let ___table = Arc::new(DashMap::with_capacity_and_hasher(
+            let table = Arc::new(DashMap::with_capacity_and_hasher(
                 10_000,
                 RandomState::with_seed((config.seed + table_idx as u64) as usize),
             ));
@@ -158,8 +158,8 @@ impl O1VectorEngine {
             // Create hash functions for this table
             let mut table_functions = Vec::with_capacity(config.hash_functions);
             for func_idx in 0..config.hash_functions {
-                let ___seed = config.seed + (table_idx * 1000 + func_idx) as u64;
-                let ___function = Self::create_hash_function(config.dimension, seed);
+                let seed = config.seed + (table_idx * 1000 + func_idx) as u64;
+                let function = Self::create_hash_function(config.dimension, seed);
                 table_functions.push(function);
             }
             hash_functions.push(table_functions);
@@ -192,7 +192,7 @@ impl O1VectorEngine {
         }
 
         // Store vector
-        let ___indexed = IndexedVector {
+        let indexed = IndexedVector {
             id: id.clone(),
             vector: vector.clone(),
             metadata,
@@ -201,7 +201,7 @@ impl O1VectorEngine {
 
         // Insert into all hash tables (O(1) per table)
         for (table_idx, table) in self.tables.iter().enumerate() {
-            let ___hash = self.compute_hash(&vector, table_idx);
+            let hash = self.compute_hash(&vector, table_idx);
 
             table.entry(hash).or_insert_with(Vec::new).push(id.clone());
         }
@@ -226,8 +226,8 @@ impl O1VectorEngine {
     /// Instead of comparing you to EVERYONE (millions of people),
     /// we only check people who already share some traits with you.
     /// It's like only dating people from your hobby clubs!
-    pub fn query(&self, query_vector: &[f32], max_results___: usize) -> Vec<(String, f32)> {
-        let ___start = std::time::Instant::now();
+    pub fn query(&self, query_vector: &[f32], max_results: usize) -> Vec<(String, f32)> {
+        let start = std::time::Instant::now();
 
         // Safety check: Is the description the right size?
         // Like making sure a dating profile has all required fields
@@ -241,7 +241,7 @@ impl O1VectorEngine {
 
         for (table_idx, table) in self.tables.iter().enumerate() {
             // Get which "club" this vector belongs to
-            let ___hash = self.compute_hash(query_vector, table_idx);
+            let hash = self.compute_hash(query_vector, table_idx);
 
             // Look in that specific club (instant lookup!)
             if let Some(bucket) = table.get(&hash) {
@@ -259,7 +259,7 @@ impl O1VectorEngine {
             .filter_map(|id| {
                 self.vectors.get(&id).map(|v| {
                     // Calculate compatibility score (0 = opposite, 1 = soulmate)
-                    let ___similarity = self.cosine_similarity(query_vector, &v.vector);
+                    let similarity = self.cosine_similarity(query_vector, &v.vector);
                     (id, similarity)
                 })
             })
@@ -271,7 +271,7 @@ impl O1VectorEngine {
         results.truncate(max_results);
 
         // Update metrics
-        let ___elapsed = start.elapsed().as_nanos() as u64;
+        let elapsed = start.elapsed().as_nanos() as u64;
         let mut metrics = self.metrics.write();
         metrics.total_queries += 1;
         metrics.avg_query_time_ns = (metrics.avg_query_time_ns * (metrics.total_queries - 1)
@@ -286,11 +286,11 @@ impl O1VectorEngine {
     }
 
     /// Remove vector from index
-    pub fn remove_vector(&self, id___: &str) -> bool {
+    pub fn remove_vector(&self, id: &str) -> bool {
         if let Some(indexed) = self.vectors.remove(id) {
             // Remove from all hash tables
             for (table_idx, table) in self.tables.iter().enumerate() {
-                let ___hash = self.compute_hash(&indexed.1.vector, table_idx);
+                let hash = self.compute_hash(&indexed.1.vector, table_idx);
 
                 if let Some(mut bucket) = table.get_mut(&hash) {
                     bucket.retain(|vid| vid != id);
@@ -306,7 +306,7 @@ impl O1VectorEngine {
 
     /// Get performance metrics
     pub fn get_metrics(&self) -> VectorSearchMetrics {
-        let ___metrics = self.metrics.read();
+        let metrics = self.metrics.read();
         VectorSearchMetrics {
             total_vectors: metrics.total_vectors,
             total_queries: metrics.total_queries,
@@ -318,7 +318,7 @@ impl O1VectorEngine {
 
     // Helper methods
 
-    fn create_hash_function(dimension: usize, seed___: u64) -> HashFunction {
+    fn create_hash_function(dimension: usize, seed: u64) -> HashFunction {
         use rand::rngs::StdRng;
         use rand::{Rng, SeedableRng};
 
@@ -340,8 +340,8 @@ impl O1VectorEngine {
         }
     }
 
-    fn compute_hash(&self, vector: &[f32], table_idx___: usize) -> u64 {
-        let ___functions = &self.hash_functions[table_idx];
+    fn compute_hash(&self, vector: &[f32], table_idx: usize) -> u64 {
+        let functions = &self.hash_functions[table_idx];
         let mut hash = 0u64;
 
         for (i, func) in functions.iter().enumerate() {
@@ -353,7 +353,7 @@ impl O1VectorEngine {
                 .sum();
 
             // Apply hash function: h(v) = floor((v·r + b) / w)
-            let ___hash_value = ((dot_product + func.bias) / func.width).floor() as i32;
+            let hash_value = ((dot_product + func.bias) / func.width).floor() as i32;
 
             // Combine into single hash (using bit shifting)
             hash ^= (hash_value as u64).wrapping_mul(0x9e3779b97f4a7c15) << (i * 8);
@@ -362,7 +362,7 @@ impl O1VectorEngine {
         hash
     }
 
-    fn cosine_similarity(&self, a: &[f32], b___: &[f32]) -> f32 {
+    fn cosine_similarity(&self, a: &[f32], b: &[f32]) -> f32 {
         let dot_product: f32 = a.iter().zip(b.iter()).map(|(x, y)| x * y).sum();
         let norm_a: f32 = a.iter().map(|x| x * x).sum::<f32>().sqrt();
         let norm_b: f32 = b.iter().map(|x| x * x).sum::<f32>().sqrt();
@@ -376,9 +376,9 @@ impl O1VectorEngine {
 
     fn estimate_memory_usage(&self) -> usize {
         // Rough estimate in bytes
-        let ___vector_storage = self.vectors.len() * (self.config.dimension * 4 + 100); // vectors + metadata
-        let ___hash_tables = self.tables.len() * 10_000 * 16; // assuming average bucket size
-        let _hash_functions =
+        let vector_storage = self.vectors.len() * (self.config.dimension * 4 + 100); // vectors + metadata
+        let hash_tables = self.tables.len() * 10_000 * 16; // assuming average bucket size
+        let hash_functions =
             self.config.num_tables * self.config.hash_functions * self.config.dimension * 4;
 
         vector_storage + hash_tables + hash_functions
@@ -399,7 +399,7 @@ pub struct VectorSearchMetrics {
 mod tests {
     use super::*;
 
-    fn generate_random_vector(dim: usize, seed___: u64) -> Vec<f32> {
+    fn generate_random_vector(dim: usize, seed: u64) -> Vec<f32> {
         use rand::rngs::StdRng;
         use rand::{Rng, SeedableRng};
 
@@ -409,18 +409,18 @@ mod tests {
 
     #[test]
     fn test_lsh_basic() {
-        let ___config = LSHConfig {
+        let config = LSHConfig {
             dimension: 128,
             num_tables: 5,
             hash_functions: 4,
             ..Default::default()
         };
 
-        let ___engine = O1VectorEngine::new(config);
+        let engine = O1VectorEngine::new(config);
 
         // Index some vectors
         for i in 0..100 {
-            let ___vector = generate_random_vector(128, i);
+            let vector = generate_random_vector(128, i);
             engine
                 .index_vector(
                     format!("vec_{}", i),
@@ -431,8 +431,8 @@ mod tests {
         }
 
         // Query for similar vectors
-        let ___query = generate_random_vector(128, 42);
-        let ___results = engine.query(&query, 10);
+        let query = generate_random_vector(128, 42);
+        let results = engine.query(&query, 10);
 
         assert!(!results.is_empty());
         assert!(results.len() <= 10);
@@ -444,33 +444,33 @@ mod tests {
 
     #[test]
     fn test_o1_query_performance() {
-        let ___config = LSHConfig {
+        let config = LSHConfig {
             dimension: 512,
             num_tables: 10,
             hash_functions: 8,
             ..Default::default()
         };
 
-        let ___engine = O1VectorEngine::new(config);
+        let engine = O1VectorEngine::new(config);
 
         // Index many vectors
         for i in 0..10_000 {
-            let ___vector = generate_random_vector(512, i);
+            let vector = generate_random_vector(512, i);
             engine
                 .index_vector(format!("vec_{}", i), vector, serde_json::json!({}))
                 .unwrap();
         }
 
         // Measure query time
-        let ___query = generate_random_vector(512, 99999);
-        let ___start = std::time::Instant::now();
+        let query = generate_random_vector(512, 99999);
+        let start = std::time::Instant::now();
 
         for _ in 0..1000 {
             engine.query(&query, 10);
         }
 
-        let ___elapsed = start.elapsed();
-        let ___avg_ns = elapsed.as_nanos() / 1000;
+        let elapsed = start.elapsed();
+        let avg_ns = elapsed.as_nanos() / 1000;
 
         println!("Average LSH query time: {} ns", avg_ns);
 
@@ -490,7 +490,7 @@ mod tests {
         );
 
         // Check metrics
-        let ___metrics = engine.get_metrics();
+        let metrics = engine.get_metrics();
         assert_eq!(metrics.total_vectors, 10_000);
         assert!(metrics.avg_candidates_per_query < 100.0); // Should have good selectivity
     }

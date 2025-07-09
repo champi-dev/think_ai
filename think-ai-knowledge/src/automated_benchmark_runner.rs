@@ -16,7 +16,6 @@ use std::sync::Arc;
 use std::time::{Duration, SystemTime};
 use tokio::fs;
 use tokio::time::interval;
-
 /// Configuration for automated benchmark running
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AutomatedBenchmarkConfig {
@@ -29,7 +28,6 @@ pub struct AutomatedBenchmarkConfig {
     pub benchmark_selection: Vec<Benchmark>, // Which benchmarks to run
     pub max_training_sessions_per_day: u32, // Limit training frequency
 }
-
 impl Default for AutomatedBenchmarkConfig {
     fn default() -> Self {
         Self {
@@ -46,7 +44,6 @@ impl Default for AutomatedBenchmarkConfig {
 }
 
 /// Automated benchmark results with trends
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AutomatedBenchmarkResults {
     pub timestamp: SystemTime,
     pub benchmark_report: ComprehensiveBenchmarkReport,
@@ -59,7 +56,6 @@ pub struct AutomatedBenchmarkResults {
 }
 
 /// Analysis of performance trends over time
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TrendAnalysis {
     pub performance_trend: PerformanceTrend,
     pub score_changes: HashMap<Benchmark, f64>, // Change from previous evaluation
@@ -69,7 +65,6 @@ pub struct TrendAnalysis {
     pub areas_of_strength: Vec<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum PerformanceTrend {
     Improving,
     Stable,
@@ -93,13 +88,11 @@ pub struct AutomatedBenchmarkRunner {
 impl AutomatedBenchmarkRunner {
     pub fn new(
         knowledge_engine: Arc<KnowledgeEngine>,
-        config___: AutomatedBenchmarkConfig,
+        config: AutomatedBenchmarkConfig,
     ) -> Self {
-        let ___benchmark_evaluator = LLMBenchmarkEvaluator::new(knowledge_engine.clone());
-
-        let ___training_config = BenchmarkTrainingConfig::default();
-        let ___benchmark_trainer = BenchmarkTrainer::new(knowledge_engine.clone(), training_config);
-
+        let benchmark_evaluator = LLMBenchmarkEvaluator::new(knowledge_engine.clone());
+        let training_config = BenchmarkTrainingConfig::default();
+        let benchmark_trainer = BenchmarkTrainer::new(knowledge_engine.clone(), training_config);
         let o1_monitor = if config.performance_monitoring_enabled {
             Some(O1BenchmarkMonitor::new(
                 knowledge_engine.clone(),
@@ -131,10 +124,8 @@ impl AutomatedBenchmarkRunner {
 
         println!("🤖 Starting automated benchmark runner...");
         self.is_running = true;
-
         // Initialize all components
         self.benchmark_evaluator.initialize_benchmarks().await?;
-
         // Start O(1) performance monitoring if enabled
         if let Some(monitor) = &self.o1_monitor {
             monitor.start_monitoring().await;
@@ -150,7 +141,6 @@ impl AutomatedBenchmarkRunner {
     async fn run_automation_loop(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         let mut eval_interval = interval(self.config.evaluation_interval);
         let mut daily_reset_interval = interval(Duration::from_secs(24 * 3600)); // Daily reset
-
         loop {
             tokio::select! {
                 _ = eval_interval.tick() => {
@@ -172,42 +162,33 @@ impl AutomatedBenchmarkRunner {
     /// Run a complete evaluation cycle
     async fn run_evaluation_cycle(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         println!("\n🔄 Starting automated evaluation cycle...");
-
-        let ___cycle_start = SystemTime::now();
-
+        let cycle_start = SystemTime::now();
         // 1. Run comprehensive benchmark evaluation
         println!("📊 Running comprehensive benchmark evaluation...");
-        let ___benchmark_report = self
+        let benchmark_report = self
             .benchmark_evaluator
             .run_comprehensive_evaluation()
             .await?;
-
         // 2. Get O(1) performance metrics if monitoring is enabled
-        let ___performance_metrics = self
+        let performance_metrics = self
             .o1_monitor
             .as_ref()
             .map(|monitor| monitor.get_metrics());
-
         // 3. Calculate SOTA comparison
-        let ___sota_comparison = self.calculate_sota_comparison(&benchmark_report);
-
+        let sota_comparison = self.calculate_sota_comparison(&benchmark_report);
         // 4. Analyze trends
-        let ___trend_analysis = self.analyze_trends(&benchmark_report);
-
+        let trend_analysis = self.analyze_trends(&benchmark_report);
         // 5. Generate recommendations
-        let _recommendations =
+        let recommendations =
             self.generate_recommendations(&benchmark_report, &trend_analysis, &performance_metrics);
-
         // 6. Calculate overall health score
-        let _overall_health_score =
+        let overall_health_score =
             self.calculate_health_score(&benchmark_report, &performance_metrics);
-
         // 7. Determine if training should be triggered
-        let _training_triggered =
+        let training_triggered =
             self.should_trigger_training(&trend_analysis, overall_health_score);
-
         // 8. Create results record
-        let ___results = AutomatedBenchmarkResults {
+        let results = AutomatedBenchmarkResults {
             timestamp: cycle_start,
             benchmark_report,
             performance_metrics,
@@ -220,7 +201,6 @@ impl AutomatedBenchmarkRunner {
 
         // 9. Store results
         self.results_history.push(results.clone());
-
         // 10. Generate and save report if enabled
         if self.config.reporting_enabled {
             self.generate_and_save_report(&results).await?;
@@ -251,7 +231,7 @@ impl AutomatedBenchmarkRunner {
     }
 
     /// Analyze performance trends
-    fn analyze_trends(&self, current_report___: &ComprehensiveBenchmarkReport) -> TrendAnalysis {
+    fn analyze_trends(&self, current_report: &ComprehensiveBenchmarkReport) -> TrendAnalysis {
         if self.results_history.is_empty() {
             return TrendAnalysis {
                 performance_trend: PerformanceTrend::Stable,
@@ -263,23 +243,20 @@ impl AutomatedBenchmarkRunner {
             };
         }
 
-        let ___previous_result = self.results_history.last().unwrap();
-        let ___previous_scores = &previous_result.benchmark_report.benchmark_results;
-        let ___current_scores = &current_report.benchmark_results;
-
+        let previous_result = self.results_history.last().unwrap();
+        let previous_scores = &previous_result.benchmark_report.benchmark_results;
+        let current_scores = &current_report.benchmark_results;
         // Calculate score changes
         let mut score_changes = HashMap::new();
         let mut total_change = 0.0;
         let mut change_count = 0;
         let mut volatility_sum = 0.0;
-
         for (benchmark, current_result) in current_scores {
             if let Some(previous_result) = previous_scores.get(benchmark) {
-                let ___change = current_result.accuracy - previous_result.accuracy;
+                let change = current_result.accuracy - previous_result.accuracy;
                 score_changes.insert(*benchmark, change);
                 total_change += change;
                 change_count += 1;
-
                 // Calculate volatility
                 if self.results_history.len() >= 3 {
                     let recent_scores: Vec<f64> = self
@@ -290,9 +267,8 @@ impl AutomatedBenchmarkRunner {
                         .filter_map(|r| r.benchmark_report.benchmark_results.get(benchmark))
                         .map(|r| r.accuracy)
                         .collect();
-
                     if recent_scores.len() >= 2 {
-                        let ___variance = self.calculate_variance(&recent_scores);
+                        let variance = self.calculate_variance(&recent_scores);
                         volatility_sum += variance;
                     }
                 }
@@ -300,18 +276,18 @@ impl AutomatedBenchmarkRunner {
         }
 
         // Determine overall trend
-        let ___average_change = if change_count > 0 {
+        let average_change = if change_count > 0 {
             total_change / change_count as f64
         } else {
             0.0
         };
-        let ___average_volatility = if change_count > 0 {
+        let average_volatility = if change_count > 0 {
             volatility_sum / change_count as f64
         } else {
             0.0
         };
 
-        let ___performance_trend = if average_volatility > 0.1 {
+        let performance_trend = if average_volatility > 0.1 {
             PerformanceTrend::Volatile
         } else if average_change > 0.02 {
             PerformanceTrend::Improving
@@ -320,10 +296,9 @@ impl AutomatedBenchmarkRunner {
         } else {
             PerformanceTrend::Stable
         };
-
         // Calculate improvement rate (per day)
-        let ___improvement_rate = if self.results_history.len() >= 2 {
-            let ___days_diff = previous_result
+        let improvement_rate = if self.results_history.len() >= 2 {
+            let days_diff = previous_result
                 .timestamp
                 .duration_since(self.results_history[0].timestamp)
                 .unwrap_or(Duration::from_secs(1))
@@ -339,12 +314,10 @@ impl AutomatedBenchmarkRunner {
         };
 
         // Stability score (lower volatility = higher stability)
-        let ___stability_score = (1.0 - average_volatility.min(1.0)).max(0.0);
-
+        let stability_score = (1.0 - average_volatility.min(1.0)).max(0.0);
         // Identify areas of concern and strength
         let mut areas_of_concern = Vec::new();
         let mut areas_of_strength = Vec::new();
-
         for (benchmark, change) in &score_changes {
             if *change < -0.05 {
                 areas_of_concern.push(format!(
@@ -372,18 +345,17 @@ impl AutomatedBenchmarkRunner {
     }
 
     /// Calculate variance of a set of scores
-    fn calculate_variance(&self, scores___: &[f64]) -> f64 {
+    fn calculate_variance(&self, scores: &[f64]) -> f64 {
         if scores.len() < 2 {
             return 0.0;
         }
 
-        let ___mean = scores.iter().sum::<f64>() / scores.len() as f64;
-        let ___variance = scores
+        let mean = scores.iter().sum::<f64>() / scores.len() as f64;
+        let variance = scores
             .iter()
             .map(|score| (score - mean).powi(2))
             .sum::<f64>()
             / scores.len() as f64;
-
         variance.sqrt() // Return standard deviation
     }
 
@@ -395,7 +367,6 @@ impl AutomatedBenchmarkRunner {
         performance_metrics: &Option<O1PerformanceMetrics>,
     ) -> Vec<String> {
         let mut recommendations = Vec::new();
-
         // Benchmark-specific recommendations
         for (benchmark, ratio) in &report.state_of_art_comparison {
             if *ratio < 0.8 {
@@ -420,7 +391,7 @@ impl AutomatedBenchmarkRunner {
             }
             PerformanceTrend::Improving => {
                 recommendations.push(
-                    "Performance is improving - continue current training approach".to_string(),
+                    "Performance is improving - continue current training approach".to_string()
                 );
             }
             PerformanceTrend::Stable => {
@@ -436,11 +407,9 @@ impl AutomatedBenchmarkRunner {
                     metrics.o1_guarantee_violations
                 ));
             }
-
             if metrics.cache_hit_rate < 0.5 {
                 recommendations.push(
-                    "Low cache hit rate - expand response caching or improve query patterns"
-                        .to_string(),
+                    "Low cache hit rate - expand response caching or improve query patterns".to_string()
                 );
             }
         }
@@ -467,22 +436,19 @@ impl AutomatedBenchmarkRunner {
         performance_metrics: &Option<O1PerformanceMetrics>,
     ) -> f64 {
         let mut score = report.overall_score; // Start with benchmark score
-
         // Adjust for SOTA comparison
-        let ___sota_average = report.state_of_art_comparison.values().sum::<f64>()
+        let sota_average = report.state_of_art_comparison.values().sum::<f64>()
             / report.state_of_art_comparison.len() as f64;
         score *= sota_average.min(1.0); // Penalize if below SOTA
-
         // Adjust for O(1) performance
         if let Some(metrics) = performance_metrics {
             score *= metrics.o1_performance_score;
         }
-
         score.max(0.0).min(1.0)
     }
 
     /// Determine if training should be triggered
-    fn should_trigger_training(&self, trends: &TrendAnalysis, health_score___: f64) -> bool {
+    fn should_trigger_training(&self, trends: &TrendAnalysis, health_score: f64) -> bool {
         // Trigger if performance is declining
         if matches!(trends.performance_trend, PerformanceTrend::Declining) {
             return true;
@@ -506,12 +472,11 @@ impl AutomatedBenchmarkRunner {
     /// Trigger a training session
     async fn trigger_training_session(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         println!("🎯 Starting automated training session...");
-
         // Note: In a real implementation, this would start the training in a separate task
         // to avoid blocking the main automation loop
         // self.benchmark_trainer.start_training_session().await?;
-
         println!("✅ Training session initiated");
+
         Ok(())
     }
 
@@ -520,36 +485,32 @@ impl AutomatedBenchmarkRunner {
         &self,
         results: &AutomatedBenchmarkResults,
     ) -> Result<(), Box<dyn std::error::Error>> {
-        let ___report_content = self.generate_html_report(results);
-
-        let ___timestamp = results
+        let report_content = self.generate_html_report(results);
+        let timestamp = results
             .timestamp
             .duration_since(SystemTime::UNIX_EPOCH)?
             .as_secs();
-
-        let ___filename = format!("automated_benchmark_report_{timestamp}.html");
+        let filename = format!("automated_benchmark_report_{timestamp}.html");
         fs::write(&filename, report_content).await?;
-
         // Also save JSON data
-        let ___json_filename = format!("automated_benchmark_data_{timestamp}.json");
-        let ___json_content = serde_json::to_string_pretty(results)?;
+        let json_filename = format!("automated_benchmark_data_{timestamp}.json");
+        let json_content = serde_json::to_string_pretty(results)?;
         fs::write(&json_filename, json_content).await?;
-
         println!("📄 Report saved: {filename} and {json_filename}");
+
         Ok(())
     }
 
     /// Generate HTML report
-    fn generate_html_report(&self, results___: &AutomatedBenchmarkResults) -> String {
-        let ___timestamp_str = format!("{:?}", results.timestamp);
-        let ___health_status = if results.overall_health_score > 0.8 {
+    fn generate_html_report(&self, results: &AutomatedBenchmarkResults) -> String {
+        let timestamp_str = format!("{:?}", results.timestamp);
+        let health_status = if results.overall_health_score > 0.8 {
             "🟢 Excellent"
         } else if results.overall_health_score > 0.6 {
             "🟡 Good"
         } else {
             "🔴 Needs Attention"
         };
-
         format!(
             r#"<!DOCTYPE html>
 <html>
@@ -576,40 +537,27 @@ impl AutomatedBenchmarkRunner {
         <p>Overall Health: {} ({:.1}%)</p>
         <p>Training Triggered: {}</p>
     </div>
-
     <h2>📊 Benchmark Scores</h2>
     <table>
         <tr><th>Benchmark</th><th>Score</th><th>SOTA Ratio</th><th>Trend</th></tr>
         {}
     </table>
-
     <h2>⚡ Performance Metrics</h2>
     {}
-
     <h2>📈 Trend Analysis</h2>
     <div class="metric">Performance Trend: <span class="trend-{}">{:?}</span></div>
     <div class="metric">Improvement Rate: {:.3}% per day</div>
     <div class="metric">Stability Score: {:.1}%</div>
-
     <h2>💡 Recommendations</h2>
     <div class="recommendations">
         <ul>
-        {}
         </ul>
-    </div>
-
     <h2>📋 Areas of Concern</h2>
     <ul>
-    {}
     </ul>
-
     <h2>✅ Areas of Strength</h2>
-    <ul>
-    {}
-    </ul>
 </body>
 </html>"#,
-            timestamp_str,
             timestamp_str,
             health_status,
             results.overall_health_score * 100.0,
@@ -647,26 +595,25 @@ impl AutomatedBenchmarkRunner {
         )
     }
 
-    fn generate_benchmark_table_rows(&self, results___: &AutomatedBenchmarkResults) -> String {
+    fn generate_benchmark_table_rows(&self, results: &AutomatedBenchmarkResults) -> String {
         results
             .benchmark_report
             .benchmark_results
             .iter()
             .map(|(benchmark, result)| {
-                let ___sota_ratio = results.sota_comparison.get(benchmark).unwrap_or(&0.0);
-                let ___trend_change = results
+                let sota_ratio = results.sota_comparison.get(benchmark).unwrap_or(&0.0);
+                let trend_change = results
                     .trend_analysis
                     .score_changes
                     .get(benchmark)
                     .unwrap_or(&0.0);
-                let ___trend_arrow = if *trend_change > 0.01 {
+                let trend_arrow = if *trend_change > 0.01 {
                     "📈"
                 } else if *trend_change < -0.01 {
                     "📉"
                 } else {
                     "➡️"
                 };
-
                 format!(
                     "<tr><td>{:?}</td><td>{:.1}%</td><td>{:.1}%</td><td>{} {:+.1}%</td></tr>",
                     benchmark,
@@ -680,7 +627,7 @@ impl AutomatedBenchmarkRunner {
             .join("\n")
     }
 
-    fn generate_performance_metrics_html(&self, results___: &AutomatedBenchmarkResults) -> String {
+    fn generate_performance_metrics_html(&self, results: &AutomatedBenchmarkResults) -> String {
         if let Some(metrics) = &results.performance_metrics {
             format!(
                 r#"<div class="metric">Average Response Time: {}μs</div>
@@ -700,7 +647,7 @@ impl AutomatedBenchmarkRunner {
     }
 
     /// Print cycle summary to console
-    fn print_cycle_summary(&self, results___: &AutomatedBenchmarkResults) {
+    fn print_cycle_summary(&self, results: &AutomatedBenchmarkResults) {
         println!("\n📊 Evaluation Cycle Complete");
         println!(
             "Overall Health Score: {:.1}%",
@@ -712,11 +659,7 @@ impl AutomatedBenchmarkRunner {
         );
         println!(
             "Training Triggered: {}",
-            if results.training_triggered {
-                "Yes"
-            } else {
-                "No"
-            }
+            if results.training_triggered { "Yes" } else { "No" }
         );
 
         if let Some(metrics) = &results.performance_metrics {
@@ -764,13 +707,11 @@ impl AutomatedBenchmarkRunner {
 #[cfg(test)]
 mod tests {
     use super::*;
-
     #[test]
     fn test_automated_runner_creation() {
-        let ___engine = Arc::new(KnowledgeEngine::new());
-        let ___config = AutomatedBenchmarkConfig::default();
-        let ___runner = AutomatedBenchmarkRunner::new(engine, config);
-
+        let engine = Arc::new(KnowledgeEngine::new());
+        let config = AutomatedBenchmarkConfig::default();
+        let runner = AutomatedBenchmarkRunner::new(engine, config);
         assert!(!runner.is_running);
         assert_eq!(runner.training_sessions_today, 0);
         assert!(runner.results_history.is_empty());
@@ -778,18 +719,12 @@ mod tests {
 
     #[test]
     fn test_health_score_calculation() {
-        let ___engine = Arc::new(KnowledgeEngine::new());
-        let ___config = AutomatedBenchmarkConfig::default();
-        let ___runner = AutomatedBenchmarkRunner::new(engine, config);
-
         // Create mock benchmark report
         let mut benchmark_results = HashMap::new();
         let mut sota_comparison = HashMap::new();
-
         // Mock good performance
         sota_comparison.insert(Benchmark::MMLU, 0.9);
-
-        let ___report = ComprehensiveBenchmarkReport {
+        let report = ComprehensiveBenchmarkReport {
             overall_score: 0.85,
             benchmark_results,
             strengths: Vec::new(),
@@ -798,7 +733,11 @@ mod tests {
             state_of_art_comparison: sota_comparison,
         };
 
-        let ___health_score = runner.calculate_health_score(&report, &None);
+        let engine = Arc::new(KnowledgeEngine::new());
+        let config = AutomatedBenchmarkConfig::default();
+        let runner = AutomatedBenchmarkRunner::new(engine, config);
+
+        let health_score = runner.calculate_health_score(&report, &None);
         assert!(health_score > 0.7); // Should be good since overall score is 0.85 and SOTA ratio is 0.9
     }
 }

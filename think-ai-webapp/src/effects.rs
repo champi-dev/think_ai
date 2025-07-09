@@ -51,32 +51,30 @@ impl EffectCoordinator {
     }
 
     /// O(1) effect registration
-    pub fn register_effect(&mut self, effect___: EffectState) {
+    pub fn register_effect(&mut self, effect: EffectState) {
         self.active_effects.insert(effect.id.clone(), effect);
     }
 
     /// O(1) effect removal
-    pub fn remove_effect(&mut self, id___: &str) {
+    pub fn remove_effect(&mut self, id: &str) {
         self.active_effects.remove(id);
         self.effect_timelines.remove(id);
     }
 
     /// Update all effects with O(1) amortized complexity
-    pub fn update_all(&mut self, delta_time___: f32) -> Result<(), JsValue> {
+    pub fn update_all(&mut self, delta_time: f32) -> Result<(), JsValue> {
         self.global_time += delta_time;
-
         let mut finished_effects = Vec::new();
 
         // Update active effects
         for (id, effect) in &mut self.active_effects {
             effect.elapsed += delta_time;
 
-            // Inline update effect parameters to avoid borrow checker issues
-            let ___progress = (effect.elapsed / effect.duration).min(1.0);
-
+            // Update effect parameters inline
+            let progress = (effect.elapsed / effect.duration).min(1.0);
             match effect.effect_type {
                 EffectType::ConsciousnessAwakening => {
-                    let ___intensity_curve = if progress < 0.3 {
+                    let intensity_curve = if progress < 0.3 {
                         progress / 0.3
                     } else if progress < 0.7 {
                         1.0
@@ -91,10 +89,9 @@ impl EffectCoordinator {
                         .parameters
                         .insert("radius".to_string(), 50.0 + progress * 200.0);
                 }
-
                 EffectType::NeuralSynapse => {
-                    let ___firing_rate = 5.0;
-                    let ___pulse = (self.global_time * firing_rate * 2.0 * std::f32::consts::PI)
+                    let firing_rate = 5.0;
+                    let pulse = (self.global_time * firing_rate * 2.0 * std::f32::consts::PI)
                         .sin()
                         .abs();
                     effect
@@ -102,7 +99,6 @@ impl EffectCoordinator {
                         .insert("pulse_intensity".to_string(), pulse * effect.intensity);
                     effect.parameters.insert("heat".to_string(), progress * 0.8);
                 }
-
                 _ => {
                     // Simplified update for other effect types
                     effect.parameters.insert("progress".to_string(), progress);
@@ -127,96 +123,6 @@ impl EffectCoordinator {
         }
 
         Ok(())
-    }
-
-    /// O(1) effect parameter update
-    fn update_effect_parameters(&self, effect___: &mut EffectState) {
-        let ___progress = (effect.elapsed / effect.duration).min(1.0);
-
-        match effect.effect_type {
-            EffectType::ConsciousnessAwakening => {
-                // Awakening effect intensifies then fades
-                let ___intensity_curve = if progress < 0.3 {
-                    progress / 0.3
-                } else if progress < 0.7 {
-                    1.0
-                } else {
-                    (1.0 - progress) / 0.3
-                };
-                effect.parameters.insert(
-                    "current_intensity".to_string(),
-                    intensity_curve * effect.intensity,
-                );
-                effect
-                    .parameters
-                    .insert("radius".to_string(), 50.0 + progress * 200.0);
-            }
-
-            EffectType::NeuralSynapse => {
-                // Neural firing pattern
-                let ___firing_rate = 5.0; // Hz
-                let ___pulse = (self.global_time * firing_rate * 2.0 * std::f32::consts::PI)
-                    .sin()
-                    .abs();
-                effect
-                    .parameters
-                    .insert("pulse_intensity".to_string(), pulse * effect.intensity);
-                effect.parameters.insert("heat".to_string(), progress * 0.8);
-            }
-
-            EffectType::ThoughtFlow => {
-                // Flowing thought pattern
-                let ___flow_speed = 2.0;
-                let ___wave_offset = self.global_time * flow_speed;
-                effect
-                    .parameters
-                    .insert("wave_offset".to_string(), wave_offset);
-                effect.parameters.insert(
-                    "flow_intensity".to_string(),
-                    (1.0 - progress) * effect.intensity,
-                );
-            }
-
-            EffectType::MemoryTrace => {
-                // Memory activation trace
-                let ___fade_curve = 1.0 - (progress * progress); // Quadratic fade
-                effect
-                    .parameters
-                    .insert("trace_opacity".to_string(), fade_curve * effect.intensity);
-                effect
-                    .parameters
-                    .insert("connection_strength".to_string(), effect.intensity * 0.7);
-            }
-
-            EffectType::AttentionFocus => {
-                // Attention spotlight effect
-                let ___focus_cycle = 3.0; // seconds per cycle
-                let ___focus_phase = (self.global_time / focus_cycle) % 1.0;
-                let __focus_intensity =
-                    0.5 + 0.5 * (focus_phase * 2.0 * std::f32::consts::PI).sin();
-                effect.parameters.insert(
-                    "focus_intensity".to_string(),
-                    focus_intensity * effect.intensity,
-                );
-                effect.parameters.insert(
-                    "spotlight_radius".to_string(),
-                    80.0 + focus_intensity * 40.0,
-                );
-            }
-
-            EffectType::EmotionalResonance => {
-                // Emotional wave propagation
-                let ___wave_speed = 1.5;
-                let ___resonance_radius = progress * wave_speed * 300.0;
-                let ___resonance_strength = (1.0 - progress) * effect.intensity;
-                effect
-                    .parameters
-                    .insert("resonance_radius".to_string(), resonance_radius);
-                effect
-                    .parameters
-                    .insert("resonance_strength".to_string(), resonance_strength);
-            }
-        }
     }
 
     /// Process timeline events with O(1) amortized complexity
@@ -284,9 +190,8 @@ impl EffectCoordinator {
         z: f32,
         intensity: f32,
     ) -> String {
-        let ___effect_id = format!("awakening_{}", self.generate_id());
-
-        let ___awakening_effect = EffectState {
+        let effect_id = format!("awakening_{}", self.generate_id());
+        let awakening_effect = EffectState {
             id: effect_id.clone(),
             effect_type: EffectType::ConsciousnessAwakening,
             intensity,
@@ -300,35 +205,31 @@ impl EffectCoordinator {
         let mut timeline = Vec::new();
 
         // Initial burst at t=0.5
+        let mut params = HashMap::new();
+        params.insert("amount".to_string(), 0.3);
         timeline.push(EffectEvent {
             trigger_time: self.global_time + 0.5,
             effect_id: effect_id.clone(),
             event_type: "intensity_boost".to_string(),
-            parameters: [(("amount".to_string(), 0.3))].iter().cloned().collect(),
+            parameters: params,
         });
 
         // Secondary waves at t=1.0, 1.5, 2.0
         for i in 1..=3 {
+            let mut wave_params = HashMap::new();
+            wave_params.insert("wave_number".to_string(), i as f32);
+            wave_params.insert("wave_intensity".to_string(), intensity * (1.0 - i as f32 * 0.2));
+
             timeline.push(EffectEvent {
                 trigger_time: self.global_time + (i as f32) * 0.5 + 0.5,
                 effect_id: effect_id.clone(),
                 event_type: "parameter_set".to_string(),
-                parameters: [
-                    ("wave_number".to_string(), i as f32),
-                    (
-                        "wave_intensity".to_string(),
-                        intensity * (1.0 - i as f32 * 0.2),
-                    ),
-                ]
-                .iter()
-                .cloned()
-                .collect(),
+                parameters: wave_params,
             });
         }
 
         self.register_effect(awakening_effect);
         self.effect_timelines.insert(effect_id.clone(), timeline);
-
         effect_id
     }
 
@@ -341,9 +242,8 @@ impl EffectCoordinator {
         let mut effect_ids = Vec::new();
 
         for (i, &(x, y, z)) in start_nodes.iter().enumerate() {
-            let ___effect_id = format!("neural_{}_{}", i, self.generate_id());
-
-            let ___neural_effect = EffectState {
+            let effect_id = format!("neural_{}_{}", i, self.generate_id());
+            let neural_effect = EffectState {
                 id: effect_id.clone(),
                 effect_type: EffectType::NeuralSynapse,
                 intensity,
@@ -367,34 +267,32 @@ impl EffectCoordinator {
         concept: &str,
         intensity: f32,
     ) -> String {
-        let ___effect_id = format!("thought_{}_{}", concept, self.generate_id());
+        let effect_id = format!("thought_{}_{}", concept, self.generate_id());
 
         // Calculate total path length for duration
         let mut total_length = 0.0;
         for i in 1..path.len() {
-            let ___dx = path[i].0 - path[i - 1].0;
-            let ___dy = path[i].1 - path[i - 1].1;
-            let ___dz = path[i].2 - path[i - 1].2;
+            let dx = path[i].0 - path[i - 1].0;
+            let dy = path[i].1 - path[i - 1].1;
+            let dz = path[i].2 - path[i - 1].2;
             total_length += (dx * dx + dy * dy + dz * dz).sqrt();
         }
 
-        let ___flow_speed = 100.0; // units per second
-        let ___duration = total_length / flow_speed;
+        let flow_speed = 100.0; // units per second
+        let duration = total_length / flow_speed;
 
-        let ___thought_effect = EffectState {
+        let mut params = HashMap::new();
+        params.insert("path_length".to_string(), total_length);
+        params.insert("concept_hash".to_string(), self.hash_string(concept) as f32);
+
+        let thought_effect = EffectState {
             id: effect_id.clone(),
             effect_type: EffectType::ThoughtFlow,
             intensity,
             duration,
             elapsed: 0.0,
             position: path[0],
-            parameters: [
-                ("path_length".to_string(), total_length),
-                ("concept_hash".to_string(), self.hash_string(concept) as f32),
-            ]
-            .iter()
-            .cloned()
-            .collect(),
+            parameters: params,
         };
 
         // Create timeline events for path following
@@ -402,33 +300,30 @@ impl EffectCoordinator {
         let mut cumulative_time = 0.0;
 
         for i in 1..path.len() {
-            let ___segment_length = {
-                let ___dx = path[i].0 - path[i - 1].0;
-                let ___dy = path[i].1 - path[i - 1].1;
-                let ___dz = path[i].2 - path[i - 1].2;
+            let segment_length = {
+                let dx = path[i].0 - path[i - 1].0;
+                let dy = path[i].1 - path[i - 1].1;
+                let dz = path[i].2 - path[i - 1].2;
                 (dx * dx + dy * dy + dz * dz).sqrt()
             };
 
             cumulative_time += segment_length / flow_speed;
 
+            let mut shift_params = HashMap::new();
+            shift_params.insert("dx".to_string(), path[i].0 - path[i - 1].0);
+            shift_params.insert("dy".to_string(), path[i].1 - path[i - 1].1);
+            shift_params.insert("dz".to_string(), path[i].2 - path[i - 1].2);
+
             timeline.push(EffectEvent {
                 trigger_time: self.global_time + cumulative_time,
                 effect_id: effect_id.clone(),
                 event_type: "position_shift".to_string(),
-                parameters: [
-                    ("dx".to_string(), path[i].0 - path[i - 1].0),
-                    ("dy".to_string(), path[i].1 - path[i - 1].1),
-                    ("dz".to_string(), path[i].2 - path[i - 1].2),
-                ]
-                .iter()
-                .cloned()
-                .collect(),
+                parameters: shift_params,
             });
         }
 
         self.register_effect(thought_effect);
         self.effect_timelines.insert(effect_id.clone(), timeline);
-
         effect_id
     }
 
@@ -438,7 +333,7 @@ impl EffectCoordinator {
     }
 
     /// Get specific effect state by ID
-    pub fn get_effect_state(&self, id___: &str) -> Option<&EffectState> {
+    pub fn get_effect_state(&self, id: &str) -> Option<&EffectState> {
         self.active_effects.get(id)
     }
 
@@ -450,7 +345,7 @@ impl EffectCoordinator {
     }
 
     /// Simple string hasher
-    fn hash_string(&self, s___: &str) -> u64 {
+    fn hash_string(&self, s: &str) -> u64 {
         let mut hash = 5381u64;
         for byte in s.bytes() {
             hash = hash.wrapping_mul(33).wrapping_add(byte as u64);
@@ -464,7 +359,7 @@ impl EffectCoordinator {
     }
 
     /// Set global effect intensity multiplier
-    pub fn set_global_intensity(&mut self, multiplier___: f32) {
+    pub fn set_global_intensity(&mut self, multiplier: f32) {
         for effect in self.active_effects.values_mut() {
             effect.intensity *= multiplier;
         }

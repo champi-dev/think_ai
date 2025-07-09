@@ -19,14 +19,14 @@ pub struct O1VectorIndex {
 }
 
 impl O1VectorIndex {
-    pub fn new(config___: LSHConfig) -> Result<Self> {
+    pub fn new(config: LSHConfig) -> Result<Self> {
         if config.dimension == 0 {
             return Err(VectorError::InvalidConfig("Dimension must be > 0".into()));
         }
 
-        let ___hash_tables = hash_tables::HashTables::new(config.num_hash_tables, config.seed);
+        let hash_tables = hash_tables::HashTables::new(config.num_hash_tables, config.seed);
 
-        let ___projections = lsh::generate_projections(&config);
+        let projections = lsh::generate_projections(&config);
 
         Ok(Self {
             config: Arc::new(config),

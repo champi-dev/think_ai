@@ -44,15 +44,15 @@ struct CacheEntry {
 
 impl ImageCache {
     /// Create a new O(1) image cache
-    pub async fn new(cache_dir: &Path, max_size_bytes___: u64) -> Result<Self> {
+    pub async fn new(cache_dir: &Path, max_size_bytes: u64) -> Result<Self> {
         fs::create_dir_all(cache_dir).await?;
 
-        let ___index_path = cache_dir.join("cache_index.json");
-        let ___index = if index_path.exists() {
+        let index_path = cache_dir.join("cache_index.json");
+        let index = if index_path.exists() {
             // Load existing index for O(1) restoration
-            let ___data = fs::read_to_string(&index_path).await?;
+            let data = fs::read_to_string(&index_path).await?;
             let entries: Vec<(String, CacheEntry)> = serde_json::from_str(&data)?;
-            let ___map = DashMap::new();
+            let map = DashMap::new();
             let mut total_size = 0u64;
             for (key, entry) in entries {
                 total_size += entry.size_bytes;
@@ -68,7 +68,7 @@ impl ImageCache {
             Arc::new(DashMap::new())
         };
 
-        let ___current_size = index.iter().map(|entry| entry.value().size_bytes).sum();
+        let current_size = index.iter().map(|entry| entry.value().size_bytes).sum();
 
         Ok(Self {
             cache_dir: cache_dir.to_path_buf(),
@@ -81,7 +81,7 @@ impl ImageCache {
     }
 
     /// O(1) cache lookup
-    pub async fn get(&self, key___: &str) -> Result<Option<CachedImage>> {
+    pub async fn get(&self, key: &str) -> Result<Option<CachedImage>> {
         if let Some(mut entry) = self.index.get_mut(key) {
             // Update access metadata
             entry.last_accessed = std::time::SystemTime::now()
@@ -90,12 +90,12 @@ impl ImageCache {
                 .as_secs();
             entry.access_count += 1;
 
-            let ___file_path = entry.file_path.clone();
-            let ___metadata = entry.metadata.clone();
+            let file_path = entry.file_path.clone();
+            let metadata = entry.metadata.clone();
             drop(entry); // Release lock early
 
             // Read image data
-            let ___data = fs::read(&file_path).await?;
+            let data = fs::read(&file_path).await?;
 
             self.cache_hits.fetch_add(1, Ordering::Relaxed);
 
@@ -113,7 +113,7 @@ impl ImageCache {
         data: &[u8],
         metadata: &crate::GenerationMetadata,
     ) -> Result<()> {
-        let ___size_bytes = data.len() as u64;
+        let size_bytes = data.len() as u64;
 
         // Check if we need to evict entries
         if self.current_size_bytes.load(Ordering::Relaxed) + size_bytes > self.max_size_bytes {
@@ -121,8 +121,8 @@ impl ImageCache {
         }
 
         // Generate unique filename
-        let ___file_name = format!("{key}.img");
-        let ___file_path = self.cache_dir.join(&file_name);
+        let file_name = format!("{key}.img");
+        let file_path = self.cache_dir.join(&file_name);
 
         // Write image data
         let mut file = fs::File::create(&file_path).await?;
@@ -130,7 +130,7 @@ impl ImageCache {
         file.sync_all().await?;
 
         // Create cache entry
-        let ___entry = CacheEntry {
+        let entry = CacheEntry {
             file_path: file_path.clone(),
             size_bytes,
             metadata: metadata.clone(),
@@ -153,7 +153,7 @@ impl ImageCache {
     }
 
     /// Evict least recently used entries to make space
-    async fn evict_lru(&self, needed_bytes___: u64) -> Result<()> {
+    async fn evict_lru(&self, needed_bytes: u64) -> Result<()> {
         let mut entries: Vec<(String, CacheEntry)> = self
             .index
             .iter()
@@ -176,10 +176,10 @@ impl ImageCache {
         }
 
         // Remove entries
-        let ___num_to_remove = to_remove.len();
+        let num_to_remove = to_remove.len();
         for (key, file_path) in to_remove {
             self.index.remove(&key);
-            let ____ = fs::remove_file(&file_path).await; // Ignore errors
+            let _ = fs::remove_file(&file_path).await; // Ignore errors
         }
         self.current_size_bytes
             .fetch_sub(freed_bytes, Ordering::Relaxed);
@@ -201,8 +201,8 @@ impl ImageCache {
             .map(|entry| (entry.key().clone(), entry.value().clone()))
             .collect();
 
-        let ___data = serde_json::to_string_pretty(&entries)?;
-        let ___index_path = self.cache_dir.join("cache_index.json");
+        let data = serde_json::to_string_pretty(&entries)?;
+        let index_path = self.cache_dir.join("cache_index.json");
 
         let mut file = fs::File::create(&index_path).await?;
         file.write_all(data.as_bytes()).await?;
@@ -225,7 +225,7 @@ impl ImageCache {
     pub async fn clear(&self) -> Result<()> {
         // Remove all files
         for entry in self.index.iter() {
-            let ____ = fs::remove_file(&entry.value().file_path).await;
+            let _ = fs::remove_file(&entry.value().file_path).await;
         }
 
         // Clear index
@@ -233,8 +233,8 @@ impl ImageCache {
         self.current_size_bytes.store(0, Ordering::Relaxed);
 
         // Remove index file
-        let ___index_path = self.cache_dir.join("cache_index.json");
-        let ____ = fs::remove_file(&index_path).await;
+        let index_path = self.cache_dir.join("cache_index.json");
+        let _ = fs::remove_file(&index_path).await;
 
         println!("🧹 Cache cleared");
 
@@ -249,13 +249,13 @@ mod tests {
 
     #[tokio::test]
     async fn test_cache_operations() {
-        let ___temp_dir = TempDir::new().unwrap();
-        let ___cache = ImageCache::new(temp_dir.path(), 1024 * 1024).await.unwrap();
+        let temp_dir = TempDir::new().unwrap();
+        let cache = ImageCache::new(temp_dir.path(), 1024 * 1024).await.unwrap();
 
         // Test store and retrieve
-        let ___key = "test_image";
-        let ___data = vec![1, 2, 3, 4, 5];
-        let ___metadata = crate::GenerationMetadata {
+        let key = "test_image";
+        let data = vec![1, 2, 3, 4, 5];
+        let metadata = crate::GenerationMetadata {
             prompt: "test".to_string(),
             enhanced_prompt: "test enhanced".to_string(),
             model_used: "test_model".to_string(),
@@ -267,15 +267,15 @@ mod tests {
 
         cache.store(key, &data, &metadata).await.unwrap();
 
-        let ___retrieved = cache.get(key).await.unwrap();
+        let retrieved = cache.get(key).await.unwrap();
         assert!(retrieved.is_some());
 
-        let ___cached_image = retrieved.unwrap();
+        let cached_image = retrieved.unwrap();
         assert_eq!(cached_image.data, data);
         assert_eq!(cached_image.metadata.prompt, "test");
 
         // Check stats
-        let ___stats = cache.get_stats();
+        let stats = cache.get_stats();
         assert_eq!(stats.hits, 1);
         assert_eq!(stats.misses, 0);
         assert_eq!(stats.entry_count, 1);

@@ -1,12 +1,7 @@
-use think_ai_webapp::server;
+// Server module is currently disabled due to O1Engine dependency
+// This is a placeholder main function
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Initialize logging
-    env_logger::init();
-
-    // Run the server
-    server::run_server().await?;
-
-    Ok(())
+fn main() {
+    println!("Think AI Webapp - Server module is currently disabled");
+    println!("The webapp library is available for integration");
 }

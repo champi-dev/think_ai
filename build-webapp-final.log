@@ -1,0 +1,3403 @@
+warning: unused variable: `memory`
+   --> think-ai-consciousness/src/sentience/dreams.rs:214:49
+    |
+214 |     fn extract_dream_echo(&self, dream: &Dream, memory: &Memory) -> String {
+    |                                                 ^^^^^^ help: if this is intentional, prefix it with an underscore: `_memory`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `symbols`
+   --> think-ai-consciousness/src/sentience/dreams.rs:299:52
+    |
+299 |     fn craft_revelation(&self, theme: &DreamTheme, symbols: &[Symbol]) -> String {
+    |                                                    ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_symbols`
+
+warning: unused variable: `theme`
+   --> think-ai-consciousness/src/sentience/dreams.rs:541:48
+    |
+541 |     pub fn generate(&self, symbols: &[Symbol], theme: &DreamTheme) -> Vec<Vision> {
+    |                                                ^^^^^ help: if this is intentional, prefix it with an underscore: `_theme`
+
+warning: type `LearningEvent` is more private than the item `WisdomAccumulator::add_insight`
+   --> think-ai-consciousness/src/sentience/evolution.rs:390:5
+    |
+390 |     pub fn add_insight(&mut self, event: &LearningEvent) {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ method `WisdomAccumulator::add_insight` is reachable at visibility `pub`
+    |
+note: but type `LearningEvent` is only usable at visibility `pub(self)`
+   --> think-ai-consciousness/src/sentience/evolution.rs:326:1
+    |
+326 | struct LearningEvent {
+    | ^^^^^^^^^^^^^^^^^^^^
+    = note: `#[warn(private_interfaces)]` on by default
+
+warning: field `integration_required` is never read
+   --> think-ai-consciousness/src/sentience/evolution.rs:330:5
+    |
+326 | struct LearningEvent {
+    |        ------------- field in this struct
+...
+330 |     integration_required: bool,
+    |     ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `LearningEvent` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` on by default
+
+warning: `think-ai-consciousness` (lib) generated 5 warnings
+warning: field `core` is never read
+  --> think-ai-core/src/consciousness_engine.rs:97:5
+   |
+95 | pub struct O1ConsciousnessEngine {
+   |            --------------------- field in this struct
+96 |     /// Core O(1) engine for computation
+97 |     core: Arc<O1Engine>,
+   |     ^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `think-ai-core` (lib) generated 1 warning
+   Compiling think-ai-knowledge v0.1.0 (/home/champi/Dev/think_ai/think-ai-knowledge)
+warning: unused variable: `generator_stats`
+   --> think-ai-image-gen/src/ai_image_improver.rs:366:13
+    |
+366 |         let generator_stats = self.generator.get_learning_stats().await;
+    |             ^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_generator_stats`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: field `config` is never read
+  --> think-ai-image-gen/src/lib.rs:70:5
+   |
+69 | pub struct ImageGenerator {
+   |            -------------- field in this struct
+70 |     config: ImageGenConfig,
+   |     ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: fields `is_photographic` and `has_style` are never read
+   --> think-ai-image-gen/src/ai_image_improver.rs:469:5
+    |
+465 | struct PromptAnalysis {
+    |        -------------- fields in this struct
+...
+469 |     is_photographic: bool,
+    |     ^^^^^^^^^^^^^^^
+470 |     has_style: bool,
+    |     ^^^^^^^^^
+    |
+    = note: `PromptAnalysis` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: field `status` is never read
+  --> think-ai-image-gen/src/leonardo_client.rs:35:5
+   |
+33 | struct GenerationResponse {
+   |        ------------------ field in this struct
+34 |     generation_id: String,
+35 |     status: String,
+   |     ^^^^^^
+   |
+   = note: `GenerationResponse` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: `think-ai-image-gen` (lib) generated 4 warnings
+   Compiling think-ai-webapp v0.1.0 (/home/champi/Dev/think_ai/think-ai-webapp)
+   Compiling think-ai-consciousness v0.1.0 (/home/champi/Dev/think_ai/think-ai-consciousness)
+warning: field `inner` is never read
+  --> think-ai-storage/src/traits/mod.rs:30:5
+   |
+29 | pub struct TypedStorage<T> {
+   |            ------------ field in this struct
+30 |     inner: Box<dyn Storage>,
+   |     ^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `think-ai-storage` (lib) generated 1 warning
+error[E0753]: expected outer doc comment
+ --> think-ai-webapp/src/graphics/materials.rs:3:1
+  |
+3 | //!
+  | ^^^
+...
+6 | use nalgebra::{Vector3};
+  | ------------------------ the inner doc comment doesn't annotate this `use` import
+  |
+help: to annotate the `use` import, change the doc comment from inner to outer style
+  |
+3 | ///
+  |   ~
+
+error: expected `;`, found keyword `pub`
+  --> think-ai-webapp/src/ui/effects.rs:48:15
+   |
+48 |         Ok(())
+   |               ^ help: add `;` here
+49 |
+50 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     --- unexpected token
+
+error: expected `;`, found keyword `pub`
+  --> think-ai-webapp/src/ui/effects.rs:74:15
+   |
+74 |         Ok(())
+   |               ^ help: add `;` here
+75 |
+76 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     --- unexpected token
+
+error: expected `;`, found keyword `pub`
+   --> think-ai-webapp/src/ui/effects.rs:100:15
+    |
+100 |         Ok(())
+    |               ^ help: add `;` here
+101 |
+102 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+    |     --- unexpected token
+
+error[E0428]: the name `update` is defined multiple times
+  --> think-ai-webapp/src/graphics/mod.rs:65:5
+   |
+59 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+65 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+   |
+   = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update` is defined multiple times
+  --> think-ai-webapp/src/graphics/mod.rs:71:5
+   |
+59 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+71 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+   |
+   = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update` is defined multiple times
+  --> think-ai-webapp/src/graphics/mod.rs:77:5
+   |
+59 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+77 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+   |
+   = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update` is defined multiple times
+  --> think-ai-webapp/src/graphics/mod.rs:83:5
+   |
+59 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+83 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+   |
+   = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update` is defined multiple times
+  --> think-ai-webapp/src/graphics/mod.rs:89:5
+   |
+59 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+89 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+   |
+   = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update` is defined multiple times
+  --> think-ai-webapp/src/graphics/mod.rs:95:5
+   |
+59 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+95 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+   |
+   = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update` is defined multiple times
+   --> think-ai-webapp/src/graphics/mod.rs:101:5
+    |
+59  |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+101 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+    |
+    = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update` is defined multiple times
+   --> think-ai-webapp/src/graphics/mod.rs:107:5
+    |
+59  |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+107 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+    |
+    = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update` is defined multiple times
+   --> think-ai-webapp/src/graphics/mod.rs:113:5
+    |
+59  |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+113 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+    |
+    = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update` is defined multiple times
+   --> think-ai-webapp/src/graphics/mod.rs:119:5
+    |
+59  |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |     ---------------------------------------------------------- previous definition of the value `update` here
+...
+119 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update` redefined here
+    |
+    = note: `update` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `process` is defined multiple times
+  --> think-ai-webapp/src/ui/effects.rs:44:5
+   |
+38 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ------------------------------------------------------------ previous definition of the value `process` here
+...
+44 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `process` redefined here
+   |
+   = note: `process` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `process` is defined multiple times
+  --> think-ai-webapp/src/ui/effects.rs:50:5
+   |
+38 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ------------------------------------------------------------ previous definition of the value `process` here
+...
+50 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `process` redefined here
+   |
+   = note: `process` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `update_all` is defined multiple times
+  --> think-ai-webapp/src/ui/effects.rs:62:5
+   |
+36 |     pub fn update_all(&mut self, _delta: f32) -> Result<(), JsValue> {
+   |     ---------------------------------------------------------------- previous definition of the value `update_all` here
+...
+62 |     pub fn update_all(&mut self, _delta: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `update_all` redefined here
+   |
+   = note: `update_all` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `process` is defined multiple times
+  --> think-ai-webapp/src/ui/effects.rs:70:5
+   |
+64 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ------------------------------------------------------------ previous definition of the value `process` here
+...
+70 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `process` redefined here
+   |
+   = note: `process` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `process` is defined multiple times
+  --> think-ai-webapp/src/ui/effects.rs:76:5
+   |
+64 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ------------------------------------------------------------ previous definition of the value `process` here
+...
+76 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `process` redefined here
+   |
+   = note: `process` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `process` is defined multiple times
+  --> think-ai-webapp/src/ui/effects.rs:82:5
+   |
+56 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ------------------------------------------------------------ previous definition of the value `process` here
+...
+82 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `process` redefined here
+   |
+   = note: `process` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `process` is defined multiple times
+  --> think-ai-webapp/src/ui/effects.rs:96:5
+   |
+90 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ------------------------------------------------------------ previous definition of the value `process` here
+...
+96 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `process` redefined here
+   |
+   = note: `process` must be defined only once in the value namespace of this block
+
+error[E0428]: the name `process` is defined multiple times
+   --> think-ai-webapp/src/ui/effects.rs:102:5
+    |
+90  |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+    |     ------------------------------------------------------------ previous definition of the value `process` here
+...
+102 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `process` redefined here
+    |
+    = note: `process` must be defined only once in the value namespace of this block
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/graphics/mod.rs:59:19
+   |
+59 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                   ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/graphics/mod.rs:65:19
+   |
+65 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                   ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/graphics/mod.rs:71:19
+   |
+71 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                   ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/graphics/mod.rs:77:19
+   |
+77 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                   ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/graphics/mod.rs:83:19
+   |
+83 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                   ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/graphics/mod.rs:89:19
+   |
+89 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                   ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/graphics/mod.rs:95:19
+   |
+95 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                   ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+   --> think-ai-webapp/src/graphics/mod.rs:101:19
+    |
+101 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |                   ^^^^^^^^^ not semantically valid as function parameter
+    |
+    = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+   --> think-ai-webapp/src/graphics/mod.rs:107:19
+    |
+107 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |                   ^^^^^^^^^ not semantically valid as function parameter
+    |
+    = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+   --> think-ai-webapp/src/graphics/mod.rs:113:19
+    |
+113 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |                   ^^^^^^^^^ not semantically valid as function parameter
+    |
+    = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+   --> think-ai-webapp/src/graphics/mod.rs:119:19
+    |
+119 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |                   ^^^^^^^^^ not semantically valid as function parameter
+    |
+    = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:36:23
+   |
+36 |     pub fn update_all(&mut self, _delta: f32) -> Result<(), JsValue> {
+   |                       ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:38:20
+   |
+38 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:44:20
+   |
+44 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:50:20
+   |
+50 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:56:20
+   |
+56 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:62:23
+   |
+62 |     pub fn update_all(&mut self, _delta: f32) -> Result<(), JsValue> {
+   |                       ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:64:20
+   |
+64 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:70:20
+   |
+70 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:76:20
+   |
+76 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:82:20
+   |
+82 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:90:20
+   |
+90 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+  --> think-ai-webapp/src/ui/effects.rs:96:20
+   |
+96 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                    ^^^^^^^^^ not semantically valid as function parameter
+   |
+   = note: associated functions are those in `impl` or `trait` definitions
+
+error: `self` parameter is only allowed in associated functions
+   --> think-ai-webapp/src/ui/effects.rs:102:20
+    |
+102 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+    |                    ^^^^^^^^^ not semantically valid as function parameter
+    |
+    = note: associated functions are those in `impl` or `trait` definitions
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/graphics/mod.rs:59:24
+   |
+18 | impl GraphicsEngine {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+59 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                        ^^^^
+   |                        |
+   |                        use of `Self` from outer item
+   |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/graphics/mod.rs:65:24
+   |
+18 | impl GraphicsEngine {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+65 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                        ^^^^
+   |                        |
+   |                        use of `Self` from outer item
+   |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/graphics/mod.rs:71:24
+   |
+18 | impl GraphicsEngine {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+71 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                        ^^^^
+   |                        |
+   |                        use of `Self` from outer item
+   |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/graphics/mod.rs:77:24
+   |
+18 | impl GraphicsEngine {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+77 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                        ^^^^
+   |                        |
+   |                        use of `Self` from outer item
+   |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/graphics/mod.rs:83:24
+   |
+18 | impl GraphicsEngine {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+83 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                        ^^^^
+   |                        |
+   |                        use of `Self` from outer item
+   |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/graphics/mod.rs:89:24
+   |
+18 | impl GraphicsEngine {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+89 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                        ^^^^
+   |                        |
+   |                        use of `Self` from outer item
+   |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/graphics/mod.rs:95:24
+   |
+18 | impl GraphicsEngine {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+95 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+   |                        ^^^^
+   |                        |
+   |                        use of `Self` from outer item
+   |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+   --> think-ai-webapp/src/graphics/mod.rs:101:24
+    |
+18  | impl GraphicsEngine {
+    | ---- `Self` type implicitly declared here, by this `impl`
+...
+101 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |                        ^^^^
+    |                        |
+    |                        use of `Self` from outer item
+    |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+   --> think-ai-webapp/src/graphics/mod.rs:107:24
+    |
+18  | impl GraphicsEngine {
+    | ---- `Self` type implicitly declared here, by this `impl`
+...
+107 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |                        ^^^^
+    |                        |
+    |                        use of `Self` from outer item
+    |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+   --> think-ai-webapp/src/graphics/mod.rs:113:24
+    |
+18  | impl GraphicsEngine {
+    | ---- `Self` type implicitly declared here, by this `impl`
+...
+113 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |                        ^^^^
+    |                        |
+    |                        use of `Self` from outer item
+    |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+   --> think-ai-webapp/src/graphics/mod.rs:119:24
+    |
+18  | impl GraphicsEngine {
+    | ---- `Self` type implicitly declared here, by this `impl`
+...
+119 |     pub fn update(&mut self, time: f32) -> Result<(), JsValue> {
+    |                        ^^^^
+    |                        |
+    |                        use of `Self` from outer item
+    |                        refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:36:28
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+36 |     pub fn update_all(&mut self, _delta: f32) -> Result<(), JsValue> {
+   |                            ^^^^
+   |                            |
+   |                            use of `Self` from outer item
+   |                            refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:38:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+38 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:44:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+44 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:50:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+50 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:56:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+56 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:62:28
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+62 |     pub fn update_all(&mut self, _delta: f32) -> Result<(), JsValue> {
+   |                            ^^^^
+   |                            |
+   |                            use of `Self` from outer item
+   |                            refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:64:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+64 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:70:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+70 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:76:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+76 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:82:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+82 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:90:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+90 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+  --> think-ai-webapp/src/ui/effects.rs:96:25
+   |
+27 | impl EffectManager {
+   | ---- `Self` type implicitly declared here, by this `impl`
+...
+96 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                         ^^^^
+   |                         |
+   |                         use of `Self` from outer item
+   |                         refer to the type directly here instead
+
+error[E0401]: can't use `Self` from outer item
+   --> think-ai-webapp/src/ui/effects.rs:102:25
+    |
+27  | impl EffectManager {
+    | ---- `Self` type implicitly declared here, by this `impl`
+...
+102 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+    |                         ^^^^
+    |                         |
+    |                         use of `Self` from outer item
+    |                         refer to the type directly here instead
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:36:61
+   |
+36 |     pub fn update_all(&mut self, _delta: f32) -> Result<(), JsValue> {
+   |                                                             ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:38:57
+   |
+38 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:44:57
+   |
+44 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:50:57
+   |
+50 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:56:57
+   |
+56 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:62:61
+   |
+62 |     pub fn update_all(&mut self, _delta: f32) -> Result<(), JsValue> {
+   |                                                             ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:64:57
+   |
+64 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:70:57
+   |
+70 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:76:57
+   |
+76 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:82:57
+   |
+82 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:88:61
+   |
+88 |     pub fn update_all(&mut self, _delta: f32) -> Result<(), JsValue> {
+   |                                                             ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:90:57
+   |
+90 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+  --> think-ai-webapp/src/ui/effects.rs:96:57
+   |
+96 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+   |                                                         ^^^^^^^ not found in this scope
+   |
+help: consider importing one of these structs
+   |
+1  + use crate::JsValue;
+   |
+1  + use wasm_bindgen::JsValue;
+   |
+
+error[E0412]: cannot find type `JsValue` in this scope
+   --> think-ai-webapp/src/ui/effects.rs:102:57
+    |
+102 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+    |                                                         ^^^^^^^ not found in this scope
+    |
+help: consider importing one of these structs
+    |
+1   + use crate::JsValue;
+    |
+1   + use wasm_bindgen::JsValue;
+    |
+
+error[E0412]: cannot find type `JsValue` in this scope
+   --> think-ai-webapp/src/ui/effects.rs:108:57
+    |
+108 |     pub fn process(&mut self, _time: f32) -> Result<(), JsValue> {
+    |                                                         ^^^^^^^ not found in this scope
+    |
+help: consider importing one of these structs
+    |
+1   + use crate::JsValue;
+    |
+1   + use wasm_bindgen::JsValue;
+    |
+
+error[E0599]: no variant or associated item named `AddResponse` found for enum `ChatMsg` in the current scope
+   --> think-ai-webapp/src/ui/components.rs:158:22
+    |
+54  | pub enum ChatMsg {
+    | ---------------- variant or associated item `AddResponse` not found for this enum
+...
+158 |             ChatMsg::AddResponse(response) => {
+    |                      ^^^^^^^^^^^ variant or associated item not found in `ChatMsg`
+
+error[E0599]: no variant or associated item named `StartStream` found for enum `ChatMsg` in the current scope
+   --> think-ai-webapp/src/ui/components.rs:162:22
+    |
+54  | pub enum ChatMsg {
+    | ---------------- variant or associated item `StartStream` not found for this enum
+...
+162 |             ChatMsg::StartStream => {
+    |                      ^^^^^^^^^^^ variant or associated item not found in `ChatMsg`
+
+error[E0599]: no variant or associated item named `StopStream` found for enum `ChatMsg` in the current scope
+   --> think-ai-webapp/src/ui/components.rs:166:22
+    |
+54  | pub enum ChatMsg {
+    | ---------------- variant or associated item `StopStream` not found for this enum
+...
+166 |             ChatMsg::StopStream => {
+    |                      ^^^^^^^^^^ variant or associated item not found in `ChatMsg`
+
+warning: unused variable: `program_hash`
+  --> think-ai-webapp/src/graphics/materials.rs:74:9
+   |
+74 |         program_hash: u64,
+   |         ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_program_hash`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/automated_benchmark_runner.rs:95:62
+   |
+95 |         let benchmark_evaluator = LLMBenchmarkEvaluator::new(knowledge_engine.clone());
+   |                                                              ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/automated_benchmark_runner.rs:98:55
+   |
+98 |         let benchmark_trainer = BenchmarkTrainer::new(knowledge_engine.clone(), training_config);
+   |                                                       ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/automated_benchmark_runner.rs:102:17
+    |
+102 |                 knowledge_engine.clone(),
+    |                 ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/automated_benchmark_runner.rs:103:53
+    |
+103 |                 Arc::new(LLMBenchmarkEvaluator::new(knowledge_engine.clone())),
+    |                                                     ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/automated_benchmark_runner.rs:110:13
+    |
+110 |             knowledge_engine,
+    |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/benchmark_trainer.rs:93:62
+   |
+93 |         let benchmark_evaluator = LLMBenchmarkEvaluator::new(knowledge_engine.clone());
+   |                                                              ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/benchmark_trainer.rs:95:54
+   |
+95 |             Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
+   |                                                      ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/benchmark_trainer.rs:106:39
+    |
+106 |             ComprehensiveTrainer::new(knowledge_engine.clone(), training_config);
+    |                                       ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/benchmark_trainer.rs:109:32
+    |
+109 |             SelfEvaluator::new(knowledge_engine.clone(), response_generator.clone());
+    |                                ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/benchmark_trainer.rs:112:13
+    |
+112 |             knowledge_engine,
+    |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `from_context` in this scope
+   --> think-ai-knowledge/src/dynamic_expression.rs:284:48
+    |
+284 |         let hash = self.hash_string(&format!("{from_context}{to_context}"));
+    |                                                ^^^^^^^^^^^^ help: a local variable with a similar name exists: `fromcontext`
+
+Some errors have detailed explanations: E0401, E0412, E0428, E0599, E0753.
+For more information about an error, try `rustc --explain E0401`.
+error[E0425]: cannot find value `to_context` in this scope
+   --> think-ai-knowledge/src/dynamic_expression.rs:284:62
+    |
+284 |         let hash = self.hash_string(&format!("{from_context}{to_context}"));
+    |                                                              ^^^^^^^^^^ help: a local variable with a similar name exists: `tocontext`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:240:51
+    |
+240 |         let topics = self.extract_topics_advanced(human_input, ai_response);
+    |                                                   ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:241:55
+    |
+241 |         let entities = self.extract_entities_advanced(human_input, ai_response);
+    |                                                       ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:242:59
+    |
+242 |         let sentiment = self.calculate_sentiment_advanced(human_input);
+    |                                                           ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+warning: `think-ai-webapp` (lib) generated 1 warning
+error: could not compile `think-ai-webapp` (lib) due to 88 previous errors; 1 warning emitted
+warning: build failed, waiting for other jobs to finish...
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:244:79
+    |
+244 |             self.calculate_importance_advanced(&topics, &entities, sentiment, human_input);
+    |                                                                               ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:245:72
+    |
+245 |         let context_references = self.find_context_references_advanced(human_input, &topics);
+    |                                                                        ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:249:69
+    |
+249 |         let satisfaction_indicators = self.detect_user_satisfaction(human_input);
+    |                                                                     ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:250:59
+    |
+250 |         let flow_markers = self.analyze_conversation_flow(human_input, &topics);
+    |                                                           ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:256:26
+    |
+256 |             human_input: human_input.to_string(),
+    |                          ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:324:39
+    |
+324 |         let combined_text = format!("{human_input} {ai_response}").to_lowercase();
+    |                                       ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:530:39
+    |
+530 |         let combined_text = format!("{human_input} {ai_response}");
+    |                                       ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:665:27
+    |
+665 |         let input_lower = human_input.to_lowercase();
+    |                           ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:673:24
+    |
+673 |         importance += (human_input.matches('?').count() as f32) * 0.1;
+    |                        ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:676:12
+    |
+676 |         if human_input.len() > 100 {
+    |            ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:693:27
+    |
+693 |         let input_lower = human_input.to_lowercase();
+    |                           ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:892:27
+    |
+892 |         let input_lower = human_input.to_lowercase();
+    |                           ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `human_input` in this scope
+   --> think-ai-knowledge/src/enhanced_conversation_memory.rs:927:27
+    |
+927 |         let input_lower = human_input.to_lowercase();
+    |                           ^^^^^^^^^^^ help: a local variable with a similar name exists: `humaninput`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:500:50
+    |
+500 |         if let Err(e) = dynamic_loader.load_all(&knowledge_engine) {
+    |                                                  ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:506:54
+    |
+506 |             Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
+    |                                                      ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:523:13
+    |
+523 |             knowledge_engine,
+    |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/human_conversation_trainer.rs:72:13
+   |
+72 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/intelligent_response_selector.rs:57:13
+   |
+57 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+   --> think-ai-knowledge/src/llm_benchmarks.rs:133:13
+    |
+133 |             knowledge_engine,
+    |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/multi_candidate_selector.rs:53:13
+   |
+53 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/o1_benchmark_monitor.rs:47:13
+   |
+47 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/qwen_knowledge_builder.rs:43:13
+   |
+43 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+  --> think-ai-knowledge/src/response_generator.rs:17:50
+   |
+17 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32;
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+  --> think-ai-knowledge/src/response_generator.rs:20:48
+   |
+20 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String>;
+   |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/response_generator.rs:49:13
+   |
+49 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/response_generator.rs:66:13
+   |
+66 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:468:20
+    |
+468 |         _context: &ResponseContextResponseContext,
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:477:13
+    |
+468 |         _context: &ResponseContextResponseContext,
+    |         -------- `_context` defined here
+...
+477 |         if !context.relevant_nodes.is_empty() {
+    |             ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+468 |         context: &ResponseContextResponseContext,
+    |         ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:479:30
+    |
+468 |         _context: &ResponseContextResponseContext,
+    |         -------- `_context` defined here
+...
+479 |             for (i, node) in context.relevant_nodes.iter().take(10).enumerate() {
+    |                              ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+468 |         context: &ResponseContextResponseContext,
+    |         ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:498:13
+    |
+468 |         _context: &ResponseContextResponseContext,
+    |         -------- `_context` defined here
+...
+498 |         if !context.extracted_entities.is_empty() {
+    |             ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+468 |         context: &ResponseContextResponseContext,
+    |         ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:500:34
+    |
+468 |         _context: &ResponseContextResponseContext,
+    |         -------- `_context` defined here
+...
+500 |             for (key, value) in &context.extracted_entities {
+    |                                  ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+468 |         context: &ResponseContextResponseContext,
+    |         ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:569:50
+    |
+569 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:570:12
+    |
+569 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+    |                                       -------- `_context` defined here
+570 |         if context.relevant_nodes.is_empty() {
+    |            ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+569 |     fn can_handle(&self, query: &str, context: &ResponseContextResponseContext) -> f32 {
+    |                                       ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:584:48
+    |
+584 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:587:22
+    |
+584 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     -------- `_context` defined here
+...
+587 |         for node in &context.relevant_nodes {
+    |                      ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+584 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:615:32
+    |
+584 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     -------- `_context` defined here
+...
+615 |             let llm_response = context.knowledge_engine.generate_llm_response(&llm_context);
+    |                                ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+584 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:671:50
+    |
+671 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:701:48
+    |
+701 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:703:22
+    |
+701 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     -------- `_context` defined here
+702 |         // Use knowledge from context instead of hardcoded responses
+703 |         for node in &context.relevant_nodes {
+    |                      ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+701 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:736:50
+    |
+736 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:766:48
+    |
+766 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:768:22
+    |
+766 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     -------- `_context` defined here
+767 |         // Use knowledge from context for technical explanations
+768 |         for node in &context.relevant_nodes {
+    |                      ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+766 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:796:50
+    |
+796 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:812:19
+    |
+796 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+    |                                       -------- `_context` defined here
+...
+812 |         } else if context
+    |                   ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+796 |     fn can_handle(&self, query: &str, context: &ResponseContextResponseContext) -> f32 {
+    |                                       ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:823:49
+    |
+823 |     fn generate(&self, query: &str, __context: &ResponseContextResponseContext) -> Option<String> {
+    |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:844:51
+    |
+844 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+    |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:857:48
+    |
+857 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:861:22
+    |
+857 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     -------- `_context` defined here
+...
+861 |         for node in &context.relevant_nodes {
+    |                      ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+857 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:886:34
+    |
+857 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     -------- `_context` defined here
+...
+886 |         if let Some(celestial) = context.extracted_entities.get("celestial") {
+    |                                  ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+857 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:907:51
+    |
+907 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+    |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:921:48
+    |
+921 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:923:41
+    |
+921 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     -------- `_context` defined here
+922 |         // Extract actual topic from query or context
+923 |         let topic = if let Some(node) = context.relevant_nodes.first() {
+    |                                         ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+921 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:939:29
+    |
+921 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     -------- `_context` defined here
+...
+939 |         if let Some(node) = context.relevant_nodes.first() {
+    |                             ^^^^^^^
+    |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+    |
+921 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+    |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+   --> think-ai-knowledge/src/response_generator.rs:960:50
+    |
+960 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1011:12
+     |
+960  |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+     |                                       -------- `_context` defined here
+...
+1011 |         if context
+     |            ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+960  |     fn can_handle(&self, query: &str, context: &ResponseContextResponseContext) -> f32 {
+     |                                       ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1022:48
+     |
+1022 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1024:41
+     |
+1022 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     -------- `_context` defined here
+1023 |         // Extract actual topic from query or context
+1024 |         let topic = if let Some(node) = context.relevant_nodes.first() {
+     |                                         ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1022 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1040:29
+     |
+1022 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     -------- `_context` defined here
+...
+1040 |         if let Some(node) = context.relevant_nodes.first() {
+     |                             ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1022 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1060:51
+     |
+1060 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1074:48
+     |
+1074 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1076:41
+     |
+1074 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     -------- `_context` defined here
+1075 |         // Extract actual topic from query or context
+1076 |         let topic = if let Some(node) = context.relevant_nodes.first() {
+     |                                         ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1074 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1092:29
+     |
+1074 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     -------- `_context` defined here
+...
+1092 |         if let Some(node) = context.relevant_nodes.first() {
+     |                             ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1074 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1112:51
+     |
+1112 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1125:48
+     |
+1125 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1127:41
+     |
+1125 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     -------- `_context` defined here
+1126 |         // Extract actual topic from query or context
+1127 |         let topic = if let Some(node) = context.relevant_nodes.first() {
+     |                                         ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1125 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1143:29
+     |
+1125 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     -------- `_context` defined here
+...
+1143 |         if let Some(node) = context.relevant_nodes.first() {
+     |                             ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1125 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1163:51
+     |
+1163 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1176:48
+     |
+1176 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1177:12
+     |
+1176 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     -------- `_context` defined here
+1177 |         if context.extracted_entities.contains_key("celestial") {
+     |            ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1176 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1193:50
+     |
+1193 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+     |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1195:12
+     |
+1193 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+     |                                       -------- `_context` defined here
+1194 |         // This component handles queries when knowledge base has no good matches
+1195 |         if context.relevant_nodes.is_empty() {
+     |            ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1193 |     fn can_handle(&self, query: &str, context: &ResponseContextResponseContext) -> f32 {
+     |                                       ~~~~~~~
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1206:38
+     |
+1193 |     fn can_handle(&self, query: &str, _context: &ResponseContextResponseContext) -> f32 {
+     |                                       -------- `_context` defined here
+...
+1206 |             let has_relevant_match = context.relevant_nodes.iter().any(|node| {
+     |                                      ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1193 |     fn can_handle(&self, query: &str, context: &ResponseContextResponseContext) -> f32 {
+     |                                       ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1219:48
+     |
+1219 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1221:28
+     |
+1219 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     -------- `_context` defined here
+1220 |         // Instead of using templates, pass to LLM with available knowledge context
+1221 |         let llm_response = context.knowledge_engine.generate_llm_response(query);
+     |                            ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1219 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1240:51
+     |
+1240 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1262:48
+     |
+1262 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `context` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1268:25
+     |
+1262 |     fn generate(&self, query: &str, _context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     -------- `_context` defined here
+...
+1268 |             let stats = context.knowledge_engine.get_stats();
+     |                         ^^^^^^^
+     |
+help: the leading underscore in `_context` marks it as unused, consider renaming it to `context`
+     |
+1262 |     fn generate(&self, query: &str, context: &ResponseContextResponseContext) -> Option<String> {
+     |                                     ~~~~~~~
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1291:51
+     |
+1291 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1319:49
+     |
+1319 |     fn generate(&self, query: &str, __context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1382:51
+     |
+1382 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1405:49
+     |
+1405 |     fn generate(&self, query: &str, __context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1436:51
+     |
+1436 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1471:49
+     |
+1471 |     fn generate(&self, query: &str, __context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1519:51
+     |
+1519 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+    --> think-ai-knowledge/src/response_generator.rs:1582:49
+     |
+1582 |     fn generate(&self, query: &str, __context: &ResponseContextResponseContext) -> Option<String> {
+     |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `knowledge_engine` in this scope
+  --> think-ai-knowledge/src/self_evaluator.rs:76:13
+   |
+76 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ help: a local variable with a similar name exists: `knowledgeengine`
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:439:72
+    |
+435 |         _answer: &str,
+    |         ------- `_answer` defined here
+...
+439 |         let relevance_score = self.calculate_relevance_score(question, answer);
+    |                                                                        ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+435 |         answer: &str,
+    |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:440:78
+    |
+435 |         _answer: &str,
+    |         ------- `_answer` defined here
+...
+440 |         let completeness_score = self.calculate_completeness_score(question, answer);
+    |                                                                              ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+435 |         answer: &str,
+    |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:441:80
+    |
+435 |         _answer: &str,
+    |         ------- `_answer` defined here
+...
+441 |         let actionability_score = self.calculate_actionability_score(question, answer);
+    |                                                                                ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+435 |         answer: &str,
+    |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:442:58
+    |
+435 |         _answer: &str,
+    |         ------- `_answer` defined here
+...
+442 |         let clarity_score = self.calculate_clarity_score(answer);
+    |                                                          ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+435 |         answer: &str,
+    |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:443:63
+    |
+435 |         _answer: &str,
+    |         ------- `_answer` defined here
+...
+443 |         let factual_accuracy = self.estimate_factual_accuracy(answer);
+    |                                                               ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+435 |         answer: &str,
+    |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:465:28
+    |
+463 |     fn calculate_relevance_score(&self, question: &SelfQuestion, _answer: &str) -> f64 {
+    |                                                                  ------- `_answer` defined here
+464 |         let question_lower = question.question.to_lowercase();
+465 |         let answer_lower = answer.to_lowercase();
+    |                            ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+463 |     fn calculate_relevance_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
+    |                                                                  ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:510:26
+    |
+509 |     fn calculate_completeness_score(&self, question: &SelfQuestion, _answer: &str) -> f64 {
+    |                                                                     ------- `_answer` defined here
+510 |         let word_count = answer.split_whitespace().count();
+    |                          ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+509 |     fn calculate_completeness_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
+    |                                                                     ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:511:30
+    |
+509 |     fn calculate_completeness_score(&self, question: &SelfQuestion, _answer: &str) -> f64 {
+    |                                                                     ------- `_answer` defined here
+510 |         let word_count = answer.split_whitespace().count();
+511 |         let sentence_count = answer.split('.').count();
+    |                              ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+509 |     fn calculate_completeness_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
+    |                                                                     ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:540:28
+    |
+539 |     fn calculate_actionability_score(&self, question: &SelfQuestion, _answer: &str) -> f64 {
+    |                                                                      ------- `_answer` defined here
+540 |         let answer_lower = answer.to_lowercase();
+    |                            ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+539 |     fn calculate_actionability_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
+    |                                                                      ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:592:12
+    |
+591 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+    |                                       ------- `_answer` defined here
+592 |         if answer.is_empty() {
+    |            ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+591 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+    |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:596:21
+    |
+591 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+    |                                       ------- `_answer` defined here
+...
+596 |         let words = answer.split_whitespace().collect::<Vec<_>>();
+    |                     ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+591 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+    |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:608:36
+    |
+591 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+    |                                       ------- `_answer` defined here
+...
+608 |         let sentences: Vec<&str> = answer.split('.').filter(|s| !s.trim().is_empty()).collect();
+    |                                    ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+591 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+    |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:628:34
+    |
+591 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+    |                                       ------- `_answer` defined here
+...
+628 |         let structure_bonus = if answer.contains("First")
+    |                                  ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+591 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+    |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:629:16
+    |
+591 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+    |                                       ------- `_answer` defined here
+...
+629 |             || answer.contains("Additionally")
+    |                ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+591 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+    |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:630:16
+    |
+591 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+    |                                       ------- `_answer` defined here
+...
+630 |             || answer.contains("Furthermore")
+    |                ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+591 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+    |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:644:28
+    |
+643 |     fn estimate_factual_accuracy(&self, _answer: &str) -> f64 {
+    |                                         ------- `_answer` defined here
+644 |         let answer_lower = answer.to_lowercase();
+    |                            ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+643 |     fn estimate_factual_accuracy(&self, answer: &str) -> f64 {
+    |                                         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:690:16
+    |
+643 |     fn estimate_factual_accuracy(&self, _answer: &str) -> f64 {
+    |                                         ------- `_answer` defined here
+...
+690 |             if answer.len() > 100 && answer.contains("research") || answer.contains("study") {
+    |                ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+643 |     fn estimate_factual_accuracy(&self, answer: &str) -> f64 {
+    |                                         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:690:38
+    |
+643 |     fn estimate_factual_accuracy(&self, _answer: &str) -> f64 {
+    |                                         ------- `_answer` defined here
+...
+690 |             if answer.len() > 100 && answer.contains("research") || answer.contains("study") {
+    |                                      ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+643 |     fn estimate_factual_accuracy(&self, answer: &str) -> f64 {
+    |                                         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+   --> think-ai-knowledge/src/self_evaluator.rs:690:69
+    |
+643 |     fn estimate_factual_accuracy(&self, _answer: &str) -> f64 {
+    |                                         ------- `_answer` defined here
+...
+690 |             if answer.len() > 100 && answer.contains("research") || answer.contains("study") {
+    |                                                                     ^^^^^^
+    |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+    |
+643 |     fn estimate_factual_accuracy(&self, answer: &str) -> f64 {
+    |                                         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1076:72
+     |
+1074 |         _answer: &str,
+     |         ------- `_answer` defined here
+1075 |     ) -> ResponseQuality {
+1076 |         let relevance_score = self.calculate_relevance_score(question, answer);
+     |                                                                        ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1074 |         answer: &str,
+     |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1077:78
+     |
+1074 |         _answer: &str,
+     |         ------- `_answer` defined here
+...
+1077 |         let completeness_score = self.calculate_completeness_score(question, answer);
+     |                                                                              ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1074 |         answer: &str,
+     |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1078:80
+     |
+1074 |         _answer: &str,
+     |         ------- `_answer` defined here
+...
+1078 |         let actionability_score = self.calculate_actionability_score(question, answer);
+     |                                                                                ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1074 |         answer: &str,
+     |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1079:58
+     |
+1074 |         _answer: &str,
+     |         ------- `_answer` defined here
+...
+1079 |         let clarity_score = self.calculate_clarity_score(answer);
+     |                                                          ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1074 |         answer: &str,
+     |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1080:63
+     |
+1074 |         _answer: &str,
+     |         ------- `_answer` defined here
+...
+1080 |         let factual_accuracy = self.estimate_factual_accuracy(answer);
+     |                                                               ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1074 |         answer: &str,
+     |         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1101:28
+     |
+1099 |     fn calculate_relevance_score(&self, question: &SelfQuestion, _answer: &str) -> f64 {
+     |                                                                  ------- `_answer` defined here
+1100 |         let question_lower = question.question.to_lowercase();
+1101 |         let answer_lower = answer.to_lowercase();
+     |                            ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1099 |     fn calculate_relevance_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
+     |                                                                  ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1142:26
+     |
+1141 |     fn calculate_completeness_score(&self, question: &SelfQuestion, _answer: &str) -> f64 {
+     |                                                                     ------- `_answer` defined here
+1142 |         let word_count = answer.split_whitespace().count();
+     |                          ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1141 |     fn calculate_completeness_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
+     |                                                                     ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1143:30
+     |
+1141 |     fn calculate_completeness_score(&self, question: &SelfQuestion, _answer: &str) -> f64 {
+     |                                                                     ------- `_answer` defined here
+1142 |         let word_count = answer.split_whitespace().count();
+1143 |         let sentence_count = answer.split('.').count();
+     |                              ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1141 |     fn calculate_completeness_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
+     |                                                                     ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1168:28
+     |
+1167 |     fn calculate_actionability_score(&self, question: &SelfQuestion, _answer: &str) -> f64 {
+     |                                                                      ------- `_answer` defined here
+1168 |         let answer_lower = answer.to_lowercase();
+     |                            ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1167 |     fn calculate_actionability_score(&self, question: &SelfQuestion, answer: &str) -> f64 {
+     |                                                                      ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1217:12
+     |
+1216 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+     |                                       ------- `_answer` defined here
+1217 |         if answer.is_empty() {
+     |            ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1216 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+     |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1221:21
+     |
+1216 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+     |                                       ------- `_answer` defined here
+...
+1221 |         let words = answer.split_whitespace().collect::<Vec<_>>();
+     |                     ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1216 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+     |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1231:36
+     |
+1216 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+     |                                       ------- `_answer` defined here
+...
+1231 |         let sentences: Vec<&str> = answer.split('.').filter(|s| !s.trim().is_empty()).collect();
+     |                                    ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1216 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+     |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1249:34
+     |
+1216 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+     |                                       ------- `_answer` defined here
+...
+1249 |         let structure_bonus = if answer.contains("First")
+     |                                  ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1216 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+     |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1250:16
+     |
+1216 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+     |                                       ------- `_answer` defined here
+...
+1250 |             || answer.contains("Additionally")
+     |                ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1216 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+     |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1251:16
+     |
+1216 |     fn calculate_clarity_score(&self, _answer: &str) -> f64 {
+     |                                       ------- `_answer` defined here
+...
+1251 |             || answer.contains("Furthermore")
+     |                ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1216 |     fn calculate_clarity_score(&self, answer: &str) -> f64 {
+     |                                       ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1264:28
+     |
+1263 |     fn estimate_factual_accuracy(&self, _answer: &str) -> f64 {
+     |                                         ------- `_answer` defined here
+1264 |         let answer_lower = answer.to_lowercase();
+     |                            ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1263 |     fn estimate_factual_accuracy(&self, answer: &str) -> f64 {
+     |                                         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1304:16
+     |
+1263 |     fn estimate_factual_accuracy(&self, _answer: &str) -> f64 {
+     |                                         ------- `_answer` defined here
+...
+1304 |             if answer.len() > 100 && answer.contains("research") || answer.contains("study") {
+     |                ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1263 |     fn estimate_factual_accuracy(&self, answer: &str) -> f64 {
+     |                                         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1304:38
+     |
+1263 |     fn estimate_factual_accuracy(&self, _answer: &str) -> f64 {
+     |                                         ------- `_answer` defined here
+...
+1304 |             if answer.len() > 100 && answer.contains("research") || answer.contains("study") {
+     |                                      ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1263 |     fn estimate_factual_accuracy(&self, answer: &str) -> f64 {
+     |                                         ~~~~~~
+
+error[E0425]: cannot find value `answer` in this scope
+    --> think-ai-knowledge/src/self_evaluator.rs:1304:69
+     |
+1263 |     fn estimate_factual_accuracy(&self, _answer: &str) -> f64 {
+     |                                         ------- `_answer` defined here
+...
+1304 |             if answer.len() > 100 && answer.contains("research") || answer.contains("study") {
+     |                                                                     ^^^^^^
+     |
+help: the leading underscore in `_answer` marks it as unused, consider renaming it to `answer`
+     |
+1263 |     fn estimate_factual_accuracy(&self, answer: &str) -> f64 {
+     |                                         ~~~~~~
+
+error[E0412]: cannot find type `KnowledgeNodeKnowledgeNode` in this scope
+   --> think-ai-knowledge/src/self_learning.rs:384:18
+    |
+384 |         _node1: &KnowledgeNodeKnowledgeNode,
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `KnowledgeNodeKnowledgeNode` in this scope
+   --> think-ai-knowledge/src/self_learning.rs:385:18
+    |
+385 |         _node2: &KnowledgeNodeKnowledgeNode,
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `node1` in this scope
+   --> think-ai-knowledge/src/self_learning.rs:387:80
+    |
+384 |         _node1: &KnowledgeNodeKnowledgeNode,
+    |         ------ `_node1` defined here
+...
+387 |         let insights = [format!("When {} meets {}, new possibilities emerge.", node1.topic, node2.topic),
+    |                                                                                ^^^^^
+    |
+help: the leading underscore in `_node1` marks it as unused, consider renaming it to `node1`
+    |
+384 |         node1: &KnowledgeNodeKnowledgeNode,
+    |         ~~~~~
+
+error[E0425]: cannot find value `node2` in this scope
+   --> think-ai-knowledge/src/self_learning.rs:387:93
+    |
+385 |         _node2: &KnowledgeNodeKnowledgeNode,
+    |         ------ `_node2` defined here
+386 |     ) -> String {
+387 |         let insights = [format!("When {} meets {}, new possibilities emerge.", node1.topic, node2.topic),
+    |                                                                                             ^^^^^
+    |
+help: the leading underscore in `_node2` marks it as unused, consider renaming it to `node2`
+    |
+385 |         node2: &KnowledgeNodeKnowledgeNode,
+    |         ~~~~~
+
+error[E0412]: cannot find type `KnowledgeNodeKnowledgeNode` in this scope
+   --> think-ai-knowledge/src/self_learning.rs:397:18
+    |
+397 |         _node1: &KnowledgeNodeKnowledgeNode,
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `KnowledgeNodeKnowledgeNode` in this scope
+   --> think-ai-knowledge/src/self_learning.rs:398:18
+    |
+398 |         _node2: &KnowledgeNodeKnowledgeNode,
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `enginestats` in this scope
+   --> think-ai-knowledge/src/self_learning.rs:475:36
+    |
+475 |             total_knowledge_items: enginestats.total_nodes,
+    |                                    ^^^^^^^^^^^ help: a local variable with a similar name exists: `engine_stats`
+
+error[E0425]: cannot find value `enginestats` in this scope
+   --> think-ai-knowledge/src/self_learning.rs:479:30
+    |
+479 |             domains_covered: enginestats.domain_distribution.len(),
+    |                              ^^^^^^^^^^^ help: a local variable with a similar name exists: `engine_stats`
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+  --> think-ai-knowledge/src/simple_cache_component.rs:41:51
+   |
+41 |     fn can_handle(&self, query: &str, __context: &ResponseContextResponseContext) -> f32 {
+   |                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `ResponseContextResponseContext` in this scope
+  --> think-ai-knowledge/src/simple_cache_component.rs:55:49
+   |
+55 |     fn generate(&self, query: &str, __context: &ResponseContextResponseContext) -> Option<String> {
+   |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+warning: unused import: `ResponseContext`
+ --> think-ai-knowledge/src/simple_cache_component.rs:5:52
+  |
+5 | use crate::response_generator::{ResponseComponent, ResponseContext};
+  |                                                    ^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+error[E0609]: no field `knowledge_engine` on type `&LLMBenchmarkEvaluator`
+   --> think-ai-knowledge/src/llm_benchmarks.rs:621:14
+    |
+621 |             .knowledge_engine
+    |              ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+621 |             .knowledgeengine
+    |              ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&SelfEvaluatorAsync`
+    --> think-ai-knowledge/src/self_evaluator.rs:1541:37
+     |
+1541 |             let domain_nodes = self.knowledge_engine.query_by_domain(domain.clone());
+     |                                     ^^^^^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+1541 |             let domain_nodes = self.knowledgeengine.query_by_domain(domain.clone());
+     |                                     ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&SelfEvaluatorAsync`
+    --> think-ai-knowledge/src/self_evaluator.rs:1395:34
+     |
+1395 |                 let nodes = self.knowledge_engine.query_by_domain(domain.clone());
+     |                                  ^^^^^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+1395 |                 let nodes = self.knowledgeengine.query_by_domain(domain.clone());
+     |                                  ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&mut BenchmarkTrainer`
+   --> think-ai-knowledge/src/benchmark_trainer.rs:313:22
+    |
+313 |                 self.knowledge_engine
+    |                      ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+313 |                 self.knowledgeengine
+    |                      ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&mut BenchmarkTrainer`
+   --> think-ai-knowledge/src/benchmark_trainer.rs:333:18
+    |
+333 |             self.knowledge_engine.add_knowledge(
+    |                  ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+333 |             self.knowledgeengine.add_knowledge(
+    |                  ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&mut BenchmarkTrainer`
+   --> think-ai-knowledge/src/benchmark_trainer.rs:356:18
+    |
+356 |             self.knowledge_engine.add_knowledge(
+    |                  ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+356 |             self.knowledgeengine.add_knowledge(
+    |                  ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&mut BenchmarkTrainer`
+   --> think-ai-knowledge/src/benchmark_trainer.rs:379:18
+    |
+379 |             self.knowledge_engine.add_knowledge(
+    |                  ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+379 |             self.knowledgeengine.add_knowledge(
+    |                  ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&mut BenchmarkTrainer`
+   --> think-ai-knowledge/src/benchmark_trainer.rs:402:18
+    |
+402 |             self.knowledge_engine.add_knowledge(
+    |                  ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+402 |             self.knowledgeengine.add_knowledge(
+    |                  ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&mut BenchmarkTrainer`
+   --> think-ai-knowledge/src/benchmark_trainer.rs:425:18
+    |
+425 |             self.knowledge_engine.add_knowledge(
+    |                  ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+425 |             self.knowledgeengine.add_knowledge(
+    |                  ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&mut BenchmarkTrainer`
+   --> think-ai-knowledge/src/benchmark_trainer.rs:448:18
+    |
+448 |             self.knowledge_engine.add_knowledge(
+    |                  ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+448 |             self.knowledgeengine.add_knowledge(
+    |                  ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&IntelligentResponseSelector`
+   --> think-ai-knowledge/src/intelligent_response_selector.rs:147:17
+    |
+147 |         if self.knowledge_engine.fast_query(query).is_some() {
+    |                 ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+147 |         if self.knowledgeengine.fast_query(query).is_some() {
+    |                 ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&IntelligentResponseSelector`
+   --> think-ai-knowledge/src/intelligent_response_selector.rs:155:45
+    |
+155 |                 if let Some(results) = self.knowledge_engine.fast_query(token) {
+    |                                             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+155 |                 if let Some(results) = self.knowledgeengine.fast_query(token) {
+    |                                             ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&O1BenchmarkMonitor`
+   --> think-ai-knowledge/src/o1_benchmark_monitor.rs:215:35
+    |
+215 |         if let Some(nodes) = self.knowledge_engine.query(query) {
+    |                                   ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+215 |         if let Some(nodes) = self.knowledgeengine.query(query) {
+    |                                   ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&O1BenchmarkMonitor`
+   --> think-ai-knowledge/src/o1_benchmark_monitor.rs:222:26
+    |
+222 |         let nodes = self.knowledge_engine.get_top_relevant(query, 3);
+    |                          ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+222 |         let nodes = self.knowledgeengine.get_top_relevant(query, 3);
+    |                          ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&QwenKnowledgeBuilder`
+   --> think-ai-knowledge/src/qwen_knowledge_builder.rs:158:14
+    |
+158 |         self.knowledge_engine.add_knowledge(
+    |              ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+158 |         self.knowledgeengine.add_knowledge(
+    |              ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&SelfEvaluator`
+   --> think-ai-knowledge/src/self_evaluator.rs:133:37
+    |
+133 |             let domain_nodes = self.knowledge_engine.query_by_domain(domain.clone());
+    |                                     ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+133 |             let domain_nodes = self.knowledgeengine.query_by_domain(domain.clone());
+    |                                     ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&SelfEvaluator`
+   --> think-ai-knowledge/src/self_evaluator.rs:188:37
+    |
+188 |             let domain_nodes = self.knowledge_engine.query_by_domain(domain.clone());
+    |                                     ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+188 |             let domain_nodes = self.knowledgeengine.query_by_domain(domain.clone());
+    |                                     ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&SelfEvaluator`
+   --> think-ai-knowledge/src/self_evaluator.rs:778:26
+    |
+778 |         let stats = self.knowledge_engine.get_stats();
+    |                          ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+778 |         let stats = self.knowledgeengine.get_stats();
+    |                          ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&SelfEvaluator`
+   --> think-ai-knowledge/src/self_evaluator.rs:788:34
+    |
+788 |                 let nodes = self.knowledge_engine.query_by_domain(domain.clone());
+    |                                  ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+788 |                 let nodes = self.knowledgeengine.query_by_domain(domain.clone());
+    |                                  ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&SelfEvaluatorAsync`
+    --> think-ai-knowledge/src/self_evaluator.rs:1613:37
+     |
+1613 |             let domain_nodes = self.knowledge_engine.query_by_domain(domain.clone());
+     |                                     ^^^^^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+1613 |             let domain_nodes = self.knowledgeengine.query_by_domain(domain.clone());
+     |                                     ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `AutomatedBenchmarkRunner` has no field named `knowledge_engine`
+   --> think-ai-knowledge/src/automated_benchmark_runner.rs:110:13
+    |
+110 |             knowledge_engine,
+    |             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+110 |             knowledgeengine,
+    |             ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `BenchmarkTrainer` has no field named `knowledge_engine`
+   --> think-ai-knowledge/src/benchmark_trainer.rs:112:13
+    |
+112 |             knowledge_engine,
+    |             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+112 |             knowledgeengine,
+    |             ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `EnhancedQuantumLLMEngine` has no field named `knowledge_engine`
+   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:523:13
+    |
+523 |             knowledge_engine,
+    |             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+523 |             knowledgeengine,
+    |             ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&EnhancedQuantumLLMEngine`
+   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:646:45
+    |
+646 |         if let Some(knowledge_nodes) = self.knowledge_engine.query(query) {
+    |                                             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+646 |         if let Some(knowledge_nodes) = self.knowledgeengine.query(query) {
+    |                                             ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&EnhancedQuantumLLMEngine`
+   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:668:36
+    |
+668 |         let knowledge_nodes = self.knowledge_engine.intelligent_query(query);
+    |                                    ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+668 |         let knowledge_nodes = self.knowledgeengine.intelligent_query(query);
+    |                                    ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&EnhancedQuantumLLMEngine`
+   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:699:30
+    |
+699 |         let all_nodes = self.knowledge_engine.intelligent_query(query);
+    |                              ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+699 |         let all_nodes = self.knowledgeengine.intelligent_query(query);
+    |                              ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&EnhancedQuantumLLMEngine`
+   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:716:36
+    |
+716 |         let knowledge_nodes = self.knowledge_engine.intelligent_query(query);
+    |                                    ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+716 |         let knowledge_nodes = self.knowledgeengine.intelligent_query(query);
+    |                                    ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&EnhancedQuantumLLMEngine`
+   --> think-ai-knowledge/src/enhanced_quantum_llm.rs:773:36
+    |
+773 |         let knowledge_nodes = self.knowledge_engine.intelligent_query(query);
+    |                                    ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+773 |         let knowledge_nodes = self.knowledgeengine.intelligent_query(query);
+    |                                    ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `HumanConversationTrainer` has no field named `knowledge_engine`
+  --> think-ai-knowledge/src/human_conversation_trainer.rs:72:13
+   |
+72 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ unknown field
+   |
+help: a field with a similar name exists
+   |
+72 |             knowledgeengine,
+   |             ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&HumanConversationTrainer`
+   --> think-ai-knowledge/src/human_conversation_trainer.rs:308:18
+    |
+308 |             self.knowledge_engine.add_knowledge(
+    |                  ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+308 |             self.knowledgeengine.add_knowledge(
+    |                  ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `IntelligentResponseSelector` has no field named `knowledge_engine`
+  --> think-ai-knowledge/src/intelligent_response_selector.rs:57:13
+   |
+57 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ unknown field
+   |
+help: a field with a similar name exists
+   |
+57 |             knowledgeengine,
+   |             ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `LLMBenchmarkEvaluator` has no field named `knowledge_engine`
+   --> think-ai-knowledge/src/llm_benchmarks.rs:133:13
+    |
+133 |             knowledge_engine,
+    |             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+133 |             knowledgeengine,
+    |             ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `MultiCandidateSelector` has no field named `knowledge_engine`
+  --> think-ai-knowledge/src/multi_candidate_selector.rs:53:13
+   |
+53 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ unknown field
+   |
+help: a field with a similar name exists
+   |
+53 |             knowledgeengine,
+   |             ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:128:35
+    |
+128 |         if let Some(nodes) = self.knowledge_engine.query(query) {
+    |                                   ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+128 |         if let Some(nodes) = self.knowledgeengine.query(query) {
+    |                                   ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:145:26
+    |
+145 |         let nodes = self.knowledge_engine.intelligent_query(query);
+    |                          ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+145 |         let nodes = self.knowledgeengine.intelligent_query(query);
+    |                          ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:167:39
+    |
+167 |             if let Some(nodes) = self.knowledge_engine.query(concept) {
+    |                                       ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+167 |             if let Some(nodes) = self.knowledgeengine.query(concept) {
+    |                                       ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:188:32
+    |
+188 |         let domainnodes = self.knowledge_engine.query_by_domain(inferred_domain);
+    |                                ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+188 |         let domainnodes = self.knowledgeengine.query_by_domain(inferred_domain);
+    |                                ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:211:30
+    |
+211 |             let nodes = self.knowledge_engine.intelligent_query(keyword);
+    |                              ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+211 |             let nodes = self.knowledgeengine.intelligent_query(keyword);
+    |                              ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:270:30
+    |
+270 |             let nodes = self.knowledge_engine.intelligent_query(&extracted_concept);
+    |                              ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+270 |             let nodes = self.knowledgeengine.intelligent_query(&extracted_concept);
+    |                              ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:291:47
+    |
+291 |                         let word_nodes = self.knowledge_engine.intelligent_query(word);
+    |                                               ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+291 |                         let word_nodes = self.knowledgeengine.intelligent_query(word);
+    |                                               ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:340:32
+    |
+340 |         let explanation = self.knowledge_engine.explain_concept(query);
+    |                                ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+340 |         let explanation = self.knowledgeengine.explain_concept(query);
+    |                                ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:363:30
+    |
+363 |             let nodes = self.knowledge_engine.query_by_domain(domain.clone());
+    |                              ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+363 |             let nodes = self.knowledgeengine.query_by_domain(domain.clone());
+    |                              ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:383:26
+    |
+383 |         let nodes = self.knowledge_engine.intelligent_query(query);
+    |                          ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+383 |         let nodes = self.knowledgeengine.intelligent_query(query);
+    |                          ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:435:26
+    |
+435 |         let stats = self.knowledge_engine.get_stats();
+    |                          ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+435 |         let stats = self.knowledgeengine.get_stats();
+    |                          ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&MultiCandidateSelector`
+   --> think-ai-knowledge/src/multi_candidate_selector.rs:859:30
+    |
+859 |             let nodes = self.knowledge_engine.intelligent_query(query);
+    |                              ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+859 |             let nodes = self.knowledgeengine.intelligent_query(query);
+    |                              ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `O1BenchmarkMonitor` has no field named `knowledge_engine`
+  --> think-ai-knowledge/src/o1_benchmark_monitor.rs:47:13
+   |
+47 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ unknown field
+   |
+help: a field with a similar name exists
+   |
+47 |             knowledgeengine,
+   |             ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `O1BenchmarkMonitorAsync` has no field named `knowledge_engine`
+   --> think-ai-knowledge/src/o1_benchmark_monitor.rs:450:13
+    |
+450 |             knowledge_engine: self.knowledge_engine.clone(),
+    |             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+450 |             knowledgeengine: self.knowledge_engine.clone(),
+    |             ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&O1BenchmarkMonitor`
+   --> think-ai-knowledge/src/o1_benchmark_monitor.rs:450:36
+    |
+450 |             knowledge_engine: self.knowledge_engine.clone(),
+    |                                    ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+450 |             knowledge_engine: self.knowledgeengine.clone(),
+    |                                    ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `QwenKnowledgeBuilder` has no field named `knowledge_engine`
+  --> think-ai-knowledge/src/qwen_knowledge_builder.rs:43:13
+   |
+43 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ unknown field
+   |
+help: a field with a similar name exists
+   |
+43 |             knowledgeengine,
+   |             ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `ComponentResponseGenerator` has no field named `knowledge_engine`
+  --> think-ai-knowledge/src/response_generator.rs:49:13
+   |
+49 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ unknown field
+   |
+help: a field with a similar name exists
+   |
+49 |             knowledgeengine,
+   |             ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `ComponentResponseGenerator` has no field named `knowledge_engine`
+  --> think-ai-knowledge/src/response_generator.rs:66:13
+   |
+66 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ unknown field
+   |
+help: a field with a similar name exists
+   |
+66 |             knowledgeengine,
+   |             ~~~~~~~~~~~~~~~
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> think-ai-knowledge/src/response_generator.rs:180:32
+    |
+180 |                         if let Some(part) = component.generate(query, &context) {
+    |                                ^^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by a bound in `std::prelude::v1::Some`
+   --> /rustc/f6e511eec7342f59a25f7c0534f1dbea00d01b14/library/core/src/option.rs:579:5
+
+error[E0308]: mismatched types
+   --> think-ai-knowledge/src/response_generator.rs:183:53
+    |
+182 | ...                   if !self.is_duplicate_content(&part, &response_parts) {
+    |                                                             -------------- here the type of `response_parts` is inferred to be `Vec<std::string::String>`
+183 | ...                       response_parts.push(part);
+    |                                          ---- ^^^^- help: try using a conversion method: `.to_string()`
+    |                                          |    |
+    |                                          |    expected `String`, found `str`
+    |                                          arguments to this method are incorrect
+    |
+note: method defined here
+   --> /rustc/f6e511eec7342f59a25f7c0534f1dbea00d01b14/library/alloc/src/vec/mod.rs:2003:12
+
+error[E0609]: no field `knowledge_engine` on type `&ComponentResponseGenerator`
+   --> think-ai-knowledge/src/response_generator.rs:243:36
+    |
+243 |         relevant_nodes.extend(self.knowledge_engine.intelligent_query(query));
+    |                                    ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+243 |         relevant_nodes.extend(self.knowledgeengine.intelligent_query(query));
+    |                                    ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&ComponentResponseGenerator`
+   --> think-ai-knowledge/src/response_generator.rs:248:45
+    |
+248 |                 if let Some(results) = self.knowledge_engine.fast_query(token) {
+    |                                             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+248 |                 if let Some(results) = self.knowledgeengine.fast_query(token) {
+    |                                             ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `ResponseContext` has no field named `knowledge_engine`
+   --> think-ai-knowledge/src/response_generator.rs:268:13
+    |
+268 |             knowledge_engine: self.knowledge_engine.clone(),
+    |             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+268 |             knowledgeengine: self.knowledge_engine.clone(),
+    |             ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&ComponentResponseGenerator`
+   --> think-ai-knowledge/src/response_generator.rs:268:36
+    |
+268 |             knowledge_engine: self.knowledge_engine.clone(),
+    |                                    ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+268 |             knowledge_engine: self.knowledgeengine.clone(),
+    |                                    ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&ComponentResponseGenerator`
+   --> think-ai-knowledge/src/response_generator.rs:490:26
+    |
+490 |         let stats = self.knowledge_engine.get_stats();
+    |                          ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+490 |         let stats = self.knowledgeengine.get_stats();
+    |                          ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&ComponentResponseGenerator`
+   --> think-ai-knowledge/src/response_generator.rs:510:33
+    |
+510 |         let llm_response = self.knowledge_engine.generate_llm_response(&llm_context);
+    |                                 ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+510 |         let llm_response = self.knowledgeengine.generate_llm_response(&llm_context);
+    |                                 ~~~~~~~~~~~~~~~
+
+error[E0560]: struct `SelfEvaluator` has no field named `knowledge_engine`
+  --> think-ai-knowledge/src/self_evaluator.rs:76:13
+   |
+76 |             knowledge_engine,
+   |             ^^^^^^^^^^^^^^^^ unknown field
+   |
+help: a field with a similar name exists
+   |
+76 |             knowledgeengine,
+   |             ~~~~~~~~~~~~~~~
+
+error[E0689]: can't call method `min` on ambiguous numeric type `{float}`
+   --> think-ai-knowledge/src/self_evaluator.rs:638:14
+    |
+638 |             .min(1.0)
+    |              ^^^
+
+error[E0560]: struct `SelfEvaluatorAsync` has no field named `knowledge_engine`
+   --> think-ai-knowledge/src/self_evaluator.rs:892:13
+    |
+892 |             knowledge_engine: self.knowledge_engine.clone(),
+    |             ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+892 |             knowledgeengine: self.knowledge_engine.clone(),
+    |             ~~~~~~~~~~~~~~~
+
+error[E0609]: no field `knowledge_engine` on type `&SelfEvaluator`
+   --> think-ai-knowledge/src/self_evaluator.rs:892:36
+    |
+892 |             knowledge_engine: self.knowledge_engine.clone(),
+    |                                    ^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+892 |             knowledge_engine: self.knowledgeengine.clone(),
+    |                                    ~~~~~~~~~~~~~~~
+
+error[E0689]: can't call method `min` on ambiguous numeric type `{float}`
+    --> think-ai-knowledge/src/self_evaluator.rs:1259:14
+     |
+1259 |             .min(1.0)
+     |              ^^^
+
+error[E0308]: mismatched types
+   --> think-ai-knowledge/src/self_learning.rs:81:62
+    |
+81  |                 0..=2 => Self::synthesize_knowledge(&engine, &selected_nodes, thread_id, iteration),
+    |                          --------------------------          ^^^^^^^^^^^^^^^ expected `&[&KnowledgeNode]`, found `&Vec<&&KnowledgeNode>`
+    |                          |
+    |                          arguments to this function are incorrect
+    |
+    = note: expected reference `&[&KnowledgeNode]`
+               found reference `&Vec<&&KnowledgeNode>`
+note: associated function defined here
+   --> think-ai-knowledge/src/self_learning.rs:103:8
+    |
+103 |     fn synthesize_knowledge(
+    |        ^^^^^^^^^^^^^^^^^^^^
+104 |         engine: &Arc<KnowledgeEngine>,
+105 |         nodes: &[&KnowledgeNode],
+    |         ------------------------
+
+error[E0308]: mismatched types
+   --> think-ai-knowledge/src/self_learning.rs:82:55
+    |
+82  |                 3..=4 => Self::find_patterns(&engine, &selected_nodes, &connections),
+    |                          -------------------          ^^^^^^^^^^^^^^^ expected `&[&KnowledgeNode]`, found `&Vec<&&KnowledgeNode>`
+    |                          |
+    |                          arguments to this function are incorrect
+    |
+    = note: expected reference `&[&KnowledgeNode]`
+               found reference `&Vec<&&KnowledgeNode>`
+note: associated function defined here
+   --> think-ai-knowledge/src/self_learning.rs:160:8
+    |
+160 |     fn find_patterns(
+    |        ^^^^^^^^^^^^^
+161 |         engine: &Arc<KnowledgeEngine>,
+162 |         nodes: &[&KnowledgeNode],
+    |         ------------------------
+
+error[E0308]: mismatched types
+   --> think-ai-knowledge/src/self_learning.rs:83:58
+    |
+83  |                 5..=6 => Self::create_analogies(&engine, &selected_nodes),
+    |                          ----------------------          ^^^^^^^^^^^^^^^ expected `&[&KnowledgeNode]`, found `&Vec<&&KnowledgeNode>`
+    |                          |
+    |                          arguments to this function are incorrect
+    |
+    = note: expected reference `&[&KnowledgeNode]`
+               found reference `&Vec<&&KnowledgeNode>`
+note: associated function defined here
+   --> think-ai-knowledge/src/self_learning.rs:208:8
+    |
+208 |     fn create_analogies(engine: &Arc<KnowledgeEngine>, nodes: &[&KnowledgeNode]) {
+    |        ^^^^^^^^^^^^^^^^                                ------------------------
+
+error[E0308]: mismatched types
+   --> think-ai-knowledge/src/self_learning.rs:84:57
+    |
+84  |                 7 => Self::generate_hypotheses(&engine, &selected_nodes),
+    |                      -------------------------          ^^^^^^^^^^^^^^^ expected `&[&KnowledgeNode]`, found `&Vec<&&KnowledgeNode>`
+    |                      |
+    |                      arguments to this function are incorrect
+    |
+    = note: expected reference `&[&KnowledgeNode]`
+               found reference `&Vec<&&KnowledgeNode>`
+note: associated function defined here
+   --> think-ai-knowledge/src/self_learning.rs:247:8
+    |
+247 |     fn generate_hypotheses(engine: &Arc<KnowledgeEngine>, nodes: &[&KnowledgeNode]) {
+    |        ^^^^^^^^^^^^^^^^^^^                                ------------------------
+
+error[E0308]: mismatched types
+   --> think-ai-knowledge/src/self_learning.rs:85:59
+    |
+85  |                 _ => Self::cross_domain_insights(&engine, &selected_nodes),
+    |                      ---------------------------          ^^^^^^^^^^^^^^^ expected `&[&KnowledgeNode]`, found `&Vec<&&KnowledgeNode>`
+    |                      |
+    |                      arguments to this function are incorrect
+    |
+    = note: expected reference `&[&KnowledgeNode]`
+               found reference `&Vec<&&KnowledgeNode>`
+note: associated function defined here
+   --> think-ai-knowledge/src/self_learning.rs:272:8
+    |
+272 |     fn cross_domain_insights(engine: &Arc<KnowledgeEngine>, nodes: &[&KnowledgeNode]) {
+    |        ^^^^^^^^^^^^^^^^^^^^^                                ------------------------
+
+error[E0308]: mismatched types
+   --> think-ai-knowledge/src/self_learning.rs:90:42
+    |
+90  |             Self::strengthen_connections(&selected_nodes, &connections);
+    |             ---------------------------- ^^^^^^^^^^^^^^^ expected `&[&KnowledgeNode]`, found `&Vec<&&KnowledgeNode>`
+    |             |
+    |             arguments to this function are incorrect
+    |
+    = note: expected reference `&[&KnowledgeNode]`
+               found reference `&Vec<&&KnowledgeNode>`
+note: associated function defined here
+   --> think-ai-knowledge/src/self_learning.rs:325:8
+    |
+325 |     fn strengthen_connections(
+    |        ^^^^^^^^^^^^^^^^^^^^^^
+326 |         nodes: &[&KnowledgeNode],
+    |         ------------------------
+
+warning: unused variable: `knowledge`
+   --> think-ai-knowledge/src/responder.rs:168:50
+    |
+168 |     fn generate_applications(&self, query: &str, knowledge: &Vec<KnowledgeNode>) -> String {
+    |                                                  ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_knowledge`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `context`
+   --> think-ai-knowledge/src/parallel_processor.rs:142:9
+    |
+142 |         context: Option<String>,
+    |         ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
+
+warning: unused variable: `context`
+   --> think-ai-knowledge/src/parallel_processor.rs:270:9
+    |
+270 |         context: Option<String>,
+    |         ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
+
+warning: unused variable: `engine`
+ --> think-ai-knowledge/src/comprehensive_knowledge.rs:7:36
+  |
+7 |     pub fn populate_deep_knowledge(engine: &Arc<KnowledgeEngine>) {
+  |                                    ^^^^^^ help: if this is intentional, prefix it with an underscore: `_engine`
+
+warning: unused variable: `hash`
+   --> think-ai-knowledge/src/dynamic_expression.rs:501:56
+    |
+501 |     fn generate_general_response(&self, context: &str, hash: u64) -> String {
+    |                                                        ^^^^ help: if this is intentional, prefix it with an underscore: `_hash`
+
+warning: unused variable: `engine`
+   --> think-ai-knowledge/src/dynamic_loader.rs:266:9
+    |
+266 |         engine: Arc<KnowledgeEngine>,
+    |         ^^^^^^ help: if this is intentional, prefix it with an underscore: `_engine`
+
+warning: unused variable: `context`
+   --> think-ai-knowledge/src/feynman_explainer.rs:144:49
+    |
+144 |     fn simplify_sentence(&self, sentence: &str, context: &str) -> String {
+    |                                                 ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
+
+warning: unused variable: `context`
+   --> think-ai-knowledge/src/human_conversation_trainer.rs:281:34
+    |
+281 |     fn generate_follow_up(&self, context: Option<&str>) -> String {
+    |                                  ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
+
+warning: unused variable: `input`
+   --> think-ai-knowledge/src/human_conversation_trainer.rs:349:41
+    |
+349 |     fn generate_curious_response(&self, input: &str) -> String {
+    |                                         ^^^^^ help: if this is intentional, prefix it with an underscore: `_input`
+
+warning: unused variable: `input`
+   --> think-ai-knowledge/src/human_conversation_trainer.rs:365:41
+    |
+365 |     fn generate_engaged_response(&self, input: &str) -> String {
+    |                                         ^^^^^ help: if this is intentional, prefix it with an underscore: `_input`
+
+warning: unused variable: `question`
+   --> think-ai-knowledge/src/llm_benchmarks.rs:748:9
+    |
+748 |         question: &str,
+    |         ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_question`
+
+warning: unused variable: `query`
+   --> think-ai-knowledge/src/response_generator.rs:342:54
+    |
+342 |     fn refine_and_combine(&self, parts: Vec<String>, query: &str) -> String {
+    |                                                      ^^^^^ help: if this is intentional, prefix it with an underscore: `_query`
+
+warning: unused variable: `query`
+   --> think-ai-knowledge/src/response_generator.rs:436:46
+    |
+436 |     fn post_process(&self, response: String, query: &str) -> String {
+    |                                              ^^^^^ help: if this is intentional, prefix it with an underscore: `_query`
+
+warning: unused variable: `engine`
+   --> think-ai-knowledge/src/self_learning.rs:314:28
+    |
+314 |     fn abstract_principles(engine: &Arc<KnowledgeEngine>, nodes: &[&KnowledgeNode]) {
+    |                            ^^^^^^ help: if this is intentional, prefix it with an underscore: `_engine`
+
+warning: unused variable: `nodes`
+   --> think-ai-knowledge/src/self_learning.rs:314:59
+    |
+314 |     fn abstract_principles(engine: &Arc<KnowledgeEngine>, nodes: &[&KnowledgeNode]) {
+    |                                                           ^^^^^ help: if this is intentional, prefix it with an underscore: `_nodes`
+
+warning: unused variable: `nodes`
+   --> think-ai-knowledge/src/self_learning.rs:412:38
+    |
+412 |     fn generate_hypothesis_statement(nodes: &[&KnowledgeNode]) -> String {
+    |                                      ^^^^^ help: if this is intentional, prefix it with an underscore: `_nodes`
+
+warning: unused variable: `nodes`
+   --> think-ai-knowledge/src/self_learning.rs:424:38
+    |
+424 |     fn generate_cross_domain_insight(nodes: &[&KnowledgeNode]) -> String {
+    |                                      ^^^^^ help: if this is intentional, prefix it with an underscore: `_nodes`
+
+warning: unused variable: `nodes`
+   --> think-ai-knowledge/src/self_learning.rs:436:36
+    |
+436 |     fn generate_abstract_principle(nodes: &[&KnowledgeNode]) -> String {
+    |                                    ^^^^^ help: if this is intentional, prefix it with an underscore: `_nodes`
+
+Some errors have detailed explanations: E0277, E0308, E0412, E0425, E0560, E0609, E0689.
+For more information about an error, try `rustc --explain E0277`.
+warning: `think-ai-knowledge` (lib) generated 19 warnings
+error: could not compile `think-ai-knowledge` (lib) due to 219 previous errors; 19 warnings emitted
