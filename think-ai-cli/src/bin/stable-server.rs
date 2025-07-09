@@ -1,16 +1,16 @@
 // Stable Server - Production-ready Think AI server with all safety features
 
+use anyhow::Result;
 use axum::{
     extract::State,
     http::StatusCode,
-    response::{Html, IntoResponse, Json},
+    response::{Html, Json},
     routing::{get, post},
     Router,
 };
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use std::time::Duration;
-use tokio::sync::RwLock;
 use tokio::time::timeout;
 use tower_http::cors::CorsLayer;
 
@@ -38,7 +38,7 @@ struct ResponseMetadata {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<()> {
     println!("🚀 Think AI Stable Server Starting...");
     println!("✅ Production-ready with all safety features");
 
@@ -70,13 +70,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .unwrap_or_else(|_| "8080".to_string())
         .parse::<u16>()?;
 
-    let listener = match tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
-        Ok(listener) => listener,
-        Err(e) => {
-            eprintln!("Failed to bind to port {}: {}", port, e);
-            return Err(Box::new(e));
-        }
-    };
+    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port))
+        .await
+        .map_err(|e| anyhow::anyhow!("Failed to bind to port {}: {}", port, e))?;
 
     println!("🌐 Server running on http://0.0.0.0:{}", port);
     axum::serve(listener, app).await?;
