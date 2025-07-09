@@ -32,8 +32,10 @@ prepare_vercel_deployment() {
     cp ../think-ai-webapp/static/offline.html .
     cp ../think-ai-webapp/static/sw.js .
     cp ../think-ai-webapp/static/manifest.json .
-    cp ../think-ai-webapp/static/favicon.ico .
+    # cp ../think-ai-webapp/static/favicon.ico .  # No favicon.ico file exists
     cp -r ../think-ai-webapp/static/icons .
+    # Use the 16x16 icon as favicon
+    cp ../think-ai-webapp/static/icons/icon-16.png favicon.ico
     
     # Update API endpoint in index.html to point to GPU server
     sed -i "s|http://localhost:8080|${GPU_SERVER_URL}|g" index.html
