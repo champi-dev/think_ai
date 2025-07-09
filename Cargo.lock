@@ -3472,7 +3472,6 @@ dependencies = [
  "think-ai-core",
  "think-ai-http",
  "think-ai-knowledge",
- "think-ai-qwen",
  "think-ai-utils",
  "think-ai-vector",
  "thiserror 2.0.12",
@@ -3532,8 +3531,24 @@ dependencies = [
 ]
 
 [[package]]
-name = "think-ai-demos"
+name = "think-ai-full"
 version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "chrono",
+ "futures-util",
+ "rand 0.8.5",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tokio",
+ "tower 0.5.2",
+ "tower-http 0.5.2",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
+]
 
 [[package]]
 name = "think-ai-http"
@@ -3576,23 +3591,8 @@ dependencies = [
  "sha2",
  "tempfile",
  "think-ai-consciousness",
- "think-ai-qwen",
  "tokio",
  "uuid",
-]
-
-[[package]]
-name = "think-ai-qwen"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "reqwest",
- "serde",
- "serde_json",
- "thiserror 2.0.12",
- "tokio",
- "tracing",
 ]
 
 [[package]]

@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["champi-dev <danielsarcor@gmail.com>"]
 
-[workspace]
+# Removed workspace section - this is part of parent workspace
 
 [[bin]]
 name = "think-ai-full"

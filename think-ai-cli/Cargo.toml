@@ -13,9 +13,10 @@ path = "src/main.rs"
 name = "isolated-chat"
 path = "src/bin/isolated-chat.rs"
 
-[[bin]]
-name = "e2e-test-qwen-isolation"
-path = "src/bin/e2e-test-qwen-isolation.rs"
+# Disabled - requires think-ai-qwen
+# [[bin]]
+# name = "e2e-test-qwen-isolation"
+# path = "src/bin/e2e-test-qwen-isolation.rs"
 
 [[bin]]
 name = "train-comprehensive"
@@ -25,9 +26,10 @@ path = "src/bin/train-comprehensive.rs"
 name = "self-learning-service"
 path = "src/bin/self-learning-service.rs"
 
-[[bin]]
-name = "full-server"
-path = "src/bin/full-server.rs"
+# Disabled - requires think-ai-qwen
+# [[bin]]
+# name = "full-server"
+# path = "src/bin/full-server.rs"
 
 [[bin]]
 name = "train-consciousness"
@@ -49,7 +51,6 @@ think-ai-knowledge = { path = "../think-ai-knowledge" }
 think-ai-vector = { path = "../think-ai-vector" }
 think-ai-http = { path = "../think-ai-http" }
 think-ai-consciousness = { path = "../think-ai-consciousness" }
-think-ai-qwen = { path = "../think-ai-qwen" }
 tokio.workspace = true
 dotenv = "0.15"
 async-trait.workspace = true

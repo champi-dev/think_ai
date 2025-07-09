@@ -1,9 +1,9 @@
 // CLI command implementations
 
 // mod natural_chat; // Disabled: depends on non-existent NaturalResponseGenerator
-mod knowledge_chat;
+// mod knowledge_chat; // Disabled: depends on think-ai-qwen
 use clap::Subcommand;
-use knowledge_chat::KnowledgeChat;
+// use knowledge_chat::KnowledgeChat;
 use std::collections::HashMap;
 use std::io::{self, Write};
 use std::time::Instant;
@@ -280,7 +280,7 @@ impl ChatSystem {
         self.thought_count = 0;
         self.start_time = Instant::now();
 async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::Error>> {
-    let mut chat_system = KnowledgeChat::new();
+    let mut chat_system = ChatSystem::new();
     // Display banner
     println!(
         r#"
@@ -336,7 +336,7 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
                         println!("\n🧹 Conversation context refreshed.");
                     _ => {
                         // Process regular query
-                        let (response, response_time) = chat_system.process_query(input).await;
+                        let (response, response_time) = chat_system.process_query(input);
                         println!("\nThink AI: {}", response);
                         println!("[⚡ {:.1}ms]", response_time);
             Err(e) => {
@@ -367,12 +367,12 @@ pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
                 std::sync::Arc::new(think_ai_vector::O1VectorIndex::new(vector_config)?);
             // Initialize knowledge engine with comprehensive knowledge
             println!("🧠 Initializing knowledge base...");
-            let __knowledge_engine =
+            let knowledge_engine =
                 std::sync::Arc::new(think_ai_knowledge::KnowledgeEngine::new());
             // Load knowledge from JSON files instead of hardcoded content
             let knowledge_files_dir = std::path::PathBuf::from("./knowledge_files");
             if knowledge_files_dir.exists() {
-                let _dynamic_loader =
+                let dynamic_loader =
                     think_ai_knowledge::dynamic_loader::DynamicKnowledgeLoader::new(
                         &knowledge_files_dir,
                     );

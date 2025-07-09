@@ -1,5 +1,5 @@
 use axum::{
-    extract::{Path, Query, State, WebSocketUpgrade, ws::WebSocket},
+    extract::{ws::WebSocket, Path, Query, State, WebSocketUpgrade},
     http::StatusCode,
     response::{Html, IntoResponse, Response},
     routing::{get, post},
@@ -122,21 +122,17 @@ async fn main() {
         .route("/", get(serve_index))
         .route("/health", get(health_check))
         .route("/api/health", get(api_health))
-
         // Chat API
         .route("/api/chat", post(chat_handler))
         .route("/api/chat/sessions", get(list_sessions))
         .route("/api/chat/sessions/:id", get(get_session))
         .route("/ws/chat", get(websocket_handler))
-
         // Knowledge API
         .route("/api/search", get(search_handler))
         .route("/api/knowledge/domains", get(list_domains))
         .route("/api/knowledge/stats", get(system_stats))
-
         // Static files (for webapp assets)
         .nest_service("/static", ServeDir::new("static"))
-
         // Add middleware
         .layer(
             CorsLayer::new()
@@ -294,17 +290,11 @@ async fn get_session(
         .ok_or(StatusCode::NOT_FOUND)
 }
 
-async fn websocket_handler(
-    ws: WebSocketUpgrade,
-    State(state): State<ThinkAIState>,
-) -> Response {
+async fn websocket_handler(ws: WebSocketUpgrade, State(state): State<ThinkAIState>) -> Response {
     ws.on_upgrade(|socket| handle_socket(socket, state))
 }
 
-async fn handle_socket(
-    socket: WebSocket,
-    state: ThinkAIState,
-) {
+async fn handle_socket(socket: WebSocket, state: ThinkAIState) {
     // WebSocket implementation for real-time chat
     // This would handle bidirectional communication
     let (mut sender, mut receiver) = socket.split();
@@ -406,4 +396,3 @@ async fn system_stats(State(state): State<ThinkAIState>) -> Json<SystemStats> {
         uptime_seconds: 3600, // Would track actual uptime
     })
 }
-

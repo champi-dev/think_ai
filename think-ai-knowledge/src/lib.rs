@@ -22,16 +22,16 @@ pub mod enhanced_quantum_llm;
 pub mod feynman_explainer;
 pub mod human_conversation_trainer;
 pub mod intelligent_relevance;
-pub mod intelligent_response_selector;
+// pub mod intelligent_response_selector; // Requires think-ai-qwen
 #[cfg(feature = "web-scraping")]
 pub mod live_stream_monitor;
 pub mod llm_benchmarks;
-pub mod minimal_response_generator;
+// pub mod minimal_response_generator; // Requires think-ai-qwen
 pub mod multi_candidate_selector;
 pub mod newsletter_scraper;
 pub mod o1_benchmark_monitor;
-pub mod qwen_cache;
-pub mod qwen_knowledge_builder;
+// pub mod qwen_cache; // Requires think-ai-qwen
+// pub mod qwen_knowledge_builder; // Requires think-ai-qwen
 pub mod realtime_knowledge_component;
 pub mod realtime_knowledge_gatherer;
 pub mod response_generator;

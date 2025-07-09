@@ -21,6 +21,9 @@ target/
 think-ai-demos/
 think-ai-qwen/
 simple-server/
+knowledge_files/
+trained_knowledge/
+knowledge_storage/
 
 # Ignore unnecessary crates for the build
 think-ai-server/
