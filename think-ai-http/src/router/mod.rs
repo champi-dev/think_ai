@@ -31,14 +31,12 @@ pub fn create_router(state: Arc<AppState>) -> Router {
     Router::new()
         // Main webapp route
         .route("/", get(serve_webapp))
-        .route("/webapp", get(serve_webapp))
         .route("/chat.html", get(serve_chat))
         // API routes
         .route("/health", get(handlers::health))
         .route("/compute", post(handlers::compute))
         .route("/search", post(handlers::search))
         .route("/stats", get(handlers::stats))
-        .route("/chat", post(handlers::chat))
         .route("/api/chat", post(handlers::chat))
         .route("/api/process", post(handlers::chat))
         .route("/api/knowledge/stats", get(handlers::knowledge_stats))
@@ -103,6 +101,9 @@ async fn serve_chat() -> Html<String> {
     }
 }
 
-async fn websocket_placeholder() -> Html<&'static str> {
-    Html("WebSocket endpoint - not yet implemented")
+async fn websocket_placeholder() -> impl IntoResponse {
+    Json(json!({
+        "message": "WebSocket endpoint - not yet implemented",
+        "status": "placeholder"
+    }))
 }

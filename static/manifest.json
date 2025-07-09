@@ -1,77 +1,21 @@
 {
-  "name": "Think AI - O(1) Consciousness",
-  "short_name": "Think AI",
-  "description": "Experience O(1) AI consciousness with superintelligent responses",
+  "name": "Think AI",
+  "short_name": "ThinkAI",
+  "description": "O(1) Performance AI with Consciousness Engine",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0f1c",
-  "theme_color": "#00ffcc",
-  "orientation": "portrait-primary",
+  "theme_color": "#00ff88",
   "icons": [
-    {
-      "src": "/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
     {
       "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/png"
     },
     {
       "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/png"
     }
-  ],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "label": "Think AI 3D Consciousness Visualization"
-    },
-    {
-      "src": "/screenshots/mobile.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "label": "Think AI Mobile Experience"
-    }
-  ],
-  "categories": ["productivity", "utilities", "education"],
-  "prefer_related_applications": false,
-  "related_applications": []
+  ]
 }
