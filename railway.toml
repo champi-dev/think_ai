@@ -2,8 +2,8 @@
 builder = "nixpacks"
 
 [deploy]
-buildCommand = "cargo build --release --bin think-ai-full"
-startCommand = "./target/release/think-ai-full"
+buildCommand = "cargo build --release --bin full-working-o1"
+startCommand = "./target/release/full-working-o1"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 healthcheckPath = "/health"

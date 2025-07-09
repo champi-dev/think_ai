@@ -43,6 +43,10 @@ path = "src/bin/think-ai-coding.rs"
 name = "think-ai-llm"
 path = "src/bin/think-ai-llm.rs"
 
+[[bin]]
+name = "full-working-o1"
+path = "src/bin/full-working-o1.rs"
+
 
 [dependencies]
 think-ai-core = { path = "../think-ai-core" }

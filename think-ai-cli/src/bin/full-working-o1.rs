@@ -14,9 +14,8 @@ use std::sync::Arc;
 use think_ai_core::{config::EngineConfig, O1Engine};
 use think_ai_http::server::{port_manager, port_selector};
 use think_ai_knowledge::{
-    enhanced_quantum_llm::{AttentionMechanism, EnhancedQuantumLLMEngine, PrecisionMode},
-    response_generator::ComponentResponseGenerator,
-    KnowledgeEngine, KnowledgeNode,
+    enhanced_quantum_llm::EnhancedQuantumLLMEngine, response_generator::ComponentResponseGenerator,
+    KnowledgeEngine,
 };
 use think_ai_qwen::client::{QwenClient, QwenConfig};
 use think_ai_utils::logging::init_tracing;
@@ -74,18 +73,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     // Initialize all O(1) components
-    let o1_engine = Arc::new(O1Engine::new(EngineConfig::default())?);
-    let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default())?);
+    let o1_engine = Arc::new(O1Engine::new(EngineConfig::default()));
+    let vector_index =
+        Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
     let qwen_client = Arc::new(QwenClient::new(QwenConfig::default()));
 
-    let enhanced_quantum_llm = Arc::new(RwLock::new(
-        EnhancedQuantumLLMEngine::builder()
-            .with_dimension(512)
-            .with_attention(AttentionMechanism::Linear)
-            .with_precision(PrecisionMode::Mixed)
-            .build()?,
-    ));
+    let enhanced_quantum_llm = Arc::new(RwLock::new(EnhancedQuantumLLMEngine::new(
+        knowledge_engine.clone(),
+    )));
 
     let response_generator = Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
     let conversation_history = Arc::new(RwLock::new(Vec::new()));
