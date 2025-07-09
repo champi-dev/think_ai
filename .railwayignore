@@ -1,13 +1,14 @@
-# Only exclude the largest directories that cause upload issues
-.git/
 target/
-knowledge_storage/
-comprehensive_knowledge/
-direct_training/
-minimal_routing/
-trained_knowledge/
-logs/
-docs/
-examples/
+!target/release/think-ai
+!target/release/think-ai-coding
+!target/release/think-ai-demos
+!target/release/think-ai-llm
 *.log
-*.sh
+*.tmp
+docs/
+knowledge-enhancement/
+think-ai-demos/
+.git/
+*.md
+!README.md
+!DEPLOYMENT.md

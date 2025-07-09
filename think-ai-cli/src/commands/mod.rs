@@ -353,6 +353,7 @@ pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
             // Use 0.0.0.0 for Railway deployments
             let final_host = if std::env::var("RAILWAY_ENVIRONMENT").is_ok() {
                 "0.0.0.0"
+            } else {
                 &host
             };
             println!("Starting server on {}:{}", final_host, final_port);

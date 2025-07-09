@@ -1,5 +1,8 @@
-[phases.build]
-cmds = ['cargo build --release --bin full-server']
+[phases.setup]
+nixPkgs = ["rustc", "cargo"]
 
-[phases.start]
-cmd = './target/release/full-server'
+[phases.build]
+cmds = ["cd simple-server && cargo build --release"]
+
+[start]
+cmd = "./simple-server/target/release/simple-server"

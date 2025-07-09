@@ -1,9 +1,8 @@
 [build]
-nixpacksPlan = "rust"
-rustVersion = "1.82"
+builder = "nixpacks"
 
 [deploy]
-buildCommand = "cargo build --release --bin think-ai --bin think-ai-coding --bin think-ai-demos --bin think-ai-llm"
-startCommand = "chmod +x start-server.sh && ./start-server.sh"
-healthcheckPath = "/api/health"
+buildCommand = "cd simple-server && cargo build --release"
+startCommand = "./simple-server/target/release/simple-server"
 restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
