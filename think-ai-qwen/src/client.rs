@@ -85,11 +85,11 @@ impl QwenClient {
         let mut prompt = String::new();
 
         if let Some(system_prompt) = &request.system_prompt {
-            prompt.push_str(&format!("System: {}\n\n", system_prompt));
+            prompt.push_str(&format!("System: {system_prompt}\n\n"));
         }
 
         if let Some(context) = &request.context {
-            prompt.push_str(&format!("Context: {}\n\n", context));
+            prompt.push_str(&format!("Context: {context}\n\n"));
         }
 
         prompt.push_str(&format!("Query: {}\n\nResponse:", request.query));

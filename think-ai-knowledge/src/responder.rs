@@ -141,13 +141,12 @@ impl ComprehensiveResponder {
 
     fn generate_applications(&self, query: &str, knowledge: &Vec<KnowledgeNode>) -> String {
         format!(
-            "The insights derived from analyzing '{}' have broad applications:\n\n\
+            "The insights derived from analyzing '{query}' have broad applications:\n\n\
             1. **Research & Development**: Informing new avenues of investigation\n\
             2. **Educational Frameworks**: Structuring curricula for comprehensive understanding\n\
             3. **Policy Formation**: Evidence-based decision making across sectors\n\
             4. **Technological Innovation**: Translating theoretical insights into practical solutions\n\
-            5. **Personal Development**: Enhancing individual capacity for critical thinking\n",
-            query
+            5. **Personal Development**: Enhancing individual capacity for critical thinking\n"
         )
     }
 
@@ -172,62 +171,56 @@ impl ComprehensiveResponder {
 
     fn generate_theoretical_analysis(&self, query: &str) -> String {
         format!(
-            "From a theoretical standpoint, '{}' can be understood through multiple \
+            "From a theoretical standpoint, '{query}' can be understood through multiple \
             analytical lenses. The foundational principles involve abstract reasoning, \
             logical deduction, and systematic categorization. This theoretical framework \
-            provides the conceptual scaffolding necessary for deeper investigation.",
-            query
+            provides the conceptual scaffolding necessary for deeper investigation."
         )
     }
 
     fn generate_empirical_analysis(&self, query: &str) -> String {
         format!(
-            "Empirical investigation of '{}' requires careful observation, controlled \
+            "Empirical investigation of '{query}' requires careful observation, controlled \
             experimentation, and statistical analysis. The measurable aspects include \
             quantifiable variables, reproducible phenomena, and verifiable predictions \
-            that can be tested against real-world data.",
-            query
+            that can be tested against real-world data."
         )
     }
 
     fn generate_philosophical_analysis(&self, query: &str) -> String {
         format!(
-            "The philosophical dimensions of '{}' raise fundamental questions about \
+            "The philosophical dimensions of '{query}' raise fundamental questions about \
             knowledge, existence, and meaning. This involves examining epistemological \
             foundations, ontological categories, and ethical implications that shape \
-            our understanding of the topic's deeper significance.",
-            query
+            our understanding of the topic's deeper significance."
         )
     }
 
     fn generate_mathematical_analysis(&self, query: &str) -> String {
         format!(
-            "Mathematical modeling of '{}' employs formal systems, quantitative \
+            "Mathematical modeling of '{query}' employs formal systems, quantitative \
             relationships, and abstract structures. This includes differential equations, \
             statistical distributions, topological spaces, and algebraic frameworks \
-            that capture the essential patterns and relationships.",
-            query
+            that capture the essential patterns and relationships."
         )
     }
 
     fn generate_computational_analysis(&self, query: &str) -> String {
         format!(
-            "Computational approaches to '{}' leverage algorithmic thinking, data \
+            "Computational approaches to '{query}' leverage algorithmic thinking, data \
             structures, and complexity analysis. This involves designing efficient \
             algorithms, optimizing performance characteristics, and implementing \
-            scalable solutions that can handle large-scale problems.",
-            query
+            scalable solutions that can handle large-scale problems."
         )
     }
 
     fn generate_synthesis(&self, query: &str) -> String {
         format!(
-            "Synthesizing these multidisciplinary perspectives on '{}' reveals a \
+            "Synthesizing these multidisciplinary perspectives on '{query}' reveals a \
             rich tapestry of interconnected knowledge. The convergence of theoretical \
             insight, empirical evidence, philosophical reflection, mathematical rigor, \
             and computational power creates a comprehensive understanding that \
-            transcends individual domains while respecting their unique contributions.",
-            query
+            transcends individual domains while respecting their unique contributions."
         )
     }
 

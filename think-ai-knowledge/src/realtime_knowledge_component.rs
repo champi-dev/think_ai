@@ -82,7 +82,7 @@ impl ResponseComponent for RealtimeKnowledgeComponent {
 
                     // Add source info
                     if let Some(author) = &content.author {
-                        response.push_str(&format!("   by {} ", author));
+                        response.push_str(&format!("   by {author} "));
                     }
                     response.push_str(&format!("from {}\n", content.source_id));
 
@@ -92,7 +92,7 @@ impl ResponseComponent for RealtimeKnowledgeComponent {
                     } else {
                         content.content.clone()
                     };
-                    response.push_str(&format!("   {}\n", preview));
+                    response.push_str(&format!("   {preview}\n"));
 
                     // Add metadata if relevant
                     if let Some(date) = content.published_date {

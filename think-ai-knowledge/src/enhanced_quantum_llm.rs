@@ -14,7 +14,7 @@ impl EnhancedQuantumLLMEngine {
 
     pub fn generate_response(&mut self, query: &str) -> String {
         // Simple response generation
-        format!("Quantum LLM response to: {}", query)
+        format!("Quantum LLM response to: {query}")
     }
 
     pub fn initialize(&mut self) -> Result<(), Box<dyn std::error::Error>> {

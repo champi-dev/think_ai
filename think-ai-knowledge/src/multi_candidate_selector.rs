@@ -14,7 +14,7 @@ impl MultiCandidateSelector {
 
     pub fn select_best_answer(&self, query: &str) -> String {
         // Simple answer selection
-        format!("Selected answer for: {}", query)
+        format!("Selected answer for: {query}")
     }
 
     pub fn generate_candidates(&self, _query: &str, _count: usize) -> Vec<String> {

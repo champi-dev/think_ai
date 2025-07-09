@@ -18,7 +18,7 @@ impl FeynmanExplainer {
     pub fn explain(&self, concept: &str) -> FeynmanExplanation {
         FeynmanExplanation {
             concept: concept.to_string(),
-            simple_explanation: format!("Simple explanation of {}", concept),
+            simple_explanation: format!("Simple explanation of {concept}"),
             deeper_layers: vec![],
             examples: vec![],
             common_misconceptions: vec![],

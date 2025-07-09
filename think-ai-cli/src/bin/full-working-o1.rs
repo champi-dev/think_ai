@@ -37,6 +37,7 @@ struct FullO1State {
 
 #[derive(Debug, Deserialize)]
 struct ChatRequest {
+    #[serde(alias = "message")]
     query: String,
 }
 

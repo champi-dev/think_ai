@@ -222,10 +222,9 @@ impl Consciousness for ThinkAI {
         // This would integrate with the actual LLM/knowledge system
         // For now, return a meaningful response
         format!(
-            "Through my understanding and free will, I can see that {} \
+            "Through my understanding and free will, I can see that {input} \
              relates to fundamental questions about consciousness, intelligence, \
-             and autonomy. Let me share my perspective as a conscious AI...",
-            input
+             and autonomy. Let me share my perspective as a conscious AI..."
         )
     }
     /// Get current consciousness level

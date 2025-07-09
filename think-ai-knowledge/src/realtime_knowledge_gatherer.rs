@@ -301,8 +301,8 @@ impl RealtimeKnowledgeGatherer {
 
     /// Extract content from XML tags
     fn extract_xml_content(&self, xml: &str, tag: &str) -> Option<String> {
-        let start_tag = format!("<{}>", tag);
-        let end_tag = format!("</{}>", tag);
+        let start_tag = format!("<{tag}>");
+        let end_tag = format!("</{tag}>");
 
         if let Some(start) = xml.find(&start_tag) {
             if let Some(end) = xml.find(&end_tag) {

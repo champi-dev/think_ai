@@ -131,7 +131,7 @@ impl SocialMediaGatherer {
         let subreddits = vec!["all", "technology", "worldnews", "science", "programming"];
 
         for subreddit in subreddits {
-            let url = format!("https://www.reddit.com/r/{}/hot.json?limit=10", subreddit);
+            let url = format!("https://www.reddit.com/r/{subreddit}/hot.json?limit=10");
 
             match self.http_client.get(&url).send().await {
                 Ok(response) => {
@@ -160,7 +160,7 @@ impl SocialMediaGatherer {
                         }
                     }
                 }
-                Err(e) => eprintln!("Error fetching Reddit trends: {}", e),
+                Err(e) => eprintln!("Error fetching Reddit trends: {e}"),
             }
 
             // Rate limit between requests
@@ -189,7 +189,7 @@ impl SocialMediaGatherer {
                 }
             }
             Err(e) => {
-                eprintln!("Error fetching YouTube trends: {}", e);
+                eprintln!("Error fetching YouTube trends: {e}");
                 vec![]
             }
         };
@@ -224,8 +224,8 @@ impl SocialMediaGatherer {
 
     /// Extract content from XML
     fn extract_xml_content(&self, xml: &str, tag: &str) -> Option<String> {
-        let start_tag = format!("<{}>", tag);
-        let end_tag = format!("</{}>", tag);
+        let start_tag = format!("<{tag}>");
+        let end_tag = format!("</{tag}>");
 
         if let Some(start) = xml.find(&start_tag) {
             if let Some(end) = xml.find(&end_tag) {

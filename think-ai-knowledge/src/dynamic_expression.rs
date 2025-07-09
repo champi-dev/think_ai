@@ -15,7 +15,7 @@ impl DynamicExpressionGenerator {
 
     pub fn generate_expression(&self, query: &str) -> String {
         // Simple expression generation
-        format!("Dynamic response to: {}", query)
+        format!("Dynamic response to: {query}")
     }
 
     pub fn adapt_to_context(&self, _context: &str, _user_traits: Option<&str>) -> String {

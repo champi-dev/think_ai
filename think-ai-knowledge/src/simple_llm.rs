@@ -140,7 +140,7 @@ impl SimpleLLM {
             format!("Regarding {}, {}", topic, relevant_facts[0])
         } else {
             // Fallback response
-            format!("That's an interesting question about {}. Let me think about it from an O(1) perspective.", topic)
+            format!("That's an interesting question about {topic}. Let me think about it from an O(1) perspective.")
         }
     }
 
