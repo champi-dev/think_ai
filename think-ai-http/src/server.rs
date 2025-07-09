@@ -45,6 +45,8 @@ pub async fn run_server(
         .await
         .map_err(|e| crate::HttpError::ServerError(e.to_string()))?;
     info!("Server listening on {}", final_addr);
-    axum::serve(listener, app).await.map_err(|e| crate::HttpError::ServerError(e.to_string()))?;
+    axum::serve(listener, app)
+        .await
+        .map_err(|e| crate::HttpError::ServerError(e.to_string()))?;
     Ok(())
 }

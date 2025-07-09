@@ -1,17 +1,15 @@
 // Feynman Technique Explainer - Creates simplified, logical explanations
 
 use crate::KnowledgeNode;
-use std::sync::{Arc, RwLock};
 use std::collections::HashMap;
+use std::sync::{Arc, RwLock};
 
 pub struct FeynmanExplainer {
     knowledge_nodes: Option<Arc<RwLock<HashMap<String, KnowledgeNode>>>>,
 }
 
 impl FeynmanExplainer {
-    pub fn new(
-        knowledge_nodes: Option<Arc<RwLock<HashMap<String, KnowledgeNode>>>>,
-    ) -> Self {
+    pub fn new(knowledge_nodes: Option<Arc<RwLock<HashMap<String, KnowledgeNode>>>>) -> Self {
         Self { knowledge_nodes }
     }
 

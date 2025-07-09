@@ -40,7 +40,8 @@ impl Storage for SledStorage {
         Ok(())
     }
     async fn exists(&self, key: &str) -> Result<bool> {
-        Ok(self.db
+        Ok(self
+            .db
             .contains_key(key)
             .map_err(|e| StorageError::StorageError(e.to_string()))?)
     }

@@ -1,6 +1,6 @@
 use anyhow::Result;
-use serde::{Deserialize, Serialize};
 use reqwest;
+use serde::{Deserialize, Serialize};
 use std::time::Duration;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -106,7 +106,8 @@ impl QwenClient {
         };
 
         // Make API call to Ollama
-        let response = match self.client
+        let response = match self
+            .client
             .post(format!("{}/api/generate", self.config.base_url))
             .json(&ollama_request)
             .send()
@@ -127,12 +128,16 @@ impl QwenClient {
                 usage: Usage {
                     prompt_tokens: ollama_response.prompt_eval_count.unwrap_or(0),
                     completion_tokens: ollama_response.eval_count.unwrap_or(0),
-                    total_tokens: ollama_response.prompt_eval_count.unwrap_or(0) + ollama_response.eval_count.unwrap_or(0),
+                    total_tokens: ollama_response.prompt_eval_count.unwrap_or(0)
+                        + ollama_response.eval_count.unwrap_or(0),
                 },
             })
         } else {
             // Return error to trigger fallback in the handler
-            Err(anyhow::anyhow!("Ollama returned error status: {}", response.status()))
+            Err(anyhow::anyhow!(
+                "Ollama returned error status: {}",
+                response.status()
+            ))
         }
     }
 

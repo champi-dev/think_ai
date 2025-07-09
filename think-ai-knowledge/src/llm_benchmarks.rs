@@ -1,7 +1,7 @@
 // State-of-the-Art LLM Benchmark Evaluation System
 
 use crate::KnowledgeEngine;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
 
@@ -44,7 +44,9 @@ impl LLMBenchmarkEvaluator {
         Ok(())
     }
 
-    pub async fn run_comprehensive_evaluation(&self) -> Result<ComprehensiveBenchmarkReport, Box<dyn std::error::Error>> {
+    pub async fn run_comprehensive_evaluation(
+        &self,
+    ) -> Result<ComprehensiveBenchmarkReport, Box<dyn std::error::Error>> {
         let mut benchmark_results = HashMap::new();
         let mut state_of_art_comparison = HashMap::new();
 
@@ -70,7 +72,10 @@ impl LLMBenchmarkEvaluator {
         })
     }
 
-    pub async fn save_results(&self, _report: &ComprehensiveBenchmarkReport) -> Result<(), Box<dyn std::error::Error>> {
+    pub async fn save_results(
+        &self,
+        _report: &ComprehensiveBenchmarkReport,
+    ) -> Result<(), Box<dyn std::error::Error>> {
         println!("Saving benchmark results...");
         Ok(())
     }

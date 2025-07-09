@@ -19,20 +19,29 @@ pub struct Matrix4Utils;
 impl Matrix4Utils {
     pub fn identity() -> Matrix4 {
         [
-            1.0, 0.0, 0.0, 0.0,
-            0.0, 1.0, 0.0, 0.0,
-            0.0, 0.0, 1.0, 0.0,
-            0.0, 0.0, 0.0, 1.0,
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
         ]
     }
 
     pub fn perspective(fovy: f32, aspect: f32, near: f32, far: f32) -> Matrix4 {
         let f = 1.0 / (fovy / 2.0).tan();
         [
-            f / aspect, 0.0, 0.0, 0.0,
-            0.0, f, 0.0, 0.0,
-            0.0, 0.0, (far + near) / (near - far), -1.0,
-            0.0, 0.0, (2.0 * far * near) / (near - far), 0.0,
+            f / aspect,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            f,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            (far + near) / (near - far),
+            -1.0,
+            0.0,
+            0.0,
+            (2.0 * far * near) / (near - far),
+            0.0,
         ]
     }
 
@@ -70,9 +79,18 @@ impl Matrix4Utils {
         };
 
         [
-            x.x, y.x, z.x, 0.0,
-            x.y, y.y, z.y, 0.0,
-            x.z, y.z, z.z, 0.0,
+            x.x,
+            y.x,
+            z.x,
+            0.0,
+            x.y,
+            y.y,
+            z.y,
+            0.0,
+            x.z,
+            y.z,
+            z.z,
+            0.0,
             -(x.x * eye.x + x.y * eye.y + x.z * eye.z),
             -(y.x * eye.x + y.y * eye.y + y.z * eye.z),
             -(z.x * eye.x + z.y * eye.y + z.z * eye.z),

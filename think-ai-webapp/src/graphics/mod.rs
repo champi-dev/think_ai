@@ -41,7 +41,14 @@ impl GraphicsEngine {
 
         // Create a dummy WebGL context for now
         use std::rc::Rc;
-        let gl = Rc::new(canvas.get_context("webgl").unwrap().unwrap().dyn_into::<web_sys::WebGlRenderingContext>().unwrap());
+        let gl = Rc::new(
+            canvas
+                .get_context("webgl")
+                .unwrap()
+                .unwrap()
+                .dyn_into::<web_sys::WebGlRenderingContext>()
+                .unwrap(),
+        );
 
         Ok(Self {
             canvas: canvas.clone(),
@@ -71,8 +78,7 @@ impl GraphicsEngine {
         let height = self.canvas.height() as f32;
 
         // Render components
-        self.consciousness_viz
-            .render(width, height)?;
+        self.consciousness_viz.render(width, height)?;
         self.particle_system
             .render(&projection_matrix, &view_matrix)?;
         self.neural_network

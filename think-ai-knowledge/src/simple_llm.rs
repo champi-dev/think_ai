@@ -1,10 +1,10 @@
 // Simple LLM Integration - Makes Think AI a True Generative AI
 
 use dashmap::DashMap;
-use rand::{thread_rng, seq::SliceRandom};
-use std::sync::Arc;
-use std::hash::{Hash, Hasher};
+use rand::{seq::SliceRandom, thread_rng};
 use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
+use std::sync::Arc;
 
 /// Simple generative LLM that actually creates text
 pub struct SimpleLLM {
@@ -30,32 +30,30 @@ impl SimpleLLM {
             "Hello! I'm Think AI, a high-performance AI assistant.".to_string(),
             "Greetings! How can I assist you today?".to_string(),
             "Welcome to Think AI!".to_string(),
-
             // About AI/Technology
-            "Artificial intelligence is the simulation of human intelligence by machines.".to_string(),
-            "Machine learning enables computers to learn from data without explicit programming.".to_string(),
+            "Artificial intelligence is the simulation of human intelligence by machines."
+                .to_string(),
+            "Machine learning enables computers to learn from data without explicit programming."
+                .to_string(),
             "Neural networks are inspired by the human brain's structure.".to_string(),
             "Deep learning uses multiple layers to progressively extract features.".to_string(),
             "O(1) complexity means constant time regardless of input size.".to_string(),
             "Hash tables provide O(1) average case lookup time.".to_string(),
-
             // About the sun/space
             "The sun is a star at the center of our solar system.".to_string(),
             "Our sun is approximately 4.6 billion years old.".to_string(),
             "The sun's core temperature reaches 15 million degrees Celsius.".to_string(),
             "Light from the sun takes about 8 minutes to reach Earth.".to_string(),
-
             // About consciousness
             "Consciousness is the state of being aware of one's surroundings.".to_string(),
-            "The nature of consciousness remains one of philosophy's greatest mysteries.".to_string(),
+            "The nature of consciousness remains one of philosophy's greatest mysteries."
+                .to_string(),
             "Self-awareness is a key component of consciousness.".to_string(),
-
             // Programming
             "Rust provides memory safety without garbage collection.".to_string(),
             "Python is known for its simple and readable syntax.".to_string(),
             "JavaScript powers interactive web applications.".to_string(),
             "Functional programming treats computation as mathematical functions.".to_string(),
-
             // General knowledge
             "Water freezes at 0 degrees Celsius.".to_string(),
             "The Earth orbits the sun once every 365.25 days.".to_string(),

@@ -98,6 +98,7 @@ if __name__ == "__main__":
             "python_hash_function",
                 pattern: "hash function".to_string(),
                 template: r#"def hash_function(key: str, table_size: int = 1000) -> int:
+"#
     """O(1) hash function using polynomial rolling hash"""
     hash_value = 0
     prime = 31
@@ -110,6 +111,7 @@ if __name__ == "__main__":
             "js_hello",
                 language: "javascript".to_string(),
                 template: r#"// Hello World in JavaScript
+"#
 console.log("Hello, World!");
 // Or as a function
 function sayHello() {
@@ -120,6 +122,7 @@ sayHello();"#
             "rust_hello",
                 language: "rust".to_string(),
                 template: r#"fn main() {
+"#
     println!("Hello, World!");
 }"#
                 .to_string(),
@@ -127,6 +130,7 @@ sayHello();"#
             "rust_hashmap",
                 pattern: "hash map".to_string(),
                 template: r#"use std::collections::HashMap;
+"#
 fn main() {
     // Create O(1) HashMap
     let mut map: HashMap<String, i32> = HashMap::new();
@@ -143,6 +147,7 @@ fn main() {
             "python_api",
                 pattern: "rest api".to_string(),
                 template: r#"from flask import Flask, jsonify, request
+"#
 app = Flask(__name__)
 # O(1) in-memory cache
 cache = {}
@@ -175,6 +180,7 @@ if __name__ == '__main__':
             "python_binary_search",
                 pattern: "binary search".to_string(),
                 template: r#"def binary_search(arr: list, target: int) -> int:
+"#
     """O(log n) binary search implementation"""
     left, right = 0, len(arr) - 1
     while left <= right:
@@ -192,6 +198,7 @@ if __name__ == '__main__':
             "python_quicksort",
                 pattern: "quick sort".to_string(),
                 template: r#"def quicksort(arr: list) -> list:
+"#
     """O(n log n) average case quicksort"""
     if len(arr) <= 1:
         return arr
@@ -208,6 +215,7 @@ if __name__ == '__main__':
             "python_lru_cache",
                 pattern: "lru cache".to_string(),
                 template: r#"from collections import OrderedDict
+"#
 class LRUCache:
     """O(1) LRU Cache implementation"""
     def __init__(self, capacity: int):
@@ -235,6 +243,7 @@ class LRUCache:
             "python_fibonacci",
                 pattern: "fibonacci".to_string(),
                 template: r#"def fibonacci(n: int) -> int:
+"#
     """Calculate nth Fibonacci number with O(n) memoization"""
     if n <= 1:
         return n
@@ -259,6 +268,7 @@ def fibonacci_iterative(n: int) -> int:
             "python_postgresql_crud",
                 pattern: "crud postgresql".to_string(),
                 template: r#"import psycopg2
+"#
 from psycopg2.extras import RealDictCursor
 from contextlib import contextmanager
 from typing import List, Dict, Any, Optional
@@ -337,6 +347,7 @@ class PostgreSQLCRUD:
             "python_database",
                 pattern: "database connection".to_string(),
                 template: r#"import sqlite3
+"#
 @contextmanager
 def get_db_connection(db_path: str = "database.db"):
     """O(1) database connection manager"""
@@ -515,6 +526,7 @@ def get_user_by_id(user_id: int):
             self.generate_python_specific(prompt)
     fn generate_python_web_server(&self) -> String {
         r#"from http.server import HTTPServer, BaseHTTPRequestHandler
+"#
 import json
 class O1Handler(BaseHTTPRequestHandler):
     """O(1) request handler with in-memory cache"""
@@ -556,6 +568,7 @@ def run_server(port=8000):
             .to_string()
     fn generate_python_data_processor(&self) -> String {
         r#"import json
+"#
 from typing import Dict, List, Any
 from collections import defaultdict
 class O1DataProcessor:
@@ -603,6 +616,7 @@ class O1DataProcessor:
     print(f"All users: {all_users}")"#
     fn generate_python_test(&self) -> String {
         r#"import unittest
+"#
 import time
 from typing import List
 class TestO1Performance(unittest.TestCase):
@@ -642,6 +656,7 @@ class TestO1Performance(unittest.TestCase):
     unittest.main()"#
     fn generate_fibonacci_code(&self) -> String {
         r#"def fibonacci(n: int) -> int:
+"#
     """Calculate nth Fibonacci number efficiently"""
     # Using memoization for O(n) time complexity
     memo = {}
@@ -678,6 +693,7 @@ class TestO1Performance(unittest.TestCase):
             .unwrap_or_else(|| "MyClass".to_string());
         format!(
             r#"class {}:
+"#
     """A well-designed Python class"""
     def __init__(self, name: str, value: int = 0):
         """Initialize the class with name and optional value"""
@@ -711,6 +727,7 @@ class TestO1Performance(unittest.TestCase):
         let func_name = self
             .unwrap_or_else(|| "process_data".to_string());
             r#"def {func_name}(data: list, key: str = 'id') -> dict:
+"#
     """Process data with O(1) lookup optimization
     Args:
         data: List of items to process
@@ -751,6 +768,7 @@ class TestO1Performance(unittest.TestCase):
             self.generate_python_generic(prompt)
     fn generate_python_sort(&self) -> String {
         r#"def quicksort(arr: list) -> list:
+"#
     """Quicksort implementation - O(n log n) average case"""
     return quicksort(left) + middle + quicksort(right)
 # Example with custom key
@@ -767,6 +785,7 @@ def sort_objects(items: list, key: str) -> list:
         .to_string()
     fn generate_python_search(&self) -> String {
         r#"def binary_search(arr: list, target) -> int:
+"#
     """Binary search - O(log n) for sorted arrays"""
     return -1
 # O(1) hash-based search
@@ -834,6 +853,7 @@ class FileOperations:
     print(f"Loaded: {loaded}")
     fn generate_python_async(&self) -> String {
         r#"import asyncio
+"#
 import aiohttp
 class AsyncOperations:
     """Async operations with O(1) result caching"""
@@ -881,9 +901,9 @@ async def main():
             r#"#!/usr/bin/env python3
 """
 Generated code for: {}
-    """Main function - implement your logic here"""
+    """Main function - implement your logic here """
     # TODO: Add your implementation
-    print("Implement your {} here")
+    print("Implement your {} here ")
     # Example O(1) operation
     cache = {{}}
     cache['key'] = 'value'  # O(1) insertion
@@ -901,6 +921,7 @@ Generated code for: {}
             self.generate_javascript_generic(prompt)
     fn generate_react_component(&self) -> String {
         r#"import React, { useState, useCallback, useMemo } from 'react';
+"#
 const O1Component = ({ initialData = {} }) => {
   // O(1) state lookups
   const [cache, setCache] = useState(initialData);
@@ -951,6 +972,7 @@ const O1Component = ({ initialData = {} }) => {
 export default O1Component;"#
     fn generate_express_api(&self) -> String {
         r#"const express = require('express');
+"#
 const app = express();
 // Middleware
 app.use(express.json());
@@ -999,6 +1021,7 @@ app.listen(PORT, () => {
 });"#
     fn generate_javascript_generic(&self, prompt: &str) -> String {
             r#"// Generated code for: {}
+"#
 // O(1) cache implementation
 class O1Cache {{
   constructor() {{
@@ -1042,6 +1065,8 @@ if (require.main === module) {{
             self.generate_rust_generic(prompt)
     fn generate_rust_web_server(&self) -> String {
         r#"use axum::{
+"#
+"#
     extract::{Path, State},
     http::StatusCode,
     response::Json,
@@ -1111,6 +1136,7 @@ async fn health_check(State(state): State<AppState>) -> Json<serde_json::Value> 
     }))
     fn generate_rust_cli(&self) -> String {
         r#"use clap::{Parser, Subcommand};
+"#
 #[command(name = "o1cli")]
 #[command(about = "O(1) CLI with fast operations", long_about = None)]
     command: Commands,
@@ -1151,6 +1177,7 @@ impl O1Storage {
                 println!("  - {}", key);
     fn generate_rust_generic(&self, prompt: &str) -> String {
             r#"//! Generated code for: {}
+"#
 /// O(1) implementation for {}
 #[derive(Debug)]
 struct O1Implementation {{

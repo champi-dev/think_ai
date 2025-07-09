@@ -77,7 +77,11 @@ impl LiveStreamMonitor {
             channel: "TechStreamer".to_string(),
             viewer_count: 5000,
             category: "Science & Technology".to_string(),
-            tags: vec!["AI".to_string(), "Programming".to_string(), "Rust".to_string()],
+            tags: vec![
+                "AI".to_string(),
+                "Programming".to_string(),
+                "Rust".to_string(),
+            ],
             language: "en".to_string(),
             started_at: Utc::now() - chrono::Duration::hours(2),
             thumbnail_url: Some("https://example.com/thumb.jpg".to_string()),
@@ -101,7 +105,7 @@ impl LiveStreamMonitor {
             let analytics = StreamAnalytics {
                 peak_viewers: stream.viewer_count,
                 average_viewers: (stream.viewer_count as f32 * 0.85) as u32,
-                chat_activity: 50.0, // Messages per minute (simulated)
+                chat_activity: 50.0,   // Messages per minute (simulated)
                 engagement_rate: 0.75, // 75% engagement (simulated)
                 trending_score: self.calculate_trending_score(stream),
             };
@@ -132,15 +136,16 @@ impl LiveStreamMonitor {
         }
 
         // Category relevance (tech streams get boost for AI system)
-        if stream.category.to_lowercase().contains("tech") ||
-           stream.category.to_lowercase().contains("science") {
+        if stream.category.to_lowercase().contains("tech")
+            || stream.category.to_lowercase().contains("science")
+        {
             score += 1.5;
         }
 
         // Tag relevance
         for tag in &stream.tags {
-            if tag.to_lowercase().contains("ai") ||
-               tag.to_lowercase().contains("machine learning") {
+            if tag.to_lowercase().contains("ai") || tag.to_lowercase().contains("machine learning")
+            {
                 score += 1.0;
             }
         }

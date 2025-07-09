@@ -9,13 +9,17 @@ use axum::{
 };
 use serde_json::json;
 use std::sync::Arc;
-use tower_http::{cors::CorsLayer, services::{ServeDir, ServeFile}};
+use tower_http::{
+    cors::CorsLayer,
+    services::{ServeDir, ServeFile},
+};
 
 pub struct AppState {
     pub engine: Arc<think_ai_core::O1Engine>,
     pub knowledge_engine: Arc<think_ai_knowledge::KnowledgeEngine>,
     pub vector_index: Arc<think_ai_vector::O1VectorIndex>,
-    pub conversation_memory: Arc<think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory>,
+    pub conversation_memory:
+        Arc<think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory>,
 }
 
 pub fn create_router(state: Arc<AppState>) -> Router {

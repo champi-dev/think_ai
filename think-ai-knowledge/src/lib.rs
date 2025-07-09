@@ -890,7 +890,6 @@ pub mod quantum_llm_engine {
 
 pub mod training_system {
     pub struct DirectAnswerTrainer;
-    impl DirectAnswerTrainer {
-    }
+    impl DirectAnswerTrainer {}
 }
-pub use types::{ProcessType, ProcessState, ProcessMessage};
+pub use types::{ProcessMessage, ProcessState, ProcessType};

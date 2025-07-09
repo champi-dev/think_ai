@@ -303,7 +303,9 @@ impl SelfEvaluatorAsync {
 
             if let Some(question) = question {
                 // Generate answer
-                let answer = self.response_generator.generate_response(&question.question);
+                let answer = self
+                    .response_generator
+                    .generate_response(&question.question);
 
                 // Evaluate quality
                 let quality = self.evaluate_response_quality(&question, &answer).await;
@@ -366,8 +368,11 @@ fn extract_main_topic(question: &str) -> String {
     let words: Vec<&str> = question_lower
         .split_whitespace()
         .filter(|w| {
-            !["what", "is", "how", "does", "why", "when", "where", "can", "should", "the", "a", "an"]
-                .contains(w)
+            ![
+                "what", "is", "how", "does", "why", "when", "where", "can", "should", "the", "a",
+                "an",
+            ]
+            .contains(w)
         })
         .take(2)
         .collect();
@@ -415,7 +420,7 @@ mod tests {
         let good_answer = "Artificial intelligence is a branch of computer science that focuses on creating systems capable of performing tasks that typically require human intelligence, such as learning, reasoning, and problem-solving.";
 
         let quality = futures::executor::block_on(
-            evaluator.evaluate_response_quality(&question, good_answer)
+            evaluator.evaluate_response_quality(&question, good_answer),
         );
 
         assert!(quality.overall_score > 0.6);

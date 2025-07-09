@@ -100,10 +100,7 @@ pub struct AutomatedBenchmarkRunner {
 }
 
 impl AutomatedBenchmarkRunner {
-    pub fn new(
-        knowledge_engine: Arc<KnowledgeEngine>,
-        config: AutomatedBenchmarkConfig,
-    ) -> Self {
+    pub fn new(knowledge_engine: Arc<KnowledgeEngine>, config: AutomatedBenchmarkConfig) -> Self {
         let benchmark_evaluator = LLMBenchmarkEvaluator::new(knowledge_engine.clone());
         let training_config = BenchmarkTrainingConfig::default();
         let benchmark_trainer = BenchmarkTrainer::new(knowledge_engine.clone(), training_config);
@@ -405,7 +402,7 @@ impl AutomatedBenchmarkRunner {
             }
             PerformanceTrend::Improving => {
                 recommendations.push(
-                    "Performance is improving - continue current training approach".to_string()
+                    "Performance is improving - continue current training approach".to_string(),
                 );
             }
             PerformanceTrend::Stable => {
@@ -423,7 +420,8 @@ impl AutomatedBenchmarkRunner {
             }
             if metrics.cache_hit_rate < 0.5 {
                 recommendations.push(
-                    "Low cache hit rate - expand response caching or improve query patterns".to_string()
+                    "Low cache hit rate - expand response caching or improve query patterns"
+                        .to_string(),
                 );
             }
         }
@@ -450,11 +448,11 @@ impl AutomatedBenchmarkRunner {
         performance_metrics: &Option<O1PerformanceMetrics>,
     ) -> f64 {
         let mut score = report.overall_score; // Start with benchmark score
-        // Adjust for SOTA comparison
+                                              // Adjust for SOTA comparison
         let sota_average = report.state_of_art_comparison.values().sum::<f64>()
             / report.state_of_art_comparison.len() as f64;
         score *= sota_average.min(1.0); // Penalize if below SOTA
-        // Adjust for O(1) performance
+                                        // Adjust for O(1) performance
         if let Some(metrics) = performance_metrics {
             score *= metrics.o1_performance_score;
         }
@@ -680,7 +678,11 @@ impl AutomatedBenchmarkRunner {
         );
         println!(
             "Training Triggered: {}",
-            if results.training_triggered { "Yes" } else { "No" }
+            if results.training_triggered {
+                "Yes"
+            } else {
+                "No"
+            }
         );
 
         if let Some(metrics) = &results.performance_metrics {

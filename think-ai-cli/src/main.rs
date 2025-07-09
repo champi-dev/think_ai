@@ -1,7 +1,7 @@
 // Think AI CLI - Command line interface
 
-pub mod commands;
-pub mod ui;
+// pub mod commands;
+// pub mod ui;
 use clap::Parser;
 #[derive(Parser, Debug)]
 #[command(name = "think-ai")]

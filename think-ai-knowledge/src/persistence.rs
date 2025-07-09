@@ -133,8 +133,7 @@ impl KnowledgePersistence {
 
     pub fn verify_persistence(&self) -> std::io::Result<PersistenceReport> {
         let main_exists = Path::new(&format!("{}/knowledge_base.json", self.base_path)).exists();
-        let checkpoint_count = if Path::new(&format!("{}/checkpoints", self.base_path)).exists()
-        {
+        let checkpoint_count = if Path::new(&format!("{}/checkpoints", self.base_path)).exists() {
             std::fs::read_dir(format!("{}/checkpoints", self.base_path))?
                 .filter_map(|e| e.ok())
                 .filter(|e| {

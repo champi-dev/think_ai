@@ -219,10 +219,7 @@ impl IsolatedSession {
     }
 
     /// Restore session from export
-    pub fn restore_session(
-        export: SessionExport,
-        shared_knowledge_: Arc<SharedKnowledge>,
-    ) -> Self {
+    pub fn restore_session(export: SessionExport, shared_knowledge_: Arc<SharedKnowledge>) -> Self {
         Self {
             session_id: export.session_id,
             context: export.context,

@@ -101,27 +101,43 @@ fn test_full_o1_integration() {
         "    Total thoughts: {}",
         consciousness_metrics.total_thoughts
     );
+    println!(
         "    Avg process time: {} ns",
         consciousness_metrics.avg_process_time_ns
+    );
+    println!(
         "    Cache hit rate: {:.2}%",
         consciousness_metrics.cache_hit_rate * 100.0
+    );
+    println!(
         "    Awareness level: {:.3}",
         consciousness_metrics.awareness_level
+    );
     let vector_metrics = vector_engine.get_metrics();
     println!("  Vector Search Engine:");
     println!("    Total vectors: {}", vector_metrics.total_vectors);
+    println!(
         "    Avg query time: {} ns",
         vector_metrics.avg_query_time_ns
+    );
+    println!(
         "    Avg candidates: {:.1}",
         vector_metrics.avg_candidates_per_query
+    );
     // Assert O(1) performance
     assert!(
         is_o1,
         "System did not maintain O(1) performance characteristics"
+    );
+    assert!(
         consciousness_metrics.avg_process_time_ns < 1000,
         "Consciousness processing too slow"
+    );
+    assert!(
         vector_metrics.avg_query_time_ns < 100_000,
         "Vector search too slow: {} ns",
+        vector_metrics.avg_query_time_ns
+    );
     println!("\n✓ All O(1) performance requirements met!");
 }
 /// Benchmark O(1) operations at scale
@@ -202,4 +218,6 @@ fn test_consciousness_vector_integration() {
     println!("Similar thoughts:");
     for (id, similarity) in results {
         println!("  {} - similarity: {:.3}", id, similarity);
+    }
     println!("\n✓ Consciousness and vector integration successful!");
+}

@@ -335,3 +335,5 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         None => {
             // Default to chat mode
     Ok(())
+
+}

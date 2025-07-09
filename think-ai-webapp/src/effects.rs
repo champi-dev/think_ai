@@ -224,7 +224,10 @@ impl EffectCoordinator {
         for i in 1..=3 {
             let mut wave_params = HashMap::new();
             wave_params.insert("wave_number".to_string(), i as f32);
-            wave_params.insert("wave_intensity".to_string(), intensity * (1.0 - i as f32 * 0.2));
+            wave_params.insert(
+                "wave_intensity".to_string(),
+                intensity * (1.0 - i as f32 * 0.2),
+            );
 
             timeline.push(EffectEvent {
                 trigger_time: self.global_time + (i as f32) * 0.5 + 0.5,

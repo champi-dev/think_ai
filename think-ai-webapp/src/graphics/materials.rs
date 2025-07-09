@@ -91,9 +91,7 @@ impl MaterialCache {
         program: &web_sys::WebGlProgram,
     ) -> Result<(), JsValue> {
         // Bind material properties to shader uniforms
-        if let Some(loc) =
-            gl.get_uniform_location(program, "u_diffuse_color")
-        {
+        if let Some(loc) = gl.get_uniform_location(program, "u_diffuse_color") {
             gl.uniform3f(
                 Some(&loc),
                 material.diffuse_color.x,
@@ -102,9 +100,7 @@ impl MaterialCache {
             );
         }
 
-        if let Some(loc) =
-            gl.get_uniform_location(program, "u_specular_color")
-        {
+        if let Some(loc) = gl.get_uniform_location(program, "u_specular_color") {
             gl.uniform3f(
                 Some(&loc),
                 material.specular_color.x,
@@ -113,9 +109,7 @@ impl MaterialCache {
             );
         }
 
-        if let Some(loc) =
-            gl.get_uniform_location(program, "u_emissive_color")
-        {
+        if let Some(loc) = gl.get_uniform_location(program, "u_emissive_color") {
             gl.uniform3f(
                 Some(&loc),
                 material.emissive_color.x,
@@ -124,21 +118,15 @@ impl MaterialCache {
             );
         }
 
-        if let Some(loc) =
-            gl.get_uniform_location(program, "u_shininess")
-        {
+        if let Some(loc) = gl.get_uniform_location(program, "u_shininess") {
             gl.uniform1f(Some(&loc), material.shininess);
         }
 
-        if let Some(loc) =
-            gl.get_uniform_location(program, "u_transparency")
-        {
+        if let Some(loc) = gl.get_uniform_location(program, "u_transparency") {
             gl.uniform1f(Some(&loc), material.transparency);
         }
 
-        if let Some(loc) =
-            gl.get_uniform_location(program, "u_consciousness_factor")
-        {
+        if let Some(loc) = gl.get_uniform_location(program, "u_consciousness_factor") {
             gl.uniform1f(Some(&loc), material.consciousness_factor);
         }
 

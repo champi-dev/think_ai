@@ -37,22 +37,24 @@ fn test_quantum_llm_knowledge_reload() {
     let engine = QuantumLLMEngine::new();
     // Test reload functionality
     assert!(engine.reload_knowledge().is_ok());
-fn test_component_based_responses() {
-    // Test scientific component
-    let science_response = engine.generate_response("What is quantum entanglement?");
-    assert!(science_response.contains("quantum") || science_response.contains("particles"));
-    // Test philosophical component
-    let philosophy_response = engine.generate_response("What is the meaning of life?");
-    assert!(philosophy_response.contains("meaning") || philosophy_response.contains("purpose"));
-    // Test composition component
-    let composition_response = engine.generate_response("What is Jupiter made of?");
-    assert!(
-        composition_response.contains("hydrogen")
-            || composition_response.contains("gas")
-            || composition_response.contains("composed")
-    );
-    // Test Mars knowledge directly
-    let mars_query_response = engine.generate_response("What is Mars?");
-    assert!(!mars_query_response.is_empty());
-    // Mars content should be available even if not perfectly matched
-    println!("Mars query response: {}", mars_query_response);
+    fn test_component_based_responses() {
+        // Test scientific component
+        let science_response = engine.generate_response("What is quantum entanglement?");
+        assert!(science_response.contains("quantum") || science_response.contains("particles"));
+        // Test philosophical component
+        let philosophy_response = engine.generate_response("What is the meaning of life?");
+        assert!(philosophy_response.contains("meaning") || philosophy_response.contains("purpose"));
+        // Test composition component
+        let composition_response = engine.generate_response("What is Jupiter made of?");
+        assert!(
+            composition_response.contains("hydrogen")
+                || composition_response.contains("gas")
+                || composition_response.contains("composed")
+        );
+        // Test Mars knowledge directly
+        let mars_query_response = engine.generate_response("What is Mars?");
+        assert!(!mars_query_response.is_empty());
+        // Mars content should be available even if not perfectly matched
+        println!("Mars query response: {}", mars_query_response);
+    }
+}

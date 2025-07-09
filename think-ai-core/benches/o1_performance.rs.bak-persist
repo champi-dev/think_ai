@@ -27,9 +27,11 @@ fn benchmark_o1_operations(c: &mut Criterion) {
             b.iter(|| {
                 black_box(engine.compute(black_box(key)));
             });
-        });
         // Benchmark insertions - should also be constant time
         group.bench_with_input(BenchmarkId::new("insert", size), size, |b, _| {
+            b.iter(|| {
+            });
+        });
             let mut counter = 0;
                 let key = format!("new_key_{}", counter);
                 let result = ComputeResult {
@@ -63,7 +65,7 @@ fn benchmark_comparison(c: &mut Criterion) {
     group.bench_function("O1_lookup", |b| {
         b.iter(|| {
             black_box(o1_engine.compute(black_box(key)));
-    });
+                });
     group.bench_function("HashMap_lookup", |b| {
             black_box(hashmap.get(black_box(key)));
 /// Verify O(1) scaling - time should remain constant as N increases

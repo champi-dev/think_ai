@@ -59,8 +59,7 @@ impl KnowledgeTrainer {
         }
 
         let total_duration = start_time.elapsed();
-        let avg_iteration_time =
-            iteration_times.iter().sum::<f64>() / iteration_times.len() as f64;
+        let avg_iteration_time = iteration_times.iter().sum::<f64>() / iteration_times.len() as f64;
 
         TrainingResult {
             total_iterations: self.config.iterations,
@@ -152,12 +151,11 @@ impl KnowledgeTrainer {
             }
             KnowledgeDomain::Physics => {
                 let topic = format!("Quantum Field Theory Principle {iteration}-{index}");
-                let content =
-                    "In quantum field theory, the path integral formulation describes \
+                let content = "In quantum field theory, the path integral formulation describes \
                     the amplitude of a particle transitioning from one state to another. \
                     The Lagrangian density L = ½(∂μφ)(∂^μφ) - ½m²φ² - λφ⁴/4! describes \
                     scalar field interactions with self-coupling λ."
-                        .to_string();
+                    .to_string();
                 let related = vec![
                     "quantum mechanics".to_string(),
                     "field theory".to_string(),
@@ -168,13 +166,12 @@ impl KnowledgeTrainer {
             }
             KnowledgeDomain::Philosophy => {
                 let topic = format!("Epistemological Framework {iteration}-{index}");
-                let content =
-                    "The nature of knowledge acquisition involves dialectical synthesis \
+                let content = "The nature of knowledge acquisition involves dialectical synthesis \
                     between empirical observation and a priori reasoning. This framework \
                     extends Kantian epistemology by incorporating modern theories of \
                     justified true belief and Gettier problems, while addressing the \
                     challenge of radical skepticism through coherentist foundations."
-                        .to_string();
+                    .to_string();
                 let related = vec![
                     "epistemology".to_string(),
                     "Kant".to_string(),

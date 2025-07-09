@@ -125,7 +125,8 @@ impl ComponentResponseGenerator {
         }
 
         // Fallback response
-        "I'm not sure how to respond to that. Could you please rephrase or provide more context?".to_string()
+        "I'm not sure how to respond to that. Could you please rephrase or provide more context?"
+            .to_string()
     }
 
     /// Prepare context for response generation
@@ -140,10 +141,7 @@ impl ComponentResponseGenerator {
         // Note: KnowledgeEngine doesn't have search_nodes method
         let relevant_nodes = Vec::new(); // self.knowledge_engine.search_nodes(query, 5);
 
-        let _conversation_context: Option<()> = self
-            .conversation_memory
-            .as_ref()
-            .and(None); // m.get_current_context() doesn't exist
+        let _conversation_context: Option<()> = self.conversation_memory.as_ref().and(None); // m.get_current_context() doesn't exist
 
         ResponseContext {
             knowledge_engine: self.knowledge_engine.clone(),
@@ -177,15 +175,20 @@ impl ResponseComponent for KnowledgeBaseComponent {
             .map(|s| s.to_string())
             .collect();
 
-        let relevance_score = context.relevant_nodes.iter()
+        let relevance_score = context
+            .relevant_nodes
+            .iter()
             .take(3)
             .map(|node| {
                 let topic_lower = node.topic.to_lowercase();
-                query_tokens.iter()
+                query_tokens
+                    .iter()
                     .filter(|token| topic_lower.contains(token.as_str()))
-                    .count() as f32 / query_tokens.len() as f32
+                    .count() as f32
+                    / query_tokens.len() as f32
             })
-            .sum::<f32>() / 3.0;
+            .sum::<f32>()
+            / 3.0;
 
         relevance_score.min(0.95)
     }
@@ -218,9 +221,26 @@ impl ResponseComponent for ScientificExplanationComponent {
     }
 
     fn can_handle(&self, query: &str, _context: &ResponseContext) -> f32 {
-        let science_terms = ["science", "physics", "chemistry", "biology", "quantum", "theory",
-                           "sun", "moon", "star", "planet", "galaxy", "universe", "atom",
-                           "molecule", "energy", "matter", "space", "time"];
+        let science_terms = [
+            "science",
+            "physics",
+            "chemistry",
+            "biology",
+            "quantum",
+            "theory",
+            "sun",
+            "moon",
+            "star",
+            "planet",
+            "galaxy",
+            "universe",
+            "atom",
+            "molecule",
+            "energy",
+            "matter",
+            "space",
+            "time",
+        ];
         let query_lower = query.to_lowercase();
 
         if science_terms.iter().any(|&term| query_lower.contains(term)) {
@@ -250,7 +270,13 @@ impl ResponseComponent for TechnicalComponent {
     }
 
     fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
-        let tech_terms = ["code", "programming", "software", "algorithm", "data structure"];
+        let tech_terms = [
+            "code",
+            "programming",
+            "software",
+            "algorithm",
+            "data structure",
+        ];
         let query_lower = query.to_lowercase();
 
         if tech_terms.iter().any(|&term| query_lower.contains(term)) {
@@ -280,12 +306,32 @@ impl ResponseComponent for PhilosophicalComponent {
     }
 
     fn can_handle(&self, query: &str, _context: &ResponseContext) -> f32 {
-        let philosophy_terms = ["meaning", "consciousness", "existence", "reality", "philosophy",
-                              "love", "emotion", "feeling", "happiness", "soul", "mind", "life",
-                              "death", "purpose", "truth", "beauty", "justice", "ethics"];
+        let philosophy_terms = [
+            "meaning",
+            "consciousness",
+            "existence",
+            "reality",
+            "philosophy",
+            "love",
+            "emotion",
+            "feeling",
+            "happiness",
+            "soul",
+            "mind",
+            "life",
+            "death",
+            "purpose",
+            "truth",
+            "beauty",
+            "justice",
+            "ethics",
+        ];
         let query_lower = query.to_lowercase();
 
-        if philosophy_terms.iter().any(|&term| query_lower.contains(term)) {
+        if philosophy_terms
+            .iter()
+            .any(|&term| query_lower.contains(term))
+        {
             0.7
         } else {
             0.0
@@ -365,7 +411,9 @@ impl ResponseComponent for UnknownQueryComponent {
 
     fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
         let llm_response = context.knowledge_engine.generate_llm_response(query);
-        if llm_response != "Knowledge engine LLM not initialized. Please use the response generator directly." {
+        if llm_response
+            != "Knowledge engine LLM not initialized. Please use the response generator directly."
+        {
             Some(llm_response)
         } else {
             None
@@ -383,9 +431,20 @@ impl ResponseComponent for LearningComponent {
 
     fn can_handle(&self, query: &str, _context: &ResponseContext) -> f32 {
         let query_lower = query.to_lowercase();
-        let learning_terms = ["learn", "teach", "know", "understand", "remember", "forget", "knowledge"];
+        let learning_terms = [
+            "learn",
+            "teach",
+            "know",
+            "understand",
+            "remember",
+            "forget",
+            "knowledge",
+        ];
 
-        if learning_terms.iter().any(|&term| query_lower.contains(term)) {
+        if learning_terms
+            .iter()
+            .any(|&term| query_lower.contains(term))
+        {
             0.7
         } else {
             0.0
@@ -403,7 +462,9 @@ impl ResponseComponent for LearningComponent {
                 "My knowledge spans {} nodes across multiple domains including science, technology, philosophy, and more. I have {} total knowledge items that I can draw upon. I also use component-based reasoning to combine different aspects of knowledge for comprehensive responses.",
                 stats.total_nodes, stats.total_knowledge_items
             ))
-        } else if query_lower.contains("can you remember") || query_lower.contains("do you remember") {
+        } else if query_lower.contains("can you remember")
+            || query_lower.contains("do you remember")
+        {
             Some("Yes, I maintain conversation memory within our current session. I can reference previous topics we've discussed and use that context to provide more relevant responses. However, my memory is limited to our current conversation session.".to_string())
         } else {
             None
@@ -448,7 +509,10 @@ impl ResponseComponent for ConversationalComponent {
     fn generate(&self, query: &str, _context: &ResponseContext) -> Option<String> {
         let query_lower = query.to_lowercase();
 
-        if query_lower.starts_with("hello") || query_lower.starts_with("hi") || query_lower.starts_with("hey") {
+        if query_lower.starts_with("hello")
+            || query_lower.starts_with("hi")
+            || query_lower.starts_with("hey")
+        {
             let greetings = [
                 "Hey there! What's on your mind today?",
                 "Hi! Good to see you. What can I help you with?",
@@ -735,7 +799,9 @@ impl ResponseComponent for MathematicalComponent {
         // Handle basic multiplication
         if query_lower.contains("2*3")
             || query_lower.contains("2 * 3")
-            || (query_lower.contains("2") && query_lower.contains("3") && query_lower.contains("times"))
+            || (query_lower.contains("2")
+                && query_lower.contains("3")
+                && query_lower.contains("times"))
         {
             return Some("2 * 3 = 6".to_string());
         }

@@ -14,8 +14,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Load knowledge from files
     let knowledge_dir = std::path::Path::new("knowledge");
     if knowledge_dir.exists() {
-        let loader =
-            think_ai_knowledge::dynamic_loader::DynamicKnowledgeLoader::new(knowledge_dir.to_path_buf());
+        let loader = think_ai_knowledge::dynamic_loader::DynamicKnowledgeLoader::new(
+            knowledge_dir.to_path_buf(),
+        );
         // For now, just count files as a placeholder
         let loaded = std::fs::read_dir(knowledge_dir)?.count();
         println!("✅ Loaded {} knowledge items", loaded);

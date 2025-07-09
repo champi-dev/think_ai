@@ -1,71 +1,69 @@
-// Self-Learning Service - Runs exponential learning in background
-
-use std::sync::Arc;
+use std::time::Duration;
 use think_ai_knowledge::{
-    comprehensive_knowledge::ComprehensiveKnowledgeGenerator, persistence::KnowledgePersistence,
-    self_learning::ExponentialLearningService, KnowledgeEngine,
+    persistence::KnowledgePersistence, self_learning::SelfLearningSystem,
+    trainer::KnowledgeTrainer, KnowledgeEngine,
 };
-use think_ai_utils::logging::init_tracing;
-use tokio::time::{sleep, Duration};
+use tokio::time::sleep;
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Initialize logging
-    init_tracing();
-    println!("🧪 Think AI Self-Learning Service");
-    println!("================================");
-    // Create knowledge engine
-    let engine = Arc::new(KnowledgeEngine::new());
+    println!("🧠 Think AI Self-Learning Service Starting...");
+
+    // Initialize components
+    let knowledge_engine = KnowledgeEngine::new();
+    let mut self_learning = SelfLearningSystem::new();
+    let trainer = KnowledgeTrainer::new();
+
     // Load existing knowledge if available
-    let mut loaded_count = 0;
-    if let Ok(persistence) = KnowledgePersistence::new("trained_knowledge") {
-        if let Ok(Some(checkpoint)) = persistence.load_latest_checkpoint() {
-            engine.load_nodes(checkpoint.nodes);
-            loaded_count = engine.get_stats().total_nodes;
-            println!("📚 Loaded {} existing knowledge items", loaded_count);
+    if let Ok(persistence) = KnowledgePersistence::new("knowledge_base") {
+        if let Ok(nodes) = persistence.load() {
+            let loaded_count = nodes.len();
+            knowledge_engine.load_nodes(nodes);
+            println!("📚 Loaded {} existing knowledge nodes", loaded_count);
         }
     }
-    // If no knowledge loaded, populate comprehensive knowledge
-    if loaded_count == 0 {
-        println!("🌍 No existing knowledge found. Loading comprehensive knowledge base...");
-        ComprehensiveKnowledgeGenerator::populate_deep_knowledge(&engine);
-        println!(
-            "✅ Loaded {} knowledge items",
-            engine.get_stats().total_nodes
-        );
-    // Start exponential learning service
-    let mut service = ExponentialLearningService::new(engine.clone());
-    service.start(4); // 4 parallel learning threads
-    println!("🚀 Self-learning service started with 4 parallel threads");
-    println!("📊 Knowledge will grow exponentially in the background");
-    println!();
-    // Keep running and save checkpoints periodically
+
+    // Initial training if knowledge base is empty
+    let stats = knowledge_engine.get_stats();
+    if stats.total_nodes == 0 {
+        println!("🎓 Performing initial training...");
+        trainer.train_comprehensive(&knowledge_engine, 100);
+        println!("✅ Initial training complete");
+    }
+
+    // Start self-learning loop
+    println!("🔄 Starting continuous self-learning...");
+    let mut iteration = 0;
     let mut checkpoint_counter = 0;
+
     loop {
-        sleep(Duration::from_secs(300)).await; // 5 minutes
+        iteration += 1;
+        println!("\n📊 Self-learning iteration #{}", iteration);
+
+        // Perform self-learning
+        self_learning.learn_iteration(&knowledge_engine).await;
+
+        // Save checkpoint every 10 iterations
         checkpoint_counter += 1;
-        // Save checkpoint
-        let nodes = engine.get_all_nodes();
-        let stats = engine.get_stats();
-            "💾 Saving checkpoint #{} - {} knowledge items",
-            checkpoint_counter, stats.total_nodes
-        if let Ok(persistence) = KnowledgePersistence::new("trained_knowledge") {
-            if let Err(e) = persistence.save_checkpoint(&nodes, checkpoint_counter as u64 * 300) {
-                eprintln!("⚠️  Failed to save checkpoint: {}", e);
-            } else {
-                println!("✅ Checkpoint saved successfully");
+        if checkpoint_counter % 10 == 0 {
+            if let Ok(persistence) = KnowledgePersistence::new("knowledge_base") {
+                let nodes = knowledge_engine.get_all_nodes();
+                if let Ok(_) = persistence.save(&nodes) {
+                    println!("💾 Checkpoint saved ({} nodes)", nodes.len());
+                }
             }
-        // Print growth statistics
+        }
+
+        // Display stats every 12 iterations (hourly if 5 min intervals)
         if checkpoint_counter % 12 == 0 {
-            // Every hour
-            println!();
-            println!("📊 Hourly Statistics:");
-            println!("   Total Knowledge Items: {}", stats.total_nodes);
-            println!("   Domains Covered: {}", stats.domain_distribution.len());
-            println!("   Average Confidence: {:.2}", stats.average_confidence);
-            // Calculate growth rate
-            let growth_rate = if loaded_count > 0 {
-                ((stats.total_nodes as f64 / loaded_count as f64) - 1.0) * 100.0
-                0.0
-            };
-            println!("   Growth Rate: {:.2}%", growth_rate);
+            let stats = knowledge_engine.get_stats();
+            println!("\n📈 Knowledge Base Statistics:");
+            println!("   Total Nodes: {}", stats.total_nodes);
+            println!("   Domains: {:?}", stats.domains);
+            println!("   Avg Confidence: {:.2}", stats.average_confidence);
+        }
+
+        // Sleep for 5 minutes before next iteration
+        sleep(Duration::from_secs(300)).await;
+    }
 }

@@ -120,7 +120,9 @@ impl SocialMediaGatherer {
     }
 
     /// Gather Reddit trending topics
-    async fn gather_reddit_trending(&self) -> Result<Vec<TrendingTopic>, Box<dyn std::error::Error + Send + Sync>> {
+    async fn gather_reddit_trending(
+        &self,
+    ) -> Result<Vec<TrendingTopic>, Box<dyn std::error::Error + Send + Sync>> {
         if !self.check_rate_limit(&SocialPlatform::Reddit).await {
             return Ok(vec![]);
         }
@@ -172,7 +174,9 @@ impl SocialMediaGatherer {
     }
 
     /// Gather YouTube trending videos
-    async fn gather_youtube_trending(&self) -> Result<Vec<TrendingTopic>, Box<dyn std::error::Error + Send + Sync>> {
+    async fn gather_youtube_trending(
+        &self,
+    ) -> Result<Vec<TrendingTopic>, Box<dyn std::error::Error + Send + Sync>> {
         if !self.check_rate_limit(&SocialPlatform::YouTube).await {
             return Ok(vec![]);
         }
@@ -343,7 +347,8 @@ impl Default for EthicalScrapingRules {
             respect_robots_txt: true,
             min_request_interval_ms: 1000, // 1 second minimum
             max_requests_per_hour: 100,
-            user_agent: "ThinkAI/1.0 (Ethical Public Data Gatherer; +https://thinkai.dev/bot)".to_string(),
+            user_agent: "ThinkAI/1.0 (Ethical Public Data Gatherer; +https://thinkai.dev/bot)"
+                .to_string(),
             only_public_data: true,
         }
     }

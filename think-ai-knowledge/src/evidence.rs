@@ -237,8 +237,7 @@ impl EvidenceCollector {
     fn estimate_disk_usage(&self, report: &PersistenceReport) -> f64 {
         let nodes = self.engine.get_stats().total_nodes;
         let avg_node_size = 500.0;
-        let total_files =
-            1 + report.checkpoint_count + report.backup_count + report.domain_files;
+        let total_files = 1 + report.checkpoint_count + report.backup_count + report.domain_files;
         (nodes as f64 * avg_node_size * total_files as f64) / (1024.0 * 1024.0)
     }
 
