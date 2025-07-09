@@ -1,5 +1,5 @@
-# Simple single-stage build for Railway with correct Rust version
-FROM rust:1.80.1
+# Build stage
+FROM rust:1.82 AS builder
 
 # Install system dependencies
 RUN apt-get update && \
@@ -11,16 +11,29 @@ WORKDIR /app
 # Copy source code
 COPY . .
 
-# Build the full working O(1) system without web-scraping features
-# This avoids dependency issues with Rust 1.80.1
-RUN cargo build --release --bin full-working-o1
+# Build only the working binaries (exclude broken modules)
+RUN cargo build --release --bin think-ai
 
-# Don't expose a specific port - Railway will set PORT env var at runtime
-# Railway handles port exposure automatically
+# Runtime stage - smaller image
+FROM debian:bookworm-slim
+
+# Install runtime dependencies
+RUN apt-get update && \
+    apt-get install -y ca-certificates libssl3 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy binary from builder
+COPY --from=builder /app/target/release/think-ai /usr/local/bin/
 
 # Railway will set PORT environment variable at runtime
-# Log environment variables for debugging
 ENV RUST_LOG=info
 
-# Run the full working O(1) system (Complete Think AI, guaranteed O(1)/O(log n), no hanging)
-CMD ["./target/release/full-working-o1"]
+# Create non-root user for security
+RUN useradd -m -u 1001 appuser
+USER appuser
+
+# Railway handles port exposure automatically
+# The server command will use PORT env var
+
+# Run the Think AI server
+CMD ["think-ai", "server"]

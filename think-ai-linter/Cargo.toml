@@ -1,6 +1,7 @@
 [package]
 name = "think-ai-linter"
 version = "0.1.0"
+authors = ["champi-dev <danielsarcor@gmail.com>"]
 edition = "2021"
 
 [dependencies]

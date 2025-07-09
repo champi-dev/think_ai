@@ -26,11 +26,11 @@
     "intelligence",
     "think-ai"
   ],
-  "author": "Think AI Team",
+  "author": "champi-dev <danielsarcor@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/think-ai/think-ai-js.git"
+    "url": "https://github.com/champi-dev/think_ai"
   },
   "homepage": "https://thinkai-production.up.railway.app",
   "dependencies": {

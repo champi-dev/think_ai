@@ -18,9 +18,9 @@ members = [
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
-authors = ["Think AI Rust Team"]
+authors = ["champi-dev <danielsarcor@gmail.com>"]
 license = "MIT"
-repository = "https://github.com/think-ai/think-ai-rust"
+repository = "https://github.com/champi-dev/think_ai"
 
 [workspace.dependencies]
 # Core dependencies

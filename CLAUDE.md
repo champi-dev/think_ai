@@ -308,3 +308,7 @@ The Rust ecosystem provides all necessary components for building a performant L
 - Always tell me how to run it locally
 - Pre-Prompt: Solve it in minimal small verifiable testable manageable steps, test verify and provide solid evidence of each step you take, use O(1)
 - Always kill ports first before trying to use them
+## Author
+
+This project is maintained by **champi-dev** - [danielsarcor@gmail.com](mailto:danielsarcor@gmail.com)
+GitHub: [https://github.com/champi-dev/think_ai](https://github.com/champi-dev/think_ai)

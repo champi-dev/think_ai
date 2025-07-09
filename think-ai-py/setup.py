@@ -8,12 +8,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="thinkai-quantum",
     version="1.0.0",
-    author="Think AI Team",
-    author_email="team@think-ai.dev",
+    author='champi-dev',
+    author_email='danielsarcor@gmail.com',
     description="Think AI - Quantum Consciousness AI Library for Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/think-ai/think-ai-py",
+    url='https://github.com/champi-dev/think_ai',
     packages=find_packages(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",

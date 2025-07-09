@@ -1,6 +1,0 @@
-    Blocking waiting for file lock on package cache
-    Updating crates.io index
-     Locking 2 packages to latest compatible versions
-      Adding nalgebra v0.32.6 (latest: v0.33.2)
-      Adding simba v0.8.1 (latest: v0.9.0)
-error: package ID specification `think-ai` did not match any packages

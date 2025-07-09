@@ -320,3 +320,7 @@ This system follows Think AI's development principles:
 ---
 
 **🧠 Think AI Knowledge Enhancement - Successfully advancing AI intelligence through legal, ethical knowledge acquisition! ✨**
+## Author
+
+- **champi-dev** - [danielsarcor@gmail.com](mailto:danielsarcor@gmail.com)
+- GitHub: [https://github.com/champi-dev/think_ai](https://github.com/champi-dev/think_ai)

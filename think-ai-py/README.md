@@ -1,24 +1,6 @@
-# thinkai-quantum - O(1) AI Coding Assistant for Python
+# thinkai-quantum
 
-[![PyPI version](https://img.shields.io/pypi/v/thinkai-quantum.svg)](https://pypi.org/project/thinkai-quantum/)
-[![Downloads](https://img.shields.io/pypi/dm/thinkai-quantum.svg)](https://pypi.org/project/thinkai-quantum/)
-[![Python Versions](https://img.shields.io/pypi/pyversions/thinkai-quantum.svg)](https://pypi.org/project/thinkai-quantum/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-🧠 **Think AI** - AI-Powered Coding Assistant with O(1) Performance for Python
-
-Generate optimized code, analyze complexity, and get AI pair programming - all with guaranteed O(1) performance algorithms.
-
-## Features
-
-- 💻 **Code Generation** - Create O(1) Python implementations instantly
-- 🔍 **Code Analysis** - Analyze complexity and get optimization tips
-- 🚀 **O(1) Performance** - All operations use hash-based lookups
-- 🤖 **AI Pair Programming** - Interactive coding sessions
-- 📊 **Complexity Profiling** - Understand your code's time complexity
-- 🎨 **Rich CLI** - Beautiful interface with syntax highlighting
-- 🐍 **Pythonic API** - Clean, intuitive Python interface
-- 🌐 **Async Support** - Full asyncio compatibility
+Python library for Think AI - O(1) AI System.
 
 ## Installation
 
@@ -26,277 +8,27 @@ Generate optimized code, analyze complexity, and get AI pair programming - all w
 pip install thinkai-quantum
 ```
 
-## Quick Start
-
-### Python Library
+## Usage
 
 ```python
-from think_ai import ThinkAI, quick_chat
+from thinkai_quantum import ThinkAI
 
-# Quick one-shot chat
-response = quick_chat("What is quantum consciousness?")
+ai = ThinkAI()
+response = ai.query('What is consciousness?')
 print(response)
-
-# Full client usage
-client = ThinkAI()
-
-# Chat with Think AI
-response = client.ask("Explain machine learning")
-print(response)
-
-# Search knowledge base
-results = client.search("artificial intelligence", limit=5)
-for result in results:
-    print(f"Score: {result.score} - {result.content}")
-
-# Get system statistics
-stats = client.get_stats()
-print(f"Knowledge nodes: {stats.total_nodes}")
-print(f"Average confidence: {stats.average_confidence:.1%}")
-
-# Check system health
-health = client.get_health()
-print(f"Status: {health.status}")
 ```
 
-### Async Usage
-
-```python
-import asyncio
-from think_ai import AsyncThinkAI, ThinkAIConfig
-
-async def main():
-    config = ThinkAIConfig(debug=True)
-    
-    async with AsyncThinkAI(config) as client:
-        response = await client.ask("What is the meaning of consciousness?")
-        print(response)
-
-asyncio.run(main())
-```
-
-### Streaming Responses
-
-```python
-from think_ai import ThinkAI, ChatRequest
-
-client = ThinkAI()
-
-def handle_chunk(chunk):
-    if chunk.chunk:
-        print(chunk.chunk, end="", flush=True)
-    if chunk.done:
-        print("\n--- Response complete ---")
-
-request = ChatRequest(query="Tell me about quantum computing")
-client.stream_chat(request, handle_chunk)
-```
-
-## Command Line Interface
-
-### Interactive Chat
+## CLI Usage
 
 ```bash
-# Start interactive chat session
 think-ai chat
-
-# Chat with streaming responses
-think-ai chat --stream
 ```
 
-### One-shot Questions
+## Author
 
-```bash
-# Ask a single question
-think-ai ask "What is artificial intelligence?"
-
-# Stream the response
-think-ai ask "Explain quantum mechanics" --stream
-```
-
-### Knowledge Search
-
-```bash
-# Search the knowledge base
-think-ai search "machine learning algorithms" --limit 10
-```
-
-### System Monitoring
-
-```bash
-# Check system status
-think-ai status
-
-# Test connection
-think-ai ping
-
-# List knowledge domains
-think-ai domains
-
-# Show configuration
-think-ai config
-```
-
-### Global Options
-
-```bash
-# Use custom server URL
-think-ai --url https://your-server.com chat
-
-# Set timeout
-think-ai --timeout 60 ask "Complex question"
-
-# Enable debug mode
-think-ai --debug status
-```
-
-## Configuration
-
-```python
-from think_ai import ThinkAI, ThinkAIConfig
-
-config = ThinkAIConfig(
-    base_url="https://thinkai-production.up.railway.app",
-    timeout=30,  # seconds
-    debug=True
-)
-
-client = ThinkAI(config)
-```
-
-## API Reference
-
-### ThinkAI Client
-
-#### Methods
-
-- `chat(request: ChatRequest) -> ChatResponse` - Send chat message
-- `ask(question: str) -> str` - Quick chat interface
-- `get_stats() -> SystemStats` - Get system statistics
-- `get_health() -> HealthStatus` - Check system health
-- `search(query: str, limit: int = 10) -> List[SearchResult]` - Search knowledge
-- `stream_chat(request: ChatRequest, on_chunk: Callable)` - Stream responses
-- `ping() -> bool` - Test connection
-- `get_domains() -> List[KnowledgeDomain]` - Get knowledge domains
-
-### Data Models
-
-#### ChatRequest
-```python
-ChatRequest(
-    query: str,                    # Required: User message
-    context: List[str] = None,     # Optional: Conversation context
-    max_length: int = None         # Optional: Response length limit
-)
-```
-
-#### ChatResponse
-```python
-ChatResponse(
-    response: str,                 # AI response text
-    context: List[str],           # Context used
-    response_time_ms: int,        # Response time
-    confidence: float             # Confidence score (0-1)
-)
-```
-
-#### SystemStats
-```python
-SystemStats(
-    total_nodes: int,                        # Knowledge nodes
-    training_iterations: int,                # Training iterations
-    total_knowledge_items: int,              # Knowledge items
-    domain_distribution: Dict[str, int],     # Domain distribution
-    average_confidence: float,               # Average confidence
-    uptime: int                             # System uptime (seconds)
-)
-```
-
-## Error Handling
-
-```python
-from think_ai import ThinkAI, ThinkAIError
-
-client = ThinkAI()
-
-try:
-    response = client.ask("Hello Think AI!")
-    print(response)
-except ThinkAIError as e:
-    print(f"Think AI Error: {e.message}")
-    print(f"Status Code: {e.status}")
-    print(f"Error Code: {e.code}")
-except Exception as e:
-    print(f"Unexpected error: {e}")
-```
-
-## Development
-
-### Setup Development Environment
-
-```bash
-git clone https://github.com/think-ai/think-ai-py
-cd think-ai-py
-pip install -e ".[dev]"
-```
-
-### Running Tests
-
-```bash
-pytest
-pytest --asyncio-mode=auto  # For async tests
-```
-
-### Code Formatting
-
-```bash
-black think_ai/
-flake8 think_ai/
-mypy think_ai/
-```
-
-## Performance
-
-Think AI achieves **O(1) performance** through:
-
-- 🔥 **Hash-based lookups** for instant knowledge retrieval
-- ⚡ **Pre-computed responses** for common queries
-- 🚀 **Optimized algorithms** using divide-and-conquer techniques
-- 💾 **Intelligent caching** with space-time optimization
-
-Average response time: **< 2ms** (0.002ms hash-based lookups)
-
-## Version History
-
-- **v1.0.3** (Current) - PWA support, pre-commit hooks, automated deployment
-- **v1.0.2** - Enhanced async support and streaming
-- **v1.0.1** - Performance improvements and bug fixes
-- **v1.0.0** (Initial release) - Core functionality and CLI
-
-## Deployment
-
-This package is automatically deployed to PyPI via our CI/CD pipeline:
-
-```bash
-# Deployment happens automatically on git commits
-# Version is auto-bumped (patch version)
-# Tests run before deployment
-# Published to PyPI registry
-```
-
-Latest version: [![PyPI version](https://badge.fury.io/py/thinkai-quantum.svg)](https://pypi.org/project/thinkai-quantum/)
+- **champi-dev** - [danielsarcor@gmail.com](mailto:danielsarcor@gmail.com)
+- GitHub: [https://github.com/champi-dev/think_ai](https://github.com/champi-dev/think_ai)
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
-
-## Support
-
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/think-ai/think-ai-py/issues)
-- 📖 **Documentation**: [https://thinkai-production.up.railway.app/docs](https://thinkai-production.up.railway.app/docs)
-- 💬 **Community**: Join our Discord server
-- 📧 **Contact**: team@think-ai.dev
-
----
-
-**Think AI** - Advancing consciousness through quantum intelligence 🧠✨
+MIT
