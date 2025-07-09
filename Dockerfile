@@ -15,9 +15,16 @@ RUN cargo build --release --bin full-working-o1
 # Create a non-root user
 RUN useradd -m -u 1001 appuser && chown -R appuser:appuser /app
 
+# Copy webapp files to ensure they're available at runtime
+RUN cp minimal_3d.html /app/ || true
+RUN cp -r static /app/ || true
+
 USER appuser
 
 # The PORT env var is set by Railway
 EXPOSE 8080
+
+# Set working directory for runtime
+WORKDIR /app
 
 CMD ["./target/release/full-working-o1"]

@@ -4,7 +4,7 @@
 use axum::{
     extract::State,
     http::StatusCode,
-    response::Html,
+    response::{Html, IntoResponse},
     routing::{get, post},
     Json, Router,
 };
@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
 use think_ai_core::{config::EngineConfig, O1Engine};
-use think_ai_http::server::{port_manager, port_selector};
+use think_ai_http::server::port_manager;
 use think_ai_knowledge::{
     enhanced_quantum_llm::EnhancedQuantumLLMEngine, response_generator::ComponentResponseGenerator,
     KnowledgeEngine,
@@ -21,7 +21,7 @@ use think_ai_qwen::client::{QwenClient, QwenConfig};
 use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{types::LSHConfig, O1VectorIndex};
 use tokio::sync::RwLock;
-use tower_http::cors::CorsLayer;
+use tower_http::{cors::CorsLayer, services::ServeDir};
 
 #[derive(Clone)]
 struct FullO1State {
@@ -105,6 +105,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/chat", post(chat_handler))
         .route("/benchmark", get(o1_benchmark_handler))
         .route("/stats", get(stats_handler))
+        // Serve static files from the static directory
+        .nest_service("/static", ServeDir::new("static"))
+        // API endpoints for the webapp
+        .route("/api/chat", post(chat_handler))
+        .route("/api/benchmark", get(o1_benchmark_handler))
+        .route("/api/stats", get(stats_handler))
         .layer(CorsLayer::permissive())
         .with_state(state);
 
@@ -128,17 +134,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-async fn root_handler() -> Html<&'static str> {
-    Html(
-        "<h1>🚀 Think AI O(1) System Active</h1>
-    <p>All systems operational with O(1) performance guarantees</p>
-    <ul>
-        <li>✅ O(1) Engine: Active</li>
-        <li>✅ Vector Search: O(1) LSH</li>
-        <li>✅ Knowledge Base: O(1) Hash</li>
-        <li>✅ Enhanced Quantum LLM: Linear Attention O(1)</li>
-    </ul>",
-    )
+async fn root_handler() -> impl axum::response::IntoResponse {
+    // Serve the 3D visualization webapp
+    match tokio::fs::read_to_string("minimal_3d.html").await {
+        Ok(content) => Html(content).into_response(),
+        Err(_) => {
+            // Fallback to static version if file not found
+            Html(include_str!("../../../minimal_3d.html")).into_response()
+        }
+    }
 }
 
 async fn health_check() -> Result<&'static str, StatusCode> {
