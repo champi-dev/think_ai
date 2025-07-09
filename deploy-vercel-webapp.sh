@@ -16,7 +16,7 @@ log_info() {
 }
 
 # Configuration - Update this to your GPU server URL
-GPU_SERVER_URL="${GPU_SERVER_URL:-http://gpu.databasemart.com:8080}"
+GPU_SERVER_URL="${GPU_SERVER_URL:-http://69.197.178.37:8080}"
 
 # Create Vercel deployment directory
 prepare_vercel_deployment() {
@@ -113,6 +113,9 @@ All API calls are proxied to the GPU server:
 EOF
 
     log_info "Vercel deployment prepared in ./vercel-deploy/"
+    
+    # Return to original directory
+    cd ..
 }
 
 # Deploy to Vercel
@@ -123,6 +126,12 @@ deploy_to_vercel() {
     if ! command -v vercel &> /dev/null; then
         log_info "Installing Vercel CLI..."
         npm i -g vercel
+    fi
+    
+    # Check if logged in
+    if ! vercel whoami &> /dev/null; then
+        echo -e "${YELLOW}Please log in to Vercel first:${NC}"
+        vercel login
     fi
     
     # Deploy
@@ -136,6 +145,8 @@ deploy_to_vercel() {
     echo -e "  - Override settings: ${GREEN}N${NC}"
     echo
     
+    # Make sure we're in the vercel-deploy directory
+    cd vercel-deploy
     vercel --prod
     
     cd ..
