@@ -9,8 +9,8 @@ WORKDIR /app
 # Copy all files
 COPY . .
 
-# Build only the full-system binary
-RUN cargo build --release --bin think-ai-full
+# Build the full-working-o1 binary with Qwen support
+RUN cargo build --release --bin full-working-o1
 
 # Create a non-root user
 RUN useradd -m -u 1001 appuser && chown -R appuser:appuser /app
@@ -20,4 +20,4 @@ USER appuser
 # The PORT env var is set by Railway
 EXPOSE 8080
 
-CMD ["./target/release/think-ai-full"]
+CMD ["./target/release/full-working-o1"]
