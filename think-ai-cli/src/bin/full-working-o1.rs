@@ -187,7 +187,7 @@ async fn chat_handler(
 
     // Generate response using Qwen 1.5B with timeout
     let response = match tokio::time::timeout(
-        std::time::Duration::from_secs(10),
+        std::time::Duration::from_secs(8),
         state.qwen_client.generate_simple(&request.query, None),
     )
     .await

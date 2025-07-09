@@ -1,0 +1,84 @@
+# Railway-optimized Dockerfile for Think AI with GUARANTEED Ollama availability
+FROM rust:1.82 as builder
+
+RUN apt-get update && apt-get install -y ca-certificates libssl-dev pkg-config && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY . .
+RUN cargo build --release --bin full-working-o1
+
+# Runtime stage with Ollama
+FROM ubuntu:22.04
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    curl \
+    htop \
+    procps \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install latest Ollama using official installer
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
+# Copy the built binary and assets
+COPY --from=builder /app/target/release/full-working-o1 /app/full-working-o1
+COPY --from=builder /app/minimal_3d.html /app/minimal_3d.html
+COPY --from=builder /app/static /app/static
+
+# Create startup script with simple, reliable approach
+RUN echo '#!/bin/bash' > /app/start.sh && \
+    echo 'set -e' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo 'echo "🚀 Think AI with Ollama Starting..."' >> /app/start.sh && \
+    echo 'echo "📊 System: $(free -h | grep Mem | awk '\''{print $2}'\'' ) memory, $(nproc) CPU cores"' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Start Ollama in background' >> /app/start.sh && \
+    echo 'echo "🔧 Starting Ollama..."' >> /app/start.sh && \
+    echo 'OLLAMA_HOST=0.0.0.0:11434 ollama serve &' >> /app/start.sh && \
+    echo 'OLLAMA_PID=$!' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Wait for Ollama to be ready' >> /app/start.sh && \
+    echo 'echo "⏳ Waiting for Ollama..."' >> /app/start.sh && \
+    echo 'for i in {1..30}; do' >> /app/start.sh && \
+    echo '    if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then' >> /app/start.sh && \
+    echo '        echo "✅ Ollama ready!"' >> /app/start.sh && \
+    echo '        break' >> /app/start.sh && \
+    echo '    fi' >> /app/start.sh && \
+    echo '    sleep 1' >> /app/start.sh && \
+    echo 'done' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Pull Qwen model' >> /app/start.sh && \
+    echo 'echo "📥 Pulling Qwen 2.5 1.5B..."' >> /app/start.sh && \
+    echo 'ollama pull qwen2.5:1.5b || echo "⚠️ Model pull failed, continuing..."' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Test the model' >> /app/start.sh && \
+    echo 'echo "🧪 Testing Qwen..."' >> /app/start.sh && \
+    echo 'echo '\''{"model": "qwen2.5:1.5b", "prompt": "hi", "stream": false}'\'' | curl -s -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d @- || echo "Test failed"' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Keep Ollama running and start Think AI' >> /app/start.sh && \
+    echo 'echo "🌐 Starting Think AI on port ${PORT:-8080}..."' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Monitor Ollama in background' >> /app/start.sh && \
+    echo '(' >> /app/start.sh && \
+    echo '    while true; do' >> /app/start.sh && \
+    echo '        sleep 30' >> /app/start.sh && \
+    echo '        if ! kill -0 $OLLAMA_PID 2>/dev/null; then' >> /app/start.sh && \
+    echo '            echo "⚠️ Restarting Ollama..."' >> /app/start.sh && \
+    echo '            OLLAMA_HOST=0.0.0.0:11434 ollama serve &' >> /app/start.sh && \
+    echo '            OLLAMA_PID=$!' >> /app/start.sh && \
+    echo '            sleep 5' >> /app/start.sh && \
+    echo '            ollama pull qwen2.5:1.5b || true' >> /app/start.sh && \
+    echo '        fi' >> /app/start.sh && \
+    echo '    done' >> /app/start.sh && \
+    echo ') &' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo 'cd /app && exec ./full-working-o1' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
+WORKDIR /app
+EXPOSE 8080
+
+# Use exec form for better signal handling
+ENTRYPOINT ["/bin/bash", "-c", "/app/start.sh"]

@@ -74,7 +74,7 @@ pub struct QwenClient {
 impl QwenClient {
     pub fn new(config: QwenConfig) -> Self {
         let client = reqwest::Client::builder()
-            .timeout(Duration::from_secs(30))
+            .timeout(Duration::from_secs(8))
             .build()
             .unwrap();
         Self { config, client }

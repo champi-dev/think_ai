@@ -27,149 +27,146 @@ COPY --from=builder /app/target/release/full-working-o1 /app/full-working-o1
 COPY --from=builder /app/minimal_3d.html /app/minimal_3d.html
 COPY --from=builder /app/static /app/static
 
-# Create enhanced startup script that ENSURES Ollama is running
-RUN cat > /app/start.sh << 'EOF'
-#!/bin/bash
-set -e
-
-echo "🚀 Think AI with Ollama Starting..."
-echo "📊 System Information:"
-echo "  - Memory: $(free -h | grep Mem | awk '{print $2}')"
-echo "  - CPU: $(nproc) cores"
-echo "  - Disk: $(df -h / | tail -1 | awk '{print $4}') free"
-echo "  - Port: ${PORT:-8080}"
-
-# Create necessary directories
-mkdir -p /root/.ollama/models
-
-# Function to ensure Ollama is running
-ensure_ollama_running() {
-    if ! pgrep -x "ollama" > /dev/null; then
-        echo "🔧 Starting Ollama server..."
-        OLLAMA_HOST=0.0.0.0:11434 \
-        OLLAMA_MODELS=/root/.ollama/models \
-        OLLAMA_KEEP_ALIVE=24h \
-        ollama serve > /tmp/ollama.log 2>&1 &
-        OLLAMA_PID=$!
-        
-        # Wait for Ollama to be ready
-        echo "⏳ Waiting for Ollama to start..."
-        for i in {1..120}; do
-            if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
-                echo "✅ Ollama started successfully!"
-                return 0
-            fi
-            
-            if [ $((i % 10)) -eq 0 ]; then
-                echo "  Still waiting... ($i/120)"
-            fi
-            
-            # Check if process died
-            if ! kill -0 $OLLAMA_PID 2>/dev/null; then
-                echo "❌ Ollama process died. Retrying..."
-                return 1
-            fi
-            
-            sleep 1
-        done
-        
-        echo "❌ Ollama failed to start within timeout"
-        return 1
-    else
-        echo "✅ Ollama is already running"
-        return 0
-    fi
-}
-
-# Function to ensure Qwen model is available
-ensure_qwen_model() {
-    echo "🔍 Checking for Qwen 2.5 1.5B model..."
-    
-    # Check if model exists
-    if ollama list 2>/dev/null | grep -q "qwen2.5:1.5b"; then
-        echo "✅ Qwen model already available"
-        return 0
-    fi
-    
-    echo "📥 Pulling Qwen 2.5 1.5B model..."
-    for attempt in {1..5}; do
-        if ollama pull qwen2.5:1.5b; then
-            echo "✅ Qwen model downloaded successfully!"
-            
-            # Test the model
-            echo "🧪 Testing Qwen model..."
-            TEST_RESPONSE=$(echo '{"model": "qwen2.5:1.5b", "prompt": "Say hello", "stream": false}' | \
-                           curl -s -X POST http://localhost:11434/api/generate \
-                           -H "Content-Type: application/json" -d @- 2>/dev/null || echo "{}")
-            
-            if echo "$TEST_RESPONSE" | grep -q "response"; then
-                echo "✅ Qwen model test successful!"
-                return 0
-            else
-                echo "⚠️ Model test failed, retrying..."
-            fi
-        else
-            echo "⚠️ Model pull failed (attempt $attempt/5), retrying in 10 seconds..."
-            sleep 10
-        fi
-    done
-    
-    echo "❌ Failed to pull Qwen model after 5 attempts"
-    return 1
-}
-
-# Main startup logic with retries
-MAX_STARTUP_ATTEMPTS=3
-STARTUP_ATTEMPT=0
-
-while [ $STARTUP_ATTEMPT -lt $MAX_STARTUP_ATTEMPTS ]; do
-    STARTUP_ATTEMPT=$((STARTUP_ATTEMPT + 1))
-    echo ""
-    echo "🚀 Startup attempt $STARTUP_ATTEMPT/$MAX_STARTUP_ATTEMPTS"
-    
-    # Ensure Ollama is running
-    if ! ensure_ollama_running; then
-        echo "⚠️ Ollama startup failed, retrying..."
-        sleep 5
-        continue
-    fi
-    
-    # Ensure Qwen model is available
-    if ! ensure_qwen_model; then
-        echo "⚠️ Qwen model setup failed, retrying..."
-        sleep 5
-        continue
-    fi
-    
-    # If we got here, everything is ready
-    echo ""
-    echo "✅ All systems ready!"
-    echo "🌐 Starting Think AI server on port ${PORT:-8080}..."
-    
-    # Monitor Ollama in background
-    (
-        while true; do
-            sleep 30
-            if ! pgrep -x "ollama" > /dev/null; then
-                echo "⚠️ Ollama process died, restarting..."
-                ensure_ollama_running
-                ensure_qwen_model
-            fi
-        done
-    ) &
-    
-    # Start the main application
-    cd /app && exec ./full-working-o1
-done
-
-# If we get here, startup failed
-echo "❌ Failed to start after $MAX_STARTUP_ATTEMPTS attempts"
-echo "📋 Ollama logs:"
-tail -100 /tmp/ollama.log 2>/dev/null || echo "No logs available"
-exit 1
-EOF
-
-RUN chmod +x /app/start.sh
+# Create startup script
+RUN echo '#!/bin/bash' > /app/start.sh && \
+    echo 'set -e' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo 'echo "🚀 Think AI with Ollama Starting..."' >> /app/start.sh && \
+    echo 'echo "📊 System Information:"' >> /app/start.sh && \
+    echo 'echo "  - Memory: $(free -h | grep Mem | awk '\''{print $2}'\'')"' >> /app/start.sh && \
+    echo 'echo "  - CPU: $(nproc) cores"' >> /app/start.sh && \
+    echo 'echo "  - Disk: $(df -h / | tail -1 | awk '\''{print $4}'\'') free"' >> /app/start.sh && \
+    echo 'echo "  - Port: ${PORT:-8080}"' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Create necessary directories' >> /app/start.sh && \
+    echo 'mkdir -p /root/.ollama/models' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Function to ensure Ollama is running' >> /app/start.sh && \
+    echo 'ensure_ollama_running() {' >> /app/start.sh && \
+    echo '    if ! pgrep -x "ollama" > /dev/null; then' >> /app/start.sh && \
+    echo '        echo "🔧 Starting Ollama server..."' >> /app/start.sh && \
+    echo '        OLLAMA_HOST=0.0.0.0:11434 \' >> /app/start.sh && \
+    echo '        OLLAMA_MODELS=/root/.ollama/models \' >> /app/start.sh && \
+    echo '        OLLAMA_KEEP_ALIVE=24h \' >> /app/start.sh && \
+    echo '        ollama serve > /tmp/ollama.log 2>&1 &' >> /app/start.sh && \
+    echo '        OLLAMA_PID=$!' >> /app/start.sh && \
+    echo '        ' >> /app/start.sh && \
+    echo '        # Wait for Ollama to be ready' >> /app/start.sh && \
+    echo '        echo "⏳ Waiting for Ollama to start..."' >> /app/start.sh && \
+    echo '        for i in {1..120}; do' >> /app/start.sh && \
+    echo '            if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then' >> /app/start.sh && \
+    echo '                echo "✅ Ollama started successfully!"' >> /app/start.sh && \
+    echo '                return 0' >> /app/start.sh && \
+    echo '            fi' >> /app/start.sh && \
+    echo '            ' >> /app/start.sh && \
+    echo '            if [ $((i % 10)) -eq 0 ]; then' >> /app/start.sh && \
+    echo '                echo "  Still waiting... ($i/120)"' >> /app/start.sh && \
+    echo '            fi' >> /app/start.sh && \
+    echo '            ' >> /app/start.sh && \
+    echo '            # Check if process died' >> /app/start.sh && \
+    echo '            if ! kill -0 $OLLAMA_PID 2>/dev/null; then' >> /app/start.sh && \
+    echo '                echo "❌ Ollama process died. Retrying..."' >> /app/start.sh && \
+    echo '                return 1' >> /app/start.sh && \
+    echo '            fi' >> /app/start.sh && \
+    echo '            ' >> /app/start.sh && \
+    echo '            sleep 1' >> /app/start.sh && \
+    echo '        done' >> /app/start.sh && \
+    echo '        ' >> /app/start.sh && \
+    echo '        echo "❌ Ollama failed to start within timeout"' >> /app/start.sh && \
+    echo '        return 1' >> /app/start.sh && \
+    echo '    else' >> /app/start.sh && \
+    echo '        echo "✅ Ollama is already running"' >> /app/start.sh && \
+    echo '        return 0' >> /app/start.sh && \
+    echo '    fi' >> /app/start.sh && \
+    echo '}' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Function to ensure Qwen model is available' >> /app/start.sh && \
+    echo 'ensure_qwen_model() {' >> /app/start.sh && \
+    echo '    echo "🔍 Checking for Qwen 2.5 1.5B model..."' >> /app/start.sh && \
+    echo '    ' >> /app/start.sh && \
+    echo '    # Check if model exists' >> /app/start.sh && \
+    echo '    if ollama list 2>/dev/null | grep -q "qwen2.5:1.5b"; then' >> /app/start.sh && \
+    echo '        echo "✅ Qwen model already available"' >> /app/start.sh && \
+    echo '        return 0' >> /app/start.sh && \
+    echo '    fi' >> /app/start.sh && \
+    echo '    ' >> /app/start.sh && \
+    echo '    echo "📥 Pulling Qwen 2.5 1.5B model..."' >> /app/start.sh && \
+    echo '    for attempt in {1..5}; do' >> /app/start.sh && \
+    echo '        if ollama pull qwen2.5:1.5b; then' >> /app/start.sh && \
+    echo '            echo "✅ Qwen model downloaded successfully!"' >> /app/start.sh && \
+    echo '            ' >> /app/start.sh && \
+    echo '            # Test the model' >> /app/start.sh && \
+    echo '            echo "🧪 Testing Qwen model..."' >> /app/start.sh && \
+    echo '            TEST_RESPONSE=$(echo '\''{"model": "qwen2.5:1.5b", "prompt": "Say hello", "stream": false}'\'' | \' >> /app/start.sh && \
+    echo '                           curl -s -X POST http://localhost:11434/api/generate \' >> /app/start.sh && \
+    echo '                           -H "Content-Type: application/json" -d @- 2>/dev/null || echo "{}")' >> /app/start.sh && \
+    echo '            ' >> /app/start.sh && \
+    echo '            if echo "$TEST_RESPONSE" | grep -q "response"; then' >> /app/start.sh && \
+    echo '                echo "✅ Qwen model test successful!"' >> /app/start.sh && \
+    echo '                return 0' >> /app/start.sh && \
+    echo '            else' >> /app/start.sh && \
+    echo '                echo "⚠️ Model test failed, retrying..."' >> /app/start.sh && \
+    echo '            fi' >> /app/start.sh && \
+    echo '        else' >> /app/start.sh && \
+    echo '            echo "⚠️ Model pull failed (attempt $attempt/5), retrying in 10 seconds..."' >> /app/start.sh && \
+    echo '            sleep 10' >> /app/start.sh && \
+    echo '        fi' >> /app/start.sh && \
+    echo '    done' >> /app/start.sh && \
+    echo '    ' >> /app/start.sh && \
+    echo '    echo "❌ Failed to pull Qwen model after 5 attempts"' >> /app/start.sh && \
+    echo '    return 1' >> /app/start.sh && \
+    echo '}' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Main startup logic with retries' >> /app/start.sh && \
+    echo 'MAX_STARTUP_ATTEMPTS=3' >> /app/start.sh && \
+    echo 'STARTUP_ATTEMPT=0' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo 'while [ $STARTUP_ATTEMPT -lt $MAX_STARTUP_ATTEMPTS ]; do' >> /app/start.sh && \
+    echo '    STARTUP_ATTEMPT=$((STARTUP_ATTEMPT + 1))' >> /app/start.sh && \
+    echo '    echo ""' >> /app/start.sh && \
+    echo '    echo "🚀 Startup attempt $STARTUP_ATTEMPT/$MAX_STARTUP_ATTEMPTS"' >> /app/start.sh && \
+    echo '    ' >> /app/start.sh && \
+    echo '    # Ensure Ollama is running' >> /app/start.sh && \
+    echo '    if ! ensure_ollama_running; then' >> /app/start.sh && \
+    echo '        echo "⚠️ Ollama startup failed, retrying..."' >> /app/start.sh && \
+    echo '        sleep 5' >> /app/start.sh && \
+    echo '        continue' >> /app/start.sh && \
+    echo '    fi' >> /app/start.sh && \
+    echo '    ' >> /app/start.sh && \
+    echo '    # Ensure Qwen model is available' >> /app/start.sh && \
+    echo '    if ! ensure_qwen_model; then' >> /app/start.sh && \
+    echo '        echo "⚠️ Qwen model setup failed, retrying..."' >> /app/start.sh && \
+    echo '        sleep 5' >> /app/start.sh && \
+    echo '        continue' >> /app/start.sh && \
+    echo '    fi' >> /app/start.sh && \
+    echo '    ' >> /app/start.sh && \
+    echo '    # If we got here, everything is ready' >> /app/start.sh && \
+    echo '    echo ""' >> /app/start.sh && \
+    echo '    echo "✅ All systems ready!"' >> /app/start.sh && \
+    echo '    echo "🌐 Starting Think AI server on port ${PORT:-8080}..."' >> /app/start.sh && \
+    echo '    ' >> /app/start.sh && \
+    echo '    # Monitor Ollama in background' >> /app/start.sh && \
+    echo '    (' >> /app/start.sh && \
+    echo '        while true; do' >> /app/start.sh && \
+    echo '            sleep 30' >> /app/start.sh && \
+    echo '            if ! pgrep -x "ollama" > /dev/null; then' >> /app/start.sh && \
+    echo '                echo "⚠️ Ollama process died, restarting..."' >> /app/start.sh && \
+    echo '                ensure_ollama_running' >> /app/start.sh && \
+    echo '                ensure_qwen_model' >> /app/start.sh && \
+    echo '            fi' >> /app/start.sh && \
+    echo '        done' >> /app/start.sh && \
+    echo '    ) &' >> /app/start.sh && \
+    echo '    ' >> /app/start.sh && \
+    echo '    # Start the main application' >> /app/start.sh && \
+    echo '    cd /app && exec ./full-working-o1' >> /app/start.sh && \
+    echo 'done' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# If we get here, startup failed' >> /app/start.sh && \
+    echo 'echo "❌ Failed to start after $MAX_STARTUP_ATTEMPTS attempts"' >> /app/start.sh && \
+    echo 'echo "📋 Ollama logs:"' >> /app/start.sh && \
+    echo 'tail -100 /tmp/ollama.log 2>/dev/null || echo "No logs available"' >> /app/start.sh && \
+    echo 'exit 1' >> /app/start.sh && \
+    chmod +x /app/start.sh
 
 WORKDIR /app
 EXPOSE 8080
