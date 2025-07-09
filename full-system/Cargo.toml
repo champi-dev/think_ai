@@ -1,0 +1,36 @@
+[package]
+name = "think-ai-full"
+version = "0.1.0"
+edition = "2021"
+authors = ["champi-dev <danielsarcor@gmail.com>"]
+
+[workspace]
+
+[[bin]]
+name = "think-ai-full"
+path = "src/main.rs"
+
+[dependencies]
+# Web Framework
+axum = { version = "0.7", features = ["ws"] }
+tower = "0.5"
+tower-http = { version = "0.5", features = ["fs", "cors", "trace"] }
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Utilities
+anyhow = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# AI Components
+rand = "0.8"
+sha2 = "0.10"
+
+# WebSocket support
+futures-util = "0.3"
