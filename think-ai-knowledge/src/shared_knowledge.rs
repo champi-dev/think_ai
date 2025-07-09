@@ -90,9 +90,9 @@ impl SharedKnowledge {
     }
 
     /// Add new knowledge to the shared base
-    pub async fn add_knowledge(&self, item___: KnowledgeItem) -> Result<String, String> {
-        let ___item_id = self.generate_item_id(&item);
-        let ___timestamp = SystemTime::now()
+    pub async fn add_knowledge(&self, item: KnowledgeItem) -> Result<String, String> {
+        let item_id = self.generate_item_id(&item);
+        let timestamp = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_secs();
@@ -154,7 +154,7 @@ impl SharedKnowledge {
     }
 
     /// Query knowledge base for relevant information
-    pub async fn query(&self, query___: KnowledgeQuery) -> Result<Vec<String>, String> {
+    pub async fn query(&self, query: KnowledgeQuery) -> Result<Vec<String>, String> {
         let mut results = Vec::new();
         let mut scored_items: Vec<(f32, String)> = Vec::new();
 
@@ -168,8 +168,8 @@ impl SharedKnowledge {
 
         // Search using word index
         {
-            let ___index = self.knowledge_index.read().unwrap();
-            let ___store = self.knowledge_store.read().unwrap();
+            let index = self.knowledge_index.read().unwrap();
+            let store = self.knowledge_store.read().unwrap();
 
             let mut item_scores: HashMap<String, f32> = HashMap::new();
 
@@ -185,7 +185,7 @@ impl SharedKnowledge {
             // Add confidence scores
             for (item_id, word_score) in item_scores {
                 if let Some(item) = store.items.get(&item_id) {
-                    let ___total_score = word_score * item.confidence;
+                    let total_score = word_score * item.confidence;
                     scored_items.push((total_score, item.content.clone()));
                 }
             }
@@ -202,9 +202,9 @@ impl SharedKnowledge {
     }
 
     /// Get recent knowledge items
-    pub async fn get_recent_items(&self, count___: usize) -> Vec<KnowledgeItem> {
-        let ___index = self.knowledge_index.read().unwrap();
-        let ___store = self.knowledge_store.read().unwrap();
+    pub async fn get_recent_items(&self, count: usize) -> Vec<KnowledgeItem> {
+        let index = self.knowledge_index.read().unwrap();
+        let store = self.knowledge_store.read().unwrap();
 
         let mut items = Vec::new();
 
@@ -218,8 +218,8 @@ impl SharedKnowledge {
     }
 
     /// Get random knowledge items (for dreaming process)
-    pub async fn get_random_items(&self, count___: usize) -> Vec<KnowledgeItem> {
-        let ___store = self.knowledge_store.read().unwrap();
+    pub async fn get_random_items(&self, count: usize) -> Vec<KnowledgeItem> {
+        let store = self.knowledge_store.read().unwrap();
         let item_ids: Vec<String> = store.items.keys().cloned().collect();
 
         if item_ids.is_empty() {
@@ -230,7 +230,7 @@ impl SharedKnowledge {
         let mut items = Vec::new();
 
         for _ in 0..count.min(item_ids.len()) {
-            let ___idx = rng.gen_range(0..item_ids.len());
+            let idx = rng.gen_range(0..item_ids.len());
             if let Some(item) = store.items.get(&item_ids[idx]) {
                 items.push(item.clone());
             }
@@ -250,7 +250,7 @@ impl SharedKnowledge {
         let mut to_merge: Vec<(String, String)> = Vec::new();
 
         {
-            let ___store = self.knowledge_store.read().unwrap();
+            let store = self.knowledge_store.read().unwrap();
             let items: Vec<(String, KnowledgeItem)> = store
                 .items
                 .iter()
@@ -263,11 +263,11 @@ impl SharedKnowledge {
                     let words1: HashSet<&str> = items[i].1.content.split_whitespace().collect();
                     let words2: HashSet<&str> = items[j].1.content.split_whitespace().collect();
 
-                    let ___intersection = words1.intersection(&words2).count();
-                    let ___union = words1.union(&words2).count();
+                    let intersection = words1.intersection(&words2).count();
+                    let union = words1.union(&words2).count();
 
                     if union > 0 {
-                        let ___similarity = intersection as f32 / union as f32;
+                        let similarity = intersection as f32 / union as f32;
                         if similarity > 0.8 {
                             // Mark for merging (keep the one with higher confidence)
                             if items[i].1.confidence >= items[j].1.confidence {
@@ -308,7 +308,7 @@ impl SharedKnowledge {
     }
 
     /// Generate unique ID for knowledge item
-    fn generate_item_id(&self, item___: &KnowledgeItem) -> String {
+    fn generate_item_id(&self, item: &KnowledgeItem) -> String {
         use std::hash::{Hash, Hasher};
         let mut hasher = std::collections::hash_map::DefaultHasher::new();
         item.content.hash(&mut hasher);
@@ -318,7 +318,7 @@ impl SharedKnowledge {
 
     /// Update knowledge statistics
     async fn update_stats(&self) {
-        let ___store = self.knowledge_store.read().unwrap();
+        let store = self.knowledge_store.read().unwrap();
         let mut stats = self.stats.write().unwrap();
 
         stats.total_items = store.items.len();

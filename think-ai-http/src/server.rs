@@ -13,7 +13,7 @@ pub async fn run_server(
 ) -> crate::Result<()> {
     // Initialize conversation memory for long-term contextual dialogue
     let conversation_memory = Arc::new(
-        think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory::new(1000, 24),
+        think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory::new(),
     );
     // Use UUID-based unique port if needed
     let final_port = if addr.port() == 0 {
@@ -45,6 +45,6 @@ pub async fn run_server(
         .await
         .map_err(|e| crate::HttpError::ServerError(e.to_string()))?;
     info!("Server listening on {}", final_addr);
-    axum::serve(listener, app)
+    axum::serve(listener, app).await.map_err(|e| crate::HttpError::ServerError(e.to_string()))?;
     Ok(())
 }

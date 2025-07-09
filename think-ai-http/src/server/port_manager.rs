@@ -15,10 +15,15 @@ pub fn kill_port(port: u16) -> Result<(), String> {
             .output()
             .map_err(|e| format!("Failed to run lsof: {e}"))?
     } else if cfg!(target_os = "macos") {
+        Command::new("lsof")
+            .args(["-ti", &format!(":{port}")])
+            .output()
+            .map_err(|e| format!("Failed to run lsof: {e}"))?
     } else {
         // Windows
         Command::new("netstat")
             .args(["-ano", "|", "findstr", &format!(":{port}")])
+            .output()
             .map_err(|e| format!("Failed to run netstat: {e}"))?
     };
     if output.status.success() && !output.stdout.is_empty() {
@@ -35,6 +40,13 @@ fn kill_process(pid: u32) -> Result<(), String> {
     if cfg!(target_os = "windows") {
         Command::new("taskkill")
             .args(["/F", "/PID", &pid.to_string()])
+            .output()
             .map_err(|e| format!("Failed to kill process: {e}"))?;
+    } else {
         Command::new("kill")
             .args(["-9", &pid.to_string()])
+            .output()
+            .map_err(|e| format!("Failed to kill process: {e}"))?;
+    }
+    Ok(())
+}

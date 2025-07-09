@@ -1,5 +1,4 @@
-use wasm_bindgen::JsCast;
-use web_sys::{Element, InputEvent, KeyboardEvent};
+use web_sys::{InputEvent, KeyboardEvent};
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]

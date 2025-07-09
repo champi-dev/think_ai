@@ -22,6 +22,12 @@ pub trait VisualEffect {
     fn get_id(&self) -> &str;
 }
 
+impl Default for EffectManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl EffectManager {
     pub fn new() -> Self {
         Self {

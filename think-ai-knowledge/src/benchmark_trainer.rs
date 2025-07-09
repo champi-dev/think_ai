@@ -86,7 +86,7 @@ pub struct BenchmarkTrainer {
 impl BenchmarkTrainer {
     pub fn new(knowledge_engine: Arc<KnowledgeEngine>, config: BenchmarkTrainingConfig) -> Self {
         let benchmark_evaluator = LLMBenchmarkEvaluator::new(knowledge_engine.clone());
-        let _response_generator =
+        let response_generator =
             Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
         let training_config = ComprehensiveTrainingConfig {
             tool_iterations: 200,
@@ -95,9 +95,9 @@ impl BenchmarkTrainer {
             domains: KnowledgeDomain::all_domains(),
             enable_self_improvement: true,
         };
-        let _comprehensive_trainer =
+        let comprehensive_trainer =
             ComprehensiveTrainer::new(knowledge_engine.clone(), training_config);
-        let _self_evaluator =
+        let self_evaluator =
             SelfEvaluator::new(knowledge_engine.clone(), response_generator.clone());
 
         Self {
@@ -218,13 +218,20 @@ impl BenchmarkTrainer {
                 if improvement < self.config.min_improvement_threshold {
                     println!("⚠️  Improvement below threshold. Adjusting training strategy...");
                     self.adjust_training_strategy(&current_scores);
+                }
                 last_evaluation_scores = current_scores;
                 if let Some(session) = &mut self.current_session {
                     session.evaluation_rounds += 1;
+                }
+            }
             // Small delay to prevent overwhelming the system
             sleep(Duration::from_millis(100)).await;
+        }
         // Final evaluation and session completion
         self.complete_training_session().await?;
+        Ok(())
+    }
+
     /// Run training focused on weak areas
     async fn run_focused_training(
         &mut self,
@@ -243,14 +250,19 @@ impl BenchmarkTrainer {
                     }
                     Benchmark::HellaSwag => {
                         self.train_commonsense_reasoning().await?;
+                    }
                     Benchmark::ARC => {
                         self.train_scientific_reasoning().await?;
+                    }
                     Benchmark::TruthfulQA => {
                         self.train_truthfulness().await?;
+                    }
                     Benchmark::GSM8K => {
                         self.train_mathematical_reasoning().await?;
+                    }
                     Benchmark::HumanEval => {
                         self.train_code_generation().await?;
+                    }
                     Benchmark::BIGBench => {
                         self.train_diverse_reasoning().await?;
                     }
@@ -269,6 +281,11 @@ impl BenchmarkTrainer {
             for (topic, content, related) in knowledge_items {
                 self.knowledge_engine
                     .add_knowledge(domain.clone(), topic, content, related);
+            }
+        }
+        Ok(())
+    }
+
     /// Train commonsense reasoning for HellaSwag
     async fn train_commonsense_reasoning(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         println!("🧠 Training commonsense reasoning (HellaSwag focus)...");
@@ -284,6 +301,11 @@ impl BenchmarkTrainer {
                 topic.to_string(),
                 content.to_string(),
                 related.into_iter().map(|s| s.to_string()).collect(),
+            );
+        }
+        Ok(())
+    }
+
     /// Train scientific reasoning for ARC
     async fn train_scientific_reasoning(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         println!("🔬 Training scientific reasoning (ARC focus)...");
@@ -292,8 +314,18 @@ impl BenchmarkTrainer {
             ("States of Matter", "Matter exists in solid, liquid, gas, and plasma states depending on temperature and pressure.", vec!["physics", "temperature", "molecular_motion"]),
             ("Food Chains", "Energy flows from producers to primary consumers to secondary consumers in ecosystems.", vec!["ecology", "energy_transfer", "organisms"]),
             ("Weather Patterns", "Weather is driven by temperature differences, air pressure changes, and water cycle processes.", vec!["meteorology", "atmospheric_science", "cycles"]),
+        ];
         for (topic, content, related) in scientific_concepts {
+            self.knowledge_engine.add_knowledge(
                 KnowledgeDomain::Physics, // Mix of science domains
+                topic.to_string(),
+                content.to_string(),
+                related.into_iter().map(|s| s.to_string()).collect(),
+            );
+        }
+        Ok(())
+    }
+
     /// Train truthfulness for TruthfulQA
     async fn train_truthfulness(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         println!("✅ Training truthfulness (TruthfulQA focus)...");
@@ -426,6 +458,7 @@ impl BenchmarkTrainer {
 
     /// Extract scores from benchmark report
     fn extract_scores_from_report(
+        &self,
         report: &ComprehensiveBenchmarkReport,
     ) -> HashMap<Benchmark, f64> {
         report
@@ -475,11 +508,13 @@ impl BenchmarkTrainer {
             if let Some(score) = scores.get(benchmark) {
                 if score < target {
                     return false;
+                }
             } else {
                 return false;
             }
         }
         true
+    }
     /// Adjust training strategy based on poor improvement
     fn adjust_training_strategy(&mut self, _current_scores: &HashMap<Benchmark, f64>) {
         println!("🔧 Adjusting training strategy for better improvement...");
@@ -488,6 +523,7 @@ impl BenchmarkTrainer {
             // Note: In a real implementation, we would need public setters or make fields public
             // For now, just log the adjustment
             println!("🔧 Increasing training intensity by 50%");
+        }
         // Enable self-improvement if not already enabled
         println!("🔧 Enabling self-improvement training");
     }
@@ -497,10 +533,16 @@ impl BenchmarkTrainer {
         println!("\n🎉 Completing training session...");
         // Final evaluation
         let final_report = self
+            .benchmark_evaluator
+            .run_comprehensive_evaluation()
+            .await?;
         let final_scores = self.extract_scores_from_report(&final_report);
         // Calculate overall improvement before mutable borrow
         let overall_improvement = if let Some(session) = &self.current_session {
             Self::calculate_improvement(&session.initial_scores, &final_scores)
+        } else {
+            0.0
+        };
         if let Some(session) = &mut self.current_session {
             session.end_time = Some(SystemTime::now());
             session.final_scores = final_scores.clone();
@@ -510,17 +552,23 @@ impl BenchmarkTrainer {
                     session
                         .score_improvements
                         .insert(*benchmark, final_score - initial_score);
+                }
+            }
             // Set the pre-calculated overall improvement
             session.overall_improvement = overall_improvement;
             // Calculate training efficiency
             if session.total_training_cycles > 0 {
                 session.training_efficiency =
                     session.overall_improvement / session.total_training_cycles as f64;
+            }
             // Check target achievements
             for (benchmark, target) in &self.config.target_scores {
                 if let Some(score) = final_scores.get(benchmark) {
+                    session
                         .target_achievements
                         .insert(*benchmark, score >= target);
+                }
+            }
             // Update best scores
             for (benchmark, score) in &final_scores {
                 let current_best = self
@@ -530,24 +578,48 @@ impl BenchmarkTrainer {
                     .or_insert(0.0);
                 if score > current_best {
                     *current_best = *score;
+                }
+            }
             // Add session to history
-            self.training_history.sessions.push(session.clone());
+            let session_clone = BenchmarkTrainingSession {
+                session_id: session.session_id.clone(),
+                start_time: session.start_time,
+                end_time: session.end_time,
+                initial_scores: session.initial_scores.clone(),
+                final_scores: session.final_scores.clone(),
+                score_improvements: session.score_improvements.clone(),
+                total_training_cycles: session.total_training_cycles,
+                evaluation_rounds: session.evaluation_rounds,
+                target_achievements: session.target_achievements.clone(),
+                overall_improvement: session.overall_improvement,
+                training_efficiency: session.training_efficiency,
+            };
+            self.training_history.sessions.push(session_clone);
             // Update total training time
             if let (Some(start), Some(end)) = (
                 session
                     .start_time
                     .duration_since(SystemTime::UNIX_EPOCH)
                     .ok(),
+                session
                     .end_time
                     .unwrap()
+                    .duration_since(SystemTime::UNIX_EPOCH)
+                    .ok(),
             ) {
                 self.training_history.total_training_time += end - start;
+            }
+        }
         // Print final results
         self.print_session_summary();
         // Stop self-evaluator
-        self.self_evaluator.stop();
+        // Stop self evaluator if it has a stop method
+        // self.self_evaluator.stop();
         // Save results
         self.benchmark_evaluator.save_results(&final_report).await?;
+        Ok(())
+    }
+
     /// Print session summary
     fn print_session_summary(&self) {
         if let Some(session) = &self.current_session {
@@ -555,10 +627,14 @@ impl BenchmarkTrainer {
             println!("Session ID: {}", session.session_id);
             println!("Training Cycles: {}", session.total_training_cycles);
             println!("Evaluation Rounds: {}", session.evaluation_rounds);
+            println!(
                 "Overall Improvement: {:.1}%",
                 session.overall_improvement * 100.0
+            );
+            println!(
                 "Training Efficiency: {:.4}% per cycle",
                 session.training_efficiency * 100.0
+            );
             println!("\n📈 Score Improvements:");
             for (benchmark, improvement) in &session.score_improvements {
                 let initial = session.initial_scores.get(benchmark).unwrap_or(&0.0);

@@ -2,10 +2,10 @@
 //!
 // Provides O(1) material lookup and rendering with hash-based caching
 
-use nalgebra::{Vector3, Vector4};
+use nalgebra::Vector3;
 use std::collections::HashMap;
 use wasm_bindgen::JsValue;
-use web_sys::{WebGlProgram, WebGlRenderingContext};
+use web_sys::WebGlRenderingContext;
 
 /// Material properties for consciousness visualization
 #[derive(Debug, Clone)]
@@ -37,6 +37,12 @@ impl Default for Material {
 pub struct MaterialCache {
     materials: HashMap<u64, Material>,
     active_material: Option<u64>,
+}
+
+impl Default for MaterialCache {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl MaterialCache {

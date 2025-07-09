@@ -1,0 +1,11 @@
+[build]
+builder = "nixpacks"
+buildCommand = "cargo build --release --bin think-ai-full"
+
+[deploy]
+startCommand = "./target/release/think-ai-full"
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+
+[environment]
+RUST_LOG = "debug"

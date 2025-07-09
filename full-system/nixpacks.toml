@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["...", "pkg-config", "openssl"]
+
+[phases.build]
+cmds = ["cargo build --release --bin think-ai-full"]
+
+[start]
+cmd = "./target/release/think-ai-full"

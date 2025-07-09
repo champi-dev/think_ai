@@ -20,31 +20,13 @@ pub enum SessionState {
     Closed,
 }
 
-pub enum ProcessType {
-    Thinking,
-    Dreaming,
-    Learning,
-    Reflecting,
-}
+// ProcessType and ProcessState are defined below with all derives
 
-impl std::fmt::Display for ProcessType {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ProcessType::Thinking => write!(f, "thinking"),
-            ProcessType::Dreaming => write!(f, "dreaming"),
-            ProcessType::Learning => write!(f, "learning"),
-            ProcessType::Reflecting => write!(f, "reflecting"),
-        }
-    }
-}
-
-pub enum ProcessState {
-    Running,
-    Stopped,
-    Failed,
-}
-
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ProcessMessage {
+    pub process_type: ProcessType,
+    pub state: ProcessState,
+    pub message: String,
     pub process_id: String,
     pub message_type: String,
 }
@@ -57,3 +39,30 @@ pub enum KnowledgeType {
     Dream,
     Reflection,
 }
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum ProcessType {
+    LLM,
+    Knowledge,
+    Training,
+    Evaluation,
+}
+
+impl std::fmt::Display for ProcessType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ProcessType::LLM => write!(f, "LLM"),
+            ProcessType::Knowledge => write!(f, "Knowledge"),
+            ProcessType::Training => write!(f, "Training"),
+            ProcessType::Evaluation => write!(f, "Evaluation"),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum ProcessState {
+    Running,
+    Paused,
+    Stopped,
+    Error,
+}
+

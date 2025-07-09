@@ -29,3 +29,4 @@ pub fn find_available_port(base_port: Option<u16>) -> Result<u16, String> {
         }
     }
     Err("No available ports found".to_string())
+}

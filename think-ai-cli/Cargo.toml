@@ -51,6 +51,7 @@ think-ai-knowledge = { path = "../think-ai-knowledge" }
 think-ai-vector = { path = "../think-ai-vector" }
 think-ai-http = { path = "../think-ai-http" }
 think-ai-consciousness = { path = "../think-ai-consciousness" }
+think-ai-qwen = { path = "../think-ai-qwen" }
 tokio.workspace = true
 dotenv = "0.15"
 async-trait.workspace = true

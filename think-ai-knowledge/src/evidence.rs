@@ -15,6 +15,7 @@ pub struct EvidenceReport {
     pub performance_evidence: PerformanceEvidence,
     pub comprehensive_response_evidence: ResponseEvidence,
 }
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TrainingEvidence {
     pub total_iterations_completed: u64,
     pub total_meta_iterations_completed: u64,
@@ -24,6 +25,7 @@ pub struct TrainingEvidence {
     pub domains_covered: Vec<KnowledgeDomain>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PersistenceEvidence {
     pub files_created: usize,
     pub checkpoints_saved: usize,
@@ -32,6 +34,7 @@ pub struct PersistenceEvidence {
     pub persistence_verified: bool,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RetrievalEvidence {
     pub o1_retrieval_verified: bool,
     pub average_query_time_us: f64,
@@ -40,6 +43,7 @@ pub struct RetrievalEvidence {
     pub successful_retrievals: usize,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RetentionEvidence {
     pub knowledge_before_save: usize,
     pub knowledge_after_load: usize,
@@ -47,6 +51,7 @@ pub struct RetentionEvidence {
     pub domain_retention_rates: Vec<(KnowledgeDomain, f64)>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PerformanceEvidence {
     pub hash_lookup_complexity: String,
     pub insertion_complexity: String,
@@ -54,6 +59,7 @@ pub struct PerformanceEvidence {
     pub cpu_efficiency: f64,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ResponseEvidence {
     pub sample_queries: Vec<(String, usize)>,
     pub average_response_length: usize,
@@ -244,7 +250,7 @@ impl EvidenceCollector {
 }
 
 impl std::fmt::Display for EvidenceReport {
-    fn fmt(&self, f__: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
             "\n╔══════════════════════════════════════════════════════════════════╗\n\

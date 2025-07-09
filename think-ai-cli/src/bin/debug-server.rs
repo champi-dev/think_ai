@@ -60,12 +60,16 @@ async fn root_handler() -> Html<String> {
     "#,
         port
     ))
+}
+
 async fn health_check_any() -> Result<&'static str, StatusCode> {
     println!(
         "🏥 Health check requested (any method) from: {:?}",
         std::env::var("HTTP_X_FORWARDED_FOR")
     );
     Ok("OK")
+}
+
 async fn env_handler() -> Result<Json<serde_json::Value>, StatusCode> {
     let env_vars: std::collections::HashMap<String, String> = env::vars().collect();
     Ok(Json(json!({
@@ -82,3 +86,4 @@ async fn env_handler() -> Result<Json<serde_json::Value>, StatusCode> {
             "HOST": env::var("HOST").ok(),
         }
     })))
+}

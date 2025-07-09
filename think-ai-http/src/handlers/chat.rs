@@ -22,6 +22,8 @@ pub struct ChatResponse {
     response: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     error: Option<String>,
+}
+
 pub async fn chat(
     State(state): State<Arc<AppState>>,
     payload: Result<Json<ChatRequest>, JsonRejection>,
@@ -61,10 +63,27 @@ pub async fn chat(
     let query = request.query.trim();
     // Additional validation
     if query.is_empty() {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(ChatResponse {
+                response: String::new(),
                 error: Some("Message cannot be empty after trimming".to_string()),
+            }),
+        )
+            .into_response();
+    }
+
     // Limit query length to prevent abuse
     if query.len() > 2000 {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(ChatResponse {
+                response: String::new(),
                 error: Some("Message too long (max 2000 characters)".to_string()),
+            }),
+        )
+            .into_response();
+    }
     // Use ComponentResponseGenerator with conversation memory for long-term context
     let response_generator = ComponentResponseGenerator::new_with_memory(
         state.knowledge_engine.clone(),
@@ -81,3 +100,4 @@ pub async fn chat(
         }),
     )
         .into_response()
+}

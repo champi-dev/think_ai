@@ -1,6 +1,6 @@
 use super::neural_network::NeuralNetwork;
 use super::particles::ParticleSystem;
-use crate::math::{Matrix4, Matrix4Utils, Vector3};
+use crate::math::{Matrix4Utils, Vector3};
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use web_sys::{WebGlBuffer, WebGlProgram, WebGlRenderingContext};

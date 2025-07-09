@@ -3472,6 +3472,7 @@ dependencies = [
  "think-ai-core",
  "think-ai-http",
  "think-ai-knowledge",
+ "think-ai-qwen",
  "think-ai-utils",
  "think-ai-vector",
  "thiserror 2.0.12",
@@ -3542,6 +3543,10 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
+ "think-ai-consciousness",
+ "think-ai-core",
+ "think-ai-knowledge",
+ "think-ai-vector",
  "tokio",
  "tower 0.5.2",
  "tower-http 0.5.2",
@@ -3593,6 +3598,20 @@ dependencies = [
  "think-ai-consciousness",
  "tokio",
  "uuid",
+]
+
+[[package]]
+name = "think-ai-qwen"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.12",
+ "tokio",
+ "tracing",
 ]
 
 [[package]]

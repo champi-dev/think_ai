@@ -16,6 +16,7 @@ use think_ai_knowledge::{
     qwen_knowledge_builder::QwenKnowledgeBuilder,
     realtime_knowledge_component::RealtimeKnowledgeComponent,
     simple_cache_component::SimpleCacheComponent,
+};
 use think_ai_qwen::client::QwenClient;
 use tokio::sync::RwLock;
 use tracing::info;
@@ -32,24 +33,26 @@ struct FullAppState {
 #[derive(Deserialize)]
 struct ChatRequest {
     message: String,
+}
 #[derive(Serialize)]
 struct ChatResponse {
     response: String,
     confidence: f64,
     processing_time_ms: f64,
+}
 #[tokio::main]
 async fn main() {
     // Initialize logging
     tracing_subscriber::fmt::init();
     info!("Starting Full Server with Qwen AI...");
     // Initialize all components
-    let __engine = Arc::new(O1Engine::new(EngineConfig::default()));
-    let __consciousness = Arc::new(ConsciousnessEngine::new());
-    let __knowledge = Arc::new(KnowledgeEngine::new());
-    let __quantum_llm = Arc::new(RwLock::new(EnhancedQuantumLLM::new()));
-    let __response_generator = Arc::new(RwLock::new(EnhancedResponseGenerator::new()));
-    let __qwen_client = Arc::new(QwenClient::new());
-    let __state = FullAppState {
+    let engine = Arc::new(O1Engine::new(EngineConfig::default()));
+    let consciousness = Arc::new(ConsciousnessEngine::new());
+    let knowledge = Arc::new(KnowledgeEngine::new());
+    let quantum_llm = Arc::new(RwLock::new(EnhancedQuantumLLM::new()));
+    let response_generator = Arc::new(RwLock::new(EnhancedResponseGenerator::new()));
+    let qwen_client = Arc::new(QwenClient::new());
+    let state = FullAppState {
         engine,
         consciousness,
         knowledge,
@@ -58,36 +61,43 @@ async fn main() {
         qwen_client,
     };
     // Build router
-    let __app = Router::new()
+    let app = Router::new()
         .route("/", get(root))
         .route("/health", get(health))
         .route("/api/chat", post(chat))
         .with_state(state);
-    let __addr = SocketAddr::from(([127, 0, 0, 1], 8080));
+    let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
     info!("Server listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
         .unwrap();
+}
+
 async fn root() -> Html<&'static str> {
     Html("<h1>Think AI Full Server with Qwen</h1>")
+}
+
 async fn health() -> &'static str {
     "OK"
+}
 async fn chat(
     State(state): State<FullAppState>,
     Json(req): Json<ChatRequest>,
 ) -> Result<Json<ChatResponse>, StatusCode> {
-    let __start = std::time::Instant::now();
+    let start = std::time::Instant::now();
     // Process with Qwen
-    let __response = match state.qwen_client.generate(&req.message).await {
+    let response = match state.qwen_client.generate(&req.message).await {
         Ok(resp) => resp,
         Err(_) => {
             // Fallback to O(1) engine
             state.engine.query(&req.message)
         }
-    let __processing_time_ms = start.elapsed().as_secs_f64() * 1000.0;
+    };
+    let processing_time_ms = start.elapsed().as_secs_f64() * 1000.0;
     Ok(Json(ChatResponse {
         response,
         confidence: 0.95,
         processing_time_ms,
     }))
+}

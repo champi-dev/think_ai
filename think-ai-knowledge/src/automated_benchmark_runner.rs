@@ -44,6 +44,7 @@ impl Default for AutomatedBenchmarkConfig {
 }
 
 /// Automated benchmark results with trends
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AutomatedBenchmarkResults {
     pub timestamp: SystemTime,
     pub benchmark_report: ComprehensiveBenchmarkReport,
@@ -56,6 +57,7 @@ pub struct AutomatedBenchmarkResults {
 }
 
 /// Analysis of performance trends over time
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TrendAnalysis {
     pub performance_trend: PerformanceTrend,
     pub score_changes: HashMap<Benchmark, f64>, // Change from previous evaluation
@@ -65,11 +67,23 @@ pub struct TrendAnalysis {
     pub areas_of_strength: Vec<String>,
 }
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum PerformanceTrend {
     Improving,
     Stable,
     Declining,
     Volatile,
+}
+
+impl std::fmt::Display for PerformanceTrend {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            PerformanceTrend::Improving => write!(f, "Improving"),
+            PerformanceTrend::Stable => write!(f, "Stable"),
+            PerformanceTrend::Declining => write!(f, "Declining"),
+            PerformanceTrend::Volatile => write!(f, "Volatile"),
+        }
+    }
 }
 
 /// Complete automated benchmark system
@@ -551,13 +565,20 @@ impl AutomatedBenchmarkRunner {
     <h2>💡 Recommendations</h2>
     <div class="recommendations">
         <ul>
+        {}
         </ul>
+    </div>
     <h2>📋 Areas of Concern</h2>
     <ul>
+    {}
     </ul>
     <h2>✅ Areas of Strength</h2>
+    <ul>
+    {}
+    </ul>
 </body>
 </html>"#,
+            timestamp_str.clone(),
             timestamp_str,
             health_status,
             results.overall_health_score * 100.0,

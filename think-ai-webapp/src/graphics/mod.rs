@@ -16,7 +16,6 @@ pub mod particles;
 pub mod shaders;
 
 use nalgebra::{Matrix4, Point3, Vector3};
-use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use web_sys::HtmlCanvasElement;
 
@@ -100,6 +99,12 @@ pub struct Camera {
     far: f32,
 }
 
+impl Default for Camera {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Camera {
     pub fn new() -> Self {
         Self {
@@ -143,6 +148,12 @@ impl Camera {
 pub struct PostProcessor {
     bloom_enabled: bool,
     chromatic_aberration: f32,
+}
+
+impl Default for PostProcessor {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl PostProcessor {

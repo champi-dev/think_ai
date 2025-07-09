@@ -13,6 +13,8 @@ pub struct ComputeRequest {
 pub struct ComputeResponse {
     pub success: bool,
     pub result: Option<serde_json::Value>,
+}
+
 pub async fn compute(
     State(state): State<Arc<AppState>>,
     Json(req): Json<ComputeRequest>,
@@ -35,3 +37,4 @@ pub async fn compute(
         success: result.is_some(),
         result,
     })
+}

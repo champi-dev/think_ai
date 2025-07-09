@@ -1,0 +1,5 @@
+🚀 Think AI Full O(1) System Starting...
+🔍 Environment variables:
+  PORT: 8080
+  OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE: delta
+🌐 Server starting on http://0.0.0.0:8080

@@ -325,22 +325,33 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
   • help     - Show this help message
   • exit     - Exit the program
 💬 Just type naturally to chat with Think AI!
+"#
                         );
                         continue;
+                    }
                     "stats" => {
                         println!("\n📊 Chat Statistics");
                         println!("Session active. Natural language processing enabled.");
+                    }
                     "history" => {
                         println!("\n📜 Conversation history tracking available in future update.");
+                    }
                     "clear" => {
                         println!("\n🧹 Conversation context refreshed.");
+                    }
                     _ => {
                         // Process regular query
                         let (response, response_time) = chat_system.process_query(input);
                         println!("\nThink AI: {}", response);
                         println!("[⚡ {:.1}ms]", response_time);
+                    }
+                }
+            }
             Err(e) => {
                 println!("Error reading input: {}", e);
+            }
+        }
+    }
     Ok(())
 pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
     match cmd {

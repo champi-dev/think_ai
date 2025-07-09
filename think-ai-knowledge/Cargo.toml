@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 
 [features]
-default = []
+default = ["web-scraping"]
 web-scraping = ["reqwest"]
 
 [dependencies]

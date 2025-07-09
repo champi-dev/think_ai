@@ -1,7 +1,6 @@
 use crate::ui::components::{ConsciousnessLevel, PerformanceMetrics, PulsingOrb};
 use crate::ui::effects::ParticleBackground;
-use serde::{Deserialize, Serialize};
-use wasm_bindgen::{JsCast, JsValue};
+use wasm_bindgen::JsValue;
 use web_sys::{HtmlInputElement, InputEvent, SubmitEvent};
 use yew::prelude::*;
 

@@ -4,15 +4,19 @@ use crate::qwen_cache::QwenCache;
 use std::sync::Arc;
 use think_ai_qwen::client::{QwenClient, QwenRequest};
 use tokio::runtime::Runtime;
+
 pub struct MinimalResponseGenerator {
     qwen_client: Arc<QwenClient>,
     cache: Arc<QwenCache>,
     runtime: Runtime,
 }
+
 impl Default for MinimalResponseGenerator {
     fn default() -> Self {
         Self::new()
     }
+}
+
 impl MinimalResponseGenerator {
     pub fn new() -> Self {
         Self {
@@ -20,16 +24,21 @@ impl MinimalResponseGenerator {
             cache: Arc::new(QwenCache::new()),
             runtime: Runtime::new().expect("Failed to create runtime"),
         }
+    }
+
     pub fn generate(&self, query: &str) -> String {
         // Check cache first for O(1) performance
         if let Some(cached_response) = self.cache.get(query) {
             return cached_response;
+        }
+
         // Generate new response
         let request = QwenRequest {
             query: query.to_string(),
             context: None,
             system_prompt: Some("You are Think AI, a helpful AI assistant. Respond naturally and conversationally to the user's query.".to_string()),
         };
+
         let response = self.runtime.block_on(async {
             match self.qwen_client.generate(request).await {
                 Ok(response) => response.content,
@@ -46,9 +55,14 @@ impl MinimalResponseGenerator {
                 }
             }
         });
+
         // Cache the response for future use
         self.cache.store(query, &response);
         response
+    }
+
     pub fn get_stats(&self) -> String {
         let (total_cached, total_uses) = self.cache.get_stats();
         format!("📊 Cache stats: {total_cached} unique queries cached, {total_uses} total uses")
+    }
+}

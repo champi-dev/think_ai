@@ -38,4 +38,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut terminal = ui::init_terminal()?;
         ui::draw_frame(&mut terminal)?;
         println!("\nThink AI v0.1.0 - Use --help for commands");
+    }
     Ok(())
+}

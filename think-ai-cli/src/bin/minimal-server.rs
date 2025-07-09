@@ -44,9 +44,13 @@ async fn root_handler() -> Html<String> {
     "#
         .to_string(),
     )
+}
+
 async fn health_check() -> Result<&'static str, StatusCode> {
     println!("🏥 Health check requested");
     Ok("OK")
+}
+
 async fn status_handler() -> Result<Json<serde_json::Value>, StatusCode> {
     Ok(Json(json!({
         "status": "healthy",
@@ -54,3 +58,4 @@ async fn status_handler() -> Result<Json<serde_json::Value>, StatusCode> {
         "port": std::env::var("PORT").unwrap_or_else(|_| "8080".to_string()),
         "version": "minimal-1.0"
     })))
+}

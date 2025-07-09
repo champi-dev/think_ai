@@ -28,6 +28,7 @@ impl IsolatedQwenSession {
         if let Some(cached) = self.cache.get(query) {
             println!("  💾 Cache hit for session {}", self.id);
             return cached;
+        }
         // Build context from conversation history
         let context_history = self.context.read().await;
         let context_str = if context_history.is_empty() {
@@ -58,6 +59,7 @@ impl IsolatedQwenSession {
                     _ => format!("Let me help you with: {}", query),
                 }
             }
+        };
         // Store in cache
         self.cache.store(query, &response);
         // Update context
@@ -65,7 +67,11 @@ impl IsolatedQwenSession {
         context.push((query.to_string(), response.clone()));
         if context.len() > 10 {
             context.remove(0);
+        }
         response
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("\n🧪 E2E Test: Qwen AI with Isolated Sessions");
@@ -102,10 +108,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "  ✓ 'hello' → greeting: {}",
         if test1_pass { "✅ PASS" } else { "❌ FAIL" }
     );
+    println!(
         "  ✓ 'what is love?' → about love: {}",
         if test2_pass { "✅ PASS" } else { "❌ FAIL" }
+    );
+    println!(
         "  ✓ 'what is poop?' → about waste: {}",
         if test3_pass { "✅ PASS" } else { "❌ FAIL" }
+    );
     // Test 2: Context persistence
     println!("\n📋 Test 2: Context Persistence in Sessions");
     println!("-----------------------------------------");
@@ -148,10 +158,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             (session_id, query, response)
         });
         handles.push(handle);
+    }
     // Wait for all parallel queries
     for handle in handles {
         let (session_id, query, response) = handle.await?;
         println!("\n👤 {} - '{}'\n🤖 {}", session_id, query, response);
+    }
     // Summary
     println!("\n🎉 E2E TEST SUMMARY");
     println!("===================");
@@ -165,3 +177,4 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("✅ Context persists within sessions");
     println!("\n📊 System is working as expected with Qwen AI!");
     Ok(())
+}

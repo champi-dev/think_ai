@@ -21,6 +21,12 @@ pub struct UiSystem {
     dashboard: dashboard::Dashboard,
     effects_manager: effects::EffectManager,
 }
+impl Default for UiSystem {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl UiSystem {
     pub fn new() -> Self {
         let window = web_sys::window().unwrap();

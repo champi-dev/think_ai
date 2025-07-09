@@ -3,7 +3,7 @@ use std::env;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize logging
-    env_logger::init();
+    tracing_subscriber::fmt::init();
 
     // Get port from environment or use default
     let port = env::var("PORT")
@@ -26,9 +26,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("🌐 Server listening on http://{}", addr);
 
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
-        .await?;
+    let listener = tokio::net::TcpListener::bind(&addr).await?;
+    axum::serve(listener, app).await?;
 
     Ok(())
 }

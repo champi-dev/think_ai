@@ -1,6 +1,5 @@
 use crate::math::Matrix4Utils;
-use crate::math::{Matrix4, Vector3};
-use std::cell::RefCell;
+use crate::math::Vector3;
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlUniformLocation};

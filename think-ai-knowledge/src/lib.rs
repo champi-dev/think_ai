@@ -873,8 +873,14 @@ mod tests {
 }
 
 pub mod quantum_llm_engine {
-    use std::sync::Arc;
+
     pub struct QuantumLLMEngine;
+    impl Default for QuantumLLMEngine {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+
     impl QuantumLLMEngine {
         pub fn new() -> Self {
             Self
@@ -887,3 +893,4 @@ pub mod training_system {
     impl DirectAnswerTrainer {
     }
 }
+pub use types::{ProcessType, ProcessState, ProcessMessage};

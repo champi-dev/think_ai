@@ -41,6 +41,12 @@ pub struct EffectEvent {
     pub parameters: HashMap<String, f32>,
 }
 
+impl Default for EffectCoordinator {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl EffectCoordinator {
     pub fn new() -> Self {
         Self {

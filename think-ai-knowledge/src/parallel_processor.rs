@@ -86,7 +86,7 @@ impl ParallelProcessor {
             .unwrap()
             .as_secs();
         let process_info = ProcessInfo {
-            process_type: process_type.clone(),
+            process_type: process_type,
             state: ProcessState::Running,
             handle: None,
             started_at: now,
@@ -97,22 +97,22 @@ impl ParallelProcessor {
         // Start the process in a new thread
         let process_id_clone = process_id.clone();
         let handle = match process_type {
-            ProcessType::Thinking => self.start_thinking_process(
+            ProcessType::Knowledge => self.start_thinking_process(
                 process_id_clone,
                 shared_knowledge,
                 message_channel,
                 context,
             ),
-            ProcessType::Dreaming => {
+            ProcessType::LLM => {
                 self.start_dreaming_process(process_id_clone, shared_knowledge, message_channel)
             }
-            ProcessType::Learning => self.start_learning_process(
+            ProcessType::Training => self.start_learning_process(
                 process_id_clone,
                 shared_knowledge,
                 message_channel,
                 context,
             ),
-            ProcessType::Reflecting => {
+            ProcessType::Evaluation => {
                 self.start_reflecting_process(process_id_clone, shared_knowledge, message_channel)
             }
         };
@@ -169,13 +169,11 @@ impl ParallelProcessor {
                     // Send status update
                     let _ = message_channel
                         .send(ProcessMessage {
+                            process_type: ProcessType::Knowledge,
+                            state: ProcessState::Running,
+                            message: format!("Thinking cycle {cycle} completed"),
                             process_id: process_id.clone(),
                             message_type: "status_update".to_string(),
-                            content: format!("Thinking cycle {cycle} completed"),
-                            timestamp: SystemTime::now()
-                                .duration_since(UNIX_EPOCH)
-                                .unwrap()
-                                .as_secs(),
                         })
                         .await;
 
@@ -231,13 +229,11 @@ impl ParallelProcessor {
                     // Send dream update
                     let _ = message_channel
                         .send(ProcessMessage {
+                            process_type: ProcessType::Knowledge,
+                            state: ProcessState::Running,
+                            message: format!("Dream cycle {cycle} completed"),
                             process_id: process_id.clone(),
                             message_type: "dream_generated".to_string(),
-                            content: format!("Dream cycle {cycle} completed"),
-                            timestamp: SystemTime::now()
-                                .duration_since(UNIX_EPOCH)
-                                .unwrap()
-                                .as_secs(),
                         })
                         .await;
 
@@ -303,13 +299,11 @@ impl ParallelProcessor {
                     // Send learning update
                     let _ = message_channel
                         .send(ProcessMessage {
+                            process_type: ProcessType::Training,
+                            state: ProcessState::Running,
+                            message: format!("Learned {} patterns", learned_patterns.len()),
                             process_id: process_id.clone(),
                             message_type: "learning_update".to_string(),
-                            content: format!("Learned {} patterns", learned_patterns.len()),
-                            timestamp: SystemTime::now()
-                                .duration_since(UNIX_EPOCH)
-                                .unwrap()
-                                .as_secs(),
                         })
                         .await;
 
@@ -364,13 +358,11 @@ impl ParallelProcessor {
                     // Send reflection update
                     let _ = message_channel
                         .send(ProcessMessage {
+                            process_type: ProcessType::Evaluation,
+                            state: ProcessState::Running,
+                            message: format!("Reflection cycle {cycle} completed"),
                             process_id: process_id.clone(),
                             message_type: "reflection_complete".to_string(),
-                            content: format!("Reflection cycle {cycle} completed"),
-                            timestamp: SystemTime::now()
-                                .duration_since(UNIX_EPOCH)
-                                .unwrap()
-                                .as_secs(),
                         })
                         .await;
 
@@ -427,8 +419,8 @@ impl ParallelProcessor {
             .iter()
             .map(|(id, info)| ProcessStatus {
                 process_id: id.clone(),
-                process_type: info.process_type.clone(),
-                state: info.state.clone(),
+                process_type: info.process_type,
+                state: info.state,
                 uptime: SystemTime::now()
                     .duration_since(UNIX_EPOCH)
                     .unwrap()
