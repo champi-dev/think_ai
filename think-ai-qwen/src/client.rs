@@ -113,16 +113,9 @@ impl QwenClient {
             .await
         {
             Ok(res) => res,
-            Err(e) => {
-                // Fallback response if Ollama is not available
-                return Ok(QwenResponse {
-                    content: format!("I understand your query: '{}'. Based on my knowledge, I would provide a comprehensive response here. (Ollama service unavailable: {})", request.query, e),
-                    usage: Usage {
-                        prompt_tokens: request.query.len() as u32,
-                        completion_tokens: 50,
-                        total_tokens: (request.query.len() as u32) + 50,
-                    },
-                });
+            Err(_) => {
+                // Return error to trigger fallback in the handler
+                return Err(anyhow::anyhow!("Ollama unavailable"));
             }
         };
 
@@ -138,15 +131,8 @@ impl QwenClient {
                 },
             })
         } else {
-            // Fallback response on error
-            Ok(QwenResponse {
-                content: format!("I understand your query: '{}'. Let me provide a helpful response based on my knowledge.", request.query),
-                usage: Usage {
-                    prompt_tokens: request.query.len() as u32,
-                    completion_tokens: 50,
-                    total_tokens: (request.query.len() as u32) + 50,
-                },
-            })
+            // Return error to trigger fallback in the handler
+            Err(anyhow::anyhow!("Ollama returned error status: {}", response.status()))
         }
     }
 
