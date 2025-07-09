@@ -192,7 +192,9 @@ async fn chat_handler(
         .await
     {
         Ok(qwen_response) => qwen_response,
-        Err(_) => {
+        Err(e) => {
+            // Log error for debugging but don't show to user
+            eprintln!("Qwen unavailable: {}", e);
             // Fallback to response generator if Qwen fails
             state.response_generator.generate_response(&request.query)
         }

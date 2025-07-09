@@ -231,35 +231,13 @@ impl ResponseComponent for ScientificExplanationComponent {
     }
 
     fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
-        let query_lower = query.to_lowercase();
-
-        // Provide specific responses for common queries
-        if query_lower.contains("what is the sun") || query_lower.contains("what's the sun") {
-            return Some("The Sun is the star at the center of our Solar System. It's a nearly perfect sphere of hot plasma, with internal convective motion that generates a magnetic field. The Sun is about 4.6 billion years old and contains 99.86% of the Solar System's mass. Its core temperature reaches about 15 million degrees Celsius, where nuclear fusion converts hydrogen into helium, releasing the energy that lights and heats our planet.".to_string());
+        // Always delegate to knowledge engine/LLM - no hardcoded responses
+        let llm_response = context.knowledge_engine.generate_llm_response(query);
+        if !llm_response.contains("not initialized") {
+            Some(llm_response)
+        } else {
+            None
         }
-
-        if query_lower.contains("what is the moon") || query_lower.contains("what's the moon") {
-            return Some("The Moon is Earth's only natural satellite and the fifth largest moon in our Solar System. It orbits Earth at an average distance of 384,400 km and is about one-quarter the size of Earth. The Moon's gravitational influence produces ocean tides and slightly lengthens our day. It formed about 4.5 billion years ago, likely from debris after a Mars-sized body collided with Earth.".to_string());
-        }
-
-        if query_lower.contains("what is") || query_lower.contains("what's") {
-            // Try knowledge engine first
-            let llm_response = context.knowledge_engine.generate_llm_response(query);
-            if !llm_response.contains("not initialized") {
-                return Some(llm_response);
-            }
-        }
-
-        // Generic science response for other queries
-        Some(format!(
-            "That's an interesting question about {}. {} involves complex scientific principles that connect to our understanding of the natural world. Would you like to explore specific aspects of this topic?",
-            query,
-            if query_lower.contains("quantum") { "Quantum mechanics" }
-            else if query_lower.contains("atom") { "Atomic theory" }
-            else if query_lower.contains("space") { "Space science" }
-            else if query_lower.contains("energy") { "Energy" }
-            else { "This topic" }
-        ))
     }
 }
 
@@ -283,7 +261,13 @@ impl ResponseComponent for TechnicalComponent {
     }
 
     fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
-        context.knowledge_engine.generate_llm_response(query).into()
+        // Always delegate to knowledge engine/LLM
+        let llm_response = context.knowledge_engine.generate_llm_response(query);
+        if !llm_response.contains("not initialized") {
+            Some(llm_response)
+        } else {
+            None
+        }
     }
 }
 
@@ -295,8 +279,10 @@ impl ResponseComponent for PhilosophicalComponent {
         "Philosophical"
     }
 
-    fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
-        let philosophy_terms = ["meaning", "consciousness", "existence", "reality", "philosophy"];
+    fn can_handle(&self, query: &str, _context: &ResponseContext) -> f32 {
+        let philosophy_terms = ["meaning", "consciousness", "existence", "reality", "philosophy",
+                              "love", "emotion", "feeling", "happiness", "soul", "mind", "life",
+                              "death", "purpose", "truth", "beauty", "justice", "ethics"];
         let query_lower = query.to_lowercase();
 
         if philosophy_terms.iter().any(|&term| query_lower.contains(term)) {
@@ -307,7 +293,13 @@ impl ResponseComponent for PhilosophicalComponent {
     }
 
     fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
-        context.knowledge_engine.generate_llm_response(query).into()
+        // Always delegate to knowledge engine/LLM
+        let llm_response = context.knowledge_engine.generate_llm_response(query);
+        if !llm_response.contains("not initialized") {
+            Some(llm_response)
+        } else {
+            None
+        }
     }
 }
 
@@ -329,7 +321,13 @@ impl ResponseComponent for AnalogyComponent {
     }
 
     fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
-        context.knowledge_engine.generate_llm_response(query).into()
+        // Always delegate to knowledge engine/LLM
+        let llm_response = context.knowledge_engine.generate_llm_response(query);
+        if !llm_response.contains("not initialized") {
+            Some(llm_response)
+        } else {
+            None
+        }
     }
 }
 
