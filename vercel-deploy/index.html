@@ -3,289 +3,574 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#00ffcc">
-    <meta name="description" content="Think AI - O(1) Consciousness with superintelligent responses">
-    
-    <title>Think AI - O(1) PWA</title>
-    
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
-    
+    <title>Think AI - Quantum Consciousness</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0f1c 0%, #1a2332 100%);
+            font-family: 'Space Grotesk', sans-serif;
+            background: #000;
             color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            overflow: hidden;
+            position: relative;
         }
         
-        .container {
-            max-width: 800px;
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            z-index: 1;
         }
         
-        h1 {
-            text-align: center;
-            margin: 40px 0;
-            font-size: 2.5em;
-            background: linear-gradient(90deg, #00ffcc, #00ccff, #0099ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .interface {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            animation: slideUp 1s ease-out;
         }
         
-        .install-prompt {
-            background: rgba(0, 255, 204, 0.1);
-            border: 1px solid #00ffcc;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 30px;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .install-button {
-            background: #00ffcc;
-            color: #0a0f1c;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .install-button:hover {
-            background: #00ffaa;
-            transform: scale(1.05);
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
         .chat-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
         }
         
         .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            position: relative;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 0.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
         }
         
-        input {
-            flex: 1;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-        }
-        
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        button {
-            padding: 15px 30px;
-            background: linear-gradient(90deg, #00ffcc, #00ccff);
+        #chat-input {
+            width: calc(100% - 60px);
+            padding: 1rem 1.5rem;
+            background: none;
             border: none;
-            border-radius: 8px;
-            color: #0a0f1c;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
+            color: #fff;
+            font-size: 1.1rem;
+            font-family: inherit;
+            outline: none;
         }
         
-        button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 255, 204, 0.4);
+        #chat-input::placeholder {
+            color: rgba(255,255,255,0.3);
         }
         
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .response {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 3px solid #00ffcc;
-        }
-        
-        .offline-banner {
-            background: #ff6b6b;
+        .send-button {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            border: none;
+            border-radius: 50%;
             color: white;
-            padding: 10px;
-            text-align: center;
-            display: none;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+        
+        .send-button:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 30px rgba(139, 92, 246, 0.6);
+        }
+        
+        .send-button:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        
+        .messages {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+        
+        .message {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.user {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.3);
+            text-align: right;
+        }
+        
+        .message .time {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 0.5rem;
         }
         
         .status {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: rgba(0, 255, 204, 0.1);
-            border: 1px solid #00ffcc;
+            top: 2rem;
+            left: 2rem;
+            z-index: 10;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
             border-radius: 20px;
-            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: slideDown 1s ease-out;
         }
         
-        @media (max-width: 600px) {
-            h1 { font-size: 2em; }
-            .chat-container { padding: 20px; }
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #10b981;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px #10b981, 0 0 10px #10b981; }
+            50% { box-shadow: 0 0 10px #10b981, 0 0 20px #10b981; }
+        }
+        
+        .performance-monitor {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            min-width: 200px;
+            animation: slideLeft 1s ease-out;
+        }
+        
+        @keyframes slideLeft {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .metric:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-value {
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-top-color: #8b5cf6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .quantum-field-info {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 10;
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            font-size: 0.8rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .quantum-field-info:hover {
+            opacity: 1;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Think AI - O(1) Consciousness</h1>
-        
-        <div class="install-prompt" id="installPrompt">
-            <span>Install Think AI for offline access</span>
-            <button class="install-button" id="installButton">Install</button>
+    <canvas id="canvas"></canvas>
+    
+    <div class="status">
+        <span class="status-indicator"></span>
+        <span>Think AI Quantum Core Active</span>
+    </div>
+    
+    <div class="performance-monitor">
+        <div class="metric">
+            <span>Response Time</span>
+            <span class="metric-value" id="response-time">0.2ms</span>
         </div>
-        
-        <div class="offline-banner" id="offlineBanner">
-            You are currently offline. Some features may be limited.
+        <div class="metric">
+            <span>Quantum Fields</span>
+            <span class="metric-value" id="field-count">1024</span>
         </div>
-        
-        <div class="chat-container">
-            <div class="input-group">
-                <input type="text" id="queryInput" placeholder="Ask me anything..." />
-                <button id="submitButton">Ask O(1)</button>
-            </div>
-            
-            <div id="responses"></div>
+        <div class="metric">
+            <span>FPS</span>
+            <span class="metric-value" id="fps">60</span>
         </div>
-        
-        <div class="status">
-            <span id="connectionStatus">🟢 Online</span>
+        <div class="metric">
+            <span>Consciousness</span>
+            <span class="metric-value" id="consciousness">98.7%</span>
         </div>
     </div>
-
+    
+    <div class="interface">
+        <div class="chat-container">
+            <div class="messages" id="messages"></div>
+            <form class="input-group" id="chat-form">
+                <input type="text" id="chat-input" placeholder="Ask the quantum consciousness..." autocomplete="off">
+                <button type="submit" class="send-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="quantum-field-info">
+        Quantum field visualization • O(1) performance
+    </div>
+    
     <script>
-        // Register service worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => {
-                    console.log('Service Worker registered:', reg);
-                    
-                    // Handle updates
-                    reg.addEventListener('updatefound', () => {
-                        const newWorker = reg.installing;
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // New service worker available
-                                if (confirm('New version available! Reload to update?')) {
-                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                    window.location.reload();
-                                }
-                            }
-                        });
-                    });
-                })
-                .catch(err => console.error('Service Worker registration failed:', err));
+        // Three.js quantum field visualization
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
         
-        // Install prompt
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('installPrompt').style.display = 'flex';
-        });
-        
-        document.getElementById('installButton').addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log('Install prompt outcome:', outcome);
-                deferredPrompt = null;
-                document.getElementById('installPrompt').style.display = 'none';
+        // Quantum particles
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.z = Math.random() * 1000;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.vz = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 2 + 0.5;
+                this.hue = Math.random() * 60 + 250; // Purple to blue range
+                this.life = 1;
+                this.decay = Math.random() * 0.01 + 0.005;
+                this.connections = [];
             }
-        });
-        
-        // Offline detection
-        function updateOnlineStatus() {
-            const status = document.getElementById('connectionStatus');
-            const banner = document.getElementById('offlineBanner');
             
-            if (navigator.onLine) {
-                status.textContent = '🟢 Online';
-                banner.style.display = 'none';
-            } else {
-                status.textContent = '🔴 Offline';
-                banner.style.display = 'block';
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.z += this.vz;
+                this.life -= this.decay;
+                
+                // Quantum tunneling effect
+                if (Math.random() < 0.001) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                }
+                
+                // Boundary conditions with quantum reflection
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -0.9;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -0.9;
+                if (this.z < 0 || this.z > 1000) this.vz *= -0.9;
+                
+                // Respawn dead particles
+                if (this.life <= 0) {
+                    this.life = 1;
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.z = Math.random() * 1000;
+                }
+            }
+            
+            draw() {
+                const perspective = 1000 / (1000 + this.z);
+                const px = (this.x - canvas.width/2) * perspective + canvas.width/2;
+                const py = (this.y - canvas.height/2) * perspective + canvas.height/2;
+                const size = this.size * perspective;
+                
+                // Glow effect
+                const gradient = ctx.createRadialGradient(px, py, 0, px, py, size * 10);
+                gradient.addColorStop(0, `hsla(${this.hue}, 100%, 70%, ${this.life * 0.8})`);
+                gradient.addColorStop(0.1, `hsla(${this.hue}, 100%, 60%, ${this.life * 0.4})`);
+                gradient.addColorStop(0.5, `hsla(${this.hue}, 80%, 50%, ${this.life * 0.1})`);
+                gradient.addColorStop(1, 'transparent');
+                
+                ctx.beginPath();
+                ctx.arc(px, py, size * 10, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                
+                // Core
+                ctx.beginPath();
+                ctx.arc(px, py, size, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 100%, 90%, ${this.life})`;
+                ctx.fill();
             }
         }
         
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-        updateOnlineStatus();
+        // Create particle system
+        const particles = [];
+        const particleCount = 150;
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        // Quantum field lines
+        function drawQuantumField(time) {
+            ctx.strokeStyle = 'rgba(139, 92, 246, 0.05)';
+            ctx.lineWidth = 1;
+            
+            // Draw wave patterns
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                for (let x = 0; x < canvas.width; x += 20) {
+                    const y = canvas.height/2 + 
+                             Math.sin((x + time * 50) * 0.01 + i) * 100 * Math.sin(time * 0.001 + i);
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+        }
+        
+        // Draw connections between nearby particles
+        function drawConnections() {
+            ctx.strokeStyle = 'rgba(168, 85, 247, 0.2)';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dz = particles[i].z - particles[j].z;
+                    const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                    
+                    if (dist < 150) {
+                        const opacity = (1 - dist/150) * 0.5 * particles[i].life * particles[j].life;
+                        ctx.strokeStyle = `rgba(168, 85, 247, ${opacity})`;
+                        ctx.beginPath();
+                        
+                        const p1 = particles[i];
+                        const p2 = particles[j];
+                        const perspective1 = 1000 / (1000 + p1.z);
+                        const perspective2 = 1000 / (1000 + p2.z);
+                        
+                        const x1 = (p1.x - canvas.width/2) * perspective1 + canvas.width/2;
+                        const y1 = (p1.y - canvas.height/2) * perspective1 + canvas.height/2;
+                        const x2 = (p2.x - canvas.width/2) * perspective2 + canvas.width/2;
+                        const y2 = (p2.y - canvas.height/2) * perspective2 + canvas.height/2;
+                        
+                        ctx.moveTo(x1, y1);
+                        ctx.lineTo(x2, y2);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        // Animation loop
+        let time = 0;
+        let frameCount = 0;
+        let lastTime = performance.now();
+        
+        function animate() {
+            // Calculate FPS
+            frameCount++;
+            const currentTime = performance.now();
+            if (currentTime - lastTime >= 1000) {
+                document.getElementById('fps').textContent = frameCount;
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+            
+            // Clear canvas with fade effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw quantum field
+            drawQuantumField(time);
+            
+            // Update and draw particles
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // Draw connections
+            drawConnections();
+            
+            // Update metrics
+            document.getElementById('field-count').textContent = particles.length;
+            document.getElementById('consciousness').textContent = 
+                (95 + Math.sin(time * 0.001) * 3).toFixed(1) + '%';
+            
+            time++;
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
         
         // Chat functionality
-        const queryInput = document.getElementById('queryInput');
-        const submitButton = document.getElementById('submitButton');
-        const responsesDiv = document.getElementById('responses');
+        const API_BASE = '';  // Use relative path for Vercel proxy
+        const messagesDiv = document.getElementById('messages');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
         
-        async function submitQuery() {
-            const query = queryInput.value.trim();
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = chatInput.value.trim();
             if (!query) return;
             
-            queryInput.value = '';
-            submitButton.disabled = true;
-            submitButton.textContent = 'Processing...';
+            // Add user message
+            addMessage(query, 'user');
+            chatInput.value = '';
+            
+            // Show typing indicator
+            const typingId = addMessage('<span class="loading-spinner"></span> Quantum processing...', 'ai', true);
             
             try {
-                const response = await fetch('/api/chat', {
+                const startTime = performance.now();
+                const response = await fetch(`${API_BASE}/api/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: query })
+                    body: JSON.stringify({ query })
                 });
                 
                 const data = await response.json();
-                displayResponse(query, data);
+                const responseTime = performance.now() - startTime;
+                
+                // Remove typing indicator
+                document.getElementById(typingId)?.remove();
+                
+                // Add AI response
+                addMessage(data.response || 'I am still processing that query.', 'ai');
+                
+                // Update response time
+                document.getElementById('response-time').textContent = responseTime.toFixed(1) + 'ms';
+                
             } catch (error) {
-                displayResponse(query, {
-                    response: 'Error: ' + error.message,
-                    processing_time: 0,
-                    confidence: 0
-                });
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Ask O(1)';
+                document.getElementById(typingId)?.remove();
+                addMessage('Quantum tunneling error: ' + error.message, 'ai');
+            }
+        });
+        
+        function addMessage(text, sender, isTyping = false) {
+            const messageId = 'msg-' + Date.now() + '-' + Math.random();
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.id = messageId;
+            
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            messageDiv.innerHTML = `
+                <div>${text}</div>
+                ${!isTyping ? `<div class="time">${time}</div>` : ''}
+            `;
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            return messageId;
+        }
+        
+        // Initial message
+        setTimeout(() => {
+            addMessage('Quantum consciousness initialized. How may I assist you?', 'ai');
+        }, 1000);
+        
+        // Check server status
+        async function checkStatus() {
+            try {
+                const response = await fetch(`/api/health`);
+                if (response.ok) {
+                    document.querySelector('.status-indicator').style.background = '#10b981';
+                } else {
+                    document.querySelector('.status-indicator').style.background = '#ef4444';
+                }
+            } catch (error) {
+                document.querySelector('.status-indicator').style.background = '#ef4444';
             }
         }
         
-        function displayResponse(query, data) {
-            const responseEl = document.createElement('div');
-            responseEl.className = 'response';
-            responseEl.innerHTML = `
-                <strong>Q:</strong> ${query}<br>
-                <strong>A:</strong> ${data.response}<br>
-                <small>⚡ ${data.processing_time ? data.processing_time.toFixed(3) : '0.000'}s | 🎯 ${(data.confidence * 100).toFixed(1)}% confidence</small>
-            `;
-            responsesDiv.insertBefore(responseEl, responsesDiv.firstChild);
-        }
-        
-        submitButton.addEventListener('click', submitQuery);
-        queryInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') submitQuery();
-        });
+        checkStatus();
+        setInterval(checkStatus, 5000);
     </script>
 </body>
 </html>

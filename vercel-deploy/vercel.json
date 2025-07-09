@@ -1,9 +1,13 @@
 {
-  "name": "think-ai-webapp",
+  "name": "think-ai-3d-webapp",
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "http://69.197.178.37:8080/api/$1"
+    },
+    {
+      "source": "/ws",
+      "destination": "http://69.197.178.37:8080/ws"
     }
   ],
   "headers": [
@@ -16,11 +20,23 @@
         },
         {
           "key": "X-Frame-Options",
-          "value": "DENY"
+          "value": "SAMEORIGIN"
         },
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
         }
       ]
     },
