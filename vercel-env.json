@@ -1,0 +1,7 @@
+{
+  "NEXT_PUBLIC_API_URL": "https://c0f90449ca08.ngrok.app",
+  "NEXT_PUBLIC_CHAT_ENDPOINT": "https://c0f90449ca08.ngrok.app/api/chat",
+  "NEXT_PUBLIC_PARALLEL_CHAT_ENDPOINT": "https://c0f90449ca08.ngrok.app/api/parallel-chat",
+  "NEXT_PUBLIC_KNOWLEDGE_STATS_ENDPOINT": "https://c0f90449ca08.ngrok.app/api/knowledge/stats",
+  "NEXT_PUBLIC_BENCHMARK_ENDPOINT": "https://c0f90449ca08.ngrok.app/api/benchmark"
+}
