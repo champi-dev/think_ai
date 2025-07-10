@@ -3,10 +3,10 @@
 
 const config = {
   // Production GPU server endpoint
-  API_BASE_URL: process.env.THINK_AI_API_URL || 'http://69.197.178.37:8080',
+  API_BASE_URL: process.env.THINK_AI_API_URL || 'http://69.197.178.37:11434',
   
   // WebSocket endpoint for real-time updates
-  WS_URL: process.env.THINK_AI_WS_URL || 'ws://69.197.178.37:8080/ws',
+  WS_URL: process.env.THINK_AI_WS_URL || 'ws://69.197.178.37:11434/ws',
   
   // Enable debug logging
   DEBUG: process.env.NODE_ENV !== 'production',

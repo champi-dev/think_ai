@@ -138,8 +138,8 @@ impl ComponentResponseGenerator {
             .map(|s| s.to_string())
             .collect();
 
-        // Note: KnowledgeEngine doesn't have search_nodes method
-        let relevant_nodes = Vec::new(); // self.knowledge_engine.search_nodes(query, 5);
+        // Use KnowledgeEngine's query method to find relevant nodes
+        let relevant_nodes = self.knowledge_engine.query(query).unwrap_or_default();
 
         let _conversation_context: Option<()> = self.conversation_memory.as_ref().and(None); // m.get_current_context() doesn't exist
 
