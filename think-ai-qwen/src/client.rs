@@ -14,7 +14,7 @@ impl Default for QwenConfig {
         Self {
             api_key: None,
             base_url: "http://localhost:11434".to_string(),
-            model: "qwen2.5:1.5b".to_string(),
+            model: "qwen2.5:3b".to_string(),
         }
     }
 }
@@ -78,7 +78,7 @@ impl QwenClient {
 
     pub fn new_with_config(config: QwenConfig) -> Self {
         let client = reqwest::Client::builder()
-            .timeout(Duration::from_secs(8))
+            .timeout(Duration::from_secs(30))
             .build()
             .unwrap();
         Self { config, client }

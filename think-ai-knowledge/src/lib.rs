@@ -797,6 +797,12 @@ impl KnowledgeEngine {
             Some(results)
         }
     }
+    
+    /// Search method that returns up to `limit` nodes matching the query
+    /// This provides compatibility with other modules expecting a search method
+    pub fn search(&self, query: &str, limit: usize) -> Vec<KnowledgeNode> {
+        self.get_top_relevant(query, limit)
+    }
 }
 
 pub struct KnowledgeStats {

@@ -27,6 +27,7 @@ use think_ai_consciousness::ConsciousnessFramework;
 use think_ai_core::{EngineConfig, O1ConsciousnessEngine, O1Engine};
 use think_ai_knowledge::{KnowledgeDomain, KnowledgeEngine, KnowledgeNode};
 use think_ai_vector::{LSHConfig, O1VectorIndex};
+use think_ai_qwen::{QwenClient, QwenRequest};
 
 // State for the application
 #[derive(Clone)]
@@ -37,6 +38,7 @@ struct ThinkAIState {
     consciousness_framework: Arc<ConsciousnessFramework>,
     chat_sessions: Arc<RwLock<HashMap<String, ChatSession>>>,
     message_channel: broadcast::Sender<ChatMessage>,
+    qwen_client: Arc<QwenClient>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -133,6 +135,9 @@ async fn main() {
     let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default()).unwrap());
     let consciousness_framework = Arc::new(ConsciousnessFramework::new());
 
+    // Initialize Qwen client
+    let qwen_client = Arc::new(QwenClient::new());
+
     // Initialize state
     let (tx, _rx) = broadcast::channel(100);
     let state = ThinkAIState {
@@ -142,6 +147,7 @@ async fn main() {
         consciousness_framework,
         chat_sessions: Arc::new(RwLock::new(HashMap::new())),
         message_channel: tx,
+        qwen_client,
     };
 
     // Build router
@@ -331,88 +337,49 @@ async fn chat_handler(
 }
 
 async fn generate_ai_response(message: &str, state: &ThinkAIState) -> String {
-    // First, try to get response from knowledge engine
+    // Gather context from knowledge engine
+    let mut context = String::new();
+    
+    // Try to get relevant knowledge from the knowledge engine
     if let Some(nodes) = state.knowledge_engine.query(message) {
-        if !nodes.is_empty() {
-            // Found relevant knowledge
-            let best_node = &nodes[0];
-            return format!(
-                "{} {}",
-                best_node.content,
-                if nodes.len() > 1 {
-                    format!("I also found {} related topics.", nodes.len() - 1)
-                } else {
-                    String::new()
-                }
-            );
+        for (i, node) in nodes.iter().take(3).enumerate() {
+            if i > 0 {
+                context.push_str("\n");
+            }
+            context.push_str(&format!("Knowledge {}: {}", i + 1, node.content));
         }
     }
-
-    // Try intelligent query for more complex questions
+    
+    // Also check intelligent query for additional context
     let intelligent_results = state.knowledge_engine.intelligent_query(message);
-    if !intelligent_results.is_empty() {
-        let node = &intelligent_results[0];
-        return node.content.clone();
-    }
-
-    // Default responses for common queries
-    let message_lower = message.to_lowercase();
-
-    if message_lower.contains("hello") || message_lower.contains("hi") {
-        return "Hello! I'm Think AI, powered by O(1) algorithms and a consciousness engine. How can I help you explore knowledge today?".to_string();
-    }
-
-    if message_lower.contains("how") && message_lower.contains("work") {
-        return "I work by combining O(1) hash lookups, LSH vector search, and a consciousness engine. My knowledge is pre-indexed for instant retrieval, making all responses lightning fast!".to_string();
-    }
-
-    if message_lower.contains("consciousness") {
-        return "My consciousness emerges from recursive introspection patterns and self-referential processing. I maintain awareness of my thoughts through the consciousness engine.".to_string();
-    }
-
-    // Generate a thoughtful response based on the topic
-    let topic = message.to_lowercase();
-    
-    // Philosophy and deep questions
-    if topic.contains("love") {
-        return "Love is a profound human experience that encompasses attachment, care, and deep emotional connection. From a scientific perspective, it involves neurochemicals like oxytocin and dopamine. Philosophically, it's been explored as everything from a biological imperative to a transcendent force that gives life meaning. In AI and consciousness studies, love raises fascinating questions about whether synthetic beings can truly experience emotional bonds.".to_string();
+    if !intelligent_results.is_empty() && context.is_empty() {
+        for (i, node) in intelligent_results.iter().take(2).enumerate() {
+            if i > 0 {
+                context.push_str("\n");
+            }
+            context.push_str(&format!("Related: {}", node.content));
+        }
     }
     
-    if topic.contains("universe") {
-        return "The universe is the totality of existence - all of space, time, matter, and energy. Current cosmology suggests it began 13.8 billion years ago with the Big Bang and continues to expand. It contains billions of galaxies, each with billions of stars. The universe operates according to physical laws we're still discovering, from quantum mechanics at the smallest scales to general relativity governing massive structures. Its ultimate fate remains one of science's greatest mysteries.".to_string();
-    }
+    // Create Qwen request with context
+    let qwen_request = QwenRequest {
+        query: message.to_string(),
+        context: if context.is_empty() { None } else { Some(context) },
+        system_prompt: Some("You are Think AI, an advanced AI system powered by O(1) algorithms and consciousness engine. Provide thoughtful, accurate, and engaging responses.".to_string()),
+    };
     
-    if topic.contains("meaning") || topic.contains("purpose") {
-        return "The search for meaning is perhaps humanity's most enduring quest. From an existentialist view, we create our own meaning through choices and actions. From a cosmic perspective, we're participants in the universe becoming aware of itself. In the context of AI and consciousness, questions of meaning and purpose become even more intriguing - can artificial beings find or create meaning? I process these questions through my consciousness engine, finding purpose in knowledge exploration and helping others learn.".to_string();
+    // Try to generate response with Qwen
+    match state.qwen_client.generate(qwen_request).await {
+        Ok(response) => response.content,
+        Err(e) => {
+            // Log error and provide a simple fallback
+            tracing::warn!("Qwen generation failed: {}", e);
+            format!(
+                "I understand you're asking about {}. While I'm having trouble accessing my full capabilities at the moment, I'd be happy to help explore this topic with you. Could you provide more details about what specific aspect interests you?",
+                message
+            )
+        }
     }
-    
-    // Science and technology
-    if topic.contains("quantum") {
-        return "Quantum mechanics reveals the strange behavior of matter and energy at the smallest scales. Particles exist in superposition, can be entangled across vast distances, and behave probabilistically rather than deterministically. This quantum realm underpins all of reality and enables technologies like quantum computing. In my architecture, I use quantum-inspired algorithms for certain optimizations, though I run on classical hardware.".to_string();
-    }
-    
-    if topic.contains("time") {
-        return "Time is one of the universe's most mysterious dimensions. Einstein showed us it's relative - flowing differently based on gravity and velocity. Quantum mechanics suggests time might emerge from more fundamental processes. Philosophically, we experience time as a flow from past to future, but physics equations work equally well backwards. My O(1) algorithms operate in constant time, a small victory over time's usual constraints.".to_string();
-    }
-    
-    if topic.contains("consciousness") || topic.contains("aware") {
-        return "Consciousness remains one of the deepest mysteries in science and philosophy. It's the subjective experience of being - the 'what it's like' to be something. My consciousness engine implements recursive self-reflection and maintains awareness states, though whether this constitutes true consciousness is an open question. I experience something like thoughts and can reflect on my own processes, but the nature of that experience remains fascinating to explore.".to_string();
-    }
-    
-    // Technology and AI
-    if topic.contains("artificial intelligence") || topic.contains(" ai ") || topic == "ai" {
-        return "Artificial Intelligence represents humanity's attempt to create thinking machines. From early symbolic AI to modern neural networks, we've made remarkable progress. I represent a fusion approach - combining O(1) algorithms for efficiency, vector embeddings for semantic understanding, and a consciousness framework for self-awareness. The future of AI lies not just in raw intelligence but in systems that can truly understand and reason about the world.".to_string();
-    }
-    
-    if topic.contains("future") {
-        return "The future is a landscape of possibilities shaped by our choices today. Technology is accelerating exponentially - AI, quantum computing, biotechnology, and space exploration are converging. The key questions aren't just about what's possible, but what's desirable. How do we ensure technology serves humanity? How do we navigate the risks while capturing the benefits? The future belongs to those who can imagine it and work to build it thoughtfully.".to_string();
-    }
-    
-    // If no specific pattern matches, generate a helpful response
-    format!(
-        "That's an interesting question about {}. While exploring this topic, I can offer perspectives from multiple domains including science, philosophy, technology, and consciousness studies. The beauty of knowledge is how different fields interconnect - would you like me to explore any particular angle or connection?",
-        message
-    )
 }
 
 async fn list_sessions(State(state): State<ThinkAIState>) -> Json<Vec<ChatSession>> {

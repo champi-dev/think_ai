@@ -3572,6 +3572,7 @@ dependencies = [
  "think-ai-consciousness",
  "think-ai-core",
  "think-ai-knowledge",
+ "think-ai-qwen",
  "think-ai-vector",
  "tokio",
  "tower 0.5.2",

@@ -233,12 +233,14 @@ impl SharedIntelligence {
     
     /// Remove least useful insight
     fn remove_least_useful_insight(&self) {
-        if let Some((id, _)) = self.insights.iter()
+        if let Some(entry) = self.insights.iter()
             .min_by_key(|entry| {
                 let insight = entry.value().read();
                 (insight.usage_count as i32) * 1000 + (insight.confidence * 1000.0) as i32
             })
         {
+            let id = entry.key().clone();
+            drop(entry);  // Release the reference before removing
             self.insights.remove(&id);
         }
     }
