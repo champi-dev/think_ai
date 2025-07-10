@@ -20,6 +20,7 @@ pub struct AppState {
     pub vector_index: Arc<think_ai_vector::O1VectorIndex>,
     pub conversation_memory:
         Arc<think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory>,
+    pub parallel_consciousness: Arc<think_ai_consciousness::parallel_consciousness::ParallelConsciousness>,
 }
 
 pub fn create_router(state: Arc<AppState>) -> Router {
@@ -38,6 +39,7 @@ pub fn create_router(state: Arc<AppState>) -> Router {
         .route("/search", post(handlers::search))
         .route("/stats", get(handlers::stats))
         .route("/api/chat", post(handlers::chat))
+        .route("/api/parallel-chat", post(handlers::parallel_chat))
         .route("/api/process", post(handlers::chat))
         .route("/api/knowledge/stats", get(handlers::knowledge_stats))
         // WebSocket endpoint (placeholder for now)
@@ -83,6 +85,14 @@ async fn fallback_handler() -> impl IntoResponse {
 }
 
 async fn serve_webapp() -> Html<&'static str> {
+    // Use quantum 3D version if available, fallback to minimal
+    if std::path::Path::new("quantum_3d.html").exists() {
+        match std::fs::read_to_string("quantum_3d.html") {
+            Ok(content) => return Html(Box::leak(content.into_boxed_str())),
+            Err(_) => {}
+        }
+    }
+    
     // Use test version locally, production version in deployment
     if cfg!(debug_assertions) {
         Html(include_str!("../../../minimal_3d_test.html"))

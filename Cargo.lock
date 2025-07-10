@@ -3494,8 +3494,10 @@ dependencies = [
  "futures",
  "im",
  "parking_lot 0.12.4",
+ "rand 0.8.5",
  "serde",
  "serde_json",
+ "think-ai-qwen",
  "think-ai-utils",
  "thiserror 2.0.12",
  "tokio",
@@ -3567,6 +3569,7 @@ dependencies = [
  "hyper 1.6.0",
  "serde",
  "serde_json",
+ "think-ai-consciousness",
  "think-ai-core",
  "think-ai-knowledge",
  "think-ai-utils",
@@ -3576,6 +3579,7 @@ dependencies = [
  "tower 0.5.2",
  "tower-http 0.6.6",
  "tracing",
+ "tracing-subscriber",
  "uuid",
 ]
 

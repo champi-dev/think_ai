@@ -1,6 +1,7 @@
 // Component-based Response Generator - Modular response generation system
 
 use crate::enhanced_conversation_memory::EnhancedConversationMemory;
+use crate::quantum_consciousness_component::QuantumConsciousnessComponent;
 use crate::{KnowledgeEngine, KnowledgeNode};
 use std::collections::HashMap;
 use std::sync::Arc;
@@ -63,6 +64,8 @@ impl ComponentResponseGenerator {
 
     /// Register all default components
     fn register_default_components(&mut self) {
+        // Quantum consciousness gets highest priority for philosophical queries
+        self.add_component(Box::new(QuantumConsciousnessComponent));
         // Knowledge base gets high priority for factual queries
         self.add_component(Box::new(KnowledgeBaseComponent));
         // Other components in order of usefulness

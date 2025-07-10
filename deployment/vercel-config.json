@@ -1,0 +1,18 @@
+{
+  "api_endpoints": {
+    "base_url": "https://7b1bbfb05e4e.ngrok.app",
+    "endpoints": {
+      "chat": "/api/chat",
+      "parallel_chat": "/api/parallel-chat",
+      "knowledge_stats": "/api/knowledge/stats",
+      "benchmark": "/api/benchmark",
+      "health": "/health"
+    }
+  },
+  "features": {
+    "quantum_consciousness": true,
+    "parallel_processing": true,
+    "o1_optimization": true,
+    "knowledge_base": true
+  }
+}

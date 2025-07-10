@@ -35,11 +35,12 @@ pub async fn compute(
             let key = format!("{}:{}", query, context);
             
             // Check if we have a cached result
-            if let Ok(Some(result)) = state.engine.compute(&key).await {
+            if let Some(result) = state.engine.compute(&key).await {
+                let response_str = result.value.as_str().map(|s| s.to_string());
                 return Json(ComputeResponse {
                     success: true,
                     result: Some(result.value),
-                    response: result.value.as_str().map(|s| s.to_string()),
+                    response: response_str,
                 });
             }
             

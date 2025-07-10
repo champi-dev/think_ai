@@ -2,6 +2,7 @@
 
 pub mod awareness;
 pub mod consciousness_field;
+pub mod parallel_consciousness;
 pub mod principles;
 pub mod types;
 // pub mod recursive_trainer; // Temporarily disabled due to knowledge dependency

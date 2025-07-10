@@ -34,6 +34,7 @@ pub mod o1_benchmark_monitor;
 // pub mod qwen_knowledge_builder; // Requires think-ai-qwen
 pub mod realtime_knowledge_component;
 pub mod realtime_knowledge_gatherer;
+pub mod quantum_consciousness_component;
 pub mod response_generator;
 pub mod self_evaluator;
 pub mod self_learning;

@@ -1,0 +1,21 @@
+{
+  "name": "Think AI",
+  "short_name": "ThinkAI",
+  "description": "O(1) Performance AI with Consciousness Engine",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0f1c",
+  "theme_color": "#00ff88",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

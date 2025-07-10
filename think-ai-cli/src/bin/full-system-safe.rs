@@ -85,7 +85,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         false, // No auto-start
     ));
 
-    let self_learning = Arc::new(RwLock::new(SelfLearningSystem::new()));
+    let self_learning = Arc::new(RwLock::new(SelfLearningSystem::new(knowledge_engine.clone())));
 
     let state = SafeFullState {
         o1_engine,

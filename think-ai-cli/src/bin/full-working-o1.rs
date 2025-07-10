@@ -22,6 +22,7 @@ use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{types::LSHConfig, O1VectorIndex};
 use tokio::sync::RwLock;
 use tower_http::{cors::CorsLayer, services::ServeDir};
+use think_ai_consciousness::parallel_consciousness::ParallelConsciousness;
 
 #[derive(Clone)]
 struct FullO1State {
@@ -33,6 +34,7 @@ struct FullO1State {
     response_generator: Arc<ComponentResponseGenerator>,
     conversation_history: Arc<RwLock<Vec<(String, String)>>>,
     response_cache: Arc<RwLock<HashMap<String, (String, std::time::Instant)>>>,
+    parallel_consciousness: Arc<ParallelConsciousness>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -87,6 +89,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let response_generator = Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
     let conversation_history = Arc::new(RwLock::new(Vec::new()));
     let response_cache = Arc::new(RwLock::new(HashMap::new()));
+    
+    // Initialize parallel consciousness
+    let parallel_consciousness = Arc::new(ParallelConsciousness::new());
+    parallel_consciousness.start();
 
     let state = FullO1State {
         o1_engine,
@@ -97,6 +103,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         response_generator,
         conversation_history,
         response_cache,
+        parallel_consciousness,
     };
 
     // Build router
@@ -110,6 +117,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .nest_service("/static", ServeDir::new("static"))
         // API endpoints for the webapp
         .route("/api/chat", post(chat_handler))
+        .route("/api/parallel-chat", post(parallel_chat_handler))
+        .route("/api/knowledge/stats", get(knowledge_stats_handler))
         .route("/api/benchmark", get(o1_benchmark_handler))
         .route("/api/stats", get(stats_handler))
         .layer(CorsLayer::permissive())
@@ -298,5 +307,60 @@ async fn stats_handler(
                 "knowledge_query": "O(1) hash"
             }
         }
+    })))
+}
+
+#[derive(Debug, Deserialize)]
+struct ParallelChatRequest {
+    #[serde(alias = "message")]
+    query: String,
+}
+
+#[derive(Debug, Serialize)]
+struct ParallelChatResponse {
+    response: String,
+    consciousness_state: serde_json::Value,
+    processing_time: f64,
+}
+
+async fn parallel_chat_handler(
+    State(state): State<FullO1State>,
+    Json(request): Json<ParallelChatRequest>,
+) -> Result<Json<ParallelChatResponse>, StatusCode> {
+    let start = std::time::Instant::now();
+    
+    // Process through parallel consciousness
+    let response = state.parallel_consciousness.process_user_message(&request.query).await;
+    
+    // Get consciousness state
+    let consciousness_state = state.parallel_consciousness.get_consciousness_state();
+    
+    let processing_time = start.elapsed().as_secs_f64();
+    
+    Ok(Json(ParallelChatResponse {
+        response,
+        consciousness_state: serde_json::json!(consciousness_state),
+        processing_time,
+    }))
+}
+
+async fn knowledge_stats_handler(
+    State(state): State<FullO1State>,
+) -> Result<Json<serde_json::Value>, StatusCode> {
+    let stats = state.knowledge_engine.get_stats();
+    
+    Ok(Json(serde_json::json!({
+        "total_nodes": stats.total_nodes,
+        "domains": stats.domains,
+        "cache_hit_rate": stats.cache_hit_rate,
+        "avg_response_time_ms": stats.avg_response_time_ms,
+        "average_confidence": stats.average_confidence,
+        "o1_optimization": "Active",
+        "knowledge_sources": [
+            "Legal knowledge base",
+            "Wikipedia",
+            "arXiv",
+            "Project Gutenberg"
+        ]
     })))
 }

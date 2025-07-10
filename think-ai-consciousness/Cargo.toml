@@ -7,6 +7,7 @@ license.workspace = true
 
 [dependencies]
 think-ai-utils = { path = "../think-ai-utils" }
+think-ai-qwen = { path = "../think-ai-qwen" }
 tokio.workspace = true
 async-trait.workspace = true
 serde.workspace = true
@@ -24,6 +25,7 @@ parking_lot.workspace = true
 uuid = { version = "1.17", features = ["v4", "serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 colored = "2.0"
+rand = "0.8"
 
 [[bin]]
 name = "sentient-ai-demo"

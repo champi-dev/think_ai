@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think AI Chat</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Prevent body scroll on mobile */
+        }
+        
+        .header {
+            background: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        
+        .header h1 {
+            margin: 0;
+            color: #00ff00;
+            font-size: 24px;
+        }
+        
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            min-height: 0; /* Allow flexbox to shrink properly */
+            position: relative;
+        }
+        
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            word-wrap: break-word;
+        }
+        
+        .user-message {
+            background: #2a3f5f;
+            text-align: right;
+            margin-left: 20%;
+        }
+        
+        .ai-message {
+            background: #1e3a1e;
+            margin-right: 20%;
+        }
+        
+        .ai-message pre {
+            background: #0a0a0a;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .ai-message code {
+            background: #0a0a0a;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        #messageInput {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 25px;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        #messageInput:focus {
+            border-color: #00ff00;
+        }
+        
+        #sendButton {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            background: #00ff00;
+            color: #0a0a0a;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #sendButton:hover:not(:disabled) {
+            background: #00cc00;
+            transform: translateY(-2px);
+        }
+        
+        #sendButton:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            text-align: center;
+            padding: 10px;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            background: #3a1e1e;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .typing-indicator {
+            display: none;
+            color: #00ff00;
+            font-style: italic;
+            padding: 10px;
+        }
+        
+        .typing-indicator.show {
+            display: block;
+        }
+        
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 10px;
+            }
+            
+            .messages {
+                margin-bottom: 10px;
+            }
+            
+            .user-message {
+                margin-left: 10%;
+            }
+            
+            .ai-message {
+                margin-right: 10%;
+            }
+            
+            #messageInput {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+        
+        /* Class for when keyboard is visible */
+        body.keyboard-visible {
+            height: 100vh; /* Use static viewport when keyboard is visible */
+        }
+        
+        body.keyboard-visible .chat-container {
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Think AI - O(1) Performance Chat</h1>
+        <div class="status" id="status">Connecting...</div>
+        <nav style="margin-top: 10px;">
+            <a href="/" style="color: #00ff00; text-decoration: none; margin: 0 10px;">Home</a>
+        </nav>
+    </div>
+    
+    <div class="chat-container">
+        <div class="messages" id="messages">
+            <div class="message ai-message">
+                <strong>Think AI:</strong> Hello! I'm Think AI, powered by O(1) performance algorithms. How can I help you today?
+            </div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator">Think AI is thinking...</div>
+        
+        <div class="input-container">
+            <input 
+                type="text" 
+                id="messageInput" 
+                placeholder="Type your message here..."
+                autofocus
+            />
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        const messagesDiv = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const statusDiv = document.getElementById('status');
+        const typingIndicator = document.getElementById('typingIndicator');
+        
+        // Update status
+        statusDiv.textContent = 'Ready';
+        statusDiv.style.color = '#00ff00';
+        
+        // Function to add message to chat
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+            
+            // Parse markdown-like formatting for AI messages
+            if (!isUser) {
+                content = content
+                    .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                    .replace(/`([^`]+)`/g, '<code>$1</code>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>');
+            }
+            
+            messageDiv.innerHTML = `<strong>${isUser ? 'You' : 'Think AI'}:</strong> ${content}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        // Function to show error
+        function showError(error) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = `Error: ${error}`;
+            messagesDiv.appendChild(errorDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        // Send message function
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, true);
+            messageInput.value = '';
+            
+            // Disable input while processing
+            messageInput.disabled = true;
+            sendButton.disabled = true;
+            typingIndicator.classList.add('show');
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Add AI response
+                addMessage(data.response || 'No response received');
+                
+            } catch (error) {
+                console.error('Chat error:', error);
+                showError(error.message || 'Failed to send message');
+            } finally {
+                // Re-enable input
+                messageInput.disabled = false;
+                sendButton.disabled = false;
+                typingIndicator.classList.remove('show');
+                messageInput.focus();
+            }
+        }
+        
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Focus on input when page loads
+        window.addEventListener('load', () => {
+            messageInput.focus();
+        });
+        
+        // Mobile keyboard handling
+        let viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        let isKeyboardVisible = false;
+        
+        // Function to handle viewport changes
+        function handleViewportChange() {
+            const currentHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            const threshold = 100; // Keyboard is likely visible if viewport shrinks by more than 100px
+            
+            if (viewportHeight - currentHeight > threshold && !isKeyboardVisible) {
+                // Keyboard appeared
+                isKeyboardVisible = true;
+                document.body.classList.add('keyboard-visible');
+                
+                // Ensure the input is visible
+                setTimeout(() => {
+                    messageInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+                
+            } else if (currentHeight >= viewportHeight - 50 && isKeyboardVisible) {
+                // Keyboard disappeared
+                isKeyboardVisible = false;
+                document.body.classList.remove('keyboard-visible');
+            }
+            
+            // Update stored height
+            if (!isKeyboardVisible) {
+                viewportHeight = currentHeight;
+            }
+        }
+        
+        // Visual Viewport API (most accurate for mobile keyboards)
+        if ('visualViewport' in window) {
+            window.visualViewport.addEventListener('resize', handleViewportChange);
+        }
+        
+        // Fallback for browsers without Visual Viewport API
+        window.addEventListener('resize', handleViewportChange);
+        
+        // Handle input focus/blur for additional keyboard detection
+        messageInput.addEventListener('focus', () => {
+            // On mobile, focusing input usually shows keyboard
+            if (window.innerWidth <= 768) {
+                setTimeout(handleViewportChange, 300); // Delay to allow keyboard animation
+            }
+        });
+        
+        messageInput.addEventListener('blur', () => {
+            // On mobile, blurring input usually hides keyboard
+            if (window.innerWidth <= 768) {
+                setTimeout(handleViewportChange, 300); // Delay to allow keyboard animation
+            }
+        });
+        
+        // Ensure messages stay scrolled to bottom when keyboard appears
+        function scrollToBottom() {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        // Override the existing addMessage function to ensure proper scrolling
+        const originalAddMessage = addMessage;
+        addMessage = function(content, isUser = false) {
+            originalAddMessage(content, isUser);
+            
+            // Extra scroll for mobile when keyboard is visible
+            if (isKeyboardVisible) {
+                setTimeout(scrollToBottom, 100);
+            }
+        };
+        
+        // Prevent viewport from bouncing on iOS
+        document.addEventListener('touchmove', (e) => {
+            if (e.target === document.body) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>

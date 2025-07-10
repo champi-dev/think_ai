@@ -10,6 +10,7 @@ think-ai-core = { path = "../think-ai-core" }
 think-ai-vector = { path = "../think-ai-vector" }
 think-ai-utils = { path = "../think-ai-utils" }
 think-ai-knowledge = { path = "../think-ai-knowledge" }
+think-ai-consciousness = { path = "../think-ai-consciousness" }
 # think-ai-image-gen = { path = "../think-ai-image-gen" } # Removed
 tokio.workspace = true
 async-trait.workspace = true
@@ -33,3 +34,10 @@ uuid = { version = "1.17", features = ["v4"] }
 
 # Image handling
 base64 = "0.21"
+
+# Tracing for the binary
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[[bin]]
+name = "think-ai-server"
+path = "src/bin/think-ai-server.rs"

@@ -33,12 +33,16 @@ pub async fn run_server(
     let final_addr: SocketAddr = format!("{}:{}", addr.ip(), final_port)
         .parse()
         .map_err(|e: std::net::AddrParseError| crate::HttpError::ServerError(e.to_string()))?;
+    // Initialize parallel consciousness
+    let parallel_consciousness = crate::handlers::initialize_parallel_consciousness();
+    
     // Image generation removed
     let state = Arc::new(AppState {
         engine,
         vector_index,
         knowledge_engine,
         conversation_memory,
+        parallel_consciousness,
     });
     let app = create_router(state);
     let listener = tokio::net::TcpListener::bind(final_addr)

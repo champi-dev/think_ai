@@ -10,8 +10,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🧠 Think AI Self-Learning Service Starting...");
 
     // Initialize components
-    let knowledge_engine = KnowledgeEngine::new();
-    let mut self_learning = SelfLearningSystem::new();
+    let knowledge_engine = std::sync::Arc::new(KnowledgeEngine::new());
+    let mut self_learning = SelfLearningSystem::new(knowledge_engine.clone());
     let trainer = KnowledgeTrainer::new();
 
     // Load existing knowledge if available
