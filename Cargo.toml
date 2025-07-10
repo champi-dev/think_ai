@@ -12,6 +12,7 @@ members = [
     "think-ai-knowledge",
     "think-ai-webapp",
     "think-ai-qwen",
+    "think-ai-quantum-gen",
     "full-system",
 ]
 

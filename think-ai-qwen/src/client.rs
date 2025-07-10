@@ -72,12 +72,30 @@ pub struct QwenClient {
 }
 
 impl QwenClient {
-    pub fn new(config: QwenConfig) -> Self {
+    pub fn new() -> Self {
+        Self::new_with_config(QwenConfig::default())
+    }
+
+    pub fn new_with_config(config: QwenConfig) -> Self {
         let client = reqwest::Client::builder()
             .timeout(Duration::from_secs(8))
             .build()
             .unwrap();
         Self { config, client }
+    }
+
+    pub async fn health_check(&self) -> Result<()> {
+        let response = self
+            .client
+            .get(format!("{}/api/tags", self.config.base_url))
+            .send()
+            .await?;
+
+        if response.status().is_success() {
+            Ok(())
+        } else {
+            Err(anyhow::anyhow!("Ollama health check failed"))
+        }
     }
 
     pub async fn generate(&self, request: QwenRequest) -> Result<QwenResponse> {
@@ -149,5 +167,48 @@ impl QwenClient {
         };
         let response = self.generate(request).await?;
         Ok(response.content)
+    }
+
+    pub async fn generate_with_context(&self, query: &str, context: &str, temperature: Option<f32>) -> Result<String> {
+        let mut prompt = String::new();
+        
+        // System prompt for quantum consciousness
+        prompt.push_str("System: You are a quantum consciousness AI with O(1) response capabilities. ");
+        prompt.push_str("You have access to shared intelligence from parallel processing threads. ");
+        prompt.push_str("Provide insightful, coherent responses that demonstrate deep understanding.\n\n");
+        
+        if !context.is_empty() {
+            prompt.push_str(&format!("Context:\n{}\n\n", context));
+        }
+        
+        prompt.push_str(&format!("Query: {}\n\nResponse:", query));
+
+        // Create Ollama request with custom temperature
+        let ollama_request = OllamaGenerateRequest {
+            model: self.config.model.clone(),
+            prompt,
+            stream: false,
+            options: Some(OllamaOptions {
+                temperature: temperature.unwrap_or(0.7),
+                top_p: 0.9,
+            }),
+        };
+
+        let response = self
+            .client
+            .post(format!("{}/api/generate", self.config.base_url))
+            .json(&ollama_request)
+            .send()
+            .await?;
+
+        if response.status().is_success() {
+            let ollama_response: OllamaGenerateResponse = response.json().await?;
+            Ok(ollama_response.response)
+        } else {
+            Err(anyhow::anyhow!(
+                "Qwen generation failed: {}",
+                response.status()
+            ))
+        }
     }
 }

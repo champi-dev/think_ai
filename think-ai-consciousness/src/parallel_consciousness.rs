@@ -270,7 +270,7 @@ impl ParallelConsciousness {
             conversation_context: Arc::new(RwLock::new(Vec::new())),
         });
         let qwen_config = QwenConfig::default();
-        let qwen_client = Arc::new(QwenApiClient::new(qwen_config));
+        let qwen_client = Arc::new(QwenApiClient::new());
 
         Self {
             threads: Arc::new(RwLock::new(HashMap::new())),
