@@ -1,19 +1,14 @@
-# Think AI Webapp - Vercel Deployment
+# Think AI Quantum Generation - Vercel Frontend
 
-This is the static frontend for Think AI, deployed on Vercel for global CDN distribution.
+## New Quantum Features
+- **Qwen-Only Generation**: All responses powered by Qwen 2.5
+- **Isolated Parallel Threads**: 6 thread types with context isolation
+- **Shared Intelligence**: Cross-thread learning system
+- **O(1) Performance**: Hash-based caching for instant responses
+
+## Configuration
+Update `config.js` with your ngrok URL after starting the GPU server.
 
 ## Architecture
-- **Frontend**: Static PWA on Vercel (this deployment)
-- **Backend**: GPU server at http://69.197.178.37:8080 (handles all computation)
-
-## Features
-- O(1) performance algorithms
-- PWA with offline support
-- Real-time chat interface
-- GPU-accelerated AI processing
-
-## API Endpoints
-All API calls are proxied to the GPU server:
-- `/api/chat` → `http://69.197.178.37:8080/api/chat`
-- `/api/process` → `http://69.197.178.37:8080/api/process`
-- `/health` → `http://69.197.178.37:8080/health`
+- Frontend: Vercel (this deployment)
+- Backend: GPU Server with ngrok tunnel

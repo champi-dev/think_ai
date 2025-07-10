@@ -80,7 +80,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let vector_index =
         Arc::new(O1VectorIndex::new(LSHConfig::default()).expect("Failed to create vector index"));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
-    let qwen_client = Arc::new(QwenClient::new(QwenConfig::default()));
+    let qwen_client = Arc::new(QwenClient::new());
 
     let enhanced_quantum_llm = Arc::new(RwLock::new(EnhancedQuantumLLMEngine::new(
         knowledge_engine.clone(),
