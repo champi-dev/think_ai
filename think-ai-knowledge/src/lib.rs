@@ -32,9 +32,9 @@ pub mod newsletter_scraper;
 pub mod o1_benchmark_monitor;
 // pub mod qwen_cache; // Requires think-ai-qwen
 // pub mod qwen_knowledge_builder; // Requires think-ai-qwen
+pub mod quantum_consciousness_component;
 pub mod realtime_knowledge_component;
 pub mod realtime_knowledge_gatherer;
-pub mod quantum_consciousness_component;
 pub mod response_generator;
 pub mod self_evaluator;
 pub mod self_learning;
@@ -797,7 +797,7 @@ impl KnowledgeEngine {
             Some(results)
         }
     }
-    
+
     /// Search method that returns up to `limit` nodes matching the query
     /// This provides compatibility with other modules expecting a search method
     pub fn search(&self, query: &str, limit: usize) -> Vec<KnowledgeNode> {

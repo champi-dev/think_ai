@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think AI - Hierarchical Knowledge</title>
+    
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary: #6366f1;
+            --primary-light: #8b5cf6;
+            --primary-dark: #4338ca;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --surface: rgba(15, 23, 42, 0.8);
+            --surface-light: rgba(30, 41, 59, 0.9);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.1);
+            --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+            --code-bg: rgba(30, 41, 59, 0.5);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at center, #0f172a 0%, #000 100%);
+            color: var(--text);
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+        }
+        
+        /* Animated background mesh */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+            animation: meshMove 20s ease-in-out infinite;
+            z-index: 0;
+        }
+        
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(0.5deg); }
+            66% { transform: translate(20px, -10px) rotate(-0.5deg); }
+        }
+        
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.8;
+        }
+        
+        /* Modern Glassmorphism Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.5));
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .header.collapsed {
+            padding: 0.5rem 2rem;
+        }
+        
+        .header.collapsed .logo-text {
+            font-size: 1rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text);
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow);
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes logoGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
+        }
+        
+        /* Revolutionary Chat Interface */
+        .interface {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 15;
+            padding: 2rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.95) 20%);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .interface.expanded {
+            top: 80px;
+            padding: 1rem 2rem 2rem;
+        }
+        
+        .chat-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: 100%;
+        }
+        
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--surface), var(--surface-light));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(99, 102, 241, 0.8) rgba(255, 255, 255, 0.1);
+            min-height: 200px;
+        }
+        
+        /* Custom scrollbar styling for webkit browsers */
+        .messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .messages::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.8);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .messages::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+        }
+        
+        .message {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: messageSlide 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            position: relative;
+        }
+        
+        @keyframes messageSlide {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95);
+                filter: blur(10px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+        
+        .message.user {
+            text-align: right;
+        }
+        
+        .message.ai {
+            text-align: left;
+        }
+        
+        .message-content {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            max-width: 85%;
+            word-wrap: break-word;
+            position: relative;
+            font-weight: 400;
+            line-height: 1.6;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .user .message-content {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(99, 102, 241, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .ai .message-content {
+            background: linear-gradient(135deg, var(--surface), var(--surface-light));
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        
+        /* Markdown Styling */
+        .message-content h1,
+        .message-content h2,
+        .message-content h3,
+        .message-content h4,
+        .message-content h5,
+        .message-content h6 {
+            margin: 1rem 0 0.5rem;
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--primary-light);
+        }
+        
+        .message-content h1:first-child,
+        .message-content h2:first-child,
+        .message-content h3:first-child {
+            margin-top: 0;
+        }
+        
+        .message-content h1 { font-size: 1.5em; }
+        .message-content h2 { font-size: 1.3em; }
+        .message-content h3 { font-size: 1.1em; }
+        
+        .message-content p {
+            margin: 0.5rem 0;
+            line-height: 1.7;
+        }
+        
+        .message-content ul,
+        .message-content ol {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .message-content li {
+            margin: 0.25rem 0;
+            line-height: 1.6;
+        }
+        
+        .message-content code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            padding: 0.2em 0.4em;
+            background: var(--code-bg);
+            border-radius: 4px;
+            color: var(--accent);
+        }
+        
+        .message-content pre {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--code-bg);
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+        
+        .message-content pre code {
+            display: block;
+            padding: 0;
+            background: none;
+            color: var(--text);
+            font-size: 0.875em;
+            line-height: 1.5;
+        }
+        
+        .message-content blockquote {
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            border-left: 4px solid var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            font-style: italic;
+        }
+        
+        .message-content a {
+            color: var(--secondary);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .message-content a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        
+        .message-content hr {
+            margin: 1.5rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+        
+        .message-content table {
+            margin: 1rem 0;
+            border-collapse: collapse;
+            width: 100%;
+            overflow-x: auto;
+            display: block;
+        }
+        
+        .message-content th,
+        .message-content td {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        
+        .message-content th {
+            background: var(--code-bg);
+            font-weight: 600;
+            color: var(--primary-light);
+        }
+        
+        .message-content tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        /* Revolutionary Input Design */
+        .input-container {
+            position: relative;
+            background: linear-gradient(135deg, var(--surface), var(--surface-light));
+            border: 2px solid transparent;
+            border-radius: 25px;
+            padding: 4px;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .input-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            border-radius: 25px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .input-container:focus-within::before {
+            opacity: 1;
+            animation: borderGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(30deg); }
+        }
+        
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--surface);
+            border-radius: 20px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 0.75rem;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+        
+        input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        button {
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        button svg {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="header" id="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Think AI</span>
+            </div>
+            <nav>
+                <a href="#" style="color: var(--text-muted); text-decoration: none; margin-left: 2rem;">v1.0</a>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="interface" id="interface">
+        <div class="chat-container">
+            <div class="messages" id="messages"></div>
+            
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="queryInput" 
+                        placeholder="Explore any topic with quantum-powered intelligence..."
+                        autocomplete="off"
+                    >
+                    <button id="sendBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configure marked options
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    try {
+                        return hljs.highlight(code, { language: lang }).value;
+                    } catch (err) {}
+                }
+                return hljs.highlightAuto(code).value;
+            },
+            breaks: true,
+            gfm: true,
+            headerIds: false,
+            mangle: false
+        });
+
+        // 3D Canvas Animation (same as before)
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        // O(1) Performance Quantum Field with Pre-computed Lookup Tables
+        const fieldPoints = [];
+        const fieldDensity = 16;
+        const time = { value: 0 };
+        
+        // O(1) Pre-computed lookup tables
+        const SIN_TABLE_SIZE = 1024;
+        const sinTable = new Float32Array(SIN_TABLE_SIZE);
+        const cosTable = new Float32Array(SIN_TABLE_SIZE);
+        
+        for (let i = 0; i < SIN_TABLE_SIZE; i++) {
+            const angle = (i / SIN_TABLE_SIZE) * Math.PI * 2;
+            sinTable[i] = Math.sin(angle);
+            cosTable[i] = Math.cos(angle);
+        }
+        
+        function fastSin(x) {
+            const index = Math.floor((x / (Math.PI * 2)) * SIN_TABLE_SIZE) & (SIN_TABLE_SIZE - 1);
+            return sinTable[index];
+        }
+        
+        function fastCos(x) {
+            const index = Math.floor((x / (Math.PI * 2)) * SIN_TABLE_SIZE) & (SIN_TABLE_SIZE - 1);
+            return cosTable[index];
+        }
+        
+        const gradientCache = new Map();
+        
+        function getOrCreateGradient(key, x, y, size, hue, saturation, lightness) {
+            if (!gradientCache.has(key)) {
+                const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+                gradient.addColorStop(0, `hsl(${hue}, ${saturation}%, ${lightness + 40}%)`);
+                gradient.addColorStop(0.7, `hsl(${hue + 30}, ${saturation - 10}%, ${lightness + 20}%)`);
+                gradient.addColorStop(1, `hsl(${hue}, ${saturation - 20}%, ${lightness}%)`);
+                gradientCache.set(key, gradient);
+            }
+            return gradientCache.get(key);
+        }
+        
+        class OptimizedQuantumPoint {
+            constructor(x, y, index) {
+                this.baseX = x;
+                this.baseY = y;
+                this.x = x;
+                this.y = y;
+                this.index = index;
+                
+                this.phaseOffset = (index * 0.618) % (Math.PI * 2);
+                this.amplitudeScale = 0.8 + (index % 3) * 0.4;
+                this.frequencyMult = 1 + (index % 5) * 0.2;
+                this.radiusBase = 2 + (index % 4);
+                this.gradientKey = `grad_${Math.floor(x/50)}_${Math.floor(y/50)}`;
+            }
+            
+            update(t) {
+                const timeIndex = (t * 0.001 + this.phaseOffset);
+                const waveX = fastSin(timeIndex * this.frequencyMult) * 25 * this.amplitudeScale;
+                const waveY = fastCos(timeIndex * this.frequencyMult) * 25 * this.amplitudeScale;
+                
+                this.x = this.baseX + waveX;
+                this.y = this.baseY + waveY;
+                this.energy = (fastSin(timeIndex * 2) + 1) * 0.5;
+            }
+            
+            draw() {
+                const size = this.radiusBase + this.energy * 3;
+                const alpha = 0.3 + this.energy * 0.4;
+                
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                
+                const hue = 240 + this.energy * 60;
+                const gradient = getOrCreateGradient(
+                    this.gradientKey, 
+                    this.x, this.y, size * 8, 
+                    hue, 80, 60
+                );
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, size * 8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.globalAlpha = alpha + 0.3;
+                ctx.fillStyle = `hsl(${hue}, 90%, 80%)`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.restore();
+            }
+        }
+        
+        function initializeQuantumField() {
+            fieldPoints.length = 0;
+            const spacingX = canvas.width / fieldDensity;
+            const spacingY = canvas.height / fieldDensity;
+            
+            let index = 0;
+            for (let x = 0; x < fieldDensity; x++) {
+                for (let y = 0; y < fieldDensity; y++) {
+                    const pointX = x * spacingX + spacingX / 2;
+                    const pointY = y * spacingY + spacingY / 2;
+                    fieldPoints.push(new OptimizedQuantumPoint(pointX, pointY, index++));
+                }
+            }
+        }
+        
+        initializeQuantumField();
+        
+        function animate(currentTime) {
+            ctx.fillStyle = 'rgba(0, 0, 12, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            time.value += 3;
+            
+            fieldPoints.forEach(point => {
+                point.update(time.value);
+                point.draw();
+            });
+            
+            drawOptimizedConnections();
+            requestAnimationFrame(animate);
+        }
+        
+        function drawOptimizedConnections() {
+            ctx.save();
+            ctx.globalAlpha = 0.3;
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < fieldPoints.length; i += 4) {
+                const point = fieldPoints[i];
+                const nextPoint = fieldPoints[i + 1];
+                
+                if (nextPoint && point.energy > 0.7 && nextPoint.energy > 0.7) {
+                    ctx.beginPath();
+                    ctx.moveTo(point.x, point.y);
+                    ctx.lineTo(nextPoint.x, nextPoint.y);
+                    ctx.stroke();
+                }
+            }
+            
+            ctx.restore();
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initializeQuantumField();
+        });
+        
+        // Enhanced Chat functionality with Markdown support
+        const messages = document.getElementById('messages');
+        const queryInput = document.getElementById('queryInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const header = document.getElementById('header');
+        const interface = document.getElementById('interface');
+        let messageCount = 0;
+        
+        function expandInterface() {
+            if (messageCount === 1) {
+                interface.classList.add('expanded');
+                header.classList.add('collapsed');
+            }
+        }
+        
+        function addMessage(content, isUser = false) {
+            const message = document.createElement('div');
+            message.className = `message ${isUser ? 'user' : 'ai'}`;
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            if (isUser) {
+                // User messages are plain text
+                messageContent.textContent = content;
+            } else {
+                // AI messages are rendered as markdown
+                const htmlContent = marked.parse(content);
+                messageContent.innerHTML = htmlContent;
+                
+                // Highlight code blocks after rendering
+                messageContent.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+            }
+            
+            message.appendChild(messageContent);
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+            
+            messageCount++;
+            expandInterface();
+        }
+        
+        function addLoadingMessage() {
+            const message = document.createElement('div');
+            message.className = 'message ai loading';
+            message.id = 'loading-message';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.innerHTML = '<em>Thinking...</em>';
+            
+            message.appendChild(messageContent);
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+            
+            return message;
+        }
+        
+        function removeLoadingMessage() {
+            const loading = document.getElementById('loading-message');
+            if (loading) loading.remove();
+        }
+        
+        async function sendQuery() {
+            const query = queryInput.value.trim();
+            if (!query) return;
+            
+            addMessage(query, true);
+            queryInput.value = '';
+            
+            const loadingMsg = addLoadingMessage();
+            const startTime = performance.now();
+            
+            try {
+                // First check if server is responding
+                const healthResponse = await fetch('/health').catch(() => null);
+                if (!healthResponse) {
+                    removeLoadingMessage();
+                    addMessage('⚠️ Cannot connect to server. The server may not be running on the expected port.');
+                    return;
+                }
+                
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: query })
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    removeLoadingMessage();
+                    addMessage(`**API Error (${response.status}):** ${errorText}`);
+                    return;
+                }
+                
+                const data = await response.json();
+                const responseTime = performance.now() - startTime;
+                
+                removeLoadingMessage();
+                
+                // Format the response with metadata
+                let formattedResponse = data.response;
+                
+                // Add performance metrics if available
+                if (data.processing_time || data.confidence) {
+                    formattedResponse += `\n\n---\n`;
+                    formattedResponse += `*⚡ Response time: ${responseTime.toFixed(0)}ms`;
+                    if (data.processing_time) {
+                        formattedResponse += ` | Processing: ${data.processing_time.toFixed(3)}s`;
+                    }
+                    if (data.confidence) {
+                        formattedResponse += ` | Confidence: ${(data.confidence * 100).toFixed(1)}%`;
+                    }
+                    formattedResponse += `*`;
+                }
+                
+                addMessage(formattedResponse);
+                
+            } catch (error) {
+                removeLoadingMessage();
+                let errorMsg = '**Error:** Sorry, I encountered an error.';
+                if (error.message.includes('Failed to fetch')) {
+                    errorMsg = '**⚠️ Connection Error**\n\nCannot connect to the server. Please check if the server is running on the correct port.';
+                }
+                addMessage(errorMsg);
+                console.error('Error:', error);
+            }
+        }
+        
+        sendBtn.addEventListener('click', sendQuery);
+        queryInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendQuery();
+            }
+        });
+        
+        // Focus input on load
+        queryInput.focus();
+        
+        // Add welcome message
+        setTimeout(() => {
+            addMessage(`# Welcome to Think AI 🚀
+
+I'm your quantum-powered AI assistant with **O(1) performance** guarantees. I can help you with:
+
+- **Code Generation** - Creating optimized algorithms and implementations
+- **Knowledge Queries** - Answering questions across various domains
+- **Problem Solving** - Breaking down complex challenges
+- **Creative Tasks** - Writing, brainstorming, and ideation
+
+Feel free to ask me anything! I process responses with:
+- ⚡ **Lightning-fast** O(1) hash-based lookups
+- 🧠 **Quantum consciousness** processing
+- 📚 **Enhanced knowledge base** from multiple sources
+
+*Type your question below and press Enter to begin...*`);
+        }, 500);
+    </script>
+</body>
+</html>

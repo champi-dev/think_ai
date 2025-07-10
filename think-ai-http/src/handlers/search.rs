@@ -8,14 +8,8 @@ use std::sync::Arc;
 #[derive(Deserialize)]
 #[serde(untagged)]
 pub enum SearchRequest {
-    TextQuery {
-        query: String,
-        limit: Option<usize>,
-    },
-    VectorQuery {
-        vector: Vec<f32>,
-        k: usize,
-    },
+    TextQuery { query: String, limit: Option<usize> },
+    VectorQuery { vector: Vec<f32>, k: usize },
 }
 
 #[derive(Serialize)]
@@ -42,7 +36,7 @@ pub async fn search(
             for (i, ch) in query.chars().enumerate() {
                 vector[i % 128] += ch as u32 as f32 / 1000.0;
             }
-            
+
             // Normalize vector
             let norm: f32 = vector.iter().map(|x| x * x).sum::<f32>().sqrt();
             if norm > 0.0 {
@@ -50,7 +44,7 @@ pub async fn search(
                     *v /= norm;
                 }
             }
-            
+
             let k = limit.unwrap_or(5);
             match state.vector_index.search(vector, k) {
                 Ok(results) => Json(SearchResponse {
@@ -70,24 +64,22 @@ pub async fn search(
                 }),
             }
         }
-        SearchRequest::VectorQuery { vector, k } => {
-            match state.vector_index.search(vector, k) {
-                Ok(results) => Json(SearchResponse {
-                    success: true,
-                    results: results
-                        .into_iter()
-                        .map(|r| SearchResult {
-                            index: r.index,
-                            distance: r.distance,
-                            metadata: r.metadata,
-                        })
-                        .collect(),
-                }),
-                Err(_) => Json(SearchResponse {
-                    success: false,
-                    results: vec![],
-                }),
-            }
-        }
+        SearchRequest::VectorQuery { vector, k } => match state.vector_index.search(vector, k) {
+            Ok(results) => Json(SearchResponse {
+                success: true,
+                results: results
+                    .into_iter()
+                    .map(|r| SearchResult {
+                        index: r.index,
+                        distance: r.distance,
+                        metadata: r.metadata,
+                    })
+                    .collect(),
+            }),
+            Err(_) => Json(SearchResponse {
+                success: false,
+                results: vec![],
+            }),
+        },
     }
 }

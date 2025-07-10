@@ -13,6 +13,6 @@ pub use compute::compute;
 pub use health::health;
 // Image handlers removed
 pub use knowledge::knowledge_stats;
-pub use parallel_chat::{parallel_chat, initialize_parallel_consciousness};
+pub use parallel_chat::{initialize_parallel_consciousness, parallel_chat};
 pub use search::search;
 pub use stats::stats;

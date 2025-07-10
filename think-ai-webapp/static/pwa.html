@@ -12,6 +12,12 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
     
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -121,6 +127,67 @@
             border-radius: 10px;
             margin-top: 20px;
             border-left: 3px solid #00ffcc;
+            line-height: 1.6;
+        }
+        
+        /* Markdown Styling */
+        .response h1, .response h2, .response h3 {
+            margin: 1rem 0 0.5rem;
+            color: #00ffcc;
+        }
+        
+        .response h1:first-child,
+        .response h2:first-child,
+        .response h3:first-child {
+            margin-top: 0;
+        }
+        
+        .response p {
+            margin: 0.5rem 0;
+        }
+        
+        .response ul, .response ol {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .response code {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 255, 204, 0.1);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .response pre {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        
+        .response pre code {
+            display: block;
+            padding: 0;
+            background: none;
+        }
+        
+        .response blockquote {
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            border-left: 4px solid #00ffcc;
+            background: rgba(0, 255, 204, 0.05);
+        }
+        
+        .response a {
+            color: #00ccff;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+        
+        .response a:hover {
+            border-bottom-color: #00ccff;
         }
         
         .offline-banner {
@@ -178,6 +245,20 @@
     </div>
 
     <script>
+        // Configure marked options
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    try {
+                        return hljs.highlight(code, { language: lang }).value;
+                    } catch (err) {}
+                }
+                return hljs.highlightAuto(code).value;
+            },
+            breaks: true,
+            gfm: true
+        });
+        
         // Register service worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
@@ -274,11 +355,22 @@
         function displayResponse(query, data) {
             const responseEl = document.createElement('div');
             responseEl.className = 'response';
+            
+            // Parse markdown for the response
+            const parsedResponse = marked.parse(data.response);
+            
             responseEl.innerHTML = `
-                <strong>Q:</strong> ${query}<br>
-                <strong>A:</strong> ${data.response}<br>
-                <small>⚡ ${data.processing_time ? data.processing_time.toFixed(3) : '0.000'}s | 🎯 ${(data.confidence * 100).toFixed(1)}% confidence</small>
+                <strong>Q:</strong> ${query}<br><br>
+                <strong>A:</strong><br>
+                <div>${parsedResponse}</div>
+                <small style="display: block; margin-top: 1rem; opacity: 0.8;">⚡ ${data.processing_time ? data.processing_time.toFixed(3) : '0.000'}s | 🎯 ${(data.confidence * 100).toFixed(1)}% confidence</small>
             `;
+            
+            // Highlight code blocks
+            responseEl.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+            
             responsesDiv.insertBefore(responseEl, responsesDiv.firstChild);
         }
         

@@ -1,0 +1,2032 @@
+{
+  "session_id": "training_1752156828",
+  "start_time": "2025-07-10T14:13:48.214625550Z",
+  "end_time": null,
+  "total_iterations": 1000000,
+  "completed_iterations": 101,
+  "qa_history": [
+    {
+      "id": "qa_0",
+      "question": "How would you implement Programming & Software Engineering with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.214759227Z"
+    },
+    {
+      "id": "qa_1",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.266140931Z"
+    },
+    {
+      "id": "qa_2",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.317773421Z"
+    },
+    {
+      "id": "qa_3",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.369390213Z"
+    },
+    {
+      "id": "qa_4",
+      "question": "How would you implement Natural Language Processing with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.421039729Z"
+    },
+    {
+      "id": "qa_5",
+      "question": "Explain the key concepts in Problem Solving & Reasoning",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.472724237Z"
+    },
+    {
+      "id": "qa_6",
+      "question": "What are the best practices for Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.524271066Z"
+    },
+    {
+      "id": "qa_7",
+      "question": "How do you handle edge cases in Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.575997339Z"
+    },
+    {
+      "id": "qa_8",
+      "question": "How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.627680818Z"
+    },
+    {
+      "id": "qa_9",
+      "question": "Explain the key concepts in Programming & Software Engineering",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.679373014Z"
+    },
+    {
+      "id": "qa_10",
+      "question": "What are the best practices for Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.731064306Z"
+    },
+    {
+      "id": "qa_11",
+      "question": "How do you handle edge cases in Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.782614146Z"
+    },
+    {
+      "id": "qa_12",
+      "question": "How would you implement Programming & Software Engineering with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.834223966Z"
+    },
+    {
+      "id": "qa_13",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.885962153Z"
+    },
+    {
+      "id": "qa_14",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.936550223Z"
+    },
+    {
+      "id": "qa_15",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:48.988163018Z"
+    },
+    {
+      "id": "qa_16",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.039744858Z"
+    },
+    {
+      "id": "qa_17",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.090431904Z"
+    },
+    {
+      "id": "qa_18",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.142122069Z"
+    },
+    {
+      "id": "qa_19",
+      "question": "How would you implement Natural Language Processing with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.193770680Z"
+    },
+    {
+      "id": "qa_20",
+      "question": "Explain the key concepts in Problem Solving & Reasoning",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.245425395Z"
+    },
+    {
+      "id": "qa_21",
+      "question": "What are the best practices for Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.296831606Z"
+    },
+    {
+      "id": "qa_22",
+      "question": "How do you handle edge cases in Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.347465010Z"
+    },
+    {
+      "id": "qa_23",
+      "question": "How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.399083124Z"
+    },
+    {
+      "id": "qa_24",
+      "question": "Explain the key concepts in Programming & Software Engineering",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.450668647Z"
+    },
+    {
+      "id": "qa_25",
+      "question": "What are the best practices for Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.502329021Z"
+    },
+    {
+      "id": "qa_26",
+      "question": "How do you handle edge cases in Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.553793204Z"
+    },
+    {
+      "id": "qa_27",
+      "question": "How would you implement Programming & Software Engineering with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.605462625Z"
+    },
+    {
+      "id": "qa_28",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.657094022Z"
+    },
+    {
+      "id": "qa_29",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.708730792Z"
+    },
+    {
+      "id": "qa_30",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.760391295Z"
+    },
+    {
+      "id": "qa_31",
+      "question": "How would you implement Natural Language Processing with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.811858572Z"
+    },
+    {
+      "id": "qa_32",
+      "question": "Explain the key concepts in Problem Solving & Reasoning",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.863318165Z"
+    },
+    {
+      "id": "qa_33",
+      "question": "What are the best practices for Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.914962125Z"
+    },
+    {
+      "id": "qa_34",
+      "question": "How do you handle edge cases in Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:49.965636596Z"
+    },
+    {
+      "id": "qa_35",
+      "question": "Explain the key concepts in Problem Solving & Reasoning",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.017280431Z"
+    },
+    {
+      "id": "qa_36",
+      "question": "What are the best practices for Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.068824346Z"
+    },
+    {
+      "id": "qa_37",
+      "question": "How do you handle edge cases in Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.120312858Z"
+    },
+    {
+      "id": "qa_38",
+      "question": "How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.171924565Z"
+    },
+    {
+      "id": "qa_39",
+      "question": "Explain the key concepts in Programming & Software Engineering",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.222546449Z"
+    },
+    {
+      "id": "qa_40",
+      "question": "What are the best practices for Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.274166537Z"
+    },
+    {
+      "id": "qa_41",
+      "question": "How do you handle edge cases in Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.325849417Z"
+    },
+    {
+      "id": "qa_42",
+      "question": "How would you implement Programming & Software Engineering with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.377299333Z"
+    },
+    {
+      "id": "qa_43",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.428876410Z"
+    },
+    {
+      "id": "qa_44",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.479477988Z"
+    },
+    {
+      "id": "qa_45",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.531108466Z"
+    },
+    {
+      "id": "qa_46",
+      "question": "How would you implement Natural Language Processing with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.582728703Z"
+    },
+    {
+      "id": "qa_47",
+      "question": "Explain the key concepts in Problem Solving & Reasoning",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.634207636Z"
+    },
+    {
+      "id": "qa_48",
+      "question": "What are the best practices for Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.685858925Z"
+    },
+    {
+      "id": "qa_49",
+      "question": "How do you handle edge cases in Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.736469739Z"
+    },
+    {
+      "id": "qa_50",
+      "question": "How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.788084666Z"
+    },
+    {
+      "id": "qa_51",
+      "question": "Explain the key concepts in Programming & Software Engineering",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.839918477Z"
+    },
+    {
+      "id": "qa_52",
+      "question": "What are the best practices for Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.891392636Z"
+    },
+    {
+      "id": "qa_53",
+      "question": "How do you handle edge cases in Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.943031543Z"
+    },
+    {
+      "id": "qa_54",
+      "question": "How would you implement Programming & Software Engineering with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:50.993649717Z"
+    },
+    {
+      "id": "qa_55",
+      "question": "What are the best practices for Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.045210943Z"
+    },
+    {
+      "id": "qa_56",
+      "question": "How do you handle edge cases in Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.096872090Z"
+    },
+    {
+      "id": "qa_57",
+      "question": "How would you implement Programming & Software Engineering with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.148334905Z"
+    },
+    {
+      "id": "qa_58",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.199932591Z"
+    },
+    {
+      "id": "qa_59",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.250519885Z"
+    },
+    {
+      "id": "qa_60",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.302077905Z"
+    },
+    {
+      "id": "qa_61",
+      "question": "How would you implement Natural Language Processing with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.353705657Z"
+    },
+    {
+      "id": "qa_62",
+      "question": "Explain the key concepts in Problem Solving & Reasoning",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.405175274Z"
+    },
+    {
+      "id": "qa_63",
+      "question": "What are the best practices for Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.456804820Z"
+    },
+    {
+      "id": "qa_64",
+      "question": "How do you handle edge cases in Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.508477906Z"
+    },
+    {
+      "id": "qa_65",
+      "question": "How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.560144357Z"
+    },
+    {
+      "id": "qa_66",
+      "question": "Explain the key concepts in Programming & Software Engineering",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.611786506Z"
+    },
+    {
+      "id": "qa_67",
+      "question": "What are the best practices for Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.663271940Z"
+    },
+    {
+      "id": "qa_68",
+      "question": "How do you handle edge cases in Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.714880836Z"
+    },
+    {
+      "id": "qa_69",
+      "question": "How would you implement Programming & Software Engineering with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.765533537Z"
+    },
+    {
+      "id": "qa_70",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.817103450Z"
+    },
+    {
+      "id": "qa_71",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.868734702Z"
+    },
+    {
+      "id": "qa_72",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.920195284Z"
+    },
+    {
+      "id": "qa_73",
+      "question": "How would you implement Natural Language Processing with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:51.971840059Z"
+    },
+    {
+      "id": "qa_74",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.022467386Z"
+    },
+    {
+      "id": "qa_75",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.074059653Z"
+    },
+    {
+      "id": "qa_76",
+      "question": "How would you implement Natural Language Processing with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.125669928Z"
+    },
+    {
+      "id": "qa_77",
+      "question": "Explain the key concepts in Problem Solving & Reasoning",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.177145166Z"
+    },
+    {
+      "id": "qa_78",
+      "question": "What are the best practices for Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.228793331Z"
+    },
+    {
+      "id": "qa_79",
+      "question": "How do you handle edge cases in Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.280461618Z"
+    },
+    {
+      "id": "qa_80",
+      "question": "How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.332057191Z"
+    },
+    {
+      "id": "qa_81",
+      "question": "Explain the key concepts in Programming & Software Engineering",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.383638529Z"
+    },
+    {
+      "id": "qa_82",
+      "question": "What are the best practices for Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.435110588Z"
+    },
+    {
+      "id": "qa_83",
+      "question": "How do you handle edge cases in Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.486513194Z"
+    },
+    {
+      "id": "qa_84",
+      "question": "How would you implement Programming & Software Engineering with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.538035727Z"
+    },
+    {
+      "id": "qa_85",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.589640573Z"
+    },
+    {
+      "id": "qa_86",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.641139151Z"
+    },
+    {
+      "id": "qa_87",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.692688404Z"
+    },
+    {
+      "id": "qa_88",
+      "question": "How would you implement Natural Language Processing with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.744141300Z"
+    },
+    {
+      "id": "qa_89",
+      "question": "Explain the key concepts in Problem Solving & Reasoning",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.795690002Z"
+    },
+    {
+      "id": "qa_90",
+      "question": "What are the best practices for Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.847296850Z"
+    },
+    {
+      "id": "qa_91",
+      "question": "How do you handle edge cases in Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.898944170Z"
+    },
+    {
+      "id": "qa_92",
+      "question": "How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:52.949552323Z"
+    },
+    {
+      "id": "qa_93",
+      "question": "What are the best practices for Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: What are the best practices for Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:53.001033057Z"
+    },
+    {
+      "id": "qa_94",
+      "question": "How do you handle edge cases in Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:53.051651212Z"
+    },
+    {
+      "id": "qa_95",
+      "question": "How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Problem Solving & Reasoning with O(1) performance?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:53.103318843Z"
+    },
+    {
+      "id": "qa_96",
+      "question": "Explain the key concepts in Programming & Software Engineering",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Programming & Software Engineering",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:53.154943111Z"
+    },
+    {
+      "id": "qa_97",
+      "question": "What are the best practices for Natural Language Processing?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Natural Language Processing?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:53.205520086Z"
+    },
+    {
+      "id": "qa_98",
+      "question": "How do you handle edge cases in Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: How do you handle edge cases in Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:53.256978756Z"
+    },
+    {
+      "id": "qa_99",
+      "question": "How would you implement Programming & Software Engineering with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Programming & Software Engineering with O(1) performance?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:13:53.307551920Z"
+    },
+    {
+      "id": "qa_100",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 2,
+      "timestamp": "2025-07-10T14:13:53.359169645Z"
+    }
+  ],
+  "performance_history": [
+    {
+      "iteration": 0,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 1,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 2,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 3,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 4,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 5,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 6,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 7,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 8,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 9,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 10,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 11,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 12,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 13,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 14,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 15,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 16,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 17,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 18,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 19,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 20,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 21,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 22,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 23,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 24,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 25,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 26,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 27,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 28,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 29,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 30,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 31,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 32,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 33,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 34,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 35,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 36,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 37,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 38,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 39,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 40,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 41,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 42,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 43,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 44,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 45,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 46,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 47,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 48,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 49,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 50,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 51,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 52,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 53,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 54,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 55,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 56,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 57,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 58,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 59,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 60,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 61,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 62,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 63,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 64,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 65,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 66,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 67,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 68,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 69,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 70,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 71,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 72,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 73,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 74,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 75,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 76,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 77,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 78,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 79,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 80,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 81,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 82,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 83,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 84,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 85,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 86,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 87,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 88,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 89,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 90,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 91,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 92,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 93,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 94,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 95,
+      "category": "learning",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 96,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 97,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 98,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 99,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    },
+    {
+      "iteration": 100,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": true
+    }
+  ],
+  "final_metrics": null
+}

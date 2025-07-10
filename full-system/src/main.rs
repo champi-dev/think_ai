@@ -26,8 +26,8 @@ use uuid::Uuid;
 use think_ai_consciousness::ConsciousnessFramework;
 use think_ai_core::{EngineConfig, O1ConsciousnessEngine, O1Engine};
 use think_ai_knowledge::{KnowledgeDomain, KnowledgeEngine, KnowledgeNode};
-use think_ai_vector::{LSHConfig, O1VectorIndex};
 use think_ai_qwen::{QwenClient, QwenRequest};
+use think_ai_vector::{LSHConfig, O1VectorIndex};
 
 // State for the application
 #[derive(Clone)]
@@ -339,7 +339,7 @@ async fn chat_handler(
 async fn generate_ai_response(message: &str, state: &ThinkAIState) -> String {
     // Gather context from knowledge engine
     let mut context = String::new();
-    
+
     // Try to get relevant knowledge from the knowledge engine
     if let Some(nodes) = state.knowledge_engine.query(message) {
         for (i, node) in nodes.iter().take(3).enumerate() {
@@ -349,7 +349,7 @@ async fn generate_ai_response(message: &str, state: &ThinkAIState) -> String {
             context.push_str(&format!("Knowledge {}: {}", i + 1, node.content));
         }
     }
-    
+
     // Also check intelligent query for additional context
     let intelligent_results = state.knowledge_engine.intelligent_query(message);
     if !intelligent_results.is_empty() && context.is_empty() {
@@ -360,14 +360,14 @@ async fn generate_ai_response(message: &str, state: &ThinkAIState) -> String {
             context.push_str(&format!("Related: {}", node.content));
         }
     }
-    
+
     // Create Qwen request with context
     let qwen_request = QwenRequest {
         query: message.to_string(),
         context: if context.is_empty() { None } else { Some(context) },
         system_prompt: Some("You are Think AI, an advanced AI system powered by O(1) algorithms and consciousness engine. Provide thoughtful, accurate, and engaging responses.".to_string()),
     };
-    
+
     // Try to generate response with Qwen
     match state.qwen_client.generate(qwen_request).await {
         Ok(response) => response.content,

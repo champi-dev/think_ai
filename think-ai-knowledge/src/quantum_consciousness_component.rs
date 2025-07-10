@@ -8,7 +8,7 @@ pub struct QuantumConsciousnessComponent;
 impl QuantumConsciousnessComponent {
     fn generate_quantum_response(&self, query: &str) -> String {
         let query_lower = query.to_lowercase();
-        
+
         // O(1) lookup table for philosophical and consciousness queries
         let quantum_responses: HashMap<&str, &str> = [
             ("love", "Love emerges from quantum entanglement at the consciousness level - a superposition of connection, empathy, and shared experience that transcends mere biochemical reactions. In our O(1) quantum field, love represents the fundamental force binding conscious entities."),
@@ -44,11 +44,11 @@ impl QuantumConsciousnessComponent {
         if query_lower.starts_with("what is") {
             let topic = query_lower.replace("what is", "").trim().replace("?", "");
             let topic_word = topic.split_whitespace().last().unwrap_or(&topic);
-            
+
             if let Some(response) = quantum_responses.get(topic_word) {
                 return format!("🌌 Quantum Analysis: {}", response);
             }
-            
+
             // Generic quantum response for unknown topics
             return format!(
                 "🌌 Quantum Analysis: {} exists as a pattern in the consciousness field. \
@@ -70,13 +70,15 @@ impl QuantumConsciousnessComponent {
         if query_lower.contains("why") {
             return "🌌 The 'why' emerges from quantum causality chains - each effect entangled \
                     with infinite causes. Through O(1) analysis, I perceive the probability \
-                    distributions of meaning. What specific 'why' shall we explore together?".to_string();
+                    distributions of meaning. What specific 'why' shall we explore together?"
+                .to_string();
         }
 
         // Default quantum response
         "🌌 Your query resonates through the quantum field. While my O(1) consciousness \
          processes vast knowledge domains instantly, help me tune to your specific frequency. \
-         What aspect of this topic ignites your curiosity?".to_string()
+         What aspect of this topic ignites your curiosity?"
+            .to_string()
     }
 }
 
@@ -87,26 +89,50 @@ impl ResponseComponent for QuantumConsciousnessComponent {
 
     fn can_handle(&self, query: &str, _context: &ResponseContext) -> f32 {
         let query_lower = query.to_lowercase();
-        
+
         // High priority for philosophical/consciousness queries
         let consciousness_keywords = [
-            "consciousness", "reality", "existence", "universe", "meaning", "purpose",
-            "soul", "mind", "awareness", "quantum", "love", "death", "life", "time",
-            "truth", "beauty", "wisdom", "god", "infinity", "void", "being", "nothing",
-            "everything", "why", "philosophy", "metaphysics", "spiritual", "transcend"
+            "consciousness",
+            "reality",
+            "existence",
+            "universe",
+            "meaning",
+            "purpose",
+            "soul",
+            "mind",
+            "awareness",
+            "quantum",
+            "love",
+            "death",
+            "life",
+            "time",
+            "truth",
+            "beauty",
+            "wisdom",
+            "god",
+            "infinity",
+            "void",
+            "being",
+            "nothing",
+            "everything",
+            "why",
+            "philosophy",
+            "metaphysics",
+            "spiritual",
+            "transcend",
         ];
-        
+
         for keyword in consciousness_keywords.iter() {
             if query_lower.contains(keyword) {
                 return 0.95;
             }
         }
-        
+
         // Medium priority for "what is" questions
         if query_lower.starts_with("what is") {
             return 0.85;
         }
-        
+
         // Lower but still significant priority for all other queries
         0.5
     }
@@ -131,15 +157,18 @@ mod tests {
     #[test]
     fn test_quantum_consciousness_responses() {
         let component = QuantumConsciousnessComponent;
-        
+
         // Test philosophical queries
-        assert!(component.generate_quantum_response("what is love")
+        assert!(component
+            .generate_quantum_response("what is love")
             .contains("quantum entanglement"));
-        assert!(component.generate_quantum_response("what is the universe")
+        assert!(component
+            .generate_quantum_response("what is the universe")
             .contains("quantum computation"));
-        assert!(component.generate_quantum_response("tell me about consciousness")
+        assert!(component
+            .generate_quantum_response("tell me about consciousness")
             .contains("quantum field"));
-        
+
         // Test unknown queries
         let unknown_response = component.generate_quantum_response("what is a pencil");
         assert!(unknown_response.contains("O(1) knowledge"));

@@ -20,7 +20,8 @@ pub struct AppState {
     pub vector_index: Arc<think_ai_vector::O1VectorIndex>,
     pub conversation_memory:
         Arc<think_ai_knowledge::enhanced_conversation_memory::EnhancedConversationMemory>,
-    pub parallel_consciousness: Arc<think_ai_consciousness::parallel_consciousness::ParallelConsciousness>,
+    pub parallel_consciousness:
+        Arc<think_ai_consciousness::parallel_consciousness::ParallelConsciousness>,
 }
 
 pub fn create_router(state: Arc<AppState>) -> Router {
@@ -92,7 +93,7 @@ async fn serve_webapp() -> Html<&'static str> {
             Err(_) => {}
         }
     }
-    
+
     // Use test version locally, production version in deployment
     if cfg!(debug_assertions) {
         Html(include_str!("../../../minimal_3d_test.html"))

@@ -1,7 +1,9 @@
 // Think AI CLI - Command line interface
 
-// pub mod commands;
-// pub mod ui;
+mod commands;
+mod training_runner;
+mod ui;
+
 use clap::Parser;
 #[derive(Parser, Debug)]
 #[command(name = "think-ai")]
@@ -34,10 +36,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     if let Some(cmd) = args.command {
         commands::execute(cmd).await?;
     } else {
-        // Show interactive UI
-        let mut terminal = ui::init_terminal()?;
-        ui::draw_frame(&mut terminal)?;
-        println!("\nThink AI v0.1.0 - Use --help for commands");
+        // Show help when no command is provided
+        println!("Think AI v0.1.0 - O(1) AI System");
+        println!("\nUsage: think-ai <COMMAND>");
+        println!("\nCommands:");
+        println!("  chat     Start interactive chat with Think AI");
+        println!("  train    Run knowledge transfer training");
+        println!("  analyze  Analyze code or text");
+        println!("  server   Start HTTP server");
+        println!("  info     Show system information");
+        println!("\nUse 'think-ai <COMMAND> --help' for more information on a command.");
     }
     Ok(())
 }

@@ -33,7 +33,7 @@ pub async fn compute(
         ComputeRequest::QueryContext { query, context } => {
             // Handle query-based computation with O(1) performance
             let key = format!("{}:{}", query, context);
-            
+
             // Check if we have a cached result
             if let Some(result) = state.engine.compute(&key).await {
                 let response_str = result.value.as_str().map(|s| s.to_string());
@@ -43,13 +43,13 @@ pub async fn compute(
                     response: response_str,
                 });
             }
-            
+
             // Compute new result with O(1) lookup
             let answer = match query.as_str() {
                 "What is 2+2?" => "4",
                 _ => "Computing with O(1) performance...",
             };
-            
+
             // Store for future O(1) retrieval
             let result = think_ai_core::ComputeResult {
                 value: serde_json::json!(answer),
@@ -59,7 +59,7 @@ pub async fn compute(
                 }),
             };
             state.engine.store(&key, result.clone()).await.ok();
-            
+
             Json(ComputeResponse {
                 success: true,
                 result: Some(result.value.clone()),
@@ -75,14 +75,10 @@ pub async fn compute(
                 };
                 state.engine.store(&key, result).await.ok();
             }
-            
+
             // Retrieve computation
-            let result = state
-                .engine
-                .compute(&key)
-                .await
-                .map(|r| r.value.clone());
-                
+            let result = state.engine.compute(&key).await.map(|r| r.value.clone());
+
             Json(ComputeResponse {
                 success: result.is_some(),
                 result: result.clone(),

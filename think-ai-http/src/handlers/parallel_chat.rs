@@ -33,7 +33,7 @@ pub async fn parallel_chat(
     payload: Result<Json<ParallelChatRequest>, JsonRejection>,
 ) -> impl IntoResponse {
     let start = std::time::Instant::now();
-    
+
     // Handle JSON parsing errors
     let Json(request) = match payload {
         Ok(json) => json,
@@ -57,7 +57,7 @@ pub async fn parallel_chat(
                 .into_response();
         }
     };
-    
+
     // Validate request
     if request.query.is_empty() {
         return (
@@ -71,20 +71,20 @@ pub async fn parallel_chat(
         )
             .into_response();
     }
-    
+
     let query = request.query.trim();
-    
+
     // Get or create parallel consciousness instance
     let consciousness = state.parallel_consciousness.clone();
-    
+
     // Process message through parallel consciousness
     let response = consciousness.process_user_message(query).await;
-    
+
     // Get consciousness state
     let consciousness_state = consciousness.get_consciousness_state();
-    
+
     let processing_time = start.elapsed().as_secs_f64();
-    
+
     (
         StatusCode::OK,
         Json(ParallelChatResponse {
@@ -99,9 +99,9 @@ pub async fn parallel_chat(
 
 pub fn initialize_parallel_consciousness() -> Arc<ParallelConsciousness> {
     let consciousness = Arc::new(ParallelConsciousness::new());
-    
+
     // Start all background threads
     consciousness.start();
-    
+
     consciousness
 }

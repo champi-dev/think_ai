@@ -35,7 +35,7 @@ pub async fn run_server(
         .map_err(|e: std::net::AddrParseError| crate::HttpError::ServerError(e.to_string()))?;
     // Initialize parallel consciousness
     let parallel_consciousness = crate::handlers::initialize_parallel_consciousness();
-    
+
     // Image generation removed
     let state = Arc::new(AppState {
         engine,

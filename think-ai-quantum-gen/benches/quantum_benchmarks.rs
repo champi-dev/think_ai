@@ -1,12 +1,12 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion, BenchmarkId};
-use think_ai_quantum_gen::{QuantumGenerationEngine, GenerationRequest, ThreadType};
-use think_ai_knowledge::KnowledgeEngine;
+use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
 use std::sync::Arc;
+use think_ai_knowledge::KnowledgeEngine;
+use think_ai_quantum_gen::{GenerationRequest, QuantumGenerationEngine, ThreadType};
 use tokio::runtime::Runtime;
 
 fn benchmark_single_generation(c: &mut Criterion) {
     let rt = Runtime::new().unwrap();
-    
+
     // Initialize engine once
     let engine = rt.block_on(async {
         let knowledge_engine = Arc::new(KnowledgeEngine::new());
@@ -18,10 +18,10 @@ fn benchmark_single_generation(c: &mut Criterion) {
             }
         }
     });
-    
+
     if let Some(engine) = engine {
         let mut group = c.benchmark_group("quantum_generation");
-        
+
         // Benchmark single generation
         group.bench_function("single_generation", |b| {
             b.to_async(&rt).iter(|| async {
@@ -32,36 +32,36 @@ fn benchmark_single_generation(c: &mut Criterion) {
                     temperature: Some(0.7),
                     max_tokens: None,
                 };
-                
+
                 engine.generate(request).await.unwrap()
             });
         });
-        
+
         group.finish();
     }
 }
 
 fn benchmark_cache_performance(c: &mut Criterion) {
     let rt = Runtime::new().unwrap();
-    
+
     let engine = rt.block_on(async {
         let knowledge_engine = Arc::new(KnowledgeEngine::new());
         match QuantumGenerationEngine::new(knowledge_engine).await {
             Ok(e) => Some(Arc::new(e)),
-            Err(_) => None
+            Err(_) => None,
         }
     });
-    
+
     if let Some(engine) = engine {
         let mut group = c.benchmark_group("cache_performance");
-        
+
         // Prepare requests with different cache hit scenarios
         let queries = vec![
-            "What is love?",  // Will be cached
+            "What is love?",          // Will be cached
             "What is the universe?",  // Will be cached
-            "What is consciousness?",  // Will be cached
+            "What is consciousness?", // Will be cached
         ];
-        
+
         // Pre-warm the cache
         rt.block_on(async {
             for query in &queries {
@@ -75,7 +75,7 @@ fn benchmark_cache_performance(c: &mut Criterion) {
                 let _ = engine.generate(request).await;
             }
         });
-        
+
         // Benchmark cache hits (should be O(1))
         group.bench_function("cache_hit", |b| {
             b.to_async(&rt).iter(|| async {
@@ -86,11 +86,11 @@ fn benchmark_cache_performance(c: &mut Criterion) {
                     temperature: Some(0.7),
                     max_tokens: None,
                 };
-                
+
                 engine.generate(request).await.unwrap()
             });
         });
-        
+
         // Benchmark cache misses
         let mut counter = 0;
         group.bench_function("cache_miss", |b| {
@@ -103,29 +103,29 @@ fn benchmark_cache_performance(c: &mut Criterion) {
                     temperature: Some(0.7),
                     max_tokens: None,
                 };
-                
+
                 engine.generate(request).await.unwrap()
             });
         });
-        
+
         group.finish();
     }
 }
 
 fn benchmark_parallel_generation(c: &mut Criterion) {
     let rt = Runtime::new().unwrap();
-    
+
     let engine = rt.block_on(async {
         let knowledge_engine = Arc::new(KnowledgeEngine::new());
         match QuantumGenerationEngine::new(knowledge_engine).await {
             Ok(e) => Some(Arc::new(e)),
-            Err(_) => None
+            Err(_) => None,
         }
     });
-    
+
     if let Some(engine) = engine {
         let mut group = c.benchmark_group("parallel_generation");
-        
+
         for size in [1, 2, 4, 8, 16].iter() {
             group.bench_with_input(BenchmarkId::from_parameter(size), size, |b, &size| {
                 b.to_async(&rt).iter(|| async {
@@ -142,30 +142,30 @@ fn benchmark_parallel_generation(c: &mut Criterion) {
                             max_tokens: None,
                         })
                         .collect();
-                    
+
                     engine.generate_parallel(requests).await.unwrap()
                 });
             });
         }
-        
+
         group.finish();
     }
 }
 
 fn benchmark_context_operations(c: &mut Criterion) {
     let rt = Runtime::new().unwrap();
-    
+
     let engine = rt.block_on(async {
         let knowledge_engine = Arc::new(KnowledgeEngine::new());
         match QuantumGenerationEngine::new(knowledge_engine).await {
             Ok(e) => Some(Arc::new(e)),
-            Err(_) => None
+            Err(_) => None,
         }
     });
-    
+
     if let Some(engine) = engine {
         let mut group = c.benchmark_group("context_operations");
-        
+
         // Create a context
         let context_id = rt.block_on(async {
             let request = GenerationRequest {
@@ -175,10 +175,10 @@ fn benchmark_context_operations(c: &mut Criterion) {
                 temperature: Some(0.7),
                 max_tokens: None,
             };
-            
+
             engine.generate(request).await.unwrap().context_id
         });
-        
+
         // Benchmark generation with existing context
         group.bench_function("with_context", |b| {
             b.to_async(&rt).iter(|| async {
@@ -189,11 +189,11 @@ fn benchmark_context_operations(c: &mut Criterion) {
                     temperature: Some(0.7),
                     max_tokens: None,
                 };
-                
+
                 engine.generate(request).await.unwrap()
             });
         });
-        
+
         group.finish();
     }
 }

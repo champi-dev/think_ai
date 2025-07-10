@@ -1,0 +1,19 @@
+use crossterm::{terminal, ExecutableCommand};
+use std::io::{self, stdout};
+
+pub fn init_terminal() -> io::Result<impl io::Write> {
+    let mut stdout = stdout();
+    terminal::enable_raw_mode()?;
+    stdout.execute(terminal::Clear(terminal::ClearType::All))?;
+    Ok(stdout)
+}
+
+pub fn draw_frame(terminal: &mut impl io::Write) -> io::Result<()> {
+    // Simple UI frame
+    writeln!(terminal, "┌─────────────────────────────────────┐")?;
+    writeln!(terminal, "│         THINK AI SYSTEM v0.1        │")?;
+    writeln!(terminal, "│      O(1) Performance Engine        │")?;
+    writeln!(terminal, "└─────────────────────────────────────┘")?;
+    terminal.flush()?;
+    Ok(())
+}

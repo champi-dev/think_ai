@@ -1,0 +1,119 @@
+{
+  "session_id": "training_1752156701",
+  "start_time": "2025-07-10T14:11:41.641497959Z",
+  "end_time": "2025-07-10T14:11:41.898218070Z",
+  "total_iterations": 5,
+  "completed_iterations": 5,
+  "qa_history": [
+    {
+      "id": "qa_0",
+      "question": "Explain the key concepts in Natural Language Processing",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Natural Language Processing",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:11:41.641634822Z"
+    },
+    {
+      "id": "qa_1",
+      "question": "What are the best practices for Problem Solving & Reasoning?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: What are the best practices for Problem Solving & Reasoning?",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:11:41.692996985Z"
+    },
+    {
+      "id": "qa_2",
+      "question": "How do you handle edge cases in Programming & Software Engineering?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How do you handle edge cases in Programming & Software Engineering?",
+      "category": "Programming & Software Engineering",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:11:41.744496140Z"
+    },
+    {
+      "id": "qa_3",
+      "question": "How would you implement Natural Language Processing with O(1) performance?",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "rating": 0.5,
+      "feedback": "Needs improvement. Study this approach: Comprehensive answer to: How would you implement Natural Language Processing with O(1) performance?",
+      "category": "Natural Language Processing",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:11:41.796063947Z"
+    },
+    {
+      "id": "qa_4",
+      "question": "Explain the key concepts in Problem Solving & Reasoning",
+      "context": null,
+      "student_answer": "Quantum-processed response for state: 0000000000000000",
+      "teacher_answer": "Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "rating": 0.7,
+      "feedback": "Good attempt. Consider: Comprehensive answer to: Explain the key concepts in Problem Solving & Reasoning",
+      "category": "Problem Solving & Reasoning",
+      "difficulty": 1,
+      "timestamp": "2025-07-10T14:11:41.847618343Z"
+    }
+  ],
+  "performance_history": [
+    {
+      "iteration": 0,
+      "category": "programming",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 1,
+      "category": "problem_solving",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 2,
+      "category": "analysis",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 3,
+      "category": "communication",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    },
+    {
+      "iteration": 4,
+      "category": "creativity",
+      "difficulty": 1,
+      "score": 0.17999999,
+      "time_ms": 0,
+      "cache_hit": false
+    }
+  ],
+  "final_metrics": {
+    "avg_score": 0.17999999,
+    "improvement_rate": 0.0,
+    "knowledge_coverage": 0.0,
+    "thinking_depth": 0.87,
+    "response_quality": 0.17099999,
+    "categories_mastered": []
+  }
+}

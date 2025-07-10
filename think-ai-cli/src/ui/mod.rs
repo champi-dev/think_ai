@@ -17,7 +17,7 @@ pub fn init_terminal() -> io::Result<Terminal<CrosstermBackend<io::Stdout>>> {
     Terminal::new(backend)
 }
 /// Draw main UI frame
-pub fn draw_frame(terminal__: &mut Terminal<CrosstermBackend<io::Stdout>>) -> io::Result<()> {
+pub fn draw_frame(terminal: &mut Terminal<CrosstermBackend<io::Stdout>>) -> io::Result<()> {
     terminal.draw(|f| {
         let area = f.area();
         let block = Block::default()
@@ -27,3 +27,4 @@ pub fn draw_frame(terminal__: &mut Terminal<CrosstermBackend<io::Stdout>>) -> io
         f.render_widget(paragraph, area);
     })?;
     Ok(())
+}

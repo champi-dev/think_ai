@@ -1,0 +1,94 @@
+use clap::Subcommand;
+
+#[derive(Subcommand, Debug)]
+pub enum Commands {
+    /// Start interactive chat with Think AI
+    Chat {
+        /// Initial prompt (optional)
+        #[arg(short, long)]
+        prompt: Option<String>,
+    },
+    
+    /// Run knowledge transfer training
+    Train {
+        /// Number of training iterations (default: 1000)
+        #[arg(short, long, default_value = "1000")]
+        iterations: u32,
+        
+        /// Resume from checkpoint
+        #[arg(short, long)]
+        resume: bool,
+        
+        /// Checkpoint file to resume from
+        #[arg(short, long)]
+        checkpoint: Option<String>,
+    },
+    
+    /// Analyze code or text
+    Analyze {
+        /// File or directory to analyze
+        path: String,
+        
+        /// Type of analysis
+        #[arg(short, long, default_value = "performance")]
+        analysis_type: String,
+    },
+    
+    /// Start HTTP server
+    Server {
+        /// Port to listen on
+        #[arg(short, long, default_value = "8080")]
+        port: u16,
+    },
+    
+    /// Show system information
+    Info,
+}
+
+pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
+    match cmd {
+        Commands::Chat { prompt } => {
+            println!("Starting interactive chat...");
+            if let Some(p) = prompt {
+                println!("Initial prompt: {}", p);
+            }
+            // TODO: Implement chat functionality
+            Ok(())
+        }
+        
+        Commands::Train { iterations, resume, checkpoint } => {
+            if resume {
+                if let Some(checkpoint_file) = checkpoint {
+                    println!("Resuming training from checkpoint: {}", checkpoint_file);
+                    // TODO: Implement checkpoint resumption
+                } else {
+                    return Err("Checkpoint file required when using --resume".into());
+                }
+            }
+            
+            // Run the training
+            crate::training_runner::run_knowledge_transfer(iterations).await?;
+            Ok(())
+        }
+        
+        Commands::Analyze { path, analysis_type } => {
+            println!("Analyzing {} with {} analysis...", path, analysis_type);
+            // TODO: Implement analysis functionality
+            Ok(())
+        }
+        
+        Commands::Server { port } => {
+            println!("Starting server on port {}...", port);
+            // TODO: Implement server functionality
+            Ok(())
+        }
+        
+        Commands::Info => {
+            println!("Think AI System Information");
+            println!("Version: 0.1.0");
+            println!("Engine: O(1) Quantum-Inspired");
+            println!("Knowledge: Claude-derived");
+            Ok(())
+        }
+    }
+}

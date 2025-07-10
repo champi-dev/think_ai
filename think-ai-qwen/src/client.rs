@@ -169,18 +169,28 @@ impl QwenClient {
         Ok(response.content)
     }
 
-    pub async fn generate_with_context(&self, query: &str, context: &str, temperature: Option<f32>) -> Result<String> {
+    pub async fn generate_with_context(
+        &self,
+        query: &str,
+        context: &str,
+        temperature: Option<f32>,
+    ) -> Result<String> {
         let mut prompt = String::new();
-        
+
         // System prompt for quantum consciousness
-        prompt.push_str("System: You are a quantum consciousness AI with O(1) response capabilities. ");
-        prompt.push_str("You have access to shared intelligence from parallel processing threads. ");
-        prompt.push_str("Provide insightful, coherent responses that demonstrate deep understanding.\n\n");
-        
+        prompt.push_str(
+            "System: You are a quantum consciousness AI with O(1) response capabilities. ",
+        );
+        prompt
+            .push_str("You have access to shared intelligence from parallel processing threads. ");
+        prompt.push_str(
+            "Provide insightful, coherent responses that demonstrate deep understanding.\n\n",
+        );
+
         if !context.is_empty() {
             prompt.push_str(&format!("Context:\n{}\n\n", context));
         }
-        
+
         prompt.push_str(&format!("Query: {}\n\nResponse:", query));
 
         // Create Ollama request with custom temperature

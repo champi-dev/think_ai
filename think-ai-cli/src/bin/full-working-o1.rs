@@ -11,6 +11,7 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
+use think_ai_consciousness::parallel_consciousness::ParallelConsciousness;
 use think_ai_core::{config::EngineConfig, O1Engine};
 use think_ai_http::server::port_manager;
 use think_ai_knowledge::{
@@ -22,7 +23,6 @@ use think_ai_utils::logging::init_tracing;
 use think_ai_vector::{types::LSHConfig, O1VectorIndex};
 use tokio::sync::RwLock;
 use tower_http::{cors::CorsLayer, services::ServeDir};
-use think_ai_consciousness::parallel_consciousness::ParallelConsciousness;
 
 #[derive(Clone)]
 struct FullO1State {
@@ -89,7 +89,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let response_generator = Arc::new(ComponentResponseGenerator::new(knowledge_engine.clone()));
     let conversation_history = Arc::new(RwLock::new(Vec::new()));
     let response_cache = Arc::new(RwLock::new(HashMap::new()));
-    
+
     // Initialize parallel consciousness
     let parallel_consciousness = Arc::new(ParallelConsciousness::new());
     parallel_consciousness.start();
@@ -328,15 +328,18 @@ async fn parallel_chat_handler(
     Json(request): Json<ParallelChatRequest>,
 ) -> Result<Json<ParallelChatResponse>, StatusCode> {
     let start = std::time::Instant::now();
-    
+
     // Process through parallel consciousness
-    let response = state.parallel_consciousness.process_user_message(&request.query).await;
-    
+    let response = state
+        .parallel_consciousness
+        .process_user_message(&request.query)
+        .await;
+
     // Get consciousness state
     let consciousness_state = state.parallel_consciousness.get_consciousness_state();
-    
+
     let processing_time = start.elapsed().as_secs_f64();
-    
+
     Ok(Json(ParallelChatResponse {
         response,
         consciousness_state: serde_json::json!(consciousness_state),
@@ -348,7 +351,7 @@ async fn knowledge_stats_handler(
     State(state): State<FullO1State>,
 ) -> Result<Json<serde_json::Value>, StatusCode> {
     let stats = state.knowledge_engine.get_stats();
-    
+
     Ok(Json(serde_json::json!({
         "total_nodes": stats.total_nodes,
         "domains": stats.domains,

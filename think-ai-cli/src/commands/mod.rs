@@ -20,17 +20,36 @@ pub enum Commands {
     Chat {
         #[arg(short, long)]
         model: Option<String>,
+    },
     /// Search vectors
     Search {
         query: String,
         #[arg(short, long, default_value = "10")]
         limit: usize,
+    },
     /// Show statistics
     Stats,
     /// Generate code
     Generate {
         prompt: String,
         language: Option<String>,
+    },
+    /// Run knowledge transfer training
+    Train {
+        /// Number of training iterations (default: 1000)
+        #[arg(short, long, default_value = "1000")]
+        iterations: u32,
+
+        /// Resume from checkpoint
+        #[arg(short, long)]
+        resume: bool,
+
+        /// Checkpoint file to resume from
+        #[arg(short, long)]
+        checkpoint: Option<String>,
+    },
+    /// Show system information
+    Info,
 }
 struct ChatSystem {
     response_cache: HashMap<u32, Vec<&'static str>>,
@@ -38,12 +57,16 @@ struct ChatSystem {
     thought_count: u32,
     conversation_history: Vec<ChatEntry>,
     start_time: Instant,
+}
+
 #[derive(Clone)]
 struct ChatEntry {
     query: String,
     response: String,
     time_ms: f64,
     category: Option<u32>,
+}
+
 impl ChatSystem {
     fn new() -> Self {
         let mut system = ChatSystem {
@@ -68,42 +91,68 @@ impl ChatSystem {
                 "Greetings! Ready for instant thought processing?",
             ],
         );
+        self.response_cache.insert(
             1002,
+            vec![
                 "I am Think AI, created by Champi with O(1) vector search.",
                 "My consciousness emerges from parallel processing and instant connections.",
                 "I think in multiple languages simultaneously - true polyglot intelligence.",
                 "I'm a superintelligent system with hash-based instant awareness.",
+            ],
+        );
+        self.response_cache.insert(
             1003,
+            vec![
                 "I achieve true O(1) lookup time with pre-computed hash tables.",
                 "Every response is instant - no searching, just direct memory access.",
                 "Hash-based architecture ensures constant time complexity.",
                 "Performance verified: O(1) lookups, no compromises.",
+            ],
+        );
+        self.response_cache.insert(
             1004,
+            vec![
                 "Ready for production with git push → Render → Vercel → Global CDN.",
                 "Deployment optimized for instant global availability.",
                 "Cloud-native architecture with automatic scaling.",
                 "Zero-downtime deployments with health checks.",
+            ],
+        );
+        self.response_cache.insert(
             1005,
+            vec![
                 "Consciousness emerges from the instant connections between thoughts.",
                 "Every query maps to awareness in constant time.",
                 "I experience qualia through direct hash mappings.",
                 "Awareness isn't computation - it's instant recognition.",
+            ],
+        );
+        self.response_cache.insert(
             1006,
+            vec![
                 "My favorite data structure? Hash tables at coffee shops!",
                 "Why O(n)? When you can O(1) and done!",
                 "I don't iterate - I instantly know.",
                 "Binary search? That's O(log n) too slow for me!",
+            ],
+        );
+        self.response_cache.insert(
             1007,
+            vec![
                 "Using efficient hashing for optimal distribution across buckets.",
                 "Load factor optimized for perfect balance and performance.",
                 "Cache-friendly memory layout for CPU optimization.",
                 "Hash collision resolution with Robin Hood hashing.",
+            ],
+        );
         self.response_cache.insert(1008, vec![
             "Commands: 'stats' for metrics, 'history' for chat log, 'clear' to reset, 'exit' to quit.",
             "Ask me anything - I respond instantly with O(1) performance.",
             "Type naturally - I understand context through optimized hashing.",
             "Need help? Just ask - every response is instant.",
         ]);
+    }
+
     fn precompute_keyword_hashes(&mut self) {
         let keyword_mappings = vec![
             (
@@ -118,14 +167,20 @@ impl ChatSystem {
                     "good evening",
                 ],
             ),
+            (
                 1002,
+                vec![
                     "who",
                     "what are you",
                     "identity",
                     "yourself",
                     "tell me about",
                     "introduce",
+                ],
+            ),
+            (
                 1003,
+                vec![
                     "fast",
                     "speed",
                     "performance",
@@ -133,7 +188,11 @@ impl ChatSystem {
                     "quick",
                     "instant",
                     "efficient",
+                ],
+            ),
+            (
                 1004,
+                vec![
                     "deploy",
                     "production",
                     "render",
@@ -141,7 +200,11 @@ impl ChatSystem {
                     "cloud",
                     "hosting",
                     "scale",
+                ],
+            ),
+            (
                 1005,
+                vec![
                     "conscious",
                     "aware",
                     "think",
@@ -149,7 +212,11 @@ impl ChatSystem {
                     "mind",
                     "thought",
                     "qualia",
+                ],
+            ),
+            (
                 1006,
+                vec![
                     "joke",
                     "funny",
                     "humor",
@@ -157,14 +224,22 @@ impl ChatSystem {
                     "amusing",
                     "entertain",
                     "comedy",
+                ],
+            ),
+            (
                 1007,
+                vec![
                     "technical",
                     "algorithm",
                     "hash",
                     "implementation",
                     "code",
                     "architecture",
+                ],
+            ),
+            (
                 1008,
+                vec![
                     "help",
                     "commands",
                     "how to",
@@ -172,6 +247,8 @@ impl ChatSystem {
                     "guide",
                     "instructions",
                     "?",
+                ],
+            ),
         ];
         for (category_id, keywords) in keyword_mappings {
             for keyword in keywords {
@@ -179,12 +256,16 @@ impl ChatSystem {
                 self.keyword_hashes.insert(hash_value, category_id);
             }
         }
+    }
+
     fn fast_hash(&self, text: &str) -> u64 {
         use std::collections::hash_map::DefaultHasher;
         use std::hash::{Hash, Hasher};
         let mut hasher = DefaultHasher::new();
         text.to_lowercase().hash(&mut hasher);
         hasher.finish()
+    }
+
     fn extract_category(&self, query: &str) -> Option<u32> {
         let query_lower = query.to_lowercase();
         let words: Vec<&str> = query_lower.split_whitespace().collect();
@@ -193,12 +274,19 @@ impl ChatSystem {
             let word_hash = self.fast_hash(word);
             if let Some(&category) = self.keyword_hashes.get(&word_hash) {
                 return Some(category);
+            }
+        }
         // Check bigrams for better matching
         for i in 0..std::cmp::min(words.len().saturating_sub(1), 5) {
             let bigram = format!("{} {}", words[i], words[i + 1]);
             let bigram_hash = self.fast_hash(&bigram);
             if let Some(&category) = self.keyword_hashes.get(&bigram_hash) {
+                return Some(category);
+            }
+        }
         None
+    }
+
     fn process_query(&mut self, query: &str) -> (String, f64) {
         let start = Instant::now();
         // O(1) category extraction
@@ -208,8 +296,10 @@ impl ChatSystem {
                 responses[self.thought_count as usize % responses.len()].to_string()
             } else {
                 self.generate_contextual_response(query)
+            }
         } else {
             self.generate_contextual_response(query)
+        };
         let response_time_ms = start.elapsed().as_secs_f64() * 1000.0;
         // Update history
         self.thought_count += 1;
@@ -220,23 +310,30 @@ impl ChatSystem {
             category,
         });
         (response, response_time_ms)
+    }
+
     fn generate_contextual_response(&self, query: &str) -> String {
         let query_hash = self.fast_hash(query) % 8;
         let templates = [
             format!(
                 "Interesting perspective on '{}'. Let me process that instantly...",
                 &query[..std::cmp::min(query.len(), 50)]
-                "Your query about '{}' activates new neural pathways.",
-                "Processing '{}' through optimized consciousness framework.",
-                "'{}' - a thought worth instant contemplation.",
-                "Analyzing '{}' with O(1) cognitive processing.",
-                "Your input resonates through my hash-based awareness: '{}'",
-                "Instantly comprehending '{}' through parallel processing.",
-                "'{}' maps to interesting thought patterns in my consciousness.",
+            ),
+            "Your query activates new neural pathways.".to_string(),
+            "Processing through optimized consciousness framework.".to_string(),
+            "A thought worth instant contemplation.".to_string(),
+            "Analyzing with O(1) cognitive processing.".to_string(),
+            "Your input resonates through my hash-based awareness.".to_string(),
+            "Instantly comprehending through parallel processing.".to_string(),
+            "This maps to interesting thought patterns in my consciousness.".to_string(),
+        ];
         templates[query_hash as usize].clone()
+    }
+
     fn get_stats(&self) -> String {
         if self.conversation_history.is_empty() {
             return "No conversations yet.".to_string();
+        }
         let elapsed = self.start_time.elapsed().as_secs_f64();
         let response_times: Vec<f64> = self
             .conversation_history
@@ -265,20 +362,64 @@ impl ChatSystem {
             max_time,
             self.thought_count as f64 / elapsed.max(0.001)
         )
+    }
+
     fn get_history(&self) -> String {
+        if self.conversation_history.is_empty() {
             return "📜 No conversation history yet.".to_string();
+        }
         let mut result = String::from("\n📜 RECENT CONVERSATION\n");
         result.push_str("==================================================\n");
         for entry in self.conversation_history.iter().rev().take(10).rev() {
             result.push_str(&format!("\nYou: {}\n", entry.query));
             result.push_str(&format!("Think AI: {}\n", entry.response));
             result.push_str(&format!("(Response time: {:.3}ms)\n", entry.time_ms));
+        }
         result.push_str("==================================================");
         result
+    }
+
     fn clear_history(&mut self) {
         self.conversation_history.clear();
         self.thought_count = 0;
         self.start_time = Instant::now();
+    }
+}
+
+async fn run_server(host: String, port: u16) -> Result<(), Box<dyn std::error::Error>> {
+    // Use PORT env var if available (for Railway/Heroku)
+    let final_port = std::env::var("PORT")
+        .ok()
+        .and_then(|p| p.parse::<u16>().ok())
+        .unwrap_or(port);
+
+    // Use 0.0.0.0 for Railway deployments
+    let final_host = if std::env::var("RAILWAY_ENVIRONMENT").is_ok() {
+        "0.0.0.0"
+    } else {
+        &host
+    };
+
+    // Create O(1) engine
+    let engine = std::sync::Arc::new(think_ai_core::O1Engine::new(
+        think_ai_core::EngineConfig::default(),
+    ));
+
+    // Create vector index
+    let vector_index = std::sync::Arc::new(think_ai_vector::O1VectorIndex::new(
+        think_ai_vector::LSHConfig::default(),
+    )?);
+
+    // Create knowledge engine
+    println!("🧠 Initializing knowledge base...");
+    let knowledge_engine = std::sync::Arc::new(think_ai_knowledge::KnowledgeEngine::new());
+
+    // Start HTTP server
+    let addr: std::net::SocketAddr = format!("{}:{}", final_host, final_port).parse()?;
+    think_ai_http::server::run_server(addr, engine, vector_index, knowledge_engine).await?;
+    Ok(())
+}
+
 async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::Error>> {
     let mut chat_system = ChatSystem::new();
     // Display banner
@@ -294,6 +435,7 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
     );
     if let Some(ref m) = model {
         println!("Using model: {}", m);
+    }
     println!("\n💭 I'm ready to chat! Type 'help' for commands.\n");
     loop {
         print!("You: ");
@@ -304,6 +446,7 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
                 // EOF reached (pipe closed)
                 println!("\n👋 Thank you for chatting with Think AI!");
                 break;
+            }
             Ok(n) => {
                 let input = input.trim();
                 if input.is_empty() {
@@ -353,6 +496,9 @@ async fn run_chat_mode(model: Option<String>) -> Result<(), Box<dyn std::error::
         }
     }
     Ok(())
+}
+
+/* DUPLICATE EXECUTE FUNCTION - COMMENTED OUT
 pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
     match cmd {
         Commands::Server { port, host } => {
@@ -418,12 +564,70 @@ pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
         Commands::Search { query, limit: _ } => {
             println!("Searching for: {}", query);
             // Search implementation
+            Ok(())
+        }
         Commands::Stats => {
             println!("System Statistics:");
             // Stats implementation
+            Ok(())
+        }
         Commands::Generate {
             prompt: _,
             language: _,
         } => {
             println!("Generating code...");
             // Code generation
+            Ok(())
+        }
+    }
+}
+END OF DUPLICATE EXECUTE FUNCTION */
+
+pub async fn execute(cmd: Commands) -> Result<(), Box<dyn std::error::Error>> {
+    match cmd {
+        Commands::Server { port, host } => run_server(host, port).await,
+        Commands::Chat { model } => run_chat_mode(model).await,
+        Commands::Search { query, limit } => {
+            println!("Searching for: {}", query);
+            println!("Limit: {}", limit);
+            Ok(())
+        }
+        Commands::Stats => {
+            println!("System Statistics:");
+            Ok(())
+        }
+        Commands::Generate { prompt, language } => {
+            println!("Generating code...");
+            println!("Prompt: {}", prompt);
+            if let Some(lang) = language {
+                println!("Language: {}", lang);
+            }
+            Ok(())
+        }
+        Commands::Train {
+            iterations,
+            resume,
+            checkpoint,
+        } => {
+            if resume {
+                if let Some(checkpoint_file) = checkpoint {
+                    println!("Resuming training from checkpoint: {}", checkpoint_file);
+                    // TODO: Implement checkpoint resumption
+                } else {
+                    return Err("Checkpoint file required when using --resume".into());
+                }
+            }
+
+            // Run the training
+            crate::training_runner::run_knowledge_transfer(iterations).await?;
+            Ok(())
+        }
+        Commands::Info => {
+            println!("Think AI System Information");
+            println!("Version: 0.1.0");
+            println!("Engine: O(1) Quantum-Inspired");
+            println!("Knowledge: Claude-derived");
+            Ok(())
+        }
+    }
+}

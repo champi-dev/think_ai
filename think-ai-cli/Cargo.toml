@@ -35,9 +35,9 @@ path = "src/bin/self-learning-service.rs"
 name = "train-consciousness"
 path = "src/bin/train-consciousness.rs"
 
-[[bin]]
-name = "think-ai-coding"
-path = "src/bin/think-ai-coding.rs"
+# [[bin]]
+# name = "think-ai-coding"
+# path = "src/bin/think-ai-coding.rs"
 
 [[bin]]
 name = "think-ai-llm"
@@ -55,7 +55,7 @@ think-ai-knowledge = { path = "../think-ai-knowledge" }
 think-ai-vector = { path = "../think-ai-vector" }
 think-ai-http = { path = "../think-ai-http" }
 think-ai-consciousness = { path = "../think-ai-consciousness" }
-think-ai-qwen = { path = "../think-ai-qwen" }
+# think-ai-qwen = { path = "../think-ai-qwen" } # Temporarily disabled
 tokio.workspace = true
 dotenv = "0.15"
 async-trait.workspace = true
@@ -73,6 +73,13 @@ clap = { version = "4.5", features = ["derive", "env"] }
 ratatui = "0.29"
 crossterm = "0.28"
 strum = { version = "0.26", features = ["derive"] }
+
+# Progress indicators
+indicatif = "0.17"
+colored = "2.1"
+
+# Date/time handling
+chrono = "0.4"
 
 # Natural chat system
 rand = "0.8"
