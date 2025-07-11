@@ -85,6 +85,72 @@
             font-family: 'Consolas', 'Monaco', monospace;
         }
         
+        /* Enhanced message content styling */
+        .message-content p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .message-content p:first-child {
+            margin-top: 0;
+        }
+        
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .message-content br {
+            display: block;
+            content: "";
+            margin-top: 0.5em;
+        }
+        
+        .message-content h1,
+        .message-content h2,
+        .message-content h3 {
+            margin: 15px 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .message-content ul,
+        .message-content ol {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        
+        .message-content li {
+            margin: 5px 0;
+        }
+        
+        .message-content blockquote {
+            border-left: 4px solid #00ff00;
+            padding-left: 15px;
+            margin: 10px 0;
+            color: #999;
+        }
+        
+        .message-content pre {
+            background: #0a0a0a;
+            padding: 12px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .message-content code {
+            background: #0a0a0a;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+        
+        .message-content hr {
+            border: none;
+            border-top: 1px solid #333;
+            margin: 20px 0;
+        }
+        
         .input-container {
             display: flex;
             gap: 10px;
@@ -226,6 +292,95 @@
         statusDiv.textContent = 'Ready';
         statusDiv.style.color = '#00ff00';
         
+        // Enhanced markdown parser
+        function parseMarkdown(text) {
+            // Escape HTML to prevent XSS
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
+            let result = text;
+            
+            // Handle code blocks FIRST (to protect their content)
+            const codeBlocks = [];
+            result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+                codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`);
+                return placeholder;
+            });
+            
+            // Handle inline code
+            const inlineCodes = [];
+            result = result.replace(/`([^`]+)`/g, (match, code) => {
+                const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+                inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+                return placeholder;
+            });
+            
+            // Headers
+            result = result.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            result = result.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            result = result.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            // Lists
+            result = result.replace(/^\d+\.\s+(.+)$/gm, '<li class="numbered">$1</li>');
+            result = result.replace(/(<li class="numbered">.*<\/li>\s*)+/gs, (match) => {
+                return '<ol style="margin: 10px 0; padding-left: 30px;">' + match + '</ol>';
+            });
+            
+            result = result.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+            result = result.replace(/(<li>(?!class).*<\/li>\s*)+/gs, (match) => {
+                return '<ul style="margin: 10px 0; padding-left: 30px;">' + match + '</ul>';
+            });
+            
+            // Bold and italic
+            result = result.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            result = result.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            
+            // Links
+            result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            
+            // Blockquotes
+            result = result.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+            
+            // Horizontal rules
+            result = result.replace(/^---+$/gm, '<hr>');
+            
+            // Paragraphs and line breaks
+            result = result.replace(/\r\n/g, '\n');
+            
+            const paragraphs = result.split(/\n\n+/);
+            
+            result = paragraphs.map(para => {
+                if (para.trim().match(/^<[^>]+>/)) {
+                    return para;
+                }
+                
+                if (para.includes('\n')) {
+                    const lines = para.split('\n').map(line => line.trim()).filter(line => line);
+                    if (lines.length > 0) {
+                        return '<p>' + lines.join('<br>') + '</p>';
+                    }
+                } else if (para.trim()) {
+                    return '<p>' + para.trim() + '</p>';
+                }
+                return '';
+            }).filter(p => p).join('\n');
+            
+            // Restore code blocks and inline code
+            codeBlocks.forEach((code, i) => {
+                result = result.replace(`__CODE_BLOCK_${i}__`, code);
+            });
+            
+            inlineCodes.forEach((code, i) => {
+                result = result.replace(`__INLINE_CODE_${i}__`, code);
+            });
+            
+            return result;
+        }
+
         // Function to add message to chat
         function addMessage(content, isUser = false) {
             const messageDiv = document.createElement('div');
@@ -233,15 +388,10 @@
             
             // Parse markdown-like formatting for AI messages
             if (!isUser) {
-                content = content
-                    .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-                    .replace(/`([^`]+)`/g, '<code>$1</code>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/\n/g, '<br>');
+                content = parseMarkdown(content);
             }
             
-            messageDiv.innerHTML = `<strong>${isUser ? 'You' : 'Think AI'}:</strong> ${content}`;
+            messageDiv.innerHTML = `<strong>${isUser ? 'You' : 'Think AI'}:</strong> <div class="message-content">${content}</div>`;
             messagesDiv.appendChild(messageDiv);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
