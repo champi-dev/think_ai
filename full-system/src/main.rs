@@ -252,8 +252,8 @@ fn initialize_knowledge(engine: &KnowledgeEngine) {
 
 // Handlers
 async fn serve_index() -> Html<String> {
-    // Read the HTML file at runtime instead of compile time
-    let html_content = std::fs::read_to_string("static/index.html")
+    // Serve the minimal_3d.html file as requested
+    let html_content = std::fs::read_to_string("minimal_3d.html")
         .unwrap_or_else(|_| include_str!("../../minimal_3d.html").to_string());
     Html(html_content)
 }

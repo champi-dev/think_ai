@@ -3640,6 +3640,7 @@ dependencies = [
  "think-ai-core",
  "think-ai-http",
  "think-ai-knowledge",
+ "think-ai-qwen",
  "think-ai-utils",
  "think-ai-vector",
  "thiserror 2.0.12",
