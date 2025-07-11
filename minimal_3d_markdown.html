@@ -305,6 +305,7 @@
             border-radius: 8px;
             overflow-x: auto;
             border: 1px solid var(--border);
+            position: relative;
         }
         
         .message-content pre code {
@@ -314,6 +315,49 @@
             color: var(--text);
             font-size: 0.875em;
             line-height: 1.5;
+        }
+        
+        /* Copy button for code blocks */
+        .code-block-wrapper {
+            position: relative;
+            margin: 1rem 0;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0;
+            z-index: 10;
+        }
+        
+        .code-block-wrapper:hover .copy-button {
+            opacity: 1;
+        }
+        
+        .copy-button:hover {
+            background: rgba(99, 102, 241, 0.4);
+            color: var(--text);
+            transform: scale(1.05);
+        }
+        
+        .copy-button:active {
+            transform: scale(0.95);
+        }
+        
+        .copy-button.copied {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #10b981;
         }
         
         .message-content blockquote {
@@ -349,6 +393,7 @@
             width: 100%;
             overflow-x: auto;
             display: block;
+            max-width: 100%;
         }
         
         .message-content th,
@@ -366,6 +411,35 @@
         
         .message-content tr:nth-child(even) {
             background: rgba(255, 255, 255, 0.02);
+        }
+        
+        /* Fix for inline code in tables */
+        .message-content table code {
+            padding: 0.1em 0.3em;
+            font-size: 0.85em;
+        }
+        
+        /* Improve list formatting */
+        .message-content ul ul,
+        .message-content ol ol,
+        .message-content ul ol,
+        .message-content ol ul {
+            margin-top: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Task list styling */
+        .message-content input[type="checkbox"] {
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        
+        /* Horizontal rule styling */
+        .message-content hr {
+            margin: 2rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
         }
         
         /* Revolutionary Input Design */
@@ -708,9 +782,45 @@
                 const htmlContent = marked.parse(content);
                 messageContent.innerHTML = htmlContent;
                 
-                // Highlight code blocks after rendering
-                messageContent.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
+                // Highlight code blocks and add copy buttons
+                messageContent.querySelectorAll('pre').forEach((pre) => {
+                    // Wrap pre in a wrapper div
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'code-block-wrapper';
+                    pre.parentNode.insertBefore(wrapper, pre);
+                    wrapper.appendChild(pre);
+                    
+                    // Add copy button
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-button';
+                    copyButton.textContent = 'Copy';
+                    wrapper.appendChild(copyButton);
+                    
+                    // Highlight code if it exists
+                    const codeBlock = pre.querySelector('code');
+                    if (codeBlock) {
+                        hljs.highlightElement(codeBlock);
+                    }
+                    
+                    // Copy functionality
+                    copyButton.addEventListener('click', async () => {
+                        const code = codeBlock ? codeBlock.textContent : pre.textContent;
+                        try {
+                            await navigator.clipboard.writeText(code);
+                            copyButton.textContent = 'Copied!';
+                            copyButton.classList.add('copied');
+                            setTimeout(() => {
+                                copyButton.textContent = 'Copy';
+                                copyButton.classList.remove('copied');
+                            }, 2000);
+                        } catch (err) {
+                            console.error('Failed to copy:', err);
+                            copyButton.textContent = 'Error';
+                            setTimeout(() => {
+                                copyButton.textContent = 'Copy';
+                            }, 2000);
+                        }
+                    });
                 });
             }
             

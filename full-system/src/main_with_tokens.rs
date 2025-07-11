@@ -283,21 +283,29 @@ fn initialize_knowledge(engine: &KnowledgeEngine) {
     // Philosophy domain
     engine.add_knowledge(
         KnowledgeDomain::Philosophy,
-        "Philosophy examines fundamental questions about existence, knowledge, values, reason, and mind.",
+        "Fundamental Questions".to_string(),
+        "Philosophy examines fundamental questions about existence, knowledge, values, reason, and mind.".to_string(),
+        vec!["metaphysics".to_string(), "epistemology".to_string(), "ethics".to_string()],
     );
     engine.add_knowledge(
         KnowledgeDomain::Philosophy,
-        "Major branches include metaphysics, epistemology, ethics, logic, and aesthetics.",
+        "Branches".to_string(),
+        "Major branches include metaphysics, epistemology, ethics, logic, and aesthetics.".to_string(),
+        vec!["logic".to_string(), "aesthetics".to_string()],
     );
 
     // History domain
     engine.add_knowledge(
         KnowledgeDomain::History,
-        "History is the study of past events, cultures, and human experiences over time.",
+        "Study of Past".to_string(),
+        "History is the study of past events, cultures, and human experiences over time.".to_string(),
+        vec!["culture".to_string(), "society".to_string(), "events".to_string()],
     );
     engine.add_knowledge(
         KnowledgeDomain::History,
-        "It helps us understand how societies evolved and provides context for current events.",
+        "Understanding Evolution".to_string(),
+        "It helps us understand how societies evolved and provides context for current events.".to_string(),
+        vec!["evolution".to_string(), "context".to_string(), "current events".to_string()],
     );
 }
 
@@ -316,7 +324,7 @@ async fn main() {
     info!("Initializing Think AI Server with Token Management...");
     
     let config = EngineConfig::default();
-    let mut core_engine = O1Engine::new(config);
+    let core_engine = O1Engine::new(config);
     core_engine.initialize().await.unwrap();
 
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
