@@ -1,0 +1,145 @@
+127.0.0.1 - - [11/Jul/2025 15:54:00] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 15:54:00] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 15:54:00] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 15:54:03] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 15:54:03] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 15:54:15] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 15:54:16] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 15:54:54] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2025 15:55:03] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2025 16:00:02] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:00:02] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 16:00:02] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 16:00:03] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 16:00:03] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 16:00:11] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:00:12] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 16:00:12] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 16:00:14] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:00:14] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:00:28] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:00:29] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:05:39] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:07:39] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:07:41] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:07:41] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:08:12] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:08:12] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:11:26] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:11:26] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:15:22] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:18:28] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:18:28] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:18:54] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:18:57] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:18:57] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:19:08] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:19:08] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:22:30] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:22:31] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 16:22:31] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 16:22:35] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:22:35] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:23:03] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 16:23:03] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 16:23:09] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:23:09] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 16:23:09] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 16:23:13] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:23:13] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:27:39] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:28:04] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:28:07] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:28:08] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:28:18] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:28:18] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 16:28:18] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 16:28:23] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:28:23] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:28:45] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 16:28:45] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 16:28:50] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:28:50] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 16:28:50] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 16:28:54] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 16:28:54] "POST /api/chat/stream HTTP/1.1" 200 -
+118.194.250.232 - - [11/Jul/2025 16:41:30] "GET / HTTP/1.1" 200 -
+118.194.250.232 - - [11/Jul/2025 16:41:31] code 400, message Bad request version ('À\\x13À')
+118.194.250.232 - - [11/Jul/2025 16:41:31] "\x16\x03\x01\x00ò\x01\x00\x00î\x03\x03³\x0cÛûÐóo·S\x10é Â+Ø\x19\x88h\x18\x83úg\x90D0ïx\x81Ó*=¡ ês+¢\x8e®Ö\x8d\x14ê\x9f«\x06ªñËËÔÌh\x15ÀÆþÛ\x19\x168Ä:Ý2\x00&À+À/À,À0Ì©Ì¨À\x09À\x13À" 400 -
+118.194.250.232 - - [11/Jul/2025 16:41:31] code 400, message Bad HTTP/0.9 request type ('t3')
+118.194.250.232 - - [11/Jul/2025 16:41:31] "t3 12.1.2" 400 -
+123.58.215.102 - - [11/Jul/2025 16:42:13] "GET / HTTP/1.1" 200 -
+123.58.215.102 - - [11/Jul/2025 16:42:14] code 404, message File not found
+123.58.215.102 - - [11/Jul/2025 16:42:14] "GET /favicon.ico HTTP/1.1" 404 -
+123.58.215.102 - - [11/Jul/2025 16:42:14] code 404, message File not found
+123.58.215.102 - - [11/Jul/2025 16:42:14] "GET /sitemap.xml HTTP/1.1" 404 -
+123.58.215.102 - - [11/Jul/2025 16:42:14] code 404, message File not found
+123.58.215.102 - - [11/Jul/2025 16:42:14] "GET /robots.txt HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:42] code 400, message Bad request version ('À\\x14À')
+167.94.146.52 - - [11/Jul/2025 17:16:42] "\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03ñÇîµúó´\x1catz9\x0c\x01¾oÕ?N\x9eÂ[|±Ðõ\x88\x05ÎMí  y\x95|?sÓ\x00^r¿\x8a\x8d9\x93\x02 \x00\x96GÁ\x95aÕ\x18Ý®WüWöë\x1f\x00&Ì¨Ì©À/À0À+À,À\x13À\x09À\x14À" 400 -
+167.94.146.52 - - [11/Jul/2025 17:16:43] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:43] "GET /api/v1/targets HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:43] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:43] "GET /api/v1/targets HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:44] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:44] "GET /api/v1/label/version/values HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:44] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:44] "GET /api/v1/label/version/values HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:44] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:44] "GET /api/v1/label/goversion/values HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:45] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:45] "GET /api/v1/label/goversion/values HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:46] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:46] "GET /api/v1/query?query=prometheus_build_info HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:47] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:47] "GET /api/v1/query?query=prometheus_build_info HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:48] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:48] "GET /api/v1/labels HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:49] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:49] "GET /api/v1/labels HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:50] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:50] "GET /api/v1/label/__name__/values HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:50] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:50] "GET /api/v1/label/__name__/values HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:51] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:16:51] "GET /api/v1/status/config HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:16:52] "GET / HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('167.94.146.52', 55464)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 404, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socket.py", line 707, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [Errno 104] Connection reset by peer
+----------------------------------------
+167.94.146.52 - - [11/Jul/2025 17:16:59] code 400, message Bad request version ('À\\x14À')
+167.94.146.52 - - [11/Jul/2025 17:16:59] "\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03ï|W\x86ªms¿9,GÍ\x07S>Ì\x0fþ6páQº7à»wqÇ'O2 !ð)OF³}\x85Þö\x10®yûp)ÍE-\x99,\x03p\x0e|r\x9bEf<R¥\x00&Ì¨Ì©À/À0À+À,À\x13À\x09À\x14À" 400 -
+167.94.146.52 - - [11/Jul/2025 17:17:03] "GET / HTTP/1.1" 200 -
+167.94.146.52 - - [11/Jul/2025 17:17:11] "GET / HTTP/1.1" 200 -
+167.94.146.52 - - [11/Jul/2025 17:17:12] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:17:12] "GET /favicon.ico HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:17:13] code 505, message Invalid HTTP version (2.0)
+167.94.146.52 - - [11/Jul/2025 17:17:13] "PRI * HTTP/2.0" 505 -
+167.94.146.52 - - [11/Jul/2025 17:17:18] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:17:18] "GET /favicon.ico HTTP/1.1" 404 -
+167.94.146.52 - - [11/Jul/2025 17:17:18] code 505, message Invalid HTTP version (2.0)
+167.94.146.52 - - [11/Jul/2025 17:17:18] "PRI * HTTP/2.0" 505 -
+167.94.146.52 - - [11/Jul/2025 17:17:22] code 400, message Bad request version ('À\\x14À')
+167.94.146.52 - - [11/Jul/2025 17:17:22] "\x16\x03\x01\x00î\x01\x00\x00ê\x03\x03Ù»sö\x15)oG¸ü\x17n½+9V\x9c¿1\x8e³Ô¸5°ìS\x18\x0dZ\x8fÄ \x9dÎ\x1eP½\x99\x163°½t]Á\x9b1E\x04Uµ\x85Êú¾¤X Klµ\x90Û \x00&Ì¨Ì©À/À0À+À,À\x13À\x09À\x14À" 400 -
+167.94.146.52 - - [11/Jul/2025 17:17:23] code 404, message File not found
+167.94.146.52 - - [11/Jul/2025 17:17:23] "GET /login HTTP/1.1" 404 -

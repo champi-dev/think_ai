@@ -1,16 +1,18 @@
 use axum::{
     extract::{ws::WebSocket, Path, Query, State, WebSocketUpgrade},
     http::StatusCode,
-    response::{Html, Response},
+    response::{Html, Response, Sse, sse::{Event, KeepAlive}},
     routing::{get, post},
     Json, Router,
 };
-use futures_util::{SinkExt, StreamExt};
+use axum_extra::extract::CookieJar;
+use futures_util::{SinkExt, StreamExt, stream::Stream};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
     env,
     sync::{Arc, RwLock},
+    convert::Infallible,
 };
 use tokio::sync::broadcast;
 use tower_http::{
@@ -28,6 +30,7 @@ use think_ai_core::{EngineConfig, O1ConsciousnessEngine, O1Engine};
 use think_ai_knowledge::{KnowledgeDomain, KnowledgeEngine, KnowledgeNode};
 use think_ai_qwen::{QwenClient, QwenRequest};
 use think_ai_vector::{LSHConfig, O1VectorIndex};
+use think_ai_utils::token_counter::count_tokens;
 
 // State for the application
 #[derive(Clone)]
@@ -71,6 +74,9 @@ struct ChatResponse {
     confidence: f64,
     response_time_ms: f64,
     consciousness_level: String,
+    tokens_used: usize,
+    context_tokens: usize,
+    compacted: bool,
 }
 
 #[derive(Deserialize)]
@@ -158,6 +164,7 @@ async fn main() {
         .route("/api/health", get(api_health))
         // Chat API
         .route("/api/chat", post(chat_handler))
+        .route("/api/chat/stream", post(chat_stream_handler))
         .route("/api/chat/sessions", get(list_sessions))
         .route("/api/chat/sessions/:id", get(get_session))
         .route("/ws/chat", get(websocket_handler))
@@ -286,9 +293,49 @@ async fn chat_handler(
         "state": "aware",
         "processing": true
     });
+    
+    // Token management
+    const MAX_TOKENS: usize = 5000;
+    const RESERVED_TOKENS: usize = 1000;
+    
+    // Simple token counter (4 chars = 1 token approximation)
+    let count_tokens = |text: &str| -> usize {
+        (text.len() as f32 / 4.0).ceil() as usize
+    };
+    
+    // Get conversation history for context
+    let (conversation_context, compacted, context_tokens) = {
+        let sessions = state.chat_sessions.read().unwrap();
+        if let Some(session) = sessions.get(&session_id) {
+            let full_context = session.messages.iter()
+                .map(|msg| format!("{}: {}", msg.role, msg.content))
+                .collect::<Vec<_>>()
+                .join("\n");
+            
+            let tokens = count_tokens(&full_context);
+            let query_tokens = count_tokens(&req.message);
+            
+            if tokens + query_tokens > MAX_TOKENS - RESERVED_TOKENS {
+                // Compact: keep only recent messages
+                let recent_context = session.messages.iter()
+                    .rev()
+                    .take(10) // Keep last 10 messages
+                    .rev()
+                    .map(|msg| format!("{}: {}", msg.role, msg.content))
+                    .collect::<Vec<_>>()
+                    .join("\n");
+                let compacted_context = format!("[Previous messages compacted]\n{}", recent_context);
+                (compacted_context, true, count_tokens(&recent_context))
+            } else {
+                (full_context, false, tokens)
+            }
+        } else {
+            (String::new(), false, 0)
+        }
+    };
 
     // Generate response using knowledge engine
-    let response = generate_ai_response(&req.message, &state).await;
+    let response = generate_ai_response(&req.message, &state, &conversation_context).await;
 
     let response_time_ms = start.elapsed().as_micros() as f64 / 1000.0;
 
@@ -327,16 +374,22 @@ async fn chat_handler(
     let _ = state.message_channel.send(user_msg);
     let _ = state.message_channel.send(ai_msg);
 
+    // Count tokens in response
+    let tokens_used = count_tokens(&response);
+    
     Ok(Json(ChatResponse {
         response,
         session_id,
         confidence: 0.95,
         response_time_ms,
         consciousness_level: format!("{:?}", consciousness_state),
+        tokens_used,
+        context_tokens,
+        compacted,
     }))
 }
 
-async fn generate_ai_response(message: &str, state: &ThinkAIState) -> String {
+async fn generate_ai_response(message: &str, state: &ThinkAIState, conversation_context: &str) -> String {
     // Gather context from knowledge engine
     let mut context = String::new();
 
@@ -361,10 +414,21 @@ async fn generate_ai_response(message: &str, state: &ThinkAIState) -> String {
         }
     }
 
+    // Combine conversation context with knowledge context
+    let full_context = if !conversation_context.is_empty() {
+        if context.is_empty() {
+            format!("Previous conversation:\n{}", conversation_context)
+        } else {
+            format!("Previous conversation:\n{}\n\nRelevant knowledge:\n{}", conversation_context, context)
+        }
+    } else {
+        context
+    };
+
     // Create Qwen request with context
     let qwen_request = QwenRequest {
         query: message.to_string(),
-        context: if context.is_empty() { None } else { Some(context) },
+        context: if full_context.is_empty() { None } else { Some(full_context) },
         system_prompt: Some("You are Think AI, an advanced AI system powered by O(1) algorithms and consciousness engine. Provide thoughtful, accurate, and engaging responses.".to_string()),
     };
 
@@ -399,6 +463,124 @@ async fn get_session(
         .ok_or(StatusCode::NOT_FOUND)
 }
 
+async fn chat_stream_handler(
+    State(state): State<ThinkAIState>,
+    jar: CookieJar,
+    Json(req): Json<ChatRequest>,
+) -> Sse<impl Stream<Item = Result<Event, std::convert::Infallible>>> {
+    let session_id = req.session_id.unwrap_or_else(|| {
+        jar.get("session_id")
+            .map(|c| c.value().to_string())
+            .unwrap_or_else(|| Uuid::new_v4().to_string())
+    });
+
+    // Get conversation context
+    let conversation_context = {
+        let sessions = state.chat_sessions.read().unwrap();
+        if let Some(session) = sessions.get(&session_id) {
+            let last_messages: Vec<String> = session.messages
+                .iter()
+                .rev()
+                .take(10)
+                .rev()
+                .map(|msg| format!("{}: {}", msg.role, msg.content))
+                .collect();
+            last_messages.join("\n")
+        } else {
+            String::new()
+        }
+    };
+
+    // Create stream
+    let stream = async_stream::stream! {
+        // Save user message
+        let user_msg = ChatMessage {
+            id: Uuid::new_v4().to_string(),
+            session_id: session_id.clone(),
+            role: "user".to_string(),
+            content: req.message.clone(),
+            timestamp: chrono::Utc::now(),
+            response_time_ms: 0.0,
+        };
+
+        // Create Qwen request
+        let qwen_request = QwenRequest {
+            query: req.message.clone(),
+            context: if conversation_context.is_empty() { None } else { Some(conversation_context.clone()) },
+            system_prompt: Some("You are Think AI, an advanced AI system powered by O(1) algorithms and consciousness engine. Provide thoughtful, accurate, and engaging responses.".to_string()),
+        };
+
+        // Get streaming response
+        match state.qwen_client.generate_stream(qwen_request).await {
+            Ok(mut rx) => {
+                let mut full_response = String::new();
+                let start_time = std::time::Instant::now();
+                
+                // Send initial event
+                yield Ok(Event::default().event("start").data(""));
+                
+                while let Some(chunk_result) = rx.recv().await {
+                    match chunk_result {
+                        Ok(chunk) => {
+                            full_response.push_str(&chunk);
+                            yield Ok(Event::default().event("chunk").data(chunk));
+                        }
+                        Err(e) => {
+                            yield Ok(Event::default().event("error").data(format!("Error: {}", e)));
+                            break;
+                        }
+                    }
+                }
+                
+                let response_time_ms = start_time.elapsed().as_secs_f64() * 1000.0;
+                
+                // Save AI response
+                let ai_msg = ChatMessage {
+                    id: Uuid::new_v4().to_string(),
+                    session_id: session_id.clone(),
+                    role: "assistant".to_string(),
+                    content: full_response.clone(),
+                    timestamp: chrono::Utc::now(),
+                    response_time_ms,
+                };
+                
+                // Update session
+                {
+                    let mut sessions = state.chat_sessions.write().unwrap();
+                    let session = sessions.entry(session_id.clone()).or_insert(ChatSession {
+                        id: session_id.clone(),
+                        messages: Vec::new(),
+                        created_at: chrono::Utc::now(),
+                    });
+                    session.messages.push(user_msg);
+                    session.messages.push(ai_msg);
+                }
+                
+                // Send completion event with metadata
+                let completion_data = serde_json::json!({
+                    "session_id": session_id,
+                    "response_time_ms": response_time_ms,
+                    "tokens_used": count_tokens(&full_response),
+                    "context_tokens": count_tokens(&conversation_context),
+                });
+                
+                yield Ok(Event::default().event("done").data(completion_data.to_string()));
+            }
+            Err(e) => {
+                // Fallback response
+                let fallback_msg = format!(
+                    "I understand you're asking about {}. While I'm having trouble accessing my streaming capabilities at the moment, I'd be happy to help explore this topic with you. Could you provide more details?",
+                    req.message
+                );
+                yield Ok(Event::default().event("chunk").data(fallback_msg));
+                yield Ok(Event::default().event("done").data(""));
+            }
+        }
+    };
+    
+    Sse::new(stream).keep_alive(KeepAlive::default())
+}
+
 async fn websocket_handler(ws: WebSocketUpgrade, State(state): State<ThinkAIState>) -> Response {
     ws.on_upgrade(|socket| handle_socket(socket, state))
 }
@@ -423,7 +605,7 @@ async fn handle_socket(socket: WebSocket, state: ThinkAIState) {
     while let Some(Ok(msg)) = receiver.next().await {
         if let axum::extract::ws::Message::Text(text) = msg {
             if let Ok(req) = serde_json::from_str::<ChatRequest>(&text) {
-                let response = generate_ai_response(&req.message, &state).await;
+                let response = generate_ai_response(&req.message, &state, "").await;
 
                 let ai_msg = ChatMessage {
                     id: Uuid::new_v4().to_string(),

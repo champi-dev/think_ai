@@ -8,6 +8,8 @@ pub mod knowledge;
 pub mod parallel_chat;
 pub mod search;
 pub mod stats;
+pub mod stream_chat;
+
 pub use chat::chat;
 pub use compute::compute;
 pub use health::health;
@@ -16,3 +18,4 @@ pub use knowledge::knowledge_stats;
 pub use parallel_chat::{initialize_parallel_consciousness, parallel_chat};
 pub use search::search;
 pub use stats::stats;
+pub use stream_chat::{stream_chat, stream_chat_real};

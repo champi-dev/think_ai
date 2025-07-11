@@ -41,6 +41,7 @@ pub mod self_learning;
 pub mod simple_cache_component;
 pub mod simple_llm;
 pub mod social_media_gatherer;
+pub mod persistent_conversation_memory;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::HashMap;

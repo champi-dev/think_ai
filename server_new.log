@@ -1,0 +1,6 @@
+127.0.0.1 - - [11/Jul/2025 13:15:06] "HEAD / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 13:15:57] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 13:16:01] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 13:16:01] "GET /health HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 13:16:01] code 501, message Unsupported method ('POST')
+127.0.0.1 - - [11/Jul/2025 13:16:01] "POST /api/chat HTTP/1.1" 501 -

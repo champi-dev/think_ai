@@ -1,10 +1,9 @@
-🚀 Think AI Full O(1) System Starting...
-🔍 Environment variables:
-  OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE: delta
-🌐 Server starting on http://0.0.0.0:8080
-Qwen unavailable: Ollama returned error status: 404 Not Found
-Qwen unavailable: Ollama returned error status: 404 Not Found
-Qwen unavailable: Ollama returned error status: 404 Not Found
-Qwen unavailable: Ollama returned error status: 404 Not Found
-Qwen unavailable: Ollama returned error status: 404 Not Found
-Qwen unavailable: Ollama returned error status: 404 Not Found
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/serve_minimal_3d.py", line 16, in <module>
+    with socketserver.TCPServer(("", PORT), MyHTTPRequestHandler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.12/socketserver.py", line 473, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use

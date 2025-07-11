@@ -308,6 +308,9 @@ The Rust ecosystem provides all necessary components for building a performant L
 - Always tell me how to run it locally
 - Pre-Prompt: Solve it in minimal small verifiable testable manageable steps, test verify and provide solid evidence of each step you take, use O(1)
 - Always kill ports first before trying to use them
+- IMPORTANT: Never kill bg service running port 8080 thats PROD!
+- Local testing always using ports like 3456 5555 7777 etc
+
 ## Author
 
 This project is maintained by **champi-dev** - [danielsarcor@gmail.com](mailto:danielsarcor@gmail.com)

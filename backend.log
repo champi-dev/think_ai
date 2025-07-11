@@ -1,0 +1,4 @@
+[2m2025-07-11T14:50:06.141160Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main.rs:187:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

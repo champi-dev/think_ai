@@ -26,6 +26,7 @@ chrono = { version = "0.4", features = ["serde"] }
 regex = "1.10"
 dashmap = "5.5"
 uuid = { version = "1.4", features = ["v4"] }
+sled = "0.34"
 
 [[bin]]
 name = "start-realtime-knowledge"

@@ -2,6 +2,8 @@
 
 pub mod backends;
 pub mod traits;
+pub mod persistent_sessions;
+
 use thiserror::Error;
 #[derive(Error, Debug)]
 pub enum StorageError {
@@ -13,3 +15,4 @@ pub enum StorageError {
 pub type Result<T> = std::result::Result<T, StorageError>;
 pub use backends::{MemoryStorage, SledStorage};
 pub use traits::{Storage, TypedStorage};
+pub use persistent_sessions::PersistentConversationMemory;

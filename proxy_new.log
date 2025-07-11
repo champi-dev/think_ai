@@ -1,0 +1,7 @@
+127.0.0.1 - - [11/Jul/2025 15:00:58] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2025 15:01:02] code 404, message File not found
+127.0.0.1 - - [11/Jul/2025 15:01:02] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2025 15:03:00] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 15:03:00] "POST /api/chat/stream HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 15:03:11] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2025 15:04:06] "GET / HTTP/1.1" 200 -

@@ -5,6 +5,7 @@
 
 pub mod logging;
 pub mod perf;
+pub mod token_counter;
 use serde::{Deserialize, Serialize};
 use std::time::Instant;
 /// Measure the execution time of a closure and return both the result and duration

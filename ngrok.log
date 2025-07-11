@@ -1,9 +1,9 @@
-ERROR:  authentication failed: Your account is limited to 1 simultaneous ngrok agent sessions.
-ERROR:  You can run multiple simultaneous tunnels from a single agent session by defining the tunnels in your agent configuration file and starting them with the command `ngrok start --all`.
-ERROR:  Read more about the agent configuration file: https://ngrok.com/docs/secure-tunnels/ngrok-agent/reference/config
-ERROR:  You can view your current agent sessions in the dashboard:
-ERROR:  https://dashboard.ngrok.com/agents
-ERROR:  
-ERROR:  ERR_NGROK_108
-ERROR:  https://ngrok.com/docs/errors/err_ngrok_108
-ERROR:  
+t=2025-07-11T18:07:55+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-11T18:07:55+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-11T18:07:55+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-11T18:07:55+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-11T18:07:55+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-11T18:07:55+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-11T18:07:55+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:3456 url=https://37fdf7867ba2.ngrok.app
+t=2025-07-11T18:08:00+0000 lvl=info msg=start pg=/api/tunnels id=2ca27b66307310cb
+t=2025-07-11T18:08:00+0000 lvl=info msg=end pg=/api/tunnels id=2ca27b66307310cb status=200 dur=623.199µs

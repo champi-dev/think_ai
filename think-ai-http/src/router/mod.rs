@@ -40,6 +40,7 @@ pub fn create_router(state: Arc<AppState>) -> Router {
         .route("/search", post(handlers::search))
         .route("/stats", get(handlers::stats))
         .route("/api/chat", post(handlers::chat))
+        .route("/api/chat/stream", post(handlers::stream_chat))
         .route("/api/parallel-chat", post(handlers::parallel_chat))
         .route("/api/process", post(handlers::chat))
         .route("/api/knowledge/stats", get(handlers::knowledge_stats))

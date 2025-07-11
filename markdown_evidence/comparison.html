@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Think AI Markdown Rendering Comparison</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .comparison { display: flex; gap: 20px; margin-top: 20px; }
+        .version { flex: 1; }
+        .version img { width: 100%; border: 1px solid #ddd; }
+        h2 { color: #333; }
+        .info { background: #f0f0f0; padding: 10px; border-radius: 5px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Think AI Markdown Rendering Evidence</h1>
+        
+        <div class="info">
+            <p><strong>Test Date:</strong> <span id="date"></span></p>
+            <p><strong>Purpose:</strong> Compare markdown rendering between custom parser and marked.js implementation</p>
+        </div>
+        
+        <div class="comparison">
+            <div class="version">
+                <h2>Custom Parser (minimal_3d.html)</h2>
+                <img src="custom_parser.png" alt="Custom Parser">
+                <p>Uses custom markdown parsing logic implemented in JavaScript</p>
+            </div>
+            
+            <div class="version">
+                <h2>Marked.js (minimal_3d_markdown.html)</h2>
+                <img src="marked_js.png" alt="Marked.js">
+                <p>Uses marked.js library with syntax highlighting via highlight.js</p>
+            </div>
+        </div>
+        
+        <h2>Key Features Tested</h2>
+        <ul>
+            <li>Headers (H1-H6)</li>
+            <li>Bold, italic, and combined formatting</li>
+            <li>Ordered and unordered lists</li>
+            <li>Code blocks with syntax highlighting</li>
+            <li>Inline code</li>
+            <li>Links</li>
+            <li>Blockquotes</li>
+            <li>Tables (marked.js only)</li>
+            <li>Line breaks and paragraphs</li>
+        </ul>
+    </div>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>

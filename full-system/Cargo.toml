@@ -10,9 +10,18 @@ authors = ["champi-dev <danielsarcor@gmail.com>"]
 name = "think-ai-full"
 path = "src/main.rs"
 
+[[bin]]
+name = "think-ai-full-persistent"
+path = "src/main_persistent.rs"
+
+[[bin]]
+name = "think-ai-full-tokens"
+path = "src/main_with_tokens.rs"
+
 [dependencies]
 # Web Framework
-axum = { version = "0.7", features = ["ws"] }
+axum = { version = "0.7", features = ["ws", "macros"] }
+axum-extra = { version = "0.9", features = ["cookie"] }
 tower = "0.5"
 tower-http = { version = "0.5", features = ["fs", "cors", "trace"] }
 tokio = { version = "1", features = ["full"] }
@@ -34,6 +43,7 @@ sha2 = "0.10"
 
 # WebSocket support
 futures-util = "0.3"
+async-stream = "0.3"
 
 # Think AI components
 think-ai-core = { path = "../think-ai-core" }
@@ -41,3 +51,5 @@ think-ai-knowledge = { path = "../think-ai-knowledge" }
 think-ai-vector = { path = "../think-ai-vector" }
 think-ai-consciousness = { path = "../think-ai-consciousness" }
 think-ai-qwen = { path = "../think-ai-qwen" }
+think-ai-storage = { path = "../think-ai-storage" }
+think-ai-utils = { path = "../think-ai-utils" }

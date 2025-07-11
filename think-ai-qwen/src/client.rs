@@ -2,6 +2,8 @@ use anyhow::Result;
 use reqwest;
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
+use futures_util::StreamExt;
+use tokio::sync::mpsc;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct QwenConfig {
@@ -66,6 +68,21 @@ struct OllamaGenerateResponse {
     eval_count: Option<u32>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OllamaStreamResponse {
+    pub model: String,
+    pub created_at: String,
+    pub response: String,
+    pub done: bool,
+    pub context: Option<Vec<i32>>,
+    pub total_duration: Option<u64>,
+    pub load_duration: Option<u64>,
+    pub prompt_eval_count: Option<u32>,
+    pub prompt_eval_duration: Option<u64>,
+    pub eval_count: Option<u32>,
+    pub eval_duration: Option<u64>,
+}
+
 pub struct QwenClient {
     config: QwenConfig,
     client: reqwest::Client,
@@ -79,6 +96,15 @@ impl QwenClient {
     pub fn new_with_config(config: QwenConfig) -> Self {
         let client = reqwest::Client::builder()
             .timeout(Duration::from_secs(30))
+            .build()
+            .unwrap();
+        Self { config, client }
+    }
+    
+    pub fn new_streaming() -> Self {
+        let config = QwenConfig::default();
+        // No timeout for streaming
+        let client = reqwest::Client::builder()
             .build()
             .unwrap();
         Self { config, client }
@@ -220,5 +246,86 @@ impl QwenClient {
                 response.status()
             ))
         }
+    }
+    
+    pub async fn generate_stream(&self, request: QwenRequest) -> Result<mpsc::Receiver<Result<String>>> {
+        // Build the prompt with context if available
+        let mut prompt = String::new();
+
+        if let Some(system_prompt) = &request.system_prompt {
+            prompt.push_str(&format!("System: {system_prompt}\n\n"));
+        }
+
+        if let Some(context) = &request.context {
+            prompt.push_str(&format!("Context: {context}\n\n"));
+        }
+
+        prompt.push_str(&format!("Query: {}\n\nResponse:", request.query));
+
+        // Create Ollama request with streaming enabled
+        let ollama_request = OllamaGenerateRequest {
+            model: self.config.model.clone(),
+            prompt,
+            stream: true,  // Enable streaming
+            options: Some(OllamaOptions {
+                temperature: 0.7,
+                top_p: 0.9,
+            }),
+        };
+
+        let (tx, rx) = mpsc::channel(100);
+        let url = format!("{}/api/generate", self.config.base_url);
+        let client = self.client.clone();
+
+        // Spawn task to handle streaming
+        tokio::spawn(async move {
+            match client
+                .post(url)
+                .json(&ollama_request)
+                .send()
+                .await
+            {
+                Ok(response) => {
+                    let mut stream = response.bytes_stream();
+                    let mut buffer = Vec::new();
+                    
+                    while let Some(chunk) = stream.next().await {
+                        match chunk {
+                            Ok(bytes) => {
+                                buffer.extend_from_slice(&bytes);
+                                
+                                // Process complete JSON lines
+                                while let Some(newline_pos) = buffer.iter().position(|&b| b == b'\n') {
+                                    let line = buffer.drain(..=newline_pos).collect::<Vec<_>>();
+                                    
+                                    if let Ok(line_str) = std::str::from_utf8(&line) {
+                                        let trimmed = line_str.trim();
+                                        if !trimmed.is_empty() {
+                                            if let Ok(resp) = serde_json::from_str::<OllamaStreamResponse>(trimmed) {
+                                                if !resp.response.is_empty() {
+                                                    let _ = tx.send(Ok(resp.response)).await;
+                                                }
+                                                if resp.done {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            Err(e) => {
+                                let _ = tx.send(Err(anyhow::anyhow!("Stream error: {}", e))).await;
+                                break;
+                            }
+                        }
+                    }
+                }
+                Err(e) => {
+                    let _ = tx.send(Err(anyhow::anyhow!("Request failed: {}", e))).await;
+                }
+            }
+        });
+
+        Ok(rx)
     }
 }
