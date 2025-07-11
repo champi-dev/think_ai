@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think AI - O(1) Quantum Intelligence</title>
+    <style>
+        /* Enhanced typography and word wrapping fixes */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #06b6d4;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #475569;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        #container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        #scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Enhanced Chat Interface */
+        #chatInterface {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 450px;
+            max-width: calc(100vw - 40px);
+            height: 600px;
+            max-height: calc(100vh - 100px);
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 50px rgba(99, 102, 241, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1000;
+        }
+        
+        #chatHeader {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 20px 20px 0 0;
+        }
+        
+        #chatHeader h2 {
+            font-size: 18px;
+            font-weight: 600;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            scroll-behavior: smooth;
+        }
+        
+        /* Fixed message content styling for proper word wrapping */
+        .message {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: messageSlide 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            position: relative;
+        }
+        
+        @keyframes messageSlide {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .message.user {
+            text-align: right;
+        }
+        
+        .message.ai {
+            text-align: left;
+        }
+        
+        .message-content {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            max-width: 85%;
+            position: relative;
+            font-weight: 400;
+            line-height: 1.7;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            
+            /* Critical word wrapping fixes */
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            -moz-hyphens: auto;
+            -ms-hyphens: auto;
+        }
+        
+        .user .message-content {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(99, 102, 241, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .ai .message-content {
+            background: linear-gradient(135deg, var(--surface), var(--surface-light));
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        
+        /* Enhanced Markdown Styles with better typography */
+        .message-content p {
+            margin: 0.75em 0;
+            line-height: 1.7;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .message-content p:first-child {
+            margin-top: 0;
+        }
+        
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .message-content code {
+            background: rgba(139, 92, 246, 0.15);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e9d5ff;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .message-content pre {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 1em;
+            overflow-x: auto;
+            margin: 1em 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .message-content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+            color: #f1f5f9;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: normal;
+            overflow-wrap: normal;
+        }
+        
+        .message-content h1, 
+        .message-content h2, 
+        .message-content h3 {
+            margin: 1em 0 0.5em 0;
+            color: var(--text);
+            font-weight: 600;
+            line-height: 1.3;
+            word-wrap: break-word;
+        }
+        
+        .message-content h1 { 
+            font-size: 1.6em; 
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+            padding-bottom: 0.3em;
+        }
+        
+        .message-content h2 { 
+            font-size: 1.3em;
+            color: #c4b5fd;
+        }
+        
+        .message-content h3 { 
+            font-size: 1.15em;
+            color: #ddd6fe;
+        }
+        
+        .message-content ul, 
+        .message-content ol {
+            margin: 0.75em 0;
+            padding-left: 1.5em;
+            line-height: 1.7;
+        }
+        
+        .message-content li {
+            margin: 0.25em 0;
+            word-wrap: break-word;
+        }
+        
+        .message-content strong {
+            font-weight: 600;
+            color: #f9fafb;
+        }
+        
+        .message-content em {
+            font-style: italic;
+            color: #e5e7eb;
+        }
+        
+        .message-content a {
+            color: var(--secondary);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--secondary);
+            transition: all 0.2s ease;
+            word-break: break-word;
+        }
+        
+        .message-content a:hover {
+            color: #67e8f9;
+            border-bottom-style: solid;
+        }
+        
+        .message-content blockquote {
+            border-left: 4px solid var(--primary);
+            padding-left: 1em;
+            margin: 1em 0;
+            color: #d1d5db;
+            font-style: italic;
+            background: rgba(99, 102, 241, 0.05);
+            padding: 0.75em 1em;
+            border-radius: 0 8px 8px 0;
+            word-wrap: break-word;
+        }
+        
+        .message-content hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent);
+            margin: 1.25em 0;
+        }
+        
+        /* Modern Scrollbar */
+        .messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .messages::-webkit-scrollbar-track {
+            background: rgba(148, 163, 184, 0.1);
+            border-radius: 3px;
+        }
+        
+        .messages::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .messages::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+        }
+        
+        #inputContainer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 0 0 20px 20px;
+        }
+        
+        #inputWrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        #chatInput {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: var(--text);
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            line-height: 1.5;
+        }
+        
+        #chatInput:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 
+                0 0 0 3px rgba(99, 102, 241, 0.1),
+                0 0 20px rgba(99, 102, 241, 0.2);
+        }
+        
+        #sendBtn {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 
+                0 8px 20px rgba(99, 102, 241, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        #sendBtn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 
+                0 12px 30px rgba(99, 102, 241, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        
+        #sendBtn:active {
+            transform: translateY(0) scale(0.95);
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            #chatInterface {
+                width: calc(100vw - 20px);
+                height: calc(100vh - 20px);
+                bottom: 10px;
+                right: 10px;
+                max-height: none;
+            }
+            
+            .message-content {
+                max-width: 90%;
+                font-size: 15px;
+            }
+            
+            .message-content pre {
+                font-size: 13px;
+            }
+        }
+        
+        /* Loading animation */
+        .loading {
+            color: var(--secondary);
+            font-style: italic;
+            position: relative;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <canvas id="scene"></canvas>
+        
+        <div id="chatInterface">
+            <div id="chatHeader">
+                <h2>Think AI Quantum Chat</h2>
+            </div>
+            <div class="messages" id="messages"></div>
+            <div id="inputContainer">
+                <div id="inputWrapper">
+                    <input type="text" id="chatInput" placeholder="Ask anything... (O(1) response time)" />
+                    <button id="sendBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Enhanced markdown parser with better line break handling
+        function parseMarkdown(text) {
+            // Escape HTML first
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+            
+            let result = text;
+            
+            // Step 1: Protect code blocks
+            const codeBlocks = [];
+            result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+                codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`);
+                return placeholder;
+            });
+            
+            // Step 2: Protect inline code
+            const inlineCodes = [];
+            result = result.replace(/`([^`]+)`/g, (match, code) => {
+                const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+                inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+                return placeholder;
+            });
+            
+            // Step 3: Headers
+            result = result.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            result = result.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            result = result.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            // Step 4: Lists
+            // Handle numbered lists
+            result = result.replace(/^(\d+)\.\s+(.+)$/gm, '<li>$2</li>');
+            result = result.replace(/(<li>[\s\S]*?<\/li>\s*)+/g, (match) => {
+                if (match.includes('<ol>') || match.includes('<ul>')) return match;
+                return '<ol>' + match + '</ol>';
+            });
+            
+            // Handle bullet lists
+            result = result.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+            result = result.replace(/(<li>[\s\S]*?<\/li>\s*)+/g, (match) => {
+                if (match.includes('<ol>') || match.includes('<ul>')) return match;
+                return '<ul>' + match + '</ul>';
+            });
+            
+            // Step 5: Bold and italic
+            result = result.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+            result = result.replace(/(?<![*])\*([^*]+)\*(?![*])/g, '<em>$1</em>');
+            
+            // Step 6: Links
+            result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            
+            // Step 7: Blockquotes
+            result = result.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+            
+            // Step 8: Horizontal rules
+            result = result.replace(/^---+$/gm, '<hr>');
+            
+            // Step 9: Paragraphs and line breaks
+            // Split by double newlines for paragraphs
+            const paragraphs = result.split(/\n\n+/);
+            
+            result = paragraphs.map(para => {
+                // Skip if already HTML
+                if (para.trim().match(/^<[^>]+>/)) {
+                    return para;
+                }
+                
+                // Convert single newlines to <br> for soft wraps
+                const lines = para.split('\n').map(line => line.trim()).filter(line => line);
+                if (lines.length > 0) {
+                    return '<p>' + lines.join('<br>') + '</p>';
+                }
+                return '';
+            }).filter(p => p).join('\n');
+            
+            // Step 10: Restore code blocks and inline code
+            codeBlocks.forEach((code, i) => {
+                result = result.replace(`__CODE_BLOCK_${i}__`, code);
+            });
+            
+            inlineCodes.forEach((code, i) => {
+                result = result.replace(`__INLINE_CODE_${i}__`, code);
+            });
+            
+            return result;
+        }
+        
+        // Three.js scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: document.getElementById('scene'),
+            antialias: true,
+            alpha: true
+        });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        
+        // Quantum visualization
+        const geometry = new THREE.IcosahedronGeometry(2, 1);
+        const material = new THREE.MeshPhongMaterial({
+            color: 0x6366f1,
+            emissive: 0x6366f1,
+            emissiveIntensity: 0.2,
+            wireframe: true
+        });
+        const quantum = new THREE.Mesh(geometry, material);
+        scene.add(quantum);
+        
+        // Lighting
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(5, 5, 5);
+        scene.add(light);
+        
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+        
+        camera.position.z = 5;
+        
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            quantum.rotation.x += 0.005;
+            quantum.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+        
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Chat functionality
+        const messagesContainer = document.getElementById('messages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        
+        function addMessage(content, isUser = false) {
+            const message = document.createElement('div');
+            message.className = `message ${isUser ? 'user' : 'ai'}`;
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            if (isUser) {
+                messageContent.textContent = content;
+            } else {
+                messageContent.innerHTML = parseMarkdown(content);
+            }
+            
+            message.appendChild(messageContent);
+            messagesContainer.appendChild(message);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            // Add loading message
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'message ai';
+            loadingMsg.innerHTML = '<div class="message-content loading">Thinking...</div>';
+            messagesContainer.appendChild(loadingMsg);
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message })
+                });
+                
+                const data = await response.json();
+                loadingMsg.remove();
+                addMessage(data.response || 'O(1) response generated!');
+            } catch (error) {
+                loadingMsg.remove();
+                addMessage('Connection error. Please try again.');
+            }
+        }
+        
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        // Initial message
+        setTimeout(() => {
+            addMessage("Welcome to Think AI! I'm your O(1) quantum intelligence assistant. How can I help you today?");
+        }, 500);
+    </script>
+</body>
+</html>

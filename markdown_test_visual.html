@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Rendering Test - Visual Comparison</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .test-case {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .test-header {
+            background: #6366f1;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+        }
+        
+        .test-content {
+            padding: 20px;
+        }
+        
+        .input {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+        
+        .output {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            min-height: 100px;
+            background: #fff;
+        }
+        
+        .label {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+        h2 { color: #34495e; margin-top: 40px; }
+        
+        .issue {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .issue h3 { margin-top: 0; color: #856404; }
+        
+        /* Styles for rendered markdown */
+        .output h1, .output h2, .output h3 { margin: 10px 0; }
+        .output p { margin: 10px 0; }
+        .output ul, .output ol { margin: 10px 0; padding-left: 30px; }
+        .output code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .output pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .output blockquote {
+            border-left: 4px solid #6366f1;
+            padding-left: 15px;
+            margin: 10px 0;
+            color: #666;
+        }
+        .output a { color: #6366f1; text-decoration: none; }
+        .output a:hover { text-decoration: underline; }
+        .output strong { font-weight: bold; }
+        .output em { font-style: italic; }
+        .output hr { border: none; border-top: 1px solid #e9ecef; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>Markdown Rendering Test - Visual Comparison</h1>
+    
+    <div class="issue">
+        <h3>⚠️ Current Issues:</h3>
+        <ul>
+            <li><strong>Line breaks not rendering:</strong> Single newlines (\n) are being ignored</li>
+            <li><strong>Spacing in default message:</strong> Extra spaces appearing in AI responses</li>
+            <li><strong>Paragraph separation:</strong> Double newlines not creating proper paragraphs</li>
+        </ul>
+    </div>
+    
+    <h2>Test Cases</h2>
+    
+    <div id="tests"></div>
+    
+    <script>
+        // Current parseMarkdown (from production)
+        function parseMarkdownCurrent(text) {
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
+            let result = text;
+            const codeBlocks = [];
+            const inlineCodes = [];
+            
+            result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+                codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`);
+                return placeholder;
+            });
+            
+            result = result.replace(/`([^`]+)`/g, (match, code) => {
+                const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+                inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+                return placeholder;
+            });
+            
+            result = result.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            result = result.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            result = result.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            result = result.replace(/^\d+\.\s+(.+)$/gm, '<li class="numbered">$1</li>');
+            result = result.replace(/(<li class="numbered">.*<\/li>\s*)+/gs, (match) => {
+                return '<ol>' + match + '</ol>';
+            });
+            
+            result = result.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+            result = result.replace(/(<li>(?!class).*<\/li>\s*)+/gs, (match) => {
+                return '<ul>' + match + '</ul>';
+            });
+            
+            result = result.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            result = result.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            result = result.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+            result = result.replace(/^---+$/gm, '<hr>');
+            
+            // Current broken implementation - doesn't handle line breaks properly
+            result = result.replace(/\n{2,}/g, '</p><p>');
+            if (!result.startsWith('<')) {
+                result = '<p>' + result + '</p>';
+            }
+            
+            codeBlocks.forEach((code, i) => {
+                result = result.replace(`__CODE_BLOCK_${i}__`, code);
+            });
+            
+            inlineCodes.forEach((code, i) => {
+                result = result.replace(`__INLINE_CODE_${i}__`, code);
+            });
+            
+            return result;
+        }
+        
+        // Fixed parseMarkdown
+        function parseMarkdownFixed(text) {
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
+            let result = text;
+            const codeBlocks = [];
+            const inlineCodes = [];
+            
+            result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+                codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`);
+                return placeholder;
+            });
+            
+            result = result.replace(/`([^`]+)`/g, (match, code) => {
+                const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+                inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+                return placeholder;
+            });
+            
+            result = result.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            result = result.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            result = result.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            result = result.replace(/^\d+\.\s+(.+)$/gm, '<li class="numbered">$1</li>');
+            result = result.replace(/(<li class="numbered">.*<\/li>\s*)+/gs, (match) => {
+                return '<ol>' + match + '</ol>';
+            });
+            
+            result = result.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+            result = result.replace(/(<li>(?!class).*<\/li>\s*)+/gs, (match) => {
+                return '<ul>' + match + '</ul>';
+            });
+            
+            result = result.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            result = result.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            result = result.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+            result = result.replace(/^---+$/gm, '<hr>');
+            
+            // FIXED: Proper paragraph and line break handling
+            result = result.replace(/\r\n/g, '\n');
+            const blocks = result.split(/\n\n+/);
+            
+            result = blocks.map(block => {
+                if (block.trim().match(/^<[^>]+>/)) {
+                    return block;
+                }
+                
+                if (block.includes('\n')) {
+                    const lines = block.split('\n').map(line => line.trim()).filter(line => line);
+                    if (lines.length > 0) {
+                        return '<p>' + lines.join('<br>') + '</p>';
+                    }
+                } else if (block.trim()) {
+                    return '<p>' + block.trim() + '</p>';
+                }
+                return '';
+            }).filter(p => p).join('\n');
+            
+            codeBlocks.forEach((code, i) => {
+                result = result.replace(`__CODE_BLOCK_${i}__`, code);
+            });
+            
+            inlineCodes.forEach((code, i) => {
+                result = result.replace(`__INLINE_CODE_${i}__`, code);
+            });
+            
+            return result;
+        }
+        
+        // Test cases
+        const testCases = [
+            {
+                name: "Single Line Breaks",
+                input: "This is line 1\nThis is line 2\nThis is line 3"
+            },
+            {
+                name: "Paragraphs (Double Newlines)",
+                input: "This is paragraph 1.\n\nThis is paragraph 2.\n\nThis is paragraph 3."
+            },
+            {
+                name: "Mixed Line Breaks",
+                input: "Paragraph with\nmultiple lines\nin the same block.\n\nNew paragraph here."
+            },
+            {
+                name: "Complex Markdown",
+                input: "# Main Title\n\nThis is a paragraph with **bold** and *italic* text.\n\n## Subtitle\n\nHere's a list:\n- Item 1\n- Item 2\n- Item 3\n\nAnd some `inline code` too.\n\n```python\ndef hello():\n    print('Hello')\n```\n\n> A quote here\n> on multiple lines\n\nFinal paragraph with a [link](https://example.com)."
+            },
+            {
+                name: "Welcome Message (Spacing Issue)",
+                input: "Welcome to Think AI! I'm your O(1) quantum intelligence assistant. How can I help you today?"
+            }
+        ];
+        
+        // Render tests
+        const testsContainer = document.getElementById('tests');
+        
+        testCases.forEach((test, index) => {
+            const container = document.createElement('div');
+            container.className = 'container';
+            
+            // Current version
+            const currentDiv = document.createElement('div');
+            currentDiv.className = 'test-case';
+            currentDiv.innerHTML = `
+                <div class="test-header">Current Implementation (Broken)</div>
+                <div class="test-content">
+                    <div class="label">Test: ${test.name}</div>
+                    <div class="label">Input:</div>
+                    <div class="input">${test.input}</div>
+                    <div class="label">Rendered Output:</div>
+                    <div class="output">${parseMarkdownCurrent(test.input)}</div>
+                    <div class="label" style="margin-top: 10px;">Raw HTML:</div>
+                    <div class="input" style="font-size: 12px;">${escapeHtml(parseMarkdownCurrent(test.input))}</div>
+                </div>
+            `;
+            
+            // Fixed version
+            const fixedDiv = document.createElement('div');
+            fixedDiv.className = 'test-case';
+            fixedDiv.innerHTML = `
+                <div class="test-header" style="background: #27ae60;">Fixed Implementation</div>
+                <div class="test-content">
+                    <div class="label">Test: ${test.name}</div>
+                    <div class="label">Input:</div>
+                    <div class="input">${test.input}</div>
+                    <div class="label">Rendered Output:</div>
+                    <div class="output">${parseMarkdownFixed(test.input)}</div>
+                    <div class="label" style="margin-top: 10px;">Raw HTML:</div>
+                    <div class="input" style="font-size: 12px;">${escapeHtml(parseMarkdownFixed(test.input))}</div>
+                </div>
+            `;
+            
+            container.appendChild(currentDiv);
+            container.appendChild(fixedDiv);
+            testsContainer.appendChild(container);
+        });
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

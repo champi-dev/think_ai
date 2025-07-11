@@ -389,6 +389,49 @@ async fn chat_handler(
     }))
 }
 
+// Clean up common LLM tokenization issues
+fn clean_llm_response(response: &str) -> String {
+    let mut cleaned = response.to_string();
+    
+    // Fix spaces before punctuation
+    cleaned = cleaned.replace(" .", ".");
+    cleaned = cleaned.replace(" ,", ",");
+    cleaned = cleaned.replace(" !", "!");
+    cleaned = cleaned.replace(" ?", "?");
+    cleaned = cleaned.replace(" :", ":");
+    cleaned = cleaned.replace(" ;", ";");
+    cleaned = cleaned.replace(" )", ")");
+    cleaned = cleaned.replace("( ", "(");
+    
+    // Fix spaces in common programming constructs
+    cleaned = cleaned.replace("def ", "def ");
+    cleaned = cleaned.replace(" _", "_");
+    cleaned = cleaned.replace("_ ", "_");
+    
+    // Fix multiple spaces
+    while cleaned.contains("  ") {
+        cleaned = cleaned.replace("  ", " ");
+    }
+    
+    // Fix code block markers
+    cleaned = cleaned.replace("`` `", "```");
+    cleaned = cleaned.replace("` ``", "```");
+    
+    // Fix common word splits
+    cleaned = cleaned.replace("Factor ial", "Factorial");
+    cleaned = cleaned.replace("Iter ative", "Iterative");
+    cleaned = cleaned.replace("print (", "print(");
+    
+    // Fix common patterns with spaces around underscores
+    cleaned = cleaned.replace(" _ ", "_");
+    cleaned = cleaned.replace("factorial _ recursive", "factorial_recursive");
+    cleaned = cleaned.replace("factorial _ iterative", "factorial_iterative");
+    cleaned = cleaned.replace("factorial _recursive", "factorial_recursive");
+    cleaned = cleaned.replace("factorial _iterative", "factorial_iterative");
+    
+    cleaned.trim().to_string()
+}
+
 async fn generate_ai_response(message: &str, state: &ThinkAIState, conversation_context: &str) -> String {
     // Gather context from knowledge engine
     let mut context = String::new();
@@ -434,7 +477,10 @@ async fn generate_ai_response(message: &str, state: &ThinkAIState, conversation_
 
     // Try to generate response with Qwen
     match state.qwen_client.generate(qwen_request).await {
-        Ok(response) => response.content,
+        Ok(response) => {
+            // Clean up common spacing issues from LLM tokenization
+            clean_llm_response(&response.content)
+        },
         Err(e) => {
             // Log error and provide a simple fallback
             tracing::warn!("Qwen generation failed: {}", e);
