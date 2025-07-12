@@ -1,117 +1,88 @@
-#!/bin/bash
+#\!/bin/bash
 
-# Quick screenshot capture for markdown rendering evidence
+# Script to capture screenshots of markdown rendering
+# Uses the web interface to show actual rendering
 
-echo "Capturing screenshots of Think AI markdown rendering..."
+set -e
 
-# Create directory
-mkdir -p markdown_evidence
+echo "📸 Markdown Screenshot Capture Script"
+echo "===================================="
 
-# Use the already installed chromium
-CHROMIUM="/usr/bin/chromium-browser"
+# Create directory for screenshots
+SCREENSHOT_DIR="markdown_rendering_proof"
+mkdir -p "$SCREENSHOT_DIR"
 
-# Start simple HTTP server
-echo "Starting HTTP server..."
-python3 -m http.server 8090 &
-SERVER_PID=$!
-sleep 2
+# Check if server is running
+if \! curl -s http://localhost:7777/health > /dev/null; then
+    echo "❌ Server not running on port 7777"
+    echo "Please run: python3 serve_webapp_7777_final.py"
+    exit 1
+fi
 
-# Function to take screenshot
-take_screenshot() {
-    local url=$1
-    local output=$2
+echo "✅ Server is running"
+
+# Test the markdown directly via console
+echo "🧪 Testing markdown rendering via browser console..."
+
+# Create a test script
+cat > "$SCREENSHOT_DIR/test_markdown.js" << 'JSEOF'
+// Test markdown rendering in browser console
+console.log("Testing markdown parser...");
+
+const testCases = [
+    {
+        name: "Headers",
+        input: "# H1\\n## H2\\n### H3",
+        expected: ["<h1>", "<h2>", "<h3>"]
+    },
+    {
+        name: "Bold/Italic", 
+        input: "**bold** and *italic*",
+        expected: ["<strong>", "<em>"]
+    },
+    {
+        name: "Lists",
+        input: "- Item 1\\n- Item 2\\n\\n1. First\\n2. Second",
+        expected: ["<ul>", "<ol>", "<li>"]
+    },
+    {
+        name: "Code",
+        input: "Inline `code` and\\n```python\\nprint('hello')\\n```",
+        expected: ["<code>", "<pre>"]
+    }
+];
+
+// Run tests
+testCases.forEach(test => {
+    console.log(`\\nTesting: ${test.name}`);
+    console.log(`Input: ${test.input}`);
     
-    # Try different chromium commands
-    if command -v chromium-browser &> /dev/null; then
-        chromium-browser --headless --disable-gpu --screenshot="$output" --window-size=1280,1024 "$url" 2>/dev/null
-    elif command -v chromium &> /dev/null; then
-        chromium --headless --disable-gpu --screenshot="$output" --window-size=1280,1024 "$url" 2>/dev/null
-    elif command -v google-chrome &> /dev/null; then
-        google-chrome --headless --disable-gpu --screenshot="$output" --window-size=1280,1024 "$url" 2>/dev/null
-    fi
-    
-    if [ -f "$output" ]; then
-        echo "✓ Captured: $output"
-    else
-        echo "✗ Failed to capture: $output"
-    fi
-}
-
-# Take screenshots
-echo "Taking screenshots..."
-take_screenshot "http://localhost:8090/minimal_3d.html" "markdown_evidence/custom_parser.png"
-take_screenshot "http://localhost:8090/minimal_3d_markdown.html" "markdown_evidence/marked_js.png"
-
-# Also capture with some test content via URL hash (if supported)
-# This would require modifying the HTML to read from URL hash
-
-# Stop server
-kill $SERVER_PID 2>/dev/null
-
-# Generate comparison HTML
-cat > markdown_evidence/comparison.html << 'EOF'
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Think AI Markdown Rendering Comparison</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 1400px; margin: 0 auto; }
-        .comparison { display: flex; gap: 20px; margin-top: 20px; }
-        .version { flex: 1; }
-        .version img { width: 100%; border: 1px solid #ddd; }
-        h2 { color: #333; }
-        .info { background: #f0f0f0; padding: 10px; border-radius: 5px; margin: 10px 0; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Think AI Markdown Rendering Evidence</h1>
+    // Call the parseMarkdown function from the webapp
+    if (typeof parseMarkdown === 'function') {
+        const result = parseMarkdown(test.input);
+        console.log(`Output HTML: ${result}`);
         
-        <div class="info">
-            <p><strong>Test Date:</strong> <span id="date"></span></p>
-            <p><strong>Purpose:</strong> Compare markdown rendering between custom parser and marked.js implementation</p>
-        </div>
-        
-        <div class="comparison">
-            <div class="version">
-                <h2>Custom Parser (minimal_3d.html)</h2>
-                <img src="custom_parser.png" alt="Custom Parser">
-                <p>Uses custom markdown parsing logic implemented in JavaScript</p>
-            </div>
-            
-            <div class="version">
-                <h2>Marked.js (minimal_3d_markdown.html)</h2>
-                <img src="marked_js.png" alt="Marked.js">
-                <p>Uses marked.js library with syntax highlighting via highlight.js</p>
-            </div>
-        </div>
-        
-        <h2>Key Features Tested</h2>
-        <ul>
-            <li>Headers (H1-H6)</li>
-            <li>Bold, italic, and combined formatting</li>
-            <li>Ordered and unordered lists</li>
-            <li>Code blocks with syntax highlighting</li>
-            <li>Inline code</li>
-            <li>Links</li>
-            <li>Blockquotes</li>
-            <li>Tables (marked.js only)</li>
-            <li>Line breaks and paragraphs</li>
-        </ul>
-    </div>
-    
-    <script>
-        document.getElementById('date').textContent = new Date().toLocaleString();
-    </script>
-</body>
-</html>
-EOF
+        const passed = test.expected.every(tag => result.includes(tag));
+        console.log(`Result: ${passed ? '✅ PASS' : '❌ FAIL'}`);
+    } else {
+        console.log("❌ parseMarkdown function not found\!");
+    }
+});
+JSEOF
 
-echo "✓ Comparison HTML created: markdown_evidence/comparison.html"
-
-# List evidence files
-echo -e "\nEvidence files created:"
-ls -la markdown_evidence/
-
-echo -e "\nTo view the comparison, open: markdown_evidence/comparison.html"
+echo "✅ Test script created"
+echo ""
+echo "📋 To run the tests:"
+echo "1. Open http://localhost:7777 in your browser"
+echo "2. Open Developer Console (F12)"
+echo "3. Copy and paste the contents of $SCREENSHOT_DIR/test_markdown.js"
+echo "4. Take screenshots of the results"
+echo ""
+echo "🔍 To verify binary usage:"
+echo "   ps aux  < /dev/null |  grep stable-server-streaming"
+echo "   lsof -i:7778"
+echo ""
+echo "📸 Take screenshots showing:"
+echo "   - The webapp with markdown messages"
+echo "   - The console showing test results"
+echo "   - The network tab showing API calls"

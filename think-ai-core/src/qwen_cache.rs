@@ -248,7 +248,7 @@ impl QwenKnowledgeCache {
             .map(|(key, _)| key.clone());
 
         if let Some(key) = oldest_key {
-            if let Some(entry) = entries.remove(&key) {
+            if let Some(_entry) = entries.remove(&key) {
                 index.retain(|_, k| k != &key);
                 emb_index.remove(&key);
 
@@ -273,7 +273,7 @@ impl QwenKnowledgeCache {
             .map(|(key, _)| key.clone());
 
         if let Some(key) = least_freq_key {
-            if let Some(entry) = entries.remove(&key) {
+            if let Some(_entry) = entries.remove(&key) {
                 index.retain(|_, k| k != &key);
                 emb_index.remove(&key);
 
@@ -329,7 +329,7 @@ impl QwenKnowledgeCache {
             .map(|(key, _)| key);
 
         if let Some(key) = scored_key {
-            if let Some(entry) = entries.remove(&key) {
+            if let Some(_entry) = entries.remove(&key) {
                 index.retain(|_, k| k != &key);
                 emb_index.remove(&key);
 
@@ -381,7 +381,7 @@ impl QwenKnowledgeCache {
             .collect();
 
         for key in expired_keys {
-            if let Some(entry) = entries.remove(&key) {
+            if let Some(_entry) = entries.remove(&key) {
                 index.retain(|_, k| k != &key);
                 emb_index.remove(&key);
             }

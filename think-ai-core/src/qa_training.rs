@@ -133,7 +133,7 @@ impl QATrainingSystem {
     pub fn generate_question(
         &mut self,
         category: &str,
-        target_difficulty: u8,
+        _target_difficulty: u8,
     ) -> GeneratedQuestion {
         let templates = self
             .question_templates
@@ -170,7 +170,7 @@ impl QATrainingSystem {
         (seed * 1103515245 + 12345) % max
     }
 
-    fn generate_variable_value(&self, variable: &str, category: &str) -> String {
+    fn generate_variable_value(&self, variable: &str, _category: &str) -> String {
         match variable {
             "operation" => {
                 let ops = vec!["insert", "delete", "search", "update", "get_min", "get_max"];

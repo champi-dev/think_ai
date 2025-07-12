@@ -1,0 +1,12 @@
+🚀 Starting Think AI 3D webapp on http://0.0.0.0:7777
+🌐 Access remotely at: http://69.197.178.37:7777
+📁 Serving minimal_3d.html as default page
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/serve_minimal_3d.py", line 25, in <module>
+    with socketserver.TCPServer((HOST, PORT), CustomHandler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.12/socketserver.py", line 473, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use

@@ -1,33 +1,26 @@
-#!/usr/bin/env python3
+#\!/usr/bin/env python3
 import http.server
 import socketserver
 import os
-import socket
 
-PORT = 9090
+PORT = 7777
+HOST = "0.0.0.0"
 
-class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+class CustomHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
-        if self.path == '/':
-            self.path = '/minimal_3d.html'
+        if self.path == "/":
+            self.path = "/minimal_3d.html"
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
+    
+    def end_headers(self):
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        http.server.SimpleHTTPRequestHandler.end_headers(self)
 
-os.chdir('/home/administrator/think_ai')
+print(f"🚀 Starting Think AI 3D webapp on http://{HOST}:{PORT}")
+print(f"🌐 Access remotely at: http://69.197.178.37:{PORT}")
+print(f"📁 Serving minimal_3d.html as default page")
 
-class ReuseAddrTCPServer(socketserver.TCPServer):
-    allow_reuse_address = True
-
-try:
-    with ReuseAddrTCPServer(("", PORT), MyHTTPRequestHandler) as httpd:
-        print(f"Server running at http://localhost:{PORT}/")
-        httpd.serve_forever()
-except Exception as e:
-    print(f"Error: {e}")
-    # Try to force close and restart
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.bind(("", PORT))
-    sock.close()
-    with ReuseAddrTCPServer(("", PORT), MyHTTPRequestHandler) as httpd:
-        print(f"Server running at http://localhost:{PORT}/")
-        httpd.serve_forever()
+with socketserver.TCPServer((HOST, PORT), CustomHandler) as httpd:
+    httpd.serve_forever()

@@ -1,0 +1,312 @@
+200.118.146.98 - - [11/Jul/2025 21:47:42] code 404, message Not Found
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 1468)
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 40, in do_GET
+    self.send_response(200)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 48, in do_GET
+    self.send_error(404)
+  File "/usr/lib/python3.12/http/server.py", line 467, in send_error
+    self.send_response(code, message)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+----------------------------------------
+200.118.146.98 - - [11/Jul/2025 21:47:43] code 404, message Not Found
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 1467)
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 40, in do_GET
+    self.send_response(200)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 48, in do_GET
+    self.send_error(404)
+  File "/usr/lib/python3.12/http/server.py", line 467, in send_error
+    self.send_response(code, message)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+----------------------------------------
+200.118.146.98 - - [11/Jul/2025 21:47:43] code 404, message Not Found
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 3143)
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 40, in do_GET
+    self.send_response(200)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 48, in do_GET
+    self.send_error(404)
+  File "/usr/lib/python3.12/http/server.py", line 467, in send_error
+    self.send_response(code, message)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+----------------------------------------
+200.118.146.98 - - [11/Jul/2025 21:47:43] code 404, message Not Found
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 6465)
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 40, in do_GET
+    self.send_response(200)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 48, in do_GET
+    self.send_error(404)
+  File "/usr/lib/python3.12/http/server.py", line 467, in send_error
+    self.send_response(code, message)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+----------------------------------------
+200.118.146.98 - - [11/Jul/2025 21:47:45] code 404, message Not Found
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 6480)
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 40, in do_GET
+    self.send_response(200)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 48, in do_GET
+    self.send_error(404)
+  File "/usr/lib/python3.12/http/server.py", line 467, in send_error
+    self.send_response(code, message)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+----------------------------------------
+200.118.146.98 - - [11/Jul/2025 21:47:50] code 404, message Not Found
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 6482)
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 40, in do_GET
+    self.send_response(200)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 48, in do_GET
+    self.send_error(404)
+  File "/usr/lib/python3.12/http/server.py", line 467, in send_error
+    self.send_response(code, message)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+----------------------------------------
+200.118.146.98 - - [11/Jul/2025 21:47:50] code 404, message Not Found
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 6492)
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 40, in do_GET
+    self.send_response(200)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 48, in do_GET
+    self.send_error(404)
+  File "/usr/lib/python3.12/http/server.py", line 467, in send_error
+    self.send_response(code, message)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+----------------------------------------
+200.118.146.98 - - [11/Jul/2025 21:47:50] code 404, message Not Found
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 6493)
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 40, in do_GET
+    self.send_response(200)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 48, in do_GET
+    self.send_error(404)
+  File "/usr/lib/python3.12/http/server.py", line 467, in send_error
+    self.send_response(code, message)
+  File "/usr/lib/python3.12/http/server.py", line 501, in send_response
+    self.log_request(code)
+  File "/home/administrator/think_ai/debug_webapp_server.py", line 30, in log_request
+    print(f"[{datetime.now()}] {self.address_string()} - {format % args}")
+                                                          ~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for %: 'int' and 'tuple'
+----------------------------------------

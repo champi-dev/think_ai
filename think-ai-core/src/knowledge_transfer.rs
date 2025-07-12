@@ -317,7 +317,7 @@ impl KnowledgeTransferEngine {
         }
     }
 
-    fn generate_feedback(&self, student: &str, teacher: &str, rating: f32) -> String {
+    fn generate_feedback(&self, _student: &str, teacher: &str, rating: f32) -> String {
         if rating > 0.8_f32 {
             "Excellent understanding demonstrated!".to_string()
         } else if rating > 0.6_f32 {

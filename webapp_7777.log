@@ -1,0 +1,4 @@
+  File "/home/administrator/think_ai/serve_3d.py", line 27
+    EOF < /dev/null
+          ^
+SyntaxError: invalid syntax

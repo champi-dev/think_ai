@@ -266,9 +266,9 @@ impl O1ConsciousnessEngine {
         // Find thoughts by ID (requires additional index for true O(1))
         // For now, this is O(n) but can be optimized with reverse index
 
-        let association_hash = self.hash_association(thought_id1, thought_id2);
+        let _association_hash = self.hash_association(thought_id1, thought_id2);
 
-        let result = ComputeResult {
+        let _result = ComputeResult {
             value: serde_json::json!({
                 "thought1": thought_id1,
                 "thought2": thought_id2,

@@ -460,8 +460,8 @@ impl ThinkingEngine {
     fn execute_pattern(
         &self,
         pattern: &ThinkingPattern,
-        query: &str,
-        context: Option<&str>,
+        _query: &str,
+        _context: Option<&str>,
     ) -> Vec<ReasoningNode> {
         let mut nodes = Vec::new();
 

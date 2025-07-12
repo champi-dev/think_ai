@@ -253,31 +253,43 @@ fn initialize_knowledge(engine: &KnowledgeEngine) {
     // Mathematics domain
     engine.add_knowledge(
         KnowledgeDomain::Mathematics,
-        "Mathematics is the study of patterns, structures, and logical relationships.",
+        "Mathematics Fundamentals".to_string(),
+        "Mathematics is the study of patterns, structures, and logical relationships.".to_string(),
+        vec!["algebra".to_string(), "calculus".to_string(), "geometry".to_string()],
     );
     engine.add_knowledge(
         KnowledgeDomain::Mathematics,
-        "Key areas include algebra, calculus, geometry, statistics, and number theory.",
+        "Mathematical Branches".to_string(),
+        "Key areas include algebra, calculus, geometry, statistics, and number theory.".to_string(),
+        vec!["statistics".to_string(), "number_theory".to_string(), "analysis".to_string()],
     );
 
-    // Science domain
+    // Physics domain
     engine.add_knowledge(
-        KnowledgeDomain::Science,
-        "Science is the systematic study of the natural world through observation and experimentation.",
+        KnowledgeDomain::Physics,
+        "Physics Fundamentals".to_string(),
+        "Science is the systematic study of the natural world through observation and experimentation.".to_string(),
+        vec!["observation".to_string(), "experimentation".to_string(), "natural_world".to_string()],
     );
     engine.add_knowledge(
-        KnowledgeDomain::Science,
-        "Major branches include physics, chemistry, biology, astronomy, and earth sciences.",
+        KnowledgeDomain::Physics,
+        "Scientific Branches".to_string(),
+        "Major branches include physics, chemistry, biology, astronomy, and earth sciences.".to_string(),
+        vec!["chemistry".to_string(), "biology".to_string(), "astronomy".to_string()],
     );
 
     // Technology domain
     engine.add_knowledge(
-        KnowledgeDomain::Technology,
-        "Technology encompasses tools, techniques, and systems created to solve problems and improve human life.",
+        KnowledgeDomain::ComputerScience,
+        "Technology Overview".to_string(),
+        "Technology encompasses tools, techniques, and systems created to solve problems and improve human life.".to_string(),
+        vec!["tools".to_string(), "systems".to_string(), "problem_solving".to_string()],
     );
     engine.add_knowledge(
-        KnowledgeDomain::Technology,
-        "Key areas include computer science, engineering, AI/ML, robotics, and biotechnology.",
+        KnowledgeDomain::ComputerScience,
+        "Technology Areas".to_string(),
+        "Key areas include computer science, engineering, AI/ML, robotics, and biotechnology.".to_string(),
+        vec!["AI".to_string(), "ML".to_string(), "robotics".to_string(), "biotechnology".to_string()],
     );
 
     // Philosophy domain

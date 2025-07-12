@@ -1,0 +1,46 @@
+200.118.146.98 - - [11/Jul/2025 21:23:10] "GET / HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 11169)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/serve_webapp.py", line 26, in do_GET
+    return super().do_GET(self)
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: SimpleHTTPRequestHandler.do_GET() takes 1 positional argument but 2 were given
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 11144)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/serve_webapp.py", line 26, in do_GET
+    return super().do_GET(self)
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: SimpleHTTPRequestHandler.do_GET() takes 1 positional argument but 2 were given
+----------------------------------------
+200.118.146.98 - - [11/Jul/2025 21:23:43] "GET / HTTP/1.1" 200 -

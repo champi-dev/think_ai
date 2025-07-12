@@ -364,22 +364,98 @@
             position: relative;
         }
         
-        .loading::after {
-            content: '';
-            position: absolute;
-            right: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            border: 2px solid transparent;
-            border-top: 2px solid var(--secondary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .loading .message-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         
-        @keyframes spin {
-            to { transform: translateY(-50%) rotate(360deg); }
+        /* Thinking dots animation */
+        .thinking-dots {
+            display: inline-flex;
+            gap: 4px;
+        }
+        
+        .thinking-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.4s infinite ease-in-out both;
+        }
+        
+        .thinking-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        
+        .thinking-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        
+        @keyframes pulse {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        /* Neural network animation */
+        .neural-animation {
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+        
+        .neural-animation svg {
+            width: 100%;
+            height: 100%;
+            animation: rotate 2s linear infinite;
+        }
+        
+        .neural-animation circle {
+            fill: none;
+            stroke: var(--secondary);
+            stroke-width: 2;
+            stroke-linecap: round;
+            animation: dash 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 150;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -35;
+            }
+            100% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -124;
+            }
+        }
+        
+        /* Streaming text effect */
+        .streaming-text {
+            overflow: hidden;
+            border-right: 2px solid var(--secondary);
+            animation: blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--secondary); }
         }
         
         /* Modern Scrollbar */
@@ -803,13 +879,31 @@
         const queryInput = document.getElementById('queryInput');
         const sendBtn = document.getElementById('sendBtn');
         
-        function addMessage(content, isUser = false) {
+        function addMessage(content, isUser = false, isStreaming = false) {
             const message = document.createElement('div');
             message.className = `message ${isUser ? 'user' : 'ai'}`;
             
             const messageContent = document.createElement('div');
             messageContent.className = 'message-content';
-            messageContent.textContent = content;
+            
+            if (isStreaming && !isUser) {
+                messageContent.className += ' streaming-text';
+                // Simulate streaming effect
+                let index = 0;
+                const streamText = () => {
+                    if (index < content.length) {
+                        messageContent.textContent = content.substring(0, index + 1);
+                        index++;
+                        setTimeout(streamText, 20); // Adjust speed as needed
+                        messages.scrollTop = messages.scrollHeight;
+                    } else {
+                        messageContent.classList.remove('streaming-text');
+                    }
+                };
+                streamText();
+            } else {
+                messageContent.textContent = content;
+            }
             
             message.appendChild(messageContent);
             messages.appendChild(message);
@@ -823,7 +917,27 @@
             
             const messageContent = document.createElement('div');
             messageContent.className = 'message-content';
-            messageContent.textContent = 'Thinking...';
+            
+            // Add neural network animation
+            const neuralAnimation = document.createElement('div');
+            neuralAnimation.className = 'neural-animation';
+            neuralAnimation.innerHTML = `
+                <svg viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="18"></circle>
+                </svg>
+            `;
+            
+            // Add thinking text with dots
+            const thinkingText = document.createElement('span');
+            thinkingText.textContent = 'Thinking';
+            
+            const dots = document.createElement('div');
+            dots.className = 'thinking-dots';
+            dots.innerHTML = '<span></span><span></span><span></span>';
+            
+            messageContent.appendChild(neuralAnimation);
+            messageContent.appendChild(thinkingText);
+            messageContent.appendChild(dots);
             
             message.appendChild(messageContent);
             messages.appendChild(message);
@@ -875,7 +989,7 @@
                 const responseTime = performance.now() - startTime;
                 
                 removeLoadingMessage();
-                addMessage(data.response);
+                addMessage(data.response, false, true); // Enable streaming effect
                 
                 
             } catch (error) {

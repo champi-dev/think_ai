@@ -2,30 +2,25 @@
 import http.server
 import socketserver
 import os
-import signal
-import sys
 
-PORT = 8080
+PORT = 7777
+HOST = "0.0.0.0"
 
-class Handler(http.server.SimpleHTTPRequestHandler):
+class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        super().end_headers()
+    
     def do_GET(self):
         if self.path == '/':
             self.path = '/minimal_3d.html'
-        elif self.path == '/health':
-            self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(b'OK')
-            return
-        return http.server.SimpleHTTPRequestHandler.do_GET(self)
+        return super().do_GET()
 
-def signal_handler(sig, frame):
-    print('\nShutting down server...')
-    sys.exit(0)
+print(f"🚀 Starting 3D webapp server on http://{HOST}:{PORT}")
+print(f"📁 Serving from: {os.getcwd()}")
+print(f"🌐 Access remotely at: http://69.197.178.37:{PORT}")
 
-signal.signal(signal.SIGINT, signal_handler)
-
-os.chdir('/home/administrator/think_ai')
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print(f"Server running at http://localhost:{PORT}/")
+with socketserver.TCPServer((HOST, PORT), MyHTTPRequestHandler) as httpd:
     httpd.serve_forever()

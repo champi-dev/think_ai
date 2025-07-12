@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think AI - With Marked.js</title>
+    <!-- Include marked.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Include DOMPurify for security -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
+    <style>
+        /* Copy essential styles from webapp_temp.html */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at center, #0f172a 0%, #000 100%);
+            color: #f1f5f9;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .messages {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .message {
+            margin: 20px 0;
+            padding: 15px 20px;
+            border-radius: 10px;
+            background: rgba(30, 41, 59, 0.9);
+        }
+        
+        .message.user {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            text-align: right;
+        }
+        
+        /* Markdown content styles */
+        .message-content {
+            line-height: 1.6;
+        }
+        
+        .message-content h1 {
+            color: #8b5cf6;
+            font-size: 1.8em;
+            margin: 0.5em 0;
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+            padding-bottom: 0.3em;
+        }
+        
+        .message-content h2 {
+            color: #c4b5fd;
+            font-size: 1.4em;
+            margin: 0.5em 0;
+        }
+        
+        .message-content h3 {
+            color: #ddd6fe;
+            font-size: 1.2em;
+            margin: 0.5em 0;
+        }
+        
+        .message-content ul, .message-content ol {
+            margin: 0.5em 0;
+            padding-left: 2em;
+        }
+        
+        .message-content li {
+            margin: 0.3em 0;
+        }
+        
+        .message-content code {
+            background: rgba(139, 92, 246, 0.2);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            color: #e9d5ff;
+        }
+        
+        .message-content pre {
+            background: #1a1a2e;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 6px;
+            padding: 1em;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+        
+        .message-content pre code {
+            background: transparent;
+            padding: 0;
+            color: #f1f5f9;
+        }
+        
+        .message-content blockquote {
+            border-left: 4px solid #6366f1;
+            padding-left: 1em;
+            margin: 0.5em 0;
+            color: #d1d5db;
+            font-style: italic;
+            background: rgba(99, 102, 241, 0.05);
+            padding: 0.5em 1em;
+        }
+        
+        .message-content a {
+            color: #06b6d4;
+            text-decoration: none;
+            border-bottom: 1px dashed #06b6d4;
+        }
+        
+        .message-content a:hover {
+            border-bottom-style: solid;
+        }
+        
+        .message-content strong {
+            color: #f9fafb;
+            font-weight: 600;
+        }
+        
+        .message-content em {
+            color: #e5e7eb;
+            font-style: italic;
+        }
+        
+        .message-content hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent);
+            margin: 1.5em 0;
+        }
+        
+        .message-content table {
+            border-collapse: collapse;
+            margin: 1em 0;
+            width: 100%;
+        }
+        
+        .message-content th, .message-content td {
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 0.5em;
+            text-align: left;
+        }
+        
+        .message-content th {
+            background: rgba(99, 102, 241, 0.1);
+            font-weight: 600;
+        }
+        
+        #input-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 900px;
+            display: flex;
+            gap: 10px;
+            background: rgba(30, 41, 59, 0.95);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        #input {
+            flex: 1;
+            padding: 12px 20px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            color: #f1f5f9;
+            font-size: 16px;
+        }
+        
+        #send {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        #send:hover {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+        }
+    </style>
+</head>
+<body>
+    <div class="messages" id="messages">
+        <div class="message ai">
+            <div class="message-content">
+                Welcome to Think AI with proper markdown rendering using marked.js!
+            </div>
+        </div>
+    </div>
+    
+    <div id="input-container">
+        <input type="text" id="input" placeholder="Type your message..." />
+        <button id="send">Send</button>
+    </div>
+
+    <script>
+        // Configure marked options
+        marked.setOptions({
+            breaks: true,        // Convert \n to <br>
+            gfm: true,          // GitHub Flavored Markdown
+            headerIds: false,   // Don't add IDs to headers
+            mangle: false,      // Don't mangle emails
+            sanitize: false     // We'll use DOMPurify instead
+        });
+        
+        // Function to safely render markdown
+        function renderMarkdown(text) {
+            // Parse markdown with marked.js
+            const rawHtml = marked.parse(text);
+            
+            // Sanitize the HTML with DOMPurify
+            const cleanHtml = DOMPurify.sanitize(rawHtml, {
+                ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'hr',
+                              'strong', 'em', 'del', 'code', 'pre', 'blockquote',
+                              'ul', 'ol', 'li', 'a', 'table', 'thead', 'tbody', 
+                              'tr', 'th', 'td', 'img'],
+                ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class']
+            });
+            
+            return cleanHtml;
+        }
+        
+        // Function to add message
+        function addMessage(content, isUser = false) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            
+            if (isUser) {
+                // For user messages, just show plain text
+                contentDiv.textContent = content;
+            } else {
+                // For AI messages, render markdown
+                contentDiv.innerHTML = renderMarkdown(content);
+            }
+            
+            messageDiv.appendChild(contentDiv);
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        // Test with various markdown
+        const testMarkdown = `# Markdown Test
+
+This is **bold** and this is *italic* and this is ***both***.
+
+## Lists
+
+### Unordered
+- Item 1
+- Item 2
+  - Nested item
+- Item 3
+
+### Ordered
+1. First item
+2. Second item
+3. Third item
+
+## Code
+
+Inline code: \`console.log('Hello World')\`
+
+Code block:
+\`\`\`python
+def hello_world():
+    print("Hello, World!")
+    return 42
+\`\`\`
+
+## Other Elements
+
+> This is a blockquote
+> It can span multiple lines
+
+---
+
+[This is a link](https://example.com)
+
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |`;
+        
+        // Handle input
+        const input = document.getElementById('input');
+        const sendBtn = document.getElementById('send');
+        
+        function sendMessage() {
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addMessage(message, true);
+            input.value = '';
+            
+            // Simulate AI response with the test markdown
+            setTimeout(() => {
+                addMessage(testMarkdown, false);
+            }, 500);
+        }
+        
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        // Add initial demo
+        setTimeout(() => {
+            addMessage(testMarkdown, false);
+        }, 1000);
+    </script>
+</body>
+</html>

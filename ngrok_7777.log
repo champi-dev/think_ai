@@ -1,0 +1,12 @@
+t=2025-07-11T21:00:36+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-11T21:00:36+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-11T21:00:36+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-11T21:00:36+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-11T21:00:36+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-11T21:00:36+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-11T21:00:36+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:7777 url=https://e994e4880693.ngrok.app
+t=2025-07-11T21:00:47+0000 lvl=info msg=start pg=/api/tunnels id=aee873e792306bff
+t=2025-07-11T21:00:47+0000 lvl=info msg=end pg=/api/tunnels id=aee873e792306bff status=200 dur=384.139µs
+t=2025-07-11T21:01:28+0000 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-11T21:01:28+0000 lvl=info msg="session closing" obj=tunnels.session err=nil
+t=2025-07-11T21:01:28+0000 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=60f0b1fea641 err="reconnecting session closed"

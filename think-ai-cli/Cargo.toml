@@ -35,6 +35,10 @@ path = "src/bin/self-learning-service.rs"
 name = "train-consciousness"
 path = "src/bin/train-consciousness.rs"
 
+[[bin]]
+name = "stable-server-streaming"
+path = "src/bin/stable-server-streaming.rs"
+
 # [[bin]]
 # name = "think-ai-coding"
 # path = "src/bin/think-ai-coding.rs"
@@ -56,6 +60,7 @@ think-ai-vector = { path = "../think-ai-vector" }
 think-ai-http = { path = "../think-ai-http" }
 think-ai-consciousness = { path = "../think-ai-consciousness" }
 think-ai-qwen = { path = "../think-ai-qwen" }
+think-ai-storage = { path = "../think-ai-storage" }
 tokio.workspace = true
 dotenv = "0.15"
 async-trait.workspace = true
@@ -65,6 +70,7 @@ thiserror.workspace = true
 anyhow.workspace = true
 tracing.workspace = true
 tracing-subscriber = "0.3"
+uuid = { version = "1.4", features = ["v4"] }
 
 # CLI framework
 clap = { version = "4.5", features = ["derive", "env"] }
@@ -89,4 +95,7 @@ md5 = "0.7"
 axum.workspace = true
 tower.workspace = true
 tower-http.workspace = true
+async-stream = "0.3"
+tokio-stream = "0.1"
+futures = "0.3"
 

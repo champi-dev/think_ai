@@ -1,0 +1,47 @@
+200.118.146.98 - - [11/Jul/2025 21:41:00] "GET / HTTP/1.1" 200 -
+200.118.146.98 - - [11/Jul/2025 21:41:03] "GET /health HTTP/1.1" 200 -
+200.118.146.98 - - [11/Jul/2025 21:41:03] "POST /chat/stream HTTP/1.1" 200 -
+200.118.146.98 - - [11/Jul/2025 21:41:16] "GET / HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 3159)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/webapp_streaming.py", line 62, in do_GET
+    return super().do_GET(self)
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: SimpleHTTPRequestHandler.do_GET() takes 1 positional argument but 2 were given
+----------------------------------------
+200.118.146.98 - - [11/Jul/2025 21:41:19] "GET /health HTTP/1.1" 200 -
+200.118.146.98 - - [11/Jul/2025 21:41:19] "POST /chat/stream HTTP/1.1" 200 -
+200.118.146.98 - - [11/Jul/2025 21:41:30] "GET / HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('200.118.146.98', 6493)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/administrator/think_ai/webapp_streaming.py", line 62, in do_GET
+    return super().do_GET(self)
+           ^^^^^^^^^^^^^^^^^^^^
+TypeError: SimpleHTTPRequestHandler.do_GET() takes 1 positional argument but 2 were given
+----------------------------------------

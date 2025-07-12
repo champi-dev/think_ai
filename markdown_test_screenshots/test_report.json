@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-07-12T00:50:26.695464",
+  "api_results": {
+    "headers": {
+      "status": "error",
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    "bold_italic": {
+      "status": "error",
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    "code": {
+      "status": "error",
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    "list": {
+      "status": "error",
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    "link": {
+      "status": "error",
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    }
+  },
+  "screenshots": [
+    "test_report.json",
+    "visual_test.html"
+  ]
+}

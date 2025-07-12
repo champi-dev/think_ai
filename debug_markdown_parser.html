@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Markdown Parser</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        .test {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #444;
+            background: #1a1a1a;
+        }
+        .input {
+            background: #2a2a2a;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .output {
+            background: #1a1a1a;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #333;
+        }
+        .raw {
+            background: #0a0a0a;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 0.8em;
+            overflow-x: auto;
+            color: #888;
+        }
+        /* Markdown styles from webapp */
+        h1 { color: #8b5cf6; border-bottom: 2px solid rgba(139, 92, 246, 0.3); }
+        h2 { color: #c4b5fd; }
+        h3 { color: #ddd6fe; }
+        strong { color: #f9fafb; font-weight: 600; }
+        em { color: #e5e7eb; font-style: italic; }
+        code {
+            background: rgba(139, 92, 246, 0.15);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #e9d5ff;
+        }
+        pre {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 1em;
+            overflow-x: auto;
+        }
+        blockquote {
+            border-left: 4px solid #6366f1;
+            padding-left: 16px;
+            margin: 16px 0;
+            color: #d1d5db;
+            font-style: italic;
+            background: rgba(99, 102, 241, 0.05);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Markdown Parser Debug</h1>
+    <div id="tests"></div>
+
+    <script>
+        // Copy of parseMarkdown from webapp_temp.html
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        function parseMarkdown(text) {
+            // IMPORTANT: Don't over-clean the text - preserve original formatting
+            let result = text;
+            
+            // Step 1: Handle code blocks FIRST (to protect their content)
+            const codeBlocks = [];
+            result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+                codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`);
+                return placeholder;
+            });
+            
+            // Step 2: Handle inline code (to protect from other replacements)
+            const inlineCodes = [];
+            result = result.replace(/`([^`]+)`/g, (match, code) => {
+                const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+                inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+                return placeholder;
+            });
+            
+            // Step 3: Headers (before other replacements)
+            result = result.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            result = result.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            result = result.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            // Step 4: Lists (must be before line breaks)
+            // Numbered lists
+            result = result.replace(/^(\d+)\.\s+(.+)$/gm, '<li class="numbered">$2</li>');
+            result = result.replace(/(<li class="numbered">.*<\/li>\s*)+/gs, (match) => {
+                return '<ol style="margin: 10px 0; padding-left: 30px;">' + match + '</ol>';
+            });
+            
+            // Unordered lists (both - and *)
+            result = result.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+            result = result.replace(/(<li>(?!class).*<\/li>\s*)+/gs, (match) => {
+                return '<ul style="margin: 10px 0; padding-left: 30px;">' + match + '</ul>';
+            });
+            
+            // Step 5: Text formatting
+            // Bold (must be before italic)
+            result = result.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+            
+            // Italic (careful not to match list items)
+            result = result.replace(/(?<![*\n])\*([^*\n]+)\*(?![*])/g, '<em>$1</em>');
+            
+            // Step 6: Links
+            result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            
+            // Step 7: Horizontal rules
+            result = result.replace(/^---+$/gm, '<hr>');
+            
+            // Step 8: Blockquotes
+            result = result.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid #ccc; padding-left: 10px; margin: 10px 0;">$1</blockquote>');
+            
+            // Step 9: Paragraphs and line breaks
+            // Split by double newlines for paragraphs
+            const paragraphs = result.split(/\n\n+/);
+            
+            result = paragraphs.map(para => {
+                // Skip if already HTML
+                if (para.trim().match(/^<[^>]+>/)) {
+                    return para;
+                }
+                
+                // Convert single newlines to <br> for soft wraps
+                const lines = para.split('\n').map(line => line.trim()).filter(line => line);
+                if (lines.length > 0) {
+                    return '<p>' + lines.join('<br>') + '</p>';
+                }
+                return '';
+            }).filter(p => p).join('\n');
+            
+            // Step 10: Restore code blocks and inline codes
+            codeBlocks.forEach((code, i) => {
+                result = result.replace(`__CODE_BLOCK_${i}__`, code);
+            });
+            
+            inlineCodes.forEach((code, i) => {
+                result = result.replace(`__INLINE_CODE_${i}__`, code);
+            });
+            
+            return result;
+        }
+        
+        // Test cases
+        const tests = [
+            {
+                name: "Simple Header",
+                input: "# Hello World",
+                expected: "<h1>"
+            },
+            {
+                name: "Headers with Text",
+                input: "# Main Title\n\nSome text here\n\n## Subtitle",
+                expected: "<h1>, <h2>, <p>"
+            },
+            {
+                name: "Bold and Italic",
+                input: "This is **bold** and *italic*",
+                expected: "<strong>, <em>"
+            },
+            {
+                name: "Lists",
+                input: "- Item 1\n- Item 2\n\n1. First\n2. Second",
+                expected: "<ul>, <ol>"
+            },
+            {
+                name: "Code",
+                input: "Use `code` here\n\n```python\nprint('hello')\n```",
+                expected: "<code>, <pre>"
+            },
+            {
+                name: "Real Backend Response",
+                input: "# Test Header\n\nThis is **bold**\n\nPlease provide more details or content to respond to your request. If you intended to add text between the hash (#) tags and need help with formatting that text, feel free to specify what kind of response you're looking for.",
+                expected: "Should show header, bold, and paragraphs"
+            }
+        ];
+        
+        // Run tests
+        const container = document.getElementById('tests');
+        
+        tests.forEach(test => {
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test';
+            
+            const output = parseMarkdown(test.input);
+            const escaped = escapeHtml(output);
+            
+            testDiv.innerHTML = `
+                <h3>${test.name}</h3>
+                <div class="input">Input:\n${escapeHtml(test.input)}</div>
+                <div class="output">
+                    <strong>Rendered Output:</strong>
+                    ${output}
+                </div>
+                <div class="raw">
+                    <strong>Raw HTML:</strong><br>
+                    ${escaped}
+                </div>
+                <div style="color: #4ade80;">Expected: ${test.expected}</div>
+            `;
+            
+            container.appendChild(testDiv);
+        });
+    </script>
+</body>
+</html>

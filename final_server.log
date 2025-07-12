@@ -1,0 +1,13 @@
+/home/administrator/think_ai/serve_7777_final.py:82: SyntaxWarning: invalid escape sequence '\!'
+  "response": "Hello\! I'm Think AI. How can I help you today?",
+Backend already running on 8888
+Starting server on 0.0.0.0:7777
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/serve_7777_final.py", line 110, in <module>
+    with socketserver.TCPServer((HOST, PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.12/socketserver.py", line 473, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use

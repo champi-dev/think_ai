@@ -310,6 +310,7 @@ The Rust ecosystem provides all necessary components for building a performant L
 - Always kill ports first before trying to use them
 - IMPORTANT: Never kill bg service running port 8080 thats PROD!
 - Local testing always using ports like 3456 5555 7777 etc
+- never fake anything!
 
 ## Author
 

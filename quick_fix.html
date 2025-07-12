@@ -1,0 +1,61 @@
+<\!DOCTYPE html>
+<html>
+<head>
+    <title>Think AI - Quick Fix</title>
+    <style>
+        body { background: #0a0a0a; color: #fff; font-family: monospace; padding: 20px; }
+        #chat { max-width: 600px; margin: 0 auto; }
+        #messages { height: 400px; overflow-y: auto; border: 1px solid #333; padding: 10px; margin-bottom: 10px; }
+        .message { margin: 10px 0; }
+        .user { color: #3b82f6; }
+        .ai { color: #10b981; }
+        input { width: 70%; padding: 10px; background: #1a1a1a; border: 1px solid #333; color: #fff; }
+        button { padding: 10px 20px; background: #3b82f6; border: none; color: #fff; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="chat">
+        <h1>Think AI - Working Interface</h1>
+        <div id="messages"></div>
+        <input type="text" id="input" placeholder="Ask me anything...">
+        <button onclick="send()">Send</button>
+    </div>
+    
+    <script>
+        const messages = document.getElementById('messages');
+        const input = document.getElementById('input');
+        
+        function addMsg(text, type) {
+            const div = document.createElement('div');
+            div.className = 'message ' + type;
+            div.textContent = (type === 'user' ? 'You: ' : 'AI: ') + text;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        async function send() {
+            const msg = input.value.trim();
+            if (\!msg) return;
+            
+            addMsg(msg, 'user');
+            input.value = '';
+            
+            try {
+                const res = await fetch('http://69.197.178.37:7777/api/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: msg})
+                });
+                const data = await res.json();
+                addMsg(data.response || 'No response', 'ai');
+            } catch (e) {
+                addMsg('Error: ' + e.message, 'ai');
+            }
+        }
+        
+        input.addEventListener('keypress', e => {
+            if (e.key === 'Enter') send();
+        });
+    </script>
+</body>
+</html>

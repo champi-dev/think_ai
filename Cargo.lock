@@ -3622,6 +3622,7 @@ name = "think-ai-cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-stream",
  "async-trait",
  "axum",
  "chrono",
@@ -3629,6 +3630,7 @@ dependencies = [
  "colored",
  "crossterm",
  "dotenv",
+ "futures",
  "indicatif",
  "md5",
  "rand 0.8.5",
@@ -3641,14 +3643,17 @@ dependencies = [
  "think-ai-http",
  "think-ai-knowledge",
  "think-ai-qwen",
+ "think-ai-storage",
  "think-ai-utils",
  "think-ai-vector",
  "thiserror 2.0.12",
  "tokio",
+ "tokio-stream",
  "tower 0.4.13",
  "tower-http 0.5.2",
  "tracing",
  "tracing-subscriber",
+ "uuid",
 ]
 
 [[package]]
