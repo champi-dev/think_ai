@@ -377,3 +377,145 @@ t=2025-07-12T05:38:06+0000 lvl=info msg="client session established" obj=tunnels
 t=2025-07-12T05:38:06+0000 lvl=info msg="tunnel session started" obj=tunnels.session
 t=2025-07-12T05:38:06+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
 t=2025-07-12T05:38:06+0000 lvl=info msg="join connections" obj=join id=5f70190f12c8 l=127.0.0.1:8080 r=200.118.146.98:3062
+/home/administrator/think_ai/ngrok-daemon.sh: line 9: 308520 Killed                  ngrok http 8080 --domain=thinkai.lat --log=stdout
+[Sat Jul 12 05:38:11 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:38:16 UTC 2025] Starting ngrok...
+t=2025-07-12T05:38:16+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:38:16+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:38:16+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:38:16+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:38:16+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:38:16+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:38:16+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:38:20+0000 lvl=info msg="join connections" obj=join id=04c9b3d98563 l=127.0.0.1:8080 r=200.118.146.98:3186
+/home/administrator/think_ai/ngrok-daemon.sh: line 9: 308670 Killed                  ngrok http 8080 --domain=thinkai.lat --log=stdout
+[Sat Jul 12 05:38:26 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:38:31 UTC 2025] Starting ngrok...
+t=2025-07-12T05:38:31+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:38:31+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:38:31+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:38:31+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:38:31+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:38:31+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:38:31+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:38:32+0000 lvl=info msg="join connections" obj=join id=4c070fd1b065 l=127.0.0.1:8080 r=200.118.146.98:1421
+/home/administrator/think_ai/ngrok-daemon.sh: line 9: 308749 Killed                  ngrok http 8080 --domain=thinkai.lat --log=stdout
+[Sat Jul 12 05:38:41 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:38:46 UTC 2025] Starting ngrok...
+t=2025-07-12T05:38:46+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:38:46+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:38:46+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:38:46+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:38:46+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:38:46+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:38:46+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:38:48+0000 lvl=info msg="join connections" obj=join id=aa78fe57943d l=127.0.0.1:8080 r=200.118.146.98:3066
+/home/administrator/think_ai/ngrok-daemon.sh: line 9: 308850 Killed                  ngrok http 8080 --domain=thinkai.lat --log=stdout
+[Sat Jul 12 05:38:56 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:39:01 UTC 2025] Starting ngrok...
+t=2025-07-12T05:39:01+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:39:01+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:39:01+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:39:01+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:39:01+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:39:01+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:39:01+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:39:21+0000 lvl=warn msg="failed to open private leg" id=9cfbf1b8d64d privaddr=localhost:8080 err="dial tcp [::1]:8080: connect: connection refused"
+t=2025-07-12T05:39:28+0000 lvl=info msg="join connections" obj=join id=1c43c25968b5 l=127.0.0.1:8080 r=200.118.146.98:3147
+t=2025-07-12T05:41:34+0000 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-12T05:41:34+0000 lvl=info msg="session closing" obj=tunnels.session err=nil
+[Sat Jul 12 05:41:34 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:41:39 UTC 2025] Starting ngrok...
+t=2025-07-12T05:41:39+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:41:39+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:41:39+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:41:39+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:41:39+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:41:39+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:41:39+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:41:44+0000 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-12T05:41:44+0000 lvl=info msg="session closing" obj=tunnels.session err=nil
+t=2025-07-12T05:41:44+0000 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=7afdcc5b5e6e err="reconnecting session closed"
+[Sat Jul 12 05:41:44 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:41:49 UTC 2025] Starting ngrok...
+t=2025-07-12T05:41:49+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:41:49+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:41:49+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:41:49+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:41:49+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:41:49+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:41:49+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:41:54+0000 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-12T05:41:54+0000 lvl=info msg="session closing" obj=tunnels.session err=nil
+[Sat Jul 12 05:41:54 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:41:59 UTC 2025] Starting ngrok...
+t=2025-07-12T05:41:59+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:41:59+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:41:59+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:41:59+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:41:59+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:41:59+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:41:59+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:42:00+0000 lvl=info msg="join connections" obj=join id=fb08845ccc8a l=127.0.0.1:8080 r=172.71.184.215:10278
+t=2025-07-12T05:42:04+0000 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-12T05:42:04+0000 lvl=info msg="session closing" obj=tunnels.session err=nil
+[Sat Jul 12 05:42:04 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:42:09 UTC 2025] Starting ngrok...
+t=2025-07-12T05:42:09+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:42:09+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:42:09+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:42:10+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:42:10+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:42:10+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:42:10+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:42:15+0000 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-12T05:42:15+0000 lvl=info msg="session closing" obj=tunnels.session err=nil
+t=2025-07-12T05:42:15+0000 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=8facf3168e88 err="reconnecting session closed"
+[Sat Jul 12 05:42:15 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:42:20 UTC 2025] Starting ngrok...
+t=2025-07-12T05:42:20+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:42:20+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:42:20+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:42:20+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:42:20+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:42:20+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:42:20+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:42:23+0000 lvl=info msg="join connections" obj=join id=681878673bcc l=127.0.0.1:8080 r=200.118.146.98:6494
+t=2025-07-12T05:42:25+0000 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-12T05:42:25+0000 lvl=info msg="session closing" obj=tunnels.session err=nil
+t=2025-07-12T05:42:25+0000 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=1a9d803a4fa0 err="reconnecting session closed"
+[Sat Jul 12 05:42:25 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:42:30 UTC 2025] Starting ngrok...
+t=2025-07-12T05:42:30+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:42:30+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:42:30+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:42:30+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:42:30+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:42:30+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:42:30+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:42:35+0000 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-12T05:42:35+0000 lvl=info msg="session closing" obj=tunnels.session err=nil
+t=2025-07-12T05:42:35+0000 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=1b8406dd9e87 err="reconnecting session closed"
+[Sat Jul 12 05:42:35 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:42:40 UTC 2025] Starting ngrok...
+t=2025-07-12T05:42:40+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:42:40+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:42:40+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:42:40+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:42:40+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:42:40+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:42:41+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:42:44+0000 lvl=info msg="join connections" obj=join id=e416d734d3d4 l=127.0.0.1:8080 r=200.118.146.98:6526
+t=2025-07-12T05:42:45+0000 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-12T05:42:45+0000 lvl=info msg="session closing" obj=tunnels.session err=nil
+t=2025-07-12T05:42:45+0000 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=2a8bd078ae3d err="reconnecting session closed"
+[Sat Jul 12 05:42:45 UTC 2025] Ngrok exited, restarting in 5 seconds...
+[Sat Jul 12 05:42:50 UTC 2025] Starting ngrok...
+t=2025-07-12T05:42:50+0000 lvl=info msg="no configuration paths supplied"
+t=2025-07-12T05:42:50+0000 lvl=info msg="using configuration at default config path" path=/home/administrator/.config/ngrok/ngrok.yml
+t=2025-07-12T05:42:50+0000 lvl=info msg="open config file" path=/home/administrator/.config/ngrok/ngrok.yml err=nil
+t=2025-07-12T05:42:51+0000 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2025-07-12T05:42:51+0000 lvl=info msg="client session established" obj=tunnels.session
+t=2025-07-12T05:42:51+0000 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-07-12T05:42:51+0000 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8080 url=https://thinkai.lat
+t=2025-07-12T05:43:04+0000 lvl=info msg="join connections" obj=join id=23fa8ae5da9e l=127.0.0.1:8080 r=200.118.146.98:1433
