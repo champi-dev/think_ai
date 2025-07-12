@@ -10,12 +10,14 @@ use axum::{
 };
 use futures::stream::Stream;
 use serde::{Deserialize, Serialize};
+use serde_json;
 use std::sync::Arc;
 use std::time::Duration;
 use std::convert::Infallible;
 use tokio::time::{timeout, sleep};
 use tokio_stream::wrappers::IntervalStream;
 use tower_http::cors::CorsLayer;
+use tower_http::services::ServeDir;
 
 use think_ai_core::{config::EngineConfig, O1Engine};
 use think_ai_knowledge::{response_generator::ComponentResponseGenerator, KnowledgeEngine};
@@ -24,7 +26,8 @@ use think_ai_vector::{types::LSHConfig, O1VectorIndex};
 
 #[derive(Debug, Deserialize)]
 struct ChatRequest {
-    query: String,
+    #[serde(alias = "query")]
+    message: String,
 }
 
 #[derive(Debug, Serialize)]
@@ -64,9 +67,10 @@ async fn main() -> Result<()> {
     let app = Router::new()
         .route("/", get(webapp_handler))
         .route("/health", get(health_check))
-        .route("/chat", post(chat_handler))
-        .route("/chat/stream", post(chat_stream_handler))
+        .route("/api/chat", post(chat_handler))
+        .route("/api/chat/stream", post(chat_stream_handler))
         .route("/stats", get(stats_handler))
+        .nest_service("/static", ServeDir::new("/home/administrator/think_ai/static"))
         .layer(CorsLayer::permissive())
         .with_state(state);
 
@@ -99,33 +103,17 @@ async fn health_check() -> Result<&'static str, StatusCode> {
 }
 
 async fn webapp_handler() -> Html<String> {
-    Html(format!(
-        r#"
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Think AI - Stable Server</title>
-    <style>
-        body {{ font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }}
-        .container {{ max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }}
-        .status {{ color: green; font-weight: bold; }}
-        .endpoint {{ margin: 10px 0; padding: 10px; background: #f9f9f9; border-radius: 5px; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🚀 Think AI - Stable Server with Streaming</h1>
-        <p class="status">✅ System Operational</p>
-        <h3>Available Endpoints:</h3>
-        <div class="endpoint">GET /health - Health check</div>
-        <div class="endpoint">POST /chat - Chat interface</div>
-        <div class="endpoint">POST /chat/stream - Streaming chat (SSE)</div>
-        <div class="endpoint">GET /stats - System statistics</div>
-    </div>
-</body>
-</html>
-        "#
-    ))
+    // Serve the actual minimal_3d.html file
+    match std::fs::read_to_string("/home/administrator/think_ai/static/index.html") {
+        Ok(content) => Html(content),
+        Err(_) => {
+            // Fallback to minimal_3d.html if static/index.html doesn't exist
+            match std::fs::read_to_string("/home/administrator/think_ai/minimal_3d.html") {
+                Ok(content) => Html(content),
+                Err(_) => Html("Error: Could not load webapp interface".to_string()),
+            }
+        }
+    }
 }
 
 async fn chat_handler(
@@ -139,13 +127,13 @@ async fn chat_handler(
         // Try Qwen first
         match state
             .qwen_client
-            .generate_simple(&request.query, None)
+            .generate_simple(&request.message, None)
             .await
         {
             Ok(response) => (response, "qwen"),
             Err(_) => {
                 // Fallback to response generator
-                let response = state.response_generator.generate_response(&request.query);
+                let response = state.response_generator.generate_response(&request.message);
                 (response, "knowledge_base")
             }
         }
@@ -181,9 +169,9 @@ async fn chat_stream_handler(
     let stream = async_stream::stream! {
         // Get the full response first
         let response = match timeout(Duration::from_secs(30), async {
-            match state.qwen_client.generate_simple(&request.query, None).await {
+            match state.qwen_client.generate_simple(&request.message, None).await {
                 Ok(response) => response,
-                Err(_) => state.response_generator.generate_response(&request.query),
+                Err(_) => state.response_generator.generate_response(&request.message),
             }
         }).await {
             Ok(response) => response,
@@ -200,14 +188,18 @@ async fn chat_stream_handler(
                 word.to_string()
             };
             
-            yield Ok(Event::default().event("chunk").data(chunk));
+            let is_last = i == words.len() - 1;
+            
+            let chunk_data = serde_json::json!({
+                "chunk": chunk,
+                "done": is_last
+            });
+            
+            yield Ok(Event::default().data(serde_json::to_string(&chunk_data).unwrap()));
             
             // Small delay for streaming effect
-            sleep(Duration::from_millis(30)).await;
+            sleep(Duration::from_millis(50)).await;
         }
-        
-        // Send done event
-        yield Ok(Event::default().event("done").data("[DONE]"));
     };
 
     Sse::new(stream)

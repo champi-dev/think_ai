@@ -1,0 +1,16 @@
+[Unit]
+Description=Ollama AI Service with Monitoring
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/administrator/think_ai
+ExecStart=/home/administrator/think_ai/ollama-monitor.sh
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/administrator/think_ai/ollama.log
+StandardError=append:/home/administrator/think_ai/ollama.log
+
+[Install]
+WantedBy=multi-user.target
