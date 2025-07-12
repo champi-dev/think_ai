@@ -36,7 +36,7 @@ pub struct StreamAnalytics {
 
 /// Live stream monitor
 pub struct LiveStreamMonitor {
-    http_client: reqwest::Client,
+    _http_client: reqwest::Client,
     active_streams: Arc<RwLock<HashMap<String, LiveStreamData>>>,
     analytics: Arc<RwLock<HashMap<String, StreamAnalytics>>>,
 }
@@ -56,7 +56,7 @@ impl LiveStreamMonitor {
             .unwrap();
 
         Self {
-            http_client,
+            _http_client: http_client,
             active_streams: Arc::new(RwLock::new(HashMap::new())),
             analytics: Arc::new(RwLock::new(HashMap::new())),
         }

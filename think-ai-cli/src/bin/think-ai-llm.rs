@@ -25,7 +25,9 @@ struct AppState {
 struct ChatRequest {
     query: String,
     #[serde(default)]
+    #[allow(dead_code)]
     context: Vec<String>,
+    #[allow(dead_code)]
     max_length: Option<usize>,
 }
 

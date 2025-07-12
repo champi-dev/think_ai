@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming vs Non-Streaming Test</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .test-section {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        h1 {
+            text-align: center;
+            color: #8b5cf6;
+            margin-bottom: 2rem;
+        }
+        h2 {
+            color: #06b6d4;
+            margin-bottom: 1rem;
+        }
+        button {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+        .response-box {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 200px;
+            margin-top: 1rem;
+        }
+        .status {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        .copy-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: #c7d2fe;
+            cursor: pointer;
+        }
+        .message-content {
+            position: relative;
+        }
+        /* Markdown styles (same as in main app) */
+        .message-content h1 { color: #e2e8f0; margin: 16px 0; font-size: 1.75em; }
+        .message-content h2 { color: #cbd5e1; margin: 14px 0; font-size: 1.5em; }
+        .message-content h3 { color: #94a3b8; margin: 12px 0; font-size: 1.25em; }
+        .message-content pre {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        .message-content code {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: #c7d2fe;
+        }
+        .message-content pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: #e2e8f0;
+        }
+        .message-content strong { color: #8b5cf6; font-weight: 600; }
+        .message-content em { color: #06b6d4; font-style: italic; }
+        .streaming-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Think AI - Streaming vs Non-Streaming Formatting Test</h1>
+    
+    <div class="container">
+        <div class="test-section">
+            <h2>📤 Non-Streaming Mode</h2>
+            <button onclick="testNonStreaming()">Test Non-Streaming</button>
+            <div class="status" id="nonStreamStatus">Ready to test...</div>
+            <div class="response-box" id="nonStreamResponse">
+                <div class="message-content">
+                    Waiting for response...
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>⚡ Streaming Mode</h2>
+            <button onclick="testStreaming()">Test Streaming</button>
+            <div class="status" id="streamStatus">Ready to test...</div>
+            <div class="response-box" id="streamResponse">
+                <div class="message-content">
+                    Waiting for response...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const testMessage = `Please format this markdown example:
+
+# Main Header
+## Subheader
+
+This has **bold text** and *italic text* and \`inline code\`.
+
+Here's a code block:
+\`\`\`javascript
+function hello() {
+    console.log("Hello, Think AI!");
+}
+\`\`\`
+
+And a list:
+1. First item with **bold**
+2. Second item with *italic*
+3. Third item with \`code\`
+
+> This is a blockquote with some wisdom.
+
+That's all!`;
+
+        // Same parseMarkdown function from main app
+        function parseMarkdown(text) {
+            let result = text;
+            
+            // Handle code blocks first
+            const codeBlocks = [];
+            result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+                codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`);
+                return placeholder;
+            });
+            
+            // Handle inline code
+            const inlineCodes = [];
+            result = result.replace(/`([^`]+)`/g, (match, code) => {
+                const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+                inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+                return placeholder;
+            });
+            
+            // Headers
+            result = result.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            result = result.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            result = result.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            // Lists
+            result = result.replace(/^(\d+)\.\s+(.+)$/gm, '<li class="numbered">$2</li>');
+            result = result.replace(/(<li class="numbered">.*<\/li>\s*)+/gs, (match) => {
+                return '<ol style="margin: 10px 0; padding-left: 30px;">' + match + '</ol>';
+            });
+            
+            // Bold and italic
+            result = result.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+            result = result.replace(/(?<![*\n])\*([^*\n]+)\*(?![*])/g, '<em>$1</em>');
+            
+            // Blockquotes
+            result = result.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid #6366f1; padding-left: 10px; margin: 10px 0;">$1</blockquote>');
+            
+            // Paragraphs
+            const paragraphs = result.split(/\n\n+/);
+            result = paragraphs.map(para => {
+                if (para.trim().match(/^<[^>]+>/)) {
+                    return para;
+                }
+                const lines = para.split('\n').map(line => line.trim()).filter(line => line);
+                if (lines.length > 0) {
+                    return '<p>' + lines.join('<br>') + '</p>';
+                }
+                return '';
+            }).filter(p => p).join('\n');
+            
+            // Restore code blocks
+            codeBlocks.forEach((code, i) => {
+                result = result.replace(`__CODE_BLOCK_${i}__`, code);
+            });
+            inlineCodes.forEach((code, i) => {
+                result = result.replace(`__INLINE_CODE_${i}__`, code);
+            });
+            
+            return result;
+        }
+        
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        async function testNonStreaming() {
+            const status = document.getElementById('nonStreamStatus');
+            const responseBox = document.getElementById('nonStreamResponse');
+            
+            status.textContent = 'Sending request...';
+            responseBox.innerHTML = '<div class="message-content">Loading...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:3456/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: testMessage,
+                        session_id: 'test_visual_nonstream'
+                    })
+                });
+                
+                const data = await response.json();
+                status.textContent = 'Response received! (Non-streaming mode)';
+                
+                // Apply same formatting as main app
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                messageContent.innerHTML = parseMarkdown(data.response);
+                
+                // Add copy button
+                const copyButton = document.createElement('button');
+                copyButton.className = 'copy-button';
+                copyButton.textContent = 'Copy';
+                copyButton.onclick = () => navigator.clipboard.writeText(data.response);
+                messageContent.appendChild(copyButton);
+                
+                responseBox.innerHTML = '';
+                responseBox.appendChild(messageContent);
+            } catch (error) {
+                status.textContent = 'Error: ' + error.message;
+            }
+        }
+        
+        async function testStreaming() {
+            const status = document.getElementById('streamStatus');
+            const responseBox = document.getElementById('streamResponse');
+            
+            status.textContent = 'Starting stream...';
+            responseBox.innerHTML = '<div class="message-content">Connecting...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:3456/api/chat/stream', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: testMessage,
+                        session_id: 'test_visual_stream'
+                    })
+                });
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+                
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                responseBox.innerHTML = '';
+                responseBox.appendChild(messageContent);
+                
+                // Create streaming div
+                const streamingDiv = document.createElement('div');
+                streamingDiv.className = 'streaming-content';
+                messageContent.appendChild(streamingDiv);
+                
+                status.textContent = 'Streaming...';
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+                    
+                    for (let i = 0; i < lines.length - 1; i++) {
+                        if (lines[i].startsWith('event:') && lines[i + 1].startsWith('data:')) {
+                            const event = lines[i].slice(6).trim();
+                            const data = lines[i + 1].slice(5);
+                            
+                            if (event === 'chunk' && data.trim()) {
+                                fullResponse += data;
+                                streamingDiv.innerHTML = escapeHtml(fullResponse).replace(/\n/g, '<br>') + 
+                                    '<span class="streaming-cursor"></span>';
+                            } else if (event === 'done') {
+                                // Streaming done - apply final formatting
+                                status.textContent = 'Stream complete! Applying formatting...';
+                                
+                                // Create final formatted div
+                                const finalDiv = document.createElement('div');
+                                finalDiv.innerHTML = parseMarkdown(fullResponse);
+                                
+                                // Transition from streaming to final
+                                streamingDiv.style.transition = 'opacity 0.3s ease-out';
+                                streamingDiv.style.opacity = '0.5';
+                                
+                                setTimeout(() => {
+                                    streamingDiv.style.display = 'none';
+                                    messageContent.innerHTML = '';
+                                    messageContent.appendChild(finalDiv);
+                                    
+                                    // Add copy button
+                                    const copyButton = document.createElement('button');
+                                    copyButton.className = 'copy-button';
+                                    copyButton.textContent = 'Copy';
+                                    copyButton.onclick = () => navigator.clipboard.writeText(fullResponse);
+                                    messageContent.appendChild(copyButton);
+                                    
+                                    status.textContent = 'Stream complete with formatted output!';
+                                }, 300);
+                            }
+                            i++;
+                        }
+                    }
+                }
+            } catch (error) {
+                status.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

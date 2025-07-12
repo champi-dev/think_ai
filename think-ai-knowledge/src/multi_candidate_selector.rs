@@ -4,12 +4,12 @@ use crate::KnowledgeEngine;
 use std::sync::Arc;
 
 pub struct MultiCandidateSelector {
-    engine: Arc<KnowledgeEngine>,
+    _engine: Arc<KnowledgeEngine>,
 }
 
 impl MultiCandidateSelector {
     pub fn new(engine: Arc<KnowledgeEngine>) -> Self {
-        Self { engine }
+        Self { _engine: engine }
     }
 
     pub fn select_best_answer(&self, query: &str) -> String {

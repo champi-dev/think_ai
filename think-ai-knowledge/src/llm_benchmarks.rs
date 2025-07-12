@@ -31,12 +31,12 @@ impl Benchmark {
 }
 
 pub struct LLMBenchmarkEvaluator {
-    engine: Arc<KnowledgeEngine>,
+    _engine: Arc<KnowledgeEngine>,
 }
 
 impl LLMBenchmarkEvaluator {
     pub fn new(engine: Arc<KnowledgeEngine>) -> Self {
-        Self { engine }
+        Self { _engine: engine }
     }
 
     pub async fn initialize_benchmarks(&mut self) -> Result<(), Box<dyn std::error::Error>> {

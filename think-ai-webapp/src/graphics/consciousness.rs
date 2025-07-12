@@ -6,7 +6,7 @@ use wasm_bindgen::prelude::*;
 use web_sys::{WebGlBuffer, WebGlProgram, WebGlRenderingContext};
 
 pub struct ConsciousnessVisualization {
-    gl: Rc<WebGlRenderingContext>,
+    _gl: Rc<WebGlRenderingContext>,
     particle_system: ParticleSystem,
     neural_network: NeuralNetwork,
     energy_field: EnergyField,
@@ -16,7 +16,7 @@ pub struct ConsciousnessVisualization {
 struct EnergyField {
     gl: Rc<WebGlRenderingContext>,
     program: WebGlProgram,
-    buffer: WebGlBuffer,
+    _buffer: WebGlBuffer,
 }
 
 impl ConsciousnessVisualization {
@@ -26,7 +26,7 @@ impl ConsciousnessVisualization {
         let energy_field = EnergyField::new(gl.clone())?;
 
         Ok(Self {
-            gl,
+            _gl: gl,
             particle_system,
             neural_network,
             energy_field,
@@ -88,7 +88,7 @@ impl EnergyField {
         Ok(Self {
             gl,
             program,
-            buffer,
+            _buffer: buffer,
         })
     }
 

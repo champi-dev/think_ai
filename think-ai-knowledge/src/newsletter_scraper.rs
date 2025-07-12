@@ -5,12 +5,12 @@ use crate::KnowledgeEngine;
 use std::sync::Arc;
 
 pub struct NewsletterBlogScraper {
-    engine: Arc<KnowledgeEngine>,
+    _engine: Arc<KnowledgeEngine>,
 }
 
 impl NewsletterBlogScraper {
     pub fn new(engine: Arc<KnowledgeEngine>) -> Self {
-        Self { engine }
+        Self { _engine: engine }
     }
 
     pub async fn scrape_all_sources(&self) -> Vec<String> {

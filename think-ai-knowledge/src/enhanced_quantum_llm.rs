@@ -4,12 +4,12 @@ use crate::KnowledgeEngine;
 use std::sync::Arc;
 
 pub struct EnhancedQuantumLLMEngine {
-    engine: Arc<KnowledgeEngine>,
+    _engine: Arc<KnowledgeEngine>,
 }
 
 impl EnhancedQuantumLLMEngine {
     pub fn new(engine: Arc<KnowledgeEngine>) -> Self {
-        Self { engine }
+        Self { _engine: engine }
     }
 
     pub fn generate_response(&mut self, query: &str) -> String {

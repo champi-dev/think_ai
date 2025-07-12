@@ -14,7 +14,7 @@ struct Particle {
     position: [f32; 3],
     velocity: [f32; 3],
     life: f32,
-    size: f32,
+    _size: f32,
 }
 
 impl ParticleSystem {
@@ -62,7 +62,7 @@ impl ParticleSystem {
                     (i as f32 * 0.1).cos() * 0.1,
                 ],
                 life: 1.0,
-                size: 10.0,
+                _size: 10.0,
             });
         }
 

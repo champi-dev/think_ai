@@ -5,12 +5,12 @@ use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 
 pub struct FeynmanExplainer {
-    knowledge_nodes: Option<Arc<RwLock<HashMap<String, KnowledgeNode>>>>,
+    _knowledge_nodes: Option<Arc<RwLock<HashMap<String, KnowledgeNode>>>>,
 }
 
 impl FeynmanExplainer {
     pub fn new(knowledge_nodes: Option<Arc<RwLock<HashMap<String, KnowledgeNode>>>>) -> Self {
-        Self { knowledge_nodes }
+        Self { _knowledge_nodes: knowledge_nodes }
     }
 
     pub fn explain(&self, concept: &str) -> FeynmanExplanation {

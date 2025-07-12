@@ -4,13 +4,13 @@ use crate::KnowledgeNode;
 use std::collections::HashMap;
 
 pub struct IntelligentRelevanceEngine {
-    query_history: HashMap<String, Vec<String>>,
+    _query_history: HashMap<String, Vec<String>>,
 }
 
 impl IntelligentRelevanceEngine {
     pub fn new() -> Self {
         Self {
-            query_history: HashMap::new(),
+            _query_history: HashMap::new(),
         }
     }
 

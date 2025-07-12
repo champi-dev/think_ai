@@ -16,7 +16,7 @@ pub struct NeuralNetwork {
 struct Node {
     position: Vector3,
     activation: f32,
-    layer: usize,
+    _layer: usize,
 }
 
 struct Connection {
@@ -82,7 +82,7 @@ impl NeuralNetwork {
             nodes.push(Node {
                 position: Vector3::new(-3.0, (i as f32 - 2.0) * 0.8, 0.0),
                 activation: 0.0,
-                layer: 0,
+                _layer: 0,
             });
         }
 
@@ -91,7 +91,7 @@ impl NeuralNetwork {
             nodes.push(Node {
                 position: Vector3::new(0.0, (i as f32 - 1.0) * 1.2, 0.0),
                 activation: 0.0,
-                layer: 1,
+                _layer: 1,
             });
         }
 
@@ -100,7 +100,7 @@ impl NeuralNetwork {
             nodes.push(Node {
                 position: Vector3::new(3.0, (i as f32 - 0.5) * 1.5, 0.0),
                 activation: 0.0,
-                layer: 2,
+                _layer: 2,
             });
         }
 

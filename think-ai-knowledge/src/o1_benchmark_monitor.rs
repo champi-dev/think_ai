@@ -7,8 +7,8 @@ use std::sync::{Arc, RwLock};
 use std::time::SystemTime;
 
 pub struct O1BenchmarkMonitor {
-    knowledge_engine: Arc<KnowledgeEngine>,
-    benchmark_evaluator: Arc<LLMBenchmarkEvaluator>,
+    _knowledge_engine: Arc<KnowledgeEngine>,
+    _benchmark_evaluator: Arc<LLMBenchmarkEvaluator>,
     is_monitoring: Arc<RwLock<bool>>,
 }
 
@@ -18,8 +18,8 @@ impl O1BenchmarkMonitor {
         benchmark_evaluator: Arc<LLMBenchmarkEvaluator>,
     ) -> Self {
         Self {
-            knowledge_engine,
-            benchmark_evaluator,
+            _knowledge_engine: knowledge_engine,
+            _benchmark_evaluator: benchmark_evaluator,
             is_monitoring: Arc::new(RwLock::new(false)),
         }
     }

@@ -16,6 +16,7 @@ pub struct ParallelChatRequest {
     #[serde(alias = "message")]
     query: String,
     #[serde(default)]
+    #[allow(dead_code)]
     session_id: Option<String>,
 }
 

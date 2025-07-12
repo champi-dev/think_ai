@@ -1,0 +1,31 @@
+diff --git a/think-ai-knowledge/src/response_cleaner.rs b/think-ai-knowledge/src/response_cleaner.rs
+new file mode 100644
+index 0000000..1234567
+--- /dev/null
++++ b/think-ai-knowledge/src/response_cleaner.rs
+@@ -0,0 +1,25 @@
++pub fn clean_response_text(text: &str) -> String {
++    // Remove extra spaces between characters
++    let mut cleaned = String::with_capacity(text.len());
++    let mut prev_was_space = false;
++    
++    for ch in text.chars() {
++        if ch == ' ' {
++            if \!prev_was_space {
++                cleaned.push(ch);
++                prev_was_space = true;
++            }
++        } else {
++            cleaned.push(ch);
++            prev_was_space = false;
++        }
++    }
++    
++    // Fix specific patterns
++    cleaned
++        .replace(" , ", ", ")
++        .replace(" . ", ". ")
++        .replace(" : ", ": ")
++        .replace(" ; ", "; ")
++        .replace("  ", " ")
++}

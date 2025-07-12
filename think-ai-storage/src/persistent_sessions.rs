@@ -1,5 +1,4 @@
 use crate::{backends::sled::SledStorage, traits::Storage};
-use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
@@ -154,7 +153,7 @@ impl PersistentConversationMemory {
         Ok(())
     }
     
-    pub async fn check_delete_command(&self, session_id: &str, message: &str) -> bool {
+    pub async fn check_delete_command(&self, _session_id: &str, message: &str) -> bool {
         let lower_msg = message.to_lowercase();
         lower_msg.contains("delete") && 
         (lower_msg.contains("chat history") || 

@@ -179,7 +179,7 @@ pub struct NeuralActivationWave {
     end_x: f32,
     end_y: f32,
     intensity: f32,
-    speed: f32,
+    _speed: f32,
     duration: f32,
     elapsed: f32,
 }
@@ -201,7 +201,7 @@ impl NeuralActivationWave {
             end_x,
             end_y,
             intensity,
-            speed: 300.0, // pixels per second
+            _speed: 300.0, // pixels per second
             duration: distance / 300.0,
             elapsed: 0.0,
         }

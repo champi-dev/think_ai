@@ -1,7 +1,7 @@
 use axum::{
-    extract::{Json, Path, State},
-    http::{StatusCode, header},
-    response::{Html, Response, IntoResponse},
+    extract::{Json, State},
+    http::StatusCode,
+    response::{Html, IntoResponse},
     routing::{get, post},
     Router,
 };
@@ -14,7 +14,6 @@ use std::{
 use tokio::sync::broadcast;
 use tower_http::{
     cors::{Any, CorsLayer},
-    services::ServeDir,
     trace::TraceLayer,
 };
 use tracing::info;
@@ -23,8 +22,8 @@ use uuid::Uuid;
 
 // Import actual Think AI components
 use think_ai_consciousness::ConsciousnessFramework;
-use think_ai_core::{EngineConfig, O1ConsciousnessEngine, O1Engine};
-use think_ai_knowledge::{KnowledgeDomain, KnowledgeEngine, KnowledgeNode};
+use think_ai_core::{EngineConfig, O1Engine};
+use think_ai_knowledge::KnowledgeEngine;
 use think_ai_qwen::{QwenClient, QwenRequest};
 use think_ai_vector::{LSHConfig, O1VectorIndex};
 use think_ai_storage::PersistentConversationMemory;
@@ -32,10 +31,10 @@ use think_ai_storage::PersistentConversationMemory;
 // State for the application
 #[derive(Clone)]
 struct ThinkAIState {
-    core_engine: Arc<O1Engine>,
+    _core_engine: Arc<O1Engine>,
     knowledge_engine: Arc<KnowledgeEngine>,
-    vector_index: Arc<O1VectorIndex>,
-    consciousness_framework: Arc<ConsciousnessFramework>,
+    _vector_index: Arc<O1VectorIndex>,
+    _consciousness_framework: Arc<ConsciousnessFramework>,
     persistent_memory: Arc<PersistentConversationMemory>,
     message_channel: broadcast::Sender<ChatMessage>,
     qwen_client: Arc<QwenClient>,
@@ -248,10 +247,10 @@ async fn main() {
     let qwen_client = Arc::new(QwenClient::new());
 
     let state = ThinkAIState {
-        core_engine,
+        _core_engine: core_engine,
         knowledge_engine,
-        vector_index,
-        consciousness_framework,
+        _vector_index: vector_index,
+        _consciousness_framework: consciousness_framework,
         persistent_memory,
         message_channel: tx,
         qwen_client,

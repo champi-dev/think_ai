@@ -34,7 +34,7 @@ pub struct Pattern {
 pub struct SharedIntelligence {
     insights: Arc<DashMap<String, Arc<RwLock<Insight>>>>,
     patterns: Arc<AsyncRwLock<HashMap<String, Pattern>>>,
-    knowledge_engine: Arc<KnowledgeEngine>,
+    _knowledge_engine: Arc<KnowledgeEngine>,
     embeddings_cache: Arc<DashMap<u64, Vec<f32>>>,
 }
 
@@ -43,7 +43,7 @@ impl SharedIntelligence {
         let system = Self {
             insights: Arc::new(DashMap::new()),
             patterns: Arc::new(AsyncRwLock::new(HashMap::new())),
-            knowledge_engine,
+            _knowledge_engine: knowledge_engine,
             embeddings_cache: Arc::new(DashMap::new()),
         };
 

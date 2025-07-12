@@ -17,8 +17,8 @@ use wasm_bindgen::prelude::*;
 use web_sys::{Document, Window};
 pub struct UiSystem {
     document: Document,
-    window: Window,
-    dashboard: dashboard::Dashboard,
+    _window: Window,
+    _dashboard: dashboard::Dashboard,
     effects_manager: effects::EffectManager,
 }
 impl Default for UiSystem {
@@ -32,7 +32,7 @@ impl UiSystem {
         let window = web_sys::window().unwrap();
         let document = window.document().unwrap();
         Self {
-            dashboard: dashboard::Dashboard {
+            _dashboard: dashboard::Dashboard {
                 query: String::new(),
                 metrics: components::PerformanceMetrics {
                     response_time: 0.002,
@@ -42,7 +42,7 @@ impl UiSystem {
             },
             effects_manager: effects::EffectManager::new(),
             document,
-            window,
+            _window: window,
         }
     }
     pub fn render(&mut self) -> Result<(), JsValue> {

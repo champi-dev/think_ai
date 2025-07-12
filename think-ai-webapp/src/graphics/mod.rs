@@ -25,7 +25,7 @@ pub struct GraphicsEngine {
     consciousness_viz: consciousness::ConsciousnessVisualization,
     particle_system: particles::ParticleSystem,
     neural_network: neural_network::NeuralNetwork,
-    post_processor: PostProcessor,
+    _post_processor: PostProcessor,
 }
 
 impl GraphicsEngine {
@@ -56,7 +56,7 @@ impl GraphicsEngine {
             consciousness_viz: consciousness::ConsciousnessVisualization::new(gl.clone())?,
             particle_system: particles::ParticleSystem::new(gl.clone(), 1000)?,
             neural_network: neural_network::NeuralNetwork::new(gl.clone())?,
-            post_processor: PostProcessor::new(),
+            _post_processor: PostProcessor::new(),
         })
     }
 
@@ -152,8 +152,8 @@ impl Camera {
 
 /// O(1) post-processing effects
 pub struct PostProcessor {
-    bloom_enabled: bool,
-    chromatic_aberration: f32,
+    _bloom_enabled: bool,
+    _chromatic_aberration: f32,
 }
 
 impl Default for PostProcessor {
@@ -165,8 +165,8 @@ impl Default for PostProcessor {
 impl PostProcessor {
     pub fn new() -> Self {
         Self {
-            bloom_enabled: true,
-            chromatic_aberration: 0.01,
+            _bloom_enabled: true,
+            _chromatic_aberration: 0.01,
         }
     }
 

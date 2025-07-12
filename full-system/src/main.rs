@@ -12,7 +12,6 @@ use std::{
     collections::HashMap,
     env,
     sync::{Arc, RwLock},
-    convert::Infallible,
 };
 use tokio::sync::broadcast;
 use tower_http::{
@@ -26,8 +25,8 @@ use uuid::Uuid;
 
 // Import actual Think AI components
 use think_ai_consciousness::ConsciousnessFramework;
-use think_ai_core::{EngineConfig, O1ConsciousnessEngine, O1Engine};
-use think_ai_knowledge::{KnowledgeDomain, KnowledgeEngine, KnowledgeNode};
+use think_ai_core::{EngineConfig, O1Engine};
+use think_ai_knowledge::{KnowledgeDomain, KnowledgeEngine};
 use think_ai_qwen::{QwenClient, QwenRequest};
 use think_ai_vector::{LSHConfig, O1VectorIndex};
 use think_ai_utils::token_counter::count_tokens;
@@ -35,10 +34,10 @@ use think_ai_utils::token_counter::count_tokens;
 // State for the application
 #[derive(Clone)]
 struct ThinkAIState {
-    core_engine: Arc<O1Engine>,
+    _core_engine: Arc<O1Engine>,
     knowledge_engine: Arc<KnowledgeEngine>,
-    vector_index: Arc<O1VectorIndex>,
-    consciousness_framework: Arc<ConsciousnessFramework>,
+    _vector_index: Arc<O1VectorIndex>,
+    _consciousness_framework: Arc<ConsciousnessFramework>,
     chat_sessions: Arc<RwLock<HashMap<String, ChatSession>>>,
     message_channel: broadcast::Sender<ChatMessage>,
     qwen_client: Arc<QwenClient>,
@@ -147,10 +146,10 @@ async fn main() {
     // Initialize state
     let (tx, _rx) = broadcast::channel(100);
     let state = ThinkAIState {
-        core_engine,
+        _core_engine: core_engine,
         knowledge_engine,
-        vector_index,
-        consciousness_framework,
+        _vector_index: vector_index,
+        _consciousness_framework: consciousness_framework,
         chat_sessions: Arc::new(RwLock::new(HashMap::new())),
         message_channel: tx,
         qwen_client,
@@ -612,7 +611,7 @@ async fn chat_stream_handler(
                 
                 yield Ok(Event::default().event("done").data(completion_data.to_string()));
             }
-            Err(e) => {
+            Err(_e) => {
                 // Fallback response
                 let fallback_msg = format!(
                     "I understand you're asking about {}. While I'm having trouble accessing my streaming capabilities at the moment, I'd be happy to help explore this topic with you. Could you provide more details?",

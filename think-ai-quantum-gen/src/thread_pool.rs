@@ -3,7 +3,7 @@ use dashmap::DashMap;
 use parking_lot::RwLock;
 use std::collections::VecDeque;
 use std::sync::Arc;
-use tokio::sync::{mpsc, Mutex, Semaphore};
+use tokio::sync::{Mutex, Semaphore};
 use tracing::{debug, info};
 use uuid::Uuid;
 
@@ -22,7 +22,7 @@ pub struct QuantumThreadPool {
     threads: Arc<DashMap<Uuid, Arc<RwLock<QuantumThread>>>>,
     available_threads: Arc<Mutex<VecDeque<Uuid>>>,
     thread_semaphore: Arc<Semaphore>,
-    max_threads: usize,
+    _max_threads: usize,
 }
 
 impl QuantumThreadPool {
@@ -41,7 +41,7 @@ impl QuantumThreadPool {
             ThreadType::Training,
         ];
 
-        for (i, thread_type) in thread_types.iter().cycle().take(max_threads).enumerate() {
+        for (_i, thread_type) in thread_types.iter().cycle().take(max_threads).enumerate() {
             let thread = QuantumThread {
                 id: Uuid::new_v4(),
                 thread_type: *thread_type,
@@ -68,7 +68,7 @@ impl QuantumThreadPool {
             threads,
             available_threads,
             thread_semaphore,
-            max_threads,
+            _max_threads: max_threads,
         }
     }
 

@@ -22,14 +22,14 @@ pub trait Storage: Send + Sync {
 }
 /// Typed storage wrapper
 pub struct TypedStorage<T> {
-    inner: Box<dyn Storage>,
+    _inner: Box<dyn Storage>,
     _phantom: std::marker::PhantomData<T>,
 }
 
 impl<T: Serialize + for<'de> Deserialize<'de>> TypedStorage<T> {
     pub fn new(storage: Box<dyn Storage>) -> Self {
         Self {
-            inner: storage,
+            _inner: storage,
             _phantom: std::marker::PhantomData,
         }
     }

@@ -363,7 +363,8 @@ impl SelfEvaluatorAsync {
 }
 
 /// Extract main topic from a question
-fn extract_main_topic(question: &str) -> String {
+#[allow(dead_code)]
+fn _extract_main_topic(question: &str) -> String {
     let question_lower = question.to_lowercase();
     let words: Vec<&str> = question_lower
         .split_whitespace()

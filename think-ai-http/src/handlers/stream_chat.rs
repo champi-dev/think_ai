@@ -31,7 +31,7 @@ pub struct StreamChunk {
 }
 
 pub async fn stream_chat(
-    State(state): State<Arc<AppState>>,
+    State(_state): State<Arc<AppState>>,
     Json(request): Json<StreamChatRequest>,
 ) -> Sse<impl Stream<Item = Result<Event, Infallible>>> {
     let session_id = request
