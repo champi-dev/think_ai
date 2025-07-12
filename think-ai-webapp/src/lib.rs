@@ -11,7 +11,7 @@
 
 pub mod graphics;
 pub mod ui;
-// pub mod server; // Disabled for now due to O1Engine dependency
+pub mod server;
 pub mod effects;
 pub mod math;
 use ui::effects::EffectManager;

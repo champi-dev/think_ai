@@ -1,0 +1,17 @@
+[Unit]
+Description=Think AI Server
+After=network.target
+
+[Service]
+Type=exec
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+Environment="RUST_LOG=info"
+ExecStart=/home/administrator/think_ai/target/release/think-ai server --host 0.0.0.0
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/administrator/think_ai/webapp_server.log
+StandardError=append:/home/administrator/think_ai/webapp_server.log
+
+[Install]
+WantedBy=multi-user.target
