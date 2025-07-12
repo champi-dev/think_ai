@@ -181,25 +181,41 @@ async fn chat_stream_handler(
         // Stream the response word by word
         let words: Vec<&str> = response.split_whitespace().collect();
         
-        for (i, word) in words.iter().enumerate() {
-            let chunk = if i < words.len() - 1 {
-                format!("{} ", word)
-            } else {
-                word.to_string()
-            };
-            
-            let is_last = i == words.len() - 1;
-            
+        if words.is_empty() {
+            // Send at least one chunk even for empty responses
             let chunk_data = serde_json::json!({
-                "chunk": chunk,
-                "done": is_last
+                "chunk": "",
+                "done": true
             });
-            
             yield Ok(Event::default().data(serde_json::to_string(&chunk_data).unwrap()));
-            
-            // Small delay for streaming effect
-            sleep(Duration::from_millis(50)).await;
+        } else {
+            for (i, word) in words.iter().enumerate() {
+                let chunk = if i < words.len() - 1 {
+                    format!("{} ", word)
+                } else {
+                    word.to_string()
+                };
+                
+                let is_last = i == words.len() - 1;
+                
+                let chunk_data = serde_json::json!({
+                    "chunk": chunk,
+                    "done": is_last
+                });
+                
+                yield Ok(Event::default().data(serde_json::to_string(&chunk_data).unwrap()));
+                
+                // Small delay for streaming effect
+                sleep(Duration::from_millis(50)).await;
+            }
         }
+        
+        // Always send a final done signal to ensure stream ends properly
+        let final_data = serde_json::json!({
+            "chunk": "",
+            "done": true
+        });
+        yield Ok(Event::default().data(serde_json::to_string(&final_data).unwrap()));
     };
 
     Sse::new(stream)
