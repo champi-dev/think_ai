@@ -1,0 +1,23 @@
+--- a/static/index.html
++++ b/static/index.html
+@@ -1490,6 +1490,10 @@
+                                     messages.scrollTop = messages.scrollHeight;
+                                     
+                                     if (data.done) {
++                                        // CRITICAL: Break out of the read loop when done
++                                        console.log('Stream marked as done, closing reader');
++                                        reader.cancel(); // Cancel the reader to stop receiving data
++                                        
+                                         // Process the final clean text
+                                         const cleanedResponse = cleanText(fullResponse);
+                                         
+@@ -1567,6 +1571,9 @@
+                                         if (data.session_id) {
+                                             currentSessionId = data.session_id;
+                                         }
++                                        
++                                        // Break out of the while loop
++                                        return;
+                                     }
+                                 }
+                             } catch (error) {

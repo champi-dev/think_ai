@@ -1490,6 +1490,10 @@
                                     messages.scrollTop = messages.scrollHeight;
                                     
                                     if (data.done) {
+                                        // CRITICAL: Cancel the reader to stop receiving data
+                                        console.log('Stream marked as done, closing reader');
+                                        reader.cancel().catch(() => {}); // Cancel gracefully
+                                        
                                         // Process the final clean text
                                         const cleanedResponse = cleanText(fullResponse);
                                         
@@ -1567,6 +1571,9 @@
                                         if (data.session_id) {
                                             currentSessionId = data.session_id;
                                         }
+                                        
+                                        // CRITICAL: Break out of the while loop
+                                        return; // Exit the entire async function
                                     }
                                 }
                             } catch (error) {
