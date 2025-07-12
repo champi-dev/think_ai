@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-07-12T04:19:28.244631",
+  "url": "https://thinkai.lat",
+  "total_tests": 2,
+  "passed": 0,
+  "failed": 2,
+  "results": [
+    {
+      "test": "Health Check",
+      "status": "FAIL",
+      "details": "Got 404, expected 200"
+    },
+    {
+      "test": "Chat API",
+      "status": "FAIL",
+      "details": "Got 404, expected 200"
+    }
+  ],
+  "test_directory": "/home/administrator/think_ai/e2e-test-20250712_041928"
+}

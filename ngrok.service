@@ -1,0 +1,22 @@
+[Unit]
+Description=Ngrok Tunnel for Think AI
+After=network-online.target think-ai.service
+Wants=network-online.target
+Requires=think-ai.service
+
+[Service]
+Type=simple
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+ExecStartPre=/bin/sleep 5
+ExecStart=/usr/local/bin/ngrok http 8080 --domain=thinkai.lat --log=stdout
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/administrator/think_ai/ngrok.log
+StandardError=append:/home/administrator/think_ai/ngrok.log
+
+# Kill any conflicting ngrok sessions before starting
+ExecStartPre=/bin/bash -c 'pkill -f "ngrok http" || true'
+
+[Install]
+WantedBy=multi-user.target

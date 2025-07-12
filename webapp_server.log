@@ -1,46 +1,381 @@
-200.118.146.98 - - [11/Jul/2025 21:23:10] "GET / HTTP/1.1" 200 -
-----------------------------------------
-Exception occurred during processing of request from ('200.118.146.98', 11169)
-Traceback (most recent call last):
-  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
-    self.process_request(request, client_address)
-  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
-    self.finish_request(request, client_address)
-  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
-    self.RequestHandlerClass(request, client_address, self)
-  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
-    super().__init__(*args, **kwargs)
-  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
-    self.handle()
-  File "/usr/lib/python3.12/http/server.py", line 436, in handle
-    self.handle_one_request()
-  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
-    method()
-  File "/home/administrator/think_ai/serve_webapp.py", line 26, in do_GET
-    return super().do_GET(self)
-           ^^^^^^^^^^^^^^^^^^^^
-TypeError: SimpleHTTPRequestHandler.do_GET() takes 1 positional argument but 2 were given
-----------------------------------------
-----------------------------------------
-Exception occurred during processing of request from ('200.118.146.98', 11144)
-Traceback (most recent call last):
-  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
-    self.process_request(request, client_address)
-  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
-    self.finish_request(request, client_address)
-  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
-    self.RequestHandlerClass(request, client_address, self)
-  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
-    super().__init__(*args, **kwargs)
-  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
-    self.handle()
-  File "/usr/lib/python3.12/http/server.py", line 436, in handle
-    self.handle_one_request()
-  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
-    method()
-  File "/home/administrator/think_ai/serve_webapp.py", line 26, in do_GET
-    return super().do_GET(self)
-           ^^^^^^^^^^^^^^^^^^^^
-TypeError: SimpleHTTPRequestHandler.do_GET() takes 1 positional argument but 2 were given
-----------------------------------------
-200.118.146.98 - - [11/Jul/2025 21:23:43] "GET / HTTP/1.1" 200 -
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:05:13.281043Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:05:13.393263Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:06:05.210131Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:06:05.307507Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:06:38.177143Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:06:38.266215Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:06:48.450931Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:06:48.543015Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:06:58.710863Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:06:58.799315Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:07:08.955476Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:07:09.049806Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:07:19.199230Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:07:19.287783Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:07:21.192898Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:07:21.282672Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:07:29.456894Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:07:29.544891Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:07:39.707628Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:07:39.795521Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:07:49.958382Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:07:50.050363Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:08:00.202099Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:08:00.289969Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:08:10.456127Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:08:10.544173Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:09:13.745163Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:09:13.833594Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:09:23.954672Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:09:24.042597Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:09:34.204852Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:09:34.292908Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:09:44.455396Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:09:44.543493Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:09:54.711688Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:09:54.807704Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:10:04.958653Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:10:05.051788Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:10:15.212041Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:10:15.307844Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:10:25.464371Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:10:25.555001Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:10:35.715228Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:10:35.802706Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:10:45.946933Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:10:46.035509Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:10:56.205719Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:10:56.293959Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:11:06.460917Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:11:06.557951Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:11:16.714926Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:11:16.815010Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:11:26.950898Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:11:27.042837Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:11:37.209268Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:11:37.306557Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:11:47.455753Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:11:47.544157Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:11:57.584383Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:11:57.672789Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:12:07.716907Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:12:07.808954Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:12:17.958058Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:12:18.046272Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:12:28.212140Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:12:28.300160Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:12:38.459630Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:12:38.547401Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:12:48.703949Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:12:48.792377Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:12:58.951721Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:12:59.039306Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:13:09.205379Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:13:09.293605Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:13:19.455833Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:13:19.551500Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:13:29.710763Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:13:29.807270Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:13:39.963073Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:13:40.052706Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:13:50.208135Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:13:50.306830Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:14:00.457953Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:14:00.551707Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:14:10.708222Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:14:10.804565Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:14:20.962337Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:14:21.050358Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:14:31.200827Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:14:31.288667Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:14:41.452392Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:14:41.540045Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:14:51.709866Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:14:51.803432Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:15:01.952220Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:15:02.040603Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:15:12.199185Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:15:12.287095Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:15:22.461446Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:15:22.549164Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:15:32.703505Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:15:32.791318Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:15:42.959126Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:15:43.047019Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:15:53.209188Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:15:53.297795Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:16:03.455097Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:16:03.544227Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:16:13.702098Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:16:13.818021Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:16:23.958223Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:16:24.047489Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:16:34.215627Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:16:34.310742Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:16:44.456401Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:16:44.545253Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:16:54.545182Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:16:54.632892Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:17:00.833763Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:17:00.907433Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:17:10.965433Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:17:11.057977Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:17:21.210263Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:17:21.302351Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:17:31.453559Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:17:31.541090Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:17:41.710431Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:17:41.798760Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:17:51.964678Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:17:52.052330Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:18:02.205111Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:18:02.297390Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:18:12.450513Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:18:12.538429Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:18:22.702017Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:18:22.778553Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:18:32.954869Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:18:33.043055Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:18:43.205773Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:18:43.294343Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:18:53.453166Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:18:53.547323Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:19:03.708593Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:19:03.796011Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:19:13.961608Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:19:14.049119Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:19:24.209891Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:19:24.297346Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:19:34.446172Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:19:34.566438Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:19:44.703904Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:19:44.791841Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:19:54.971888Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:19:55.058456Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:20:05.231654Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:20:05.328892Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:20:15.466654Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:20:15.557920Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:20:25.719940Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:20:25.807651Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:20:35.964200Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:20:36.052596Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:20:46.200698Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:20:46.288150Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:20:56.458847Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:20:56.553882Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:21:06.701211Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:21:06.789125Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:21:16.952300Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:21:17.040216Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:21:27.211987Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:21:27.288561Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:21:37.462231Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:21:37.550032Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:21:47.710423Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:21:47.798168Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:21:57.950549Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:21:58.057073Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:22:06.076018Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:22:06.150890Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:22:16.203953Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:22:16.299035Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:22:26.452685Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:22:26.540025Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:22:36.723012Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:22:36.815470Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:22:46.954972Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:22:47.048128Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:22:57.210584Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:22:57.318325Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:23:07.460867Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:23:07.549851Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:23:17.706924Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:23:17.803560Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:23:27.961990Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:23:28.059919Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:23:38.212981Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:23:38.309107Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:23:48.462555Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:23:48.557464Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:23:58.709490Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:23:58.797638Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:24:08.957072Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:24:09.045097Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:24:19.205673Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:24:19.300862Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:24:29.452396Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:24:29.528817Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:24:39.704995Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:24:39.792495Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:24:49.958493Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:24:50.046046Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:25:00.207494Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:25:00.295357Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:25:10.459920Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:25:10.564558Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:25:20.707531Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:25:20.799443Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:25:30.976115Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:25:31.069588Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:25:41.219384Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:25:41.313059Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:25:51.460623Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:25:51.556793Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:26:01.722544Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:26:01.816285Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:26:11.954566Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:26:12.049215Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:26:22.203432Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:26:22.291667Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:26:32.460023Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:26:32.560891Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:26:42.716546Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:26:42.804775Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:26:52.964968Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:26:53.063023Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:27:03.208441Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:27:03.297397Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:27:13.471657Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:27:13.559457Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:27:23.714571Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:27:23.802175Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:27:33.963063Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:27:34.055090Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:27:44.220206Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:27:44.309036Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:27:54.466289Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:27:54.559957Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:28:04.539860Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:28:04.627753Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:28:14.709582Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:28:14.798634Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 0.0.0.0:8080
+🧠 Initializing knowledge base...
+[2m2025-07-12T04:28:24.949292Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
+[2m2025-07-12T04:28:25.036965Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
