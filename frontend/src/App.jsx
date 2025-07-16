@@ -9,6 +9,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [audioPlayback, setAudioPlayback] = useState({});
+  const audioInstancesRef = useRef({}); // Store audio instances for stop control
   const [usedMic, setUsedMic] = useState(false); // Track if mic was used for auto-play
   const [isTyping, setIsTyping] = useState(false); // Track if user is typing
   const messagesEndRef = useRef(null);
@@ -369,11 +370,67 @@ function App() {
   
   // Text-to-speech function
   const playAudioMessage = async (content, messageIndex) => {
+    // Check if audio is currently playing for this message
+    if (audioPlayback[messageIndex] === 'playing') {
+      // Stop the audio
+      const audio = audioInstancesRef.current[messageIndex];
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+        delete audioInstancesRef.current[messageIndex];
+      }
+      setAudioPlayback(prev => ({ ...prev, [messageIndex]: 'stopped' }));
+      return;
+    }
+    
     try {
+      // Clean text for speech synthesis
+      const cleanTextForSpeech = (text) => {
+        // Remove markdown formatting
+        let cleaned = text
+          .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+          .replace(/`[^`]+`/g, '') // Remove inline code
+          .replace(/\*\*([^*]+)\*\*/g, '$1') // Remove bold
+          .replace(/\*([^*]+)\*/g, '$1') // Remove italic
+          .replace(/#+\s/g, '') // Remove headers
+          .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Convert links to text
+          .replace(/^[-*+]\s/gm, '') // Remove list markers
+          .replace(/^\d+\.\s/gm, '') // Remove numbered lists
+          .replace(/\n{3,}/g, '\n\n') // Limit newlines
+          .trim();
+        
+        // Remove or replace special characters
+        cleaned = cleaned
+          .replace(/[<>{}[\]\\\/|~^]/g, '') // Remove special chars
+          .replace(/&[a-zA-Z]+;/g, '') // Remove HTML entities
+          .replace(/[^\w\s.,!?;:'"()-]/g, '') // Keep only common punctuation
+          .replace(/\s+/g, ' ') // Normalize whitespace
+          .trim();
+        
+        // Check if there's any speakable content left
+        if (!cleaned || cleaned.length < 3) {
+          return null;
+        }
+        
+        // Limit length for very long messages
+        if (cleaned.length > 1000) {
+          cleaned = cleaned.substring(0, 997) + '...';
+        }
+        
+        return cleaned;
+      };
+      
+      const cleanedText = cleanTextForSpeech(content);
+      
+      if (!cleanedText) {
+        console.log('No speakable content found');
+        return;
+      }
+      
       const response = await fetch('/api/audio/synthesize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: content })
+        body: JSON.stringify({ text: cleanedText })
       });
       
       if (!response.ok) {
@@ -384,12 +441,16 @@ function App() {
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
       
+      // Store audio instance for stop control
+      audioInstancesRef.current[messageIndex] = audio;
+      
       // Track playback state
       setAudioPlayback(prev => ({ ...prev, [messageIndex]: 'playing' }));
       
       audio.onended = () => {
         setAudioPlayback(prev => ({ ...prev, [messageIndex]: 'stopped' }));
         URL.revokeObjectURL(audioUrl);
+        delete audioInstancesRef.current[messageIndex];
       };
       
       audio.play();

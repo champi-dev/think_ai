@@ -2698,3 +2698,8 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 [2m2025-07-16T22:11:30.357888Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef.mp3
 [2m2025-07-16T22:11:55.936066Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: d1762d7ca20852561dbf1e2b1ecfcb9e42708661e737bf441175e3878daf9f75.mp3
 [2m2025-07-16T22:13:42.131308Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 344d83bfa6095fb3fc64ce5a9427d62b054a21937994d854d90563317f686a97.mp3
+Qwen error: Ollama unavailable
+[2m2025-07-16T22:18:15.028262Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 4aabcd57c8e835f2828fddcd34727b4a8590e318fbcc2019b8ed3bc61c9b7030.mp3
+[2m2025-07-16T22:18:41.708547Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 9ed24c19b382502b63dd06a60dccbe42f4cb71a1871474500ed0f2281cbe78be.mp3
+[2m2025-07-16T22:19:30.270313Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 9e4d5e7f0f1c67741b1be0af71dc761e5c20b3451829c8a50a02f73b4f766a11.mp3
+Qwen error: Ollama unavailable

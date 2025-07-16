@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-07-16T22:06:08.531351",
+  "base_url": "https://thinkai.lat",
+  "results": {
+    "Text-to-Speech": true,
+    "Speech-to-Text": true,
+    "Audio Caching": true,
+    "Cache Directory": true
+  },
+  "total_tests": 4,
+  "passed_tests": 4,
+  "success_rate": 1.0
+}
