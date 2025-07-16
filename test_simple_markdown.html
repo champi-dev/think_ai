@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Markdown Test</title>
+    <style>
+        body { background: #0a0a0a; color: #fff; font-family: Arial; padding: 20px; }
+        .output { background: #1a1a1a; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        button { background: #6366f1; color: white; border: none; padding: 10px 20px; margin: 5px; cursor: pointer; border-radius: 4px; }
+        h1 { color: #8b5cf6; }
+        h2 { color: #c4b5fd; }
+        strong { color: #f9fafb; }
+        em { color: #e5e7eb; }
+        code { background: rgba(139, 92, 246, 0.15); padding: 2px 4px; color: #e9d5ff; }
+    </style>
+</head>
+<body>
+    <h1>Markdown Rendering Test</h1>
+    <div id="output" class="output"></div>
+    
+    <button onclick="test1()">Test Headers</button>
+    <button onclick="test2()">Test Formatting</button>
+    <button onclick="test3()">Test Lists</button>
+    <button onclick="test4()">Test All</button>
+    
+    <script>
+        // Simple markdown parser
+        function parseMarkdown(text) {
+            let html = text;
+            
+            // Headers
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            // Bold and italic
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            
+            // Code
+            html = html.replace(/`(.+?)`/g, '<code>$1</code>');
+            
+            // Line breaks
+            html = html.replace(/\n/g, '<br>');
+            
+            return html;
+        }
+        
+        function render(markdown) {
+            document.getElementById('output').innerHTML = parseMarkdown(markdown);
+        }
+        
+        function test1() {
+            render("# Main Header\n## Sub Header\n### Small Header");
+        }
+        
+        function test2() {
+            render("This is **bold** and this is *italic* text");
+        }
+        
+        function test3() {
+            render("List:\n- Item 1\n- Item 2\n- Item 3");
+        }
+        
+        function test4() {
+            render("# Complete Test\n\nThis has **bold** and *italic*.\n\n## Code\nHere is some `inline code`\n\n### List\n- First\n- Second");
+        }
+        
+        // Test on load
+        test4();
+    </script>
+</body>
+</html>

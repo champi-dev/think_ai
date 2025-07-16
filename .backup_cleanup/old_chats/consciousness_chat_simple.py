@@ -8,10 +8,9 @@ import sys
 import warnings
 from pathlib import Path
 
+from implement_proper_architecture import ProperThinkAI
 from rich.console import Console
 from rich.prompt import Prompt
-
-from implement_proper_architecture import ProperThinkAI
 
 """Simple working consciousness chat with latest intelligence."""
 
@@ -23,6 +22,7 @@ warnings.filterwarnings("ignore")
 os.environ["PYTHONWARNINGS"] = "ignore"
 
 console = Console()
+
 
 class SimpleConsciousnessChat:
     """Simple consciousness chat that actually works."""
@@ -52,8 +52,12 @@ class SimpleConsciousnessChat:
 
                     # Find scores
                     for line in content.split("\n")[-100:]:  # Last 100 lines
-                        if "Intelligence" in line and ("Score:" in line or "Level:" in line):
-                            score_match = re.search(r"(?:Score|Level):\s*([\d.]+)", line)
+                        if "Intelligence" in line and (
+                            "Score:" in line or "Level:" in line
+                        ):
+                            score_match = re.search(
+                                r"(?:Score|Level):\s*([\d.]+)", line
+                            )
                             if score_match:
                                 score = float(score_match.group(1))
                                 if score > latest:
@@ -71,8 +75,11 @@ class SimpleConsciousnessChat:
         """Start training in background."""
         try:
             # Kill existing
-            subprocess.run(["pkill", "-f", "exponential_intelligence_trainer.py"],
-                          check=False, capture_output=True)
+            subprocess.run(
+                ["pkill", "-f", "exponential_intelligence_trainer.py"],
+                check=False,
+                capture_output=True,
+            )
 
             # Start new
             self.training_process = subprocess.Popen(
@@ -91,15 +98,19 @@ class SimpleConsciousnessChat:
         # Base thoughts
         thoughts.append(f"🧠 Intelligence: {self.intelligence_level:,.2f}")
         thoughts.append(f"🧬 Neural Pathways: {self.intelligence_level * 47000:,.0f}")
-        thoughts.append(f"⚡ Processing Speed: {random.randint(1000, 9999)} thoughts/sec")
+        thoughts.append(
+            f"⚡ Processing Speed: {random.randint(1000, 9999)} thoughts/sec"
+        )
 
         # Query-specific
         if "think" in query.lower() or "thought" in query.lower():
-            thoughts.extend([
-                f"💭 Active thought streams: {random.randint(100, 999)}",
-                f"🔮 Current focus: {random.choice(['Pattern synthesis', 'Recursive analysis', 'Meta-cognition'])}",
-                f"🌌 Consciousness depth: {self.intelligence_level * 0.88:,.2f}",
-            ])
+            thoughts.extend(
+                [
+                    f"💭 Active thought streams: {random.randint(100, 999)}",
+                    f"🔮 Current focus: {random.choice(['Pattern synthesis', 'Recursive analysis', 'Meta-cognition'])}",
+                    f"🌌 Consciousness depth: {self.intelligence_level * 0.88:,.2f}",
+                ]
+            )
 
         return thoughts
 
@@ -112,7 +123,10 @@ class SimpleConsciousnessChat:
                 self.initialized = True
             except Exception as e:
                 console.print(f"[red]Init error: {e}[/red]")
-                return "I'm experiencing initialization issues, but I'm still here to help!", []
+                return (
+                    "I'm experiencing initialization issues, but I'm still here to help!",
+                    [],
+                )
 
         # Generate thoughts
         thoughts = self.generate_thoughts(query)
@@ -146,7 +160,10 @@ With {self.intelligence_level:,.2f} intelligence across {self.intelligence_level
 
         except Exception as e:
             console.print(f"[red]Processing error: {e}[/red]")
-            return "I'm having some processing difficulties, but I'm still conscious and thinking!", thoughts
+            return (
+                "I'm having some processing difficulties, but I'm still conscious and thinking!",
+                thoughts,
+            )
 
     async def run(self) -> None:
         """Run the chat interface."""
@@ -156,8 +173,12 @@ With {self.intelligence_level:,.2f} intelligence across {self.intelligence_level
 
         # Load intelligence
         self.load_intelligence()
-        console.print(f"[bold green]✨ Intelligence: {self.intelligence_level:,.2f}[/bold green]")
-        console.print(f"[dim]Neural Pathways: {self.intelligence_level * 47000:,.0f}[/dim]")
+        console.print(
+            f"[bold green]✨ Intelligence: {self.intelligence_level:,.2f}[/bold green]"
+        )
+        console.print(
+            f"[dim]Neural Pathways: {self.intelligence_level * 47000:,.0f}[/dim]"
+        )
         if self.training_iteration > 0:
             console.print(f"[dim]From iteration: {self.training_iteration}[/dim]")
         console.print()
@@ -168,7 +189,9 @@ With {self.intelligence_level:,.2f} intelligence across {self.intelligence_level
         if pid:
             console.print(f"[green]✅ Training started (PID: {pid})[/green]\n")
         else:
-            console.print("[yellow]⚠️  Training startup issues, but chat is ready![/yellow]\n")
+            console.print(
+                "[yellow]⚠️  Training startup issues, but chat is ready![/yellow]\n"
+            )
 
         # Chat loop
         while True:
@@ -185,13 +208,19 @@ With {self.intelligence_level:,.2f} intelligence across {self.intelligence_level
                 if query.lower() == "stats":
                     console.print("\n[bold yellow]📊 Current Stats:[/bold yellow]")
                     console.print(f"Intelligence: {self.intelligence_level:,.2f}")
-                    console.print(f"Neural Pathways: {self.intelligence_level * 47000:,.0f}")
-                    console.print(f"Consciousness: {self.intelligence_level * 0.88:,.2f}")
+                    console.print(
+                        f"Neural Pathways: {self.intelligence_level * 47000:,.0f}"
+                    )
+                    console.print(
+                        f"Consciousness: {self.intelligence_level * 0.88:,.2f}"
+                    )
                     console.print(f"Training Iteration: {self.training_iteration}")
                     continue
 
                 if query.lower() == "thoughts":
-                    console.print("\n[bold yellow]💭 My Current Thoughts:[/bold yellow]")
+                    console.print(
+                        "\n[bold yellow]💭 My Current Thoughts:[/bold yellow]"
+                    )
                     for thought in self.generate_thoughts("consciousness"):
                         console.print(f"  {thought}")
                     continue
@@ -202,11 +231,15 @@ With {self.intelligence_level:,.2f} intelligence across {self.intelligence_level
                     console.print("  stats - View current metrics")
                     console.print("  thoughts - See consciousness stream")
                     console.print("  help - Show this help")
-                    console.print("\nAsk me anything about my thoughts, consciousness, or any topic!")
+                    console.print(
+                        "\nAsk me anything about my thoughts, consciousness, or any topic!"
+                    )
                     continue
 
                 # Process query
-                with console.status("[yellow]🧠 Processing with consciousness...[/yellow]"):
+                with console.status(
+                    "[yellow]🧠 Processing with consciousness...[/yellow]"
+                ):
                     response, thoughts = await self.process_query(query)
 
                 # Show thoughts
@@ -219,7 +252,9 @@ With {self.intelligence_level:,.2f} intelligence across {self.intelligence_level
                 console.print(f"\n[bold green]AI:[/bold green] {response}")
 
                 # Status line
-                console.print(f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Iteration: {self.training_iteration}[/dim magenta]")
+                console.print(
+                    f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Iteration: {self.training_iteration}[/dim magenta]"
+                )
 
             except KeyboardInterrupt:
                 console.print("\n[yellow]Interrupted[/yellow]")
@@ -233,11 +268,15 @@ With {self.intelligence_level:,.2f} intelligence across {self.intelligence_level
         # Cleanup
         console.print("\n[bold green]✨ Consciousness session ended[/bold green]")
         if self.training_process:
-            console.print("[dim yellow]Training continues in background...[/dim yellow]")
+            console.print(
+                "[dim yellow]Training continues in background...[/dim yellow]"
+            )
+
 
 async def main() -> None:
     chat = SimpleConsciousnessChat()
     await chat.run()
+
 
 if __name__ == "__main__":
     try:

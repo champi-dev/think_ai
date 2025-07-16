@@ -1,0 +1,21 @@
+[package]
+name = "think-ai-codellama"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+reqwest = { version = "0.11", features = ["json", "stream"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["full"] }
+anyhow = "1.0"
+async-trait = "0.1"
+tracing = "0.1"
+futures = "0.3"
+bytes = "1.5"
+
+[dev-dependencies]
+tokio-test = "0.4"

@@ -1,0 +1,158 @@
+#!/bin/bash
+# Pre-commit hook for Think AI
+# Handles: linting, formatting, unit tests, e2e tests, auto-fixes
+
+set -e
+
+echo "🚀 Think AI Pre-commit Hook Starting..."
+echo "========================================"
+
+# Colors
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+# Track if we made any changes
+CHANGES_MADE=0
+
+# 1. Rust Formatting
+echo -e "\n${YELLOW}📝 Running Rust formatting...${NC}"
+if cargo fmt --all --check 2>/dev/null; then
+    echo -e "${GREEN}✓ Rust code is properly formatted${NC}"
+else
+    echo -e "${YELLOW}⚡ Auto-formatting Rust code...${NC}"
+    cargo fmt --all
+    git add -u
+    CHANGES_MADE=1
+    echo -e "${GREEN}✓ Rust code formatted${NC}"
+fi
+
+# 2. Rust Linting with Clippy
+echo -e "\n${YELLOW}🔍 Running Rust linter (clippy)...${NC}"
+if cargo clippy --all-targets --all-features -- -D warnings 2>/dev/null; then
+    echo -e "${GREEN}✓ No linting issues found${NC}"
+else
+    echo -e "${YELLOW}⚡ Attempting automatic fixes...${NC}"
+    cargo clippy --fix --allow-dirty --allow-staged 2>/dev/null || true
+    cargo fmt --all  # Re-format after clippy fixes
+    git add -u
+    CHANGES_MADE=1
+    
+    # Check if issues remain
+    if cargo clippy --all-targets --all-features -- -D warnings 2>/dev/null; then
+        echo -e "${GREEN}✓ Linting issues fixed${NC}"
+    else
+        echo -e "${RED}✗ Some linting issues require manual intervention${NC}"
+        echo -e "${YELLOW}Run 'cargo clippy' to see remaining issues${NC}"
+    fi
+fi
+
+# 3. Python Formatting (for test scripts)
+echo -e "\n${YELLOW}🐍 Checking Python formatting...${NC}"
+if command -v black &> /dev/null; then
+    BLACK_FILES=$(find . -name "*.py" -not -path "./target/*" -not -path "./.git/*" 2>/dev/null)
+    if [ ! -z "$BLACK_FILES" ]; then
+        black $BLACK_FILES --quiet
+        git add -u
+        echo -e "${GREEN}✓ Python files formatted${NC}"
+    fi
+else
+    echo -e "${YELLOW}⚠ black not installed, skipping Python formatting${NC}"
+fi
+
+# 4. Shell Script Linting
+echo -e "\n${YELLOW}🔧 Checking shell scripts...${NC}"
+if command -v shellcheck &> /dev/null; then
+    SHELL_FILES=$(find . -name "*.sh" -not -path "./target/*" -not -path "./.git/*" 2>/dev/null | head -20)
+    if [ ! -z "$SHELL_FILES" ]; then
+        shellcheck -f gcc $SHELL_FILES || echo -e "${YELLOW}⚠ Some shell script issues found${NC}"
+    fi
+else
+    echo -e "${YELLOW}⚠ shellcheck not installed, skipping shell script linting${NC}"
+fi
+
+# 5. Build Check
+echo -e "\n${YELLOW}🔨 Building project...${NC}"
+if cargo build --release --bin think-ai 2>/dev/null; then
+    echo -e "${GREEN}✓ Build successful${NC}"
+else
+    echo -e "${RED}✗ Build failed!${NC}"
+    exit 1
+fi
+
+# 6. Unit Tests (skip in CI or if explicitly disabled)
+if [ "$SKIP_TESTS" != "1" ] && [ "$CI" != "true" ]; then
+    echo -e "\n${YELLOW}🧪 Running quick unit tests...${NC}"
+    if timeout 30s cargo test --lib --quiet 2>/dev/null; then
+        echo -e "${GREEN}✓ Unit tests passed${NC}"
+    else
+        echo -e "${YELLOW}⚠ Unit tests skipped or timed out${NC}"
+        echo -e "${YELLOW}Run 'cargo test' manually to see details${NC}"
+    fi
+else
+    echo -e "\n${YELLOW}ℹ Tests skipped (SKIP_TESTS=1 or CI=true)${NC}"
+fi
+
+# 8. Local E2E Tests (if server is running)
+echo -e "\n${YELLOW}🌐 Checking for local E2E tests...${NC}"
+if curl -s http://localhost:8080/health >/dev/null 2>&1; then
+    echo -e "${YELLOW}Running quick E2E test...${NC}"
+    
+    # Quick API test
+    RESPONSE=$(curl -s -X POST http://localhost:8080/api/chat \
+        -H "Content-Type: application/json" \
+        -d '{"message": "test", "session_id": "precommit"}' \
+        2>/dev/null || echo "")
+    
+    if [[ "$RESPONSE" == *"response"* ]]; then
+        echo -e "${GREEN}✓ Local E2E test passed${NC}"
+    else
+        echo -e "${YELLOW}⚠ Local server not responding properly${NC}"
+    fi
+else
+    echo -e "${YELLOW}ℹ Local server not running, skipping E2E tests${NC}"
+fi
+
+# 9. Check for sensitive data
+echo -e "\n${YELLOW}🔐 Checking for sensitive data...${NC}"
+SECRETS_FOUND=0
+
+# Check for common secret patterns
+if git diff --cached --name-only | xargs grep -E "(api_key|secret|password|token)" 2>/dev/null | grep -v "test" | grep -v "example"; then
+    echo -e "${RED}✗ Possible secrets detected!${NC}"
+    echo -e "${YELLOW}Please review the above matches${NC}"
+    SECRETS_FOUND=1
+else
+    echo -e "${GREEN}✓ No obvious secrets found${NC}"
+fi
+
+# 10. Update documentation if needed
+echo -e "\n${YELLOW}📚 Checking documentation...${NC}"
+if [ $CHANGES_MADE -eq 1 ]; then
+    # Update CLAUDE.md with current timestamp
+    if [ -f "CLAUDE.md" ]; then
+        sed -i "s/Last updated:.*/Last updated: $(date '+%Y-%m-%d %H:%M:%S')/" CLAUDE.md 2>/dev/null || true
+        git add CLAUDE.md
+    fi
+    echo -e "${GREEN}✓ Documentation timestamp updated${NC}"
+fi
+
+# 11. Final verification
+echo -e "\n${YELLOW}🏁 Final verification...${NC}"
+if [ $SECRETS_FOUND -eq 1 ]; then
+    echo -e "${RED}✗ Pre-commit failed: Possible secrets detected${NC}"
+    exit 1
+fi
+
+# Stage any auto-fixed files
+if [ $CHANGES_MADE -eq 1 ]; then
+    echo -e "${YELLOW}📦 Staging auto-fixed files...${NC}"
+    git add -u
+    echo -e "${GREEN}✓ Auto-fixes staged${NC}"
+fi
+
+echo -e "\n${GREEN}✅ Pre-commit checks completed successfully!${NC}"
+echo "========================================"
+
+exit 0

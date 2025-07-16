@@ -1,0 +1,39 @@
+[Unit]
+Description=Think AI Stable Server with Web Search, Streaming and Qwen
+After=network.target ollama.service
+Wants=network-online.target
+StartLimitIntervalSec=30
+StartLimitBurst=3
+
+[Service]
+Type=exec
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+Environment="RUST_LOG=info"
+Environment="RUST_BACKTRACE=1"
+
+# Clean up before starting
+ExecStartPre=/home/administrator/think_ai/stable-server-manager.sh cleanup
+
+# Main service with manager
+ExecStart=/home/administrator/think_ai/stable-server-manager.sh start
+
+# Restart policy
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+
+# Process management
+KillMode=mixed
+KillSignal=SIGTERM
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Logging
+StandardOutput=append:/home/administrator/think_ai/stable-server.log
+StandardError=append:/home/administrator/think_ai/stable-server.log
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,22 @@
+[package]
+name = "think-ai-qwen"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+# Core
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+
+# HTTP client for Qwen API
+reqwest = { version = "0.11", features = ["json", "stream"] }
+futures-util = "0.3"
+
+# Utils
+anyhow.workspace = true
+tracing.workspace = true

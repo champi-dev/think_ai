@@ -1,39 +1,17 @@
 [Unit]
-Description=Think AI Distributed Intelligence Service
-Documentation=https://github.com/champi-dev/think_ai
-After=network-online.target docker.service
-Wants=network-online.target
+Description=Think AI Server
+After=network.target
 
 [Service]
-Type=forking
-PIDFile=/tmp/think_ai_service.pid
-WorkingDirectory=/opt/think_ai
-ExecStart=/usr/bin/python3 /opt/think_ai/think_ai_service.py start
-ExecStop=/usr/bin/python3 /opt/think_ai/think_ai_service.py stop
-ExecReload=/usr/bin/python3 /opt/think_ai/think_ai_service.py restart
-
-# Restart configuration
+Type=exec
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+Environment="RUST_LOG=info"
+ExecStart=/home/administrator/think_ai/target/release/think-ai server --host 0.0.0.0
 Restart=always
-RestartSec=30
-StartLimitInterval=350
-StartLimitBurst=10
-
-# Resource limits
-LimitNOFILE=65536
-LimitNPROC=32768
-
-# Environment
-Environment="PYTHONUNBUFFERED=1"
-Environment="ANTHROPIC_API_KEY=/etc/think_ai/api_key"
-
-# Security
-PrivateTmp=true
-NoNewPrivileges=true
-
-# Logging
-StandardOutput=journal
-StandardError=journal
-SyslogIdentifier=think_ai
+RestartSec=10
+StandardOutput=append:/home/administrator/think_ai/webapp_server.log
+StandardError=append:/home/administrator/think_ai/webapp_server.log
 
 [Install]
 WantedBy=multi-user.target

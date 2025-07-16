@@ -1,0 +1,32 @@
+# Ultra-Fast Pre-commit Configuration (<10s target)
+# Non-blocking formatters with aggressive caching
+
+repos:
+  # Single fast hook that does everything
+  - repo: local
+    hooks:
+      - id: fast-pipeline
+        name: Think AI Fast Pipeline (<10s)
+        entry: scripts/fast-precommit-v2.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: false
+        stages: [pre-commit]
+
+  # Optional manual hooks (not run automatically)
+  - repo: local  
+    hooks:
+      - id: deploy-libs
+        name: Deploy All Libraries
+        entry: scripts/deploy-all-libs.sh
+        language: system
+        pass_filenames: false
+        stages: [manual]
+        
+      - id: full-test
+        name: Full Test Suite
+        entry: python -m pytest tests/ -v --cov=think_ai
+        language: system
+        pass_filenames: false
+        stages: [manual]

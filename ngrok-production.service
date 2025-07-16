@@ -1,0 +1,27 @@
+[Unit]
+Description=Ngrok tunnel for thinkai.lat
+After=network.target
+
+[Service]
+Type=simple
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+ExecStartPre=/bin/bash -c 'pkill -f "ngrok http" || true'
+ExecStartPre=/bin/sleep 2
+ExecStart=/usr/local/bin/ngrok http 8080 --domain=thinkai.lat --log=stdout --log-level=info
+Restart=always
+RestartSec=5
+StandardOutput=append:/home/administrator/think_ai/ngrok-systemd.log
+StandardError=append:/home/administrator/think_ai/ngrok-systemd.log
+
+# Prevent systemd from killing the process too quickly
+TimeoutStartSec=300
+TimeoutStopSec=30
+KillMode=mixed
+KillSignal=SIGTERM
+
+# Environment settings
+Environment="HOME=/home/administrator"
+
+[Install]
+WantedBy=multi-user.target

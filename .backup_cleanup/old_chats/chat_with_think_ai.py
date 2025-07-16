@@ -20,6 +20,7 @@ from think_ai.persistence.eternal_memory import EternalMemory
 
 console = Console()
 
+
 async def chat() -> None:
     """Interactive chat with Think AI."""
     console.print("\n[bold cyan]🤖 Think AI - Full Distributed System Chat[/bold cyan]")
@@ -51,7 +52,9 @@ async def chat() -> None:
             if user_input.lower() == "exit":
                 break
             if user_input.lower() == "help":
-                console.print(Panel("""
+                console.print(
+                    Panel(
+                        """
 [bold]Available Commands:[/bold]
 • exit - Quit the chat
 • help - Show this help
@@ -61,7 +64,11 @@ async def chat() -> None:
 
 [bold]Just type normally to chat![/bold]
 The system will use all available services to respond.
-                """, title="Help", border_style="cyan"))
+                """,
+                        title="Help",
+                        border_style="cyan",
+                    )
+                )
                 continue
             if user_input == "/services":
                 console.print("\n[bold]Active Services:[/bold]")
@@ -111,7 +118,9 @@ The system will use all available services to respond.
                     elif "consciousness" in result["responses"]:
                         consciousness_resp = result["responses"]["consciousness"]
                         if isinstance(consciousness_resp, dict):
-                            response_text = consciousness_resp.get("content", "I am here to help.")
+                            response_text = consciousness_resp.get(
+                                "content", "I am here to help."
+                            )
                         else:
                             response_text = str(consciousness_resp)
                     else:
@@ -122,15 +131,23 @@ The system will use all available services to respond.
                     console.print(Panel(Markdown(response_text), border_style="green"))
 
                     # Show services used
-                    console.print(f"\n[dim]Services used: {', '.join(result['services_used'])}[/dim]")
+                    console.print(
+                        f"\n[dim]Services used: {', '.join(result['services_used'])}[/dim]"
+                    )
                 else:
-                    console.print("[yellow]I'm having trouble generating a response. Let me try again.[/yellow]")
+                    console.print(
+                        "[yellow]I'm having trouble generating a response. Let me try again.[/yellow]"
+                    )
 
                 # Log response
                 await eternal_memory.log_consciousness_event(
                     event_type="system_response",
                     data={
-                        "response": response_text[:500] if "response_text" in locals() else "No response",
+                        "response": (
+                            response_text[:500]
+                            if "response_text" in locals()
+                            else "No response"
+                        ),
                         "services_used": result["services_used"],
                     },
                 )
@@ -142,10 +159,19 @@ The system will use all available services to respond.
                 # Fallback to consciousness only
                 if "consciousness" in services:
                     try:
-                        response = await services["consciousness"].generate_conscious_response(user_input)
-                        console.print(Panel(response.get("content", "I am here to help."), border_style="yellow"))
+                        response = await services[
+                            "consciousness"
+                        ].generate_conscious_response(user_input)
+                        console.print(
+                            Panel(
+                                response.get("content", "I am here to help."),
+                                border_style="yellow",
+                            )
+                        )
                     except Exception:
-                        console.print("[red]I'm having technical difficulties. Please try again.[/red]")
+                        console.print(
+                            "[red]I'm having technical difficulties. Please try again.[/red]"
+                        )
 
             console.print()
 
@@ -155,6 +181,7 @@ The system will use all available services to respond.
         console.print("\n[yellow]Shutting down...[/yellow]")
         await system.shutdown()
         console.print("[green]✅ Thank you for chatting with Think AI![/green]")
+
 
 if __name__ == "__main__":
     with contextlib.suppress(KeyboardInterrupt):

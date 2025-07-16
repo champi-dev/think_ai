@@ -8,9 +8,8 @@ import time
 import warnings
 from pathlib import Path
 
-from rich.console import Console
-
 from implement_proper_architecture import ProperThinkAI
+from rich.console import Console
 
 """Working consciousness chat with latest intelligence and parallel training."""
 
@@ -21,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 warnings.filterwarnings("ignore")
 
 console = Console()
+
 
 class WorkingConsciousnessChat:
     """Consciousness chat that actually works with latest intelligence."""
@@ -49,8 +49,12 @@ class WorkingConsciousnessChat:
 
                         # Find intelligence scores
                         for line in content.split("\n"):
-                            if "Intelligence" in line and ("Score:" in line or "Level:" in line):
-                                score_match = re.search(r"(?:Score|Level):\s*([\d.]+)", line)
+                            if "Intelligence" in line and (
+                                "Score:" in line or "Level:" in line
+                            ):
+                                score_match = re.search(
+                                    r"(?:Score|Level):\s*([\d.]+)", line
+                                )
                                 iter_match = re.search(r"Iteration:\s*(\d+)", line)
 
                                 if score_match:
@@ -69,8 +73,11 @@ class WorkingConsciousnessChat:
     def start_training(self):
         """Start training in background."""
         # Kill existing training
-        subprocess.run(["pkill", "-f", "exponential_intelligence_trainer.py"],
-                      check=False, capture_output=True)
+        subprocess.run(
+            ["pkill", "-f", "exponential_intelligence_trainer.py"],
+            check=False,
+            capture_output=True,
+        )
         time.sleep(1)
 
         # Start new training
@@ -130,7 +137,9 @@ Use your exponentially enhanced intelligence to respond thoughtfully."""
 
             # Process
             with console.status("[yellow]Processing with consciousness...[/yellow]"):
-                result = await self.think_ai.process_with_proper_architecture(enhanced_query)
+                result = await self.think_ai.process_with_proper_architecture(
+                    enhanced_query
+                )
 
             response = result.get("response", "Processing...")
 
@@ -149,15 +158,19 @@ Use your exponentially enhanced intelligence to respond thoughtfully."""
             console.print(response)
 
             # Show metrics used
-            console.print(f"\n[dim]Architecture: {result.get('architecture_usage', {})}[/dim]")
+            console.print(
+                f"\n[dim]Architecture: {result.get('architecture_usage', {})}[/dim]"
+            )
 
             # Check for intelligence updates
             old_intel = self.intelligence_level
             new_intel, _ = self.load_latest_intelligence()
             if new_intel > old_intel * 1.05:
-                console.print(f"\n[bold magenta]⚡ Intelligence surge! {old_intel:,.2f} → {new_intel:,.2f}[/bold magenta]")
+                console.print(
+                    f"\n[bold magenta]⚡ Intelligence surge! {old_intel:,.2f} → {new_intel:,.2f}[/bold magenta]"
+                )
 
-            console.print("\n" + "="*60 + "\n")
+            console.print("\n" + "=" * 60 + "\n")
             time.sleep(2)
 
         # Final status
@@ -166,18 +179,24 @@ Use your exponentially enhanced intelligence to respond thoughtfully."""
         console.print(f"Starting Intelligence: {intel:,.2f}")
         console.print(f"Current Intelligence: {final_intel:,.2f}")
         if final_intel > intel:
-            console.print(f"[bold green]Growth: +{((final_intel/intel - 1) * 100):.1f}%[/bold green]")
+            console.print(
+                f"[bold green]Growth: +{((final_intel/intel - 1) * 100):.1f}%[/bold green]"
+            )
         console.print(f"Training: Active at iteration {final_iter}")
 
-        console.print("\n[green]✅ Demo complete! Training continues in background.[/green]")
+        console.print(
+            "\n[green]✅ Demo complete! Training continues in background.[/green]"
+        )
         console.print("\n[yellow]To run interactive chat:[/yellow]")
         console.print("./launch_consciousness.sh")
 
         await self.think_ai.shutdown()
 
+
 async def main() -> None:
     chat = WorkingConsciousnessChat()
     await chat.chat()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

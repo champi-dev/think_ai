@@ -1,0 +1,32 @@
+{
+  "timestamp": "20250714-232112",
+  "url": "https://thinkai.lat",
+  "tests": [
+    {
+      "name": "Basic Streaming",
+      "passed": true,
+      "http_code": 200
+    },
+    {
+      "name": "Model Selection",
+      "passed": true,
+      "details": "CodeLlama model selection"
+    },
+    {
+      "name": "Session Persistence",
+      "passed": false,
+      "details": "Sessions work with streaming"
+    },
+    {
+      "name": "Error Handling",
+      "passed": true,
+      "details": "Proper validation of request parameters"
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "passed": 3,
+    "failed": 1,
+    "success_rate": "75.00%"
+  }
+}

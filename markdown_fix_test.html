@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Markdown Fix Test</title>
+    <style>
+        body { 
+            background: #0a0a0a; 
+            color: #fff; 
+            font-family: Arial, sans-serif; 
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .section {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        h1 { color: #8b5cf6; }
+        h2 { color: #c4b5fd; }
+        h3 { color: #ddd6fe; }
+        pre {
+            background: #0a0a0a;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        .output {
+            background: #252525;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            min-height: 100px;
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #8b5cf6;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        .pass { background: #22c55e; color: black; }
+        .fail { background: #ef4444; }
+    </style>
+</head>
+<body>
+    <h1>Think AI Markdown Rendering Fix</h1>
+    
+    <div class="container">
+        <div class="section">
+            <h2>Test Input</h2>
+            <pre id="testInput"># Hello World
+
+This is a **test** with *markdown*.
+
+## Features
+- List item 1
+- List item 2
+
+1. Numbered item
+2. Another item
+
+`inline code` test
+
+```python
+def hello():
+    print("O(1) performance")
+```
+
+> This is a quote
+
+---
+
+[Link test](https://example.com)</pre>
+            
+            <button onclick="testCurrent()">Test Current Parser</button>
+            <button onclick="testFixed()">Test Fixed Parser</button>
+            <button onclick="testBoth()">Compare Both</button>
+        </div>
+        
+        <div class="section">
+            <h2>Parser Output</h2>
+            <h3>Current Parser:</h3>
+            <div id="currentOutput" class="output"></div>
+            <div id="currentStatus" class="status"></div>
+            
+            <h3>Fixed Parser:</h3>
+            <div id="fixedOutput" class="output"></div>
+            <div id="fixedStatus" class="status"></div>
+        </div>
+    </div>
+    
+    <div class="section" style="margin-top: 20px;">
+        <h2>Analysis</h2>
+        <div id="analysis"></div>
+    </div>
+
+    <script>
+        // Current parser from webapp_temp.html
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        function parseMarkdownCurrent(text) {
+            let result = text;
+            
+            // Step 1: Handle code blocks FIRST
+            const codeBlocks = [];
+            result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+                codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`);
+                return placeholder;
+            });
+            
+            // Step 2: Handle inline code
+            const inlineCodes = [];
+            result = result.replace(/`([^`]+)`/g, (match, code) => {
+                const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+                inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+                return placeholder;
+            });
+            
+            // Step 3: Headers
+            result = result.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            result = result.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            result = result.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            // Step 4: Lists
+            // Numbered lists
+            result = result.replace(/^(\d+)\.\s+(.+)$/gm, '<li class="numbered">$2</li>');
+            result = result.replace(/(<li class="numbered">.*<\/li>\s*)+/gs, (match) => {
+                return '<ol style="margin: 10px 0; padding-left: 30px;">' + match + '</ol>';
+            });
+            
+            // Unordered lists
+            result = result.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+            result = result.replace(/(<li>(?!class).*<\/li>\s*)+/gs, (match) => {
+                return '<ul style="margin: 10px 0; padding-left: 30px;">' + match + '</ul>';
+            });
+            
+            // Step 5: Text formatting
+            result = result.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+            result = result.replace(/(?<![*\n])\*([^*\n]+)\*(?![*])/g, '<em>$1</em>');
+            
+            // Step 6: Links
+            result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            
+            // Step 7: Horizontal rules
+            result = result.replace(/^---+$/gm, '<hr>');
+            
+            // Step 8: Blockquotes
+            result = result.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid #ccc; padding-left: 10px; margin: 10px 0;">$1</blockquote>');
+            
+            // Step 9: Paragraphs and line breaks
+            const paragraphs = result.split(/\n\n+/);
+            
+            result = paragraphs.map(para => {
+                if (para.trim().match(/^<[^>]+>/)) {
+                    return para;
+                }
+                
+                const lines = para.split('\n').map(line => line.trim()).filter(line => line);
+                if (lines.length > 0) {
+                    return '<p>' + lines.join('<br>') + '</p>';
+                }
+                return '';
+            }).filter(p => p).join('\n');
+            
+            // Step 10: Restore code blocks and inline codes
+            codeBlocks.forEach((code, i) => {
+                result = result.replace(`__CODE_BLOCK_${i}__`, code);
+            });
+            
+            inlineCodes.forEach((code, i) => {
+                result = result.replace(`__INLINE_CODE_${i}__`, code);
+            });
+            
+            return result;
+        }
+        
+        // Fixed parser with better line break handling
+        function parseMarkdownFixed(text) {
+            let result = text;
+            
+            // Step 1: Normalize line endings
+            result = result.replace(/\r\n/g, '\n');
+            
+            // Step 2: Protect code blocks
+            const codeBlocks = [];
+            result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+                codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`);
+                return placeholder;
+            });
+            
+            // Step 3: Protect inline code
+            const inlineCodes = [];
+            result = result.replace(/`([^`\n]+)`/g, (match, code) => {
+                const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+                inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+                return placeholder;
+            });
+            
+            // Step 4: Process line by line for better control
+            const lines = result.split('\n');
+            const processedLines = [];
+            let inList = false;
+            let listItems = [];
+            let listType = null;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmed = line.trim();
+                
+                // Check for list items
+                const isUnorderedItem = /^[-*]\s+(.+)$/.test(trimmed);
+                const isOrderedItem = /^\d+\.\s+(.+)$/.test(trimmed);
+                
+                if (isUnorderedItem || isOrderedItem) {
+                    if (!inList || (listType === 'ul' && isOrderedItem) || (listType === 'ol' && isUnorderedItem)) {
+                        // End previous list if any
+                        if (inList && listItems.length > 0) {
+                            const tag = listType === 'ul' ? 'ul' : 'ol';
+                            processedLines.push(`<${tag}>${listItems.join('')}</${tag}>`);
+                            listItems = [];
+                        }
+                        inList = true;
+                        listType = isUnorderedItem ? 'ul' : 'ol';
+                    }
+                    
+                    const itemContent = trimmed.replace(/^[-*]\s+/, '').replace(/^\d+\.\s+/, '');
+                    listItems.push(`<li>${itemContent}</li>`);
+                } else {
+                    // Not a list item - close any open list
+                    if (inList && listItems.length > 0) {
+                        const tag = listType === 'ul' ? 'ul' : 'ol';
+                        processedLines.push(`<${tag}>${listItems.join('')}</${tag}>`);
+                        listItems = [];
+                        inList = false;
+                    }
+                    
+                    // Process non-list line
+                    let processed = line;
+                    
+                    // Headers
+                    if (/^###\s+/.test(trimmed)) {
+                        processed = trimmed.replace(/^###\s+(.+)$/, '<h3>$1</h3>');
+                    } else if (/^##\s+/.test(trimmed)) {
+                        processed = trimmed.replace(/^##\s+(.+)$/, '<h2>$1</h2>');
+                    } else if (/^#\s+/.test(trimmed)) {
+                        processed = trimmed.replace(/^#\s+(.+)$/, '<h1>$1</h1>');
+                    }
+                    // Horizontal rule
+                    else if (/^---+$/.test(trimmed)) {
+                        processed = '<hr>';
+                    }
+                    // Blockquote
+                    else if (/^>\s+/.test(trimmed)) {
+                        processed = trimmed.replace(/^>\s+(.+)$/, '<blockquote>$1</blockquote>');
+                    }
+                    // Regular text
+                    else if (trimmed.length > 0) {
+                        // Apply inline formatting
+                        processed = trimmed
+                            .replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>')
+                            .replace(/\*([^\*]+)\*/g, '<em>$1</em>')
+                            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+                    }
+                    
+                    processedLines.push(processed);
+                }
+            }
+            
+            // Close any remaining list
+            if (inList && listItems.length > 0) {
+                const tag = listType === 'ul' ? 'ul' : 'ol';
+                processedLines.push(`<${tag}>${listItems.join('')}</${tag}>`);
+            }
+            
+            // Join lines and create paragraphs
+            result = processedLines.join('\n');
+            
+            // Create paragraphs from groups of lines
+            const sections = result.split(/\n\n+/);
+            result = sections.map(section => {
+                const lines = section.split('\n').filter(line => line.trim());
+                if (lines.length === 0) return '';
+                
+                // Don't wrap if it's already an HTML element
+                if (lines.some(line => /^<(h[1-6]|ul|ol|blockquote|hr|pre)/.test(line))) {
+                    return lines.join('\n');
+                }
+                
+                // Wrap text lines in paragraph
+                return '<p>' + lines.join('<br>') + '</p>';
+            }).filter(s => s).join('\n\n');
+            
+            // Restore code
+            codeBlocks.forEach((code, i) => {
+                result = result.replace(`__CODE_BLOCK_${i}__`, code);
+            });
+            
+            inlineCodes.forEach((code, i) => {
+                result = result.replace(`__INLINE_CODE_${i}__`, code);
+            });
+            
+            return result;
+        }
+        
+        function testCurrent() {
+            const input = document.getElementById('testInput').textContent;
+            const output = parseMarkdownCurrent(input);
+            document.getElementById('currentOutput').innerHTML = output;
+            
+            // Check for issues
+            const hasHeaders = output.includes('<h1>') && output.includes('<h2>');
+            const hasFormatting = output.includes('<strong>') && output.includes('<em>');
+            const hasLists = output.includes('<ul>') && output.includes('<ol>');
+            const hasCode = output.includes('<code>') && output.includes('<pre>');
+            
+            const status = hasHeaders && hasFormatting && hasLists && hasCode ? 'pass' : 'fail';
+            document.getElementById('currentStatus').className = 'status ' + status;
+            document.getElementById('currentStatus').textContent = status === 'pass' ? '✓ All elements rendered' : '✗ Some elements missing';
+        }
+        
+        function testFixed() {
+            const input = document.getElementById('testInput').textContent;
+            const output = parseMarkdownFixed(input);
+            document.getElementById('fixedOutput').innerHTML = output;
+            
+            // Check for issues
+            const hasHeaders = output.includes('<h1>') && output.includes('<h2>');
+            const hasFormatting = output.includes('<strong>') && output.includes('<em>');
+            const hasLists = output.includes('<ul>') && output.includes('<ol>');
+            const hasCode = output.includes('<code>') && output.includes('<pre>');
+            
+            const status = hasHeaders && hasFormatting && hasLists && hasCode ? 'pass' : 'fail';
+            document.getElementById('fixedStatus').className = 'status ' + status;
+            document.getElementById('fixedStatus').textContent = status === 'pass' ? '✓ All elements rendered' : '✗ Some elements missing';
+        }
+        
+        function testBoth() {
+            testCurrent();
+            testFixed();
+            
+            const current = document.getElementById('currentOutput').innerHTML;
+            const fixed = document.getElementById('fixedOutput').innerHTML;
+            
+            const analysis = document.getElementById('analysis');
+            analysis.innerHTML = `
+                <h3>Comparison Results:</h3>
+                <p><strong>Current Parser:</strong></p>
+                <ul>
+                    <li>Headers: ${current.includes('<h1>') ? '✓' : '✗'}</li>
+                    <li>Bold/Italic: ${current.includes('<strong>') ? '✓' : '✗'}</li>
+                    <li>Lists: ${current.includes('<ul>') ? '✓' : '✗'}</li>
+                    <li>Code blocks: ${current.includes('<pre>') ? '✓' : '✗'}</li>
+                    <li>Links: ${current.includes('<a href') ? '✓' : '✗'}</li>
+                </ul>
+                <p><strong>Fixed Parser:</strong></p>
+                <ul>
+                    <li>Headers: ${fixed.includes('<h1>') ? '✓' : '✗'}</li>
+                    <li>Bold/Italic: ${fixed.includes('<strong>') ? '✓' : '✗'}</li>
+                    <li>Lists: ${fixed.includes('<ul>') ? '✓' : '✗'}</li>
+                    <li>Code blocks: ${fixed.includes('<pre>') ? '✓' : '✗'}</li>
+                    <li>Links: ${fixed.includes('<a href') ? '✓' : '✗'}</li>
+                </ul>
+                <p><strong>Recommendation:</strong> ${current === fixed ? 'Parsers produce identical output' : 'Fixed parser handles edge cases better'}</p>
+            `;
+        }
+        
+        // Test on load
+        window.onload = () => testBoth();
+    </script>
+</body>
+</html>

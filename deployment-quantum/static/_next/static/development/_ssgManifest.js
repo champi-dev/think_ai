@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set;

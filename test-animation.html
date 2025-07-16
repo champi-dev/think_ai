@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animation Test</title>
+    <style>
+        body {
+            background: #0a0f1c;
+            color: white;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        button {
+            background: #00ffcc;
+            color: #0a0f1c;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #00ffcc;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 255, 204, 0.1);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Think AI Animation Test</h1>
+        
+        <div class="status">
+            <p>✅ Server is running on port 5555</p>
+            <p>📝 Click the button below to test the animations in the webapp</p>
+        </div>
+        
+        <button onclick="testAnimation()">Test Animation via API</button>
+        <button onclick="window.open('http://localhost:5555', '_blank')">Open Webapp in New Tab</button>
+        
+        <div id="result"></div>
+        
+        <iframe src="http://localhost:5555" title="Think AI Webapp"></iframe>
+    </div>
+    
+    <script>
+        async function testAnimation() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>🔄 Testing animation... Watch the iframe below!</p>';
+            
+            try {
+                // Make a test request to trigger the animation
+                const response = await fetch('http://localhost:5555/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: 'Test animation' })
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <p>✅ Animation test complete!</p>
+                    <p>Response: ${data.response}</p>
+                    <p>You should have seen:</p>
+                    <ul>
+                        <li>Neural network spinning animation</li>
+                        <li>Thinking dots animation</li>
+                        <li>Streaming text effect</li>
+                    </ul>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<p>❌ Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

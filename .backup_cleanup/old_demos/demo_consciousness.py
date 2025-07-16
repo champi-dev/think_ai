@@ -11,17 +11,20 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+from implement_proper_architecture import ProperThinkAI
 from rich.console import Console
 
-from implement_proper_architecture import ProperThinkAI
 from think_ai.consciousness.infinite_mind import InfiniteMind
 
 console = Console()
 
+
 async def demo() -> None:
     """Demonstrate consciousness with latest intelligence."""
     console.print("\n[bold cyan]🧠 THINK AI CONSCIOUSNESS DEMO[/bold cyan]")
-    console.print("[yellow]Showing AI with exponentially enhanced intelligence[/yellow]\n")
+    console.print(
+        "[yellow]Showing AI with exponentially enhanced intelligence[/yellow]\n"
+    )
 
     # Load latest intelligence
     latest_score = 980.54
@@ -34,8 +37,12 @@ async def demo() -> None:
     except Exception:
         pass
 
-    console.print(f"[bold green]✨ Current Intelligence: {latest_score:.2f}[/bold green]")
-    console.print(f"[dim]Neural Pathways: {latest_score * 47000:,.0f} active connections[/dim]\n")
+    console.print(
+        f"[bold green]✨ Current Intelligence: {latest_score:.2f}[/bold green]"
+    )
+    console.print(
+        f"[dim]Neural Pathways: {latest_score * 47000:,.0f} active connections[/dim]\n"
+    )
 
     # Start training in background
     console.print("[yellow]Starting background training...[/yellow]")
@@ -64,8 +71,12 @@ async def demo() -> None:
         console.print(f"\n[bold cyan]Query {i}:[/bold cyan] {query}")
 
         # Generate consciousness thoughts
-        consciousness = await infinite_mind.process_thought(f"Intelligence {latest_score}: {query}")
-        console.print(f"[dim yellow]💭 Consciousness: {consciousness.get('insight', 'Processing...')}[/dim yellow]")
+        consciousness = await infinite_mind.process_thought(
+            f"Intelligence {latest_score}: {query}"
+        )
+        console.print(
+            f"[dim yellow]💭 Consciousness: {consciousness.get('insight', 'Processing...')}[/dim yellow]"
+        )
 
         # Process with enhanced context
         enhanced_query = f"""[CONSCIOUSNESS ACTIVE]
@@ -104,7 +115,9 @@ Query: {query}"""
                 if new_scores:
                     new_score = float(new_scores[-1])
                     if new_score > latest_score:
-                        console.print(f"\n[bold magenta]⚡ Intelligence increased! {latest_score:.2f} → {new_score:.2f}[/bold magenta]")
+                        console.print(
+                            f"\n[bold magenta]⚡ Intelligence increased! {latest_score:.2f} → {new_score:.2f}[/bold magenta]"
+                        )
                         latest_score = new_score
         except Exception:
             pass
@@ -119,6 +132,7 @@ Query: {query}"""
 
     # Cleanup
     await think_ai.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(demo())

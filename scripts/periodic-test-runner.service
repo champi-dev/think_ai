@@ -1,0 +1,19 @@
+[Unit]
+Description=Think AI Periodic Test Runner
+After=network.target
+
+[Service]
+Type=simple
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+Environment="NODE_ENV=production"
+Environment="TEST_INTERVAL=1800000"
+Environment="NOTIFY_ON_FAILURE=true"
+ExecStart=/usr/bin/node /home/administrator/think_ai/scripts/periodic-test-runner.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/var/log/think-ai-tests.log
+StandardError=append:/var/log/think-ai-tests-error.log
+
+[Install]
+WantedBy=multi-user.target

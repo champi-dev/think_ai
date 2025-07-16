@@ -1,0 +1,39 @@
+[package]
+name = "think-ai-knowledge"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[features]
+default = ["web-scraping"]
+web-scraping = ["reqwest"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+sha2 = "0.10"
+tempfile = "3.8"
+rand = "0.8"
+tokio = { version = "1.35", features = ["full"] }
+futures = "0.3"
+think-ai-consciousness = { path = "../think-ai-consciousness" }
+think-ai-codellama = { path = "../think-ai-codellama" }
+async-trait = "0.1"
+reqwest = { version = "0.11.27", features = ["json", "native-tls"], default-features = false, optional = true }
+chrono = { version = "0.4", features = ["serde"] }
+regex = "1.10"
+dashmap = "5.5"
+uuid = { version = "1.4", features = ["v4"] }
+sled = "0.34"
+
+[[bin]]
+name = "start-realtime-knowledge"
+path = "src/bin/start_realtime_knowledge.rs"
+
+# Disabled benchmark_cli binary due to missing clap dependency
+# [[bin]]
+# name = "benchmark_cli"
+# path = "src/bin/benchmark_cli.rs"

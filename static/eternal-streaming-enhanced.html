@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eternal Context - Enhanced Streaming</title>
+    
+    <!-- Include marked.js for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Include Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0a0e27;
+            color: #e0e0e0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1f3a 0%, #2d3561 100%);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #64b5f6;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header p {
+            color: #9ca3af;
+            font-size: 16px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .chat-container {
+            flex: 1;
+            background: #1a1f3a;
+            border-radius: 12px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .message-content {
+            flex: 1;
+            padding: 14px 18px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-message {
+            flex-direction: row-reverse;
+        }
+
+        .user-message .message-content {
+            background: linear-gradient(135deg, #2d3561 0%, #3d4571 100%);
+            margin-left: auto;
+            max-width: 70%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .assistant-message .message-content {
+            background: #1e293b;
+            margin-right: auto;
+            max-width: 70%;
+            border: 1px solid #334155;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Streaming animation */
+        .streaming .message-content {
+            position: relative;
+        }
+        
+        .streaming .message-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                #64b5f6 20%, 
+                #3b82f6 50%, 
+                #64b5f6 80%, 
+                transparent 100%
+            );
+            animation: streamingIndicator 2s ease-in-out infinite;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(100, 181, 246, 0.5);
+        }
+
+        @keyframes streamingIndicator {
+            0% { 
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% { 
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        /* Pulsing cursor for active streaming */
+        .streaming .message-content > *:last-child::after {
+            content: '▋';
+            display: inline-block;
+            color: #64b5f6;
+            animation: pulse 1s ease-in-out infinite;
+            margin-left: 2px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .message-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-message .message-icon {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+        }
+
+        .assistant-message .message-icon {
+            background: linear-gradient(135deg, #64b5f6 0%, #3b82f6 100%);
+        }
+
+        /* Markdown content styling */
+        .message-content h1,
+        .message-content h2,
+        .message-content h3,
+        .message-content h4,
+        .message-content h5,
+        .message-content h6 {
+            margin: 16px 0 8px 0;
+            color: #64b5f6;
+            font-weight: 600;
+        }
+
+        .message-content h1 { font-size: 1.5em; }
+        .message-content h2 { font-size: 1.3em; }
+        .message-content h3 { font-size: 1.15em; }
+
+        .message-content p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .message-content ul,
+        .message-content ol {
+            margin: 8px 0;
+            padding-left: 24px;
+        }
+
+        .message-content li {
+            margin: 4px 0;
+        }
+
+        .message-content blockquote {
+            border-left: 4px solid #64b5f6;
+            margin: 12px 0;
+            padding-left: 16px;
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .message-content a {
+            color: #64b5f6;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .message-content a:hover {
+            border-bottom-color: #64b5f6;
+        }
+
+        .message-content strong {
+            color: #e0e0e0;
+            font-weight: 600;
+        }
+
+        .message-content em {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .message-content hr {
+            border: none;
+            border-top: 1px solid #334155;
+            margin: 16px 0;
+        }
+
+        /* Code styling */
+        .message-content pre {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 0;
+            margin: 16px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Code block header */
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .code-language {
+            font-weight: 600;
+            color: #64b5f6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .copy-button {
+            background: #334155;
+            border: none;
+            color: #e0e0e0;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .copy-button:hover {
+            background: #475569;
+            transform: translateY(-1px);
+        }
+        
+        .copy-button.copied {
+            background: #10b981;
+            color: white;
+        }
+
+        .message-content pre code {
+            display: block;
+            background: none;
+            padding: 16px;
+            border-radius: 0;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #334155 #0f172a;
+        }
+        
+        .message-content pre code::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .message-content pre code::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        
+        .message-content pre code::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+
+        .message-content :not(pre) > code {
+            background: #334155;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #64b5f6;
+            white-space: nowrap;
+        }
+        
+        /* Line numbers styling */
+        .line-numbers .line-numbers-rows {
+            background: #1e293b;
+            border-right: 1px solid #334155;
+        }
+
+        /* Prism.js overrides for dark theme */
+        .token.comment,
+        .token.prolog,
+        .token.doctype,
+        .token.cdata {
+            color: #6b7280;
+        }
+
+        .token.punctuation {
+            color: #e0e0e0;
+        }
+
+        .token.property,
+        .token.tag,
+        .token.boolean,
+        .token.number,
+        .token.constant,
+        .token.symbol,
+        .token.deleted {
+            color: #ef4444;
+        }
+
+        .token.selector,
+        .token.attr-name,
+        .token.string,
+        .token.char,
+        .token.builtin,
+        .token.inserted {
+            color: #10b981;
+        }
+
+        .token.operator,
+        .token.entity,
+        .token.url,
+        .language-css .token.string,
+        .style .token.string {
+            color: #f59e0b;
+        }
+
+        .token.atrule,
+        .token.attr-value,
+        .token.keyword {
+            color: #3b82f6;
+        }
+
+        .token.function,
+        .token.class-name {
+            color: #e879f9;
+        }
+
+        .token.regex,
+        .token.important,
+        .token.variable {
+            color: #f59e0b;
+        }
+
+        /* Table styling */
+        .message-content table {
+            border-collapse: collapse;
+            margin: 12px 0;
+            width: 100%;
+            overflow-x: auto;
+            display: block;
+        }
+
+        .message-content th,
+        .message-content td {
+            border: 1px solid #334155;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .message-content th {
+            background: #1e293b;
+            color: #64b5f6;
+            font-weight: 600;
+        }
+
+        .message-content tr:nth-child(even) {
+            background: rgba(51, 65, 85, 0.1);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 12px;
+            padding: 20px;
+            background: #0f172a;
+            border-top: 1px solid #334155;
+        }
+
+        #messageInput {
+            flex: 1;
+            padding: 12px 16px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: inherit;
+            resize: none;
+        }
+
+        #messageInput:focus {
+            border-color: #64b5f6;
+            box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.1);
+        }
+
+        #sendButton {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #sendButton:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #sendButton:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 16px 20px;
+            color: #9ca3af;
+            font-style: italic;
+            border-top: 1px solid #334155;
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        .typing-indicator.active {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #64b5f6;
+            border-radius: 50%;
+            animation: typingAnimation 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingAnimation {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Scrollbar styling */
+        .messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages::-webkit-scrollbar-track {
+            background: #0f172a;
+            border-radius: 4px;
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        .messages::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Error message styling */
+        .error-message {
+            background: #7f1d1d;
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .error-message::before {
+            content: '⚠️';
+            font-size: 20px;
+        }
+
+        /* Context info styling */
+        .context-info {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .context-info h3 {
+            color: #64b5f6;
+            margin-bottom: 16px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .info-item {
+            background: #0f172a;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+            border-color: #64b5f6;
+        }
+
+        .info-label {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: #e0e0e0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #334155;
+            border-top-color: #64b5f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 24px; }
+            .header p { font-size: 14px; }
+            .container { padding: 12px; gap: 12px; }
+            .message-content { max-width: 85% !important; }
+            .info-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧠 Eternal Context Chat</h1>
+        <p>Enhanced streaming with beautiful markdown and code rendering</p>
+    </div>
+
+    <div class="container">
+        <div class="chat-container">
+            <div class="messages" id="messages">
+                <div class="assistant-message message">
+                    <div class="message-icon">🤖</div>
+                    <div class="message-content">
+                        <p>Hello! I'm your AI assistant with eternal memory. I'll remember everything we discuss across sessions.</p>
+                        <p>I support <strong>markdown formatting</strong>, <em>code highlighting</em>, and beautiful rendering of:</p>
+                        <ul>
+                            <li>Lists and bullet points</li>
+                            <li>Code blocks with syntax highlighting</li>
+                            <li>Tables and structured data</li>
+                            <li>Links and formatting</li>
+                        </ul>
+                        <p>How can I help you today?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+                <span>AI is thinking...</span>
+            </div>
+            <div class="input-container">
+                <textarea 
+                    id="messageInput" 
+                    placeholder="Type your message... (Shift+Enter for new line)"
+                    rows="1"
+                ></textarea>
+                <button id="sendButton">Send</button>
+            </div>
+        </div>
+
+        <div class="context-info">
+            <h3>Session Information</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Session ID</div>
+                    <div class="info-value" id="sessionId">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Messages</div>
+                    <div class="info-value" id="messageCount">1</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Response Time</div>
+                    <div class="info-value" id="responseTime">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Memory Usage</div>
+                    <div class="info-value" id="memoryUsage">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configure marked options
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                }
+                return code;
+            },
+            breaks: true,
+            gfm: true,
+            tables: true,
+            sanitize: false,
+            smartypants: true,
+            headerIds: true
+        });
+        
+        // Copy code function
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling;
+            const code = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy code:', err);
+                button.textContent = 'Error';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+
+        // Generate or retrieve session ID
+        let sessionId = localStorage.getItem('eternalSessionId');
+        if (!sessionId) {
+            sessionId = 'session-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('eternalSessionId', sessionId);
+        }
+        document.getElementById('sessionId').textContent = sessionId.substring(0, 16) + '...';
+
+        const messagesContainer = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+        let messageCount = 1;
+
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // Load conversation history
+        async function loadHistory() {
+            try {
+                const response = await fetch(`/api/history/${sessionId}`);
+                if (response.ok) {
+                    const history = await response.json();
+                    if (history.messages && history.messages.length > 0) {
+                        messagesContainer.innerHTML = '';
+                        history.messages.forEach(msg => {
+                            addMessage(msg.content, msg.role === 'user');
+                        });
+                        messageCount = history.messages.length;
+                        updateMessageCount();
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load history:', error);
+            }
+        }
+
+        function renderMarkdown(text) {
+            // Pre-process text to handle special cases
+            let processedText = text
+                // Preserve line breaks
+                .replace(/\n\n/g, '<DOUBLE_BREAK>')
+                .replace(/\n/g, '<SINGLE_BREAK>')
+                // Handle special characters that might break markdown
+                .replace(/([*_~`])\1{2,}/g, '$1$1')  // Normalize repeated special chars
+                // Restore line breaks for markdown processing
+                .replace(/<DOUBLE_BREAK>/g, '\n\n')
+                .replace(/<SINGLE_BREAK>/g, '  \n');  // Two spaces + newline for markdown line break
+            
+            // Parse markdown with marked
+            const html = marked.parse(processedText);
+            
+            // Post-process to ensure code blocks are properly formatted
+            let processedHtml = html
+                .replace(/<pre><code class="language-(\w+)">/g, '<pre><code class="language-$1 line-numbers">')
+                .replace(/<pre><code>/g, '<pre><code class="language-plaintext">');
+                
+            // Add code headers to all pre blocks
+            processedHtml = processedHtml.replace(/<pre><code class="language-(\w+)[^"]*">/g, (match, lang) => {
+                const displayLang = lang === 'plaintext' ? 'text' : lang;
+                return `<pre><div class="code-header">
+                    <span class="code-language">${displayLang}</span>
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                </div><code class="language-${lang} line-numbers">`;
+            });
+            
+            return processedHtml;
+        }
+
+        function addMessage(content, isUser = false, isStreaming = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
+            if (isStreaming) messageDiv.classList.add('streaming');
+            
+            const icon = document.createElement('div');
+            icon.className = 'message-icon';
+            icon.textContent = isUser ? '👤' : '🤖';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            
+            // Render content
+            if (isUser) {
+                // For user messages, escape HTML but preserve line breaks
+                const escaped = content
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;')
+                    .replace(/\n/g, '<br>');
+                contentDiv.innerHTML = `<p>${escaped}</p>`;
+            } else {
+                // For assistant messages, render markdown
+                contentDiv.innerHTML = renderMarkdown(content);
+            }
+            
+            messageDiv.appendChild(icon);
+            messageDiv.appendChild(contentDiv);
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            if (!isStreaming) {
+                messageCount++;
+                updateMessageCount();
+            }
+            
+            return contentDiv;
+        }
+
+        function updateMessageCount() {
+            document.getElementById('messageCount').textContent = messageCount;
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            messagesContainer.appendChild(errorDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Disable input
+            messageInput.disabled = true;
+            sendButton.disabled = true;
+            
+            // Add user message
+            addMessage(message, true);
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+
+            // Show typing indicator
+            typingIndicator.classList.add('active');
+
+            // Create streaming response container
+            const responseDiv = document.createElement('div');
+            responseDiv.className = 'message assistant-message streaming';
+            
+            const icon = document.createElement('div');
+            icon.className = 'message-icon';
+            icon.textContent = '🤖';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.innerHTML = '<div class="loading-spinner"></div>';
+            
+            responseDiv.appendChild(icon);
+            responseDiv.appendChild(contentDiv);
+            messagesContainer.appendChild(responseDiv);
+
+            const startTime = Date.now();
+            let fullResponse = '';
+
+            try {
+                const response = await fetch('/api/chat/stream', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: sessionId,
+                        use_web_search: true,
+                        fact_check: true
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to send message');
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                
+                // Clear loading spinner
+                contentDiv.innerHTML = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(6));
+                                
+                                if (data.chunk) {
+                                    fullResponse += data.chunk;
+                                    // Render markdown with each chunk
+                                    contentDiv.innerHTML = renderMarkdown(fullResponse);
+                                    
+                                    // Re-run Prism highlighting on new code blocks
+                                    contentDiv.querySelectorAll('pre code').forEach(block => {
+                                        if (!block.classList.contains('language-highlighted')) {
+                                            Prism.highlightElement(block);
+                                            block.classList.add('language-highlighted');
+                                        }
+                                    });
+                                    
+                                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                                }
+                                
+                                if (data.done) {
+                                    responseDiv.classList.remove('streaming');
+                                    
+                                    if (data.context_info) {
+                                        const responseTime = Date.now() - startTime;
+                                        document.getElementById('responseTime').textContent = `${responseTime}ms`;
+                                        
+                                        if (data.context_info.memory_usage_kb) {
+                                            document.getElementById('memoryUsage').textContent = 
+                                                `${data.context_info.memory_usage_kb.toFixed(2)} KB`;
+                                        }
+                                    }
+                                }
+                            } catch (e) {
+                                console.error('Error parsing SSE data:', e);
+                            }
+                        }
+                    }
+                }
+
+                messageCount++;
+                updateMessageCount();
+
+            } catch (error) {
+                console.error('Error:', error);
+                responseDiv.remove();
+                showError('Failed to get response. Please try again.');
+            } finally {
+                // Re-enable input
+                typingIndicator.classList.remove('active');
+                messageInput.disabled = false;
+                sendButton.disabled = false;
+                messageInput.focus();
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Load history on page load
+        loadHistory();
+        messageInput.focus();
+    </script>
+</body>
+</html>

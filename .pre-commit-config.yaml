@@ -1,15 +1,43 @@
-# Think AI Pre-commit Configuration
-# Runs Think AI Linter on all Python files
+# Ultra-Fast Pre-commit Configuration (<10s target)
+# Non-blocking formatters with aggressive caching
 
 repos:
+  # Single fast hook that does everything
   - repo: local
     hooks:
-      - id: think-ai-linter
-        name: Think AI Linter
-        entry: python think_ai_linter.py
+      - id: fast-pipeline
+        name: Think AI Fast Pipeline
+        entry: scripts/ultra-fast-precommit.sh
         language: system
-        types: [python]
-        args: ['--fix']
+        pass_filenames: false
         always_run: true
-        pass_filenames: true
-        description: "Ultra-fast Python linting with O(1) performance"
+        verbose: true
+        require_serial: true
+        stages: [pre-commit]
+      
+      - id: deploy-libs
+        name: Deploy All Libraries
+        entry: scripts/deploy-all-libs.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
+        require_serial: true
+        stages: [pre-commit]
+
+  # Optional manual hooks (not run automatically)
+  - repo: local  
+    hooks:
+      - id: deploy-libs
+        name: Deploy All Libraries
+        entry: scripts/deploy-all-libs.sh
+        language: system
+        pass_filenames: false
+        stages: [manual]
+        
+      - id: full-test
+        name: Full Test Suite
+        entry: python -m pytest tests/ -v --cov=think_ai
+        language: system
+        pass_filenames: false
+        stages: [manual]

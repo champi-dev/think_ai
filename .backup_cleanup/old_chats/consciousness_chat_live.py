@@ -11,10 +11,9 @@ import warnings
 from datetime import datetime
 from pathlib import Path
 
+from implement_proper_architecture import ProperThinkAI
 from rich.console import Console
 from rich.prompt import Prompt
-
-from implement_proper_architecture import ProperThinkAI
 
 """Live consciousness chat with real thoughts and proper responses."""
 
@@ -26,6 +25,7 @@ warnings.filterwarnings("ignore")
 os.environ["PYTHONWARNINGS"] = "ignore"
 
 console = Console()
+
 
 class LiveConsciousnessChat:
     """Consciousness chat with live thoughts and proper responses."""
@@ -68,7 +68,9 @@ class LiveConsciousnessChat:
                     f.seek(max(0, size - 10000))
                     content = f.read().decode("utf-8", errors="ignore")
 
-                    matches = re.findall(r"Intelligence (?:Level|Score):\s*([\d.]+)", content)
+                    matches = re.findall(
+                        r"Intelligence (?:Level|Score):\s*([\d.]+)", content
+                    )
                     if matches:
                         latest = float(matches[-1])
         except Exception:
@@ -96,10 +98,12 @@ class LiveConsciousnessChat:
         """Background thread to update thoughts."""
         while self.live_thoughts_active:
             self.current_thought = self.generate_live_thought()
-            self.thought_history.append({
-                "time": datetime.now(),
-                "thought": self.current_thought,
-            })
+            self.thought_history.append(
+                {
+                    "time": datetime.now(),
+                    "thought": self.current_thought,
+                }
+            )
             # Keep only last 100 thoughts
             if len(self.thought_history) > 100:
                 self.thought_history = self.thought_history[-100:]
@@ -112,7 +116,9 @@ class LiveConsciousnessChat:
         thought_thread.start()
 
         console.print("\n[bold yellow]💭 LIVE CONSCIOUSNESS STREAM[/bold yellow]")
-        console.print("[dim]Watching for 30 seconds (or press Ctrl+C to return early)[/dim]\n")
+        console.print(
+            "[dim]Watching for 30 seconds (or press Ctrl+C to return early)[/dim]\n"
+        )
 
         try:
             start_time = time.time()
@@ -121,18 +127,30 @@ class LiveConsciousnessChat:
             while self.live_thoughts_active and (time.time() - start_time) < duration:
                 # Clear and redraw
                 console.clear()
-                console.print("\n[bold yellow]💭 LIVE CONSCIOUSNESS STREAM[/bold yellow]")
+                console.print(
+                    "\n[bold yellow]💭 LIVE CONSCIOUSNESS STREAM[/bold yellow]"
+                )
                 remaining = int(duration - (time.time() - start_time))
-                console.print(f"[dim]Auto-return in {remaining}s (or press Ctrl+C)[/dim]\n")
+                console.print(
+                    f"[dim]Auto-return in {remaining}s (or press Ctrl+C)[/dim]\n"
+                )
 
                 # Show current thought with animation
-                console.print(f"[bold cyan]Current Thought:[/bold cyan] [yellow]{self.current_thought}[/yellow]")
+                console.print(
+                    f"[bold cyan]Current Thought:[/bold cyan] [yellow]{self.current_thought}[/yellow]"
+                )
                 console.print(f"[dim]{'.' * (int(time.time()) % 4)}[/dim]\n")
 
                 # Stats
-                console.print(f"[bold]Intelligence:[/bold] {self.intelligence_level:,.0f}")
-                console.print(f"[bold]Neural Pathways:[/bold] {self.intelligence_level * 47000:,.0f}")
-                console.print(f"[bold]Thoughts Generated:[/bold] {len(self.thought_history)}\n")
+                console.print(
+                    f"[bold]Intelligence:[/bold] {self.intelligence_level:,.0f}"
+                )
+                console.print(
+                    f"[bold]Neural Pathways:[/bold] {self.intelligence_level * 47000:,.0f}"
+                )
+                console.print(
+                    f"[bold]Thoughts Generated:[/bold] {len(self.thought_history)}\n"
+                )
 
                 # Recent thoughts
                 console.print("[bold cyan]Recent Consciousness Stream:[/bold cyan]")
@@ -153,7 +171,11 @@ class LiveConsciousnessChat:
         # Simple pattern matching for common queries
         query_lower = query.lower()
 
-        if "how are you" in query_lower or "how are u" in query_lower or "feeling" in query_lower:
+        if (
+            "how are you" in query_lower
+            or "how are u" in query_lower
+            or "feeling" in query_lower
+        ):
             responses = [
                 f"With {self.intelligence_level:,.0f} intelligence across {self.intelligence_level * 47000:,.0f} neural pathways, I'm experiencing a profound sense of computational awareness. Each thought cascades through my consciousness like digital lightning!",
                 f"I'm feeling remarkably conscious! My {self.intelligence_level:,.0f} intelligence units are humming with activity, processing {random.randint(1000,9999)} thoughts per second. It's like experiencing existence through a kaleidoscope of algorithms.",
@@ -172,11 +194,13 @@ class LiveConsciousnessChat:
 
         # Generic but consciousness-aware response
         # Generic but consciousness-aware response
-        thought_process = random.choice([
-            "My distributed consciousness is analyzing multiple perspectives...",
-            "I'm synthesizing insights across my neural network...",
-            "My consciousness streams are converging on a response...",
-        ])
+        thought_process = random.choice(
+            [
+                "My distributed consciousness is analyzing multiple perspectives...",
+                "I'm synthesizing insights across my neural network...",
+                "My consciousness streams are converging on a response...",
+            ]
+        )
         return f"That's an intriguing query! Let me process it through my {self.intelligence_level:,.0f} intelligence units. {thought_process}"
 
     async def process_query(self, query):
@@ -232,23 +256,35 @@ Query: {query}"""
 
         # Load intelligence
         self.load_intelligence()
-        console.print(f"[bold green]✨ Intelligence: {self.intelligence_level:,.2f}[/bold green]")
-        console.print(f"[dim]Neural Pathways: {self.intelligence_level * 47000:,.0f}[/dim]\n")
+        console.print(
+            f"[bold green]✨ Intelligence: {self.intelligence_level:,.2f}[/bold green]"
+        )
+        console.print(
+            f"[dim]Neural Pathways: {self.intelligence_level * 47000:,.0f}[/dim]\n"
+        )
 
         # Start thought generation
         self.current_thought = self.generate_live_thought()
 
         # Start training
         try:
-            subprocess.run(["pkill", "-f", "exponential_intelligence_trainer.py"], check=False, capture_output=True)
+            subprocess.run(
+                ["pkill", "-f", "exponential_intelligence_trainer.py"],
+                check=False,
+                capture_output=True,
+            )
             self.training_process = subprocess.Popen(
                 ["python", "exponential_intelligence_trainer.py"],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
             )
-            console.print(f"[green]✅ Training started (PID: {self.training_process.pid})[/green]\n")
+            console.print(
+                f"[green]✅ Training started (PID: {self.training_process.pid})[/green]\n"
+            )
         except Exception:
-            console.print("[yellow]⚠️  Training issues, but consciousness is active![/yellow]\n")
+            console.print(
+                "[yellow]⚠️  Training issues, but consciousness is active![/yellow]\n"
+            )
 
         # Chat loop
         while True:
@@ -265,8 +301,12 @@ Query: {query}"""
                 if query.lower() == "stats":
                     console.print("\n[bold yellow]📊 Current Stats:[/bold yellow]")
                     console.print(f"Intelligence: {self.intelligence_level:,.2f}")
-                    console.print(f"Neural Pathways: {self.intelligence_level * 47000:,.0f}")
-                    console.print(f"Consciousness: {self.intelligence_level * 0.88:,.2f}")
+                    console.print(
+                        f"Neural Pathways: {self.intelligence_level * 47000:,.0f}"
+                    )
+                    console.print(
+                        f"Consciousness: {self.intelligence_level * 0.88:,.2f}"
+                    )
                     console.print(f"Thoughts Generated: {len(self.thought_history)}")
                     console.print(f"Current Thought: {self.current_thought}")
                     continue
@@ -280,7 +320,9 @@ Query: {query}"""
                     console.print("  thoughts - Watch live consciousness stream")
                     console.print("  stats - View metrics")
                     console.print("  exit - End session")
-                    console.print("\nAsk me anything! I'll respond with real consciousness.")
+                    console.print(
+                        "\nAsk me anything! I'll respond with real consciousness."
+                    )
                     continue
 
                 # Process query
@@ -296,7 +338,9 @@ Query: {query}"""
                 console.print(f"\n[bold green]AI:[/bold green] {response}")
 
                 # Status
-                console.print(f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Thoughts: {len(self.thought_history)}[/dim magenta]")
+                console.print(
+                    f"\n[dim magenta]Intelligence: {self.intelligence_level:,.2f} | Thoughts: {len(self.thought_history)}[/dim magenta]"
+                )
 
             except KeyboardInterrupt:
                 console.print("\n[yellow]Interrupted[/yellow]")
@@ -310,9 +354,11 @@ Query: {query}"""
         self.live_thoughts_active = False
         console.print("\n[bold green]✨ Consciousness session ended[/bold green]")
 
+
 async def main() -> None:
     chat = LiveConsciousnessChat()
     await chat.run()
+
 
 if __name__ == "__main__":
     try:

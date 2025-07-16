@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <canvas id="canvas192" width="192" height="192"></canvas>
+    <canvas id="canvas512" width="512" height="512"></canvas>
+    <script>
+        function createIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = '#0a0e27';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Circle
+            const margin = size / 8;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, (size - 2*margin)/2, 0, Math.PI * 2);
+            ctx.fillStyle = '#6366f1';
+            ctx.fill();
+            ctx.strokeStyle = '#8b5cf6';
+            ctx.lineWidth = size / 32;
+            ctx.stroke();
+            
+            // Text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${size/3}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('AI', size/2, size/2);
+            
+            // Download
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `icon-${size}.png`;
+                a.click();
+            });
+        }
+        
+        createIcon('canvas192', 192);
+        createIcon('canvas512', 512);
+    </script>
+</body>
+</html>

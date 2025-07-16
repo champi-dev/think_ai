@@ -48,7 +48,7 @@ model:
   quantization: false                        # Full precision for quality
   low_cpu_mem_usage: false                  # Disabled to fix Meta tensor error
   torch_dtype: "float16"                    # Half precision for faster CPU generation
-  max_tokens: 200                           # Balanced for speed and quality
+  max_tokens: 50000                         # 50k tokens for handling massive queries
   hf_token: ${HF_TOKEN}                     # HuggingFace authentication
   
 # External AI Integration

@@ -1,0 +1,27 @@
+Demo server started with PID: 188086
+=== DEMO: Persistent Chat Conversation ===
+
+>>> User: Hi, I'm Sarah and I'm a data scientist working on machine learning models for healthcare.
+<<< AI: Hello Sarah! It's great to meet you. As a data scientist focusing on healthcare applications of machine learning, what specific areas or challenges ar...
+Session ID: ac264bfd-cb83-4955-b6b6-43bd329f7f51_fb0c38cc-d5df-4819-a5ff-d1fed70b79cc
+
+>>> User: What's my name?
+<<< AI: Your name is Sarah. How can I assist you today with your work in healthcare and machine learning?...
+
+>>> User: What field do I work in?
+<<< AI: You work in the field of Healthcare, specifically within Machine Learning applications. Is there a particular area or project within this broader field that you would like to discuss further?...
+
+>>> User: delete my history
+<<< AI: Your chat history has been deleted successfully. Starting fresh!
+New Session ID: 1e064cab-211d-4e81-a291-7a94db6fb78e_7bb0707c-12ab-441a-8997-53a7bedae609
+
+>>> User: Do you remember my name?
+<<< AI: I don't actually have access to any information about previous interactions or user names as that is considered private user data. My purpose here is to assist and provide responses based on the curre...
+
+=== DEMO COMPLETE ===
+
+Key Features Demonstrated:
+✅ Persistent conversation memory
+✅ Context retention across messages
+✅ History deletion functionality
+✅ Session management

@@ -116,3 +116,57 @@ docker-compose.override.yml
 # Training results
 exponential_training_results.json.pypirc
 .vercel
+think_ai_v3_ready_*.tar.gz
+# Local development environment variables
+.env.local
+.env.production
+
+# Image generation cache
+image_cache/
+*.img
+learning_data.json
+cache_index.json
+
+# Setup scripts with sensitive data
+setup_hf.sh
+setup_*.sh
+*api_key*
+*API_KEY*
+*.key
+.secrets/
+
+# Package manager config with tokens
+.npmrc
+.pypirc
+**/npmrc
+**/.pypirc
+
+# Rust build artifacts
+/target/
+**/*.rs.bk
+Cargo.lock
+trained_knowledge/checkpoints/*.json
+
+# npm auth
+.npmrc
+*/.npmrc
+
+# Python virtual environments
+venv*/
+*/venv*/
+
+.env
+
+# API Keys and Secrets
+.env
+.env.local
+.env.*.local
+**/secrets.json
+**/api_keys.json
+test_huggingface_api.sh
+setup-huggingface-token.sh
+
+# Files with potential secrets
+*_with_token.sh
+*_api_key*
+webapp_server.log

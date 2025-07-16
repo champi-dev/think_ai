@@ -4,10 +4,13 @@ import re
 import time
 from datetime import datetime
 
+
 def extract_latest_metrics(log_content):
     """Extract the latest training metrics from log content."""
     # Find the latest directive number
-    directive_matches = list(re.finditer(r"EXPONENTIAL INTELLIGENCE DIRECTIVE #(\d+):", log_content))
+    directive_matches = list(
+        re.finditer(r"EXPONENTIAL INTELLIGENCE DIRECTIVE #(\d+):", log_content)
+    )
     if not directive_matches:
         return None
 
@@ -15,7 +18,9 @@ def extract_latest_metrics(log_content):
     directive_num = int(latest_directive.group(1))
 
     # Find the intelligence level
-    intel_match = re.search(r"Current Intelligence Level: ([\d.]+)", log_content[latest_directive.start():])
+    intel_match = re.search(
+        r"Current Intelligence Level: ([\d.]+)", log_content[latest_directive.start() :]
+    )
     intel_level = float(intel_match.group(1)) if intel_match else None
 
     # Find the latest metrics JSON
@@ -34,7 +39,9 @@ def extract_latest_metrics(log_content):
         metrics = None
 
     # Check for errors
-    error_matches = re.findall(r"(?:error|Error|ERROR|warning|Warning|WARNING)[^\n]*", log_content[-5000:])
+    error_matches = re.findall(
+        r"(?:error|Error|ERROR|warning|Warning|WARNING)[^\n]*", log_content[-5000:]
+    )
 
     return {
         "directive_number": directive_num,
@@ -42,6 +49,7 @@ def extract_latest_metrics(log_content):
         "metrics": metrics,
         "recent_errors": error_matches[-5:] if error_matches else [],
     }
+
 
 def monitor_training() -> None:
     """Monitor training progress for 5 minutes."""
@@ -95,6 +103,7 @@ def monitor_training() -> None:
                     start_val = first_update["metrics"][key]
                     end_val = last_update["metrics"][key]
                     ((end_val - start_val) / start_val) * 100
+
 
 if __name__ == "__main__":
     monitor_training()

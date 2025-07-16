@@ -1,31 +1,34 @@
-# Ignore everything except what we need
-**
-!think_ai/
-!api_server_cpu.py
-!requirements.txt
-!requirements-fast.txt
-!package.json
-!package-lock.json
-!setup.py
-!.env.example
-!README.md
+# Ignore build artifacts
+target/
+**/target/
 
-# But still ignore these patterns
-**/__pycache__
-**/*.pyc
-**/.pytest_cache
-**/node_modules
-**/.git
-**/*.log
-**/.DS_Store
-**/*.sqlite
-**/*.db
-**/.env
-**/dist
-**/build
-**/*.egg-info
-**/coverage
-**/.coverage
-**/htmlcov
-**/.mypy_cache
-**/.ruff_cache
+# Ignore git files
+.git/
+.gitignore
+
+# Ignore documentation and scripts
+*.md
+*.sh
+*.log
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore test/demo directories
+think-ai-demos/
+simple-server/
+knowledge_files/
+trained_knowledge/
+knowledge_storage/
+
+# Ignore unnecessary crates for the build
+think-ai-server/
+think-ai-coding/
+think-ai-linter/
+think-ai-llm/
+think-ai-llm-simple/
+think-ai-image-gen/
+think-ai-process-manager/

@@ -4,6 +4,7 @@
 import json
 from pathlib import Path
 
+
 def view_training_responses() -> None:
     """Display full training responses without truncation."""
     # Check for training results file
@@ -38,11 +39,13 @@ def view_training_responses() -> None:
         if "EXPONENTIAL INTELLIGENCE DIRECTIVE #" in line:
             if current_iteration is not None:
                 # Save previous iteration
-                iterations.append({
-                    "number": current_iteration,
-                    "prompt": "\n".join(current_prompt),
-                    "response": "\n".join(current_response),
-                })
+                iterations.append(
+                    {
+                        "number": current_iteration,
+                        "prompt": "\n".join(current_prompt),
+                        "response": "\n".join(current_response),
+                    }
+                )
 
             # Extract iteration number
             try:
@@ -78,18 +81,21 @@ def view_training_responses() -> None:
 
     # Save last iteration if exists
     if current_iteration is not None:
-        iterations.append({
-            "number": current_iteration,
-            "prompt": "\n".join(current_prompt),
-            "response": "\n".join(current_response),
-        })
+        iterations.append(
+            {
+                "number": current_iteration,
+                "prompt": "\n".join(current_prompt),
+                "response": "\n".join(current_response),
+            }
+        )
 
     # Display all iterations
     for iteration in iterations:
-
         # Allow user to navigate
         if iteration["number"] < len(iterations) - 1:
-            response = input("\nPress Enter for next iteration, 'q' to quit, or iteration number to jump: ")
+            response = input(
+                "\nPress Enter for next iteration, 'q' to quit, or iteration number to jump: "
+            )
             if response.lower() == "q":
                 break
             if response.isdigit():
@@ -98,6 +104,7 @@ def view_training_responses() -> None:
                 for it in iterations:
                     if it["number"] == target:
                         break
+
 
 if __name__ == "__main__":
     view_training_responses()

@@ -1,0 +1,14 @@
+target/
+!target/release/think-ai
+!target/release/think-ai-coding
+!target/release/think-ai-demos
+!target/release/think-ai-llm
+*.log
+*.tmp
+docs/
+knowledge-enhancement/
+think-ai-demos/
+.git/
+*.md
+!README.md
+!DEPLOYMENT.md

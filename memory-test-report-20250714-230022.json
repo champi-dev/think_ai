@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-07-14T23:00:22Z",
+  "session_id": "b2b652e2-fccc-4af4-bd37-c25974c56925",
+  "tests": {
+    "session_management": true,
+    "context_awareness": false,
+    "topic_continuity": true,
+    "long_term_memory": false,
+    "session_persistence": true,
+    "session_isolation": true,
+    "cache_performance": true
+  },
+  "passed": 4,
+  "failed": 7,
+  "success_rate": 36,
+  "response_time_ms": 226
+}

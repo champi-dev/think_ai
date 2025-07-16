@@ -1,0 +1,22 @@
+[package]
+name = "think-ai-storage"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+think-ai-utils = { path = "../think-ai-utils" }
+tokio.workspace = true
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+dashmap.workspace = true
+ahash.workspace = true
+
+# Storage backends
+sled = "0.34"  # Embedded database
+bincode = "1.3"  # Binary serialization
+flate2 = "1.0"  # Compression

@@ -1,0 +1,15 @@
+[Unit]
+Description=Think AI Quantum Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/administrator/think_ai/deployment
+ExecStart=/home/administrator/think_ai/deployment/start-gpu-server.sh
+Restart=always
+RestartSec=10
+User=administrator
+Environment="RUST_LOG=info"
+
+[Install]
+WantedBy=multi-user.target

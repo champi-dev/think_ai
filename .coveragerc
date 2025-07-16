@@ -1,0 +1,17 @@
+[run]
+source = think_ai
+omit =
+    */tests/*
+    */venv/*
+    */.venv/*
+    */site-packages/*
+    */distutils/*
+    */THINK_AI_DEPLOYMENT_*/*
+
+[report]
+precision = 2
+show_missing = True
+skip_covered = False
+
+[html]
+directory = htmlcov

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test for Think AI API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .response {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 3px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>CORS Test for Think AI API</h1>
+    
+    <div class="test-section">
+        <h2>Configuration</h2>
+        <label>API URL (change if testing different host):</label>
+        <input type="text" id="apiUrl" value="http://localhost:3456" placeholder="e.g., https://thinkai-production.up.railway.app">
+    </div>
+
+    <div class="test-section">
+        <h2>Test 1: Health Check (GET /health)</h2>
+        <button onclick="testHealth()">Test Health Endpoint</button>
+        <div id="healthResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Chat API (POST /api/chat)</h2>
+        <input type="text" id="chatMessage" placeholder="Enter a test message" value="Hello, Think AI!">
+        <button onclick="testChat()">Test Chat Endpoint</button>
+        <div id="chatResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Stats API (GET /stats)</h2>
+        <button onclick="testStats()">Test Stats Endpoint</button>
+        <div id="statsResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 4: Knowledge Stats (GET /api/knowledge/stats)</h2>
+        <button onclick="testKnowledge()">Test Knowledge Stats</button>
+        <div id="knowledgeResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 5: Compute API (POST /compute)</h2>
+        <button onclick="testCompute()">Test Compute Endpoint</button>
+        <div id="computeResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 6: All Headers Check</h2>
+        <button onclick="testHeaders()">Test CORS Headers</button>
+        <div id="headersResult"></div>
+    </div>
+
+    <script>
+        function getApiUrl() {
+            return document.getElementById('apiUrl').value;
+        }
+
+        function displayResult(elementId, success, message, details = null) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `
+                <p class="${success ? 'success' : 'error'}">${success ? '✓' : '✗'} ${message}</p>
+                ${details ? `<div class="response">${details}</div>` : ''}
+            `;
+        }
+
+        async function testHealth() {
+            try {
+                const response = await fetch(`${getApiUrl()}/health`);
+                const data = await response.json();
+                displayResult('healthResult', true, 'Health check successful!', JSON.stringify(data, null, 2));
+            } catch (error) {
+                displayResult('healthResult', false, 'CORS error or connection failed', error.toString());
+            }
+        }
+
+        async function testChat() {
+            const message = document.getElementById('chatMessage').value;
+            try {
+                const response = await fetch(`${getApiUrl()}/api/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        message: message,
+                        session_id: 'test-session-' + Date.now()
+                    })
+                });
+                const data = await response.json();
+                displayResult('chatResult', true, 'Chat API successful!', JSON.stringify(data, null, 2));
+            } catch (error) {
+                displayResult('chatResult', false, 'CORS error or connection failed', error.toString());
+            }
+        }
+
+        async function testStats() {
+            try {
+                const response = await fetch(`${getApiUrl()}/stats`);
+                const data = await response.json();
+                displayResult('statsResult', true, 'Stats endpoint successful!', JSON.stringify(data, null, 2));
+            } catch (error) {
+                displayResult('statsResult', false, 'CORS error or connection failed', error.toString());
+            }
+        }
+
+        async function testKnowledge() {
+            try {
+                const response = await fetch(`${getApiUrl()}/api/knowledge/stats`);
+                const data = await response.json();
+                displayResult('knowledgeResult', true, 'Knowledge stats successful!', JSON.stringify(data, null, 2));
+            } catch (error) {
+                displayResult('knowledgeResult', false, 'CORS error or connection failed', error.toString());
+            }
+        }
+
+        async function testCompute() {
+            try {
+                const response = await fetch(`${getApiUrl()}/compute`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        expression: "2 + 2"
+                    })
+                });
+                const data = await response.json();
+                displayResult('computeResult', true, 'Compute endpoint successful!', JSON.stringify(data, null, 2));
+            } catch (error) {
+                displayResult('computeResult', false, 'CORS error or connection failed', error.toString());
+            }
+        }
+
+        async function testHeaders() {
+            try {
+                const response = await fetch(`${getApiUrl()}/health`);
+                const corsHeaders = {
+                    'Access-Control-Allow-Origin': response.headers.get('Access-Control-Allow-Origin'),
+                    'Access-Control-Allow-Methods': response.headers.get('Access-Control-Allow-Methods'),
+                    'Access-Control-Allow-Headers': response.headers.get('Access-Control-Allow-Headers'),
+                    'Access-Control-Allow-Credentials': response.headers.get('Access-Control-Allow-Credentials'),
+                    'Access-Control-Max-Age': response.headers.get('Access-Control-Max-Age')
+                };
+                
+                const details = `CORS Headers received:\n${JSON.stringify(corsHeaders, null, 2)}\n\nAll Response Headers:\n${Array.from(response.headers.entries()).map(([k, v]) => `${k}: ${v}`).join('\n')}`;
+                displayResult('headersResult', true, 'Headers retrieved successfully!', details);
+            } catch (error) {
+                displayResult('headersResult', false, 'Failed to fetch headers', error.toString());
+            }
+        }
+    </script>
+</body>
+</html>

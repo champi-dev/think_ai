@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-07-14T22:46:20Z",
+  "passed": 9,
+  "failed": 1,
+  "mobile_ready": false,
+  "features": {
+    "standalone_detection": true,
+    "responsive_css": true,
+    "touch_targets": true,
+    "performance_optimized": true
+  }
+}

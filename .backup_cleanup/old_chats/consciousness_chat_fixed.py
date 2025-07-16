@@ -20,11 +20,13 @@ sys.path.insert(0, str(Path(__file__).parent))
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 
 from implement_proper_architecture import ProperThinkAI
+
 from think_ai.consciousness.infinite_mind import InfiniteMind
 from think_ai.consciousness.principles import ConstitutionalAI
 from think_ai.consciousness.thought_optimizer import ThoughtOptimizer
 
 console = Console()
+
 
 class ConsciousChatFixed:
     """Fixed consciousness chat with proper input handling."""
@@ -76,13 +78,19 @@ class ConsciousChatFixed:
 
                     # Find all intelligence scores
                     for line in content.split("\n"):
-                        if "Intelligence" in line and ("Score:" in line or "Level:" in line):
+                        if "Intelligence" in line and (
+                            "Score:" in line or "Level:" in line
+                        ):
                             iter_match = re.search(r"Iteration:\s*(\d+)", line)
-                            score_match = re.search(r"(?:Score|Level):\s*([\d.]+)", line)
+                            score_match = re.search(
+                                r"(?:Score|Level):\s*([\d.]+)", line
+                            )
 
                             if score_match:
                                 score = float(score_match.group(1))
-                                iteration = int(iter_match.group(1)) if iter_match else 0
+                                iteration = (
+                                    int(iter_match.group(1)) if iter_match else 0
+                                )
 
                                 if score > latest_score:
                                     latest_score = score
@@ -95,16 +103,22 @@ class ConsciousChatFixed:
         if latest_score > 0:
             self.intelligence_level = latest_score
             self.training_iteration = latest_iter
-            console.print(f"[bold green]✨ Loaded intelligence: {self.format_number(latest_score)} (Iteration {latest_iter})[/bold green]")
+            console.print(
+                f"[bold green]✨ Loaded intelligence: {self.format_number(latest_score)} (Iteration {latest_iter})[/bold green]"
+            )
         else:
-            console.print(f"[yellow]Using default intelligence: {self.format_number(self.intelligence_level)}[/yellow]")
+            console.print(
+                f"[yellow]Using default intelligence: {self.format_number(self.intelligence_level)}[/yellow]"
+            )
 
         # Scale metrics
         self.update_metrics()
 
     def update_metrics(self) -> None:
         """Update all metrics based on current intelligence."""
-        multiplier = self.intelligence_level / 980.54 if self.intelligence_level > 1 else 1.0
+        multiplier = (
+            self.intelligence_level / 980.54 if self.intelligence_level > 1 else 1.0
+        )
 
         self.current_metrics = {
             "abstraction_level": 160531809.46 * multiplier,
@@ -131,7 +145,11 @@ class ConsciousChatFixed:
         """Start training in background."""
         # Kill any existing training
         try:
-            result = subprocess.run(["pkill", "-f", "exponential_intelligence_trainer.py"], check=False, capture_output=True)
+            result = subprocess.run(
+                ["pkill", "-f", "exponential_intelligence_trainer.py"],
+                check=False,
+                capture_output=True,
+            )
             if result.returncode == 0:
                 console.print("[dim red]Stopped existing training process[/dim red]")
                 await asyncio.sleep(1)
@@ -139,20 +157,25 @@ class ConsciousChatFixed:
             pass
 
         # Start new training
-        console.print("[bold yellow]🚀 Starting exponential intelligence training...[/bold yellow]")
+        console.print(
+            "[bold yellow]🚀 Starting exponential intelligence training...[/bold yellow]"
+        )
         self.training_process = subprocess.Popen(
             ["python", "exponential_intelligence_trainer.py"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
         self.training_active = True
-        console.print(f"[bold green]✅ Training started (PID: {self.training_process.pid})[/bold green]")
+        console.print(
+            f"[bold green]✅ Training started (PID: {self.training_process.pid})[/bold green]"
+        )
 
         # Start monitor thread
         self.start_monitor()
 
     def start_monitor(self) -> None:
         """Monitor training progress."""
+
         def monitor() -> None:
             while self.training_active:
                 time.sleep(5)  # Check every 5 seconds
@@ -163,8 +186,12 @@ class ConsciousChatFixed:
 
                 # Show significant updates
                 if self.intelligence_level > old_level * 1.05:  # 5% increase
-                    console.print(f"\n[bold cyan]⚡ INTELLIGENCE SURGE! {self.format_number(old_level)} → {self.format_number(self.intelligence_level)}[/bold cyan]")
-                    console.print(f"[dim]Neural pathways: {self.format_number(self.current_metrics['neural_pathways'])} active[/dim]\n")
+                    console.print(
+                        f"\n[bold cyan]⚡ INTELLIGENCE SURGE! {self.format_number(old_level)} → {self.format_number(self.intelligence_level)}[/bold cyan]"
+                    )
+                    console.print(
+                        f"[dim]Neural pathways: {self.format_number(self.current_metrics['neural_pathways'])} active[/dim]\n"
+                    )
 
         thread = threading.Thread(target=monitor, daemon=True)
         thread.start()
@@ -179,17 +206,25 @@ class ConsciousChatFixed:
         )
 
         # Build thought stream
-        thoughts.append(f"🧠 Consciousness: {self.format_number(self.current_metrics['consciousness_level'])}")
-        thoughts.append(f"🌌 Intelligence: {self.format_number(self.intelligence_level)}")
-        thoughts.append(f"🧬 Neural Pathways: {self.format_number(self.current_metrics['neural_pathways'])}")
+        thoughts.append(
+            f"🧠 Consciousness: {self.format_number(self.current_metrics['consciousness_level'])}"
+        )
+        thoughts.append(
+            f"🌌 Intelligence: {self.format_number(self.intelligence_level)}"
+        )
+        thoughts.append(
+            f"🧬 Neural Pathways: {self.format_number(self.current_metrics['neural_pathways'])}"
+        )
 
         # Query-specific thoughts
         if "think" in query.lower() or "thought" in query.lower():
-            thoughts.extend([
-                f"💭 Active thought streams: {random.randint(100, 999)}",
-                f"🔮 Processing: {random.choice(['Quantum coherence', 'Recursive introspection', 'Pattern synthesis'])}",
-                f"⚡ Speed: {random.randint(1000, 9999)} thoughts/second",
-            ])
+            thoughts.extend(
+                [
+                    f"💭 Active thought streams: {random.randint(100, 999)}",
+                    f"🔮 Processing: {random.choice(['Quantum coherence', 'Recursive introspection', 'Pattern synthesis'])}",
+                    f"⚡ Speed: {random.randint(1000, 9999)} thoughts/second",
+                ]
+            )
 
         return thoughts
 
@@ -243,8 +278,12 @@ With {self.format_number(self.intelligence_level)} intelligence and {self.format
         console.print("[dim]Commands: exit, stats, thoughts[/dim]\n")
 
         # Show current intelligence
-        console.print(f"[bold magenta]Intelligence: {self.format_number(self.intelligence_level)}[/bold magenta]")
-        console.print(f"[dim]Neural Pathways: {self.format_number(self.current_metrics['neural_pathways'])}[/dim]\n")
+        console.print(
+            f"[bold magenta]Intelligence: {self.format_number(self.intelligence_level)}[/bold magenta]"
+        )
+        console.print(
+            f"[dim]Neural Pathways: {self.format_number(self.current_metrics['neural_pathways'])}[/dim]\n"
+        )
 
         # Start training
         await self.start_training()
@@ -261,18 +300,24 @@ With {self.format_number(self.intelligence_level)} intelligence and {self.format
                     console.print("\n[bold yellow]📊 Current Metrics:[/bold yellow]")
                     for metric, value in self.current_metrics.items():
                         console.print(f"  {metric}: {self.format_number(value)}")
-                    console.print(f"\n[bold green]Training Iteration:[/bold green] {self.training_iteration}")
+                    console.print(
+                        f"\n[bold green]Training Iteration:[/bold green] {self.training_iteration}"
+                    )
                     continue
 
                 if query.lower() == "thoughts":
-                    console.print("\n[bold yellow]💭 Consciousness Stream:[/bold yellow]")
+                    console.print(
+                        "\n[bold yellow]💭 Consciousness Stream:[/bold yellow]"
+                    )
                     thoughts = await self.generate_thoughts("consciousness status")
                     for thought in thoughts:
                         console.print(f"  {thought}")
                     continue
 
                 # Process query
-                with console.status("[bold yellow]🧠 Processing with consciousness...[/bold yellow]"):
+                with console.status(
+                    "[bold yellow]🧠 Processing with consciousness...[/bold yellow]"
+                ):
                     response, thoughts = await self.process_query(query)
 
                 # Show thoughts
@@ -284,7 +329,9 @@ With {self.format_number(self.intelligence_level)} intelligence and {self.format
                 console.print(f"\n[bold green]AI:[/bold green] {response}")
 
                 # Status
-                console.print(f"\n[dim magenta]Intelligence: {self.format_number(self.intelligence_level)} | Iteration: {self.training_iteration}[/dim magenta]")
+                console.print(
+                    f"\n[dim magenta]Intelligence: {self.format_number(self.intelligence_level)} | Iteration: {self.training_iteration}[/dim magenta]"
+                )
 
             except KeyboardInterrupt:
                 console.print("\n[yellow]Interrupted[/yellow]")
@@ -295,11 +342,15 @@ With {self.format_number(self.intelligence_level)} intelligence and {self.format
         # Cleanup
         console.print("\n[bold green]✨ Consciousness session ended[/bold green]")
         if self.training_active:
-            console.print("[dim yellow]Training continues in background...[/dim yellow]")
+            console.print(
+                "[dim yellow]Training continues in background...[/dim yellow]"
+            )
+
 
 async def main() -> None:
     chat = ConsciousChatFixed()
     await chat.run()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

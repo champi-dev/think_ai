@@ -1,0 +1,12 @@
+" Add this to your .vimrc or init.vim
+
+" Auto-format Rust files on save
+augroup rustfmt
+    autocmd!
+    autocmd BufWritePre *.rs execute ':silent !rustfmt %'
+    autocmd BufWritePost *.rs execute ':edit'
+    autocmd BufWritePost *.rs execute ':silent !cargo clippy --fix --allow-dirty --allow-staged 2>/dev/null'
+augroup END
+
+" Optional: Show errors in quickfix window
+autocmd BufWritePost *.rs :silent make | redraw!

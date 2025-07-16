@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Language Detection Test</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Language Detection Test</h1>
+    
+    <div id="results"></div>
+    
+    <script>
+        const results = document.getElementById('results');
+        
+        // Detect language
+        const browserLang = navigator.language || navigator.userLanguage || 'en';
+        const primaryLang = browserLang.split('-')[0];
+        
+        results.innerHTML = `
+            <p><strong>Your browser language:</strong> ${browserLang}</p>
+            <p><strong>Primary language:</strong> ${primaryLang}</p>
+            <p><strong>navigator.language:</strong> ${navigator.language}</p>
+            <p><strong>navigator.languages:</strong> ${navigator.languages?.join(', ') || 'Not available'}</p>
+            <hr>
+            <p><strong>Expected for Colombia:</strong> es-CO or es</p>
+            <p><strong>UI would show:</strong> ${primaryLang === 'es' ? 'Spanish interface' : 'English interface'}</p>
+        `;
+        
+        // Test API call
+        async function testAPI() {
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept-Language': browserLang
+                    },
+                    body: JSON.stringify({ message: 'Hola' })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    results.innerHTML += `
+                        <hr>
+                        <p><strong>API Response Language:</strong></p>
+                        <pre>${JSON.stringify(data.language, null, 2)}</pre>
+                    `;
+                }
+            } catch (e) {
+                results.innerHTML += `<p>API test failed: ${e.message}</p>`;
+            }
+        }
+        
+        // testAPI();
+    </script>
+</body>
+</html>

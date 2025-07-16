@@ -1,0 +1,20 @@
+[workspace]
+members = [
+    "think-ai-core",
+    "think-ai-cache", 
+    "think-ai-vector",
+    "think-ai-consciousness",
+    "think-ai-storage",
+    "think-ai-utils",
+    "think-ai-linter",
+    "think-ai-coding",
+    "think-ai-llm",
+    "think-ai-llm-simple",
+    "think-ai-qwen",
+    "think-ai-cli",
+    "think-ai-server",
+    "think-ai-process-manager",
+    "think-ai-http",
+    "think-ai-knowledge",
+    "think-ai-image-gen"
+]

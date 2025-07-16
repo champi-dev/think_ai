@@ -1,0 +1,26 @@
+{
+  "what is poop?": {
+    "query": "what is poop?",
+    "response": "Response to: what is poop?",
+    "timestamp": 1752084496,
+    "usage_count": 1
+  },
+  "hello": {
+    "query": "hello",
+    "response": "Response to: hello",
+    "timestamp": 1752015430,
+    "usage_count": 2
+  },
+  "what's your name?": {
+    "query": "what's your name?",
+    "response": "Response to: what's your name?",
+    "timestamp": 1752085112,
+    "usage_count": 1
+  },
+  "what is love?": {
+    "query": "what is love?",
+    "response": "Response to: what is love?",
+    "timestamp": 1752083359,
+    "usage_count": 1
+  }
+}

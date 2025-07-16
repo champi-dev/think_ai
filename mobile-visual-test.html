@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Visual Test</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: Arial; }
+        .test { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        .phone-frame { 
+            width: 375px; 
+            height: 667px; 
+            border: 16px solid #333; 
+            border-radius: 36px; 
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Think AI Mobile Preview</h1>
+    
+    <div class="test">
+        <h2>✅ Mobile Optimizations Implemented:</h2>
+        <ul>
+            <li>Standalone PWA detection - hides install button when installed</li>
+            <li>Responsive header with smaller elements</li>
+            <li>Fixed input at bottom with proper sizing</li>
+            <li>44px touch targets for accessibility</li>
+            <li>16px font size to prevent iOS zoom</li>
+            <li>Performance: Canvas hidden on mobile</li>
+            <li>Landscape orientation support</li>
+            <li>Small device optimizations (< 400px)</li>
+        </ul>
+    </div>
+    
+    <div class="phone-frame">
+        <iframe src="https://thinkai.lat"></iframe>
+    </div>
+    
+    <div class="test">
+        <h2>📱 Test on Real Device:</h2>
+        <p>Visit <strong>https://thinkai.lat</strong> on your mobile device</p>
+        <p>Install button should NOT appear if PWA is already installed!</p>
+    </div>
+</body>
+</html>

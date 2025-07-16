@@ -1,0 +1,22 @@
+[Unit]
+Description=Think AI Production Monitor
+After=network-online.target think-ai.service
+Wants=network-online.target
+Requires=think-ai.service
+
+[Service]
+Type=simple
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+ExecStart=/home/administrator/think_ai/production-manager.sh monitor
+Restart=always
+RestartSec=30
+StandardOutput=append:/home/administrator/think_ai/logs/monitor.log
+StandardError=append:/home/administrator/think_ai/logs/monitor.log
+
+# Ensure we can restart services
+AmbientCapabilities=CAP_SYS_ADMIN
+PrivilegeEscalation=yes
+
+[Install]
+WantedBy=multi-user.target

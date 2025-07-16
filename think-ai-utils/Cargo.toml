@@ -1,0 +1,19 @@
+[package]
+name = "think-ai-utils"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber = { workspace = true, features = ["env-filter", "fmt"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+once_cell = "1.20"
+
+# Time and performance measurement
+chrono = { version = "0.4", features = ["serde"] }
+instant = "0.1"

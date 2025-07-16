@@ -1,0 +1,13 @@
+[Unit]
+Description=Think AI Auto Format on Save
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/champi/Dev/think_ai/watch-and-fix.sh
+WorkingDirectory=/home/champi/Dev/think_ai
+Restart=always
+User=champi
+
+[Install]
+WantedBy=multi-user.target

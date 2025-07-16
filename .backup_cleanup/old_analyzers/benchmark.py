@@ -8,6 +8,7 @@ from think_ai import Config, ThinkAIEngine
 from think_ai.benchmarks.performance import LoveBenchmark, PerformanceBenchmark
 from think_ai.utils.logging import configure_logging
 
+
 async def main() -> None:
     """Run comprehensive benchmarks."""
     configure_logging(log_level="INFO")
@@ -58,6 +59,7 @@ async def main() -> None:
             pass
 
         # Love-based design
+
 
 if __name__ == "__main__":
     try:

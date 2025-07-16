@@ -1,0 +1,2 @@
+11:        webSearchToggle.addEventListener('change', (e) => {
+17:        webSearchBtn.addEventListener('click', () => {

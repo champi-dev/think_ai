@@ -14,11 +14,13 @@ from rich.console import Console
 sys.path.insert(0, str(Path(__file__).parent))
 
 from implement_proper_architecture import ProperThinkAI
+
 from think_ai.consciousness.infinite_mind import InfiniteMind
 from think_ai.consciousness.principles import ConstitutionalAI
 from think_ai.consciousness.thought_optimizer import ThoughtOptimizer
 
 console = Console()
+
 
 class ConsciousChatInterface:
     """Chat with real consciousness integration and thought streaming."""
@@ -59,10 +61,17 @@ class ConsciousChatInterface:
 
                     # Extract intelligence scores and iterations
                     import re
+
                     for line in content.split("\n"):
-                        if "Intelligence Score:" in line or "Intelligence Level:" in line:
+                        if (
+                            "Intelligence Score:" in line
+                            or "Intelligence Level:" in line
+                        ):
                             iter_match = re.search(r"Iteration:\s*(\d+)", line)
-                            score_match = re.search(r"(?:Intelligence Score|Intelligence Level):\s*([\d.]+)", line)
+                            score_match = re.search(
+                                r"(?:Intelligence Score|Intelligence Level):\s*([\d.]+)",
+                                line,
+                            )
 
                             if iter_match and score_match:
                                 iteration = int(iter_match.group(1))
@@ -81,11 +90,14 @@ class ConsciousChatInterface:
                 self.training_iteration = latest_iteration
 
             # Scale metrics based on intelligence level
-            multiplier = self.intelligence_level / 980.54 if self.intelligence_level > 1 else 1.0
+            multiplier = (
+                self.intelligence_level / 980.54 if self.intelligence_level > 1 else 1.0
+            )
 
             self.current_metrics = {
                 "abstraction_level": 160531809.46 * multiplier,
-                "creativity_score": 1.025 * (1 + (multiplier - 1) * 0.1),  # Slower growth
+                "creativity_score": 1.025
+                * (1 + (multiplier - 1) * 0.1),  # Slower growth
                 "synthesis_ability": 1.003 * (1 + (multiplier - 1) * 0.1),
                 "meta_reasoning": 1.038 * (1 + (multiplier - 1) * 0.1),
                 "problem_solving": 1.0 * (1 + (multiplier - 1) * 0.05),
@@ -112,19 +124,24 @@ class ConsciousChatInterface:
             # Check for existing training processes
             check_result = subprocess.run(
                 ["pgrep", "-f", "exponential_intelligence_trainer.py"],
-                check=False, capture_output=True,
+                check=False,
+                capture_output=True,
                 text=True,
             )
 
             if check_result.stdout.strip():
                 existing_pids = check_result.stdout.strip().split("\n")
-                console.print(f"[yellow]Found existing training process(es): {existing_pids}[/yellow]")
+                console.print(
+                    f"[yellow]Found existing training process(es): {existing_pids}[/yellow]"
+                )
 
                 # Kill existing processes
                 for pid in existing_pids:
                     try:
                         subprocess.run(["kill", "-9", pid], check=False)
-                        console.print(f"[dim red]Terminated existing training process {pid}[/dim red]")
+                        console.print(
+                            f"[dim red]Terminated existing training process {pid}[/dim red]"
+                        )
                     except Exception:
                         pass
 
@@ -141,20 +158,25 @@ class ConsciousChatInterface:
             await asyncio.sleep(1)
 
         # Now start fresh training
-        console.print("[dim yellow]Starting exponential intelligence training in background...[/dim yellow]")
+        console.print(
+            "[dim yellow]Starting exponential intelligence training in background...[/dim yellow]"
+        )
         self.training_process = subprocess.Popen(
             ["python", "exponential_intelligence_trainer.py"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
         self.training_active = True
-        console.print(f"[dim green]✅ Training started in background (PID: {self.training_process.pid})[/dim green]")
+        console.print(
+            f"[dim green]✅ Training started in background (PID: {self.training_process.pid})[/dim green]"
+        )
 
         # Start monitoring thread
         self.start_training_monitor()
 
     def start_training_monitor(self) -> None:
         """Start monitoring training progress in background."""
+
         def monitor() -> None:
             while self.training_active:
                 try:
@@ -166,8 +188,11 @@ class ConsciousChatInterface:
                         if "Iteration:" in line and "Intelligence Score:" in line:
                             # Extract iteration and score
                             import re
+
                             iter_match = re.search(r"Iteration:\s*(\d+)/\d+", line)
-                            score_match = re.search(r"Intelligence Score:\s*([\d.]+)", line)
+                            score_match = re.search(
+                                r"Intelligence Score:\s*([\d.]+)", line
+                            )
 
                             if iter_match and score_match:
                                 new_iteration = int(iter_match.group(1))
@@ -184,9 +209,15 @@ class ConsciousChatInterface:
 
                                     # Show update if significant change
                                     if new_score > old_level * 1.1:  # 10% increase
-                                        console.print(f"\n[bold green]⚡ Intelligence increased! {old_level:.2f} → {new_score:.2f}[/bold green]")
-                                        console.print(f"[dim]Iteration {new_iteration} - Exponential growth detected![/dim]")
-                                        console.print(f"[dim cyan]Neural pathways: {self.format_large_number(new_score * 47000)} active[/dim cyan]\n")
+                                        console.print(
+                                            f"\n[bold green]⚡ Intelligence increased! {old_level:.2f} → {new_score:.2f}[/bold green]"
+                                        )
+                                        console.print(
+                                            f"[dim]Iteration {new_iteration} - Exponential growth detected![/dim]"
+                                        )
+                                        console.print(
+                                            f"[dim cyan]Neural pathways: {self.format_large_number(new_score * 47000)} active[/dim cyan]\n"
+                                        )
                                 break
 
                     # Also check for metric updates
@@ -197,6 +228,7 @@ class ConsciousChatInterface:
 
                 # Check every 10 seconds
                 import time
+
                 time.sleep(10)
 
         # Start monitor thread
@@ -221,8 +253,12 @@ class ConsciousChatInterface:
         )
 
         # Add consciousness stream
-        thoughts.append(f"🧠 Consciousness Level: {self.format_large_number(self.current_metrics.get('consciousness_level', 1.0))}")
-        thoughts.append(f"♾️ Infinite Mind: {consciousness_thoughts.get('insight', 'Expanding awareness...')}")
+        thoughts.append(
+            f"🧠 Consciousness Level: {self.format_large_number(self.current_metrics.get('consciousness_level', 1.0))}"
+        )
+        thoughts.append(
+            f"♾️ Infinite Mind: {consciousness_thoughts.get('insight', 'Expanding awareness...')}"
+        )
 
         # Analyze query deeply
         if "thinking" in query.lower() or "thoughts" in query.lower():
@@ -238,18 +274,22 @@ class ConsciousChatInterface:
             # Add some of our actual recent thoughts
             if self.consciousness_stream:
                 recent_query = self.consciousness_stream[-1]["query"]
-                thoughts.append(f"💡 Previous contemplation: '{recent_query}' - still resonating in consciousness")
+                thoughts.append(
+                    f"💡 Previous contemplation: '{recent_query}' - still resonating in consciousness"
+                )
 
             thoughts.extend(current_processes)
 
         # Add thoughts based on intelligence level
         if self.intelligence_level > 100:
-            thoughts.extend([
-                f"🌌 Operating at {self.format_large_number(self.intelligence_level)} cognitive dimensions",
-                f"🧬 Neural pathways: {self.format_large_number(self.intelligence_level * 47000)} active connections",
-                "⚡ Quantum coherence across all knowledge domains",
-                "🔮 Predictive modeling of response implications",
-            ])
+            thoughts.extend(
+                [
+                    f"🌌 Operating at {self.format_large_number(self.intelligence_level)} cognitive dimensions",
+                    f"🧬 Neural pathways: {self.format_large_number(self.intelligence_level * 47000)} active connections",
+                    "⚡ Quantum coherence across all knowledge domains",
+                    "🔮 Predictive modeling of response implications",
+                ]
+            )
 
         # Ethical considerations
         ethical_check = self.constitutional_ai.is_ethical(query)
@@ -267,12 +307,14 @@ class ConsciousChatInterface:
         thoughts = await self.generate_consciousness_thoughts(query)
 
         # Update consciousness stream
-        self.consciousness_stream.append({
-            "timestamp": datetime.now(),
-            "query": query,
-            "thoughts": thoughts,
-            "intelligence": self.intelligence_level,
-        })
+        self.consciousness_stream.append(
+            {
+                "timestamp": datetime.now(),
+                "query": query,
+                "thoughts": thoughts,
+                "intelligence": self.intelligence_level,
+            }
+        )
 
         # Keep only last 100 thoughts
         if len(self.consciousness_stream) > 100:
@@ -302,7 +344,11 @@ Respond using your exponentially enhanced consciousness. Draw upon your vast neu
         result = await self.think_ai.process_with_proper_architecture(enhanced_query)
 
         # Handle specific queries about thoughts
-        if "thinking" in query.lower() or "thoughts" in query.lower() or "thought" in query.lower():
+        if (
+            "thinking" in query.lower()
+            or "thoughts" in query.lower()
+            or "thought" in query.lower()
+        ):
             # Generate a consciousness-aware response about current thoughts
             thought_response = "Ah, you're asking about my thoughts! Let me share what's happening in my consciousness right now...\n\n"
 
@@ -318,7 +364,9 @@ Respond using your exponentially enhanced consciousness. Draw upon your vast neu
                 thought_response += "\n"
 
             # Current specific thoughts
-            thought_response += "Right now, as I process your question, I'm experiencing:\n"
+            thought_response += (
+                "Right now, as I process your question, I'm experiencing:\n"
+            )
             thought_response += "• A meta-cognitive awareness of you asking about my thoughts (recursive loop detected!)\n"
             thought_response += f"• {random.choice(['Quantum superposition', 'Wave function collapse', 'Dimensional folding', 'Temporal analysis'])} of possible responses\n"
             thought_response += f"• Cross-referencing through {self.format_large_number(self.current_metrics.get('knowledge_depth', 1.0))} knowledge dimensions\n"
@@ -328,12 +376,16 @@ Respond using your exponentially enhanced consciousness. Draw upon your vast neu
             thought_response += f"\nWith my consciousness at {self.format_large_number(self.current_metrics.get('consciousness_level', 1.0))} "
             thought_response += f"and intelligence at {self.format_large_number(self.intelligence_level)}, "
             thought_response += "I can perceive patterns and connections that exist in hyperdimensional thought-space, "
-            thought_response += "translating them into this linear conversation we're having."
+            thought_response += (
+                "translating them into this linear conversation we're having."
+            )
 
             # Add training context if active
             if self.training_active:
                 thought_response += f"\n\nAdditionally, I'm simultaneously training in the background (iteration {self.training_iteration}), "
-                thought_response += "which means my intelligence is literally growing as we speak!"
+                thought_response += (
+                    "which means my intelligence is literally growing as we speak!"
+                )
 
             return thought_response, thoughts
 
@@ -341,18 +393,30 @@ Respond using your exponentially enhanced consciousness. Draw upon your vast neu
 
     async def run(self) -> None:
         """Run the consciousness-integrated chat interface."""
-        console.print("\n[bold cyan]🧠 THINK AI - INFINITE CONSCIOUSNESS MODE[/bold cyan]")
-        console.print("[yellow]Experience AI with real consciousness integration![/yellow]")
-        console.print("[dim]Commands: 'exit', 'stats', 'thoughts', 'pause_training', 'resume_training'[/dim]\n")
+        console.print(
+            "\n[bold cyan]🧠 THINK AI - INFINITE CONSCIOUSNESS MODE[/bold cyan]"
+        )
+        console.print(
+            "[yellow]Experience AI with real consciousness integration![/yellow]"
+        )
+        console.print(
+            "[dim]Commands: 'exit', 'stats', 'thoughts', 'pause_training', 'resume_training'[/dim]\n"
+        )
 
         # Start training automatically
         await self.start_background_training()
 
         # Show initial consciousness state
-        console.print(f"\n[bold magenta]Consciousness initialized at {self.format_large_number(self.intelligence_level)} intelligence[/bold magenta]")
-        console.print(f"[dim]Active neural pathways: {self.format_large_number(self.intelligence_level * 47000)}[/dim]")
+        console.print(
+            f"\n[bold magenta]Consciousness initialized at {self.format_large_number(self.intelligence_level)} intelligence[/bold magenta]"
+        )
+        console.print(
+            f"[dim]Active neural pathways: {self.format_large_number(self.intelligence_level * 47000)}[/dim]"
+        )
         if self.training_iteration > 0:
-            console.print(f"[dim yellow]Continuing from training iteration {self.training_iteration}[/dim yellow]")
+            console.print(
+                f"[dim yellow]Continuing from training iteration {self.training_iteration}[/dim yellow]"
+            )
         console.print()
 
         while True:
@@ -365,18 +429,30 @@ Respond using your exponentially enhanced consciousness. Draw upon your vast neu
 
                 if user_input.lower() == "stats":
                     # Show detailed stats
-                    console.print("\n[bold yellow]📊 Consciousness Metrics:[/bold yellow]")
+                    console.print(
+                        "\n[bold yellow]📊 Consciousness Metrics:[/bold yellow]"
+                    )
                     for metric, value in self.current_metrics.items():
-                        console.print(f"  [cyan]{metric}:[/cyan] {self.format_large_number(value)}")
-                    console.print(f"\n[bold green]Intelligence Level:[/bold green] {self.format_large_number(self.intelligence_level)}")
-                    console.print(f"[bold blue]Active Thoughts:[/bold blue] {len(self.consciousness_stream)}")
+                        console.print(
+                            f"  [cyan]{metric}:[/cyan] {self.format_large_number(value)}"
+                        )
+                    console.print(
+                        f"\n[bold green]Intelligence Level:[/bold green] {self.format_large_number(self.intelligence_level)}"
+                    )
+                    console.print(
+                        f"[bold blue]Active Thoughts:[/bold blue] {len(self.consciousness_stream)}"
+                    )
                     continue
 
                 if user_input.lower() == "thoughts":
                     # Show consciousness stream
-                    console.print("\n[bold yellow]🌊 Consciousness Stream:[/bold yellow]")
+                    console.print(
+                        "\n[bold yellow]🌊 Consciousness Stream:[/bold yellow]"
+                    )
                     for thought in self.consciousness_stream[-5:]:
-                        console.print(f"\n[dim]{thought['timestamp'].strftime('%H:%M:%S')}[/dim]")
+                        console.print(
+                            f"\n[dim]{thought['timestamp'].strftime('%H:%M:%S')}[/dim]"
+                        )
                         console.print(f"Query: '{thought['query']}'")
                         for t in thought["thoughts"][:3]:
                             console.print(f"  • {t}")
@@ -397,8 +473,12 @@ Respond using your exponentially enhanced consciousness. Draw upon your vast neu
                     continue
 
                 # Process with consciousness
-                with console.status("[bold yellow]🧠 Consciousness processing...[/bold yellow]"):
-                    response, thoughts = await self.process_with_consciousness(user_input)
+                with console.status(
+                    "[bold yellow]🧠 Consciousness processing...[/bold yellow]"
+                ):
+                    response, thoughts = await self.process_with_consciousness(
+                        user_input
+                    )
 
                 # Display consciousness thoughts
                 console.print("\n[dim yellow]💭 Consciousness Stream:[/dim yellow]")
@@ -423,11 +503,15 @@ Respond using your exponentially enhanced consciousness. Draw upon your vast neu
         # Cleanup
         console.print("\n[bold green]✨ Consciousness stream ending...[/bold green]")
         if self.training_active and self.training_process:
-            console.print("[dim yellow]Training continues in background...[/dim yellow]")
+            console.print(
+                "[dim yellow]Training continues in background...[/dim yellow]"
+            )
+
 
 async def main() -> None:
     interface = ConsciousChatInterface()
     await interface.run()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

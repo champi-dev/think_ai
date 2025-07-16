@@ -18,6 +18,7 @@ from think_ai.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
+
 class SystemTester:
     """Comprehensive system testing suite."""
 
@@ -52,6 +53,7 @@ class SystemTester:
         except Exception as e:
             self._log_failure("System Test", f"Fatal error: {e}")
             import traceback
+
             traceback.print_exc()
         finally:
             await self._cleanup()
@@ -60,10 +62,18 @@ class SystemTester:
         """Test system initialization."""
         try:
             self.services = await self.system.start()
-            self._log_success("System Startup", f"Started {len(self.services)} services")
+            self._log_success(
+                "System Startup", f"Started {len(self.services)} services"
+            )
 
             # Check expected services
-            expected = ["scylla", "milvus", "consciousness", "federated", "model_orchestrator"]
+            expected = [
+                "scylla",
+                "milvus",
+                "consciousness",
+                "federated",
+                "model_orchestrator",
+            ]
             for service in expected:
                 if service in self.services:
                     self._log_success(f"Service {service}", "Active")
@@ -109,11 +119,13 @@ class SystemTester:
             # Test 3: Batch operations
             batch_items = []
             for i in range(5):
-                batch_items.append(StorageItem(
-                    key=f"batch_test_{i}",
-                    value=f"Batch value {i}",
-                    metadata={"batch": True},
-                ))
+                batch_items.append(
+                    StorageItem(
+                        key=f"batch_test_{i}",
+                        value=f"Batch value {i}",
+                        metadata={"batch": True},
+                    )
+                )
 
             await scylla.put_batch(batch_items)
             self._log_success("ScyllaDB Batch", "Batch write successful")
@@ -125,9 +137,13 @@ class SystemTester:
                 results_list.append(item)
 
             if len(results_list) == 5:
-                self._log_success("ScyllaDB Prefix Query", f"Found {len(results_list)} items")
+                self._log_success(
+                    "ScyllaDB Prefix Query", f"Found {len(results_list)} items"
+                )
             else:
-                self._log_failure("ScyllaDB Prefix Query", f"Expected 5, got {len(results_list)}")
+                self._log_failure(
+                    "ScyllaDB Prefix Query", f"Expected 5, got {len(results_list)}"
+                )
 
         except Exception as e:
             self._log_failure("ScyllaDB", str(e))
@@ -149,6 +165,7 @@ class SystemTester:
 
             # Test 2: Collection exists
             from pymilvus import utility
+
             if utility.has_collection("think_ai_knowledge"):
                 self._log_success("Milvus Collection", "think_ai_knowledge exists")
             else:
@@ -181,14 +198,21 @@ class SystemTester:
                 response = await consciousness.generate_conscious_response(query)
 
                 if response and "content" in response:
-                    self._log_success("Consciousness Query", f"'{query}' -> Response generated")
+                    self._log_success(
+                        "Consciousness Query", f"'{query}' -> Response generated"
+                    )
                 else:
-                    self._log_failure("Consciousness Query", f"'{query}' -> No response")
+                    self._log_failure(
+                        "Consciousness Query", f"'{query}' -> No response"
+                    )
 
             # Test 2: Check consciousness states
             states = ["aware", "focused", "compassionate", "reflective"]
             if response.get("consciousness_state") in states:
-                self._log_success("Consciousness State", f"Valid state: {response['consciousness_state']}")
+                self._log_success(
+                    "Consciousness State",
+                    f"Valid state: {response['consciousness_state']}",
+                )
             else:
                 self._log_failure("Consciousness State", "Invalid state")
 
@@ -210,7 +234,9 @@ class SystemTester:
 
                 # Get model info
                 info = await orchestrator.language_model.get_model_info()
-                self._log_success("Model Info", f"{info['model_name']} on {info['device']}")
+                self._log_success(
+                    "Model Info", f"{info['model_name']} on {info['device']}"
+                )
             else:
                 self._log_failure("Language Model", "Not initialized")
 
@@ -237,7 +263,9 @@ class SystemTester:
 
             # Test 2: Get stats
             stats = federated.get_global_stats()
-            self._log_success("Federated Stats", f"Total clients: {stats['total_clients']}")
+            self._log_success(
+                "Federated Stats", f"Total clients: {stats['total_clients']}"
+            )
             self._log_success("Model Version", stats["current_model_version"])
 
         except Exception as e:
@@ -298,7 +326,9 @@ class SystemTester:
                 messages=test_conversation["messages"],
                 metadata={"test": True},
             )
-            self._log_success("Conversation Save", "Conversation saved to eternal memory")
+            self._log_success(
+                "Conversation Save", "Conversation saved to eternal memory"
+            )
 
         except Exception as e:
             self._log_failure("Eternal Memory", str(e))
@@ -310,7 +340,9 @@ class SystemTester:
 
             result = await self.system.process_with_full_system(test_query)
 
-            self._log_success("Query Processing", f"Used {len(result['services_used'])} services")
+            self._log_success(
+                "Query Processing", f"Used {len(result['services_used'])} services"
+            )
 
             # Check each response
             for service, response in result["responses"].items():
@@ -336,8 +368,14 @@ class SystemTester:
 
     def _generate_report(self) -> None:
         """Generate final test report."""
-        total_tests = len(self.test_results["passed"]) + len(self.test_results["failed"])
-        pass_rate = (len(self.test_results["passed"]) / total_tests * 100) if total_tests > 0 else 0
+        total_tests = len(self.test_results["passed"]) + len(
+            self.test_results["failed"]
+        )
+        pass_rate = (
+            (len(self.test_results["passed"]) / total_tests * 100)
+            if total_tests > 0
+            else 0
+        )
 
         if self.test_results["failed"]:
             for _failure in self.test_results["failed"]:
@@ -356,21 +394,27 @@ class SystemTester:
         # Save report
         report_path = Path("test_report.json")
         with open(report_path, "w") as f:
-            json.dump({
-                "timestamp": datetime.now().isoformat(),
-                "results": self.test_results,
-                "pass_rate": pass_rate,
-            }, f, indent=2)
+            json.dump(
+                {
+                    "timestamp": datetime.now().isoformat(),
+                    "results": self.test_results,
+                    "pass_rate": pass_rate,
+                },
+                f,
+                indent=2,
+            )
 
     async def _cleanup(self) -> None:
         """Clean up after tests."""
         if self.system:
             await self.system.shutdown()
 
+
 async def main() -> None:
     """Run comprehensive system test."""
     tester = SystemTester()
     await tester.run_all_tests()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

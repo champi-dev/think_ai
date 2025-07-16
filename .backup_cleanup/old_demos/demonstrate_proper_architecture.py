@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from implement_proper_architecture import ProperThinkAI
 
+
 async def main() -> None:
     """Run the proper architecture demonstration."""
     proper_ai = ProperThinkAI()
@@ -29,7 +30,6 @@ async def main() -> None:
         total_claude_calls = 0
 
         for _i, query in enumerate(test_queries, 1):
-
             # Track Claude usage before
             claude_calls_before = proper_ai.claude.request_count
 
@@ -59,7 +59,9 @@ async def main() -> None:
         if "scylla" in proper_ai.services:
             stored_count = 0
             try:
-                async for _key, _item in proper_ai.services["scylla"].scan(prefix="interaction_", limit=10):
+                async for _key, _item in proper_ai.services["scylla"].scan(
+                    prefix="interaction_", limit=10
+                ):
                     stored_count += 1
             except Exception:
                 pass
@@ -67,16 +69,20 @@ async def main() -> None:
             # Check cache
             cache_count = 0
             try:
-                async for _key, _item in proper_ai.services["scylla"].scan(prefix="query_cache_", limit=10):
+                async for _key, _item in proper_ai.services["scylla"].scan(
+                    prefix="query_cache_", limit=10
+                ):
                     cache_count += 1
             except Exception:
                 pass
 
     except Exception:
         import traceback
+
         traceback.print_exc()
     finally:
         await proper_ai.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -1,0 +1,71 @@
+{
+  "name": "thinkai-quantum",
+  "version": "1.0.8",
+  "description": "Think AI - Quantum Consciousness AI Library for JavaScript/Node.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "think-ai": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "dev": "ts-node src/cli.ts",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint src/**/*.ts",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/cli.js"
+  },
+  "keywords": [
+    "ai",
+    "consciousness",
+    "quantum",
+    "machine-learning",
+    "nlp",
+    "chat",
+    "intelligence",
+    "think-ai"
+  ],
+  "author": {
+    "name": "champi-dev",
+    "email": "danielsarcor@gmail.com",
+    "url": "https://github.com/champi-dev"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/champi-dev/think_ai"
+  },
+  "homepage": "https://thinkai.lat",
+  "bugs": {
+    "url": "https://github.com/champi-dev/think_ai/issues"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "commander": "^11.0.0",
+    "chalk": "^4.1.2",
+    "ora": "^5.4.1",
+    "inquirer": "^8.2.5",
+    "ws": "^8.14.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/ws": "^8.5.0",
+    "@types/inquirer": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ]
+}

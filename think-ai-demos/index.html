@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think AI - O(1) Coding Demos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #000 100%);
+            z-index: -2;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: float 20s infinite;
+            opacity: 0.5;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-size: 5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #4ade80, #3b82f6, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: gradient 3s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .tagline {
+            font-size: 1.5em;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .performance-badges {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: rgba(74, 222, 128, 0.1);
+            border: 2px solid #4ade80;
+            color: #4ade80;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        /* Projects Grid */
+        .projects-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 50px;
+            color: #fff;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #4ade80, #3b82f6, #a855f7);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .project-card:hover::before {
+            opacity: 0.3;
+        }
+        
+        .project-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3em;
+            font-weight: bold;
+            opacity: 0.1;
+        }
+        
+        .project-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        
+        .project-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .project-description {
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .project-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .project-features li {
+            padding: 5px 0;
+            color: #4ade80;
+            display: flex;
+            align-items: center;
+        }
+        
+        .project-features li::before {
+            content: '✓';
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .complexity-bar {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .complexity-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #3b82f6);
+            transition: width 0.5s ease;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .tech-stack {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tech-item {
+            color: #888;
+            font-size: 1.1em;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3em;
+            }
+            .tagline {
+                font-size: 1.2em;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Special styling for the main project */
+        .project-card.featured {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(59, 130, 246, 0.1));
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="particles" id="particles"></div>
+    
+    <header class="header">
+        <h1 class="logo">Think AI</h1>
+        <p class="tagline">Demonstrating O(1) Performance in Web Applications</p>
+        <div class="performance-badges">
+            <div class="badge">O(1) Time Complexity</div>
+            <div class="badge">Hash-Based Lookups</div>
+            <div class="badge">Constant Time Operations</div>
+            <div class="badge">Zero Loops</div>
+        </div>
+    </header>
+    
+    <main class="projects-container">
+        <h2 class="section-title">5 Demo Projects</h2>
+        
+        <div class="projects-grid">
+            <a href="src/project1/index.html" class="project-card">
+                <div class="project-number">01</div>
+                <div class="project-icon">🔢</div>
+                <h3 class="project-title">O(1) Counter</h3>
+                <p class="project-description">
+                    A simple yet powerful counter demonstrating true O(1) state updates 
+                    with performance tracking and real-time metrics.
+                </p>
+                <ul class="project-features">
+                    <li>Direct memory access</li>
+                    <li>Constant time operations</li>
+                    <li>Performance visualization</li>
+                </ul>
+                <div class="complexity-bar">
+                    <div class="complexity-fill" style="width: 20%"></div>
+                </div>
+            </a>
+            
+            <a href="src/project2/index.html" class="project-card">
+                <div class="project-number">02</div>
+                <div class="project-icon">✅</div>
+                <h3 class="project-title">O(1) Todo List</h3>
+                <p class="project-description">
+                    Advanced todo application with hash-based CRUD operations, 
+                    achieving O(1) complexity for all data manipulations.
+                </p>
+                <ul class="project-features">
+                    <li>Hash map storage</li>
+                    <li>Instant lookups</li>
+                    <li>Local persistence</li>
+                </ul>
+                <div class="complexity-bar">
+                    <div class="complexity-fill" style="width: 40%"></div>
+                </div>
+            </a>
+            
+            <a href="src/project3/index.html" class="project-card">
+                <div class="project-number">03</div>
+                <div class="project-icon">💬</div>
+                <h3 class="project-title">O(1) Real-time Chat</h3>
+                <p class="project-description">
+                    Multi-channel chat system with O(1) message routing and 
+                    user management using advanced hash-based architectures.
+                </p>
+                <ul class="project-features">
+                    <li>Instant message routing</li>
+                    <li>Channel switching</li>
+                    <li>User presence tracking</li>
+                </ul>
+                <div class="complexity-bar">
+                    <div class="complexity-fill" style="width: 60%"></div>
+                </div>
+            </a>
+            
+            <a href="src/project4/index.html" class="project-card">
+                <div class="project-number">04</div>
+                <div class="project-icon">📊</div>
+                <h3 class="project-title">O(1) Data Dashboard</h3>
+                <p class="project-description">
+                    Real-time data visualization with O(1) aggregation using 
+                    pre-computed metrics and circular buffers.
+                </p>
+                <ul class="project-features">
+                    <li>Live data streaming</li>
+                    <li>Instant aggregations</li>
+                    <li>Multiple chart types</li>
+                </ul>
+                <div class="complexity-bar">
+                    <div class="complexity-fill" style="width: 80%"></div>
+                </div>
+            </a>
+            
+            <a href="src/project5/index.html" class="project-card featured">
+                <div class="project-number">05</div>
+                <div class="project-icon">🤖</div>
+                <h3 class="project-title">O(1) AI Code Analyzer</h3>
+                <p class="project-description">
+                    Advanced code analysis engine with O(1) AST traversal, symbol table lookups, 
+                    and AI-powered insights generation using hash-based indices.
+                </p>
+                <ul class="project-features">
+                    <li>Instant AST node access</li>
+                    <li>O(1) symbol resolution</li>
+                    <li>Real-time code metrics</li>
+                    <li>AI-powered suggestions</li>
+                </ul>
+                <div class="complexity-bar">
+                    <div class="complexity-fill" style="width: 100%"></div>
+                </div>
+            </a>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <p>Built with Think AI - Demonstrating O(1) Performance Excellence</p>
+        <div class="tech-stack">
+            <span class="tech-item">Pure JavaScript</span>
+            <span class="tech-item">Hash Maps</span>
+            <span class="tech-item">O(1) Algorithms</span>
+            <span class="tech-item">Zero Dependencies</span>
+        </div>
+    </footer>
+    
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Add hover effect to project cards
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const fill = this.querySelector('.complexity-fill');
+                if (fill) {
+                    fill.style.background = 'linear-gradient(90deg, #4ade80, #a855f7)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const fill = this.querySelector('.complexity-fill');
+                if (fill) {
+                    fill.style.background = 'linear-gradient(90deg, #4ade80, #3b82f6)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

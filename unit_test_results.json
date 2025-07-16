@@ -1,0 +1,48 @@
+{
+  "passed": 6,
+  "failed": 1,
+  "tests": [
+    {
+      "name": "API Health Check",
+      "status": "PASS",
+      "details": "(Status: 200)",
+      "timestamp": "2025-07-14 17:49:29"
+    },
+    {
+      "name": "Qwen General Query",
+      "status": "FAIL",
+      "details": "(Hardcoded: False, Has Answer: True, Length: 9)",
+      "timestamp": "2025-07-14 17:49:30"
+    },
+    {
+      "name": "Qwen Complex Query",
+      "status": "PASS",
+      "details": "(Has Keywords: True, Length: 2015)",
+      "timestamp": "2025-07-14 17:49:45"
+    },
+    {
+      "name": "CodeLlama Code Query",
+      "status": "PASS",
+      "details": "(Has Code: True, From CodeLlama: True, Length: 693)",
+      "timestamp": "2025-07-14 17:49:57"
+    },
+    {
+      "name": "Model Switch - qwen",
+      "status": "PASS",
+      "details": "(Query: 'What is the meaning of life?...', Has Keywords: True)",
+      "timestamp": "2025-07-14 17:49:58"
+    },
+    {
+      "name": "Model Switch - codellama",
+      "status": "PASS",
+      "details": "(Query: 'How do I implement a binary se...', Has Keywords: True)",
+      "timestamp": "2025-07-14 17:50:20"
+    },
+    {
+      "name": "Response Time",
+      "status": "PASS",
+      "details": "(Time: 0.13s, Status: 200)",
+      "timestamp": "2025-07-14 17:50:21"
+    }
+  ]
+}

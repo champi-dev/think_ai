@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Parser Unit Tests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .test-status {
+            padding: 4px 12px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .status-pass { background: #4CAF50; }
+        .status-fail { background: #f44336; }
+        
+        .test-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .input-section, .output-section {
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .input-section pre {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        
+        .rendered-output {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+        
+        /* Markdown rendering styles (from webapp) */
+        .rendered-output h1 { 
+            font-size: 1.6em; 
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+            padding-bottom: 8px;
+            margin: 16px 0 8px 0;
+        }
+        
+        .rendered-output h2 { 
+            font-size: 1.3em;
+            color: #c4b5fd;
+            margin: 16px 0 8px 0;
+        }
+        
+        .rendered-output h3 { 
+            font-size: 1.15em;
+            color: #ddd6fe;
+            margin: 16px 0 8px 0;
+        }
+        
+        .rendered-output code {
+            background: rgba(139, 92, 246, 0.15);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #e9d5ff;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .rendered-output pre {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 1em;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+        
+        .rendered-output pre code {
+            background: none;
+            padding: 0;
+            border: none;
+            color: #f1f5f9;
+        }
+        
+        .rendered-output blockquote {
+            border-left: 4px solid #6366f1;
+            padding-left: 16px;
+            margin: 16px 0;
+            color: #d1d5db;
+            font-style: italic;
+            background: rgba(99, 102, 241, 0.05);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .rendered-output ul, .rendered-output ol {
+            margin: 12px 0;
+            padding-left: 30px;
+        }
+        
+        .rendered-output strong {
+            font-weight: 600;
+            color: #f9fafb;
+        }
+        
+        .rendered-output em {
+            font-style: italic;
+            color: #e5e7eb;
+        }
+        
+        .rendered-output a {
+            color: #06b6d4;
+            text-decoration: none;
+            border-bottom: 1px dashed #06b6d4;
+        }
+        
+        .rendered-output hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent);
+            margin: 20px 0;
+        }
+        
+        .summary {
+            background: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        #test-results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Think AI - Markdown Parser Unit Tests</h1>
+    
+    <div class="summary">
+        <h2>Test Summary</h2>
+        <div id="summary-stats">Running tests...</div>
+    </div>
+    
+    <div id="test-results"></div>
+
+    <script>
+        // Copy of the parseMarkdown function from webapp_temp.html
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        function parseMarkdown(text) {
+            // IMPORTANT: Don't over-clean the text - preserve original formatting
+            let result = text;
+            
+            // Step 1: Handle code blocks FIRST (to protect their content)
+            const codeBlocks = [];
+            result = result.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+                codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`);
+                return placeholder;
+            });
+            
+            // Step 2: Handle inline code (to protect from other replacements)
+            const inlineCodes = [];
+            result = result.replace(/`([^`]+)`/g, (match, code) => {
+                const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+                inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+                return placeholder;
+            });
+            
+            // Step 3: Headers (before other replacements)
+            result = result.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            result = result.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            result = result.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            // Step 4: Lists (must be before line breaks)
+            // Numbered lists
+            result = result.replace(/^(\d+)\.\s+(.+)$/gm, '<li class="numbered">$2</li>');
+            result = result.replace(/(<li class="numbered">.*<\/li>\s*)+/gs, (match) => {
+                return '<ol style="margin: 10px 0; padding-left: 30px;">' + match + '</ol>';
+            });
+            
+            // Unordered lists (both - and *)
+            result = result.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+            result = result.replace(/(<li>(?!class).*<\/li>\s*)+/gs, (match) => {
+                return '<ul style="margin: 10px 0; padding-left: 30px;">' + match + '</ul>';
+            });
+            
+            // Step 5: Text formatting
+            // Bold (must be before italic)
+            result = result.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+            
+            // Italic (careful not to match list items)
+            result = result.replace(/(?<![*\n])\*([^*\n]+)\*(?![*])/g, '<em>$1</em>');
+            
+            // Step 6: Links
+            result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            
+            // Step 7: Horizontal rules
+            result = result.replace(/^---+$/gm, '<hr>');
+            
+            // Step 8: Blockquotes
+            result = result.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid #ccc; padding-left: 10px; margin: 10px 0;">$1</blockquote>');
+            
+            // Step 9: Paragraphs and line breaks
+            // Split by double newlines for paragraphs
+            const paragraphs = result.split(/\n\n+/);
+            
+            result = paragraphs.map(para => {
+                // Skip if already HTML
+                if (para.trim().match(/^<[^>]+>/)) {
+                    return para;
+                }
+                
+                // Convert single newlines to <br> for soft wraps
+                const lines = para.split('\n').map(line => line.trim()).filter(line => line);
+                if (lines.length > 0) {
+                    return '<p>' + lines.join('<br>') + '</p>';
+                }
+                return '';
+            }).filter(p => p).join('\n');
+            
+            // Step 10: Restore code blocks and inline codes
+            codeBlocks.forEach((code, i) => {
+                result = result.replace(`__CODE_BLOCK_${i}__`, code);
+            });
+            
+            inlineCodes.forEach((code, i) => {
+                result = result.replace(`__INLINE_CODE_${i}__`, code);
+            });
+            
+            return result;
+        }
+        
+        // Test cases
+        const testCases = [
+            {
+                name: "Headers",
+                input: "# H1 Header\n## H2 Header\n### H3 Header",
+                expectedElements: ["<h1>", "<h2>", "<h3>"]
+            },
+            {
+                name: "Bold and Italic",
+                input: "This is **bold** and *italic* and ***both***",
+                expectedElements: ["<strong>", "<em>"]
+            },
+            {
+                name: "Inline Code",
+                input: "Use `console.log()` for debugging",
+                expectedElements: ["<code>"]
+            },
+            {
+                name: "Code Block",
+                input: "```javascript\nfunction test() {\n  return 42;\n}\n```",
+                expectedElements: ["<pre>", "<code"]
+            },
+            {
+                name: "Links",
+                input: "Visit [Google](https://google.com) for search",
+                expectedElements: ['<a href="https://google.com"']
+            },
+            {
+                name: "Unordered List",
+                input: "- Item 1\n- Item 2\n- Item 3",
+                expectedElements: ["<ul>", "<li>"]
+            },
+            {
+                name: "Ordered List",
+                input: "1. First\n2. Second\n3. Third",
+                expectedElements: ["<ol>", "<li>"]
+            },
+            {
+                name: "Blockquote",
+                input: "> This is a quote\n> With multiple lines",
+                expectedElements: ["<blockquote"]
+            },
+            {
+                name: "Horizontal Rule",
+                input: "Above\n\n---\n\nBelow",
+                expectedElements: ["<hr"]
+            },
+            {
+                name: "Mixed Formatting",
+                input: "**Bold with `code` inside** and *italic with `code` too*",
+                expectedElements: ["<strong>", "<code>", "<em>"]
+            },
+            {
+                name: "Nested Lists",
+                input: "- Main item\n  - Sub item\n- Another main",
+                expectedElements: ["<ul>", "<li>"]
+            },
+            {
+                name: "Complex Mixed Content",
+                input: `# Title
+
+This has **bold** and *italic* text.
+
+## Lists
+1. One
+2. Two
+
+### Code
+\`\`\`python
+print("hello")
+\`\`\`
+
+> Quote here`,
+                expectedElements: ["<h1>", "<h2>", "<h3>", "<strong>", "<em>", "<ol>", "<pre>", "<blockquote"]
+            }
+        ];
+        
+        // Run tests
+        function runTests() {
+            const resultsContainer = document.getElementById('test-results');
+            let passedTests = 0;
+            let totalTests = testCases.length;
+            
+            testCases.forEach((testCase, index) => {
+                const rendered = parseMarkdown(testCase.input);
+                const passed = testCase.expectedElements.every(elem => rendered.includes(elem));
+                
+                if (passed) passedTests++;
+                
+                const testDiv = document.createElement('div');
+                testDiv.className = 'test-container';
+                testDiv.innerHTML = `
+                    <div class="test-header">
+                        <h3>Test ${index + 1}: ${testCase.name}</h3>
+                        <span class="test-status status-${passed ? 'pass' : 'fail'}">${passed ? 'PASS' : 'FAIL'}</span>
+                    </div>
+                    <div class="test-content">
+                        <div class="input-section">
+                            <h4>Input Markdown:</h4>
+                            <pre>${escapeHtml(testCase.input)}</pre>
+                        </div>
+                        <div class="output-section">
+                            <h4>Rendered Output:</h4>
+                            <div class="rendered-output">${rendered}</div>
+                            <h4>Raw HTML:</h4>
+                            <pre style="font-size: 0.8em; overflow-x: auto;">${escapeHtml(rendered)}</pre>
+                        </div>
+                    </div>
+                `;
+                
+                resultsContainer.appendChild(testDiv);
+            });
+            
+            // Update summary
+            document.getElementById('summary-stats').innerHTML = `
+                <p>Total Tests: ${totalTests}</p>
+                <p>Passed: ${passedTests}</p>
+                <p>Failed: ${totalTests - passedTests}</p>
+                <p>Success Rate: ${Math.round((passedTests / totalTests) * 100)}%</p>
+            `;
+        }
+        
+        // Run tests on load
+        document.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>

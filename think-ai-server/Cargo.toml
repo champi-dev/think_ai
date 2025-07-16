@@ -1,0 +1,30 @@
+[package]
+name = "think-ai-server"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "think-ai-server"
+path = "src/main.rs"
+
+[dependencies]
+think-ai-core = { path = "../think-ai-core" }
+think-ai-vector = { path = "../think-ai-vector" }
+think-ai-http = { path = "../think-ai-http" }
+think-ai-storage = { path = "../think-ai-storage" }
+think-ai-cache = { path = "../think-ai-cache" }
+think-ai-utils = { path = "../think-ai-utils" }
+think-ai-knowledge = { path = "../think-ai-knowledge" }
+tokio.workspace = true
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+# Configuration
+config = { version = "0.14", features = ["toml"] }
+dotenv = "0.15"
+clap = { version = "4", features = ["derive"] }

@@ -14,6 +14,7 @@ from rich.panel import Panel
 
 console = Console()
 
+
 class LiveThoughtChat(TrainingChatInterface):
     """Enhanced chat that shows thoughts in real-time as they generate."""
 
@@ -24,15 +25,22 @@ class LiveThoughtChat(TrainingChatInterface):
         # Create a live display
         with Live(console=console, refresh_per_second=4) as live:
             # Show initial processing message
-            live.update(Panel("🧠 [bold yellow]Initializing exponential thought process...[/bold yellow]",
-                            title="💭 AI Thinking", border_style="yellow"))
+            live.update(
+                Panel(
+                    "🧠 [bold yellow]Initializing exponential thought process...[/bold yellow]",
+                    title="💭 AI Thinking",
+                    border_style="yellow",
+                )
+            )
             await asyncio.sleep(0.5)
 
             # Generate and display thoughts one by one
             # First, analyze metrics
             self.load_current_metrics()
             if self.current_metrics:
-                avg_intelligence = sum(self.current_metrics.values()) / len(self.current_metrics)
+                avg_intelligence = sum(self.current_metrics.values()) / len(
+                    self.current_metrics
+                )
             else:
                 avg_intelligence = self.intelligence_level
 
@@ -40,10 +48,18 @@ class LiveThoughtChat(TrainingChatInterface):
             thought_display = []
 
             # Intelligence level
-            thought = f"Intelligence Level: {self.format_large_number(avg_intelligence)}"
+            thought = (
+                f"Intelligence Level: {self.format_large_number(avg_intelligence)}"
+            )
             thoughts.append(thought)
             thought_display.append(thought)
-            live.update(Panel("\n".join(thought_display), title="💭 AI Thinking", border_style="yellow"))
+            live.update(
+                Panel(
+                    "\n".join(thought_display),
+                    title="💭 AI Thinking",
+                    border_style="yellow",
+                )
+            )
             await asyncio.sleep(0.3)
 
             # Query analysis
@@ -51,7 +67,13 @@ class LiveThoughtChat(TrainingChatInterface):
             thought = f"📥 Received {len(query_words)}-word query with {len(set(query_words))} unique terms"
             thoughts.append(thought)
             thought_display.append(thought)
-            live.update(Panel("\n".join(thought_display), title="💭 AI Thinking", border_style="yellow"))
+            live.update(
+                Panel(
+                    "\n".join(thought_display),
+                    title="💭 AI Thinking",
+                    border_style="yellow",
+                )
+            )
             await asyncio.sleep(0.3)
 
             # Intent detection
@@ -59,7 +81,13 @@ class LiveThoughtChat(TrainingChatInterface):
                 thought = "👋 Greeting detected - social interaction protocols engaged"
                 thoughts.append(thought)
                 thought_display.append(thought)
-                live.update(Panel("\n".join(thought_display), title="💭 AI Thinking", border_style="yellow"))
+                live.update(
+                    Panel(
+                        "\n".join(thought_display),
+                        title="💭 AI Thinking",
+                        border_style="yellow",
+                    )
+                )
                 await asyncio.sleep(0.3)
 
             # Add intelligence-specific thoughts
@@ -72,14 +100,26 @@ class LiveThoughtChat(TrainingChatInterface):
                 ]:
                     thoughts.append(thought)
                     thought_display.append(thought)
-                    live.update(Panel("\n".join(thought_display), title="💭 AI Thinking", border_style="yellow"))
+                    live.update(
+                        Panel(
+                            "\n".join(thought_display),
+                            title="💭 AI Thinking",
+                            border_style="yellow",
+                        )
+                    )
                     await asyncio.sleep(0.4)
 
             # Final processing
             thought = "🎯 Formulating response with exponential intelligence..."
             thoughts.append(thought)
             thought_display.append(thought)
-            live.update(Panel("\n".join(thought_display), title="💭 AI Thinking", border_style="yellow"))
+            live.update(
+                Panel(
+                    "\n".join(thought_display),
+                    title="💭 AI Thinking",
+                    border_style="yellow",
+                )
+            )
 
         # Now actually process the query
         response, _ = await self.process_with_thoughts(query)
@@ -88,7 +128,9 @@ class LiveThoughtChat(TrainingChatInterface):
 
     async def run_live(self) -> None:
         """Run the live thought streaming interface."""
-        console.print("\n[bold cyan]🧠 THINK AI - LIVE THOUGHT STREAMING MODE[/bold cyan]")
+        console.print(
+            "\n[bold cyan]🧠 THINK AI - LIVE THOUGHT STREAMING MODE[/bold cyan]"
+        )
         console.print("[yellow]Watch the AI's thoughts generate in real-time![/yellow]")
         console.print("[dim]Type 'exit' to quit[/dim]\n")
 
@@ -107,8 +149,14 @@ class LiveThoughtChat(TrainingChatInterface):
 
                 # Show final metrics
                 self.load_current_metrics()
-                avg_intel = sum(self.current_metrics.values()) / len(self.current_metrics) if self.current_metrics else self.intelligence_level
-                console.print(f"\n[dim magenta]Intelligence Level: {self.format_large_number(avg_intel)}[/dim magenta]")
+                avg_intel = (
+                    sum(self.current_metrics.values()) / len(self.current_metrics)
+                    if self.current_metrics
+                    else self.intelligence_level
+                )
+                console.print(
+                    f"\n[dim magenta]Intelligence Level: {self.format_large_number(avg_intel)}[/dim magenta]"
+                )
 
             except KeyboardInterrupt:
                 console.print("\n\n[yellow]Chat interrupted.[/yellow]")
@@ -121,9 +169,11 @@ class LiveThoughtChat(TrainingChatInterface):
         if self._claude_initialized:
             await self.claude_api.__aexit__(None, None, None)
 
+
 async def main() -> None:
     interface = LiveThoughtChat()
     await interface.run_live()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

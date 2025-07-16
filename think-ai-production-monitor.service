@@ -1,0 +1,25 @@
+[Unit]
+Description=Think AI Production Monitor - 100% Uptime Service
+After=network.target
+
+[Service]
+Type=simple
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+ExecStart=/home/administrator/think_ai/think-ai-monitor.sh
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/administrator/think_ai/production-monitor.log
+StandardError=append:/home/administrator/think_ai/production-monitor.log
+
+# Environment
+Environment="HOME=/home/administrator"
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+
+# Process management
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

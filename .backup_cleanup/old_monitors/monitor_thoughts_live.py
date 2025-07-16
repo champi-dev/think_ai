@@ -12,6 +12,7 @@ from rich.table import Table
 
 console = Console()
 
+
 class ThoughtMonitor:
     """Monitors and displays Think AI's evolving thoughts."""
 
@@ -25,11 +26,13 @@ class ThoughtMonitor:
         """Fetch latest consciousness states and thoughts."""
         try:
             # Get consciousness states
-            rows = self.session.execute("""
+            rows = self.session.execute(
+                """
                 SELECT state_id, timestamp, state_type, state_data
                 FROM consciousness_states
                 LIMIT 10
-            """)
+            """
+            )
 
             thoughts = []
             for row in rows:
@@ -68,7 +71,9 @@ class ThoughtMonitor:
         thoughts = self.get_latest_thoughts()
 
         # Main table
-        table = Table(title=f"🧠 Think AI Thought Monitor - Iteration #{self.current_iteration}")
+        table = Table(
+            title=f"🧠 Think AI Thought Monitor - Iteration #{self.current_iteration}"
+        )
         table.add_column("Time", style="cyan", width=12)
         table.add_column("Thought Type", style="yellow", width=20)
         table.add_column("Content", style="white", width=60)
@@ -83,10 +88,16 @@ class ThoughtMonitor:
                 intelligence = 1.0
 
             # Format time
-            time_str = thought["time"].strftime("%H:%M:%S") if thought["time"] else "N/A"
+            time_str = (
+                thought["time"].strftime("%H:%M:%S") if thought["time"] else "N/A"
+            )
 
             # Truncate content
-            content = thought["content"][:57] + "..." if len(thought["content"]) > 60 else thought["content"]
+            content = (
+                thought["content"][:57] + "..."
+                if len(thought["content"]) > 60
+                else thought["content"]
+            )
 
             table.add_row(
                 time_str,
@@ -97,23 +108,27 @@ class ThoughtMonitor:
 
         # Metrics panel
         if thoughts and thoughts[0]["metrics"]:
-            metrics_text = "\n".join([
-                f"{k}: {float(v):.3f}" for k, v in thoughts[0]["metrics"].items()
-            ])
+            metrics_text = "\n".join(
+                [f"{k}: {float(v):.3f}" for k, v in thoughts[0]["metrics"].items()]
+            )
             metrics_panel = Panel(
                 metrics_text,
                 title="📊 Latest Cognitive Metrics",
                 border_style="green",
             )
         else:
-            metrics_panel = Panel("Waiting for metrics...", title="📊 Cognitive Metrics")
+            metrics_panel = Panel(
+                "Waiting for metrics...", title="📊 Cognitive Metrics"
+            )
 
         return table, metrics_panel
 
     def run(self) -> None:
         """Run the live monitoring display."""
         console.print("\n[bold green]🔍 Think AI Live Thought Monitor[/bold green]")
-        console.print("[yellow]Monitoring consciousness evolution in real-time...[/yellow]\n")
+        console.print(
+            "[yellow]Monitoring consciousness evolution in real-time...[/yellow]\n"
+        )
 
         with Live(console=console, refresh_per_second=1) as live:
             while True:
@@ -133,6 +148,7 @@ class ThoughtMonitor:
                     time.sleep(5)
 
         console.print("\n[bold green]Monitoring stopped.[/bold green]")
+
 
 if __name__ == "__main__":
     monitor = ThoughtMonitor()

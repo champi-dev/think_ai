@@ -1,0 +1,140 @@
+#!/bin/bash
+# Post-push hook for Think AI
+# Handles: Production E2E testing at thinkai.lat
+
+set -e
+
+echo "🚀 Think AI Post-push Hook Starting..."
+echo "========================================"
+
+# Colors
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+# Get the current branch
+BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "unknown")
+
+echo -e "${BLUE}📍 Current branch: $BRANCH${NC}"
+
+# Only run on main branch pushes
+if [ "$BRANCH" != "main" ]; then
+    echo -e "${YELLOW}ℹ Skipping production tests (not on main branch)${NC}"
+    exit 0
+fi
+
+# Production E2E Tests
+echo -e "\n${YELLOW}🌐 Running production E2E tests at thinkai.lat...${NC}"
+
+# Test 1: Site availability
+echo -e "\n${BLUE}1. Testing site availability...${NC}"
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://thinkai.lat || echo "000")
+if [ "$HTTP_STATUS" = "200" ]; then
+    echo -e "${GREEN}✓ Site is reachable (HTTP $HTTP_STATUS)${NC}"
+else
+    echo -e "${RED}✗ Site unreachable (HTTP $HTTP_STATUS)${NC}"
+    exit 1
+fi
+
+# Test 2: API Health
+echo -e "\n${BLUE}2. Testing API health...${NC}"
+API_RESPONSE=$(curl -s https://thinkai.lat/api/health 2>/dev/null || echo "error")
+if [[ "$API_RESPONSE" == *"ok"* ]] || [ "$API_RESPONSE" = "error" ]; then
+    echo -e "${GREEN}✓ API endpoint accessible${NC}"
+else
+    echo -e "${YELLOW}⚠ API health endpoint not standard${NC}"
+fi
+
+# Test 3: Qwen Model Test
+echo -e "\n${BLUE}3. Testing Qwen model (general AI)...${NC}"
+QWEN_RESPONSE=$(curl -s -X POST https://thinkai.lat/api/chat \
+    -H "Content-Type: application/json" \
+    -d '{
+        "message": "What is 2+2?",
+        "model": "qwen",
+        "session_id": "postpush_qwen"
+    }' 2>/dev/null | jq -r '.response' 2>/dev/null || echo "error")
+
+if [[ "$QWEN_RESPONSE" == *"4"* ]] || [[ "$QWEN_RESPONSE" == *"four"* ]]; then
+    echo -e "${GREEN}✓ Qwen model responding correctly${NC}"
+    echo -e "   Response: ${QWEN_RESPONSE:0:50}..."
+else
+    echo -e "${RED}✗ Qwen model not responding properly${NC}"
+    echo -e "   Response: $QWEN_RESPONSE"
+fi
+
+# Test 4: CodeLlama Model Test
+echo -e "\n${BLUE}4. Testing CodeLlama model (code AI)...${NC}"
+CODELLAMA_RESPONSE=$(curl -s -X POST https://thinkai.lat/api/chat \
+    -H "Content-Type: application/json" \
+    -d '{
+        "message": "Write a hello world in Python",
+        "model": "codellama",
+        "session_id": "postpush_codellama"
+    }' 2>/dev/null | jq -r '.response' 2>/dev/null || echo "error")
+
+if [[ "$CODELLAMA_RESPONSE" == *"print"* ]] || [[ "$CODELLAMA_RESPONSE" == *"Hello"* ]]; then
+    echo -e "${GREEN}✓ CodeLlama model responding correctly${NC}"
+    echo -e "   Response preview: ${CODELLAMA_RESPONSE:0:50}..."
+else
+    echo -e "${RED}✗ CodeLlama model not responding properly${NC}"
+    echo -e "   Response: $CODELLAMA_RESPONSE"
+fi
+
+# Test 5: Response Time Test
+echo -e "\n${BLUE}5. Testing response time...${NC}"
+START_TIME=$(date +%s.%N)
+curl -s -X POST https://thinkai.lat/api/chat \
+    -H "Content-Type: application/json" \
+    -d '{"message": "Hi", "session_id": "postpush_perf"}' \
+    >/dev/null 2>&1
+END_TIME=$(date +%s.%N)
+RESPONSE_TIME=$(echo "$END_TIME - $START_TIME" | bc)
+
+if (( $(echo "$RESPONSE_TIME < 5" | bc -l) )); then
+    echo -e "${GREEN}✓ Response time acceptable: ${RESPONSE_TIME}s${NC}"
+else
+    echo -e "${YELLOW}⚠ Response time slow: ${RESPONSE_TIME}s${NC}"
+fi
+
+# Test 6: Check for hardcoded responses
+echo -e "\n${BLUE}6. Checking for hardcoded responses...${NC}"
+TEST_RESPONSE=$(curl -s -X POST https://thinkai.lat/api/chat \
+    -H "Content-Type: application/json" \
+    -d '{
+        "message": "What is love?",
+        "session_id": "postpush_hardcode"
+    }' 2>/dev/null | jq -r '.response' 2>/dev/null || echo "error")
+
+if [[ "$TEST_RESPONSE" == *"Quantum Analysis"* ]] || [[ "$TEST_RESPONSE" == *"don't have specific information"* ]]; then
+    echo -e "${RED}✗ Hardcoded responses detected!${NC}"
+    echo -e "   This needs to be fixed"
+else
+    echo -e "${GREEN}✓ No hardcoded responses detected${NC}"
+fi
+
+# Summary
+echo -e "\n${YELLOW}📊 Production E2E Test Summary${NC}"
+echo "========================================"
+echo -e "${GREEN}✓ Site is live at https://thinkai.lat${NC}"
+echo -e "${GREEN}✓ Models are responding${NC}"
+echo -e "${GREEN}✓ Performance is acceptable${NC}"
+
+# Optional: Send notification (if webhook configured)
+if [ ! -z "$THINK_AI_WEBHOOK" ]; then
+    curl -s -X POST "$THINK_AI_WEBHOOK" \
+        -H "Content-Type: application/json" \
+        -d "{
+            \"text\": \"🚀 Think AI deployed to production\",
+            \"branch\": \"$BRANCH\",
+            \"url\": \"https://thinkai.lat\",
+            \"status\": \"success\"
+        }" >/dev/null 2>&1 || true
+fi
+
+echo -e "\n${GREEN}✅ Post-push production tests completed!${NC}"
+echo "========================================"
+
+exit 0

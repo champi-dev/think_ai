@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from implement_proper_architecture import ProperThinkAI
 
+
 class ThinkAIChatPhi35:
     """Interactive chat with Phi-3.5 Mini integrated Think AI."""
 
@@ -94,6 +95,7 @@ class ThinkAIChatPhi35:
             savings = baseline_cost - actual_cost
             (savings / baseline_cost * 100) if baseline_cost > 0 else 0
 
+
 async def main() -> None:
     """Run the interactive chat."""
     chat = ThinkAIChatPhi35()
@@ -106,11 +108,13 @@ async def main() -> None:
     finally:
         # Cleanup
         try:
-            if hasattr(chat.think_ai, "system") and hasattr(chat.think_ai.system, "initializer"):
+            if hasattr(chat.think_ai, "system") and hasattr(
+                chat.think_ai.system, "initializer"
+            ):
                 await chat.think_ai.system.initializer.shutdown()
         except Exception:
             pass  # Ignore shutdown errors
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     asyncio.run(main())

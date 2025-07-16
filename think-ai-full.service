@@ -1,0 +1,22 @@
+[Unit]
+Description=Think AI Full Server
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+ExecStart=/home/administrator/think_ai/target/release/think-ai-full server
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=think-ai-full
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

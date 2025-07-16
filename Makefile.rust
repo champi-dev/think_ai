@@ -1,0 +1,99 @@
+# Think AI Rust - Build System
+# Full implementation with O(1) performance guarantees
+
+.PHONY: all build test bench clean install format lint doc deploy
+
+# Default target
+all: format lint build test
+
+# Build all crates in release mode
+build:
+	@echo "Building Think AI Rust (Release Mode)..."
+	@cargo build --release --workspace
+	@echo "✓ Build complete"
+
+# Run all tests
+test:
+	@echo "Running tests..."
+	@cargo test --workspace --release
+	@echo "✓ All tests passed"
+
+# Run benchmarks
+bench:
+	@echo "Running performance benchmarks..."
+	@cargo bench --workspace
+	@echo "✓ Benchmarks complete"
+
+# Clean build artifacts
+clean:
+	@echo "Cleaning build artifacts..."
+	@cargo clean
+	@rm -rf target/
+	@echo "✓ Clean complete"
+
+# Install binaries
+install: build
+	@echo "Installing Think AI binaries..."
+	@cargo install --path think-ai-cli
+	@cargo install --path think-ai-server
+	@echo "✓ Installation complete"
+
+# Format code
+format:
+	@echo "Formatting code..."
+	@cargo fmt --all
+	@echo "✓ Code formatted"
+
+# Run linter
+lint:
+	@echo "Running linter..."
+	@cargo clippy --workspace --all-targets --all-features -- -D warnings
+	@echo "✓ Linting complete"
+
+# Generate documentation
+doc:
+	@echo "Generating documentation..."
+	@cargo doc --workspace --no-deps --open
+	@echo "✓ Documentation generated"
+
+# Deploy production build
+deploy: clean build test
+	@echo "Deploying Think AI..."
+	@mkdir -p dist
+	@cp target/release/think-ai dist/
+	@cp target/release/think-ai-server dist/
+	@echo "✓ Deployment ready in dist/"
+
+# Development server
+dev:
+	@echo "Starting development server..."
+	@cargo watch -x 'run --bin think-ai-server'
+
+# Performance analysis
+perf: build
+	@echo "Running performance analysis..."
+	@cargo build --release --features profiling
+	@perf record --call-graph=dwarf target/release/think-ai-server
+	@perf report
+
+# Security audit
+audit:
+	@echo "Running security audit..."
+	@cargo audit
+	@echo "✓ Security audit complete"
+
+# Coverage report
+coverage:
+	@echo "Generating coverage report..."
+	@cargo tarpaulin --workspace --out Html
+	@echo "✓ Coverage report generated"
+
+# Docker build
+docker:
+	@echo "Building Docker image..."
+	@docker build -f Dockerfile.rust -t think-ai-rust:latest .
+	@echo "✓ Docker image built"
+
+# Complete CI pipeline
+ci: format lint build test bench audit
+	@echo "✓ CI pipeline complete"

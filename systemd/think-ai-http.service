@@ -1,0 +1,28 @@
+[Unit]
+Description=Think AI HTTP Server with GPU Support
+After=network.target
+
+[Service]
+Type=simple
+User=think-ai
+Group=think-ai
+WorkingDirectory=/opt/think-ai
+Environment="RUST_LOG=info"
+Environment="THINK_AI_GPU_ENABLED=true"
+Environment="THINK_AI_GPU_MEMORY_FRACTION=0.8"
+Environment="CUDA_VISIBLE_DEVICES=0"
+ExecStartPre=/usr/bin/nvidia-smi
+ExecStart=/opt/think-ai/target/release/think-ai-http
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/think-ai/http.log
+StandardError=append:/var/log/think-ai/http-error.log
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/think-ai/data /var/log/think-ai
+
+[Install]
+WantedBy=multi-user.target

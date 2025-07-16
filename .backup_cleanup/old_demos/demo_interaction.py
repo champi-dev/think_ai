@@ -10,6 +10,7 @@ from typing import Optional
 project_dir = Path(__file__).parent
 sys.path.insert(0, str(project_dir))
 
+
 async def demo_interactions() -> Optional[bool]:
     """Demo various Think AI interactions."""
     try:
@@ -36,7 +37,6 @@ async def demo_interactions() -> Optional[bool]:
         ]
 
         for query, _description in queries:
-
             # Process with consciousness system
             response = await ai.query_with_cost_awareness(
                 query,
@@ -66,8 +66,10 @@ async def demo_interactions() -> Optional[bool]:
 
     except Exception:
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def main() -> None:
     """Main demo function."""
@@ -77,6 +79,7 @@ async def main() -> None:
         pass
     else:
         sys.exit(1)
+
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -5,6 +5,7 @@ import subprocess
 import time
 from datetime import datetime
 
+
 def monitor_ollama() -> None:
     """Monitor Ollama/Phi-3.5 calls."""
     last_log_line = None
@@ -16,7 +17,8 @@ def monitor_ollama() -> None:
                 # Get last few lines of training output
                 result = subprocess.run(
                     ["tail", "-20", "training_output.log"],
-                    check=False, capture_output=True,
+                    check=False,
+                    capture_output=True,
                     text=True,
                 )
 
@@ -29,7 +31,8 @@ def monitor_ollama() -> None:
                 # Also check if Ollama is running
                 ps_result = subprocess.run(
                     ["ps", "aux"],
-                    check=False, capture_output=True,
+                    check=False,
+                    capture_output=True,
                     text=True,
                 )
 
@@ -37,7 +40,8 @@ def monitor_ollama() -> None:
                     # Check Ollama API status
                     api_check = subprocess.run(
                         ["curl", "-s", "http://localhost:11434/api/tags"],
-                        check=False, capture_output=True,
+                        check=False,
+                        capture_output=True,
                         text=True,
                     )
 
@@ -53,6 +57,7 @@ def monitor_ollama() -> None:
 
     except KeyboardInterrupt:
         pass
+
 
 if __name__ == "__main__":
     monitor_ollama()
