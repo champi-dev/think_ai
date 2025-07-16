@@ -1,6 +1,6 @@
 use axum::{
     extract::{ws::WebSocket, Path, Query, State, WebSocketUpgrade},
-    http::{header, StatusCode},
+    http::{header, HeaderMap, StatusCode},
     response::{
         sse::{Event, KeepAlive},
         IntoResponse, Response, Sse,
@@ -27,6 +27,8 @@ use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use uuid::Uuid;
 
+mod audio_service;
+
 // Import actual Think AI components
 use think_ai_consciousness::ConsciousnessFramework;
 use think_ai_core::{EngineConfig, O1Engine};
@@ -34,6 +36,9 @@ use think_ai_knowledge::{KnowledgeDomain, KnowledgeEngine};
 use think_ai_qwen::{QwenClient, QwenRequest};
 use think_ai_utils::token_counter::count_tokens;
 use think_ai_vector::{LSHConfig, O1VectorIndex};
+
+use crate::audio_service::{AudioService, SynthesisRequest, TranscriptionResult};
+use bytes::Bytes;
 
 // State for the application
 #[derive(Clone)]
@@ -45,6 +50,7 @@ struct ThinkAIState {
     chat_sessions: Arc<RwLock<HashMap<String, ChatSession>>>,
     message_channel: broadcast::Sender<ChatMessage>,
     qwen_client: Arc<QwenClient>,
+    audio_service: Option<Arc<AudioService>>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -150,6 +156,30 @@ async fn main() {
     // Initialize Qwen client
     let qwen_client = Arc::new(QwenClient::new());
 
+    // Initialize audio service if API keys are available
+    let audio_service = match (env::var("DEEPGRAM_API_KEY"), env::var("ELEVENLABS_API_KEY")) {
+        (Ok(deepgram_key), Ok(elevenlabs_key)) => {
+            let audio_cache_dir =
+                env::var("AUDIO_CACHE_DIR").unwrap_or_else(|_| "./audio_cache".to_string());
+            let service = AudioService::new(
+                deepgram_key,
+                elevenlabs_key,
+                std::path::PathBuf::from(audio_cache_dir),
+            );
+            if let Err(e) = service.init().await {
+                eprintln!("Failed to initialize audio service: {}", e);
+                None
+            } else {
+                info!("✅ Audio service initialized successfully");
+                Some(Arc::new(service))
+            }
+        }
+        _ => {
+            info!("⚠️ Audio service disabled - API keys not found");
+            None
+        }
+    };
+
     // Initialize state
     let (tx, _rx) = broadcast::channel(100);
     let state = ThinkAIState {
@@ -160,6 +190,7 @@ async fn main() {
         chat_sessions: Arc::new(RwLock::new(HashMap::new())),
         message_channel: tx,
         qwen_client,
+        audio_service,
     };
 
     // Build router
@@ -176,6 +207,9 @@ async fn main() {
         .route("/api/knowledge/stats", get(system_stats))
         .route("/api/consciousness/level", get(consciousness_level))
         .route("/api/consciousness/thoughts", get(current_thoughts))
+        // Audio endpoints
+        .route("/api/audio/transcribe", post(transcribe_audio))
+        .route("/api/audio/synthesize", post(synthesize_speech))
         // Health check for the main service
         .route("/health", get(health_check))
         // Static file serving for the frontend
@@ -223,41 +257,46 @@ async fn api_health() -> Json<serde_json::Value> {
     }))
 }
 
+#[axum::debug_handler]
 async fn chat_handler(
-    axum::extract::State(state): axum::extract::State<ThinkAIState>,
-    axum::extract::Json(req): axum::extract::Json<ChatRequest>,
-) -> axum::extract::Json<ChatResponse> {
+    State(state): State<ThinkAIState>,
+    Json(req): Json<ChatRequest>,
+) -> Json<ChatResponse> {
     let start = std::time::Instant::now();
 
     // Get or create session
     let session_id = req.session_id.unwrap_or_else(|| Uuid::new_v4().to_string());
 
-    // Get session history
-    let mut sessions = state.chat_sessions.write().unwrap();
-    let session = sessions
-        .entry(session_id.clone())
-        .or_insert_with(|| ChatSession {
-            id: session_id.clone(),
-            messages: Vec::new(),
-            created_at: chrono::Utc::now(),
-        });
+    // Get session history and add user message
+    let (mut context, user_message) = {
+        let mut sessions = state.chat_sessions.write().unwrap();
+        let session = sessions
+            .entry(session_id.clone())
+            .or_insert_with(|| ChatSession {
+                id: session_id.clone(),
+                messages: Vec::new(),
+                created_at: chrono::Utc::now(),
+            });
 
-    // Add user message to session
-    let user_message = ChatMessage {
-        id: Uuid::new_v4().to_string(),
-        session_id: session_id.clone(),
-        role: "user".to_string(),
-        content: req.message.clone(),
-        timestamp: chrono::Utc::now(),
-        response_time_ms: 0.0,
-    };
-    session.messages.push(user_message.clone());
+        // Add user message to session
+        let user_message = ChatMessage {
+            id: Uuid::new_v4().to_string(),
+            session_id: session_id.clone(),
+            role: "user".to_string(),
+            content: req.message.clone(),
+            timestamp: chrono::Utc::now(),
+            response_time_ms: 0.0,
+        };
+        session.messages.push(user_message.clone());
 
-    // Build context from session history
-    let mut context = String::new();
-    for msg in session.messages.iter().rev().take(10) {
-        context.push_str(&format!("{}: {}\n", msg.role, msg.content));
-    }
+        // Build context from session history
+        let mut context = String::new();
+        for msg in session.messages.iter().rev().take(10) {
+            context.push_str(&format!("{}: {}\n", msg.role, msg.content));
+        }
+
+        (context, user_message)
+    }; // RwLock guard is dropped here
 
     // Get relevant knowledge for context
     let knowledge_results = state
@@ -297,15 +336,20 @@ async fn chat_handler(
     let response_time_ms = start.elapsed().as_micros() as f64 / 1000.0;
 
     // Add AI response to session
-    let ai_message = ChatMessage {
-        id: Uuid::new_v4().to_string(),
-        session_id: session_id.clone(),
-        role: "assistant".to_string(),
-        content: ai_response.clone(),
-        timestamp: chrono::Utc::now(),
-        response_time_ms,
-    };
-    session.messages.push(ai_message);
+    {
+        let mut sessions = state.chat_sessions.write().unwrap();
+        if let Some(session) = sessions.get_mut(&session_id) {
+            let ai_message = ChatMessage {
+                id: Uuid::new_v4().to_string(),
+                session_id: session_id.clone(),
+                role: "assistant".to_string(),
+                content: ai_response.clone(),
+                timestamp: chrono::Utc::now(),
+                response_time_ms,
+            };
+            session.messages.push(ai_message);
+        }
+    }
 
     // Calculate tokens (approximate)
     let tokens_used = count_tokens(&ai_response);
@@ -467,4 +511,48 @@ async fn current_thoughts(State(_state): State<ThinkAIState>) -> Json<serde_json
         "thought_count": thoughts.len(),
         "processing_state": "active",
     }))
+}
+
+// Audio transcription handler
+async fn transcribe_audio(
+    State(state): State<ThinkAIState>,
+    headers: HeaderMap,
+    body: Bytes,
+) -> Result<Json<TranscriptionResult>, StatusCode> {
+    let audio_service = state
+        .audio_service
+        .as_ref()
+        .ok_or(StatusCode::SERVICE_UNAVAILABLE)?;
+
+    let content_type = headers
+        .get(header::CONTENT_TYPE)
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("audio/webm");
+
+    match audio_service.transcribe(body, content_type).await {
+        Ok(result) => Ok(Json(result)),
+        Err(e) => {
+            eprintln!("Transcription error: {}", e);
+            Err(StatusCode::INTERNAL_SERVER_ERROR)
+        }
+    }
+}
+
+// Speech synthesis handler
+async fn synthesize_speech(
+    State(state): State<ThinkAIState>,
+    Json(request): Json<SynthesisRequest>,
+) -> Result<impl IntoResponse, StatusCode> {
+    let audio_service = state
+        .audio_service
+        .as_ref()
+        .ok_or(StatusCode::SERVICE_UNAVAILABLE)?;
+
+    match audio_service.synthesize(request).await {
+        Ok((audio_data, _cache_key)) => Ok(([(header::CONTENT_TYPE, "audio/mpeg")], audio_data)),
+        Err(e) => {
+            eprintln!("Synthesis error: {}", e);
+            Err(StatusCode::INTERNAL_SERVER_ERROR)
+        }
+    }
 }

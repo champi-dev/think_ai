@@ -7,8 +7,14 @@ function App() {
   const [useWebSearch, setUseWebSearch] = useState(false);
   const [useFactCheck, setUseFactCheck] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioPlayback, setAudioPlayback] = useState({});
+  const [usedMic, setUsedMic] = useState(false); // Track if mic was used for auto-play
+  const [isTyping, setIsTyping] = useState(false); // Track if user is typing
   const messagesEndRef = useRef(null);
   const canvasRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
   
   // Session management
   const getUserId = () => {
@@ -243,6 +249,7 @@ function App() {
       }
       
       const data = await response.json();
+      const newMessageIndex = messages.length + 1; // Index for the new AI message
       setMessages(prev => [...prev, { 
         role: 'ai', 
         content: data.response,
@@ -251,6 +258,13 @@ function App() {
           factChecked: data.fact_checked || false
         }
       }]);
+      
+      // Auto-play response if mic was used and user isn't typing
+      if (usedMic && !isTyping) {
+        setTimeout(() => {
+          playAudioMessage(data.response, newMessageIndex);
+        }, 500); // Small delay to ensure message is rendered
+      }
       
     } catch (error) {
       console.error('Error:', error);
@@ -268,6 +282,119 @@ function App() {
       await navigator.clipboard.writeText(content);
     } catch (err) {
       console.error('Failed to copy:', err);
+    }
+  };
+
+  // Audio recording functions
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream, { 
+        mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg' 
+      });
+      
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+      
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+      
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { 
+          type: mediaRecorder.mimeType 
+        });
+        await sendAudioForTranscription(audioBlob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+      
+      mediaRecorder.start();
+      setIsRecording(true);
+    } catch (error) {
+      console.error('Error starting recording:', error);
+      alert('Unable to access microphone. Please ensure microphone permissions are granted.');
+    }
+  };
+  
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+  };
+  
+  const sendAudioForTranscription = async (audioBlob) => {
+    setIsLoading(true);
+    
+    try {
+      const formData = new FormData();
+      formData.append('audio', audioBlob);
+      
+      const response = await fetch('/api/audio/transcribe', {
+        method: 'POST',
+        body: audioBlob,
+        headers: {
+          'Content-Type': audioBlob.type
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Transcription error: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      if (result.text) {
+        setInputValue(result.text);
+        setUsedMic(true); // Mark that mic was used
+        // Auto-send the message
+        handleSendMessage();
+      }
+    } catch (error) {
+      console.error('Transcription error:', error);
+      alert('Failed to transcribe audio. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const toggleRecording = () => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
+  
+  // Text-to-speech function
+  const playAudioMessage = async (content, messageIndex) => {
+    try {
+      const response = await fetch('/api/audio/synthesize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: content })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Synthesis error: ${response.status}`);
+      }
+      
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      
+      // Track playback state
+      setAudioPlayback(prev => ({ ...prev, [messageIndex]: 'playing' }));
+      
+      audio.onended = () => {
+        setAudioPlayback(prev => ({ ...prev, [messageIndex]: 'stopped' }));
+        URL.revokeObjectURL(audioUrl);
+      };
+      
+      audio.play();
+    } catch (error) {
+      console.error('Audio synthesis error:', error);
     }
   };
 
@@ -319,12 +446,28 @@ function App() {
                   ) : (
                     <>
                       <div dangerouslySetInnerHTML={{ __html: parseMarkdown(msg.content) }} />
-                      <button className="copy-button" onClick={() => handleCopyMessage(msg.content)}>
-                        <svg className="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                        </svg>
-                        <span>Copy</span>
-                      </button>
+                      <div className="message-actions">
+                        <button className="copy-button" onClick={() => handleCopyMessage(msg.content)}>
+                          <svg className="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                          </svg>
+                          <span>Copy</span>
+                        </button>
+                        <button 
+                          className="audio-button"
+                          onClick={() => playAudioMessage(msg.content, idx)}
+                          disabled={audioPlayback[idx] === 'playing'}
+                        >
+                          <svg className="audio-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {audioPlayback[idx] === 'playing' ? (
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            ) : (
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                            )}
+                          </svg>
+                          <span>{audioPlayback[idx] === 'playing' ? 'Playing' : 'Play'}</span>
+                        </button>
+                      </div>
                     </>
                   )}
                 </div>
@@ -353,6 +496,12 @@ function App() {
                 >
                   <span>✅</span>
                 </div>
+                <div 
+                  className={`input-feature-toggle mic ${isRecording ? 'recording' : ''}`}
+                  onClick={toggleRecording}
+                >
+                  <span>{isRecording ? '⏹️' : '🎤'}</span>
+                </div>
               </div>
               
               <input 
@@ -361,11 +510,24 @@ function App() {
                 placeholder={isCodeMode ? "Write code, debug, analyze, or ask coding questions..." : "Type your message here..."}
                 autoComplete="off"
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  setIsTyping(true);
+                  setUsedMic(false); // Reset mic flag when user types
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSendMessage();
+                    setIsTyping(false);
+                  }
+                }}
+                onBlur={() => setIsTyping(false)}
                 disabled={isLoading}
               />
-              <button id="sendBtn" onClick={handleSendMessage} disabled={isLoading}>
+              <button id="sendBtn" onClick={() => {
+                handleSendMessage();
+                setIsTyping(false);
+              }} disabled={isLoading}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>
                 </svg>

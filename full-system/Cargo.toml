@@ -43,11 +43,16 @@ chrono = { version = "0.4", features = ["serde"] }
 
 # AI Components
 rand = "0.8"
-sha2 = "0.10"
 
 # WebSocket support
 futures-util = "0.3"
 async-stream = "0.3"
+
+# Audio support
+reqwest = { version = "0.11", features = ["json", "stream", "multipart"] }
+base64 = "0.21"
+bytes = "1.5"
+sha2 = "0.10"
 
 # Think AI components
 think-ai-core = { path = "../think-ai-core" }

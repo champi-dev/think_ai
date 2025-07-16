@@ -2653,3 +2653,48 @@ Error: Failed to bind to port 8080: Address already in use (os error 98)
 🧠 Initializing knowledge base...
 [2m2025-07-16T18:35:58.052106Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Port 8080 cleared
 [2m2025-07-16T18:35:58.168417Z[0m [32m INFO[0m [2mthink_ai_http::server[0m[2m:[0m Server listening on 127.0.0.1:8080
+[2m2025-07-16T22:01:15.315692Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-16T22:01:15.316100Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-16T22:01:15.403643Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ⚠️ Audio service disabled - API keys not found
+thread 'main' panicked at full-system/src/main.rs:233:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-16T22:01:16.986669Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-16T22:01:16.987059Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-16T22:01:17.076891Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ⚠️ Audio service disabled - API keys not found
+thread 'main' panicked at full-system/src/main.rs:233:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-16T22:01:27.434232Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-16T22:01:27.434641Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-16T22:01:27.522492Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ⚠️ Audio service disabled - API keys not found
+thread 'main' panicked at full-system/src/main.rs:233:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-16T22:01:36.686041Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-16T22:01:36.686451Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-16T22:01:36.775405Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ⚠️ Audio service disabled - API keys not found
+[2m2025-07-16T22:01:36.775853Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-16T22:03:26.133433Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-16T22:03:26.133874Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-16T22:03:26.307814Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 0 cached audio files
+[2m2025-07-16T22:03:26.307843Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-16T22:03:26.307862Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-16T22:03:26.308278Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-16T22:05:53.941799Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: b75dcee09a2903316512794b93e48faf329cf70ed6a015a48141bf3ac1276624.mp3
+[2m2025-07-16T22:06:05.993724Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: f474b8901997786e755350cc652a2b6992176863f20b82dd05ca009df918f914.mp3
+[2m2025-07-16T22:06:06.579662Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c.mp3
+[2m2025-07-16T22:06:07.143572Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 99a224f371a891180d1088bc45dabcc60bd88179c6e710dc4669229215403860.mp3
+[2m2025-07-16T22:06:08.244623Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 83abcd6ebf0b0351da582b6111619c7dcaeb8df56ee1a093b668f94b96a6328a.mp3
+[2m2025-07-16T22:06:08.464973Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: 83abcd6ebf0b0351da582b6111619c7dcaeb8df56ee1a093b668f94b96a6328a
+[2m2025-07-16T22:06:41.204024Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 6ffa6f20c835a87b7e4cf96eb08205e9613af389c36970005629d94eca845bc6.mp3
+[2m2025-07-16T22:07:48.809991Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 818eb01316fc2d8b1b1d5fbd467f55cd8467136d48108d39b942bb19b51b012a.mp3
+[2m2025-07-16T22:10:23.011364Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-16T22:10:23.011800Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-16T22:10:23.187329Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 7 cached audio files
+[2m2025-07-16T22:10:23.187361Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-16T22:10:23.187368Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-16T22:10:23.187763Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-16T22:11:30.357888Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef.mp3
+[2m2025-07-16T22:11:55.936066Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: d1762d7ca20852561dbf1e2b1ecfcb9e42708661e737bf441175e3878daf9f75.mp3
+[2m2025-07-16T22:13:42.131308Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 344d83bfa6095fb3fc64ce5a9427d62b054a21937994d854d90563317f686a97.mp3
