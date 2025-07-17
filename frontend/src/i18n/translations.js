@@ -9,7 +9,11 @@ export const translations = {
     micPermissionNeeded: 'Mic permission needed.',
     noSpeechDetected: 'No speech detected.',
     errorOccurred: 'An error occurred.',
-    errorPlaying: 'Error playing response.'
+    errorPlaying: 'Error playing response.',
+    readyToListen: 'Ready to listen',
+    listeningForVoice: 'Listening for voice...',
+    recording: 'Recording...',
+    autoDetectionOff: 'Auto-detection off'
   },
   es: {
     tapToSpeak: 'Toca para Hablar',

@@ -33,8 +33,8 @@ Port 5174 is in use, trying another one...
 10:51:26 AM [vite] hmr update /src/components10:52:32 AM [vite] page reload dist/generate-icons.html
 11:03:43 AM [vite] page reload dist/generate-icons.html
 11:22:11 AM [vite] page reload dist/generate-icons.html
- hmr update /src/components/SmartwatchView.jsx
-10:52:00 AM [vite] hmr update /src/components/SmartwatchView.jsx
+12:27:13 PM [vite] page reload dist/generate-icons.html
+AM [vite] hmr update /src/components/SmartwatchView.jsx
 10:52:09 AM [vite] hmr update /src/components/SmartwatchView.jsx
 10:52:17 AM [vite] hmr update /src/components/SmartwatchView.jsx
 10:52:32 AM [vite] page reload dist/generate-icons.html
@@ -47,3 +47,6 @@ Port 5174 is in use, trying another one...
 11:03:43 AM [vite] page reload dist/generate-icons.html
 11:20:22 AM [vite] hmr update /src/components/SmartwatchView.jsx
 11:22:11 AM [vite] page reload dist/generate-icons.html
+12:26:37 PM [vite] hmr update /src/App.jsx
+12:26:56 PM [vite] hmr update /src/App.jsx
+12:27:13 PM [vite] page reload dist/generate-icons.html

@@ -261,19 +261,17 @@ async fn api_health() -> Json<serde_json::Value> {
 }
 
 // Detect language from IP
-async fn detect_language_from_ip(headers: HeaderMap) -> Result<Json<serde_json::Value>, StatusCode> {
+async fn detect_language_from_ip(
+    headers: HeaderMap,
+) -> Result<Json<serde_json::Value>, StatusCode> {
     // Try to get the real IP from various headers
     let ip = headers
         .get("x-forwarded-for")
         .and_then(|v| v.to_str().ok())
         .and_then(|s| s.split(',').next()) // Take first IP if multiple
-        .or_else(|| {
-            headers
-                .get("x-real-ip")
-                .and_then(|v| v.to_str().ok())
-        })
+        .or_else(|| headers.get("x-real-ip").and_then(|v| v.to_str().ok()))
         .unwrap_or("127.0.0.1");
-    
+
     match geolocation::get_geolocation_info(ip).await {
         Ok(info) => Ok(Json(json!({
             "language": info.language,
@@ -563,7 +561,7 @@ async fn transcribe_audio(
         .get(header::CONTENT_TYPE)
         .and_then(|v| v.to_str().ok())
         .unwrap_or("audio/webm");
-        
+
     // Get language from custom header
     let language = headers
         .get("X-Language")

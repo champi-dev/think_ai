@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Voice Detection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .status {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button.start {
+            background-color: #4CAF50;
+            color: white;
+        }
+        button.stop {
+            background-color: #f44336;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .meter {
+            width: 100%;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+        .meter-fill {
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.1s ease-out;
+        }
+        .threshold-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: red;
+        }
+        .log {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #ccc;
+            padding-left: 10px;
+        }
+        .log-entry.voice {
+            border-left-color: #4CAF50;
+            background-color: #e8f5e9;
+        }
+        .log-entry.recording {
+            border-left-color: #ff9800;
+            background-color: #fff3e0;
+        }
+        .log-entry.silence {
+            border-left-color: #2196F3;
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Auto Voice Detection Test</h1>
+    
+    <div class="status">
+        <h2>Status: <span id="status">Ready</span></h2>
+        <p>Current State: <span id="state">Idle</span></p>
+        <p>Audio Level: <span id="level">0.00</span></p>
+    </div>
+    
+    <div class="controls">
+        <button id="startBtn" class="start" onclick="startMonitoring()">Start Monitoring</button>
+        <button id="stopBtn" class="stop" onclick="stopMonitoring()" disabled>Stop Monitoring</button>
+    </div>
+    
+    <div class="meter">
+        <div id="meterFill" class="meter-fill" style="width: 0%"></div>
+        <div class="threshold-line" style="left: 8%"></div>
+    </div>
+    
+    <div class="log" id="log">
+        <div class="log-entry">Waiting to start...</div>
+    </div>
+
+    <script>
+        let audioContext = null;
+        let analyser = null;
+        let microphone = null;
+        let isMonitoring = false;
+        let isRecording = false;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let voiceDetectionTimeout = null;
+        let silenceTimeout = null;
+        
+        const VOICE_THRESHOLD = 0.08; // 8%
+        const SILENCE_THRESHOLD = 0.05; // 5%
+        const VOICE_DETECTION_TIME = 300; // ms
+        const SILENCE_TIMEOUT = 2000; // ms
+        
+        function log(message, type = '') {
+            const logDiv = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry ' + type;
+            entry.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            logDiv.insertBefore(entry, logDiv.firstChild);
+            
+            // Keep only last 50 entries
+            while (logDiv.children.length > 50) {
+                logDiv.removeChild(logDiv.lastChild);
+            }
+        }
+        
+        function updateUI() {
+            document.getElementById('startBtn').disabled = isMonitoring;
+            document.getElementById('stopBtn').disabled = !isMonitoring;
+            document.getElementById('status').textContent = isMonitoring ? 'Active' : 'Ready';
+            document.getElementById('state').textContent = isRecording ? 'Recording' : (isMonitoring ? 'Monitoring' : 'Idle');
+        }
+        
+        async function startMonitoring() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    } 
+                });
+                
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(stream);
+                microphone.connect(analyser);
+                
+                analyser.fftSize = 256;
+                analyser.smoothingTimeConstant = 0.8;
+                
+                isMonitoring = true;
+                log('Started monitoring for voice activity', 'voice');
+                updateUI();
+                
+                // Start analyzing audio
+                analyzeAudio();
+            } catch (error) {
+                log('Error: ' + error.message, 'error');
+                console.error('Error accessing microphone:', error);
+            }
+        }
+        
+        function stopMonitoring() {
+            isMonitoring = false;
+            isRecording = false;
+            
+            if (voiceDetectionTimeout) {
+                clearTimeout(voiceDetectionTimeout);
+                voiceDetectionTimeout = null;
+            }
+            
+            if (silenceTimeout) {
+                clearTimeout(silenceTimeout);
+                silenceTimeout = null;
+            }
+            
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+            
+            if (microphone) {
+                microphone.disconnect();
+                microphone = null;
+            }
+            
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+            
+            log('Stopped monitoring');
+            updateUI();
+            document.getElementById('level').textContent = '0.00';
+            document.getElementById('meterFill').style.width = '0%';
+        }
+        
+        function analyzeAudio() {
+            if (!analyser || !isMonitoring) return;
+            
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            analyser.getByteFrequencyData(dataArray);
+            
+            // Calculate average volume
+            const average = dataArray.reduce((sum, value) => sum + value, 0) / bufferLength;
+            const normalizedVolume = average / 255;
+            
+            // Update UI
+            document.getElementById('level').textContent = normalizedVolume.toFixed(3);
+            document.getElementById('meterFill').style.width = (normalizedVolume * 100) + '%';
+            
+            // Voice detection logic
+            if (!isRecording) {
+                if (normalizedVolume > VOICE_THRESHOLD) {
+                    if (!voiceDetectionTimeout) {
+                        log('Voice detected above threshold (' + (normalizedVolume * 100).toFixed(1) + '%)', 'voice');
+                        voiceDetectionTimeout = setTimeout(() => {
+                            log('Starting recording - sustained voice detected', 'recording');
+                            startRecording();
+                        }, VOICE_DETECTION_TIME);
+                    }
+                } else {
+                    if (voiceDetectionTimeout) {
+                        clearTimeout(voiceDetectionTimeout);
+                        voiceDetectionTimeout = null;
+                    }
+                }
+            }
+            
+            // Silence detection logic
+            if (isRecording) {
+                if (normalizedVolume < SILENCE_THRESHOLD) {
+                    if (!silenceTimeout) {
+                        log('Silence detected below threshold (' + (normalizedVolume * 100).toFixed(1) + '%)', 'silence');
+                        silenceTimeout = setTimeout(() => {
+                            log('Stopping recording - silence timeout reached', 'recording');
+                            stopRecording();
+                        }, SILENCE_TIMEOUT);
+                    }
+                } else {
+                    if (silenceTimeout) {
+                        clearTimeout(silenceTimeout);
+                        silenceTimeout = null;
+                    }
+                }
+            }
+            
+            requestAnimationFrame(analyzeAudio);
+        }
+        
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType });
+                    log('Recording complete. Size: ' + (audioBlob.size / 1024).toFixed(2) + ' KB', 'recording');
+                    
+                    // Stop the stream
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    // Resume monitoring
+                    isRecording = false;
+                    updateUI();
+                };
+                
+                mediaRecorder.start();
+                isRecording = true;
+                updateUI();
+            } catch (error) {
+                log('Error starting recording: ' + error.message, 'error');
+            }
+        }
+        
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+            
+            if (silenceTimeout) {
+                clearTimeout(silenceTimeout);
+                silenceTimeout = null;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -87,8 +87,9 @@ impl AudioService {
         language: Option<String>,
     ) -> Result<TranscriptionResult> {
         // Deepgram supports automatic language detection, but we can specify if provided
-        let mut url = "https://api.deepgram.com/v1/listen?model=nova-2&smart_format=true".to_string();
-        
+        let mut url =
+            "https://api.deepgram.com/v1/listen?model=nova-2&smart_format=true".to_string();
+
         if let Some(lang) = language {
             // Map our language codes to Deepgram's language codes
             let deepgram_lang = match lang.as_str() {
@@ -158,13 +159,15 @@ impl AudioService {
         // Select voice based on language, using multilingual voices
         let voice_id = request.voice_id.unwrap_or_else(|| {
             match request.language.as_deref() {
-                Some("es") | Some("fr") | Some("de") | Some("it") | Some("pt") | Some("pl") | Some("tr") | Some("ru") | Some("nl") | Some("cs") | Some("ar") | Some("zh") | Some("ja") | Some("ko") | Some("hi") => {
+                Some("es") | Some("fr") | Some("de") | Some("it") | Some("pt") | Some("pl")
+                | Some("tr") | Some("ru") | Some("nl") | Some("cs") | Some("ar") | Some("zh")
+                | Some("ja") | Some("ko") | Some("hi") => {
                     "XB0fDUnXU5powFXDhCwa".to_string() // Charlotte - multilingual voice
                 }
                 _ => "21m00Tcm4TlvDq8ikWAM".to_string(), // Rachel - English voice
             }
         });
-        
+
         let model_id = request
             .model_id
             .unwrap_or_else(|| "eleven_turbo_v2_5".to_string()); // Latest multilingual model
