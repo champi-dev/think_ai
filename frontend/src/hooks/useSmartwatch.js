@@ -2,11 +2,16 @@
 import { useState, useEffect } from 'react';
 
 const isSmartwatch = () => {
+  // Check for force parameter in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('smartwatch') === 'true') {
+    return true;
+  }
+  
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
-  // Typical smartwatch screens are small and close to square.
-  // Let's define a smartwatch as a screen smaller than 400x400 pixels.
-  return screenWidth < 400 && screenHeight < 400;
+  // Show smartwatch UI for screens 500px or less
+  return screenWidth <= 500 || screenHeight <= 500;
 };
 
 export const useSmartwatch = () => {
