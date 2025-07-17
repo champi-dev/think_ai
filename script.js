@@ -1,30 +1,44 @@
+const urlParams = new URLSearchParams(window.location.search);
+const testMode = urlParams.get('testMode') === 'true';
+
 const startButton = document.getElementById('start-button');
 const listeningIndicator = document.getElementById('listening-indicator');
 const transcriptDiv = document.getElementById('transcript');
 const responseDiv = document.getElementById('response');
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
+const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
-recognition.onstart = () => {
-    listeningIndicator.classList.add('listening');
-    startButton.textContent = 'Listening...';
-};
+if (recognition) {
+    recognition.onstart = () => {
+        listeningIndicator.classList.add('listening');
+        startButton.textContent = 'Listening...';
+    };
 
-recognition.onend = () => {
-    listeningIndicator.classList.remove('listening');
-    startButton.textContent = 'Start Listening';
-};
+    recognition.onend = () => {
+        listeningIndicator.classList.remove('listening');
+        startButton.textContent = 'Start Listening';
+    };
 
-recognition.onresult = (event) => {
-    const current = event.resultIndex;
-    const transcript = event.results[current][0].transcript;
-    transcriptDiv.textContent = `You said: ${transcript}`;
-    handleCommand(transcript);
-};
+    recognition.onresult = (event) => {
+        const current = event.resultIndex;
+        const transcript = event.results[current][0].transcript;
+        transcriptDiv.textContent = `You said: ${transcript}`;
+        handleCommand(transcript);
+    };
+}
 
 startButton.addEventListener('click', () => {
-    recognition.start();
+    if (testMode) {
+        listeningIndicator.classList.add('listening');
+        startButton.textContent = 'Listening...';
+        transcriptDiv.textContent = 'You said: test command';
+        handleCommand('test command');
+    } else if (recognition) {
+        recognition.start();
+    } else {
+        responseDiv.textContent = 'Speech recognition not supported in this browser.';
+    }
 });
 
 function handleCommand(command) {
@@ -45,6 +59,10 @@ function handleCommand(command) {
 }
 
 function speak(text) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    speechSynthesis.speak(utterance);
+    if (testMode) {
+        console.log(`Speaking: ${text}`);
+    } else {
+        const utterance = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utterance);
+    }
 }

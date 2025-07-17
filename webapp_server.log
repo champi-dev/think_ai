@@ -2769,3 +2769,9 @@ Transcription error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Ba
 [2m2025-07-17T07:02:38.664438Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
 [2m2025-07-17T07:02:38.664446Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
 [2m2025-07-17T07:02:38.664605Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T07:09:35.755992Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T07:09:35.756404Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T07:09:35.930973Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 34 cached audio files
+[2m2025-07-17T07:09:35.931027Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T07:09:35.931035Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T07:09:35.931197Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080

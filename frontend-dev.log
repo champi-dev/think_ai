@@ -19,9 +19,8 @@ Port 5174 is in use, trying another one...
 5:20:17 AM [vite] server restarted.
 5:24:24 AM [vite] vite.config.js changed, restarting server...
 5:24:24 AM [vite] server restarted.
-7 AM [vite] server restarted.
-
-  ➜  Local:   http://localhost:5174/
+7:09:32 AM [vite] page reload dist/generate-icons.html
+ocalhost:5174/
   ➜  Network: use --host to expose
 5:24:24 AM [vite] vite.config.js changed, restarting server...
 Port 5173 is in use, trying another one...
@@ -29,3 +28,4 @@ Port 5173 is in use, trying another one...
 
   ➜  Local:   http://localhost:5174/
   ➜  Network: use --host to expose
+7:09:32 AM [vite] page reload dist/generate-icons.html

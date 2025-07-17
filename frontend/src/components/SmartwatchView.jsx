@@ -145,17 +145,13 @@ export const SmartwatchView = () => {
   };
 
   return (
-    <div className="smartwatch-container">
-      <div className="smartwatch-ui">
-        <button
-          className={`mic-button ${isRecording ? 'recording' : ''} ${isLoading ? 'loading' : ''}`}
-          onClick={handleMicClick}
-          disabled={isLoading}
+    <div className="smartwatch-container" onClick={handleMicClick}>
+      <div className="watch-face">
+        <div
+          className={`listening-indicator ${isRecording ? 'listening' : ''} ${isLoading ? 'loading' : ''}`}
         >
-          <div className="mic-icon">
-            {isLoading ? '🧠' : '🎤'}
-          </div>
-        </button>
+          {isLoading ? '🧠' : '🎤'}
+        </div>
         <div className="status-message">{statusMessage}</div>
       </div>
     </div>
