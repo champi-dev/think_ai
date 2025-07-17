@@ -528,8 +528,14 @@ async fn transcribe_audio(
         .get(header::CONTENT_TYPE)
         .and_then(|v| v.to_str().ok())
         .unwrap_or("audio/webm");
+        
+    // Get language from custom header
+    let language = headers
+        .get("X-Language")
+        .and_then(|v| v.to_str().ok())
+        .map(|s| s.to_string());
 
-    match audio_service.transcribe(body, content_type).await {
+    match audio_service.transcribe(body, content_type, language).await {
         Ok(result) => Ok(Json(result)),
         Err(e) => {
             eprintln!("Transcription error: {}", e);

@@ -32,6 +32,7 @@ pub struct SynthesisRequest {
     pub text: String,
     pub voice_id: Option<String>, // ElevenLabs voice ID
     pub model_id: Option<String>, // Use "eleven_turbo_v2" for fastest
+    pub language: Option<String>, // Language code for multilingual synthesis
 }
 
 impl AudioService {
@@ -83,8 +84,21 @@ impl AudioService {
         &self,
         audio_data: Bytes,
         mime_type: &str,
+        language: Option<String>,
     ) -> Result<TranscriptionResult> {
-        let url = "https://api.deepgram.com/v1/listen?model=nova-2&smart_format=true";
+        // Deepgram supports automatic language detection, but we can specify if provided
+        let mut url = "https://api.deepgram.com/v1/listen?model=nova-2&smart_format=true".to_string();
+        
+        if let Some(lang) = language {
+            // Map our language codes to Deepgram's language codes
+            let deepgram_lang = match lang.as_str() {
+                "zh" => "zh-CN",
+                "pt" => "pt-BR",
+                "en" => "en-US",
+                _ => &lang, // Use as-is for other languages
+            };
+            url.push_str(&format!("&language={}", deepgram_lang));
+        }
 
         let response = self
             .client
@@ -141,13 +155,19 @@ impl AudioService {
             return Ok((Bytes::from(audio_data), cache_key));
         }
 
-        // Use default voice if not specified
-        let voice_id = request
-            .voice_id
-            .unwrap_or_else(|| "21m00Tcm4TlvDq8ikWAM".to_string()); // Rachel voice
+        // Select voice based on language, using multilingual voices
+        let voice_id = request.voice_id.unwrap_or_else(|| {
+            match request.language.as_deref() {
+                Some("es") | Some("fr") | Some("de") | Some("it") | Some("pt") | Some("pl") | Some("tr") | Some("ru") | Some("nl") | Some("cs") | Some("ar") | Some("zh") | Some("ja") | Some("ko") | Some("hi") => {
+                    "XB0fDUnXU5powFXDhCwa".to_string() // Charlotte - multilingual voice
+                }
+                _ => "21m00Tcm4TlvDq8ikWAM".to_string(), // Rachel - English voice
+            }
+        });
+        
         let model_id = request
             .model_id
-            .unwrap_or_else(|| "eleven_turbo_v2".to_string()); // Fastest model
+            .unwrap_or_else(|| "eleven_turbo_v2_5".to_string()); // Latest multilingual model
 
         let url = format!("https://api.elevenlabs.io/v1/text-to-speech/{}", voice_id);
 

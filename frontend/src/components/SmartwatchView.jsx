@@ -1,17 +1,20 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import './SmartwatchView.css';
+import { getTranslation, detectLanguage } from '../i18n/translations';
 
 export const SmartwatchView = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('Tap to Speak');
+  const [statusMessage, setStatusMessage] = useState(getTranslation('tapToSpeak'));
+  const [userLang, setUserLang] = useState(detectLanguage());
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
   const silenceTimeoutRef = useRef(null);
   const streamRef = useRef(null);
+  const isRecordingRef = useRef(false);
 
   const getUserId = () => {
     let userId = localStorage.getItem('think_ai_user_id');
@@ -37,7 +40,10 @@ export const SmartwatchView = () => {
       const response = await fetch('/api/audio/synthesize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ 
+          text,
+          language: userLang 
+        })
       });
 
       if (!response.ok) {
@@ -49,31 +55,34 @@ export const SmartwatchView = () => {
       const audio = new Audio(audioUrl);
       audio.play();
       audio.onended = () => {
-        setStatusMessage('Tap to Speak');
+        setStatusMessage(getTranslation('tapToSpeak', userLang));
         setIsLoading(false);
       };
     } catch (error) {
       console.error('Audio synthesis error:', error);
-      setStatusMessage('Error playing response.');
+      setStatusMessage(getTranslation('errorPlaying', userLang));
       setIsLoading(false);
     }
   };
 
   const sendAudioForTranscription = async (audioBlob) => {
     setIsLoading(true);
-    setStatusMessage('Transcribing...');
+    setStatusMessage(getTranslation('transcribing', userLang));
     try {
       const response = await fetch('/api/audio/transcribe', {
         method: 'POST',
         body: audioBlob,
-        headers: { 'Content-Type': audioBlob.type }
+        headers: { 
+          'Content-Type': audioBlob.type,
+          'X-Language': userLang 
+        }
       });
 
       if (!response.ok) throw new Error(`Transcription error: ${response.status}`);
 
       const result = await response.json();
       if (result.text) {
-        setStatusMessage('Thinking...');
+        setStatusMessage(getTranslation('thinking', userLang));
         const chatResponse = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -82,29 +91,30 @@ export const SmartwatchView = () => {
             session_id: getSessionId(),
             mode: 'general',
             use_web_search: true,
-            fact_check: true
+            fact_check: true,
+            language: userLang
           })
         });
 
         if (!chatResponse.ok) throw new Error(`API Error: ${chatResponse.status}`);
         
         const data = await chatResponse.json();
-        setStatusMessage('Speaking...');
+        setStatusMessage(getTranslation('speaking', userLang));
         await playAudioResponse(data.response);
 
       } else {
-        setStatusMessage('No speech detected.');
+        setStatusMessage(getTranslation('noSpeechDetected', userLang));
         setIsLoading(false);
       }
     } catch (error) {
       console.error('Error in voice interaction:', error);
-      setStatusMessage('An error occurred.');
+      setStatusMessage(getTranslation('errorOccurred', userLang));
       setIsLoading(false);
     }
   };
 
   const detectSilence = () => {
-    if (!analyserRef.current || !isRecording) return;
+    if (!analyserRef.current || !isRecordingRef.current) return;
     
     const analyser = analyserRef.current;
     const bufferLength = analyser.frequencyBinCount;
@@ -115,15 +125,20 @@ export const SmartwatchView = () => {
     const average = dataArray.reduce((sum, value) => sum + value, 0) / bufferLength;
     const normalizedVolume = average / 255; // Normalize to 0-1
     
-    // Noise gate threshold (30% = 0.3)
-    const NOISE_GATE_THRESHOLD = 0.3;
+    // Noise gate threshold (5% = 0.05) - lowered for better detection
+    const NOISE_GATE_THRESHOLD = 0.05;
     const isSilent = normalizedVolume < NOISE_GATE_THRESHOLD;
+    
+    // Debug logging
+    console.log('Audio level:', normalizedVolume.toFixed(3), 'Silent:', isSilent);
     
     if (isSilent) {
       // Start or continue silence timer
       if (!silenceTimeoutRef.current) {
+        console.log('Starting silence timer...');
         silenceTimeoutRef.current = setTimeout(() => {
-          if (isRecording) {
+          console.log('Auto-stopping after 2s of silence');
+          if (isRecordingRef.current) {
             stopRecording();
           }
         }, 2000); // 2 seconds
@@ -131,13 +146,14 @@ export const SmartwatchView = () => {
     } else {
       // Reset silence timer if sound detected
       if (silenceTimeoutRef.current) {
+        console.log('Sound detected, resetting timer');
         clearTimeout(silenceTimeoutRef.current);
         silenceTimeoutRef.current = null;
       }
     }
     
     // Continue monitoring
-    if (isRecording) {
+    if (isRecordingRef.current) {
       requestAnimationFrame(detectSilence);
     }
   };
@@ -185,13 +201,14 @@ export const SmartwatchView = () => {
 
       mediaRecorder.start();
       setIsRecording(true);
-      setStatusMessage('Listening...');
+      isRecordingRef.current = true;
+      setStatusMessage(getTranslation('listening', userLang));
       
       // Start silence detection
       requestAnimationFrame(detectSilence);
     } catch (error) {
       console.error('Error starting recording:', error);
-      setStatusMessage('Mic permission needed.');
+      setStatusMessage(getTranslation('micPermissionNeeded', userLang));
     }
   };
 
@@ -199,7 +216,8 @@ export const SmartwatchView = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      setStatusMessage('Processing...');
+      isRecordingRef.current = false;
+      setStatusMessage(getTranslation('processing', userLang));
     }
   };
 

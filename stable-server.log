@@ -8348,3 +8348,728 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
 called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:43:13.679011Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:43:13.774717Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:43:24.175873Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:43:24.272850Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:43:34.676204Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:43:34.771924Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:43:45.179169Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:43:45.273853Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:43:55.678800Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:43:55.772695Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:44:06.179407Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:44:06.273236Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:44:16.678892Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:44:16.773905Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:44:27.178614Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:44:27.272364Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:44:37.682972Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:44:37.777975Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:44:48.180178Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:44:48.275848Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:44:58.679102Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:44:58.773628Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:45:09.178644Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:45:09.271974Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:45:19.676130Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:45:19.770182Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:45:30.177785Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:45:30.271720Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:45:40.674284Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:45:40.769520Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:45:51.181026Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:45:51.276391Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:46:01.682028Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:46:01.777972Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:46:12.178138Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:46:12.272860Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:46:22.674640Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:46:22.769811Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:46:33.180187Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:46:33.292383Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:46:43.679143Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:46:43.774835Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:46:54.172637Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:46:54.267854Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:47:04.678903Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:47:04.773897Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:47:15.177116Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:47:15.272293Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:47:25.679021Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:47:25.773832Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:47:36.176327Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:47:36.270920Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:47:46.683017Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:47:46.779642Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:47:57.179833Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:47:57.274515Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:48:07.676250Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:48:07.771118Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:48:18.176066Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:48:18.271595Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:48:28.679647Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:48:28.773945Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:48:39.176206Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:48:39.271354Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:48:49.681372Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:48:49.775992Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:49:00.180006Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:49:00.274440Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:49:10.679841Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:49:10.773941Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:49:21.175744Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:49:21.270257Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:49:31.678597Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:49:31.773294Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:49:42.183861Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:49:42.278001Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:49:52.682987Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:49:52.777597Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:50:03.182433Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:50:03.276845Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:50:13.678900Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:50:13.773287Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:50:24.178429Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:50:24.273029Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:50:34.672893Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:50:34.767638Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:50:45.179581Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:50:45.273863Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:50:55.672656Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:50:55.767277Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:51:06.176410Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:51:06.270006Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:51:16.678649Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:51:16.775161Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:51:27.176547Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:51:27.270977Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:51:37.682387Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:51:37.786779Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:51:48.183595Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:51:48.278990Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:51:58.677883Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:51:58.772359Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:52:09.176819Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:52:09.271383Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:52:19.680174Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:52:19.779468Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:52:30.175895Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:52:30.277811Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:52:40.680577Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:52:40.775570Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:52:51.178318Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:52:51.273934Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:53:01.678677Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:53:01.775896Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:53:12.178929Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:53:12.273575Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:53:22.678976Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:53:22.773834Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:53:33.180302Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:53:33.275626Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:53:43.679026Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:53:43.773980Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:53:54.169795Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:53:54.251299Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:54:04.429166Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:54:04.523639Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:54:14.925602Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:54:15.020413Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:54:25.428844Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:54:25.522343Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:54:35.930991Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:54:36.025461Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:54:46.429504Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:54:46.523796Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:54:56.928878Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:54:57.022612Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:55:07.428899Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:55:07.523025Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:55:17.925871Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:55:18.022208Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:55:28.273886Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:55:28.367920Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:55:38.683192Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:55:38.778736Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:55:49.178858Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:55:49.272916Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:55:59.675899Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:55:59.770222Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:56:10.173557Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:56:10.269218Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:56:20.679084Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:56:20.774197Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:56:31.175856Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:56:31.271250Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:56:41.687452Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:56:41.781971Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:56:52.177940Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:56:52.272126Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:57:02.679966Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:57:02.773800Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:57:13.183766Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:57:13.278497Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:57:23.683018Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:57:23.777229Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:57:34.180019Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:57:34.274018Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:57:44.682851Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:57:44.777557Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:57:55.171855Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:57:55.265715Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:58:05.678775Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:58:05.773069Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:58:16.175664Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:58:16.270583Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:58:26.680393Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:58:26.774008Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:58:37.176087Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:58:37.270978Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:58:47.677007Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:58:47.771271Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:58:58.180628Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:58:58.274222Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:59:08.678167Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:59:08.772064Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:59:19.178801Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:59:19.273380Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:59:29.678885Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:59:29.773581Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:59:40.180036Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:59:40.274149Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T10:59:50.678617Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T10:59:50.774022Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:00:01.178632Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:00:01.272710Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:00:11.678034Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:00:11.771942Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:00:22.178495Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:00:22.273631Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:00:32.675940Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:00:32.771778Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:00:43.178744Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:00:43.272851Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:00:53.700736Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:00:53.910079Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:01:04.447106Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:01:04.596256Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:01:14.923585Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:01:15.060499Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:01:25.420301Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:01:25.503326Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:01:35.928991Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:01:36.032338Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:01:46.428933Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:01:46.523012Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:01:56.925827Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:01:57.021433Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:02:07.422451Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:02:07.519092Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:02:17.922837Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:02:18.017195Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:02:28.425976Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:02:28.520161Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:02:38.917817Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:02:38.997394Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:02:49.174061Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:02:49.269053Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:02:59.684020Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:02:59.778270Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:03:10.183046Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:03:10.280952Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:03:20.674793Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:03:20.770375Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:03:31.177011Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:03:31.272438Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:03:41.673877Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:03:41.768462Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:03:52.204183Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:03:52.354730Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:04:02.705539Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:04:02.916211Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:04:13.422428Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:04:13.507740Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:04:23.918397Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:04:24.001361Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:04:34.172950Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:04:34.263711Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:04:44.673547Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:04:44.757682Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:04:55.179760Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:04:55.262932Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:05:05.672323Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:05:05.753276Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:05:16.172726Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:05:16.256866Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:05:26.679730Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:05:26.789495Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:05:37.167863Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:05:37.250647Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:05:47.427968Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:05:47.521846Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:05:57.944541Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:05:58.102499Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:06:08.463085Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:06:08.603357Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:06:18.928139Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:06:19.015370Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:06:29.420068Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:06:29.503035Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:06:39.918939Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:06:39.999312Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:06:50.168155Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:06:50.247145Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:07:00.418149Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:07:00.498859Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:07:10.668652Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:07:10.746323Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:07:20.922047Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:07:21.002214Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:07:31.167852Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:07:31.249564Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:07:41.425372Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:07:41.521684Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:07:51.925988Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:07:52.021474Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:08:02.428771Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:08:02.522726Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:08:12.929869Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:08:13.023735Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+[2m2025-07-17T11:08:23.432902Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-17T11:08:23.527775Z[0m [32m INFO[0m [2mthink_ai_full_persistent[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+thread 'main' panicked at full-system/src/main_persistent.rs:302:63:
+called `Result::unwrap()` on an `Err` value: Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

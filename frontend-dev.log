@@ -25,8 +25,23 @@ Port 5174 is in use, trying another one...
 10:35:32 AM [vite] hmr update /src/App.jsx
 10:39:22 AM [vite] hmr update /src/App.jsx
 10:40:35 AM [vite] page reload dist/generate-icons.html
---host to expose
-7:09:32 AM [vite] page reload dist/generate-icons.html
-10:29:32 AM [vite] page reload dist/generate-icons.html
-10:31:35 AM [vite] page reload dist/generate-icons.html
-10:40:35 AM [vite] page reload dist/generate-icons.html
+10:45:47 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:46:24 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:46:36 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:47:52 AM [vite] page reload dist/generate-icons.html
+10:50:36 AM [vite] page reload dist/generate-icons.html
+10:51:26 AM [vite] hmr update /src/components10:52:32 AM [vite] page reload dist/generate-icons.html
+11:03:43 AM [vite] page reload dist/generate-icons.html
+te /src/components/SmartwatchView.jsx
+10:51:53 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:52:00 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:52:09 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:52:17 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:52:32 AM [vite] page reload dist/generate-icons.html
+10:56:16 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:56:28 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:56:53 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:57:03 AM [vite] hmr update /src/components/SmartwatchView.jsx
+10:57:13 AM [vite] hmr update /src/components/SmartwatchView.jsx
+11:02:50 AM [vite] hmr update /src/components/SmartwatchView.jsx
+11:03:43 AM [vite] page reload dist/generate-icons.html
