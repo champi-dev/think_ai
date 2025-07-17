@@ -8,6 +8,10 @@ export const SmartwatchView = () => {
   const [statusMessage, setStatusMessage] = useState('Tap to Speak');
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+  const audioContextRef = useRef(null);
+  const analyserRef = useRef(null);
+  const silenceTimeoutRef = useRef(null);
+  const streamRef = useRef(null);
 
   const getUserId = () => {
     let userId = localStorage.getItem('think_ai_user_id');
@@ -99,9 +103,57 @@ export const SmartwatchView = () => {
     }
   };
 
+  const detectSilence = () => {
+    if (!analyserRef.current || !isRecording) return;
+    
+    const analyser = analyserRef.current;
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    analyser.getByteFrequencyData(dataArray);
+    
+    // Calculate average volume
+    const average = dataArray.reduce((sum, value) => sum + value, 0) / bufferLength;
+    const normalizedVolume = average / 255; // Normalize to 0-1
+    
+    // Noise gate threshold (30% = 0.3)
+    const NOISE_GATE_THRESHOLD = 0.3;
+    const isSilent = normalizedVolume < NOISE_GATE_THRESHOLD;
+    
+    if (isSilent) {
+      // Start or continue silence timer
+      if (!silenceTimeoutRef.current) {
+        silenceTimeoutRef.current = setTimeout(() => {
+          if (isRecording) {
+            stopRecording();
+          }
+        }, 2000); // 2 seconds
+      }
+    } else {
+      // Reset silence timer if sound detected
+      if (silenceTimeoutRef.current) {
+        clearTimeout(silenceTimeoutRef.current);
+        silenceTimeoutRef.current = null;
+      }
+    }
+    
+    // Continue monitoring
+    if (isRecording) {
+      requestAnimationFrame(detectSilence);
+    }
+  };
+
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+      
+      // Set up audio analysis
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      analyserRef.current = audioContextRef.current.createAnalyser();
+      const source = audioContextRef.current.createMediaStreamSource(stream);
+      source.connect(analyserRef.current);
+      analyserRef.current.fftSize = 256;
+      
       const mediaRecorder = new MediaRecorder(stream, {
         mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg'
       });
@@ -115,12 +167,28 @@ export const SmartwatchView = () => {
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: mediaRecorder.mimeType });
         await sendAudioForTranscription(audioBlob);
-        stream.getTracks().forEach(track => track.stop());
+        
+        // Clean up
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach(track => track.stop());
+          streamRef.current = null;
+        }
+        if (audioContextRef.current) {
+          audioContextRef.current.close();
+          audioContextRef.current = null;
+        }
+        if (silenceTimeoutRef.current) {
+          clearTimeout(silenceTimeoutRef.current);
+          silenceTimeoutRef.current = null;
+        }
       };
 
       mediaRecorder.start();
       setIsRecording(true);
       setStatusMessage('Listening...');
+      
+      // Start silence detection
+      requestAnimationFrame(detectSilence);
     } catch (error) {
       console.error('Error starting recording:', error);
       setStatusMessage('Mic permission needed.');
@@ -143,6 +211,21 @@ export const SmartwatchView = () => {
       startRecording();
     }
   };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (silenceTimeoutRef.current) {
+        clearTimeout(silenceTimeoutRef.current);
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+      }
+    };
+  }, []);
 
   return (
     <div className="smartwatch-container" onClick={handleMicClick}>
