@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSmartwatch } from './hooks/useSmartwatch';
 import { SmartwatchView } from './components/SmartwatchView';
-import { AutoVoiceDetector } from './components/AutoVoiceDetector';
 
 
 function App() {
@@ -612,7 +611,6 @@ function App() {
           </div>
         </div>
       </div>
-      <AutoVoiceDetector />
     </>
   );
 }

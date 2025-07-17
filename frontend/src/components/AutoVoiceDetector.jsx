@@ -10,6 +10,9 @@ export const AutoVoiceDetector = () => {
   const [audioLevel, setAudioLevel] = useState(0);
   const [userLang, setUserLang] = useState('en');
   
+  // Debug log
+  console.log('AutoVoiceDetector component mounted');
+  
   // Refs for audio processing
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -377,6 +380,17 @@ export const AutoVoiceDetector = () => {
       startMonitoring();
     }
   };
+
+  // Auto-start monitoring on mount
+  useEffect(() => {
+    // Wait a bit for component to fully initialize
+    const timer = setTimeout(() => {
+      console.log('Auto-starting voice monitoring...');
+      startMonitoring();
+    }, 1500);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   // Cleanup on unmount
   useEffect(() => {
