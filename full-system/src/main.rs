@@ -353,7 +353,7 @@ async fn chat_handler(
     let mut ai_response = String::new();
     let mut retry_count = 0;
     const MAX_RETRIES: u32 = 10;
-    
+
     loop {
         match state.qwen_client.generate(qwen_request.clone()).await {
             Ok(response) => {
@@ -362,8 +362,11 @@ async fn chat_handler(
             }
             Err(e) => {
                 retry_count += 1;
-                eprintln!("Attempt {} failed to generate response: {:?}", retry_count, e);
-                
+                eprintln!(
+                    "Attempt {} failed to generate response: {:?}",
+                    retry_count, e
+                );
+
                 if retry_count >= MAX_RETRIES {
                     // Use knowledge-based fallback if available
                     ai_response = if !knowledge_results.is_empty() {
@@ -379,18 +382,23 @@ async fn chat_handler(
                     };
                     break;
                 }
-                
+
                 // Return intermediate status to user
                 if retry_count == 1 {
                     ai_response = "I'm processing your request, please wait...".to_string();
                 } else if retry_count == 3 {
-                    ai_response = "Still working on your request, this is taking longer than usual...".to_string();
+                    ai_response =
+                        "Still working on your request, this is taking longer than usual..."
+                            .to_string();
                 } else if retry_count == 5 {
                     ai_response = format!("Attempting to process your request (attempt {}/{}), please bear with me...", retry_count, MAX_RETRIES);
                 } else if retry_count == 8 {
-                    ai_response = format!("Almost there, making attempt {}/{} to process your request...", retry_count, MAX_RETRIES);
+                    ai_response = format!(
+                        "Almost there, making attempt {}/{} to process your request...",
+                        retry_count, MAX_RETRIES
+                    );
                 }
-                
+
                 // Wait a bit before retrying
                 tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
             }
@@ -606,14 +614,17 @@ async fn transcribe_audio(
 
     let mut retry_count = 0;
     const MAX_RETRIES: u32 = 10;
-    
+
     loop {
-        match audio_service.transcribe(body.clone(), content_type, language.clone()).await {
+        match audio_service
+            .transcribe(body.clone(), content_type, language.clone())
+            .await
+        {
             Ok(result) => return Ok(Json(result)),
             Err(e) => {
                 retry_count += 1;
                 eprintln!("Transcription attempt {} error: {}", retry_count, e);
-                
+
                 if retry_count >= MAX_RETRIES {
                     eprintln!("Transcription failed after {} attempts", MAX_RETRIES);
                     return Ok(Json(TranscriptionResult {
@@ -624,16 +635,22 @@ async fn transcribe_audio(
                         processing_time_ms: 0.0,
                     }));
                 }
-                
+
                 // Log status for monitoring
                 if retry_count == 1 {
                     eprintln!("Retrying audio transcription...");
                 } else if retry_count == 5 {
-                    eprintln!("Audio transcription struggling, attempt {}/{}", retry_count, MAX_RETRIES);
+                    eprintln!(
+                        "Audio transcription struggling, attempt {}/{}",
+                        retry_count, MAX_RETRIES
+                    );
                 } else if retry_count == 8 {
-                    eprintln!("Audio transcription nearly at limit, attempt {}/{}", retry_count, MAX_RETRIES);
+                    eprintln!(
+                        "Audio transcription nearly at limit, attempt {}/{}",
+                        retry_count, MAX_RETRIES
+                    );
                 }
-                
+
                 // Wait before retrying
                 tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
             }
@@ -653,7 +670,7 @@ async fn synthesize_speech(
 
     let mut retry_count = 0;
     const MAX_RETRIES: u32 = 10;
-    
+
     loop {
         match audio_service.synthesize(request.clone()).await {
             Ok((audio_data, _cache_key)) => {
@@ -662,24 +679,33 @@ async fn synthesize_speech(
             Err(e) => {
                 retry_count += 1;
                 eprintln!("Synthesis attempt {} error: {}", retry_count, e);
-                
+
                 if retry_count >= MAX_RETRIES {
                     eprintln!("Synthesis failed after {} attempts", MAX_RETRIES);
                     // Return a simple error audio message
-                    let error_message = format!("Sorry, I couldn't generate audio after {} attempts. Error: {}", MAX_RETRIES, e);
+                    let error_message = format!(
+                        "Sorry, I couldn't generate audio after {} attempts. Error: {}",
+                        MAX_RETRIES, e
+                    );
                     let error_audio = bytes::Bytes::from(error_message.as_bytes().to_vec()); // This is just placeholder
                     return Ok(([(header::CONTENT_TYPE, "audio/mpeg")], error_audio));
                 }
-                
+
                 // Log status for monitoring
                 if retry_count == 1 {
                     eprintln!("Retrying audio synthesis...");
                 } else if retry_count == 5 {
-                    eprintln!("Audio synthesis struggling, attempt {}/{}", retry_count, MAX_RETRIES);
+                    eprintln!(
+                        "Audio synthesis struggling, attempt {}/{}",
+                        retry_count, MAX_RETRIES
+                    );
                 } else if retry_count == 8 {
-                    eprintln!("Audio synthesis nearly at limit, attempt {}/{}", retry_count, MAX_RETRIES);
+                    eprintln!(
+                        "Audio synthesis nearly at limit, attempt {}/{}",
+                        retry_count, MAX_RETRIES
+                    );
                 }
-                
+
                 // Wait before retrying
                 tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
             }
