@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-07-17T13:45:34.983Z",
+  "url": "http://localhost:8080",
+  "results": {
+    "headerVisible": false,
+    "interfaceVisible": false,
+    "messagesVisible": false,
+    "inputVisible": false,
+    "sendBtnVisible": false,
+    "hasTextContent": true,
+    "bodyBackgroundColor": "rgba(0, 0, 0, 0)",
+    "computedStyles": {
+      "body": {
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "zIndex": "auto",
+        "position": "relative",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgb(241, 245, 249)"
+      }
+    }
+  },
+  "status": "FAIL"
+}

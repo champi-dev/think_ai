@@ -30,6 +30,7 @@
             overflow: hidden;
             position: relative;
             height: 100vh;
+            z-index: 0;
         }
         
         /* Animated background mesh */
@@ -45,7 +46,8 @@
                 radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 40% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
             animation: meshMove 20s ease-in-out infinite;
-            z-index: 0;
+            z-index: -1;
+            pointer-events: none;
         }
         
         @keyframes meshMove {

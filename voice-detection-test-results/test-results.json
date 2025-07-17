@@ -1,0 +1,171 @@
+{
+  "timestamp": "2025-07-17T13:58:33.618Z",
+  "url": "http://localhost:8080",
+  "tests": {
+    "componentInitialization": {
+      "passed": true,
+      "message": "AutoVoiceDetector component is visible"
+    },
+    "uiElements": {
+      "passed": true,
+      "details": {
+        "toggleButton": true,
+        "statusDisplay": true,
+        "audioLevelContainer": true
+      }
+    },
+    "initialState": {
+      "passed": true,
+      "details": {
+        "statusText": "Listening for voice...",
+        "buttonText": "👂Auto-Detection ON",
+        "isAutoStarted": true
+      }
+    },
+    "toggleFunctionality": {
+      "passed": true,
+      "details": {
+        "before": "👂Auto-Detection ON",
+        "after": "🔇Auto-Detection OFF"
+      }
+    },
+    "audioVisualization": {
+      "passed": false,
+      "details": {
+        "audioLevelBar": false,
+        "voiceThresholdLine": true,
+        "thresholdPosition": "left: 8%;"
+      }
+    },
+    "recordingIndicator": {
+      "passed": true,
+      "details": {
+        "visible": true,
+        "hasRecDot": true,
+        "hasRecText": true
+      }
+    },
+    "errorHandling": {
+      "passed": true,
+      "details": {
+        "micErrors": false,
+        "errorMessages": []
+      }
+    },
+    "apiIntegration": {
+      "passed": true,
+      "details": {
+        "transcribeAPI": {
+          "status": 500,
+          "ok": false
+        },
+        "chatAPI": {
+          "status": 200,
+          "ok": true
+        },
+        "synthesizeAPI": {
+          "status": 200,
+          "ok": true
+        }
+      }
+    },
+    "responsiveDesign": {
+      "passed": true,
+      "details": {
+        "mobile": {
+          "visible": false,
+          "viewport": {
+            "name": "mobile",
+            "width": 375,
+            "height": 667
+          }
+        },
+        "tablet": {
+          "visible": false,
+          "viewport": {
+            "name": "tablet",
+            "width": 768,
+            "height": 1024
+          }
+        },
+        "desktop": {
+          "visible": false,
+          "viewport": {
+            "name": "desktop",
+            "width": 1920,
+            "height": 1080
+          }
+        }
+      }
+    },
+    "performance": {
+      "passed": true,
+      "details": {
+        "domContentLoaded": 0.10000002384185791,
+        "loadComplete": 0,
+        "firstPaint": 260,
+        "firstContentfulPaint": 352
+      }
+    }
+  },
+  "errors": [
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Minified React error #300; visit https://react.dev/errors/300 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+  ],
+  "logs": [
+    {
+      "type": "log",
+      "text": "AutoVoiceDetector component mounted"
+    },
+    {
+      "type": "log",
+      "text": "AutoVoiceDetector component mounted"
+    },
+    {
+      "type": "log",
+      "text": "Auto-starting voice monitoring..."
+    },
+    {
+      "type": "log",
+      "text": "startMonitoring called, isMonitoring: false isRecording: false"
+    },
+    {
+      "type": "log",
+      "text": "Requesting microphone access..."
+    },
+    {
+      "type": "log",
+      "text": "Microphone access granted, stream: MediaStream"
+    },
+    {
+      "type": "log",
+      "text": "Audio context setup complete, state: running"
+    },
+    {
+      "type": "log",
+      "text": "Starting audio analysis..."
+    },
+    {
+      "type": "log",
+      "text": "AutoVoiceDetector component mounted"
+    },
+    {
+      "type": "log",
+      "text": "AutoVoiceDetector component mounted"
+    },
+    {
+      "type": "log",
+      "text": "AutoVoiceDetector component mounted"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    }
+  ],
+  "summary": {
+    "total": 10,
+    "passed": 9,
+    "failed": 1,
+    "passRate": "90.00%"
+  }
+}

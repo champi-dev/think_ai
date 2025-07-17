@@ -363,8 +363,10 @@ function App() {
       if (result.text) {
         setInputValue(result.text);
         setUsedMic(true); // Mark that mic was used
-        // Auto-send the message
-        handleSendMessage();
+        // Auto-send will happen after this function completes
+        setTimeout(() => {
+          document.getElementById('sendBtn').click();
+        }, 100);
       }
     } catch (error) {
       console.error('Transcription error:', error);

@@ -153,7 +153,10 @@ export const AutoVoiceDetector = () => {
   };
 
   const analyzeAudioLevel = useCallback(() => {
-    if (!analyserRef.current) return;
+    if (!analyserRef.current) {
+      console.log('No analyser available');
+      return;
+    }
     
     const analyser = analyserRef.current;
     const bufferLength = analyser.frequencyBinCount;
@@ -163,6 +166,11 @@ export const AutoVoiceDetector = () => {
     // Calculate average volume
     const average = dataArray.reduce((sum, value) => sum + value, 0) / bufferLength;
     const normalizedVolume = average / 255; // Normalize to 0-1
+    
+    // Debug log every second
+    if (Date.now() % 1000 < 50) {
+      console.log('Audio level:', normalizedVolume.toFixed(3), 'Average:', average.toFixed(1));
+    }
     
     // Update visual indicator
     setAudioLevel(normalizedVolume);
@@ -175,7 +183,10 @@ export const AutoVoiceDetector = () => {
           console.log('Voice detected, waiting for sustained speech...');
           voiceDetectionTimeoutRef.current = setTimeout(() => {
             console.log('Starting recording - sustained voice detected');
-            startRecording();
+            // Call startRecording without referencing it directly
+            if (mediaRecorderRef.current === null) {
+              startRecordingHandler();
+            }
           }, VOICE_DETECTION_TIME);
         }
       } else {
@@ -197,7 +208,7 @@ export const AutoVoiceDetector = () => {
           console.log('Silence detected, starting timer...');
           silenceTimeoutRef.current = setTimeout(() => {
             console.log('Auto-stopping after silence');
-            stopRecording();
+            stopRecordingHandler();
           }, SILENCE_TIMEOUT);
         }
       } else {
@@ -216,9 +227,11 @@ export const AutoVoiceDetector = () => {
   }, [isMonitoring]);
 
   const startMonitoring = async () => {
+    console.log('startMonitoring called, isMonitoring:', isMonitoring, 'isRecording:', isRecording);
     if (isMonitoring || isRecording) return;
     
     try {
+      console.log('Requesting microphone access...');
       const stream = await navigator.mediaDevices.getUserMedia({ 
         audio: {
           echoCancellation: true,
@@ -227,6 +240,7 @@ export const AutoVoiceDetector = () => {
         } 
       });
       
+      console.log('Microphone access granted, stream:', stream);
       monitoringStreamRef.current = stream;
       
       // Set up audio analysis
@@ -237,10 +251,20 @@ export const AutoVoiceDetector = () => {
       analyserRef.current.fftSize = 256;
       analyserRef.current.smoothingTimeConstant = 0.8;
       
+      console.log('Audio context setup complete, state:', audioContextRef.current.state);
+      
+      // Resume audio context if suspended
+      if (audioContextRef.current.state === 'suspended') {
+        console.log('Audio context suspended, resuming...');
+        await audioContextRef.current.resume();
+        console.log('Audio context resumed, new state:', audioContextRef.current.state);
+      }
+      
       setIsMonitoring(true);
       setStatusMessage(getTranslation('listeningForVoice', userLang) || 'Listening for voice...');
       
       // Start continuous audio analysis
+      console.log('Starting audio analysis...');
       analyzeAudioLevel();
     } catch (error) {
       console.error('Error starting monitoring:', error);
@@ -279,7 +303,7 @@ export const AutoVoiceDetector = () => {
     setAudioLevel(0);
   };
 
-  const startRecording = async () => {
+  const startRecording = useCallback(async () => {
     // Stop monitoring first
     await stopMonitoring();
     
@@ -353,9 +377,9 @@ export const AutoVoiceDetector = () => {
       // Try to resume monitoring
       setTimeout(() => startMonitoring(), 1000);
     }
-  };
+  }, [userLang, analyzeAudioLevel, stopMonitoring, sendAudioForTranscription]);
 
-  const stopRecording = () => {
+  const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
@@ -370,7 +394,7 @@ export const AutoVoiceDetector = () => {
       
       setAudioLevel(0);
     }
-  };
+  }, [userLang]);
 
   const toggleAutoDetection = () => {
     if (isMonitoring) {
@@ -379,6 +403,15 @@ export const AutoVoiceDetector = () => {
     } else {
       startMonitoring();
     }
+  };
+
+  // Handler functions to avoid circular dependencies
+  const startRecordingHandler = () => {
+    startRecording();
+  };
+
+  const stopRecordingHandler = () => {
+    stopRecording();
   };
 
   // Auto-start monitoring on mount

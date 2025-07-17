@@ -14,3 +14,89 @@ Available bin targets:
 [2m2025-07-17T12:33:50.939850Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
 [2m2025-07-17T12:33:50.939858Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
 [2m2025-07-17T12:33:50.940024Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T12:37:25.541639Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: af5daec6e395730b151487e3f4451d9c3221085492af5f5442a6cc0d8915910a.mp3
+[2m2025-07-17T12:39:08.627489Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T12:39:08.627887Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T12:39:08.799604Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 69 cached audio files
+[2m2025-07-17T12:39:08.799659Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T12:39:08.799667Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T12:39:08.799825Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T12:40:39.970389Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T12:40:39.970784Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T12:40:40.143534Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 69 cached audio files
+[2m2025-07-17T12:40:40.143566Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T12:40:40.143574Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T12:40:40.143734Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T12:42:24.026584Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 7da411a26bab74508c04bdc0d7f2be1332d696589860fc7be829e0388930c24d.mp3
+[2m2025-07-17T12:42:44.865406Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T12:42:44.865807Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T12:42:45.037519Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 70 cached audio files
+[2m2025-07-17T12:42:45.037556Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T12:42:45.037563Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T12:42:45.037730Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T12:44:05.201558Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T12:44:05.202002Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T12:44:05.376861Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 70 cached audio files
+[2m2025-07-17T12:44:05.376915Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T12:44:05.376922Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T12:44:05.377081Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T12:44:47.543253Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T12:44:47.543689Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T12:44:47.716478Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 70 cached audio files
+[2m2025-07-17T12:44:47.716516Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T12:44:47.716524Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T12:44:47.716683Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T12:50:06.991233Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T12:50:06.991643Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T12:50:07.163528Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 70 cached audio files
+[2m2025-07-17T12:50:07.163571Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T12:50:07.163579Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T12:50:07.163751Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T13:02:34.440057Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T13:02:34.440479Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T13:02:34.613419Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 70 cached audio files
+[2m2025-07-17T13:02:34.613472Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T13:02:34.613479Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T13:02:34.613661Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+[2m2025-07-17T13:23:51.938826Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T13:23:51.939234Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T13:23:52.111498Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 70 cached audio files
+[2m2025-07-17T13:23:52.111552Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T13:23:52.111560Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T13:23:52.111741Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+[2m2025-07-17T13:40:25.292655Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T13:40:25.293058Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T13:40:25.465863Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 70 cached audio files
+[2m2025-07-17T13:40:25.465916Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T13:40:25.465924Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T13:40:25.466092Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T13:42:52.457109Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T13:42:52.457708Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T13:42:52.642001Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 70 cached audio files
+[2m2025-07-17T13:42:52.642035Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T13:42:52.642043Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T13:42:52.642214Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T13:49:06.294310Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T13:49:06.294770Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T13:49:06.475577Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 70 cached audio files
+[2m2025-07-17T13:49:06.475628Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T13:49:06.475636Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T13:49:06.475798Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T13:50:35.818745Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 5310f20ad1cbb2ca35eaec6c18dc8adf2ecd6de66a44cfd0d28244d90afa5307.mp3
+[2m2025-07-17T13:58:40.371093Z[0m [31mERROR[0m [2mthink_ai_full::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"85121224-54cb-4b11-96ea-fb224006b0e9"}
+Transcription error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"85121224-54cb-4b11-96ea-fb224006b0e9"}
+[2m2025-07-17T13:58:40.371162Z[0m [31mERROR[0m [2mtower_http::trace::on_failure[0m[2m:[0m response failed [3mclassification[0m[2m=[0mStatus code: 500 Internal Server Error [3mlatency[0m[2m=[0m211 ms
+[2m2025-07-17T13:58:40.478721Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08.mp3

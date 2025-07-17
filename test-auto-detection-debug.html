@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Auto Voice Detection</title>
+</head>
+<body>
+    <h1>Debug Auto Voice Detection</h1>
+    <p>Open browser console to see if AutoVoiceDetector component is loaded</p>
+    
+    <iframe src="http://localhost:8080" width="100%" height="600" style="border: 1px solid #ccc;"></iframe>
+    
+    <script>
+        // Check if the component is rendered
+        setTimeout(() => {
+            const iframe = document.querySelector('iframe');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const autoDetector = iframeDoc.querySelector('.auto-voice-detector');
+            
+            if (autoDetector) {
+                console.log('✅ AutoVoiceDetector component found!');
+                console.log('Component HTML:', autoDetector.outerHTML);
+            } else {
+                console.log('❌ AutoVoiceDetector component NOT found');
+                console.log('Body HTML:', iframeDoc.body.innerHTML);
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
