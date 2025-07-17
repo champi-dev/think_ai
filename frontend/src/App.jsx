@@ -1,6 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSmartwatch } from './hooks/useSmartwatch';
+import { SmartwatchView } from './components/SmartwatchView';
+
 
 function App() {
+  const isSmartwatch = useSmartwatch();
+
+  if (isSmartwatch) {
+    return <SmartwatchView />;
+  }
+
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isCodeMode, setIsCodeMode] = useState(false);
@@ -142,6 +151,7 @@ function App() {
     
     initializeQuantumField();
     
+    let animationFrameId;
     function animate() {
       ctx.fillStyle = 'rgba(0, 0, 12, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -150,7 +160,7 @@ function App() {
         point.update(time.value);
         point.draw();
       });
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     }
     
     animate();
@@ -162,7 +172,10 @@ function App() {
     };
     
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+        window.removeEventListener('resize', handleResize);
+        cancelAnimationFrame(animationFrameId);
+    }
   }, []);
 
   // Load saved preferences
@@ -327,6 +340,7 @@ function App() {
   };
   
   const sendAudioForTranscription = async (audioBlob) => {
+    console.log('sendAudioForTranscription called');
     setIsLoading(true);
     
     try {
@@ -588,7 +602,7 @@ function App() {
               <button id="sendBtn" onClick={() => {
                 handleSendMessage();
                 setIsTyping(false);
-              }} disabled={isLoading}>
+              }} disabled={isLoading} aria-label="Send message">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>
                 </svg>

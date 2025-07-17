@@ -2703,3 +2703,55 @@ Qwen error: Ollama unavailable
 [2m2025-07-16T22:18:41.708547Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 9ed24c19b382502b63dd06a60dccbe42f4cb71a1871474500ed0f2281cbe78be.mp3
 [2m2025-07-16T22:19:30.270313Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 9e4d5e7f0f1c67741b1be0af71dc761e5c20b3451829c8a50a02f73b4f766a11.mp3
 Qwen error: Ollama unavailable
+[2m2025-07-16T23:21:02.057651Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-16T23:21:02.058128Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-16T23:21:02.231886Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 13 cached audio files
+[2m2025-07-16T23:21:02.231907Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-16T23:21:02.231912Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-16T23:21:02.232323Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-16T23:21:36.038667Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 57c38d71170696934712a909ddb3333c527ce4c39cb6a95dcd4407700f8dd3c9.mp3
+[2m2025-07-16T23:21:57.179053Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: ed585f8470e30e5ec3fdde9128437f6e8e0e15279351011b4d3ed39fa41e06bf.mp3
+[2m2025-07-16T23:24:08.145971Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef
+[2m2025-07-16T23:24:39.522814Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: c7516b7697f63156f9e95e0a10459aae949cf633f980d3b2b0d6981c3ca037d0.mp3
+[2m2025-07-16T23:29:49.485212Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef
+[2m2025-07-16T23:30:21.621317Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef
+[2m2025-07-16T23:31:00.609393Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef
+[2m2025-07-16T23:31:42.822629Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef
+[2m2025-07-16T23:32:45.800627Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 8f1856b488eae8da5fa45ad83334bac64fa2b0f1189a1a1d192a688681b89af0.mp3
+[2m2025-07-17T00:32:17.587475Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: e2d7268b687cbd03ae0f55d3d7e79a0f78db685655401b91c8e2def55cf923dd.mp3
+[2m2025-07-17T00:32:18.078518Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: e2d7268b687cbd03ae0f55d3d7e79a0f78db685655401b91c8e2def55cf923dd
+[2m2025-07-17T00:32:18.220694Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: e2d7268b687cbd03ae0f55d3d7e79a0f78db685655401b91c8e2def55cf923dd
+[2m2025-07-17T00:32:55.418190Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 93581bb6583f5c37a71ddc8cda636c555dbd558084b53a0066daf94219ca5d91.mp3
+[2m2025-07-17T00:34:20.811331Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef
+[2m2025-07-17T00:34:38.756660Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef
+[2m2025-07-17T00:36:17.594284Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 3f1f8e72f371827b611987a63a9f7e69f3d5b3a4598b4f2aa9abbd0e618ad5c9.mp3
+[2m2025-07-17T00:57:58.942136Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 86055ec76122fe6b8ae87997ed250cad0d69bb5f2432b51610f1c353aa8322e7.mp3
+[2m2025-07-17T00:58:26.312109Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 1d3517e92fc4ea463ade8d8c3010f5367f1f11785741ee3ecd8cac4f6fdb37ee.mp3
+[2m2025-07-17T00:59:04.652433Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 54f7607ecd741ede453bd00dc82952e6f1e8458b6050832ad95bf12645bb411e.mp3
+[2m2025-07-17T01:00:43.570851Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: cb2596f2eb330b85eb691a4f9903df83556e2c034105bf079c8f4e6a92b483ce.mp3
+[2m2025-07-17T01:01:44.510271Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 560183feb9376981c65d0984bc54e5a2c8ce3b2c7309f3d338b56bfb5838aac0.mp3
+[2m2025-07-17T01:04:48.410385Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 6a46a7e514161aeeef99e620eb2e748d7f54683856d63ed6f0d7ac6c9cdeb723.mp3
+[2m2025-07-17T01:05:10.378445Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: ec1af4c53a6cdffe000a34a54cccb8feaf2f56f1fcf5f4fe9dc5846a8a66cd4d.mp3
+[2m2025-07-17T01:05:41.119494Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: d0a20740290a68a5cb540230087ef17079c7f59de68513f77774a2741615c0f0.mp3
+Qwen error: Ollama unavailable
+[2m2025-07-17T01:06:40.431487Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: 4aabcd57c8e835f2828fddcd34727b4a8590e318fbcc2019b8ed3bc61c9b7030
+[2m2025-07-17T01:07:13.668700Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 4a5729e406d9660e3776c48268830f818f2376be060a1fcc4e1240e301b97474.mp3
+[2m2025-07-17T01:08:32.966217Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: d9767501cf3f29620402f8c917bfc73b239a3ab169acc2463d262fa5234ced27.mp3
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+[2m2025-07-17T01:13:48.656426Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: 4aabcd57c8e835f2828fddcd34727b4a8590e318fbcc2019b8ed3bc61c9b7030
+Qwen error: Ollama unavailable
+[2m2025-07-17T01:14:31.974399Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: 4aabcd57c8e835f2828fddcd34727b4a8590e318fbcc2019b8ed3bc61c9b7030
+[2m2025-07-17T01:15:11.047186Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 6f65894a32f2d715b947fbd646879eb7e485c828ac0bcc4f3105301ced87d93f.mp3
+Qwen error: Ollama unavailable
+[2m2025-07-17T01:16:04.680945Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Using cached audio for text hash: 4aabcd57c8e835f2828fddcd34727b4a8590e318fbcc2019b8ed3bc61c9b7030
+Qwen error: Ollama unavailable
+Qwen error: Ollama unavailable
+[2m2025-07-17T01:33:21.137435Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 4d82d4e32d9c25bccff38043bea17f4f36f97597404bb2fb46e344728cbd26e7.mp3
+[2m2025-07-17T03:37:39.723944Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 65f9bad245b6368d7d34d54619173b29f8036cff7b4d235059ed058de226f5f9.mp3
+[2m2025-07-17T04:47:47.564803Z[0m [31mERROR[0m [2mthink_ai_full::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"76d3227c-52d1-4a01-98fb-05e23596f24a"}
+Transcription error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"76d3227c-52d1-4a01-98fb-05e23596f24a"}
+[2m2025-07-17T04:47:47.564901Z[0m [31mERROR[0m [2mtower_http::trace::on_failure[0m[2m:[0m response failed [3mclassification[0m[2m=[0mStatus code: 500 Internal Server Error [3mlatency[0m[2m=[0m274 ms
+[2m2025-07-17T04:48:12.071637Z[0m [31mERROR[0m [2mthink_ai_full::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"f1337030-f61c-41c1-8b30-80db82c20791"}
+Transcription error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"f1337030-f61c-41c1-8b30-80db82c20791"}
+[2m2025-07-17T04:48:12.071765Z[0m [31mERROR[0m [2mtower_http::trace::on_failure[0m[2m:[0m response failed [3mclassification[0m[2m=[0mStatus code: 500 Internal Server Error [3mlatency[0m[2m=[0m270 ms

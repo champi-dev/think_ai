@@ -12,4 +12,20 @@ Port 5174 is in use, trying another one...
 9:37:03 PM [vite] page reload dist/generate-icons.html
 9:40:19 PM [vite] page reload dist/generate-icons.html
 9:43:11 PM [vite] page reload dist/generate-icons.html
-9:58:19 PM [vite] page reload dist/generate9:58:19 PM [10:10:16 PM [vite] page reload dist/generat10:10:16 PM [vite] page reload dist/generate-icons.html
+9:58:19 PM [vite] page reload dist/generate9:58:19 PM [10:10:16 PM [vite] page reload dist/generat10:10:16 PM [5:02:49 AM [vite] vite.config.js changed, r5:02:49 AM [vite] vi5:02:49 AM [vite] server restarted.
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Net5:02:49 AM [vite] server re5:20:17 AM [vite] vite.config.js changed, restarting server...
+5:20:17 AM [vite] server restarted.
+5:24:24 AM [vite] vite.config.js changed, restarting server...
+5:24:24 AM [vite] server restarted.
+7 AM [vite] server restarted.
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: use --host to expose
+5:24:24 AM [vite] vite.config.js changed, restarting server...
+Port 5173 is in use, trying another one...
+5:24:24 AM [vite] server restarted.
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: use --host to expose
