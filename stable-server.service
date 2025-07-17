@@ -7,7 +7,7 @@ Type=exec
 User=administrator
 WorkingDirectory=/home/administrator/think_ai
 Environment="RUST_LOG=info"
-ExecStart=/home/administrator/think_ai/target/release/stable-server-streaming
+ExecStart=/home/administrator/think_ai/target/release/think-ai-full-persistent
 Restart=always
 RestartSec=10
 StandardOutput=append:/home/administrator/think_ai/stable-server.log

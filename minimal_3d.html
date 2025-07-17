@@ -1499,6 +1499,13 @@
                         data-translate="type_message"
                         autocomplete="off"
                     >
+                    <button id="micBtn" class="input-feature-toggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="22"></line>
+                        </svg>
+                    </button>
                     <button id="sendBtn">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>
@@ -1508,6 +1515,58 @@
             </div>
         </div>
     </div>
+
+    <style>
+        /* Styles for the new microphone button and its animations */
+        #micBtn {
+            display: none; /* Hidden by default, shown in specific media query */
+        }
+
+        #micBtn.listening {
+            animation: pulse-animation 1.2s infinite;
+            background-color: var(--warning);
+        }
+
+        @keyframes pulse-animation {
+            0% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 0 20px rgba(245, 158, 11, 0);
+            }
+        }
+
+        /* Responsive design for audio-only UI */
+        @media (max-width: 400px) {
+            .interface, .header, #queryInput, #sendBtn, .input-features {
+                display: none;
+            }
+
+            #micBtn {
+                display: flex;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                justify-content: center;
+                align-items: center;
+            }
+
+             #micBtn svg {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+         @media (min-width: 401px) {
+            #micBtn {
+                display: flex;
+            }
+        }
+    </style>
 
     <script>
         // PWA Service Worker Registration
@@ -1767,6 +1826,7 @@
         const messages = document.getElementById('messages');
         const queryInput = document.getElementById('queryInput');
         const sendBtn = document.getElementById('sendBtn');
+        const micBtn = document.getElementById('micBtn');
         
         // Feature states
         let isCodeMode = false;
@@ -1777,9 +1837,6 @@
         const modeToggle = document.getElementById('modeToggle');
         const modeIcon = document.getElementById('modeIcon');
         const modeText = document.getElementById('modeText');
-        // Old toggle elements removed - now using buttons only
-        // const webSearchToggle = document.getElementById('webSearchToggle');
-        // const factCheckToggle = document.getElementById('factCheckToggle');
         const webSearchBtn = document.getElementById('webSearchBtn');
         const factCheckBtn = document.getElementById('factCheckBtn');
         
@@ -1798,13 +1855,11 @@
         
         if (savedWebSearch === 'true') {
             useWebSearch = true;
-            // webSearchToggle.checked = true; // Removed - no longer exists
             webSearchBtn.classList.add('active');
         }
         
         if (savedFactCheck === 'true') {
             useFactCheck = true;
-            // factCheckToggle.checked = true; // Removed - no longer exists
             factCheckBtn.classList.add('active');
         }
         
@@ -1826,21 +1881,65 @@
             }
         });
         
-        // Web Search button handler (removed old toggle handlers)
+        // Web Search button handler
         webSearchBtn.addEventListener('click', () => {
             useWebSearch = !useWebSearch;
-            // webSearchToggle.checked = useWebSearch; // Removed - no longer exists
             localStorage.setItem('think_ai_web_search', useWebSearch);
             webSearchBtn.classList.toggle('active', useWebSearch);
         });
         
-        // Fact Check button handler (removed old toggle handlers)
+        // Fact Check button handler
         factCheckBtn.addEventListener('click', () => {
             useFactCheck = !useFactCheck;
-            // factCheckToggle.checked = useFactCheck; // Removed - no longer exists
             localStorage.setItem('think_ai_fact_check', useFactCheck);
             factCheckBtn.classList.toggle('active', useFactCheck);
         });
+
+        // Audio functionality
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            micBtn.addEventListener('click', () => {
+                if (micBtn.classList.contains('listening')) {
+                    recognition.stop();
+                } else {
+                    recognition.start();
+                }
+            });
+
+            recognition.onstart = () => {
+                micBtn.classList.add('listening');
+            };
+
+            recognition.onend = () => {
+                micBtn.classList.remove('listening');
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                queryInput.value = transcript;
+                sendMessage();
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                micBtn.classList.remove('listening');
+            };
+        } else {
+            micBtn.style.display = 'none';
+        }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(utterance);
+        }
         
         // Get or create persistent user ID
         let userId = localStorage.getItem('think_ai_user_id');
@@ -1998,6 +2097,10 @@
                     searchIndicator.innerHTML = '<span class="icon">🔍</span> Web search results included';
                     message.appendChild(searchIndicator);
                 }
+                if (window.innerWidth > 400) {
+                    speak(content);
+                }
+            }
                 
                 if (indicators.factChecked) {
                     const factIndicator = document.createElement('div');
