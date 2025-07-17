@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Think AI UI</title>
+</head>
+<body>
+    <h1>Testing Think AI Production UI</h1>
+    <div id="status">Testing...</div>
+    <div id="response"></div>
+    
+    <script>
+        async function testAPI() {
+            const statusEl = document.getElementById('status');
+            const responseEl = document.getElementById('response');
+            
+            try {
+                statusEl.textContent = 'Sending request to https://thinkai.lat/api/chat...';
+                
+                const response = await fetch('https://thinkai.lat/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: 'Hello from test page',
+                        session_id: 'test-' + Date.now()
+                    })
+                });
+                
+                statusEl.textContent = `Response status: ${response.status}`;
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                responseEl.innerHTML = `
+                    <h2>Success!</h2>
+                    <p>Response: ${data.response}</p>
+                    <p>Response time: ${data.response_time_ms}ms</p>
+                `;
+            } catch (error) {
+                statusEl.textContent = 'Error occurred!';
+                responseEl.innerHTML = `
+                    <h2 style="color: red;">Error:</h2>
+                    <p>${error.message}</p>
+                    <p>${error.stack}</p>
+                `;
+            }
+        }
+        
+        // Test on load
+        testAPI();
+    </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+use crate::gemini::GeminiClient;
 use anyhow::Result;
 use futures_util::StreamExt;
 use reqwest;
@@ -86,6 +87,7 @@ pub struct OllamaStreamResponse {
 pub struct QwenClient {
     config: QwenConfig,
     client: reqwest::Client,
+    gemini_client: Option<GeminiClient>,
 }
 
 impl Default for QwenClient {
@@ -99,19 +101,55 @@ impl QwenClient {
         Self::new_with_config(QwenConfig::default())
     }
 
+    pub fn new_with_defaults() -> Self {
+        Self::new()
+    }
+
     pub fn new_with_config(config: QwenConfig) -> Self {
         let client = reqwest::Client::builder()
-            .timeout(Duration::from_secs(30))
+            .timeout(Duration::from_secs(2)) // 2s timeout for Qwen
             .build()
             .unwrap();
-        Self { config, client }
+
+        // Initialize Gemini client if API key is available
+        let gemini_client = if let Ok(api_key) = std::env::var("GEMINI_API_KEY") {
+            if !api_key.is_empty() {
+                Some(GeminiClient::new(api_key))
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+
+        Self {
+            config,
+            client,
+            gemini_client,
+        }
     }
 
     pub fn new_streaming() -> Self {
         let config = QwenConfig::default();
         // No timeout for streaming
         let client = reqwest::Client::builder().build().unwrap();
-        Self { config, client }
+
+        // Initialize Gemini client if API key is available
+        let gemini_client = if let Ok(api_key) = std::env::var("GEMINI_API_KEY") {
+            if !api_key.is_empty() {
+                Some(GeminiClient::new(api_key))
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+
+        Self {
+            config,
+            client,
+            gemini_client,
+        }
     }
 
     pub async fn health_check(&self) -> Result<()> {
@@ -145,7 +183,7 @@ impl QwenClient {
         // Create Ollama request
         let ollama_request = OllamaGenerateRequest {
             model: self.config.model.clone(),
-            prompt,
+            prompt: prompt.clone(),
             stream: false,
             options: Some(OllamaOptions {
                 temperature: 0.7,
@@ -153,38 +191,69 @@ impl QwenClient {
             }),
         };
 
-        // Make API call to Ollama
-        let response = match self
-            .client
-            .post(format!("{}/api/generate", self.config.base_url))
-            .json(&ollama_request)
-            .send()
-            .await
-        {
-            Ok(res) => res,
-            Err(_) => {
-                // Return error to trigger fallback in the handler
-                return Err(anyhow::anyhow!("Ollama unavailable"));
+        // Try Ollama with exponential backoff
+        let mut retry_count = 0;
+        let max_retries = 3;
+        let mut last_error = None;
+
+        while retry_count < max_retries {
+            // Exponential backoff: 2s, 4s, 8s
+            let timeout = Duration::from_secs(2 * (1 << retry_count));
+
+            let client_with_timeout = reqwest::Client::builder().timeout(timeout).build().unwrap();
+
+            match client_with_timeout
+                .post(format!("{}/api/generate", self.config.base_url))
+                .json(&ollama_request)
+                .send()
+                .await
+            {
+                Ok(response) if response.status().is_success() => {
+                    let ollama_response: OllamaGenerateResponse = response.json().await?;
+                    return Ok(QwenResponse {
+                        content: ollama_response.response,
+                        usage: Usage {
+                            prompt_tokens: ollama_response.prompt_eval_count.unwrap_or(0),
+                            completion_tokens: ollama_response.eval_count.unwrap_or(0),
+                            total_tokens: ollama_response.prompt_eval_count.unwrap_or(0)
+                                + ollama_response.eval_count.unwrap_or(0),
+                        },
+                    });
+                }
+                Ok(response) => {
+                    last_error = Some(format!(
+                        "Ollama returned error status: {}",
+                        response.status()
+                    ));
+                    retry_count += 1;
+                }
+                Err(e) => {
+                    last_error = Some(format!("Request failed: {}", e));
+                    retry_count += 1;
+                }
             }
-        };
+        }
 
-        if response.status().is_success() {
-            let ollama_response: OllamaGenerateResponse = response.json().await?;
-
-            Ok(QwenResponse {
-                content: ollama_response.response,
-                usage: Usage {
-                    prompt_tokens: ollama_response.prompt_eval_count.unwrap_or(0),
-                    completion_tokens: ollama_response.eval_count.unwrap_or(0),
-                    total_tokens: ollama_response.prompt_eval_count.unwrap_or(0)
-                        + ollama_response.eval_count.unwrap_or(0),
-                },
-            })
+        // All retries failed, try Gemini fallback
+        if let Some(gemini) = &self.gemini_client {
+            eprintln!(
+                "Ollama failed after {} retries: {}, falling back to Gemini",
+                max_retries,
+                last_error.as_ref().unwrap_or(&"Unknown error".to_string())
+            );
+            match gemini.generate(prompt, Some(0.7)).await {
+                Ok((content, usage)) => Ok(QwenResponse { content, usage }),
+                Err(gemini_err) => {
+                    eprintln!("Gemini fallback also failed: {}", gemini_err);
+                    Err(anyhow::anyhow!("Both Ollama and Gemini unavailable"))
+                }
+            }
         } else {
             // Return error to trigger fallback in the handler
             Err(anyhow::anyhow!(
-                "Ollama returned error status: {}",
-                response.status()
+                "Ollama unavailable after {} retries: {}",
+                max_retries,
+                last_error.unwrap_or("Unknown error".to_string())
             ))
         }
     }
@@ -226,7 +295,7 @@ impl QwenClient {
         // Create Ollama request with custom temperature
         let ollama_request = OllamaGenerateRequest {
             model: self.config.model.clone(),
-            prompt,
+            prompt: prompt.clone(),
             stream: false,
             options: Some(OllamaOptions {
                 temperature: temperature.unwrap_or(0.7),
@@ -234,21 +303,57 @@ impl QwenClient {
             }),
         };
 
-        let response = self
+        let response = match self
             .client
             .post(format!("{}/api/generate", self.config.base_url))
             .json(&ollama_request)
             .send()
-            .await?;
+            .await
+        {
+            Ok(res) => res,
+            Err(e) => {
+                // Try Gemini fallback if available
+                if let Some(gemini) = &self.gemini_client {
+                    eprintln!("Ollama unavailable in generate_with_context, falling back to Gemini Flash: {}", e);
+                    match gemini.generate(prompt, temperature).await {
+                        Ok((content, _)) => {
+                            return Ok(content);
+                        }
+                        Err(gemini_err) => {
+                            eprintln!("Gemini fallback also failed: {}", gemini_err);
+                            return Err(anyhow::anyhow!("Both Ollama and Gemini unavailable"));
+                        }
+                    }
+                } else {
+                    return Err(anyhow::anyhow!("Ollama unavailable: {}", e));
+                }
+            }
+        };
 
         if response.status().is_success() {
             let ollama_response: OllamaGenerateResponse = response.json().await?;
             Ok(ollama_response.response)
         } else {
-            Err(anyhow::anyhow!(
-                "Qwen generation failed: {}",
-                response.status()
-            ))
+            // Try Gemini fallback if Ollama returns error
+            if let Some(gemini) = &self.gemini_client {
+                eprintln!("Ollama returned error in generate_with_context: {}, falling back to Gemini Flash", response.status());
+                match gemini.generate(prompt, temperature).await {
+                    Ok((content, _)) => Ok(content),
+                    Err(gemini_err) => {
+                        eprintln!("Gemini fallback also failed: {}", gemini_err);
+                        Err(anyhow::anyhow!(
+                            "Qwen generation failed: {}, Gemini error: {}",
+                            response.status(),
+                            gemini_err
+                        ))
+                    }
+                }
+            } else {
+                Err(anyhow::anyhow!(
+                    "Qwen generation failed: {}",
+                    response.status()
+                ))
+            }
         }
     }
 

@@ -343,7 +343,7 @@ async fn chat_handler(
         .collect::<Vec<_>>()
         .join("\n\n");
 
-    // Generate response using Qwen
+    // Generate response using Qwen with retry logic
     let qwen_request = QwenRequest {
         query: req.message.clone(),
         context: Some(format!("Session Context:\n{}\n\nRelevant Knowledge:\n{}", context, knowledge_context)),
@@ -353,15 +353,15 @@ async fn chat_handler(
     let ai_response = match state.qwen_client.generate(qwen_request).await {
         Ok(response) => response.content,
         Err(e) => {
-            eprintln!("Qwen error: {:?}", e);
-            // Fallback to knowledge engine response
+            eprintln!("Failed to generate response: {:?}", e);
+            // Use knowledge-based fallback if available
             if !knowledge_results.is_empty() {
-                format!("I'm having trouble connecting to my AI model. However, based on my knowledge about {}: {}", 
-                    knowledge_results[0].topic,
-                    knowledge_results[0].content
+                format!(
+                    "Based on my knowledge about {}: {}",
+                    knowledge_results[0].topic, knowledge_results[0].content
                 )
             } else {
-                "I apologize, but I'm unable to process your request at the moment. Please try again later.".to_string()
+                "I apologize, but I'm having trouble processing your request. Please try again in a moment.".to_string()
             }
         }
     };
@@ -426,7 +426,7 @@ async fn chat_stream_handler(
             .collect::<Vec<_>>()
             .join("\n\n");
 
-        // Generate response using Qwen with streaming
+        // Generate response using Qwen with retry logic
         let qwen_request = QwenRequest {
             query: message,
             context: Some(format!("Relevant Knowledge:\n{}", knowledge_context)),
@@ -455,7 +455,12 @@ async fn chat_stream_handler(
                 }).to_string()));
             }
             Err(e) => {
-                let fallback = format!("I'm having trouble with streaming. Error: {}", e);
+                eprintln!("Stream generation failed: {:?}", e);
+                let fallback = if !knowledge_results.is_empty() {
+                    format!("Based on my knowledge: {}", knowledge_results[0].content)
+                } else {
+                    "I apologize, but I'm having trouble streaming the response. Please try again.".to_string()
+                };
                 yield Ok(Event::default().data(json!({
                     "chunk": fallback,
                     "done": true,

@@ -130,7 +130,90 @@ describe('App Component', () => {
     expect(HTMLMediaElement.prototype.play).toHaveBeenCalled();
   });
 
+  test('shows converting to audio status during TTS', async () => {
+    global.fetch = vi.fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          response: 'This is a response',
+        })
+      })
+      .mockImplementationOnce(() => new Promise(resolve => {
+        setTimeout(() => {
+          resolve({
+            ok: true,
+            blob: async () => new Blob(),
+          });
+        }, 100);
+      }));
+
+    const user = userEvent.setup();
+    render(<App />);
+    const input = screen.getByRole('textbox');
+    const sendButton = screen.getByRole('button', { name: /send message/i });
+    await user.type(input, 'test');
+    await user.click(sendButton);
+
+    await waitFor(() => {
+        expect(screen.getByText('This is a response')).toBeInTheDocument();
+    });
+
+    const playButton = screen.getByRole('button', {name: /play/i});
+    await user.click(playButton);
+    
+    // Should show converting status
+    await waitFor(() => {
+        expect(screen.getByText('Converting to audio...')).toBeInTheDocument();
+    });
+    
+    // Wait for playing status
+    await waitFor(() => {
+        expect(screen.getByText('Playing')).toBeInTheDocument();
+    });
+  });
+
+  test('handles audio synthesis error', async () => {
+    global.fetch = vi.fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          response: 'This is a response',
+        })
+      })
+      .mockRejectedValueOnce(new Error('Synthesis failed'));
+
+    const user = userEvent.setup();
+    render(<App />);
+    const input = screen.getByRole('textbox');
+    const sendButton = screen.getByRole('button', { name: /send message/i });
+    await user.type(input, 'test');
+    await user.click(sendButton);
+
+    await waitFor(() => {
+        expect(screen.getByText('This is a response')).toBeInTheDocument();
+    });
+
+    const playButton = screen.getByRole('button', {name: /play/i});
+    await user.click(playButton);
+    
+    // Should revert to Play after error
+    await waitFor(() => {
+        expect(screen.getByText('Play')).toBeInTheDocument();
+    });
+  });
+
   test('handles audio recording', async () => {
+    // Mock successful transcription
+    global.fetch = vi.fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ text: 'Transcribed text' })
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ response: 'AI response' })
+      });
+      
     const user = userEvent.setup();
     render(<App />);
     const micButton = screen.getByText('🎤');
@@ -138,5 +221,57 @@ describe('App Component', () => {
     await waitFor(() => expect(screen.getByText('⏹️')).toBeInTheDocument());
     await user.click(micButton);
     await waitFor(() => expect(screen.getByText('🎤')).toBeInTheDocument());
+  });
+
+  test('sends X-Language auto header for multilingual STT', async () => {
+    const mockFetch = vi.fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ text: 'Transcribed text' })
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ response: 'AI response' })
+      });
+    
+    global.fetch = mockFetch;
+    
+    // Mock MediaRecorder
+    const mockStop = vi.fn();
+    const mockStart = vi.fn();
+    const mockMediaRecorder = {
+      start: mockStart,
+      stop: mockStop,
+      addEventListener: vi.fn((event, handler) => {
+        if (event === 'dataavailable') {
+          setTimeout(() => {
+            handler({ data: new Blob(['audio'], { type: 'audio/webm' }) });
+          }, 100);
+        }
+      }),
+      removeEventListener: vi.fn(),
+    };
+    
+    global.MediaRecorder = vi.fn(() => mockMediaRecorder);
+    
+    const user = userEvent.setup();
+    render(<App />);
+    const micButton = screen.getByText('🎤');
+    
+    // Start recording
+    await user.click(micButton);
+    await waitFor(() => expect(screen.getByText('⏹️')).toBeInTheDocument());
+    
+    // Stop recording
+    await user.click(micButton);
+    
+    // Wait for transcription request
+    await waitFor(() => {
+      const transcriptionCall = mockFetch.mock.calls.find(call => 
+        call[0] === '/api/audio/transcribe'
+      );
+      expect(transcriptionCall).toBeDefined();
+      expect(transcriptionCall[1].headers['X-Language']).toBe('auto');
+    });
   });
 });

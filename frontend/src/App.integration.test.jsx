@@ -20,6 +20,9 @@ const server = setupServer(
     
     return HttpResponse.json({ response });
   }),
+  http.get('/api/detect-language', () => {
+    return HttpResponse.json({ language: 'en' });
+  }),
 );
 
 describe('App Integration Tests', () => {

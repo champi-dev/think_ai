@@ -86,19 +86,27 @@ impl AudioService {
         mime_type: &str,
         language: Option<String>,
     ) -> Result<TranscriptionResult> {
-        // Deepgram supports automatic language detection, but we can specify if provided
+        // Use multilingual mode for automatic language detection and code-switching support
         let mut url =
-            "https://api.deepgram.com/v1/listen?model=nova-2&smart_format=true".to_string();
+            "https://api.deepgram.com/v1/listen?model=nova-2&smart_format=true&language=multi"
+                .to_string();
 
+        // Only override with specific language if explicitly requested
         if let Some(lang) = language {
-            // Map our language codes to Deepgram's language codes
-            let deepgram_lang = match lang.as_str() {
-                "zh" => "zh-CN",
-                "pt" => "pt-BR",
-                "en" => "en-US",
-                _ => &lang, // Use as-is for other languages
-            };
-            url.push_str(&format!("&language={}", deepgram_lang));
+            if lang != "auto" && lang != "multi" {
+                // Map our language codes to Deepgram's language codes
+                let deepgram_lang = match lang.as_str() {
+                    "zh" => "zh-CN",
+                    "pt" => "pt-BR",
+                    "en" => "en-US",
+                    _ => &lang, // Use as-is for other languages
+                };
+                // Replace multi with specific language
+                url = format!(
+                    "https://api.deepgram.com/v1/listen?model=nova-2&smart_format=true&language={}",
+                    deepgram_lang
+                );
+            }
         }
 
         let response = self
@@ -287,4 +295,92 @@ struct DeepgramChannel {
 struct DeepgramAlternative {
     transcript: String,
     confidence: f32,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use mockito::{mock, Matcher};
+
+    #[tokio::test]
+    async fn test_transcribe_with_multilingual_mode() {
+        let _m = mock("POST", "/v1/listen")
+            .match_query(Matcher::AllOf(vec![
+                Matcher::UrlEncoded("model".into(), "nova-2".into()),
+                Matcher::UrlEncoded("smart_format".into(), "true".into()),
+                Matcher::UrlEncoded("language".into(), "multi".into()),
+            ]))
+            .with_header("content-type", "application/json")
+            .with_body(
+                r#"{
+                "metadata": { "duration": 3.5 },
+                "results": {
+                    "channels": [{
+                        "alternatives": [{
+                            "transcript": "Hello, hola, 你好",
+                            "confidence": 0.95
+                        }]
+                    }]
+                }
+            }"#,
+            )
+            .create();
+
+        let temp_dir = tempfile::TempDir::new().unwrap();
+        let audio_service = AudioService::new(
+            "test_deepgram_key".to_string(),
+            "test_elevenlabs_key".to_string(),
+            temp_dir.path().to_path_buf(),
+        );
+
+        let audio_data = Bytes::from("fake audio data");
+        let result = audio_service
+            .transcribe_audio(audio_data, "audio/webm", None)
+            .await
+            .unwrap();
+
+        assert_eq!(result.text, "Hello, hola, 你好");
+        assert_eq!(result.confidence, 0.95);
+    }
+
+    #[tokio::test]
+    async fn test_transcribe_with_auto_language() {
+        let _m = mock("POST", "/v1/listen")
+            .match_query(Matcher::AllOf(vec![
+                Matcher::UrlEncoded("model".into(), "nova-2".into()),
+                Matcher::UrlEncoded("smart_format".into(), "true".into()),
+                Matcher::UrlEncoded("language".into(), "multi".into()),
+            ]))
+            .with_header("content-type", "application/json")
+            .with_body(
+                r#"{
+                "metadata": { "duration": 4.0 },
+                "results": {
+                    "channels": [{
+                        "alternatives": [{
+                            "transcript": "Mixed languages detected",
+                            "confidence": 0.92
+                        }]
+                    }]
+                }
+            }"#,
+            )
+            .create();
+
+        let temp_dir = tempfile::TempDir::new().unwrap();
+        let audio_service = AudioService::new(
+            "test_deepgram_key".to_string(),
+            "test_elevenlabs_key".to_string(),
+            temp_dir.path().to_path_buf(),
+        );
+
+        let audio_data = Bytes::from("fake audio data");
+        let result = audio_service
+            .transcribe_audio(audio_data, "audio/webm", Some("auto".to_string()))
+            .await
+            .unwrap();
+
+        assert_eq!(result.text, "Mixed languages detected");
+        assert_eq!(result.confidence, 0.92);
+    }
 }

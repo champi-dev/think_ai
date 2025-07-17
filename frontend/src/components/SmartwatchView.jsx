@@ -63,6 +63,10 @@ export const SmartwatchView = () => {
       const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
+      
+      // Update status to speaking when audio starts playing
+      setStatusMessage(getTranslation('speaking', userLang));
+      
       audio.play();
       audio.onended = () => {
         setStatusMessage(getTranslation('tapToSpeak', userLang));
@@ -84,7 +88,7 @@ export const SmartwatchView = () => {
         body: audioBlob,
         headers: { 
           'Content-Type': audioBlob.type,
-          'X-Language': userLang 
+          'X-Language': 'auto' // Use automatic multilingual detection
         }
       });
 
@@ -109,7 +113,7 @@ export const SmartwatchView = () => {
         if (!chatResponse.ok) throw new Error(`API Error: ${chatResponse.status}`);
         
         const data = await chatResponse.json();
-        setStatusMessage(getTranslation('speaking', userLang));
+        setStatusMessage(getTranslation('convertingToAudio', userLang));
         await playAudioResponse(data.response);
 
       } else {
