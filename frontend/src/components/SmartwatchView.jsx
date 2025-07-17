@@ -6,8 +6,8 @@ import { getTranslation, detectLanguage } from '../i18n/translations';
 export const SmartwatchView = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [statusMessage, setStatusMessage] = useState(getTranslation('tapToSpeak'));
-  const [userLang, setUserLang] = useState(detectLanguage());
+  const [statusMessage, setStatusMessage] = useState('Tap to Speak');
+  const [userLang, setUserLang] = useState('en');
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const audioContextRef = useRef(null);
@@ -15,6 +15,16 @@ export const SmartwatchView = () => {
   const silenceTimeoutRef = useRef(null);
   const streamRef = useRef(null);
   const isRecordingRef = useRef(false);
+  
+  // Initialize language on component mount
+  useEffect(() => {
+    const initLanguage = async () => {
+      const detectedLang = await detectLanguage();
+      setUserLang(detectedLang);
+      setStatusMessage(getTranslation('tapToSpeak', detectedLang));
+    };
+    initLanguage();
+  }, []);
 
   const getUserId = () => {
     let userId = localStorage.getItem('think_ai_user_id');

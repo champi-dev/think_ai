@@ -2813,3 +2813,25 @@ Transcription error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Ba
 [2m2025-07-17T11:07:47.981957Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
 [2m2025-07-17T11:07:47.981979Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
 [2m2025-07-17T11:07:47.982136Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T11:09:14.771089Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T11:09:14.771578Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T11:09:14.956008Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 40 cached audio files
+[2m2025-07-17T11:09:14.956040Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T11:09:14.956047Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T11:09:14.956206Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080
+[2m2025-07-17T11:10:50.259973Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: c1d919830bb26fb4b2a8b3e6e6498fc668dd8ce7628da2be6b6d288d69096496.mp3
+[2m2025-07-17T11:11:26.140098Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: ed37e9cb39bd1b0187576207c4baf4d7f4a20c9a2feacb421219b99185305de9.mp3
+[2m2025-07-17T11:13:03.018151Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 9d4a588c59987ccabe0acb60237c52683f69e229d11c14a6e7c0466c4f8ad557.mp3
+[2m2025-07-17T11:14:20.458458Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: a83ecd9bd6c693e22b1030e0cccacec294dc06d902bec3e86e1b326651efb077.mp3
+[2m2025-07-17T11:14:37.665621Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: c65394e22a227aa3be91d5eba517c076706b43277cf31b0eccb3c9a79947bdbf.mp3
+[2m2025-07-17T11:17:12.274570Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: ff0c94837a0240ef35c2ac72bf42886b6910595936b3948679981e31ce748f9f.mp3
+[2m2025-07-17T11:17:50.085196Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 179d66ec96c730cfe14f9df2296049c605eba72ef9a764b9bd476da906dc5eb7.mp3
+[2m2025-07-17T11:18:41.293709Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 08bb66deb27c5fa600fefe2dee64e760cde59f30b0aeeb21efd71fae6104e2f0.mp3
+[2m2025-07-17T11:20:00.557291Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 2f0db96029fe66cc1d24bdf4bc890399676ff0200489b209fc014e6236947536.mp3
+[2m2025-07-17T11:23:51.703793Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: ccc0b27d08c69552da9a387438b8da6bcbf6777335bd40f4d9ec06a808d3ed3d.mp3
+[2m2025-07-17T11:24:13.683440Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🚀 Think AI Full System starting on 0.0.0.0:8080
+[2m2025-07-17T11:24:13.683989Z[0m [32m INFO[0m [2mthink_ai_core::engine[0m[2m:[0m Initializing O(1) engine
+[2m2025-07-17T11:24:13.867138Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Loaded 50 cached audio files
+[2m2025-07-17T11:24:13.867187Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Audio service initialized with cache at "/home/administrator/think_ai/audio_cache"
+[2m2025-07-17T11:24:13.867195Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-17T11:24:13.867385Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m 🌐 Server listening on http://0.0.0.0:8080

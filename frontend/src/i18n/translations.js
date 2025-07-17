@@ -145,23 +145,40 @@ export const translations = {
   }
 };
 
-export const detectLanguage = () => {
-  // Get browser language
-  const browserLang = navigator.language || navigator.userLanguage;
-  const langCode = browserLang.split('-')[0];
-  
-  // Check if we support this language
-  if (translations[langCode]) {
-    return langCode;
-  }
-  
-  // Check localStorage for saved preference
+export const detectLanguage = async () => {
+  // Check localStorage for saved preference first
   const savedLang = localStorage.getItem('think_ai_language');
   if (savedLang && translations[savedLang]) {
     return savedLang;
   }
   
+  // Try IP-based detection
+  try {
+    const response = await fetch('/api/detect-language');
+    if (response.ok) {
+      const data = await response.json();
+      if (data.language && translations[data.language]) {
+        // Save the detected language
+        localStorage.setItem('think_ai_language', data.language);
+        return data.language;
+      }
+    }
+  } catch (error) {
+    console.log('IP-based language detection failed, falling back to browser language');
+  }
+  
+  // Fall back to browser language
+  const browserLang = navigator.language || navigator.userLanguage;
+  const langCode = browserLang.split('-')[0];
+  
+  // Check if we support this language
+  if (translations[langCode]) {
+    localStorage.setItem('think_ai_language', langCode);
+    return langCode;
+  }
+  
   // Default to English
+  localStorage.setItem('think_ai_language', 'en');
   return 'en';
 };
 

@@ -28,6 +28,7 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use uuid::Uuid;
 
 mod audio_service;
+mod geolocation;
 
 // Import actual Think AI components
 use think_ai_consciousness::ConsciousnessFramework;
@@ -210,6 +211,8 @@ async fn main() {
         // Audio endpoints
         .route("/api/audio/transcribe", post(transcribe_audio))
         .route("/api/audio/synthesize", post(synthesize_speech))
+        // Geolocation endpoint
+        .route("/api/detect-language", get(detect_language_from_ip))
         // Health check for the main service
         .route("/health", get(health_check))
         // Static file serving for the frontend
@@ -255,6 +258,38 @@ async fn api_health() -> Json<serde_json::Value> {
         "service": "think-ai-full",
         "version": "1.0.0",
     }))
+}
+
+// Detect language from IP
+async fn detect_language_from_ip(headers: HeaderMap) -> Result<Json<serde_json::Value>, StatusCode> {
+    // Try to get the real IP from various headers
+    let ip = headers
+        .get("x-forwarded-for")
+        .and_then(|v| v.to_str().ok())
+        .and_then(|s| s.split(',').next()) // Take first IP if multiple
+        .or_else(|| {
+            headers
+                .get("x-real-ip")
+                .and_then(|v| v.to_str().ok())
+        })
+        .unwrap_or("127.0.0.1");
+    
+    match geolocation::get_geolocation_info(ip).await {
+        Ok(info) => Ok(Json(json!({
+            "language": info.language,
+            "country_code": info.country_code,
+            "country_name": info.country_name,
+            "city": info.city,
+            "detected_from_ip": ip
+        }))),
+        Err(_) => Ok(Json(json!({
+            "language": "en",
+            "country_code": "US",
+            "country_name": "United States",
+            "detected_from_ip": ip,
+            "fallback": true
+        }))),
+    }
 }
 
 #[axum::debug_handler]
