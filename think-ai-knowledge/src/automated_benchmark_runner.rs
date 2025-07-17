@@ -743,7 +743,7 @@ mod tests {
     #[test]
     fn test_health_score_calculation() {
         // Create mock benchmark report
-        let mut benchmark_results = HashMap::new();
+        let benchmark_results = HashMap::new();
         let mut sota_comparison = HashMap::new();
         // Mock good performance
         sota_comparison.insert(Benchmark::MMLU, 0.9);

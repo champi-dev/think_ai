@@ -74,7 +74,7 @@ impl GeminiClient {
         config.api_key = api_key;
 
         let client = reqwest::Client::builder()
-            .timeout(Duration::from_millis(800)) // 800ms timeout for Gemini as fallback
+            .timeout(Duration::from_secs(30)) // 30s max timeout for Gemini
             .build()
             .unwrap();
 
@@ -83,7 +83,7 @@ impl GeminiClient {
 
     pub fn new_with_config(config: GeminiConfig) -> Self {
         let client = reqwest::Client::builder()
-            .timeout(Duration::from_millis(800)) // 800ms timeout for Gemini as fallback
+            .timeout(Duration::from_secs(30)) // 30s max timeout for Gemini
             .build()
             .unwrap();
 
@@ -117,8 +117,8 @@ impl GeminiClient {
         let mut last_error = None;
 
         while retry_count < max_retries {
-            // Exponential backoff: 3s, 6s, 10s (max)
-            let timeout = Duration::from_secs(std::cmp::min(3 * (1 << retry_count), 10));
+            // Exponential backoff: 10s, 20s, 30s (max)
+            let timeout = Duration::from_secs(std::cmp::min(10 * (1 << retry_count), 30));
 
             let client_with_timeout = reqwest::Client::builder().timeout(timeout).build().unwrap();
 

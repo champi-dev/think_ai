@@ -107,7 +107,7 @@ impl QwenClient {
 
     pub fn new_with_config(config: QwenConfig) -> Self {
         let client = reqwest::Client::builder()
-            .timeout(Duration::from_secs(2)) // 2s timeout for Qwen
+            .timeout(Duration::from_secs(30)) // 30s max timeout
             .build()
             .unwrap();
 
@@ -197,8 +197,8 @@ impl QwenClient {
         let mut last_error = None;
 
         while retry_count < max_retries {
-            // Exponential backoff: 2s, 4s, 8s
-            let timeout = Duration::from_secs(2 * (1 << retry_count));
+            // Exponential backoff: 10s, 20s, 30s (max)
+            let timeout = Duration::from_secs(std::cmp::min(10 * (1 << retry_count), 30));
 
             let client_with_timeout = reqwest::Client::builder().timeout(timeout).build().unwrap();
 

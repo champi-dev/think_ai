@@ -396,13 +396,13 @@ mod tests {
         knowledge.add_knowledge(item2).await.unwrap();
 
         // Query for knowledge
-        let ___query = KnowledgeQuery {
+        let query = KnowledgeQuery {
             content: "programming language".to_string(),
             context: None,
             max_results: 5,
         };
 
-        let results = knowledge.query(request).await.unwrap();
+        let results = knowledge.query(query).await.unwrap();
         assert!(!results.is_empty());
         assert!(results[0].contains("programming"));
     }

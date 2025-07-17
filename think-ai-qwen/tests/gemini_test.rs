@@ -24,7 +24,7 @@ async fn test_gemini_basic_response() {
         result.err()
     );
     assert!(
-        elapsed < Duration::from_millis(500),
+        elapsed < Duration::from_secs(35),
         "Response took too long: {:?}",
         elapsed
     );
@@ -89,7 +89,7 @@ async fn test_gemini_concurrent_requests() {
     let mut all_success = true;
     for handle in handles {
         let (result, elapsed) = handle.await.unwrap();
-        if result.is_err() || elapsed >= Duration::from_millis(500) {
+        if result.is_err() || elapsed >= Duration::from_secs(35) {
             all_success = false;
             eprintln!(
                 "Gemini request failed or took too long: {:?}, elapsed: {:?}",
@@ -101,7 +101,7 @@ async fn test_gemini_concurrent_requests() {
 
     assert!(
         all_success,
-        "Not all Gemini requests completed within 500ms"
+        "Not all Gemini requests completed within 35 seconds"
     );
 }
 

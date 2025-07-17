@@ -131,6 +131,8 @@ impl<T: ResponseComponent + Send + Sync + 'static> ResponseComponent for Timeout
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::Arc;
+    use std::time::Instant;
 
     #[test]
     fn test_fast_response_exact_match() {
