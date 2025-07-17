@@ -49,12 +49,12 @@ Port 5174 is in use, trying another one...
 1:42:45 PM [vite] page reload dist/generate-icons.html
 1:46:49 PM [vite] page reload dist/generate-icons.html
 1:48:54 PM [vite] page reload dist/generate-icons.html
-te] hmr update /src/App.jsx
-12:26:56 PM [vite] hmr update /src/App.jsx
-12:27:13 PM [vite] page reload dist/generate-icons.html
-12:38:13 PM [vite] page reload dist/generate-icons.html
-12:38:45 PM [vite] page reload dist/generate-icons.html
-12:39:01 PM [vite] page reload dist/generate-icons.html
+2:04:42 PM [vite] page reload dist/generate-icons.html
+2:06:52 PM [vite] page reload dist/generate-icons.html
+2:12:30 PM [vite] page reload dist/generate-icons.html
+2:17:35 PM [vite] page reload dist/generate-icons.html
+2:31:52 PM [vite] page reload dist/generate-icons.html
+generate-icons.html
 12:40:34 PM [vite] page reload dist/generate-icons.html
 12:42:23 PM [vite] hmr update /src/App.jsx
 12:42:29 PM [vite] hmr update /src/App.jsx
@@ -75,3 +75,12 @@ te] hmr update /src/App.jsx
 1:42:45 PM [vite] page reload dist/generate-icons.html
 1:46:49 PM [vite] page reload dist/generate-icons.html
 1:48:54 PM [vite] page reload dist/generate-icons.html
+2:04:42 PM [vite] page reload dist/generate-icons.html
+2:06:52 PM [vite] page reload dist/generate-icons.html
+2:12:30 PM [vite] page reload dist/generate-icons.html
+2:16:30 PM [vite] hmr update /src/index.css
+2:17:24 PM [vite] hmr update /src/App.jsx
+2:17:35 PM [vite] page reload dist/generate-icons.html
+2:30:34 PM [vite] hmr update /src/App.jsx
+2:31:38 PM [vite] page reload src/main.jsx
+2:31:52 PM [vite] page reload dist/generate-icons.html

@@ -100,3 +100,8 @@ Qwen error: Ollama unavailable
 Transcription error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"85121224-54cb-4b11-96ea-fb224006b0e9"}
 [2m2025-07-17T13:58:40.371162Z[0m [31mERROR[0m [2mtower_http::trace::on_failure[0m[2m:[0m response failed [3mclassification[0m[2m=[0mStatus code: 500 Internal Server Error [3mlatency[0m[2m=[0m211 ms
 [2m2025-07-17T13:58:40.478721Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08.mp3
+[2m2025-07-17T14:00:49.845544Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: 92a24d9651affec459958acefe6976f6712d1a8ca19ec73af1e97174368f3bcb.mp3
+[2m2025-07-17T14:25:29.396535Z[0m [31mERROR[0m [2mthink_ai_full::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"b1ddbc3a-eb3c-4c78-ac2a-be4477ea67d3"}
+Transcription error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"b1ddbc3a-eb3c-4c78-ac2a-be4477ea67d3"}
+[2m2025-07-17T14:25:29.396621Z[0m [31mERROR[0m [2mtower_http::trace::on_failure[0m[2m:[0m response failed [3mclassification[0m[2m=[0mStatus code: 500 Internal Server Error [3mlatency[0m[2m=[0m222 ms
+[2m2025-07-17T14:33:20.669716Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: a9b3fb0521f77b2f9cbaa4398d47b18b5b7ec85f0c2b83efce90d6d8881f0295.mp3

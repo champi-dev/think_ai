@@ -171,6 +171,7 @@
             /* Header adjustments */
             .header {
                 padding: 0.5rem 1rem;
+                z-index: 1000;
             }
             
             .header-content {
@@ -209,9 +210,22 @@
                 gap: 0.5rem;
             }
             
+            /* Force mobile interface to be visible */
+            .smartwatch-view {
+                display: none !important;
+            }
+            
             /* Chat container full height */
             .interface {
                 padding-top: 60px;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 10;
+                background: transparent;
             }
             
             .chat-container {
@@ -220,15 +234,24 @@
                 margin: 0;
                 border-radius: 0;
                 background: rgba(15, 23, 42, 0.95);
+                display: flex;
+                flex-direction: column;
             }
             
             /* Messages area */
             .messages {
                 padding: 1rem;
-                height: calc(100% - 120px);
+                height: calc(100% - 140px);
+                flex: 1;
+                overflow-y: auto;
+                background: rgba(15, 23, 42, 0.6);
             }
             
             .message {
+                margin-bottom: 0.8rem;
+            }
+            
+            .message-content {
                 padding: 0.8rem 1rem;
                 font-size: 0.9rem;
                 max-width: 90%;
@@ -257,6 +280,7 @@
                 border-top: 1px solid var(--border);
                 padding: 0.8rem;
                 margin: 0;
+                z-index: 20;
             }
             
             .input-wrapper {

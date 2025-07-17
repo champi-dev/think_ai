@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Responsive UI Test Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      border-bottom: 2px solid #6366f1;
+      padding-bottom: 10px;
+    }
+    .viewport-section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    .viewport-section h3 {
+      margin-top: 0;
+      color: #6366f1;
+    }
+    .screenshot {
+      margin: 20px 0;
+      text-align: center;
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .screenshot img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .error {
+      background: #ffebee;
+      color: #c62828;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+    .overlaps {
+      color: #f44336;
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .overlaps li::before {
+      content: "⚠️ ";
+    }
+    .visibility {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    h4 {
+      margin-top: 0;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Responsive UI Test Report</h1>
+    <p>Generated: 2025-07-17T14:17:57.460Z</p>
+    <p>URL: http://localhost:8080</p>
+    
+    <div class="viewport-section">
+      <h3>desktop-4k (3840x2160)</h3>
+      
+        <div class="screenshot">
+          <img src="desktop-4k-initial.png" alt="desktop-4k" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with modeToggle</li><li>input overlaps with sendButton</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>desktop-1080p (1920x1080)</h3>
+      
+        <div class="screenshot">
+          <img src="desktop-1080p-initial.png" alt="desktop-1080p" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with modeToggle</li><li>input overlaps with sendButton</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>laptop (1366x768)</h3>
+      
+        <div class="screenshot">
+          <img src="laptop-initial.png" alt="laptop" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with modeToggle</li><li>messages overlaps with voiceDetector</li><li>input overlaps with sendButton</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>tablet-landscape (1024x768)</h3>
+      
+        <div class="screenshot">
+          <img src="tablet-landscape-initial.png" alt="tablet-landscape" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with modeToggle</li><li>messages overlaps with voiceDetector</li><li>input overlaps with sendButton</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>tablet-portrait (768x1024)</h3>
+      
+        <div class="screenshot">
+          <img src="tablet-portrait-initial.png" alt="tablet-portrait" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with messages</li><li>header overlaps with modeToggle</li><li>messages overlaps with voiceDetector</li><li>messages overlaps with modeToggle</li><li>input overlaps with voiceDetector</li><li>input overlaps with sendButton</li><li>voiceDetector overlaps with sendButton</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>mobile-large (414x896)</h3>
+      
+        <div class="screenshot">
+          <img src="mobile-large-initial.png" alt="mobile-large" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with messages</li><li>header overlaps with modeToggle</li><li>messages overlaps with voiceDetector</li><li>messages overlaps with modeToggle</li><li>input overlaps with voiceDetector</li><li>input overlaps with sendButton</li><li>voiceDetector overlaps with sendButton</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>mobile-medium (375x667)</h3>
+      
+        <div class="screenshot">
+          <img src="mobile-medium-initial.png" alt="mobile-medium" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with messages</li><li>header overlaps with modeToggle</li><li>messages overlaps with voiceDetector</li><li>messages overlaps with modeToggle</li><li>input overlaps with voiceDetector</li><li>input overlaps with sendButton</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>mobile-small (320x568)</h3>
+      
+        <div class="screenshot">
+          <img src="mobile-small-initial.png" alt="mobile-small" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with messages</li><li>header overlaps with modeToggle</li><li>messages overlaps with voiceDetector</li><li>messages overlaps with modeToggle</li><li>input overlaps with voiceDetector</li><li>input overlaps with sendButton</li><li>voiceDetector overlaps with sendButton</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>ultra-small (280x480)</h3>
+      
+        <div class="screenshot">
+          <img src="ultra-small-initial.png" alt="ultra-small" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with messages</li><li>header overlaps with voiceDetector</li><li>header overlaps with modeToggle</li><li>messages overlaps with voiceDetector</li><li>messages overlaps with modeToggle</li><li>input overlaps with sendButton</li><li>voiceDetector overlaps with modeToggle</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>micro (200x300)</h3>
+      
+        <div class="screenshot">
+          <img src="micro-initial.png" alt="micro" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with messages</li><li>header overlaps with voiceDetector</li><li>header overlaps with modeToggle</li><li>messages overlaps with voiceDetector</li><li>messages overlaps with modeToggle</li><li>input overlaps with sendButton</li><li>voiceDetector overlaps with modeToggle</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>nano (150x200)</h3>
+      
+        <div class="screenshot">
+          <img src="nano-initial.png" alt="nano" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with messages</li><li>header overlaps with voiceDetector</li><li>header overlaps with modeToggle</li><li>messages overlaps with voiceDetector</li><li>messages overlaps with modeToggle</li><li>input overlaps with sendButton</li><li>voiceDetector overlaps with modeToggle</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ✅</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+    <div class="viewport-section">
+      <h3>minimum (100x100)</h3>
+      
+        <div class="screenshot">
+          <img src="minimum-initial.png" alt="minimum" />
+        </div>
+        <div class="details">
+          <h4>Overlaps: ❌ YES</h4>
+          
+            <ul class="overlaps">
+              <li>header overlaps with modeToggle</li><li>messages overlaps with input</li><li>messages overlaps with voiceDetector</li><li>messages overlaps with sendButton</li><li>input overlaps with sendButton</li>
+            </ul>
+          
+          <h4>Visibility:</h4>
+          <ul class="visibility">
+            <li>header: ❌</li><li>messages: ✅</li><li>input: ✅</li><li>sendButton: ✅</li><li>voiceDetector: ✅</li><li>queryInput: ✅</li>
+          </ul>
+        </div>
+      
+    </div>
+  
+  </div>
+</body>
+</html>
+  

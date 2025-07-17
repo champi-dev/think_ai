@@ -1,0 +1,873 @@
+{
+  "timestamp": "2025-07-17T14:17:57.460Z",
+  "url": "http://localhost:8080",
+  "viewports": [
+    {
+      "name": "desktop-4k",
+      "width": 3840,
+      "height": 2160,
+      "screenshot": "desktop-4k-initial.png",
+      "overlaps": [
+        "header overlaps with modeToggle",
+        "input overlaps with sendButton"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 63,
+          "right": 3840,
+          "width": 3840,
+          "height": 63
+        },
+        "messages": {
+          "top": 140,
+          "left": 1470,
+          "bottom": 2024,
+          "right": 2370,
+          "width": 900,
+          "height": 1884
+        },
+        "input": {
+          "top": 2048,
+          "left": 1470,
+          "bottom": 2128,
+          "right": 2370,
+          "width": 900,
+          "height": 80
+        },
+        "voiceDetector": {
+          "top": 1866,
+          "left": 3540,
+          "bottom": 2040,
+          "right": 3820,
+          "width": 280,
+          "height": 174
+        },
+        "modeToggle": {
+          "top": 12,
+          "left": 2381,
+          "bottom": 50,
+          "right": 2620,
+          "width": 239,
+          "height": 38
+        },
+        "sendButton": {
+          "top": 2066,
+          "left": 2296,
+          "bottom": 2110,
+          "right": 2340,
+          "width": 44,
+          "height": 44
+        }
+      }
+    },
+    {
+      "name": "desktop-1080p",
+      "width": 1920,
+      "height": 1080,
+      "screenshot": "desktop-1080p-initial.png",
+      "overlaps": [
+        "header overlaps with modeToggle",
+        "input overlaps with sendButton"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 63,
+          "right": 1920,
+          "width": 1920,
+          "height": 63
+        },
+        "messages": {
+          "top": 86,
+          "left": 510,
+          "bottom": 944,
+          "right": 1410,
+          "width": 900,
+          "height": 858
+        },
+        "input": {
+          "top": 968,
+          "left": 510,
+          "bottom": 1048,
+          "right": 1410,
+          "width": 900,
+          "height": 80
+        },
+        "voiceDetector": {
+          "top": 786,
+          "left": 1620,
+          "bottom": 960,
+          "right": 1900,
+          "width": 280,
+          "height": 174
+        },
+        "modeToggle": {
+          "top": 12,
+          "left": 1421,
+          "bottom": 50,
+          "right": 1660,
+          "width": 239,
+          "height": 38
+        },
+        "sendButton": {
+          "top": 986,
+          "left": 1336,
+          "bottom": 1030,
+          "right": 1380,
+          "width": 44,
+          "height": 44
+        }
+      }
+    },
+    {
+      "name": "laptop",
+      "width": 1366,
+      "height": 768,
+      "screenshot": "laptop-initial.png",
+      "overlaps": [
+        "header overlaps with modeToggle",
+        "messages overlaps with voiceDetector",
+        "input overlaps with sendButton"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 63,
+          "right": 1366,
+          "width": 1366,
+          "height": 63
+        },
+        "messages": {
+          "top": 70.40625,
+          "left": 233,
+          "bottom": 632,
+          "right": 1133,
+          "width": 900,
+          "height": 561.59375
+        },
+        "input": {
+          "top": 656,
+          "left": 233,
+          "bottom": 736,
+          "right": 1133,
+          "width": 900,
+          "height": 80
+        },
+        "voiceDetector": {
+          "top": 474,
+          "left": 1066,
+          "bottom": 648,
+          "right": 1346,
+          "width": 280,
+          "height": 174
+        },
+        "modeToggle": {
+          "top": 12,
+          "left": 1103,
+          "bottom": 50,
+          "right": 1342,
+          "width": 239,
+          "height": 38
+        },
+        "sendButton": {
+          "top": 674,
+          "left": 1059,
+          "bottom": 718,
+          "right": 1103,
+          "width": 44,
+          "height": 44
+        }
+      }
+    },
+    {
+      "name": "tablet-landscape",
+      "width": 1024,
+      "height": 768,
+      "screenshot": "tablet-landscape-initial.png",
+      "overlaps": [
+        "header overlaps with modeToggle",
+        "messages overlaps with voiceDetector",
+        "input overlaps with sendButton"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 63,
+          "right": 1024,
+          "width": 1024,
+          "height": 63
+        },
+        "messages": {
+          "top": 70.40625,
+          "left": 62,
+          "bottom": 632,
+          "right": 962,
+          "width": 900,
+          "height": 561.59375
+        },
+        "input": {
+          "top": 656,
+          "left": 62,
+          "bottom": 736,
+          "right": 962,
+          "width": 900,
+          "height": 80
+        },
+        "voiceDetector": {
+          "top": 474,
+          "left": 724,
+          "bottom": 648,
+          "right": 1004,
+          "width": 280,
+          "height": 174
+        },
+        "modeToggle": {
+          "top": 12,
+          "left": 761,
+          "bottom": 50,
+          "right": 1000,
+          "width": 239,
+          "height": 38
+        },
+        "sendButton": {
+          "top": 674,
+          "left": 888,
+          "bottom": 718,
+          "right": 932,
+          "width": 44,
+          "height": 44
+        }
+      }
+    },
+    {
+      "name": "tablet-portrait",
+      "width": 768,
+      "height": 1024,
+      "screenshot": "tablet-portrait-initial.png",
+      "overlaps": [
+        "header overlaps with messages",
+        "header overlaps with modeToggle",
+        "messages overlaps with voiceDetector",
+        "messages overlaps with modeToggle",
+        "input overlaps with voiceDetector",
+        "input overlaps with sendButton",
+        "voiceDetector overlaps with sendButton"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 60,
+          "right": 768,
+          "width": 768,
+          "height": 60
+        },
+        "messages": {
+          "top": 17,
+          "left": 16,
+          "bottom": 864.796875,
+          "right": 752,
+          "width": 736,
+          "height": 847.796875
+        },
+        "input": {
+          "top": 880.796875,
+          "left": 16,
+          "bottom": 956.796875,
+          "right": 752,
+          "width": 736,
+          "height": 76
+        },
+        "voiceDetector": {
+          "top": 771,
+          "left": 10,
+          "bottom": 929,
+          "right": 758,
+          "width": 748,
+          "height": 158
+        },
+        "modeToggle": {
+          "top": 12,
+          "left": 613,
+          "bottom": 42,
+          "right": 752,
+          "width": 139,
+          "height": 30
+        },
+        "sendButton": {
+          "top": 898.796875,
+          "left": 690,
+          "bottom": 938.796875,
+          "right": 730,
+          "width": 40,
+          "height": 40
+        }
+      }
+    },
+    {
+      "name": "mobile-large",
+      "width": 414,
+      "height": 896,
+      "screenshot": "mobile-large-initial.png",
+      "overlaps": [
+        "header overlaps with messages",
+        "header overlaps with modeToggle",
+        "messages overlaps with voiceDetector",
+        "messages overlaps with modeToggle",
+        "input overlaps with voiceDetector",
+        "input overlaps with sendButton",
+        "voiceDetector overlaps with sendButton"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 50,
+          "right": 414,
+          "width": 414,
+          "height": 50
+        },
+        "messages": {
+          "top": 13,
+          "left": 12,
+          "bottom": 757.1875,
+          "right": 402,
+          "width": 390,
+          "height": 744.1875
+        },
+        "input": {
+          "top": 773.1875,
+          "left": 12,
+          "bottom": 839.1875,
+          "right": 402,
+          "width": 390,
+          "height": 66
+        },
+        "voiceDetector": {
+          "top": 689,
+          "left": 5,
+          "bottom": 811,
+          "right": 409,
+          "width": 404,
+          "height": 122
+        },
+        "modeToggle": {
+          "top": 8,
+          "left": 280,
+          "bottom": 34,
+          "right": 402,
+          "width": 122,
+          "height": 26
+        },
+        "sendButton": {
+          "top": 788.1875,
+          "left": 367,
+          "bottom": 824.1875,
+          "right": 403,
+          "width": 36,
+          "height": 36
+        }
+      }
+    },
+    {
+      "name": "mobile-medium",
+      "width": 375,
+      "height": 667,
+      "screenshot": "mobile-medium-initial.png",
+      "overlaps": [
+        "header overlaps with messages",
+        "header overlaps with modeToggle",
+        "messages overlaps with voiceDetector",
+        "messages overlaps with modeToggle",
+        "input overlaps with voiceDetector",
+        "input overlaps with sendButton"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 40,
+          "right": 375,
+          "width": 375,
+          "height": 40
+        },
+        "messages": {
+          "top": 5,
+          "left": 4,
+          "bottom": 569,
+          "right": 371,
+          "width": 367,
+          "height": 564
+        },
+        "input": {
+          "top": 581,
+          "left": 4,
+          "bottom": 623,
+          "right": 371,
+          "width": 367,
+          "height": 42
+        },
+        "voiceDetector": {
+          "top": 460,
+          "left": 5,
+          "bottom": 582,
+          "right": 370,
+          "width": 365,
+          "height": 122
+        },
+        "modeToggle": {
+          "top": 5,
+          "left": 313.79998779296875,
+          "bottom": 23,
+          "right": 364.20001220703125,
+          "width": 50.4000244140625,
+          "height": 18
+        },
+        "sendButton": {
+          "top": 590,
+          "left": 335,
+          "bottom": 614,
+          "right": 359,
+          "width": 24,
+          "height": 24
+        }
+      }
+    },
+    {
+      "name": "mobile-small",
+      "width": 320,
+      "height": 568,
+      "screenshot": "mobile-small-initial.png",
+      "overlaps": [
+        "header overlaps with messages",
+        "header overlaps with modeToggle",
+        "messages overlaps with voiceDetector",
+        "messages overlaps with modeToggle",
+        "input overlaps with voiceDetector",
+        "input overlaps with sendButton",
+        "voiceDetector overlaps with sendButton"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 40,
+          "right": 320,
+          "width": 320,
+          "height": 40
+        },
+        "messages": {
+          "top": 5,
+          "left": 4,
+          "bottom": 470,
+          "right": 316,
+          "width": 312,
+          "height": 465
+        },
+        "input": {
+          "top": 482,
+          "left": 4,
+          "bottom": 524,
+          "right": 316,
+          "width": 312,
+          "height": 42
+        },
+        "voiceDetector": {
+          "top": 396,
+          "left": 3,
+          "bottom": 493,
+          "right": 317,
+          "width": 314,
+          "height": 97
+        },
+        "modeToggle": {
+          "top": 5,
+          "left": 258.79998779296875,
+          "bottom": 23,
+          "right": 309.20001220703125,
+          "width": 50.4000244140625,
+          "height": 18
+        },
+        "sendButton": {
+          "top": 491,
+          "left": 280,
+          "bottom": 515,
+          "right": 304,
+          "width": 24,
+          "height": 24
+        }
+      }
+    },
+    {
+      "name": "ultra-small",
+      "width": 280,
+      "height": 480,
+      "screenshot": "ultra-small-initial.png",
+      "overlaps": [
+        "header overlaps with messages",
+        "header overlaps with voiceDetector",
+        "header overlaps with modeToggle",
+        "messages overlaps with voiceDetector",
+        "messages overlaps with modeToggle",
+        "input overlaps with sendButton",
+        "voiceDetector overlaps with modeToggle"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 32,
+          "right": 280,
+          "width": 280,
+          "height": 32
+        },
+        "messages": {
+          "top": 4.1875,
+          "left": 3.1875,
+          "bottom": 400.078125,
+          "right": 276.8125,
+          "width": 273.625,
+          "height": 395.890625
+        },
+        "input": {
+          "top": 412.078125,
+          "left": 3.1875,
+          "bottom": 444.8125,
+          "right": 276.8125,
+          "width": 273.625,
+          "height": 32.734375
+        },
+        "voiceDetector": {
+          "top": 5,
+          "left": 5,
+          "bottom": 83,
+          "right": 275,
+          "width": 270,
+          "height": 78
+        },
+        "modeToggle": {
+          "top": 4.1875,
+          "left": 225.80313110351562,
+          "bottom": 22.1875,
+          "right": 272.6031188964844,
+          "width": 46.79998779296875,
+          "height": 18
+        },
+        "sendButton": {
+          "top": 418.4375,
+          "left": 249.015625,
+          "bottom": 438.4375,
+          "right": 269.015625,
+          "width": 20,
+          "height": 20
+        }
+      }
+    },
+    {
+      "name": "micro",
+      "width": 200,
+      "height": 300,
+      "screenshot": "micro-initial.png",
+      "overlaps": [
+        "header overlaps with messages",
+        "header overlaps with voiceDetector",
+        "header overlaps with modeToggle",
+        "messages overlaps with voiceDetector",
+        "messages overlaps with modeToggle",
+        "input overlaps with sendButton",
+        "voiceDetector overlaps with modeToggle"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 20,
+          "right": 200,
+          "width": 200,
+          "height": 20
+        },
+        "messages": {
+          "top": 2,
+          "left": 1,
+          "bottom": 255,
+          "right": 199,
+          "width": 198,
+          "height": 253
+        },
+        "input": {
+          "top": 261,
+          "left": 1,
+          "bottom": 279,
+          "right": 199,
+          "width": 198,
+          "height": 18
+        },
+        "voiceDetector": {
+          "top": 5,
+          "left": 5,
+          "bottom": 83,
+          "right": 195,
+          "width": 190,
+          "height": 78
+        },
+        "modeToggle": {
+          "top": 1.6000003814697266,
+          "left": 167.60000610351562,
+          "bottom": 12.399999618530273,
+          "right": 196.39999389648438,
+          "width": 28.79998779296875,
+          "height": 10.799999237060547
+        },
+        "sendButton": {
+          "top": 264,
+          "left": 183,
+          "bottom": 276,
+          "right": 195,
+          "width": 12,
+          "height": 12
+        }
+      }
+    },
+    {
+      "name": "nano",
+      "width": 150,
+      "height": 200,
+      "screenshot": "nano-initial.png",
+      "overlaps": [
+        "header overlaps with messages",
+        "header overlaps with voiceDetector",
+        "header overlaps with modeToggle",
+        "messages overlaps with voiceDetector",
+        "messages overlaps with modeToggle",
+        "input overlaps with sendButton",
+        "voiceDetector overlaps with modeToggle"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": true,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 29,
+          "right": 150,
+          "width": 150,
+          "height": 29
+        },
+        "messages": {
+          "top": 2,
+          "left": 1,
+          "bottom": 155,
+          "right": 149,
+          "width": 148,
+          "height": 153
+        },
+        "input": {
+          "top": 161,
+          "left": 1,
+          "bottom": 179,
+          "right": 149,
+          "width": 148,
+          "height": 18
+        },
+        "voiceDetector": {
+          "top": 5,
+          "left": 5,
+          "bottom": 83,
+          "right": 145,
+          "width": 140,
+          "height": 78
+        },
+        "modeToggle": {
+          "top": 15.600000381469727,
+          "left": 3.6000003814697266,
+          "bottom": 26.399999618530273,
+          "right": 32.400001525878906,
+          "width": 28.80000114440918,
+          "height": 10.799999237060547
+        },
+        "sendButton": {
+          "top": 164,
+          "left": 133,
+          "bottom": 176,
+          "right": 145,
+          "width": 12,
+          "height": 12
+        }
+      }
+    },
+    {
+      "name": "minimum",
+      "width": 100,
+      "height": 100,
+      "screenshot": "minimum-initial.png",
+      "overlaps": [
+        "header overlaps with modeToggle",
+        "messages overlaps with input",
+        "messages overlaps with voiceDetector",
+        "messages overlaps with sendButton",
+        "input overlaps with sendButton"
+      ],
+      "hasOverlaps": true,
+      "visibility": {
+        "header": false,
+        "messages": true,
+        "input": true,
+        "sendButton": true,
+        "voiceDetector": true,
+        "queryInput": true
+      },
+      "elementBounds": {
+        "header": {
+          "top": 0,
+          "left": 0,
+          "bottom": 0,
+          "right": 0,
+          "width": 0,
+          "height": 0
+        },
+        "messages": {
+          "top": 2,
+          "left": 1,
+          "bottom": 102,
+          "right": 99,
+          "width": 98,
+          "height": 100
+        },
+        "input": {
+          "top": 88,
+          "left": 0,
+          "bottom": 100,
+          "right": 100,
+          "width": 100,
+          "height": 12
+        },
+        "voiceDetector": {
+          "top": 5,
+          "left": 5,
+          "bottom": 83,
+          "right": 95,
+          "width": 90,
+          "height": 78
+        },
+        "modeToggle": {
+          "top": 0,
+          "left": 0,
+          "bottom": 0,
+          "right": 0,
+          "width": 0,
+          "height": 0
+        },
+        "sendButton": {
+          "top": 89,
+          "left": 87,
+          "bottom": 99,
+          "right": 99,
+          "width": 12,
+          "height": 10
+        }
+      }
+    }
+  ]
+}
