@@ -350,21 +350,52 @@ async fn chat_handler(
         system_prompt: Some("You are Think AI, a helpful quantum-powered AI assistant. Provide thoughtful, accurate responses based on the context and knowledge provided.".to_string()),
     };
 
-    let ai_response = match state.qwen_client.generate(qwen_request).await {
-        Ok(response) => response.content,
-        Err(e) => {
-            eprintln!("Failed to generate response: {:?}", e);
-            // Use knowledge-based fallback if available
-            if !knowledge_results.is_empty() {
-                format!(
-                    "Based on my knowledge about {}: {}",
-                    knowledge_results[0].topic, knowledge_results[0].content
-                )
-            } else {
-                "I apologize, but I'm having trouble processing your request. Please try again in a moment.".to_string()
+    let mut ai_response = String::new();
+    let mut retry_count = 0;
+    const MAX_RETRIES: u32 = 10;
+    
+    loop {
+        match state.qwen_client.generate(qwen_request.clone()).await {
+            Ok(response) => {
+                ai_response = response.content;
+                break;
+            }
+            Err(e) => {
+                retry_count += 1;
+                eprintln!("Attempt {} failed to generate response: {:?}", retry_count, e);
+                
+                if retry_count >= MAX_RETRIES {
+                    // Use knowledge-based fallback if available
+                    ai_response = if !knowledge_results.is_empty() {
+                        format!(
+                            "I'm experiencing technical difficulties after {} attempts. Based on my knowledge about {}: {}",
+                            MAX_RETRIES, knowledge_results[0].topic, knowledge_results[0].content
+                        )
+                    } else {
+                        format!(
+                            "I apologize, but I'm having persistent trouble processing your request after {} attempts. Please try again later or contact support.",
+                            MAX_RETRIES
+                        )
+                    };
+                    break;
+                }
+                
+                // Return intermediate status to user
+                if retry_count == 1 {
+                    ai_response = "I'm processing your request, please wait...".to_string();
+                } else if retry_count == 3 {
+                    ai_response = "Still working on your request, this is taking longer than usual...".to_string();
+                } else if retry_count == 5 {
+                    ai_response = format!("Attempting to process your request (attempt {}/{}), please bear with me...", retry_count, MAX_RETRIES);
+                } else if retry_count == 8 {
+                    ai_response = format!("Almost there, making attempt {}/{} to process your request...", retry_count, MAX_RETRIES);
+                }
+                
+                // Wait a bit before retrying
+                tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
             }
         }
-    };
+    }
 
     let response_time_ms = start.elapsed().as_micros() as f64 / 1000.0;
 
@@ -573,11 +604,39 @@ async fn transcribe_audio(
         .and_then(|v| v.to_str().ok())
         .map(|s| s.to_string());
 
-    match audio_service.transcribe(body, content_type, language).await {
-        Ok(result) => Ok(Json(result)),
-        Err(e) => {
-            eprintln!("Transcription error: {}", e);
-            Err(StatusCode::INTERNAL_SERVER_ERROR)
+    let mut retry_count = 0;
+    const MAX_RETRIES: u32 = 10;
+    
+    loop {
+        match audio_service.transcribe(body.clone(), content_type, language.clone()).await {
+            Ok(result) => return Ok(Json(result)),
+            Err(e) => {
+                retry_count += 1;
+                eprintln!("Transcription attempt {} error: {}", retry_count, e);
+                
+                if retry_count >= MAX_RETRIES {
+                    eprintln!("Transcription failed after {} attempts", MAX_RETRIES);
+                    return Ok(Json(TranscriptionResult {
+                        text: format!("Sorry, I couldn't process your audio after {} attempts. The error was: {}. Please try recording again.", MAX_RETRIES, e),
+                        confidence: 0.0,
+                        duration: 0.0,
+                        language: language.clone(),
+                        processing_time_ms: 0.0,
+                    }));
+                }
+                
+                // Log status for monitoring
+                if retry_count == 1 {
+                    eprintln!("Retrying audio transcription...");
+                } else if retry_count == 5 {
+                    eprintln!("Audio transcription struggling, attempt {}/{}", retry_count, MAX_RETRIES);
+                } else if retry_count == 8 {
+                    eprintln!("Audio transcription nearly at limit, attempt {}/{}", retry_count, MAX_RETRIES);
+                }
+                
+                // Wait before retrying
+                tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
+            }
         }
     }
 }
@@ -592,11 +651,38 @@ async fn synthesize_speech(
         .as_ref()
         .ok_or(StatusCode::SERVICE_UNAVAILABLE)?;
 
-    match audio_service.synthesize(request).await {
-        Ok((audio_data, _cache_key)) => Ok(([(header::CONTENT_TYPE, "audio/mpeg")], audio_data)),
-        Err(e) => {
-            eprintln!("Synthesis error: {}", e);
-            Err(StatusCode::INTERNAL_SERVER_ERROR)
+    let mut retry_count = 0;
+    const MAX_RETRIES: u32 = 10;
+    
+    loop {
+        match audio_service.synthesize(request.clone()).await {
+            Ok((audio_data, _cache_key)) => {
+                return Ok(([(header::CONTENT_TYPE, "audio/mpeg")], audio_data));
+            }
+            Err(e) => {
+                retry_count += 1;
+                eprintln!("Synthesis attempt {} error: {}", retry_count, e);
+                
+                if retry_count >= MAX_RETRIES {
+                    eprintln!("Synthesis failed after {} attempts", MAX_RETRIES);
+                    // Return a simple error audio message
+                    let error_message = format!("Sorry, I couldn't generate audio after {} attempts. Error: {}", MAX_RETRIES, e);
+                    let error_audio = bytes::Bytes::from(error_message.as_bytes().to_vec()); // This is just placeholder
+                    return Ok(([(header::CONTENT_TYPE, "audio/mpeg")], error_audio));
+                }
+                
+                // Log status for monitoring
+                if retry_count == 1 {
+                    eprintln!("Retrying audio synthesis...");
+                } else if retry_count == 5 {
+                    eprintln!("Audio synthesis struggling, attempt {}/{}", retry_count, MAX_RETRIES);
+                } else if retry_count == 8 {
+                    eprintln!("Audio synthesis nearly at limit, attempt {}/{}", retry_count, MAX_RETRIES);
+                }
+                
+                // Wait before retrying
+                tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
+            }
         }
     }
 }

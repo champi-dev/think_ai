@@ -25,9 +25,11 @@ pub struct TranscriptionResult {
     pub text: String,
     pub confidence: f32,
     pub duration: f32,
+    pub language: Option<String>,
+    pub processing_time_ms: f64,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct SynthesisRequest {
     pub text: String,
     pub voice_id: Option<String>, // ElevenLabs voice ID
@@ -92,7 +94,7 @@ impl AudioService {
                 .to_string();
 
         // Only override with specific language if explicitly requested
-        if let Some(lang) = language {
+        if let Some(ref lang) = language {
             if lang != "auto" && lang != "multi" {
                 // Map our language codes to Deepgram's language codes
                 let deepgram_lang = match lang.as_str() {
@@ -149,6 +151,8 @@ impl AudioService {
             text: transcript,
             confidence,
             duration,
+            language: language,
+            processing_time_ms: 0.0, // TODO: Add actual timing
         })
     }
 
