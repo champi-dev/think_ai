@@ -1,10 +1,11 @@
 use axum::{
     extract::{Json, State},
+    http::{header, HeaderMap, StatusCode},
     response::IntoResponse,
     routing::{get, post},
     Router,
 };
-// Removed CookieJar imports since we're using session-based persistence instead
+use bytes::Bytes;
 use serde::{Deserialize, Serialize};
 use std::{env, sync::Arc};
 use tokio::sync::broadcast;
@@ -17,6 +18,8 @@ use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use uuid::Uuid;
 
+mod audio_service;
+
 // Import actual Think AI components
 use think_ai_consciousness::ConsciousnessFramework;
 use think_ai_core::{EngineConfig, O1Engine};
@@ -24,6 +27,9 @@ use think_ai_knowledge::KnowledgeEngine;
 use think_ai_qwen::{QwenClient, QwenRequest};
 use think_ai_storage::PersistentConversationMemory;
 use think_ai_vector::{LSHConfig, O1VectorIndex};
+use rand;
+
+use crate::audio_service::{AudioService, SynthesisRequest, TranscriptionResult};
 
 // State for the application
 #[derive(Clone)]
@@ -35,6 +41,7 @@ struct ThinkAIState {
     persistent_memory: Arc<PersistentConversationMemory>,
     message_channel: broadcast::Sender<ChatMessage>,
     qwen_client: Arc<QwenClient>,
+    audio_service: Option<Arc<AudioService>>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -266,6 +273,30 @@ async fn main() {
     let (tx, _rx) = broadcast::channel(100);
     let qwen_client = Arc::new(QwenClient::new());
 
+    // Initialize audio service if API keys are available
+    let audio_service = match (env::var("DEEPGRAM_API_KEY"), env::var("ELEVEN_LABS_API_KEY")) {
+        (Ok(deepgram_key), Ok(elevenlabs_key)) => {
+            let audio_cache_dir =
+                env::var("AUDIO_CACHE_DIR").unwrap_or_else(|_| "./audio_cache".to_string());
+            let service = AudioService::new(
+                deepgram_key,
+                elevenlabs_key,
+                std::path::PathBuf::from(audio_cache_dir),
+            );
+            if let Err(e) = service.init().await {
+                eprintln!("Failed to initialize audio service: {}", e);
+                None
+            } else {
+                info!("✅ Audio service initialized successfully");
+                Some(Arc::new(service))
+            }
+        }
+        _ => {
+            info!("⚠️ Audio service disabled - API keys not found");
+            None
+        }
+    };
+
     let state = ThinkAIState {
         _core_engine: core_engine,
         knowledge_engine,
@@ -274,6 +305,7 @@ async fn main() {
         persistent_memory,
         message_channel: tx,
         qwen_client,
+        audio_service,
     };
 
     // Build router
@@ -290,9 +322,12 @@ async fn main() {
             }),
         )
         .route("/api/chat", post(chat_handler))
+        // Audio endpoints
+        .route("/api/audio/transcribe", post(transcribe_audio))
+        .route("/api/audio/synthesize", post(synthesize_speech))
         .nest_service(
             "/",
-            ServeDir::new("frontend/dist").fallback(ServeFile::new("frontend/dist/index.html")),
+            ServeDir::new("static").fallback(ServeFile::new("static/index.html")),
         )
         .layer(
             CorsLayer::new()
@@ -311,4 +346,123 @@ async fn main() {
 
     let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
     axum::serve(listener, app).await.unwrap();
+}
+
+// Audio transcription handler
+async fn transcribe_audio(
+    State(state): State<ThinkAIState>,
+    headers: HeaderMap,
+    body: Bytes,
+) -> Result<Json<TranscriptionResult>, StatusCode> {
+    let audio_service = state
+        .audio_service
+        .as_ref()
+        .ok_or(StatusCode::SERVICE_UNAVAILABLE)?;
+
+    let content_type = headers
+        .get(header::CONTENT_TYPE)
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("audio/webm");
+
+    // Get language from custom header
+    let language = headers
+        .get("X-Language")
+        .and_then(|v| v.to_str().ok())
+        .map(|s| s.to_string());
+
+    let mut retry_count = 0;
+    const MAX_RETRIES: u32 = 10;
+
+    loop {
+        match audio_service
+            .transcribe(body.clone(), content_type, language.clone())
+            .await
+        {
+            Ok(result) => return Ok(Json(result)),
+            Err(e) => {
+                retry_count += 1;
+                eprintln!("Transcription attempt {} error: {}", retry_count, e);
+
+                if retry_count >= MAX_RETRIES {
+                    eprintln!("Transcription failed after {} attempts", MAX_RETRIES);
+                    return Ok(Json(TranscriptionResult {
+                        text: format!("Sorry, I couldn't process your audio after {} attempts. The error was: {}. Please try recording again.", MAX_RETRIES, e),
+                        confidence: 0.0,
+                        duration: 0.0,
+                        language: language.clone(),
+                        processing_time_ms: 0.0,
+                    }));
+                }
+
+                // Log status for monitoring
+                if retry_count == 1 {
+                    eprintln!("Retrying audio transcription...");
+                } else if retry_count == 5 {
+                    eprintln!(
+                        "Audio transcription struggling, attempt {}/{}",
+                        retry_count, MAX_RETRIES
+                    );
+                }
+
+                // Exponential backoff with jitter
+                let delay = std::time::Duration::from_millis(
+                    (100 * 2_u64.pow(retry_count.min(6))) + (rand::random::<u64>() % 100),
+                );
+                tokio::time::sleep(delay).await;
+            }
+        }
+    }
+}
+
+// Speech synthesis handler
+async fn synthesize_speech(
+    State(state): State<ThinkAIState>,
+    Json(request): Json<SynthesisRequest>,
+) -> Result<impl IntoResponse, StatusCode> {
+    let audio_service = state
+        .audio_service
+        .as_ref()
+        .ok_or(StatusCode::SERVICE_UNAVAILABLE)?;
+
+    let mut retry_count = 0;
+    const MAX_RETRIES: u32 = 10;
+
+    loop {
+        match audio_service.synthesize(request.clone()).await {
+            Ok((audio_data, _cache_key)) => {
+                return Ok(([(header::CONTENT_TYPE, "audio/mpeg")], audio_data));
+            }
+            Err(e) => {
+                retry_count += 1;
+                eprintln!("Synthesis attempt {} error: {}", retry_count, e);
+
+                if retry_count >= MAX_RETRIES {
+                    eprintln!("Synthesis failed after {} attempts", MAX_RETRIES);
+                    // Return a simple error audio message
+                    let error_message = format!(
+                        "Sorry, I couldn't generate audio after {} attempts. Error: {}",
+                        MAX_RETRIES, e
+                    );
+                    let error_audio = bytes::Bytes::from(error_message.as_bytes().to_vec());
+                    return Ok(([(header::CONTENT_TYPE, "audio/mpeg")], error_audio));
+                }
+
+                // Log status for monitoring
+                if retry_count == 1 {
+                    eprintln!("Retrying audio synthesis...");
+                } else if retry_count == 5 {
+                    eprintln!(
+                        "Audio synthesis struggling, attempt {}/{}",
+                        retry_count, MAX_RETRIES
+                    );
+                }
+
+                // Exponential backoff with jitter
+                let delay = std::time::Duration::from_millis(
+                    (100 * 2_u64.pow(retry_count.min(6))) + (rand::random::<u64>() % 100),
+                );
+                tokio::time::sleep(delay).await;
+            }
+        }
+    }
 }

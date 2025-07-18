@@ -339,7 +339,7 @@ mod tests {
 
         let audio_data = Bytes::from("fake audio data");
         let result = audio_service
-            .transcribe_audio(audio_data, "audio/webm", None)
+            .transcribe(audio_data, "audio/webm", None)
             .await
             .unwrap();
 
@@ -380,7 +380,7 @@ mod tests {
 
         let audio_data = Bytes::from("fake audio data");
         let result = audio_service
-            .transcribe_audio(audio_data, "audio/webm", Some("auto".to_string()))
+            .transcribe(audio_data, "audio/webm", Some("auto".to_string()))
             .await
             .unwrap();
 

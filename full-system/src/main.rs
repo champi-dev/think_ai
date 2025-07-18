@@ -1,22 +1,13 @@
 use axum::{
-    extract::{ws::WebSocket, Path, Query, State, WebSocketUpgrade},
+    extract::{Json, State},
     http::{header, HeaderMap, StatusCode},
-    response::{
-        sse::{Event, KeepAlive},
-        IntoResponse, Response, Sse,
-    },
+    response::IntoResponse,
     routing::{get, post},
-    Json, Router,
+    Router,
 };
-use axum_extra::extract::CookieJar;
-use futures_util::{stream::Stream, SinkExt, StreamExt};
+use bytes::Bytes;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
-use std::{
-    collections::HashMap,
-    env,
-    sync::{Arc, RwLock},
-};
+use std::{env, sync::Arc};
 use tokio::sync::broadcast;
 use tower_http::{
     cors::{Any, CorsLayer},
@@ -28,18 +19,17 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use uuid::Uuid;
 
 mod audio_service;
-mod geolocation;
 
 // Import actual Think AI components
 use think_ai_consciousness::ConsciousnessFramework;
 use think_ai_core::{EngineConfig, O1Engine};
-use think_ai_knowledge::{KnowledgeDomain, KnowledgeEngine};
+use think_ai_knowledge::KnowledgeEngine;
 use think_ai_qwen::{QwenClient, QwenRequest};
-use think_ai_utils::token_counter::count_tokens;
+use think_ai_storage::PersistentConversationMemory;
 use think_ai_vector::{LSHConfig, O1VectorIndex};
+use rand;
 
 use crate::audio_service::{AudioService, SynthesisRequest, TranscriptionResult};
-use bytes::Bytes;
 
 // State for the application
 #[derive(Clone)]
@@ -48,17 +38,10 @@ struct ThinkAIState {
     knowledge_engine: Arc<KnowledgeEngine>,
     _vector_index: Arc<O1VectorIndex>,
     _consciousness_framework: Arc<ConsciousnessFramework>,
-    chat_sessions: Arc<RwLock<HashMap<String, ChatSession>>>,
+    persistent_memory: Arc<PersistentConversationMemory>,
     message_channel: broadcast::Sender<ChatMessage>,
     qwen_client: Arc<QwenClient>,
     audio_service: Option<Arc<AudioService>>,
-}
-
-#[derive(Clone, Serialize, Deserialize)]
-struct ChatSession {
-    id: String,
-    messages: Vec<ChatMessage>,
-    created_at: chrono::DateTime<chrono::Utc>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -75,9 +58,6 @@ struct ChatMessage {
 struct ChatRequest {
     message: String,
     session_id: Option<String>,
-    mode: Option<String>,
-    use_web_search: Option<bool>,
-    fact_check: Option<bool>,
 }
 
 #[derive(Serialize)]
@@ -87,44 +67,177 @@ struct ChatResponse {
     confidence: f64,
     response_time_ms: f64,
     consciousness_level: String,
-    tokens_used: usize,
-    context_tokens: usize,
-    compacted: bool,
 }
 
-#[derive(Deserialize)]
-struct SearchQuery {
-    q: String,
-    limit: Option<usize>,
-    domain: Option<String>,
+#[axum::debug_handler]
+async fn chat_handler(
+    State(state): State<ThinkAIState>,
+    Json(req): Json<ChatRequest>,
+) -> impl IntoResponse {
+    let start = std::time::Instant::now();
+
+    // Generate a user ID for session tracking
+    let user_id = Uuid::new_v4().to_string();
+
+    // Use session_id from request or create new one
+    let session_id = req.session_id.unwrap_or_else(|| {
+        // Create session ID that includes user ID for better tracking
+        format!("{}_{}", user_id, Uuid::new_v4())
+    });
+
+    // Check if user wants to delete history
+    if state
+        .persistent_memory
+        .check_delete_command(&session_id, &req.message)
+        .await
+    {
+        // Delete the session
+        if let Err(e) = state.persistent_memory.delete_session(&session_id).await {
+            tracing::error!("Failed to delete session: {}", e);
+        }
+
+        return Json(ChatResponse {
+            response: "Your chat history has been deleted successfully. Starting fresh!"
+                .to_string(),
+            session_id: format!("{}_{}", user_id, Uuid::new_v4()), // New session
+            confidence: 1.0,
+            response_time_ms: start.elapsed().as_micros() as f64 / 1000.0,
+            consciousness_level: serde_json::json!({"state": "aware", "processing": true})
+                .to_string(),
+        });
+    }
+
+    // Process with consciousness framework
+    let consciousness_state = serde_json::json!({
+        "state": "aware",
+        "processing": true
+    });
+
+    // Add user message to persistent memory
+    if let Err(e) = state
+        .persistent_memory
+        .add_message(session_id.clone(), "user".to_string(), req.message.clone())
+        .await
+    {
+        tracing::error!("Failed to add message to persistent memory: {}", e);
+    }
+
+    // Get conversation history for context
+    let conversation_context = state
+        .persistent_memory
+        .get_conversation_context(&session_id, 20) // Get last 20 messages
+        .await
+        .map(|messages| {
+            messages
+                .iter()
+                .map(|(role, content)| format!("{}: {}", role, content))
+                .collect::<Vec<_>>()
+                .join("\n")
+        })
+        .unwrap_or_default();
+
+    // Generate response using knowledge engine
+    let response = generate_ai_response(&req.message, &state, &conversation_context).await;
+
+    let response_time_ms = start.elapsed().as_micros() as f64 / 1000.0;
+
+    // Add assistant response to persistent memory
+    if let Err(e) = state
+        .persistent_memory
+        .add_message(
+            session_id.clone(),
+            "assistant".to_string(),
+            response.clone(),
+        )
+        .await
+    {
+        tracing::error!(
+            "Failed to add assistant message to persistent memory: {}",
+            e
+        );
+    }
+
+    // Broadcast message
+    let _ = state.message_channel.send(ChatMessage {
+        id: Uuid::new_v4().to_string(),
+        session_id: session_id.clone(),
+        role: "assistant".to_string(),
+        content: response.clone(),
+        timestamp: chrono::Utc::now(),
+        response_time_ms,
+    });
+
+    Json(ChatResponse {
+        response,
+        session_id,
+        confidence: 0.95,
+        response_time_ms,
+        consciousness_level: consciousness_state.to_string(),
+    })
 }
 
-#[derive(Serialize)]
-struct SearchResult {
-    results: Vec<KnowledgeItem>,
-    total: usize,
-    query_time_ms: f64,
-}
+async fn generate_ai_response(
+    message: &str,
+    state: &ThinkAIState,
+    conversation_context: &str,
+) -> String {
+    // Gather context from knowledge engine
+    let mut context = String::new();
 
-#[derive(Serialize, Clone)]
-struct KnowledgeItem {
-    id: String,
-    title: String,
-    content: String,
-    domain: String,
-    relevance: f64,
-    confidence: f64,
-}
+    // Try to get relevant knowledge from the knowledge engine
+    if let Some(nodes) = state.knowledge_engine.query(message) {
+        for (i, node) in nodes.iter().take(3).enumerate() {
+            if i > 0 {
+                context.push_str("\n");
+            }
+            context.push_str(&format!("Knowledge {}: {}", i + 1, node.content));
+        }
+    }
 
-#[derive(Serialize)]
-struct SystemStats {
-    total_knowledge_items: usize,
-    active_sessions: usize,
-    average_response_time_ms: f64,
-    cache_hit_rate: f64,
-    uptime_seconds: u64,
-    consciousness_level: String,
-    domains: Vec<String>,
+    // Also check intelligent query for additional context
+    let intelligent_results = state.knowledge_engine.intelligent_query(message);
+    if !intelligent_results.is_empty() && context.is_empty() {
+        for (i, node) in intelligent_results.iter().take(2).enumerate() {
+            if i > 0 {
+                context.push_str("\n");
+            }
+            context.push_str(&format!("Related: {}", node.content));
+        }
+    }
+
+    // Combine conversation context with knowledge context
+    let full_context = if !conversation_context.is_empty() {
+        if context.is_empty() {
+            format!("Previous conversation:\n{}", conversation_context)
+        } else {
+            format!(
+                "Previous conversation:\n{}\n\nRelevant knowledge:\n{}",
+                conversation_context, context
+            )
+        }
+    } else {
+        context
+    };
+
+    // Create Qwen request with context
+    let qwen_request = QwenRequest {
+        query: message.to_string(),
+        context: if full_context.is_empty() { None } else { Some(full_context) },
+        system_prompt: Some("You are Think AI, an advanced AI system with eternal memory. You remember all conversations with users unless explicitly asked to forget. Provide thoughtful, accurate, and engaging responses based on the conversation history.".to_string()),
+    };
+
+    // Try to generate response with Qwen
+    match state.qwen_client.generate(qwen_request).await {
+        Ok(response) => response.content,
+        Err(e) => {
+            // Log error and provide a simple fallback
+            tracing::warn!("Qwen generation failed: {}", e);
+            format!(
+                "I understand you're asking about {}. While I'm having trouble accessing my full capabilities at the moment, I'd be happy to help explore this topic with you. Could you provide more details about what specific aspect interests you?",
+                message
+            )
+        }
+    }
 }
 
 #[tokio::main]
@@ -133,32 +246,35 @@ async fn main() {
     tracing_subscriber::registry()
         .with(
             tracing_subscriber::EnvFilter::try_from_default_env()
-                .unwrap_or_else(|_| "think_ai_full=debug,tower_http=debug".into()),
+                .unwrap_or_else(|_| "info,think_ai=debug".into()),
         )
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    // Get port from environment
-    let port = env::var("PORT").unwrap_or_else(|_| "8080".to_string());
-    let addr = format!("0.0.0.0:{}", port);
+    // Initialize engines
+    info!("Initializing Think AI Persistent Server...");
 
-    info!("🚀 Think AI Full System starting on {}", addr);
-
-    // Initialize Think AI components
-    let core_engine = Arc::new(O1Engine::new(EngineConfig::default()));
-    core_engine.initialize().await.unwrap();
-
+    let config = EngineConfig::default();
+    let core_engine = Arc::new(O1Engine::new(config));
     let knowledge_engine = Arc::new(KnowledgeEngine::new());
-    initialize_knowledge(&knowledge_engine);
-
-    let vector_index = Arc::new(O1VectorIndex::new(LSHConfig::default()).unwrap());
+    let lsh_config = LSHConfig::default();
+    let vector_index = Arc::new(O1VectorIndex::new(lsh_config).unwrap());
     let consciousness_framework = Arc::new(ConsciousnessFramework::new());
 
-    // Initialize Qwen client
+    // Initialize persistent memory
+    let db_path =
+        env::var("THINK_AI_DB_PATH").unwrap_or_else(|_| "./think_ai_sessions.db".to_string());
+    let persistent_memory = Arc::new(
+        PersistentConversationMemory::new(&db_path)
+            .await
+            .expect("Failed to initialize persistent memory"),
+    );
+
+    let (tx, _rx) = broadcast::channel(100);
     let qwen_client = Arc::new(QwenClient::new());
 
     // Initialize audio service if API keys are available
-    let audio_service = match (env::var("DEEPGRAM_API_KEY"), env::var("ELEVENLABS_API_KEY")) {
+    let audio_service = match (env::var("DEEPGRAM_API_KEY"), env::var("ELEVEN_LABS_API_KEY")) {
         (Ok(deepgram_key), Ok(elevenlabs_key)) => {
             let audio_cache_dir =
                 env::var("AUDIO_CACHE_DIR").unwrap_or_else(|_| "./audio_cache".to_string());
@@ -181,14 +297,12 @@ async fn main() {
         }
     };
 
-    // Initialize state
-    let (tx, _rx) = broadcast::channel(100);
     let state = ThinkAIState {
         _core_engine: core_engine,
         knowledge_engine,
         _vector_index: vector_index,
         _consciousness_framework: consciousness_framework,
-        chat_sessions: Arc::new(RwLock::new(HashMap::new())),
+        persistent_memory,
         message_channel: tx,
         qwen_client,
         audio_service,
@@ -196,29 +310,24 @@ async fn main() {
 
     // Build router
     let app = Router::new()
-        // API routes
-        .route("/api/health", get(api_health))
+        .route("/health", get(|| async { "OK" }))
+        .route(
+            "/api/health",
+            get(|| async {
+                Json(serde_json::json!({
+                    "status": "healthy",
+                    "service": "think-ai-full",
+                    "version": "1.0.0",
+                }))
+            }),
+        )
         .route("/api/chat", post(chat_handler))
-        .route("/api/chat/stream", post(chat_stream_handler))
-        .route("/api/chat/sessions", get(list_sessions))
-        .route("/api/chat/sessions/:id", get(get_session))
-        .route("/ws/chat", get(websocket_handler))
-        .route("/api/search", get(search_handler))
-        .route("/api/knowledge/domains", get(list_domains))
-        .route("/api/knowledge/stats", get(system_stats))
-        .route("/api/consciousness/level", get(consciousness_level))
-        .route("/api/consciousness/thoughts", get(current_thoughts))
         // Audio endpoints
         .route("/api/audio/transcribe", post(transcribe_audio))
         .route("/api/audio/synthesize", post(synthesize_speech))
-        // Geolocation endpoint
-        .route("/api/detect-language", get(detect_language_from_ip))
-        // Health check for the main service
-        .route("/health", get(health_check))
-        // Static file serving for the frontend
         .nest_service(
             "/",
-            ServeDir::new("frontend/dist").fallback(ServeFile::new("frontend/dist/index.html")),
+            ServeDir::new("static").fallback(ServeFile::new("static/index.html")),
         )
         .layer(
             CorsLayer::new()
@@ -229,365 +338,14 @@ async fn main() {
         .layer(TraceLayer::new_for_http())
         .with_state(state);
 
-    // Start server
-    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-    info!("🌐 Server listening on http://{}", addr);
-
-    axum::serve(listener, app).await.unwrap();
-}
-
-// Initialize knowledge base with comprehensive content
-fn initialize_knowledge(engine: &KnowledgeEngine) {
-    // O(1) Performance concepts
-    engine.add_knowledge(
-        KnowledgeDomain::ComputerScience,
-        "O(1) Algorithms".to_string(),
-        "O(1) algorithms provide constant time complexity regardless of input size. Think AI uses hash-based lookups and pre-computed indexes to achieve true O(1) performance.".to_string(),
-        vec!["performance".to_string(), "algorithms".to_string(), "complexity".to_string()],
+    let addr = format!(
+        "0.0.0.0:{}",
+        env::var("PORT").unwrap_or_else(|_| "8080".to_string())
     );
-}
+    info!("Think AI Persistent Server listening on {}", addr);
 
-// Handlers
-async fn health_check() -> &'static str {
-    "OK"
-}
-
-async fn api_health() -> Json<serde_json::Value> {
-    Json(serde_json::json!({
-        "status": "healthy",
-        "service": "think-ai-full",
-        "version": "1.0.0",
-    }))
-}
-
-// Detect language from IP
-async fn detect_language_from_ip(
-    headers: HeaderMap,
-) -> Result<Json<serde_json::Value>, StatusCode> {
-    // Try to get the real IP from various headers
-    let ip = headers
-        .get("x-forwarded-for")
-        .and_then(|v| v.to_str().ok())
-        .and_then(|s| s.split(',').next()) // Take first IP if multiple
-        .or_else(|| headers.get("x-real-ip").and_then(|v| v.to_str().ok()))
-        .unwrap_or("127.0.0.1");
-
-    match geolocation::get_geolocation_info(ip).await {
-        Ok(info) => Ok(Json(json!({
-            "language": info.language,
-            "country_code": info.country_code,
-            "country_name": info.country_name,
-            "city": info.city,
-            "detected_from_ip": ip
-        }))),
-        Err(_) => Ok(Json(json!({
-            "language": "en",
-            "country_code": "US",
-            "country_name": "United States",
-            "detected_from_ip": ip,
-            "fallback": true
-        }))),
-    }
-}
-
-#[axum::debug_handler]
-async fn chat_handler(
-    State(state): State<ThinkAIState>,
-    Json(req): Json<ChatRequest>,
-) -> Json<ChatResponse> {
-    let start = std::time::Instant::now();
-
-    // Get or create session
-    let session_id = req.session_id.unwrap_or_else(|| Uuid::new_v4().to_string());
-
-    // Get session history and add user message
-    let (mut context, user_message) = {
-        let mut sessions = state.chat_sessions.write().unwrap();
-        let session = sessions
-            .entry(session_id.clone())
-            .or_insert_with(|| ChatSession {
-                id: session_id.clone(),
-                messages: Vec::new(),
-                created_at: chrono::Utc::now(),
-            });
-
-        // Add user message to session
-        let user_message = ChatMessage {
-            id: Uuid::new_v4().to_string(),
-            session_id: session_id.clone(),
-            role: "user".to_string(),
-            content: req.message.clone(),
-            timestamp: chrono::Utc::now(),
-            response_time_ms: 0.0,
-        };
-        session.messages.push(user_message.clone());
-
-        // Build context from session history
-        let mut context = String::new();
-        for msg in session.messages.iter().rev().take(10) {
-            context.push_str(&format!("{}: {}\n", msg.role, msg.content));
-        }
-
-        (context, user_message)
-    }; // RwLock guard is dropped here
-
-    // Get relevant knowledge for context
-    let knowledge_results = state
-        .knowledge_engine
-        .query(&req.message)
-        .unwrap_or_else(Vec::new);
-    let knowledge_context = knowledge_results
-        .iter()
-        .take(2)
-        .map(|node| format!("{}: {}", node.topic, node.content))
-        .collect::<Vec<_>>()
-        .join("\n\n");
-
-    // Generate response using Qwen with retry logic
-    let qwen_request = QwenRequest {
-        query: req.message.clone(),
-        context: Some(format!("Session Context:\n{}\n\nRelevant Knowledge:\n{}", context, knowledge_context)),
-        system_prompt: Some("You are Think AI, a helpful quantum-powered AI assistant. Provide thoughtful, accurate responses based on the context and knowledge provided.".to_string()),
-    };
-
-    let mut ai_response = String::new();
-    let mut retry_count = 0;
-    const MAX_RETRIES: u32 = 10;
-
-    loop {
-        match state.qwen_client.generate(qwen_request.clone()).await {
-            Ok(response) => {
-                ai_response = response.content;
-                break;
-            }
-            Err(e) => {
-                retry_count += 1;
-                eprintln!(
-                    "Attempt {} failed to generate response: {:?}",
-                    retry_count, e
-                );
-
-                if retry_count >= MAX_RETRIES {
-                    // Use knowledge-based fallback if available
-                    ai_response = if !knowledge_results.is_empty() {
-                        format!(
-                            "I'm experiencing technical difficulties after {} attempts. Based on my knowledge about {}: {}",
-                            MAX_RETRIES, knowledge_results[0].topic, knowledge_results[0].content
-                        )
-                    } else {
-                        format!(
-                            "I apologize, but I'm having persistent trouble processing your request after {} attempts. Please try again later or contact support.",
-                            MAX_RETRIES
-                        )
-                    };
-                    break;
-                }
-
-                // Return intermediate status to user
-                if retry_count == 1 {
-                    ai_response = "I'm processing your request, please wait...".to_string();
-                } else if retry_count == 3 {
-                    ai_response =
-                        "Still working on your request, this is taking longer than usual..."
-                            .to_string();
-                } else if retry_count == 5 {
-                    ai_response = format!("Attempting to process your request (attempt {}/{}), please bear with me...", retry_count, MAX_RETRIES);
-                } else if retry_count == 8 {
-                    ai_response = format!(
-                        "Almost there, making attempt {}/{} to process your request...",
-                        retry_count, MAX_RETRIES
-                    );
-                }
-
-                // Wait a bit before retrying
-                tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
-            }
-        }
-    }
-
-    let response_time_ms = start.elapsed().as_micros() as f64 / 1000.0;
-
-    // Add AI response to session
-    {
-        let mut sessions = state.chat_sessions.write().unwrap();
-        if let Some(session) = sessions.get_mut(&session_id) {
-            let ai_message = ChatMessage {
-                id: Uuid::new_v4().to_string(),
-                session_id: session_id.clone(),
-                role: "assistant".to_string(),
-                content: ai_response.clone(),
-                timestamp: chrono::Utc::now(),
-                response_time_ms,
-            };
-            session.messages.push(ai_message);
-        }
-    }
-
-    // Calculate tokens (approximate)
-    let tokens_used = count_tokens(&ai_response);
-    let context_tokens = count_tokens(&context);
-
-    Json(ChatResponse {
-        response: ai_response,
-        session_id,
-        confidence: 0.95,
-        response_time_ms,
-        consciousness_level: "aware".to_string(),
-        tokens_used,
-        context_tokens,
-        compacted: false,
-    })
-}
-
-async fn chat_stream_handler(
-    State(state): State<ThinkAIState>,
-    jar: CookieJar,
-    Json(req): Json<ChatRequest>,
-) -> Sse<impl Stream<Item = Result<Event, std::convert::Infallible>>> {
-    let session_id = req.session_id.unwrap_or_else(|| {
-        jar.get("session_id")
-            .map(|c| c.value().to_string())
-            .unwrap_or_else(|| Uuid::new_v4().to_string())
-    });
-
-    let state_clone = state.clone();
-    let message = req.message.clone();
-
-    let stream = async_stream::stream! {
-        yield Ok(Event::default().event("start").data(""));
-
-        // Get relevant knowledge for context
-        let knowledge_results = state_clone.knowledge_engine.query(&message)
-            .unwrap_or_else(Vec::new);
-        let knowledge_context = knowledge_results.iter()
-            .take(2)
-            .map(|node| format!("{}: {}", node.topic, node.content))
-            .collect::<Vec<_>>()
-            .join("\n\n");
-
-        // Generate response using Qwen with retry logic
-        let qwen_request = QwenRequest {
-            query: message,
-            context: Some(format!("Relevant Knowledge:\n{}", knowledge_context)),
-            system_prompt: Some("You are Think AI, a helpful quantum-powered AI assistant. Provide thoughtful, accurate responses based on the context and knowledge provided.".to_string()),
-        };
-
-        match state_clone.qwen_client.generate(qwen_request).await {
-            Ok(response) => {
-                // Simulate streaming by sending response in chunks
-                let words: Vec<&str> = response.content.split_whitespace().collect();
-                let chunk_size = 3;
-
-                for chunk in words.chunks(chunk_size) {
-                    let chunk_text = chunk.join(" ") + " ";
-                    yield Ok(Event::default().data(json!({
-                        "chunk": chunk_text,
-                        "done": false
-                    }).to_string()));
-                    tokio::time::sleep(tokio::time::Duration::from_millis(50)).await;
-                }
-
-                yield Ok(Event::default().data(json!({
-                    "chunk": "",
-                    "done": true,
-                    "session_id": session_id
-                }).to_string()));
-            }
-            Err(e) => {
-                eprintln!("Stream generation failed: {:?}", e);
-                let fallback = if !knowledge_results.is_empty() {
-                    format!("Based on my knowledge: {}", knowledge_results[0].content)
-                } else {
-                    "I apologize, but I'm having trouble streaming the response. Please try again.".to_string()
-                };
-                yield Ok(Event::default().data(json!({
-                    "chunk": fallback,
-                    "done": true,
-                    "session_id": session_id
-                }).to_string()));
-            }
-        }
-    };
-
-    Sse::new(stream).keep_alive(KeepAlive::default())
-}
-
-async fn websocket_handler(ws: WebSocketUpgrade, State(state): State<ThinkAIState>) -> Response {
-    ws.on_upgrade(|socket| handle_socket(socket, state))
-}
-
-async fn handle_socket(socket: WebSocket, state: ThinkAIState) {
-    let (mut sender, mut receiver) = socket.split();
-    while let Some(Ok(msg)) = receiver.next().await {
-        if sender.send(msg).await.is_err() {
-            break;
-        }
-    }
-}
-
-async fn list_sessions(State(state): State<ThinkAIState>) -> Json<Vec<ChatSession>> {
-    let sessions = state.chat_sessions.read().unwrap();
-    Json(sessions.values().cloned().collect())
-}
-
-async fn get_session(
-    State(state): State<ThinkAIState>,
-    Path(id): Path<String>,
-) -> Result<Json<ChatSession>, StatusCode> {
-    let sessions = state.chat_sessions.read().unwrap();
-    sessions
-        .get(&id)
-        .cloned()
-        .map(Json)
-        .ok_or(StatusCode::NOT_FOUND)
-}
-
-async fn search_handler(
-    State(state): State<ThinkAIState>,
-    Query(params): Query<SearchQuery>,
-) -> Json<SearchResult> {
-    let results = vec![];
-    Json(SearchResult {
-        results,
-        total: 0,
-        query_time_ms: 0.0,
-    })
-}
-
-async fn list_domains() -> Json<Vec<String>> {
-    Json(vec![])
-}
-
-async fn system_stats(State(state): State<ThinkAIState>) -> Json<SystemStats> {
-    let sessions = state.chat_sessions.read().unwrap();
-    let knowledge_stats = state.knowledge_engine.get_stats();
-
-    Json(SystemStats {
-        total_knowledge_items: knowledge_stats.total_nodes,
-        active_sessions: sessions.len(),
-        average_response_time_ms: knowledge_stats.avg_response_time_ms,
-        cache_hit_rate: knowledge_stats.cache_hit_rate,
-        uptime_seconds: 3600, // Would track actual uptime
-        consciousness_level: "ENHANCED".to_string(),
-        domains: knowledge_stats.domains,
-    })
-}
-
-async fn consciousness_level(State(_state): State<ThinkAIState>) -> Json<serde_json::Value> {
-    Json(serde_json::json!({
-        "level": "AWARE",
-        "description": "Self-aware processing",
-        "introspection_depth": 3,
-    }))
-}
-
-async fn current_thoughts(State(_state): State<ThinkAIState>) -> Json<serde_json::Value> {
-    let thoughts: Vec<String> = vec![];
-    Json(serde_json::json!({
-        "thoughts": thoughts,
-        "thought_count": thoughts.len(),
-        "processing_state": "active",
-    }))
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+    axum::serve(listener, app).await.unwrap();
 }
 
 // Audio transcription handler
@@ -644,15 +402,13 @@ async fn transcribe_audio(
                         "Audio transcription struggling, attempt {}/{}",
                         retry_count, MAX_RETRIES
                     );
-                } else if retry_count == 8 {
-                    eprintln!(
-                        "Audio transcription nearly at limit, attempt {}/{}",
-                        retry_count, MAX_RETRIES
-                    );
                 }
 
-                // Wait before retrying
-                tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
+                // Exponential backoff with jitter
+                let delay = std::time::Duration::from_millis(
+                    (100 * 2_u64.pow(retry_count.min(6))) + (rand::random::<u64>() % 100),
+                );
+                tokio::time::sleep(delay).await;
             }
         }
     }
@@ -687,7 +443,7 @@ async fn synthesize_speech(
                         "Sorry, I couldn't generate audio after {} attempts. Error: {}",
                         MAX_RETRIES, e
                     );
-                    let error_audio = bytes::Bytes::from(error_message.as_bytes().to_vec()); // This is just placeholder
+                    let error_audio = bytes::Bytes::from(error_message.as_bytes().to_vec());
                     return Ok(([(header::CONTENT_TYPE, "audio/mpeg")], error_audio));
                 }
 
@@ -699,15 +455,13 @@ async fn synthesize_speech(
                         "Audio synthesis struggling, attempt {}/{}",
                         retry_count, MAX_RETRIES
                     );
-                } else if retry_count == 8 {
-                    eprintln!(
-                        "Audio synthesis nearly at limit, attempt {}/{}",
-                        retry_count, MAX_RETRIES
-                    );
                 }
 
-                // Wait before retrying
-                tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
+                // Exponential backoff with jitter
+                let delay = std::time::Duration::from_millis(
+                    (100 * 2_u64.pow(retry_count.min(6))) + (rand::random::<u64>() % 100),
+                );
+                tokio::time::sleep(delay).await;
             }
         }
     }

@@ -63,3 +63,9 @@ think-ai-consciousness = { path = "../think-ai-consciousness" }
 think-ai-qwen = { path = "../think-ai-qwen" }
 think-ai-storage = { path = "../think-ai-storage" }
 think-ai-utils = { path = "../think-ai-utils" }
+
+[dev-dependencies]
+mockall = "0.12"
+mockito = "1.0"
+tempfile = "3.8"
+tokio-test = "0.4"
