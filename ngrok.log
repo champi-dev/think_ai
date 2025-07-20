@@ -7,3 +7,8 @@ t=2025-07-20T06:05:56-0500 lvl=info msg="tunnel session started" obj=tunnels.ses
 t=2025-07-20T06:05:56-0500 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:7777 url=https://b0cb8d9450a0.ngrok.app
 t=2025-07-20T06:06:17-0500 lvl=warn msg="failed to open private leg" id=468976f84d66 privaddr=localhost:7777 err="dial tcp 127.0.0.1:7777: connect: connection refused"
 t=2025-07-20T06:07:05-0500 lvl=warn msg="failed to open private leg" id=9b580951c5e8 privaddr=localhost:7777 err="dial tcp 127.0.0.1:7777: connect: connection refused"
+t=2025-07-20T06:14:24-0500 lvl=warn msg="failed to open private leg" id=79ef8abc383f privaddr=localhost:7777 err="dial tcp 127.0.0.1:7777: connect: connection refused"
+t=2025-07-20T06:14:25-0500 lvl=warn msg="failed to open private leg" id=7f4dbc365a2f privaddr=localhost:7777 err="dial tcp 127.0.0.1:7777: connect: connection refused"
+t=2025-07-20T06:14:31-0500 lvl=info msg="received stop request" obj=app stopReq="{err:<nil> restart:false}"
+t=2025-07-20T06:14:31-0500 lvl=info msg="session closing" obj=tunnels.session err=nil
+t=2025-07-20T06:14:31-0500 lvl=info msg="accept failed" obj=tunnels.session obj=csess id=f4669b0ad050 err="reconnecting session closed"

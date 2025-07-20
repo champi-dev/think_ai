@@ -60,6 +60,7 @@ bytes = "1.5"
 sha2 = "0.10"
 
 # Security removed temporarily due to version conflicts
+async-trait = "0.1"
 
 # Think AI components
 think-ai-core = { path = "../think-ai-core" }

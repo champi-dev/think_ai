@@ -1,0 +1,14 @@
+[Unit]
+Description=Think AI Periodic Test Runner
+Wants=periodic-test-runner.timer
+
+[Service]
+Type=oneshot
+User=champi
+WorkingDirectory=/home/champi/Dev/think_ai/full-system
+ExecStart=/home/champi/Dev/think_ai/full-system/tests/test_runner.sh
+StandardOutput=journal
+StandardError=journal
+
+# Environment variables for WhatsApp
+Environment="WHATSAPP_TO_NUMBER=+573026132990"

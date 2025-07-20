@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Think AI tests every hour
+Requires=periodic-test-runner.service
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target

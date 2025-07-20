@@ -6,7 +6,13 @@ use tokio::time::{sleep, Duration};
 
 #[cfg(test)]
 mod integration_tests {
-    use super::*;
+    use think_ai_core::{EngineConfig, O1Engine};
+    use think_ai_knowledge::KnowledgeEngine;
+    use think_ai_consciousness::ConsciousnessFramework;
+    use think_ai_vector::{LSHConfig, O1VectorIndex};
+    use think_ai_storage::PersistentConversationMemory;
+    use think_ai_qwen::{QwenClient, QwenRequest};
+    use std::sync::Arc;
 
     #[tokio::test]
     async fn test_full_conversation_flow() {
