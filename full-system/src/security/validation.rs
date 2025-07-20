@@ -13,13 +13,13 @@ impl InputValidator {
             email_regex: Regex::new(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$").unwrap(),
             sql_injection_patterns: vec![
                 Regex::new(r"(?i)(union|select|insert|update|delete|drop|create|alter|exec|script)").unwrap(),
-                Regex::new(r"(?i)(--|#|/\*|\*/|;|'|\"|`)").unwrap(),
-                Regex::new(r"(?i)(or|and)\s+\d+\s*=\s*\d+").unwrap(),
+                Regex::new(r#"(?i)(--|#|/\*|\*/|;|'|"|`)"#).unwrap(),
+                Regex::new(r#"(?i)(or|and)\s+\d+\s*=\s*\d+"#).unwrap(),
             ],
             xss_patterns: vec![
                 Regex::new(r"<script[^>]*>.*?</script>").unwrap(),
                 Regex::new(r"javascript:").unwrap(),
-                Regex::new(r"on\w+\s*=").unwrap(),
+                Regex::new(r#"on\w+\s*="#).unwrap(),
                 Regex::new(r"<iframe[^>]*>").unwrap(),
             ],
         }
