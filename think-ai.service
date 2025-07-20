@@ -1,17 +1,32 @@
 [Unit]
-Description=Think AI Server
+Description=Think AI Full System Service
 After=network.target
+Wants=network.target
 
 [Service]
-Type=exec
-User=administrator
-WorkingDirectory=/home/administrator/think_ai
-Environment="RUST_LOG=info"
-ExecStart=/home/administrator/think_ai/target/release/think-ai server --host 0.0.0.0
+Type=simple
+User=champi
+Group=champi
+WorkingDirectory=/home/champi/Dev/think_ai
+Environment=RUST_LOG=info
+Environment=PORT=7777
+ExecStart=/home/champi/Dev/think_ai/full-system/target/release/think-ai-full-fixed
 Restart=always
 RestartSec=10
-StandardOutput=append:/home/administrator/think_ai/webapp_server.log
-StandardError=append:/home/administrator/think_ai/webapp_server.log
+StandardOutput=journal
+StandardError=journal
+
+# Resource limits
+LimitNOFILE=65536
+LimitCORE=infinity
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=no
+ReadWritePaths=/home/champi/Dev/think_ai
 
 [Install]
 WantedBy=multi-user.target
+EOF < /dev/null

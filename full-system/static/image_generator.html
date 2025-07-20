@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think AI - Image Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ff88, #0088ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #fff;
+        }
+        
+        .container {
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+        
+        .generator-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prompt-input {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .prompt-input:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+        
+        .generate-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #00ff88, #0088ff);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.3s;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .option-group label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .option-group select {
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: #fff;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .image-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .image-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .image-container {
+            position: relative;
+            width: 100%;
+            background: #111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            max-height: 400px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .image-info {
+            padding: 1rem;
+        }
+        
+        .enhanced-prompt {
+            font-size: 0.9rem;
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+        
+        .original-prompt {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+        
+        .feedback-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .feedback-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .feedback-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .feedback-btn.excellent:hover {
+            background: #00ff88;
+            color: #000;
+        }
+        
+        .feedback-btn.good:hover {
+            background: #88ff00;
+            color: #000;
+        }
+        
+        .feedback-btn.average:hover {
+            background: #ffff00;
+            color: #000;
+        }
+        
+        .feedback-btn.poor:hover {
+            background: #ff8800;
+            color: #000;
+        }
+        
+        .stats {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ff88, #0088ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #00ff88;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .cache-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #00ff88;
+            color: #000;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Think AI ✨</div>
+        <nav class="nav-links">
+            <a href="/">3D Visualization</a>
+            <a href="/chat.html">Chat</a>
+            <a href="/static/image_generator.html" style="color: #fff;">Image Generator</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="generator-section">
+            <h1 style="margin-bottom: 1rem;">AI Image Generator 🎨</h1>
+            <p style="color: #888; margin-bottom: 2rem;">Generate 720p images with AI learning and O(1) caching</p>
+            
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    class="prompt-input" 
+                    id="promptInput" 
+                    placeholder="Describe what you want to generate..."
+                    onkeypress="if(event.key === 'Enter') generateImage()"
+                >
+                <button class="generate-btn" onclick="generateImage()" id="generateBtn">
+                    Generate
+                </button>
+            </div>
+            
+            <div class="options">
+                <div class="option-group">
+                    <label>Width:</label>
+                    <select id="widthSelect">
+                        <option value="1280" selected>1280px</option>
+                        <option value="1024">1024px</option>
+                        <option value="768">768px</option>
+                        <option value="512">512px</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label>Height:</label>
+                    <select id="heightSelect">
+                        <option value="720" selected>720px</option>
+                        <option value="1024">1024px</option>
+                        <option value="768">768px</option>
+                        <option value="512">512px</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Generating your image with AI enhancements...</p>
+        </div>
+        
+        <div class="gallery" id="gallery"></div>
+        
+        <div class="stats" id="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="totalGen">0</div>
+                <div class="stat-label">Total Generations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="successRate">0%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="improvement">+0%</div>
+                <div class="stat-label">AI Improvement</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="cacheHits">0</div>
+                <div class="stat-label">Cache Hits</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let isGenerating = false;
+        let generatedImages = [];
+        
+        async function generateImage() {
+            if (isGenerating) return;
+            
+            const prompt = document.getElementById('promptInput').value.trim();
+            if (!prompt) {
+                alert('Please enter a prompt');
+                return;
+            }
+            
+            const width = parseInt(document.getElementById('widthSelect').value);
+            const height = parseInt(document.getElementById('heightSelect').value);
+            
+            console.log('Generating image:', { prompt, width, height });
+            
+            isGenerating = true;
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('generateBtn').textContent = 'Generating...';
+            document.getElementById('loading').classList.add('active');
+            
+            // Update loading text
+            const loadingText = document.querySelector('#loading p');
+            loadingText.textContent = 'Generating your image with AI enhancements...';
+            
+            try {
+                console.log('Sending request to /api/image/generate');
+                const response = await fetch('/api/image/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        width: width,
+                        height: height
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Server error:', errorText);
+                    throw new Error(`Generation failed: ${response.status} ${errorText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    loadingText.textContent = 'Image generated! Adding to gallery...';
+                    
+                    addImageToGallery({
+                        originalPrompt: prompt,
+                        enhancedPrompt: data.enhanced_prompt,
+                        imageData: data.image_data,
+                        width: data.width,
+                        height: data.height,
+                        cached: data.cached
+                    });
+                    
+                    // Clear input
+                    document.getElementById('promptInput').value = '';
+                    
+                    // Update stats
+                    updateStats();
+                } else {
+                    throw new Error('Server returned success: false');
+                }
+            } catch (error) {
+                console.error('Error generating image:', error);
+                alert('Failed to generate image: ' + error.message);
+            } finally {
+                isGenerating = false;
+                document.getElementById('generateBtn').disabled = false;
+                document.getElementById('generateBtn').textContent = 'Generate';
+                document.getElementById('loading').classList.remove('active');
+            }
+        }
+        
+        function addImageToGallery(imageInfo) {
+            generatedImages.unshift(imageInfo);
+            
+            const gallery = document.getElementById('gallery');
+            
+            const card = document.createElement('div');
+            card.className = 'image-card';
+            
+            card.innerHTML = `
+                <div class="image-container">
+                    <img src="data:image/png;base64,${imageInfo.imageData}" 
+                         alt="${imageInfo.originalPrompt}"
+                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'color: #ff0000;\\'>Error loading image</div>';"
+                         onload="this.style.display='block';"
+                         style="display: none;"
+                         loading="lazy">
+                    ${imageInfo.cached ? '<div class="cache-indicator">O(1) CACHED</div>' : ''}
+                </div>
+                <div class="image-info">
+                    <div class="enhanced-prompt">✨ ${imageInfo.enhancedPrompt}</div>
+                    <div class="original-prompt">Original: ${imageInfo.originalPrompt}</div>
+                    <div class="feedback-buttons">
+                        <button class="feedback-btn excellent" onclick="provideFeedback('${encodeURIComponent(imageInfo.originalPrompt)}', 'excellent')">
+                            Excellent
+                        </button>
+                        <button class="feedback-btn good" onclick="provideFeedback('${encodeURIComponent(imageInfo.originalPrompt)}', 'good')">
+                            Good
+                        </button>
+                        <button class="feedback-btn average" onclick="provideFeedback('${encodeURIComponent(imageInfo.originalPrompt)}', 'average')">
+                            Average
+                        </button>
+                        <button class="feedback-btn poor" onclick="provideFeedback('${encodeURIComponent(imageInfo.originalPrompt)}', 'poor')">
+                            Poor
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            gallery.insertBefore(card, gallery.firstChild);
+        }
+        
+        async function provideFeedback(encodedPrompt, rating) {
+            const prompt = decodeURIComponent(encodedPrompt);
+            
+            // Get the button that was clicked
+            const clickedButton = event.target;
+            
+            try {
+                const response = await fetch('/api/image/feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        rating: rating
+                    })
+                });
+                
+                if (response.ok) {
+                    // Visual feedback - replace all buttons with success message
+                    const buttonsContainer = clickedButton.parentElement;
+                    buttonsContainer.innerHTML = `<div style="color: #00ff88; padding: 0.5rem;">✓ Thanks for rating this as ${rating}!</div>`;
+                    
+                    // Update stats
+                    setTimeout(updateStats, 1000);
+                } else {
+                    alert('Failed to submit feedback. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error providing feedback:', error);
+                alert('Error submitting feedback: ' + error.message);
+            }
+        }
+        
+        async function updateStats() {
+            try {
+                const response = await fetch('/api/image/stats');
+                const data = await response.json();
+                
+                document.getElementById('totalGen').textContent = data.total_generations;
+                document.getElementById('successRate').textContent = 
+                    Math.round(data.success_rate * 100) + '%';
+                document.getElementById('improvement').textContent = 
+                    (data.improvement_rate >= 0 ? '+' : '') + 
+                    Math.round(data.improvement_rate * 100) + '%';
+                document.getElementById('cacheHits').textContent = data.cached_images;
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        }
+        
+        // Initial stats load
+        updateStats();
+        
+        // Keyboard shortcut
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                generateImage();
+            }
+        });
+    </script>
+</body>
+</html>

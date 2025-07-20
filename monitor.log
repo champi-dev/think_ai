@@ -1,0 +1,80 @@
+[Sun Jul 20 06:03:52 AM -05 2025] Monitor started
+[Sun Jul 20 06:03:52 AM -05 2025] Process 283562 is dead
+[Sun Jul 20 06:03:52 AM -05 2025] Health check failed (attempt 1/3)
+[Sun Jul 20 06:03:57 AM -05 2025] Process 283562 is dead
+[Sun Jul 20 06:03:57 AM -05 2025] Health check failed (attempt 2/3)
+[Sun Jul 20 06:04:02 AM -05 2025] Process 283562 is dead
+[Sun Jul 20 06:04:02 AM -05 2025] Health check failed (attempt 3/3)
+[Sun Jul 20 06:04:02 AM -05 2025] Restarting service...
+[Sun Jul 20 06:04:09 AM -05 2025] Process 283762 is dead
+[Sun Jul 20 06:04:09 AM -05 2025] Service restart failed
+[Sun Jul 20 06:04:09 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:04:14 AM -05 2025] Process 283762 is dead
+[Sun Jul 20 06:04:14 AM -05 2025] Health check failed (attempt 4/3)
+[Sun Jul 20 06:04:14 AM -05 2025] Restarting service...
+[Sun Jul 20 06:04:21 AM -05 2025] Process 283777 is dead
+[Sun Jul 20 06:04:21 AM -05 2025] Service restart failed
+[Sun Jul 20 06:04:21 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:04:26 AM -05 2025] Process 283777 is dead
+[Sun Jul 20 06:04:26 AM -05 2025] Health check failed (attempt 5/3)
+[Sun Jul 20 06:04:26 AM -05 2025] Restarting service...
+[Sun Jul 20 06:04:33 AM -05 2025] Process 283803 is dead
+[Sun Jul 20 06:04:33 AM -05 2025] Service restart failed
+[Sun Jul 20 06:04:33 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:04:38 AM -05 2025] Process 283803 is dead
+[Sun Jul 20 06:04:38 AM -05 2025] Health check failed (attempt 6/3)
+[Sun Jul 20 06:04:38 AM -05 2025] Restarting service...
+[Sun Jul 20 06:04:45 AM -05 2025] Process 283819 is dead
+[Sun Jul 20 06:04:45 AM -05 2025] Service restart failed
+[Sun Jul 20 06:04:45 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:04:50 AM -05 2025] Process 283819 is dead
+[Sun Jul 20 06:04:50 AM -05 2025] Health check failed (attempt 7/3)
+[Sun Jul 20 06:04:50 AM -05 2025] Restarting service...
+[Sun Jul 20 06:04:58 AM -05 2025] Process 283943 is dead
+[Sun Jul 20 06:04:58 AM -05 2025] Service restart failed
+[Sun Jul 20 06:04:58 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:05:03 AM -05 2025] Process 283943 is dead
+[Sun Jul 20 06:05:03 AM -05 2025] Health check failed (attempt 8/3)
+[Sun Jul 20 06:05:03 AM -05 2025] Restarting service...
+[Sun Jul 20 06:05:10 AM -05 2025] Process 284016 is dead
+[Sun Jul 20 06:05:10 AM -05 2025] Service restart failed
+[Sun Jul 20 06:05:10 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:05:15 AM -05 2025] Process 284016 is dead
+[Sun Jul 20 06:05:15 AM -05 2025] Health check failed (attempt 9/3)
+[Sun Jul 20 06:05:15 AM -05 2025] Restarting service...
+[Sun Jul 20 06:05:22 AM -05 2025] Process 284031 is dead
+[Sun Jul 20 06:05:22 AM -05 2025] Service restart failed
+[Sun Jul 20 06:05:22 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:05:27 AM -05 2025] Process 284031 is dead
+[Sun Jul 20 06:05:27 AM -05 2025] Health check failed (attempt 10/3)
+[Sun Jul 20 06:05:27 AM -05 2025] Restarting service...
+[Sun Jul 20 06:05:34 AM -05 2025] Process 284080 is dead
+[Sun Jul 20 06:05:34 AM -05 2025] Service restart failed
+[Sun Jul 20 06:05:34 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:05:39 AM -05 2025] Process 284080 is dead
+[Sun Jul 20 06:05:39 AM -05 2025] Health check failed (attempt 11/3)
+[Sun Jul 20 06:05:39 AM -05 2025] Restarting service...
+[Sun Jul 20 06:05:46 AM -05 2025] Process 284170 is dead
+[Sun Jul 20 06:05:46 AM -05 2025] Service restart failed
+[Sun Jul 20 06:05:46 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:05:51 AM -05 2025] Process 284170 is dead
+[Sun Jul 20 06:05:51 AM -05 2025] Health check failed (attempt 12/3)
+[Sun Jul 20 06:05:51 AM -05 2025] Restarting service...
+[Sun Jul 20 06:05:58 AM -05 2025] Process 284226 is dead
+[Sun Jul 20 06:05:58 AM -05 2025] Service restart failed
+[Sun Jul 20 06:05:58 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:06:03 AM -05 2025] Process 284226 is dead
+[Sun Jul 20 06:06:03 AM -05 2025] Health check failed (attempt 13/3)
+[Sun Jul 20 06:06:03 AM -05 2025] Restarting service...
+[Sun Jul 20 06:06:10 AM -05 2025] Process 284332 is dead
+[Sun Jul 20 06:06:10 AM -05 2025] Service restart failed
+[Sun Jul 20 06:06:10 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:06:15 AM -05 2025] Process 284332 is dead
+[Sun Jul 20 06:06:15 AM -05 2025] Health check failed (attempt 14/3)
+[Sun Jul 20 06:06:15 AM -05 2025] Restarting service...
+[Sun Jul 20 06:06:22 AM -05 2025] Process 284374 is dead
+[Sun Jul 20 06:06:22 AM -05 2025] Service restart failed
+[Sun Jul 20 06:06:22 AM -05 2025] CRITICAL: Service restart failed after 3 attempts
+[Sun Jul 20 06:06:27 AM -05 2025] Process 284374 is dead
+[Sun Jul 20 06:06:27 AM -05 2025] Health check failed (attempt 15/3)
+[Sun Jul 20 06:06:27 AM -05 2025] Restarting service...

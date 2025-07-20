@@ -1,0 +1,18 @@
+[Unit]
+Description=Think AI Monitor Service
+After=think-ai.service
+Wants=think-ai.service
+
+[Service]
+Type=simple
+User=champi
+Group=champi
+WorkingDirectory=/home/champi/Dev/think_ai
+ExecStart=/home/champi/Dev/think_ai/monitor.sh
+Restart=always
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

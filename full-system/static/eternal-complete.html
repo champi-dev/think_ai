@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eternal Context AI - Complete Experience</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: #111;
+            border-right: 1px solid #222;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            padding: 1rem;
+            border-bottom: 1px solid #222;
+        }
+        
+        .sidebar-header h3 {
+            color: #00ff88;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .session-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+        
+        .session-item {
+            padding: 0.75rem;
+            margin-bottom: 0.25rem;
+            background: #1a1a1a;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+        
+        .session-item:hover {
+            background: #252525;
+        }
+        
+        .session-item.active {
+            background: #00ff8822;
+            border: 1px solid #00ff88;
+        }
+        
+        .session-time {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: #111;
+            padding: 1rem;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            color: #00ff88;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.875rem;
+        }
+        
+        .stat-item {
+            color: #888;
+        }
+        
+        .stat-value {
+            color: #00aaff;
+            font-weight: 600;
+        }
+        
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            scroll-behavior: smooth;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-header {
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .message-role {
+            font-weight: 600;
+        }
+        
+        .user .message-role { color: #00ff88; }
+        .assistant .message-role { color: #00aaff; }
+        
+        .message-time {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        
+        .message-content {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            position: relative;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .user .message-content {
+            background: #1a2f1a;
+            border: 1px solid #00ff8844;
+            margin-left: 15%;
+        }
+        
+        .assistant .message-content {
+            background: #1a1a2f;
+            border: 1px solid #00aaff44;
+            margin-right: 15%;
+        }
+        
+        .streaming-indicator {
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+        
+        .streaming-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00aaff;
+            margin: 0 1px;
+            animation: pulse 1.4s infinite ease-in-out both;
+        }
+        
+        .streaming-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .streaming-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        .streaming-indicator span:nth-child(3) { animation-delay: 0; }
+        
+        @keyframes pulse {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background: #222;
+            color: #888;
+            border: 1px solid #333;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s;
+        }
+        
+        .message-content:hover .copy-btn { opacity: 1; }
+        .copy-btn:hover { background: #333; color: #fff; }
+        
+        .input-container {
+            padding: 1rem;
+            background: #111;
+            border-top: 1px solid #222;
+        }
+        
+        .input-wrapper {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        #messageInput {
+            flex: 1;
+            padding: 0.75rem;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #e0e0e0;
+            border-radius: 4px;
+            font-size: 1rem;
+            resize: none;
+            min-height: 50px;
+            max-height: 150px;
+        }
+        
+        #messageInput:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+        
+        .send-btn {
+            padding: 0.75rem 1.5rem;
+            background: #00ff88;
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            align-self: flex-end;
+        }
+        
+        .send-btn:hover:not(:disabled) {
+            background: #00cc6a;
+            transform: translateY(-1px);
+        }
+        
+        .send-btn:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+        
+        .error {
+            color: #ff4444;
+            padding: 0.5rem;
+            text-align: center;
+            background: #ff444422;
+            border-radius: 4px;
+        }
+        
+        .loading-history {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Conversation History</h3>
+            <div class="session-time" id="currentSession"></div>
+        </div>
+        <div class="session-list" id="sessionList">
+            <div class="loading-history">Loading history...</div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>🧠 Eternal Context AI</h1>
+            <div class="stats">
+                <div class="stat-item">
+                    Messages: <span class="stat-value" id="messageCount">0</span>
+                </div>
+                <div class="stat-item">
+                    Response: <span class="stat-value" id="responseTime">-</span>
+                </div>
+                <div class="stat-item">
+                    Memory: <span class="stat-value" id="memoryUsage">0 KB</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-container" id="chatContainer"></div>
+        
+        <div class="input-container">
+            <div class="input-wrapper">
+                <textarea 
+                    id="messageInput" 
+                    placeholder="Type your message... (Shift+Enter for new line)"
+                    rows="1"
+                ></textarea>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SERVER_URL = window.location.origin;
+        const SESSION_ID = 'eternal-' + Date.now();
+        let messageCount = 0;
+        let isStreaming = false;
+        let conversationHistory = [];
+        
+        document.getElementById('currentSession').textContent = 'Current: ' + SESSION_ID.slice(0, 15) + '...';
+        
+        // Auto-resize textarea
+        const textarea = document.getElementById('messageInput');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+        
+        // Enter key handler
+        textarea.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+        
+        function addMessage(content, role, timestamp = new Date()) {
+            const container = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            
+            const roleSpan = document.createElement('span');
+            roleSpan.className = 'message-role';
+            roleSpan.textContent = role === 'user' ? 'You' : 'AI';
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'message-time';
+            timeSpan.textContent = formatTime(timestamp);
+            
+            header.appendChild(roleSpan);
+            header.appendChild(timeSpan);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.textContent = 'Copy';
+            copyBtn.onclick = () => {
+                navigator.clipboard.writeText(content);
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+            };
+            
+            contentDiv.appendChild(copyBtn);
+            messageDiv.appendChild(header);
+            messageDiv.appendChild(contentDiv);
+            container.appendChild(messageDiv);
+            
+            container.scrollTop = container.scrollHeight;
+            
+            // Update stats
+            if (role === 'user') {
+                messageCount++;
+                document.getElementById('messageCount').textContent = messageCount;
+            }
+            
+            return contentDiv;
+        }
+        
+        function addStreamingMessage(timestamp = new Date()) {
+            const container = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message assistant';
+            messageDiv.id = 'streaming-message';
+            
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            
+            const roleSpan = document.createElement('span');
+            roleSpan.className = 'message-role';
+            roleSpan.innerHTML = 'AI <span class="streaming-indicator"><span></span><span></span><span></span></span>';
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'message-time';
+            timeSpan.textContent = formatTime(timestamp);
+            
+            header.appendChild(roleSpan);
+            header.appendChild(timeSpan);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = '';
+            
+            messageDiv.appendChild(header);
+            messageDiv.appendChild(contentDiv);
+            container.appendChild(messageDiv);
+            
+            container.scrollTop = container.scrollHeight;
+            
+            return contentDiv;
+        }
+        
+        async function loadHistory() {
+            try {
+                const response = await fetch(`${SERVER_URL}/api/history/${SESSION_ID}`);
+                if (response.ok) {
+                    const history = await response.json();
+                    conversationHistory = history.messages || [];
+                    
+                    // Display history
+                    document.getElementById('chatContainer').innerHTML = '';
+                    conversationHistory.forEach(msg => {
+                        addMessage(msg.content, msg.role.toLowerCase(), new Date(msg.timestamp));
+                    });
+                    
+                    // Update stats
+                    messageCount = history.total_messages || 0;
+                    document.getElementById('messageCount').textContent = messageCount;
+                    
+                    // Update session list
+                    updateSessionList(history);
+                }
+            } catch (error) {
+                console.error('Failed to load history:', error);
+            }
+        }
+        
+        function updateSessionList(history) {
+            const sessionList = document.getElementById('sessionList');
+            sessionList.innerHTML = '';
+            
+            // Add current session
+            const sessionItem = document.createElement('div');
+            sessionItem.className = 'session-item active';
+            sessionItem.innerHTML = `
+                <div>Current Session</div>
+                <div class="session-time">Messages: ${history.total_messages || 0}</div>
+            `;
+            sessionList.appendChild(sessionItem);
+            
+            // Add topics if available
+            if (history.topics && history.topics.length > 0) {
+                const topicsDiv = document.createElement('div');
+                topicsDiv.style.padding = '0.5rem';
+                topicsDiv.style.color = '#666';
+                topicsDiv.style.fontSize = '0.75rem';
+                topicsDiv.textContent = 'Topics: ' + history.topics.join(', ');
+                sessionList.appendChild(topicsDiv);
+            }
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const message = input.value.trim();
+            
+            if (!message || isStreaming) return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            input.style.height = 'auto';
+            
+            // Disable input during streaming
+            isStreaming = true;
+            sendBtn.disabled = true;
+            input.disabled = true;
+            
+            // Add streaming message placeholder
+            const streamDiv = addStreamingMessage();
+            let fullResponse = '';
+            const startTime = Date.now();
+            
+            try {
+                const response = await fetch(`${SERVER_URL}/api/chat/stream`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: SESSION_ID
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Server error: ' + response.status);
+                }
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    buffer += decoder.decode(value, { stream: true });
+                    
+                    // Process complete SSE messages
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop() || '';
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(6));
+                                
+                                if (data.chunk && !data.done) {
+                                    fullResponse += data.chunk;
+                                    streamDiv.textContent = fullResponse;
+                                    
+                                    // Add copy button if not already there
+                                    if (!streamDiv.querySelector('.copy-btn')) {
+                                        const copyBtn = document.createElement('button');
+                                        copyBtn.className = 'copy-btn';
+                                        copyBtn.textContent = 'Copy';
+                                        copyBtn.onclick = () => {
+                                            navigator.clipboard.writeText(fullResponse);
+                                            copyBtn.textContent = 'Copied!';
+                                            setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+                                        };
+                                        streamDiv.appendChild(copyBtn);
+                                    }
+                                    
+                                    document.getElementById('chatContainer').scrollTop = 
+                                        document.getElementById('chatContainer').scrollHeight;
+                                }
+                                
+                                if (data.done) {
+                                    // Remove streaming indicator
+                                    const header = document.getElementById('streaming-message').querySelector('.message-role');
+                                    header.innerHTML = 'AI';
+                                    
+                                    const elapsed = Date.now() - startTime;
+                                    document.getElementById('responseTime').textContent = elapsed + 'ms';
+                                    
+                                    if (data.context_info) {
+                                        messageCount = data.context_info.total_messages;
+                                        document.getElementById('messageCount').textContent = messageCount;
+                                    }
+                                    
+                                    // Load updated history
+                                    setTimeout(loadHistory, 500);
+                                    break;
+                                }
+                            } catch (e) {
+                                console.error('Parse error:', e, line);
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                streamDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+                console.error('Streaming error:', error);
+            } finally {
+                isStreaming = false;
+                sendBtn.disabled = false;
+                input.disabled = false;
+                input.focus();
+            }
+        }
+        
+        // Initial setup
+        loadHistory();
+        addMessage('Hello! I\'m an AI with eternal memory. I remember everything we discuss throughout our conversation. Try telling me about yourself!', 'assistant');
+        
+        // Periodically update memory usage
+        setInterval(async () => {
+            try {
+                const response = await fetch(`${SERVER_URL}/api/history/${SESSION_ID}`);
+                if (response.ok) {
+                    const history = await response.json();
+                    // Estimate memory usage
+                    const memoryKB = (JSON.stringify(history).length / 1024).toFixed(1);
+                    document.getElementById('memoryUsage').textContent = memoryKB + ' KB';
+                }
+            } catch (error) {
+                // Ignore errors
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

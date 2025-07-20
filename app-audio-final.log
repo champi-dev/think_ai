@@ -1,0 +1,141 @@
+[2m2025-07-18T01:14:38.629263Z[0m [32m INFO[0m [2mthink_ai_full_fixed[0m[2m:[0m Initializing Think AI Persistent Server...
+[2m2025-07-18T01:14:38.793435Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Loaded 0 cached audio files
+[2m2025-07-18T01:14:38.793455Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Audio service initialized with cache at "./audio_cache"
+[2m2025-07-18T01:14:38.793458Z[0m [32m INFO[0m [2mthink_ai_full_fixed[0m[2m:[0m ✅ Audio service initialized successfully
+[2m2025-07-18T01:14:38.793741Z[0m [32m INFO[0m [2mthink_ai_full_fixed[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:8080
+[2m2025-07-18T01:16:54.158046Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"572ade92-5763-4b0f-a451-83a1059b99ef"}
+Transcription attempt 1 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"572ade92-5763-4b0f-a451-83a1059b99ef"}
+Retrying audio transcription...
+[2m2025-07-18T01:16:54.602445Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"592582e0-d436-4345-ab25-53706a80bb77"}
+Transcription attempt 2 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"592582e0-d436-4345-ab25-53706a80bb77"}
+[2m2025-07-18T01:16:55.192040Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"6b6058bb-0082-4a54-bda4-8bf1b244afe2"}
+Transcription attempt 3 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"6b6058bb-0082-4a54-bda4-8bf1b244afe2"}
+[2m2025-07-18T01:16:56.155042Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"cd341747-0dc4-4b48-ac81-3dcf7270cb26"}
+Transcription attempt 4 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"cd341747-0dc4-4b48-ac81-3dcf7270cb26"}
+[2m2025-07-18T01:16:57.984585Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"70a3f239-ad9a-4018-9835-accd3b52d0a9"}
+Transcription attempt 5 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"70a3f239-ad9a-4018-9835-accd3b52d0a9"}
+Audio transcription struggling, attempt 5/10
+[2m2025-07-18T01:17:01.504454Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"d0f176ba-44ca-47db-942e-4148fb42086a"}
+Transcription attempt 6 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"d0f176ba-44ca-47db-942e-4148fb42086a"}
+[2m2025-07-18T01:17:08.524945Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"a892ea17-48e2-4c17-8970-c34875316287"}
+Transcription attempt 7 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"a892ea17-48e2-4c17-8970-c34875316287"}
+[2m2025-07-18T01:17:15.511003Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"db003452-f2a6-419a-bae2-7db3f4d6ddda"}
+Transcription attempt 8 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"db003452-f2a6-419a-bae2-7db3f4d6ddda"}
+[2m2025-07-18T01:17:22.755085Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"9b582c46-6e1b-4ced-a2fd-89a901ba7afc"}
+Transcription attempt 9 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"9b582c46-6e1b-4ced-a2fd-89a901ba7afc"}
+[2m2025-07-18T01:17:29.824542Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"3a629caa-03c8-4ca6-b241-6423e3f8241b"}
+Transcription attempt 10 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"3a629caa-03c8-4ca6-b241-6423e3f8241b"}
+Transcription failed after 10 attempts
+[2m2025-07-18T01:17:36.848349Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 59fbf16bd87c759e1a723b6b638d925bb0b589e6ef5169ff6ad187957345aa58.mp3
+[2m2025-07-18T01:21:43.315395Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"32d283a0-3269-41c5-b2ff-b471ae3816ab"}
+Transcription attempt 1 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"32d283a0-3269-41c5-b2ff-b471ae3816ab"}
+Retrying audio transcription...
+[2m2025-07-18T01:21:43.631382Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"ee30a43c-4ee5-4e26-b4e8-aec57f0dfdaa"}
+Transcription attempt 2 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"ee30a43c-4ee5-4e26-b4e8-aec57f0dfdaa"}
+[2m2025-07-18T01:21:44.200735Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"3fb313d1-fb34-4045-8452-afe421b73e62"}
+Transcription attempt 3 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"3fb313d1-fb34-4045-8452-afe421b73e62"}
+[2m2025-07-18T01:21:45.156997Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"9f5afb82-6ea9-436f-91d9-0d2555ccc391"}
+Transcription attempt 4 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"9f5afb82-6ea9-436f-91d9-0d2555ccc391"}
+[2m2025-07-18T01:21:47.073901Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"54975ef4-bb85-4e83-bc4a-b85160da681e"}
+Transcription attempt 5 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"54975ef4-bb85-4e83-bc4a-b85160da681e"}
+Audio transcription struggling, attempt 5/10
+[2m2025-07-18T01:21:50.523732Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"c41d0e9b-62c0-45da-9462-394c8afa2f97"}
+Transcription attempt 6 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"c41d0e9b-62c0-45da-9462-394c8afa2f97"}
+[2m2025-07-18T01:21:57.620997Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"6559143a-8e3d-44c4-ba7b-d8ccc21cdc28"}
+Transcription attempt 7 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"6559143a-8e3d-44c4-ba7b-d8ccc21cdc28"}
+[2m2025-07-18T01:22:04.660235Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"067e1baf-7f53-4683-807f-0a0c7a140e32"}
+Transcription attempt 8 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"067e1baf-7f53-4683-807f-0a0c7a140e32"}
+[2m2025-07-18T01:22:12.191563Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"06b11802-a519-4e9f-ac40-cf9e14dfa508"}
+Transcription attempt 9 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"06b11802-a519-4e9f-ac40-cf9e14dfa508"}
+[2m2025-07-18T01:22:19.155637Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"58e9f21d-08ae-417f-b820-a22e55861380"}
+Transcription attempt 10 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"58e9f21d-08ae-417f-b820-a22e55861380"}
+Transcription failed after 10 attempts
+[2m2025-07-18T01:22:19.527981Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Using cached audio for text hash: 59fbf16bd87c759e1a723b6b638d925bb0b589e6ef5169ff6ad187957345aa58
+[2m2025-07-18T01:22:20.506974Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: ca8f60b2cc7f05837d98b208b57fb6481553fc5f1219d59618fd025002a66f5c.mp3
+[2m2025-07-18T01:22:21.302664Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 9e60bb3d459f3cc5143a725248df8fddb2eff73f196236854e62f4f6567bb0e4.mp3
+[2m2025-07-18T01:22:22.110353Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.mp3
+[2m2025-07-18T01:22:22.590625Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"b47652b6-9408-4952-9480-2bff5fa36406"}
+Transcription attempt 1 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"b47652b6-9408-4952-9480-2bff5fa36406"}
+Retrying audio transcription...
+[2m2025-07-18T01:22:22.964502Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"cca04554-080e-4d92-9e17-a966bf4bca37"}
+Transcription attempt 2 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"cca04554-080e-4d92-9e17-a966bf4bca37"}
+[2m2025-07-18T01:22:23.558414Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"c8af7b16-c625-4f7d-bf3f-3000c3f92c23"}
+Transcription attempt 3 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"c8af7b16-c625-4f7d-bf3f-3000c3f92c23"}
+[2m2025-07-18T01:22:24.517021Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"62c7dc10-a893-4c44-b42f-d6e1014bf4d7"}
+Transcription attempt 4 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"62c7dc10-a893-4c44-b42f-d6e1014bf4d7"}
+[2m2025-07-18T01:22:26.322763Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"c653661d-ed2c-4219-a719-e3a76ce33242"}
+Transcription attempt 5 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"c653661d-ed2c-4219-a719-e3a76ce33242"}
+Audio transcription struggling, attempt 5/10
+[2m2025-07-18T01:22:29.679797Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"7c06a78e-cb4a-4ade-ac54-8029debf0939"}
+Transcription attempt 6 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"7c06a78e-cb4a-4ade-ac54-8029debf0939"}
+[2m2025-07-18T01:22:37.253819Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"bb3c5409-44a3-48f1-8537-72656d7eab47"}
+Transcription attempt 7 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"bb3c5409-44a3-48f1-8537-72656d7eab47"}
+[2m2025-07-18T01:22:44.027342Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"2aef7788-b2ba-4bf3-a065-e8be23036744"}
+Transcription attempt 8 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"2aef7788-b2ba-4bf3-a065-e8be23036744"}
+[2m2025-07-18T01:22:51.308895Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"cb034314-c0d7-46f0-b560-c2568d746652"}
+Transcription attempt 9 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"cb034314-c0d7-46f0-b560-c2568d746652"}
+[2m2025-07-18T01:22:58.602787Z[0m [31mERROR[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"440bc762-9045-43c6-9766-7e4f81fa4554"}
+Transcription attempt 10 error: Deepgram API error: {"err_code":"Bad Request","err_msg":"Bad Request: failed to process audio: corrupt or unsupported data","request_id":"440bc762-9045-43c6-9766-7e4f81fa4554"}
+Transcription failed after 10 attempts
+[2m2025-07-18T01:24:56.894196Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 5310f20ad1cbb2ca35eaec6c18dc8adf2ecd6de66a44cfd0d28244d90afa5307.mp3
+[2m2025-07-18T01:25:54.977479Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: caac9381661b1e0fde36b44687c9a5ef625159ba0c9c0a10bad6358d36c00cc4.mp3
+[2m2025-07-18T01:28:11.875673Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 9868c47cd6bda62392f05d07dd758f242ef1475270764c9e682b55c70accf1eb.mp3
+[2m2025-07-18T01:30:01.168959Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: bccaa8a69776cb45dfedb5e92f15c1ff89d4429383f43c8489ca85e81d3b2ca7.mp3
+[2m2025-07-18T02:53:32.551319Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 31dbba7ccc20762f5a5a5e2fb3cc1f7a768296043689fc8230763f9cc46be3f6.mp3
+[2m2025-07-18T02:55:36.874557Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: af665b622832d3aa7348fbb37b5d3c9ab88a229a7dd17693f9f263d4d1672998.mp3
+[2m2025-07-18T03:10:17.641110Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 554efbe4d81de923d3ae4e4dacb911535c92a2667e084af3183871c0c75e9651.mp3
+Transcription attempt 1 error: error sending request for url (https://api.deepgram.com/v1/listen?model=nova-2&smart_format=true&language=multi): connection closed before message completed
+Retrying audio transcription...
+[2m2025-07-18T05:07:56.273832Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: c95c8739cd9d1b3ef79d3f637c05f114b61c9715c20d605804b2b5a424a489ef.mp3
+[2m2025-07-18T05:08:50.185275Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 856a930f6b25f018f7a7f863bf8fb0577c4f8995f3a4488103c7f14954700a6c.mp3
+[2m2025-07-18T05:09:38.336093Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: b042ae0389d36de116c5efbe330b067cec64981af037ae5a484add229ad58b14.mp3
+[2m2025-07-18T05:11:27.841905Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 2e7ca9ba2c8a37b43e35529e15a7a1b5677320d54674f728786468d78e9c7f93.mp3
+[2m2025-07-18T05:13:15.615672Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 050e81ad8546c88955e531db8ae4f76cecd85a82f09cebd8e6ea5c88d2734b00.mp3
+[2m2025-07-18T05:13:46.374746Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: bd62ab0e3310f18615cd9a3876be058e409b19f515bdc775c443edd666fc07ab.mp3
+[2m2025-07-18T05:15:40.462411Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: d54f080a2cb8e6aa59f34a7a50a174312b1020905899b964f070b560beeddd45.mp3
+[2m2025-07-18T05:16:18.367306Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 6aca90e0ad28bcba46fbe1ee0f0cd06dc2ef2d65be66e63f8e91d9aec094bf13.mp3
+[2m2025-07-18T05:17:06.781628Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: dfd16544a72e1c31b7f3378384dd3c623892fd9a6a10be7f24e5682ebb564f86.mp3
+[2m2025-07-18T05:18:28.777391Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 6dc63ac23e18257abae631b40228fdbc3e5cbc0d97b68518fb3c947e232e091f.mp3
+[2m2025-07-18T05:21:46.436065Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: b40f15f9294550757a45e7a752e367b99a79152a243dd213c32dbfd238e5486d.mp3
+[2m2025-07-18T05:28:20.637941Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 988af536296a7ebcff6fbfa9dade38a28b5495715c04c604714b265d952b9c6e.mp3
+[2m2025-07-18T05:31:30.984635Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 4c288e2d9e36fa50318b6dbcb524df2f77432db36ca2e097eb00ea2f83abcb73.mp3
+[2m2025-07-18T05:32:20.971592Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 6f52709a9013a12eda52ed0b230ad54b32a78cfb3cc15d143377229d6b8f623c.mp3
+[2m2025-07-18T05:32:49.018135Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: c2f6c50647681d65e4ca3653b01fa0191e185b7c150c82bb91408120f39c2b7e.mp3
+[2m2025-07-18T05:33:46.136891Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 5ba2c7d68176fc732cf129848414aca8639dc104f79b41e065773e4a9ffc8136.mp3
+[2m2025-07-18T13:09:09.739351Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: fbc0e93c35b0639eeced7b1dc13921cf70602ac7d4cb2f4342aa8feb201e1f07.mp3
+[2m2025-07-18T13:10:16.602191Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 1db3afdb842c3e16a8424c21fd34b682edd28628849de41bd91cec16c5127ce5.mp3
+[2m2025-07-18T14:35:03.861369Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: fdcbc1f64df8876d10808f260e36bac1cb208a0dd8186e0c0be51182ac1cd392.mp3
+[2m2025-07-18T15:54:12.421920Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 3414b261fdc7a778afedc46eed6d89026115bff38b0ea34669cb09df976d949f.mp3
+[2m2025-07-18T15:59:48.908056Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: b4b9ccb2d4729040afd69e93e6d0cd62c315a1d57ddfac25ea66dac541409fd0.mp3
+[2m2025-07-18T16:06:12.449464Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: bcf113adb5bc4cd7437b18a174153917bdbc55ee98e646eb59c7b960a95a03ff.mp3
+[2m2025-07-18T17:47:10.683574Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 668b5383c5d92d399b7de0ff57e909659973f7056d916af99198a750afe4298f.mp3
+[2m2025-07-18T19:23:00.318578Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 7e8cabdd6031d19f94c3966f70c93f87cd1a946743e0a4fac481aed494cfa12b.mp3
+[2m2025-07-19T00:07:42.410785Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: f55f26458304c68bb66078f00926c2ef5240abf40ab6bb153f1f78f1396466ce.mp3
+[2m2025-07-19T00:10:58.461182Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 0b2d930534098db74f393a113ae0e41ca8f854002e51bd3bbab85f52e56a38f8.mp3
+[2m2025-07-19T12:06:41.812269Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 0dc7e828fb044d158d3a8786f5054eb7824943de654dbc03b473ab7565b4fd22.mp3
+[2m2025-07-19T13:32:01.325444Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: cd40d9ad526aca85069a9973d592868e8d2ee39d1497f1b50dd7f1533aab209b.mp3
+[2m2025-07-19T13:32:58.708916Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: f36517c283a4adccf3915dc9e0e77c972b853d15566235b560f06e081048675d.mp3
+Ollama failed after 3 retries: Request failed: error sending request for url (http://localhost:11434/api/generate): operation timed out, falling back to Gemini
+[2m2025-07-19T14:56:38.752133Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 00175c1660a078c14d812b688db8d8c24a6c9849d3e480167d27cef3fe178819.mp3
+Ollama failed after 3 retries: Request failed: error sending request for url (http://localhost:11434/api/generate): operation timed out, falling back to Gemini
+[2m2025-07-19T15:48:24.765110Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: bb28b0b677a3025d148d00f45a3b45cee20ed5e19bbb13208a11f3ec07cb2a5e.mp3
+[2m2025-07-19T15:49:31.669357Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: d33c4cdf77aa03c12982e0a3dbfeccb9bf0a3b7fbd3acbdc71748d8c9a890d1b.mp3
+[2m2025-07-19T15:50:18.443099Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 5f0af5d2e0bffa7360c09bcbd2f6750e93954d2ed5a369bdd32fcfc0273b21d1.mp3
+[2m2025-07-19T15:50:57.919923Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: dab91794610fb20ece45c0822ea9341cb9b6754b09de0610a62aa4ed6999ec14.mp3
+[2m2025-07-19T15:51:55.476167Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: ef40dc320186bc669b4d5d5c839508e4f33c72a6370ba3bf68c9a7445bf42b6c.mp3
+[2m2025-07-19T15:55:18.816908Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 3ad614c6dc09d58c6eb5ec6abaf669090b650c5d81a981c383d14181d5a180ae.mp3
+[2m2025-07-19T16:38:50.674371Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: df6540cf3979193a1a37e92bf3be2909866eccd7af1a2bbce16c3c31255f02ff.mp3
+[2m2025-07-19T16:39:21.899610Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 6e7ef0a5983eaf2ec66e8ab4bc3360ca1fd57c3cd4e40b8b13da93791f9077b0.mp3
+[2m2025-07-19T16:39:46.612161Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: c11cc5237930b026b4302b8de521a498dff876dbdf4ef621f50e718af3ea2e6c.mp3
+[2m2025-07-19T16:40:51.759761Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: c624783530bd9db6b7e25f7b68da2fcf31c92e4d7f57835c787a6aae36251b36.mp3
+Ollama failed after 3 retries: Request failed: error sending request for url (http://localhost:11434/api/generate): operation timed out, falling back to Gemini
+Ollama failed after 3 retries: Request failed: error sending request for url (http://localhost:11434/api/generate): operation timed out, falling back to Gemini
+[2m2025-07-19T20:45:40.740711Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 97b80acd69c83fb2a74020a5d6274a5dd6973c6dd8a22ae1ed97b37b91232fba.mp3
+[2m2025-07-19T20:59:44.087121Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: c747eb519de0bf777731ecb46f7761cf7e60af929650136c70cf5173f34ec564.mp3
+[2m2025-07-19T21:08:49.506648Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 44262909acc99b259ad3b89ec4706a29b95b30a78f9601cbc7b299c6c86f37ba.mp3
+[2m2025-07-19T21:56:06.325678Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 6d3e558dbd1e292a40cc86c2c4ccd2058e1416e1772ae1579861165e73799120.mp3
+[2m2025-07-20T00:30:50.139125Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: cd153d3c18e782c4f4b3ceec574adccc8e68bc557110b0bc263b01e09bfcc8ef.mp3
+[2m2025-07-20T00:39:49.130346Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 11bbbe71d2cf4b8905edf317711131b0e34274cbea93bfe611203baa3a495d93.mp3
+[2m2025-07-20T00:41:24.623587Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 5f6489136eec9aec47d13d6ec18d3c5863d8a5c9ddf80d14c448d8f549b10734.mp3
+[2m2025-07-20T01:12:31.770667Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: cd8f801cc58b636ebbe48982ea85d0a3d9a1adf11360755d578d2a5c495f28c5.mp3
+[2m2025-07-20T01:19:32.927712Z[0m [32m INFO[0m [2mthink_ai_full_fixed::audio_service[0m[2m:[0m Cached audio file: 2c5c1ba7cda9a392f307c1b267590d1c8fd9ce8a152a22e159b8c9218aa38f1d.mp3
