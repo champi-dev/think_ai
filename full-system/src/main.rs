@@ -20,6 +20,7 @@ use uuid::Uuid;
 
 mod audio_service;
 mod notifications;
+mod whatsapp_handler;
 
 // Import actual Think AI components
 use think_ai_consciousness::ConsciousnessFramework;
@@ -33,6 +34,7 @@ use rand;
 use crate::audio_service::{AudioService, SynthesisRequest, TranscriptionResult};
 use crate::notifications::{Notification, NotificationSeverity, NotificationService};
 use crate::notifications::whatsapp::WhatsAppNotifier;
+use crate::whatsapp_handler::{whatsapp_webhook_handler, whatsapp_status_webhook};
 
 // State for the application
 #[derive(Clone)]
@@ -183,6 +185,8 @@ async fn main() {
         .route("/api/chat/sessions/:id", get(get_session))
         .route("/api/audio/transcribe", post(transcribe_audio))
         .route("/api/audio/synthesize", post(synthesize_speech))
+        .route("/webhooks/whatsapp", post(whatsapp_webhook_handler))
+        .route("/webhooks/whatsapp/status", post(whatsapp_status_webhook))
         .nest_service(
             "/",
             ServeDir::new("static").fallback(ServeFile::new("static/index.html")),
