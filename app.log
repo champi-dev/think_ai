@@ -4,3 +4,4 @@
 [2m2025-07-20T12:34:41.078804Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ✅ Audio service enabled
 [2m2025-07-20T12:34:41.078807Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m ⚠️ WhatsApp notifications disabled
 [2m2025-07-20T12:34:41.078904Z[0m [32m INFO[0m [2mthink_ai_full[0m[2m:[0m Think AI Persistent Server listening on 0.0.0.0:7777
+[2m2025-07-20T13:44:38.806306Z[0m [32m INFO[0m [2mthink_ai_full::audio_service[0m[2m:[0m Cached audio file: ce4f69ebf380dee81cafb1af0ab34fef6b447cf9473eb5438e28fd81f1ce91b5.mp3
