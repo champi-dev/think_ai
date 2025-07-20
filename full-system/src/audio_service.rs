@@ -1,5 +1,4 @@
 use anyhow::Result;
-use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
 use bytes::Bytes;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
@@ -9,7 +8,6 @@ use std::sync::Arc;
 use tokio::fs;
 use tokio::sync::RwLock;
 use tracing::{error, info};
-use uuid::Uuid;
 
 #[derive(Clone)]
 pub struct AudioService {

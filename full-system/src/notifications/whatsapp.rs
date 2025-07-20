@@ -29,13 +29,10 @@ impl WhatsAppNotifier {
     pub fn with_twilio() -> Option<Self> {
         let account_sid = env::var("TWILIO_ACCOUNT_SID").ok()?;
         let auth_token = env::var("TWILIO_AUTH_TOKEN").ok()?;
-        let from_number = env::var("TWILIO_WHATSAPP_FROM").ok()?;
+        let _from_number = env::var("TWILIO_WHATSAPP_FROM").ok()?;
         let to_number = env::var("WHATSAPP_TO_NUMBER").ok()?;
 
-        let client = Client::builder()
-            .basic_auth(&account_sid, Some(&auth_token))
-            .build()
-            .ok()?;
+        let client = Client::new();
 
         Some(Self {
             client,
@@ -79,8 +76,12 @@ impl NotificationService for WhatsAppNotifier {
                 ("Body", message),
             ];
 
+            let account_sid = env::var("TWILIO_ACCOUNT_SID")?;
+            let auth_token = env::var("TWILIO_AUTH_TOKEN")?;
+            
             let response = self.client
                 .post(&self.api_url)
+                .basic_auth(&account_sid, Some(&auth_token))
                 .form(&params)
                 .send()
                 .await?;

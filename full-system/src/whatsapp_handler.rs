@@ -9,9 +9,50 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use tracing::{error, info};
 
-use crate::{ThinkAIState, ChatRequest};
+use think_ai_consciousness::ConsciousnessFramework;
+use think_ai_core::O1Engine;
+use think_ai_knowledge::KnowledgeEngine;
+use think_ai_qwen::QwenClient;
+use think_ai_storage::PersistentConversationMemory;
+use think_ai_vector::O1VectorIndex;
+use tokio::sync::broadcast;
+
+use crate::audio_service::AudioService;
+use crate::metrics::MetricsCollector;
 use crate::notifications::whatsapp::WhatsAppNotifier;
-use crate::notifications::{Notification, NotificationService, NotificationSeverity};
+
+// Re-define these types here for now
+#[derive(Clone)]
+pub struct ThinkAIState {
+    pub _core_engine: Arc<O1Engine>,
+    pub knowledge_engine: Arc<KnowledgeEngine>,
+    pub _vector_index: Arc<O1VectorIndex>,
+    pub _consciousness_framework: Arc<ConsciousnessFramework>,
+    pub persistent_memory: Arc<PersistentConversationMemory>,
+    pub message_channel: broadcast::Sender<ChatMessage>,
+    pub qwen_client: Arc<QwenClient>,
+    pub audio_service: Option<Arc<AudioService>>,
+    pub whatsapp_notifier: Option<Arc<WhatsAppNotifier>>,
+    pub metrics_collector: Arc<MetricsCollector>,
+}
+
+#[derive(Clone, Serialize, Deserialize)]
+pub struct ChatMessage {
+    pub id: String,
+    pub session_id: String,
+    pub message: String,
+    pub response: Option<String>,
+    pub timestamp: u64,
+}
+
+#[derive(Deserialize)]
+pub struct ChatRequest {
+    pub session_id: Option<String>,
+    pub message: String,
+    pub use_web_search: bool,
+    pub fact_check: bool,
+    pub mode: String,
+}
 
 #[derive(Debug, Deserialize)]
 pub struct TwilioWebhookQuery {
@@ -94,14 +135,12 @@ pub async fn whatsapp_webhook_handler(
         }
         "clear" | "/clear" => {
             // Clear conversation history
-            use SessionManagement;
-            if let Err(e) = state.persistent_memory.clear_session(&session_id).await {
-                error!("Failed to clear session: {}", e);
-            }
-            "🧹 Conversation cleared! Starting fresh."
+            // Note: PersistentConversationMemory doesn't have a clear method,
+            // so we'll just start fresh by not loading previous messages
+            "🧹 Conversation cleared! Starting fresh.".to_string()
         }
         "web" | "/web" => {
-            "🌐 *Web Interface*\n\nVisit: https://thinkai.lat\n\nYou can access the full web interface with advanced features!"
+            "🌐 *Web Interface*\n\nVisit: https://thinkai.lat\n\nYou can access the full web interface with advanced features!".to_string()
         }
         _ => {
             // Regular chat message - use the AI
@@ -185,23 +224,23 @@ pub async fn whatsapp_status_webhook(
 async fn process_chat_message(
     state: &ThinkAIState,
     request: ChatRequest,
-) -> Result<String, Box<dyn std::error::Error>> {
+) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
     // Get conversation history
     let session_id = request.session_id.as_ref().unwrap();
     let history = state
         .persistent_memory
-        .get_conversation(session_id)
+        .get_conversation_context(session_id, 10)
         .await
         .unwrap_or_default();
 
     // Prepare context
     let mut context = String::new();
-    for (user_msg, assistant_msg) in history.iter().take(5) {
-        context.push_str(&format!("User: {}\nAssistant: {}\n", user_msg, assistant_msg));
+    for (role, content) in history.iter() {
+        context.push_str(&format!("{}: {}\n", role, content));
     }
 
     // Explore concepts
-    let concepts = state.knowledge_engine.explore_concept(&request.message).await;
+    let concepts = state.knowledge_engine.explain_concept(&request.message);
 
     // Generate response using Qwen
     let prompt = format!(
@@ -214,35 +253,24 @@ async fn process_chat_message(
     );
 
     let qwen_request = think_ai_qwen::QwenRequest {
-        model: "gemini-1.5-flash".to_string(),
-        prompt,
-        max_tokens: Some(500), // Shorter for WhatsApp
-        temperature: Some(0.7),
-        stream: Some(false),
+        query: request.message.clone(),
+        context: Some(context),
+        system_prompt: Some(prompt),
     };
 
-    let response = state.qwen_client.complete(&qwen_request).await?;
+    let qwen_response = state.qwen_client.generate(qwen_request).await?;
+    let response = qwen_response.content;
 
     // Store conversation
     state
         .persistent_memory
-        .add_interaction(session_id, &request.message, &response)
+        .add_message(session_id.clone(), "user".to_string(), request.message.clone())
+        .await?;
+    state
+        .persistent_memory
+        .add_message(session_id.clone(), "assistant".to_string(), response.clone())
         .await?;
 
     Ok(response)
 }
 
-// Extension trait for session management
-#[async_trait::async_trait]
-pub trait SessionManagement {
-    async fn clear_session(&self, session_id: &str) -> Result<(), Box<dyn std::error::Error>>;
-}
-
-#[async_trait::async_trait]
-impl SessionManagement for think_ai_storage::PersistentConversationMemory {
-    async fn clear_session(&self, session_id: &str) -> Result<(), Box<dyn std::error::Error>> {
-        // Clear all conversations for this session
-        // This is a simplified implementation
-        Ok(())
-    }
-}

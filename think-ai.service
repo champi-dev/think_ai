@@ -10,7 +10,10 @@ Group=champi
 WorkingDirectory=/home/champi/Dev/think_ai
 Environment=RUST_LOG=info
 Environment=PORT=7777
-ExecStart=/home/champi/Dev/think_ai/full-system/target/release/think-ai-full-fixed
+Environment=DEEPGRAM_API_KEY=e31341c95ee93fd2c8fced1bf37636f042fe038b
+Environment=ELEVENLABS_API_KEY=sk_aa595f99bc5842b5df837d4c47fe3a18ce00b9a39a0f2877
+Environment=AUDIO_CACHE_DIR=/home/champi/Dev/think_ai/full-system/audio_cache
+ExecStart=/home/champi/Dev/think_ai/target/release/think-ai-full
 Restart=always
 RestartSec=10
 StandardOutput=journal
