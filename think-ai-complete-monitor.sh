@@ -80,7 +80,7 @@ test_endpoints() {
     fi
     
     # Test API docs
-    if ! curl -sL https://$NGROK_DOMAIN/api-docs | grep -q "API"; then
+    if ! curl -sL https://$NGROK_DOMAIN/api-docs.html | grep -q "API"; then
         log "FAIL: API docs"
         all_good=false
     fi

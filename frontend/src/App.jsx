@@ -489,7 +489,7 @@ function App() {
           </div>
           
           <nav>
-            <a href="/api-docs" style={{color: 'var(--text)', textDecoration: 'none'}}>API Docs</a>
+            <a href="/api-docs.html" style={{color: 'var(--text)', textDecoration: 'none'}}>API Docs</a>
             <a href="https://github.com/champi-dev/think_ai" target="_blank" rel="noopener noreferrer" style={{color: 'var(--text)', textDecoration: 'none'}}>GitHub</a>
           </nav>
           

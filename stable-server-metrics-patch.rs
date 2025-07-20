@@ -41,7 +41,7 @@ let state = StableState {
 let app = Router::new()
     .route("/", get(webapp_handler))
     .route("/api", get(api_docs_handler))
-    .route("/api-docs", get(api_docs_handler))
+    .route("/api-docs.html", get(api_docs_handler))
     .route("/health", get(health_check))
     .route("/api/chat", post(chat_handler))
     .route("/api/chat/stream", post(chat_stream_handler))

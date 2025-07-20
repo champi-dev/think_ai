@@ -25,7 +25,7 @@ sudo journalctl -u think-ai -n 20 --no-pager
 echo ""
 echo "🌐 Testing endpoints:"
 echo "- Health check: http://localhost:7777/health"
-echo "- API docs: http://localhost:7777/api-docs"
+echo "- API docs: http://localhost:7777/api-docs.html"
 echo "- Metrics dashboard: http://localhost:7777/stats"
 
 # Test health endpoint
