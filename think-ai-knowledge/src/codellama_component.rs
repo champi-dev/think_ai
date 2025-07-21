@@ -41,7 +41,7 @@ impl CodeLlamaComponent {
         client_guard.is_some()
     }
 
-    async fn generate_code_response(&self, query: &str) -> Option<String> {
+    pub async fn generate_code_response(&self, query: &str) -> Option<String> {
         // Try to use CodeLlama first
         if self.ensure_client().await {
             let client_guard = self.client.read().await;

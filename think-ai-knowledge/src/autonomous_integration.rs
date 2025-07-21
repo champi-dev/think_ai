@@ -5,6 +5,7 @@
 
 use async_trait::async_trait;
 use std::sync::Arc;
+use std::collections::HashMap;
 use tokio::sync::RwLock;
 use tracing::{info, warn, error};
 
@@ -178,17 +179,19 @@ impl AutonomousIntegration {
         };
         
         // Store in knowledge base for future learning
+        let mut metadata = HashMap::new();
+        metadata.insert("category".to_string(), "interaction".to_string());
+        metadata.insert("session_id".to_string(), context.session_id.clone());
+        metadata.insert("query".to_string(), query.to_string());
+        
         self.knowledge_base.add_knowledge(
-            crate::shared_knowledge::KnowledgeItem::new(
-                format!("Q: {} A: {}", query, response),
-                vec![
-                    "interaction".to_string(),
-                    context.session_id.clone(),
-                ],
-                0.9,
-                Some(message),
-            )
-        ).await;
+            crate::shared_knowledge::KnowledgeItem {
+                content: format!("Q: {} A: {}", query, response),
+                source: "autonomous_agent".to_string(),
+                confidence: 0.9,
+                metadata,
+            }
+        ).await.ok();
     }
     
     /// Get agent status and metrics

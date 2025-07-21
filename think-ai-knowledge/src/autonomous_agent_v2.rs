@@ -241,17 +241,9 @@ impl AutonomousAgentV2 {
     pub async fn initialize_models(&self) -> Result<(), String> {
         info!("Initializing AI models for autonomous agent");
         
-        // Initialize Qwen model
-        match QwenKnowledgeBuilder::new(self.knowledge_base.clone()).await {
-            Ok(qwen) => {
-                *self.qwen_model.lock().await = Some(qwen);
-                info!("Qwen model initialized successfully");
-            }
-            Err(e) => {
-                warn!("Failed to initialize Qwen model: {}", e);
-                // Continue without Qwen - we can still use CodeLlama
-            }
-        }
+        // Initialize Qwen model - disabled for now due to type mismatch
+        // TODO: Create adapter between SharedKnowledge and KnowledgeEngine
+        warn!("Qwen model initialization skipped - type mismatch between SharedKnowledge and KnowledgeEngine");
         
         // Initialize CodeLlama model
         let codellama = CodeLlamaComponent::new();
@@ -497,9 +489,10 @@ impl AutonomousAgentV2 {
             // Use CodeLlama for code-related queries
             let codellama = codellama_model.lock().await;
             if let Some(model) = codellama.as_ref() {
-                match model.process(query, session_id).await {
-                    Ok(response) => Ok(response),
-                    Err(e) => Err(format!("CodeLlama error: {}", e)),
+                if let Some(response) = model.generate_code_response(query).await {
+                    Ok(response)
+                } else {
+                    Err("CodeLlama failed to generate response".to_string())
                 }
             } else {
                 Err("CodeLlama model not available".to_string())
@@ -508,21 +501,32 @@ impl AutonomousAgentV2 {
             // Use Qwen for general queries
             let qwen = qwen_model.lock().await;
             if let Some(model) = qwen.as_ref() {
-                match model.query(query).await {
-                    Ok(response) => Ok(response),
-                    Err(e) => Err(format!("Qwen error: {}", e)),
+                // Use get_cached_response or generate_evaluated_response
+                if let Some(response) = model.get_cached_response(query).await {
+                    Ok(response)
+                } else {
+                    Ok(model.generate_evaluated_response(query).await)
                 }
             } else {
                 // Fallback to knowledge base search
-                let items = knowledge_base.search(query, 5).await;
-                if items.is_empty() {
-                    Err("No relevant knowledge found and Qwen model not available".to_string())
-                } else {
-                    let response = items.iter()
-                        .map(|item| format!("• {}", item.content))
-                        .collect::<Vec<_>>()
-                        .join("\n");
-                    Ok(format!("Based on my knowledge:\n{}", response))
+                let knowledge_query = crate::shared_knowledge::KnowledgeQuery {
+                    content: query.to_string(),
+                    context: None,
+                    max_results: 5,
+                };
+                match knowledge_base.query(knowledge_query).await {
+                    Ok(results) => {
+                        if results.is_empty() {
+                            Err("No relevant knowledge found and Qwen model not available".to_string())
+                        } else {
+                            let response = results.iter()
+                                .map(|content| format!("• {}", content))
+                                .collect::<Vec<_>>()
+                                .join("\n");
+                            Ok(format!("Based on my knowledge:\n{}", response))
+                        }
+                    }
+                    Err(e) => Err(format!("Knowledge base error: {}", e))
                 }
             }
         }
@@ -544,14 +548,18 @@ impl AutonomousAgentV2 {
         
         // Store insights
         for improvement in &improvements {
+            let mut metadata = HashMap::new();
+            metadata.insert("category".to_string(), format!("self_improvement_{}", focus_area));
+            metadata.insert("source".to_string(), "autonomous_agent".to_string());
+            
             knowledge_base.add_knowledge(
-                KnowledgeItem::new(
-                    improvement.clone(),
-                    vec![format!("self_improvement_{}", focus_area)],
-                    0.8,
-                    None,
-                )
-            ).await;
+                KnowledgeItem {
+                    content: improvement.clone(),
+                    source: "autonomous_agent".to_string(),
+                    confidence: 0.8,
+                    metadata,
+                }
+            ).await.ok();
         }
         
         Ok(improvements.join("\n"))
@@ -567,31 +575,33 @@ impl AutonomousAgentV2 {
         if let Some(model) = qwen.as_ref() {
             // Use Qwen to explore the topic
             let query = format!("Tell me interesting facts about {}", topic);
-            match model.query(&query).await {
-                Ok(response) => {
-                    // Extract and store knowledge
-                    let facts: Vec<&str> = response.split('\n')
-                        .filter(|s| !s.is_empty())
-                        .collect();
-                    
-                    let mut stored_count = 0;
-                    for fact in facts.iter().take(5) {
+            let response = model.generate_evaluated_response(&query).await;
+            
+            // Extract and store knowledge
+            let facts: Vec<&str> = response.split('\n')
+                .filter(|s| !s.is_empty())
+                .collect();
+            
+            let mut stored_count = 0;
+            for fact in facts.iter().take(5) {
+                        let mut metadata = HashMap::new();
+                        metadata.insert("category".to_string(), "gathered_knowledge".to_string());
+                        metadata.insert("topic".to_string(), topic.to_string());
+                        metadata.insert("source".to_string(), "qwen_model".to_string());
+                        
                         knowledge_base.add_knowledge(
-                            KnowledgeItem::new(
-                                fact.to_string(),
-                                vec![topic.to_string(), "gathered_knowledge".to_string()],
-                                0.7,
-                                None,
-                            )
-                        ).await;
+                            KnowledgeItem {
+                                content: fact.to_string(),
+                                source: "qwen_model".to_string(),
+                                confidence: 0.7,
+                                metadata,
+                            }
+                        ).await.ok();
                         stored_count += 1;
                     }
                     
-                    Ok(format!("Gathered and stored {} knowledge items about {}", 
-                              stored_count, topic))
-                }
-                Err(e) => Err(format!("Failed to gather knowledge: {}", e)),
-            }
+            Ok(format!("Gathered and stored {} knowledge items about {}", 
+                      stored_count, topic))
         } else {
             Err("Qwen model not available for knowledge gathering".to_string())
         }
@@ -618,24 +628,24 @@ impl AutonomousAgentV2 {
         // Analyze patterns in knowledge base
         let recent_items = knowledge_base.get_recent_items(100).await;
         
-        let mut tag_frequency: HashMap<String, usize> = HashMap::new();
+        let mut category_frequency: HashMap<String, usize> = HashMap::new();
         for item in &recent_items {
-            for tag in &item.tags {
-                *tag_frequency.entry(tag.clone()).or_insert(0) += 1;
+            if let Some(category) = item.metadata.get("category") {
+                *category_frequency.entry(category.clone()).or_insert(0) += 1;
             }
         }
         
         let mut patterns = vec![
             format!("Analyzed {} items from {}", recent_items.len(), data_source),
-            format!("Found {} unique tags", tag_frequency.len()),
+            format!("Found {} unique categories", category_frequency.len()),
         ];
         
         // Top patterns
-        let mut sorted_tags: Vec<_> = tag_frequency.into_iter().collect();
-        sorted_tags.sort_by(|a, b| b.1.cmp(&a.1));
+        let mut sorted_categories: Vec<_> = category_frequency.into_iter().collect();
+        sorted_categories.sort_by(|a, b| b.1.cmp(&a.1));
         
-        for (tag, count) in sorted_tags.iter().take(3) {
-            patterns.push(format!("Pattern '{}' appeared {} times", tag, count));
+        for (category, count) in sorted_categories.iter().take(3) {
+            patterns.push(format!("Category '{}' appeared {} times", category, count));
         }
         
         Ok(patterns.join("\n"))
@@ -649,9 +659,10 @@ impl AutonomousAgentV2 {
         let codellama = codellama_model.lock().await;
         if let Some(model) = codellama.as_ref() {
             let prompt = format!("Generate Rust code for: {}", purpose);
-            match model.process(&prompt, "code_gen").await {
-                Ok(code) => Ok(code),
-                Err(e) => Err(format!("Code generation failed: {}", e)),
+            if let Some(code) = model.generate_code_response(&prompt).await {
+                Ok(code)
+            } else {
+                Err("Code generation failed".to_string())
             }
         } else {
             // Fallback code generation
