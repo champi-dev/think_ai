@@ -18,17 +18,22 @@ pub struct EvaluatedKnowledge {
     pub related_queries: Vec<String>,
     pub cached_responses: HashMap<String, CachedResponse>,
 }
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CachedResponse {
     pub query: String,
     pub response: String,
     pub context_hash: String,
     pub relevance_score: f32,
     pub usefulness_score: f32,
+}
+
 pub struct QwenKnowledgeBuilder {
     qwen_client: Arc<QwenClient>,
     knowledge_engine: Arc<KnowledgeEngine>,
     evaluation_cache: Arc<RwLock<HashMap<String, EvaluatedKnowledge>>>,
     response_cache: Arc<RwLock<HashMap<String, String>>>, // O(1) query->response cache
+}
+
 impl QwenKnowledgeBuilder {
     pub fn new(knowledge_engine: Arc<KnowledgeEngine>) -> Self {
         Self {
@@ -48,19 +53,29 @@ impl QwenKnowledgeBuilder {
                 "physics",
                 "the study of matter, energy, and their interactions",
             ),
+            (
                 "chemistry",
                 "the science of substances and their transformations",
+            ),
             ("biology", "the study of living organisms and life"),
+            (
                 "astronomy",
                 "the study of celestial objects and the universe",
+            ),
+            (
                 "mathematics",
                 "the abstract science of numbers and patterns",
+            ),
             // Technology
             ("programming", "creating instructions for computers"),
+            (
                 "artificial intelligence",
                 "machines that simulate human intelligence",
+            ),
+            (
                 "quantum computing",
                 "computing using quantum mechanical phenomena",
+            ),
             ("blockchain", "distributed ledger technology"),
             // Philosophy & Life
             ("consciousness", "awareness and subjective experience"),
@@ -87,11 +102,15 @@ impl QwenKnowledgeBuilder {
         // Build knowledge for each topic
         for (topic, hint) in core_topics {
             self.build_topic_knowledge(topic, hint).await;
+        }
+        
         // Build conversational patterns
         self.build_conversational_patterns().await;
         // Save all knowledge
         self.save_knowledge().await;
         println!("✅ Knowledge building complete!");
+    }
+    
     /// Build knowledge for a specific topic
     async fn build_topic_knowledge(&self, topic: &str, hint: &str) {
         println!("📚 Building knowledge for: {topic}");
@@ -111,6 +130,8 @@ impl QwenKnowledgeBuilder {
         for iteration in 0..3 {
             evaluated = self.refine_knowledge(evaluated).await;
             evaluated.refinement_count = iteration + 1;
+        }
+        
         // Generate conversational variations
         self.generate_conversational_variations(&mut evaluated)
             .await;
@@ -127,6 +148,8 @@ impl QwenKnowledgeBuilder {
             evaluated.content,
             evaluated.related_queries.clone(),
         );
+    }
+    
     /// Refine knowledge using dynamic patterns
     async fn refine_knowledge(&self, mut knowledge: EvaluatedKnowledge) -> EvaluatedKnowledge {
         // Add more detail to the content dynamically
@@ -135,16 +158,23 @@ impl QwenKnowledgeBuilder {
             // Expand with more information
             let expansion = self.generate_expansion(&knowledge.topic, &knowledge.content);
             knowledge.content = format!("{} {}", knowledge.content, expansion);
+        }
+        
         // Improve readability by ensuring proper sentence structure
         if !knowledge.content.ends_with('.') {
             knowledge.content.push('.');
+        }
         // Update evaluation score based on content quality
         knowledge.evaluation_score = self.calculate_quality_score(&knowledge.content);
         knowledge
+    }
+    
     /// Generate dynamic expansion for content
     fn generate_expansion(&self, topic: &str, current_content: &str) -> String {
         // Instead of meaningless filler text, generate real content using the content generator
         self.expand_content(topic, current_content)
+    }
+    
     /// Generate conversational variations
     async fn generate_conversational_variations(&self, knowledge: &mut EvaluatedKnowledge) {
         let variations = [
@@ -154,6 +184,8 @@ impl QwenKnowledgeBuilder {
             format!("I want to know about {}", knowledge.topic),
             format!("{} - what is it?", knowledge.topic),
             format!("Can you describe {}?", knowledge.topic),
+        ];
+        
         for (i, query) in variations.iter().enumerate() {
             // Generate variation based on the pattern and content
             let response = match i {
@@ -165,7 +197,7 @@ impl QwenKnowledgeBuilder {
                 ), // Conversational
                 4 => format!(
                     "{} - {}",
-                    self.capitalize(&knowledge.topic),
+                    self.capitalize_first(&knowledge.topic),
                     knowledge.content
                 ), // Definition style
                 5 => format!(
@@ -176,12 +208,17 @@ impl QwenKnowledgeBuilder {
                 _ => knowledge.content.clone(),
             };
             knowledge.conversational_patterns.push(response);
+        }
+        
         // Extract related queries
         knowledge.related_queries = vec![
             format!("how does {} work", knowledge.topic),
             format!("why is {} important", knowledge.topic),
             format!("examples of {}", knowledge.topic),
             format!("{} in daily life", knowledge.topic),
+        ];
+    }
+    
     /// Cache common queries with O(1) lookup
     async fn cache_common_queries(&self, knowledge: &mut EvaluatedKnowledge) {
         let common_queries = vec![
@@ -190,6 +227,8 @@ impl QwenKnowledgeBuilder {
             format!("tell me about {}", knowledge.topic),
             format!("explain {}", knowledge.topic),
             knowledge.topic.clone(),
+        ];
+        
         for query in common_queries {
             let query_hash = self.hash_query(&query);
             // Generate optimized response
@@ -197,6 +236,8 @@ impl QwenKnowledgeBuilder {
                 knowledge.content.clone()
             } else {
                 knowledge.conversational_patterns[0].clone()
+            };
+            
             // Cache the response
             let cached = CachedResponse {
                 query: query.clone(),
@@ -204,10 +245,15 @@ impl QwenKnowledgeBuilder {
                 context_hash: query_hash.clone(),
                 relevance_score: 1.0,
                 usefulness_score: knowledge.evaluation_score,
+            };
+            
             knowledge.cached_responses.insert(query_hash, cached);
             // Also add to global O(1) cache
             let mut cache = self.response_cache.write().await;
             cache.insert(query, response);
+        }
+    }
+    
     /// Build conversational patterns for natural interactions
     async fn build_conversational_patterns(&self) {
         println!("💬 Building conversational patterns...");
@@ -225,33 +271,47 @@ impl QwenKnowledgeBuilder {
         let mut cache = self.response_cache.write().await;
         for (query, response) in greetings.iter().chain(help_patterns.iter()) {
             cache.insert(query.to_string(), response.to_string());
+        }
+    }
+    
     /// Calculate quality score for content
     fn calculate_quality_score(&self, content: &str) -> f32 {
         let mut score: f32 = 0.5; // Base score
         // Length check
         if content.len() > 50 && content.len() < 500 {
             score += 0.1;
+        }
         // Sentence structure
         if content.contains(". ") {
+            score += 0.15;
+        }
         // Useful indicators
         let useful_phrases = ["is", "are", "involves", "includes", "consists", "means"];
         for phrase in useful_phrases {
             if content.contains(phrase) {
                 score += 0.05;
             }
+        }
         // Natural language indicators
         if !content.contains("Pattern:") && !content.contains("{{") {
             score += 0.2;
+        }
         score.min(1.0)
+    }
+    
     /// Get O(1) cached response
     pub async fn get_cached_response(&self, query: &str) -> Option<String> {
         let cache = self.response_cache.read().await;
         cache.get(query).cloned()
+    }
+    
     /// Generate response with Qwen evaluation
     pub async fn generate_evaluated_response(&self, query: &str) -> String {
         // Check cache first (O(1))
         if let Some(cached) = self.get_cached_response(query).await {
             return cached;
+        }
+        
         // Generate new response
         let response = self
             .qwen_client
@@ -260,16 +320,21 @@ impl QwenKnowledgeBuilder {
             .unwrap_or_else(|_| "I'm still learning about that topic.".to_string());
         // Refine for quality
         let refined = self
+            .qwen_client
             .generate_simple(
                 &format!(
                     "Refine this response for relevance and usefulness to the query '{query}': {response}"
                 ),
                 None,
             )
+            .await
             .unwrap_or(response.clone());
         // Cache for future O(1) access
+        let mut cache = self.response_cache.write().await;
         cache.insert(query.to_string(), refined.clone());
         refined
+    }
+    
     /// Save all knowledge to files
     async fn save_knowledge(&self) {
         println!("💾 Saving knowledge to files...");
@@ -298,13 +363,18 @@ impl QwenKnowledgeBuilder {
                 }
             });
             domain_groups.entry(domain).or_default().push(entry);
+        }
+        
         // Save each domain
         for (domain, entries) in domain_groups {
             let file_path = format!("knowledge_files/{}.json", domain.to_lowercase());
             let data = serde_json::json!({
                 "domain": domain,
                 "entries": entries
+            });
             std::fs::write(file_path, serde_json::to_string_pretty(&data).unwrap()).unwrap();
+        }
+    }
     /// Determine domain for a topic
     fn determine_domain(&self, topic: &str) -> KnowledgeDomain {
         match topic {
@@ -313,39 +383,58 @@ impl QwenKnowledgeBuilder {
             "astronomy" | "sun" | "moon" | "earth" | "mars" | "space" => KnowledgeDomain::Astronomy,
             "programming" | "artificial intelligence" | "blockchain" => {
                 KnowledgeDomain::ComputerScience
+            }
             "mathematics" => KnowledgeDomain::Mathematics,
             "consciousness" | "love" | "happiness" | "meaning" => KnowledgeDomain::Philosophy,
             "learning" | "creativity" | "problem solving" | "communication" => {
                 KnowledgeDomain::Psychology
+            }
             _ => KnowledgeDomain::Philosophy,
+        }
+    }
     /// Generate deterministic ID
     fn generate_id(&self, topic: &str) -> String {
         let mut hasher = Sha256::new();
         hasher.update(topic.as_bytes());
         format!("{:x}", hasher.finalize())
+    }
+    
     /// Hash query for caching
     fn hash_query(&self, query: &str) -> String {
+        use sha2::{Sha256, Digest};
+        let mut hasher = Sha256::new();
         hasher.update(query.to_lowercase().as_bytes());
+        format!("{:x}", hasher.finalize())
+    }
     /// Capitalize first letter
-    fn capitalize(&self, s: &str) -> String {
+    fn capitalize_first(&self, s: &str) -> String {
         let mut chars = s.chars();
         match chars.next() {
             None => String::new(),
             Some(first) => first.to_uppercase().collect::<String>() + chars.as_str(),
+        }
+    }
     /// Expand hint into more descriptive content dynamically
     fn expand_hint(&self, topic: &str, hint: &str) -> String {
         // Use the content generator to create meaningful content based on the hint
         self.generate_content(topic, hint)
+    }
+    
     /// Generate content for a topic with a hint
     fn generate_content(&self, topic: &str, hint: &str) -> String {
         // Simple content generation based on topic and hint
         format!("{topic} is {hint}. This relates to the fundamental concept that {hint}.")
+    }
+    
     /// Expand existing content with more detail
     fn expand_content(&self, topic: &str, current_content: &str) -> String {
         // Expand by adding more context
         format!(
             "{current_content} Additionally, {topic} has broader implications in various fields of study."
         )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -356,6 +445,9 @@ mod tests {
         // Test building knowledge for a topic
         builder
             .build_topic_knowledge("test", "a test concept")
+            .await;
         // Test O(1) cache
         let response = builder.get_cached_response("what is test").await;
         assert!(response.is_some());
+    }
+}

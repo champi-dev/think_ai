@@ -12,6 +12,9 @@ pub mod types;
 // pub mod training_system; // Module removed - starting from zero knowledge
 pub mod automated_benchmark_runner;
 pub mod autonomous_agent;
+pub mod autonomous_agent_v2;
+pub mod autonomous_integration;
+pub mod command_executor;
 pub mod benchmark_trainer;
 pub mod comprehensive_knowledge;
 pub mod comprehensive_trainer;
@@ -32,8 +35,8 @@ pub mod llm_benchmarks;
 pub mod multi_candidate_selector;
 pub mod newsletter_scraper;
 pub mod o1_benchmark_monitor;
-// pub mod qwen_cache; // Requires think-ai-qwen
-// pub mod qwen_knowledge_builder; // Requires think-ai-qwen
+pub mod qwen_cache; // Requires think-ai-qwen
+pub mod qwen_knowledge_builder; // Requires think-ai-qwen
 pub mod codellama_component;
 pub mod fast_ollama_component;
 pub mod ollama_component;

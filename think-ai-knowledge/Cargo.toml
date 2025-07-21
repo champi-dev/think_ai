@@ -21,6 +21,7 @@ tokio = { version = "1.35", features = ["full"] }
 futures = "0.3"
 think-ai-consciousness = { path = "../think-ai-consciousness" }
 think-ai-codellama = { path = "../think-ai-codellama" }
+think-ai-qwen = { path = "../think-ai-qwen" }
 async-trait = "0.1"
 reqwest = { version = "0.11.27", features = ["json", "native-tls"], default-features = false, optional = true }
 chrono = { version = "0.4", features = ["serde"] }
@@ -28,10 +29,17 @@ regex = "1.10"
 dashmap = "5.5"
 uuid = { version = "1.4", features = ["v4"] }
 sled = "0.34"
+parking_lot = "0.12"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
 
 [[bin]]
 name = "start-realtime-knowledge"
 path = "src/bin/start_realtime_knowledge.rs"
+
+[[bin]]
+name = "autonomous-agent-demo"
+path = "src/bin/autonomous_agent_demo.rs"
 
 # Disabled benchmark_cli binary due to missing clap dependency
 # [[bin]]
