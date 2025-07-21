@@ -26,6 +26,10 @@ path = "src/main_fixed.rs"
 name = "think-ai-full-secure"
 path = "src/main_secure.rs"
 
+[[bin]]
+name = "think-ai-full-production"
+path = "src/main_production.rs"
+
 [dependencies]
 # Web Framework
 axum = { version = "0.7", features = ["ws", "macros"] }

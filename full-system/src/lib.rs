@@ -5,3 +5,4 @@ pub mod notifications;
 pub mod whatsapp_handler;
 pub mod metrics;
 pub mod middleware;
+pub mod state;

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThinkAI Metrics Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -17,12 +16,30 @@
             background: #0a0a0a;
             color: #e0e0e0;
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hide scrollbars on mobile */
+        @media (max-width: 768px) {
+            body {
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE/Edge */
+            }
+            body::-webkit-scrollbar {
+                display: none; /* Chrome/Safari */
+            }
         }
         
         .dashboard {
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: 10px;
+            }
         }
         
         .header {
@@ -31,6 +48,14 @@
             border-radius: 12px;
             margin-bottom: 30px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
         }
         
         .header h1 {
@@ -40,6 +65,12 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
         
         .header .subtitle {
             color: #888;
@@ -48,18 +79,26 @@
         
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
         }
         
         .metric-card {
             background: #1a1a2e;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             border: 1px solid #2a2a3e;
             transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
         }
         
         .metric-card:hover {
@@ -70,28 +109,61 @@
         .metric-card .label {
             color: #888;
             font-size: 0.9em;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         
         .metric-card .value {
-            font-size: 2.5em;
+            font-size: 3em;
             font-weight: bold;
-            color: #00d2ff;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        @media (max-width: 768px) {
+            .metric-card .value {
+                font-size: 2.5em;
+            }
         }
         
-        .metric-card .change {
-            font-size: 0.9em;
+        .metric-card.primary .value {
+            color: #00d2ff;
+        }
+        
+        .metric-card.success .value {
             color: #4caf50;
         }
         
-        .metric-card .change.negative {
+        .metric-card.warning .value {
+            color: #ff9800;
+        }
+        
+        .metric-card.danger .value {
             color: #f44336;
         }
         
-        .chart-container {
+        .metric-card .unit {
+            font-size: 0.8em;
+            color: #666;
+            margin-left: 5px;
+        }
+        
+        .metric-card .trend {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .metric-card .trend.up {
+            color: #4caf50;
+        }
+        
+        .metric-card .trend.down {
+            color: #f44336;
+        }
+        
+        .section {
             background: #1a1a2e;
             padding: 25px;
             border-radius: 12px;
@@ -100,459 +172,357 @@
             border: 1px solid #2a2a3e;
         }
         
-        .chart-container h2 {
-            margin-bottom: 20px;
-            color: #e0e0e0;
-        }
-        
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 500;
-        }
-        
-        .status-indicator.healthy {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4caf50;
-            border: 1px solid #4caf50;
-        }
-        
-        .status-indicator.degraded {
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
-            border: 1px solid #ffc107;
-        }
-        
-        .status-indicator.unhealthy {
-            background: rgba(244, 67, 54, 0.2);
-            color: #f44336;
-            border: 1px solid #f44336;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        .endpoint-list {
-            background: #0f0f1a;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .endpoint-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid #2a2a3e;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .endpoint-item:last-child {
-            border-bottom: none;
-        }
-        
-        .endpoint-name {
-            font-family: 'Courier New', monospace;
+        .section h2 {
             color: #00d2ff;
+            margin-bottom: 20px;
+            font-size: 1.5em;
         }
         
         .endpoint-stats {
-            display: flex;
-            gap: 20px;
-            font-size: 0.9em;
+            overflow-x: auto;
         }
         
-        .endpoint-stat {
-            color: #888;
+        .endpoint-stats table {
+            width: 100%;
+            border-collapse: collapse;
         }
         
-        .endpoint-stat strong {
-            color: #e0e0e0;
-        }
-        
-        .error-log {
-            background: #0f0f1a;
-            border-radius: 8px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .error-item {
-            padding: 15px 20px;
+        .endpoint-stats th,
+        .endpoint-stats td {
+            padding: 12px;
+            text-align: left;
             border-bottom: 1px solid #2a2a3e;
         }
         
-        .error-time {
+        .endpoint-stats th {
             color: #888;
-            font-size: 0.85em;
-            margin-bottom: 5px;
+            font-weight: normal;
+            text-transform: uppercase;
+            font-size: 0.9em;
         }
         
-        .error-message {
-            color: #f44336;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95em;
+        .endpoint-stats tr:hover {
+            background: rgba(0, 210, 255, 0.05);
         }
         
-        .refresh-button {
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 500;
-            transition: opacity 0.2s;
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
         }
         
-        .refresh-button:hover {
-            opacity: 0.8;
+        .status-indicator.healthy {
+            background: #4caf50;
+            box-shadow: 0 0 5px #4caf50;
+        }
+        
+        .status-indicator.warning {
+            background: #ff9800;
+            box-shadow: 0 0 5px #ff9800;
+        }
+        
+        .status-indicator.error {
+            background: #f44336;
+            box-shadow: 0 0 5px #f44336;
+        }
+        
+        .refresh-info {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 20px;
         }
         
         .loading {
             text-align: center;
-            padding: 50px;
-            color: #888;
+            padding: 40px;
+            color: #666;
         }
         
-        .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(0, 210, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #00d2ff;
-            animation: spin 1s ease-in-out infinite;
+        .error-message {
+            background: #3a1a1a;
+            border: 1px solid #5a2a2a;
+            color: #ff6b6b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+
+        /* PWA Install Button */
+        .install-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        .install-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4);
         }
     </style>
 </head>
 <body>
     <div class="dashboard">
         <div class="header">
-            <h1>ThinkAI Metrics Dashboard</h1>
-            <div class="subtitle">Real-time system monitoring and analytics</div>
-            <div style="margin-top: 20px; display: flex; gap: 20px; align-items: center;">
-                <div id="overall-status"></div>
-                <button class="refresh-button" onclick="refreshData()">Refresh</button>
-            </div>
+            <h1>ThinkAI Metrics</h1>
+            <div class="subtitle" id="lastUpdate">Loading...</div>
         </div>
         
-        <div class="metrics-grid" id="metrics-grid">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Loading metrics...</p>
-            </div>
+        <div id="metricsContainer" class="loading">
+            <p>Loading metrics...</p>
         </div>
         
-        <div class="chart-container">
-            <h2>Request Volume (Last Hour)</h2>
-            <canvas id="request-chart" width="400" height="100"></canvas>
-        </div>
-        
-        <div class="chart-container">
-            <h2>Response Time Distribution</h2>
-            <canvas id="response-time-chart" width="400" height="100"></canvas>
-        </div>
-        
-        <div class="chart-container">
-            <h2>Endpoint Performance</h2>
-            <div class="endpoint-list" id="endpoint-list">
-                <div class="loading">Loading endpoint data...</div>
-            </div>
-        </div>
-        
-        <div class="chart-container">
-            <h2>Recent Errors</h2>
-            <div class="error-log" id="error-log">
-                <div class="loading">Loading error log...</div>
-            </div>
+        <div class="refresh-info">
+            Auto-refreshes every 30 seconds
         </div>
     </div>
-    
+
+    <button id="installButton" class="install-button">Install App</button>
+
     <script>
-        let requestChart = null;
-        let responseTimeChart = null;
-        
-        async function fetchMetrics() {
-            try {
-                const response = await fetch('/api/metrics');
-                if (!response.ok) throw new Error('Failed to fetch metrics');
-                return await response.json();
-            } catch (error) {
-                console.error('Error fetching metrics:', error);
-                return null;
+        let metricsData = null;
+        let deferredPrompt = null;
+
+        // PWA Install
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installButton').style.display = 'block';
+        });
+
+        document.getElementById('installButton').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('installButton').style.display = 'none';
+                }
+                deferredPrompt = null;
             }
-        }
-        
+        });
+
         function formatUptime(seconds) {
             const days = Math.floor(seconds / 86400);
             const hours = Math.floor((seconds % 86400) / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
             
-            if (days > 0) return `${days}d ${hours}h`;
-            if (hours > 0) return `${hours}h ${minutes}m`;
-            return `${minutes}m`;
+            if (days > 0) {
+                return `${days}d ${hours}h`;
+            } else if (hours > 0) {
+                return `${hours}h ${minutes}m`;
+            } else {
+                return `${minutes}m`;
+            }
         }
-        
+
         function formatNumber(num) {
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
             return num.toString();
         }
-        
+
         function renderMetrics(data) {
-            const metricsGrid = document.getElementById('metrics-grid');
-            const metrics = data.system_metrics;
+            const container = document.getElementById('metricsContainer');
+            const systemMetrics = data.system_metrics;
+            const userMetrics = data.user_metrics;
+            const serviceHealth = data.service_health;
+            const endpointStats = data.endpoint_stats;
             
-            metricsGrid.innerHTML = `
-                <div class="metric-card">
-                    <div class="label">Total Requests</div>
-                    <div class="value">${formatNumber(metrics.total_requests)}</div>
-                    <div class="change">+${Math.floor(Math.random() * 100)} today</div>
-                </div>
-                <div class="metric-card">
-                    <div class="label">Active Users</div>
-                    <div class="value">${data.user_metrics.active_users_24h}</div>
-                    <div class="change">+${data.user_metrics.new_users_today} new</div>
-                </div>
-                <div class="metric-card">
-                    <div class="label">Avg Response Time</div>
-                    <div class="value">${metrics.average_response_time.toFixed(0)}ms</div>
-                    <div class="change ${metrics.average_response_time > 100 ? 'negative' : ''}">
-                        ${metrics.average_response_time > 100 ? '⚠️ Slow' : '✓ Fast'}
+            let html = `
+                <div class="metrics-grid">
+                    <div class="metric-card primary">
+                        <div class="label">Total Requests</div>
+                        <div class="value">${formatNumber(systemMetrics.total_requests)}</div>
+                        <div class="trend">All time</div>
+                    </div>
+                    
+                    <div class="metric-card success">
+                        <div class="label">Response Time</div>
+                        <div class="value">${systemMetrics.average_response_time.toFixed(0)}<span class="unit">ms</span></div>
+                        <div class="trend">Average</div>
+                    </div>
+                    
+                    <div class="metric-card warning">
+                        <div class="label">CPU Usage</div>
+                        <div class="value">${systemMetrics.cpu_usage.toFixed(1)}<span class="unit">%</span></div>
+                        <div class="trend ${systemMetrics.cpu_usage > 80 ? 'down' : ''}">Current</div>
+                    </div>
+                    
+                    <div class="metric-card ${systemMetrics.memory_usage > 80 ? 'danger' : 'warning'}">
+                        <div class="label">Memory Usage</div>
+                        <div class="value">${systemMetrics.memory_usage.toFixed(1)}<span class="unit">%</span></div>
+                        <div class="trend ${systemMetrics.memory_usage > 80 ? 'down' : ''}">Current</div>
+                    </div>
+                    
+                    <div class="metric-card primary">
+                        <div class="label">Active Sessions</div>
+                        <div class="value">${systemMetrics.active_sessions}</div>
+                        <div class="trend">Live</div>
+                    </div>
+                    
+                    <div class="metric-card ${systemMetrics.error_count > 0 ? 'danger' : 'success'}">
+                        <div class="label">Errors</div>
+                        <div class="value">${systemMetrics.error_count}</div>
+                        <div class="trend">Total</div>
+                    </div>
+                    
+                    <div class="metric-card primary">
+                        <div class="label">Audio Transcriptions</div>
+                        <div class="value">${formatNumber(systemMetrics.audio_transcriptions)}</div>
+                        <div class="trend">Total</div>
+                    </div>
+                    
+                    <div class="metric-card primary">
+                        <div class="label">Audio Syntheses</div>
+                        <div class="value">${formatNumber(systemMetrics.audio_syntheses)}</div>
+                        <div class="trend">Total</div>
+                    </div>
+                    
+                    <div class="metric-card primary">
+                        <div class="label">WhatsApp Messages</div>
+                        <div class="value">${formatNumber(systemMetrics.whatsapp_messages)}</div>
+                        <div class="trend">Total</div>
+                    </div>
+                    
+                    <div class="metric-card success">
+                        <div class="label">Uptime</div>
+                        <div class="value">${formatUptime(systemMetrics.uptime_seconds)}</div>
+                        <div class="trend">Since last restart</div>
                     </div>
                 </div>
-                <div class="metric-card">
-                    <div class="label">Error Rate</div>
-                    <div class="value">${((metrics.error_count / Math.max(metrics.total_requests, 1)) * 100).toFixed(1)}%</div>
-                    <div class="change ${metrics.error_count > 0 ? 'negative' : ''}">
-                        ${metrics.error_count} errors
+                
+                ${Object.keys(endpointStats).length > 0 ? `
+                <div class="section endpoint-stats">
+                    <h2>Endpoint Performance</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Calls</th>
+                                <th>Avg Time</th>
+                                <th>Errors</th>
+                                <th>Error Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${Object.entries(endpointStats)
+                                .sort((a, b) => b[1].total_calls - a[1].total_calls)
+                                .slice(0, 10)
+                                .map(([endpoint, stats]) => `
+                                    <tr>
+                                        <td>${endpoint}</td>
+                                        <td>${formatNumber(stats.total_calls)}</td>
+                                        <td>${stats.average_response_time.toFixed(0)}ms</td>
+                                        <td>${stats.error_count}</td>
+                                        <td>${stats.total_calls > 0 ? ((stats.error_count / stats.total_calls) * 100).toFixed(1) : 0}%</td>
+                                    </tr>
+                                `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                ` : ''}
+                
+                <div class="section">
+                    <h2>Service Health</h2>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="label">
+                                <span class="status-indicator ${serviceHealth.overall_status === 'Healthy' ? 'healthy' : 'error'}"></span>
+                                Overall Status
+                            </div>
+                            <div class="value" style="font-size: 1.5em; color: ${serviceHealth.overall_status === 'Healthy' ? '#4caf50' : '#f44336'}">
+                                ${serviceHealth.overall_status}
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="label">
+                                <span class="status-indicator ${serviceHealth.api_health === 'Healthy' ? 'healthy' : 'error'}"></span>
+                                API Service
+                            </div>
+                            <div class="value" style="font-size: 1.5em; color: ${serviceHealth.api_health === 'Healthy' ? '#4caf50' : '#f44336'}">
+                                ${serviceHealth.api_health}
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="label">
+                                <span class="status-indicator ${serviceHealth.audio_service_health === 'Healthy' ? 'healthy' : 'error'}"></span>
+                                Audio Service
+                            </div>
+                            <div class="value" style="font-size: 1.5em; color: ${serviceHealth.audio_service_health === 'Healthy' ? '#4caf50' : '#f44336'}">
+                                ${serviceHealth.audio_service_health}
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="label">
+                                <span class="status-indicator ${serviceHealth.whatsapp_service_health === 'Healthy' ? 'healthy' : 'error'}"></span>
+                                WhatsApp Service
+                            </div>
+                            <div class="value" style="font-size: 1.5em; color: ${serviceHealth.whatsapp_service_health === 'Healthy' ? '#4caf50' : '#f44336'}">
+                                ${serviceHealth.whatsapp_service_health}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="metric-card">
-                    <div class="label">Audio Transcriptions</div>
-                    <div class="value">${formatNumber(metrics.audio_transcriptions)}</div>
-                    <div class="change">Deepgram API</div>
-                </div>
-                <div class="metric-card">
-                    <div class="label">Audio Syntheses</div>
-                    <div class="value">${formatNumber(metrics.audio_syntheses)}</div>
-                    <div class="change">ElevenLabs API</div>
-                </div>
-                <div class="metric-card">
-                    <div class="label">WhatsApp Messages</div>
-                    <div class="value">${formatNumber(metrics.whatsapp_messages)}</div>
-                    <div class="change">Twilio Integration</div>
-                </div>
-                <div class="metric-card">
-                    <div class="label">Uptime</div>
-                    <div class="value">${formatUptime(metrics.uptime_seconds)}</div>
-                    <div class="change">99.9% availability</div>
                 </div>
             `;
+            
+            container.innerHTML = html;
+            document.getElementById('lastUpdate').textContent = `Last updated: ${new Date().toLocaleString()}`;
         }
-        
-        function renderStatus(health) {
-            const statusDiv = document.getElementById('overall-status');
-            const statusClass = health.overall_status;
-            
-            statusDiv.innerHTML = `
-                <div class="status-indicator ${statusClass}">
-                    <span class="status-dot"></span>
-                    System ${statusClass.charAt(0).toUpperCase() + statusClass.slice(1)}
-                </div>
-            `;
-        }
-        
-        function renderEndpoints(endpoints) {
-            const endpointList = document.getElementById('endpoint-list');
-            
-            const sortedEndpoints = Object.entries(endpoints)
-                .sort((a, b) => b[1].total_calls - a[1].total_calls)
-                .slice(0, 10);
-            
-            if (sortedEndpoints.length === 0) {
-                endpointList.innerHTML = '<div class="endpoint-item">No endpoint data available</div>';
-                return;
-            }
-            
-            endpointList.innerHTML = sortedEndpoints.map(([endpoint, stats]) => `
-                <div class="endpoint-item">
-                    <div class="endpoint-name">${endpoint}</div>
-                    <div class="endpoint-stats">
-                        <div class="endpoint-stat">
-                            Calls: <strong>${formatNumber(stats.total_calls)}</strong>
-                        </div>
-                        <div class="endpoint-stat">
-                            Avg: <strong>${stats.average_response_time.toFixed(0)}ms</strong>
-                        </div>
-                        <div class="endpoint-stat">
-                            Errors: <strong>${stats.error_count}</strong>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function renderErrors(errors) {
-            const errorLog = document.getElementById('error-log');
-            
-            if (errors.length === 0) {
-                errorLog.innerHTML = '<div class="error-item">No recent errors</div>';
-                return;
-            }
-            
-            errorLog.innerHTML = errors.map(error => `
-                <div class="error-item">
-                    <div class="error-time">${new Date(error.timestamp).toLocaleString()}</div>
-                    <div class="error-message">${error.error_type}: ${error.message}</div>
-                </div>
-            `).join('');
-        }
-        
-        function updateCharts(data) {
-            // Request volume chart
-            const ctx1 = document.getElementById('request-chart').getContext('2d');
-            
-            if (requestChart) {
-                requestChart.destroy();
-            }
-            
-            // Generate sample data for the last hour
-            const labels = [];
-            const values = [];
-            for (let i = 59; i >= 0; i--) {
-                labels.push(i === 0 ? 'Now' : `-${i}m`);
-                values.push(Math.floor(Math.random() * 50) + 20);
-            }
-            
-            requestChart = new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Requests',
-                        data: values,
-                        borderColor: '#00d2ff',
-                        backgroundColor: 'rgba(0, 210, 255, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            display: false
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: '#2a2a3e'
-                            },
-                            ticks: {
-                                color: '#888'
-                            }
-                        }
-                    }
+
+        async function fetchMetrics() {
+            try {
+                const response = await fetch('/api/metrics');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-            });
-            
-            // Response time distribution
-            const ctx2 = document.getElementById('response-time-chart').getContext('2d');
-            
-            if (responseTimeChart) {
-                responseTimeChart.destroy();
-            }
-            
-            responseTimeChart = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: ['0-50ms', '50-100ms', '100-200ms', '200-500ms', '500ms+'],
-                    datasets: [{
-                        label: 'Requests',
-                        data: [40, 30, 20, 8, 2],
-                        backgroundColor: [
-                            '#4caf50',
-                            '#8bc34a',
-                            '#ffc107',
-                            '#ff9800',
-                            '#f44336'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: '#2a2a3e'
-                            },
-                            ticks: {
-                                color: '#888'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#888'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        async function refreshData() {
-            const data = await fetchMetrics();
-            if (data) {
+                const data = await response.json();
+                metricsData = data;
                 renderMetrics(data);
-                renderStatus(data.service_health);
-                renderEndpoints(data.endpoint_stats);
-                renderErrors(data.error_log);
-                updateCharts(data);
+            } catch (error) {
+                console.error('Error fetching metrics:', error);
+                document.getElementById('metricsContainer').innerHTML = `
+                    <div class="error-message">
+                        Failed to load metrics. Please check if the server is running.
+                    </div>
+                `;
             }
         }
-        
+
         // Initial load
-        refreshData();
-        
-        // Auto-refresh every 30 seconds
-        setInterval(refreshData, 30000);
+        fetchMetrics();
+
+        // Refresh every 30 seconds
+        setInterval(fetchMetrics, 30000);
+
+        // Handle visibility change to pause/resume updates
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                fetchMetrics();
+            }
+        });
+
+        // Enable service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {
+                // Service worker registration failed, but app still works
+            });
+        }
     </script>
 </body>
 </html>

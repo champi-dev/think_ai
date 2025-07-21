@@ -6,44 +6,9 @@ use axum::{
 };
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::sync::Arc;
 use tracing::{error, info};
 
-use think_ai_consciousness::ConsciousnessFramework;
-use think_ai_core::O1Engine;
-use think_ai_knowledge::KnowledgeEngine;
-use think_ai_qwen::QwenClient;
-use think_ai_storage::PersistentConversationMemory;
-use think_ai_vector::O1VectorIndex;
-use tokio::sync::broadcast;
-
-use crate::audio_service::AudioService;
-use crate::metrics::MetricsCollector;
-use crate::notifications::whatsapp::WhatsAppNotifier;
-
-// Re-define these types here for now
-#[derive(Clone)]
-pub struct ThinkAIState {
-    pub _core_engine: Arc<O1Engine>,
-    pub knowledge_engine: Arc<KnowledgeEngine>,
-    pub _vector_index: Arc<O1VectorIndex>,
-    pub _consciousness_framework: Arc<ConsciousnessFramework>,
-    pub persistent_memory: Arc<PersistentConversationMemory>,
-    pub message_channel: broadcast::Sender<ChatMessage>,
-    pub qwen_client: Arc<QwenClient>,
-    pub audio_service: Option<Arc<AudioService>>,
-    pub whatsapp_notifier: Option<Arc<WhatsAppNotifier>>,
-    pub metrics_collector: Arc<MetricsCollector>,
-}
-
-#[derive(Clone, Serialize, Deserialize)]
-pub struct ChatMessage {
-    pub id: String,
-    pub session_id: String,
-    pub message: String,
-    pub response: Option<String>,
-    pub timestamp: u64,
-}
+use crate::state::ThinkAIState;
 
 #[derive(Deserialize)]
 pub struct ChatRequest {
@@ -177,6 +142,9 @@ pub async fn whatsapp_webhook_handler(
     
     // Log the interaction
     info!("Sending WhatsApp response to {}: {} chars", phone_number, response_text.len());
+    
+    // Record WhatsApp message metric
+    state.metrics_collector.increment_whatsapp_messages().await;
     
     Ok((
         StatusCode::OK,

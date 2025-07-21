@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::RwLock;
+use lazy_static::lazy_static;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RequestMetric {
@@ -121,6 +122,17 @@ impl MetricsCollector {
         // Update endpoint stats
         let endpoint_key = format!("{} {}", metric.method, metric.endpoint);
         let mut stats = self.endpoint_stats.write().await;
+        
+        // Limit endpoint stats to prevent memory leak - keep only 100 most common endpoints
+        if stats.len() >= 100 && !stats.contains_key(&endpoint_key) {
+            // Remove the endpoint with the least calls
+            if let Some(key_to_remove) = stats.iter()
+                .min_by_key(|(_, v)| v.total_calls)
+                .map(|(k, _)| k.clone()) {
+                stats.remove(&key_to_remove);
+            }
+        }
+        
         let endpoint_stat = stats.entry(endpoint_key).or_insert(EndpointStats {
             total_calls: 0,
             error_count: 0,
@@ -216,15 +228,94 @@ impl MetricsCollector {
     }
 }
 
+// CPU usage tracking for efficient calculation
+lazy_static! {
+    static ref CPU_TRACKER: Arc<RwLock<CpuTracker>> = Arc::new(RwLock::new(CpuTracker::new()));
+}
+
+#[derive(Clone)]
+struct CpuTracker {
+    last_total: u64,
+    last_idle: u64,
+}
+
+impl CpuTracker {
+    fn new() -> Self {
+        Self {
+            last_total: 0,
+            last_idle: 0,
+        }
+    }
+}
+
 // Helper functions
 fn get_cpu_usage() -> f32 {
-    // Simplified - in production, use sysinfo crate
-    rand::random::<f32>() * 30.0 + 10.0
+    // Use /proc/stat for Linux systems
+    if let Ok(stat) = std::fs::read_to_string("/proc/stat") {
+        if let Some(cpu_line) = stat.lines().next() {
+            let values: Vec<u64> = cpu_line
+                .split_whitespace()
+                .skip(1)
+                .filter_map(|s| s.parse().ok())
+                .collect();
+            
+            if values.len() >= 4 {
+                let total: u64 = values.iter().sum();
+                let idle = values[3];
+                
+                // Calculate usage based on deltas from last measurement
+                // Use try_write to avoid blocking in async context
+                if let Ok(mut tracker) = CPU_TRACKER.try_write() {
+                    let total_delta = total.saturating_sub(tracker.last_total);
+                    let idle_delta = idle.saturating_sub(tracker.last_idle);
+                    
+                    tracker.last_total = total;
+                    tracker.last_idle = idle;
+                    
+                    if total_delta > 0 {
+                        let usage = 100.0 * (1.0 - (idle_delta as f32 / total_delta as f32));
+                        return usage.clamp(0.0, 100.0);
+                    }
+                }
+            }
+        }
+    }
+    
+    // Fallback for non-Linux or error cases
+    0.0
 }
 
 fn get_memory_usage() -> f32 {
-    // Simplified - in production, use sysinfo crate
-    rand::random::<f32>() * 20.0 + 40.0
+    // Use /proc/meminfo for Linux systems
+    if let Ok(meminfo) = std::fs::read_to_string("/proc/meminfo") {
+        let mut total_kb = 0u64;
+        let mut available_kb = 0u64;
+        
+        for line in meminfo.lines() {
+            if line.starts_with("MemTotal:") {
+                if let Some(value) = line.split_whitespace().nth(1) {
+                    total_kb = value.parse().unwrap_or(0);
+                }
+            } else if line.starts_with("MemAvailable:") {
+                if let Some(value) = line.split_whitespace().nth(1) {
+                    available_kb = value.parse().unwrap_or(0);
+                }
+            }
+            
+            if total_kb > 0 && available_kb > 0 {
+                break;
+            }
+        }
+        
+        if total_kb > 0 {
+            let used_kb = total_kb.saturating_sub(available_kb);
+            let usage = 100.0 * (used_kb as f32 / total_kb as f32);
+            return usage.clamp(0.0, 100.0);
+        }
+    }
+    
+    // Fallback for non-Linux or error cases
+    0.0
 }
 
 async fn count_active_sessions() -> usize {
