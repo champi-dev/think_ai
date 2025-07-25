@@ -65,13 +65,16 @@ struct UsageMetadata {
 
 pub struct GeminiClient {
     config: GeminiConfig,
+    #[allow(dead_code)]
     client: reqwest::Client,
 }
 
 impl GeminiClient {
     pub fn new(api_key: String) -> Self {
-        let mut config = GeminiConfig::default();
-        config.api_key = api_key;
+        let config = GeminiConfig {
+            api_key,
+            ..Default::default()
+        };
 
         let client = reqwest::Client::builder()
             .timeout(Duration::from_secs(30)) // 30s max timeout for Gemini

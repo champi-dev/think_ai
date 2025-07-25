@@ -1,5 +1,5 @@
 // Think AI Utils - Functional utilities for O(1) performance
-//!
+//! Think AI Utils - Functional utilities for O(1) performance
 // This module provides pure functional utilities for performance measurement,
 // logging, and other cross-cutting concerns.
 

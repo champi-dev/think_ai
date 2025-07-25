@@ -2,7 +2,7 @@
 
 # Start ThinkAI Production Server
 
-cd /home/champi/Dev/think_ai
+cd /Users/champi/Development/Think_AI
 
 # Set environment variables
 export DEEPGRAM_API_KEY="e31341c95ee93fd2c8fced1bf37636f042fe038b"

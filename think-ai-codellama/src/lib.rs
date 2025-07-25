@@ -57,9 +57,13 @@ struct OllamaOptions {
 #[derive(Debug, Deserialize)]
 struct OllamaResponse {
     response: String,
+    #[allow(dead_code)]
     done: bool,
+    #[allow(dead_code)]
     context: Option<Vec<i32>>,
+    #[allow(dead_code)]
     total_duration: Option<i64>,
+    #[allow(dead_code)]
     prompt_eval_duration: Option<i64>,
 }
 
@@ -67,6 +71,7 @@ struct OllamaResponse {
 #[derive(Debug, Deserialize)]
 struct OllamaStreamChunk {
     response: String,
+    #[allow(dead_code)]
     done: bool,
 }
 

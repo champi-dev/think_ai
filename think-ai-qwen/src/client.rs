@@ -17,7 +17,7 @@ impl Default for QwenConfig {
         Self {
             api_key: None,
             base_url: "http://localhost:11434".to_string(),
-            model: "qwen2.5:3b".to_string(),
+            model: "qwen2.5:0.5b".to_string(),
         }
     }
 }
@@ -55,6 +55,8 @@ struct OllamaGenerateRequest {
 struct OllamaOptions {
     temperature: f32,
     top_p: f32,
+    num_ctx: u32,
+    num_predict: i32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -107,7 +109,7 @@ impl QwenClient {
 
     pub fn new_with_config(config: QwenConfig) -> Self {
         let client = reqwest::Client::builder()
-            .timeout(Duration::from_secs(30)) // 30s max timeout
+            .timeout(Duration::from_secs(60)) // 60s max timeout
             .build()
             .unwrap();
 
@@ -188,6 +190,8 @@ impl QwenClient {
             options: Some(OllamaOptions {
                 temperature: 0.7,
                 top_p: 0.9,
+                num_ctx: 2048,    // Reduced context for speed
+                num_predict: 150, // Limit response length for speed
             }),
         };
 
@@ -197,8 +201,13 @@ impl QwenClient {
         let mut last_error = None;
 
         while retry_count < max_retries {
-            // Exponential backoff: 10s, 20s, 30s (max)
-            let timeout = Duration::from_secs(std::cmp::min(10 * (1 << retry_count), 30));
+            // Add delay between retries to reduce Ollama load
+            if retry_count > 0 {
+                tokio::time::sleep(Duration::from_secs(2)).await;
+            }
+            
+            // Faster timeouts for smaller model: 10s, 15s, 20s
+            let timeout = Duration::from_secs(std::cmp::min(10 + (retry_count * 5), 20));
 
             let client_with_timeout = reqwest::Client::builder().timeout(timeout).build().unwrap();
 
@@ -300,6 +309,8 @@ impl QwenClient {
             options: Some(OllamaOptions {
                 temperature: temperature.unwrap_or(0.7),
                 top_p: 0.9,
+                num_ctx: 2048,    // Reduced context for speed
+                num_predict: 150, // Limit response length for speed
             }),
         };
 
@@ -382,6 +393,8 @@ impl QwenClient {
             options: Some(OllamaOptions {
                 temperature: 0.7,
                 top_p: 0.9,
+                num_ctx: 2048,    // Reduced context for speed
+                num_predict: 150, // Limit response length for speed
             }),
         };
 
