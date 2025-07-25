@@ -5,6 +5,11 @@ const PORT = 8888;
 
 // Serve static files from full-system/static directory
 app.use(express.static('full-system/static'));
+
+// Use raw parser for audio endpoints to preserve binary data
+app.use('/api/audio', express.raw({ type: '*/*', limit: '50mb' }));
+
+// Use JSON parser for other endpoints
 app.use(express.json());
 
 // Chat endpoint - proxy to Rust backend with retry logic
@@ -62,24 +67,36 @@ app.post('/api/audio/transcribe', async (req, res) => {
   try {
     const fetch = (await import('node-fetch')).default;
     
+    // Forward headers but clean them up for the backend
+    const forwardHeaders = {
+      'content-type': req.headers['content-type'] || 'audio/webm',
+      'content-length': req.headers['content-length'] || req.body.length.toString(),
+    };
+    
+    // Add language header if provided
+    if (req.headers['x-language']) {
+      forwardHeaders['x-language'] = req.headers['x-language'];
+    }
+    
+    console.log('Forwarding audio transcription request, content-type:', forwardHeaders['content-type'], 'size:', req.body.length);
+    
     const response = await fetch('http://localhost:9999/api/audio/transcribe', {
       method: 'POST',
-      headers: {
-        ...req.headers,
-        'host': undefined // Remove host header to avoid conflicts
-      },
-      body: req.body
+      headers: forwardHeaders,
+      body: req.body // This is now raw binary data
     });
     
     if (response.ok) {
       const data = await response.json();
       return res.json(data);
     } else {
-      throw new Error(`Backend returned ${response.status}: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('Backend transcription error:', response.status, errorText);
+      throw new Error(`Backend returned ${response.status}: ${errorText}`);
     }
   } catch (error) {
     console.error('Audio transcription proxy error:', error.message);
-    res.status(500).json({ error: 'Transcription service unavailable' });
+    res.status(500).json({ error: 'Transcription service unavailable', details: error.message });
   }
 });
 
