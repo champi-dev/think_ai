@@ -238,6 +238,10 @@ app.get('/stats', async (req, res) => {
 
 // Metrics endpoint for dashboard
 app.get('/api/metrics', (req, res) => {
+  // Add CORS headers
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
   const calculateAverage = (arr) => {
     if (arr.length === 0) return 0;
     return arr.reduce((a, b) => a + b, 0) / arr.length;
@@ -293,8 +297,8 @@ app.get('/api/metrics', (req, res) => {
         ...metrics.responseTimes.audioTranscribe,
         ...metrics.responseTimes.audioSynthesize
       ]),
-      cpu_usage: ((cpuUsage.user + cpuUsage.system) / 1000000 / uptime * 100).toFixed(2),
-      memory_usage: ((totalMem - freeMem) / totalMem * 100).toFixed(2),
+      cpu_usage: parseFloat(((cpuUsage.user + cpuUsage.system) / 1000000 / uptime * 100).toFixed(2)),
+      memory_usage: parseFloat(((totalMem - freeMem) / totalMem * 100).toFixed(2)),
       active_sessions: metrics.activeSessions.size,
       error_count: metrics.errors.total,
       audio_transcriptions: metrics.requests.audioTranscribe || 0,
