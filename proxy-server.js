@@ -104,12 +104,23 @@ app.post('/api/audio/synthesize', async (req, res) => {
   try {
     const fetch = (await import('node-fetch')).default;
     
+    // Parse raw body as JSON for synthesis requests
+    let jsonData;
+    try {
+      jsonData = JSON.parse(req.body.toString());
+    } catch (parseError) {
+      console.error('Failed to parse synthesis request:', parseError.message);
+      return res.status(400).json({ error: 'Invalid JSON in request body' });
+    }
+    
+    console.log('Forwarding audio synthesis request:', jsonData);
+    
     const response = await fetch('http://localhost:9999/api/audio/synthesize', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(req.body)
+      body: JSON.stringify(jsonData)
     });
     
     if (response.ok) {
