@@ -1,9 +1,9 @@
 #!/bin/bash
 # Think AI Health Monitor - Prevents downtime through proactive monitoring
 
-LOGFILE="/home/champi/Dev/think_ai/monitor.log"
-PIDFILE="/home/champi/Dev/think_ai/app-prod.pid"
-SERVICE_PORT=7777
+LOGFILE="/home/administrator/think_ai/logs/monitor.log"
+PIDFILE="/var/run/think-ai-main.pid"
+SERVICE_PORT=8080
 MAX_RETRIES=3
 RETRY_DELAY=5
 
@@ -32,20 +32,8 @@ check_service() {
 restart_service() {
     echo "[$(date)] Restarting service..." >> "$LOGFILE"
     
-    # Kill existing process
-    if [ -f "$PIDFILE" ]; then
-        kill $(cat "$PIDFILE") 2>/dev/null
-        sleep 2
-        kill -9 $(cat "$PIDFILE") 2>/dev/null
-    fi
-    
-    # Clean up stale locks
-    rm -f /home/champi/Dev/think_ai/full-system/think_ai_sessions.db/db.lock*
-    
-    # Start service
-    cd /home/champi/Dev/think_ai/full-system
-    /home/champi/Dev/think_ai/full-system/target/release/think-ai-full > /home/champi/Dev/think_ai/app-prod.log 2>&1 & 
-    echo $! > "$PIDFILE"
+    # Restart using systemd
+    systemctl restart think-ai-main.service
     
     sleep 5
     

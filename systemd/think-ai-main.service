@@ -1,0 +1,40 @@
+[Unit]
+Description=Think AI Main Server
+Documentation=https://github.com/champi-dev/think_ai
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=administrator
+Group=administrator
+WorkingDirectory=/home/administrator/think_ai
+Environment="RUST_LOG=info"
+Environment="RUST_BACKTRACE=1"
+Environment="SERVER_PORT=8080"
+Environment="SERVER_HOST=0.0.0.0"
+Environment="DEEPGRAM_API_KEY=e31341c95ee93fd2c8fced1bf37636f042fe038b"
+Environment="ELEVEN_LABS_API_KEY=sk_aa595f99bc5842b5df837d4c47fe3a18ce00b9a39a0f2877"
+Environment="ELEVENLABS_API_KEY=sk_aa595f99bc5842b5df837d4c47fe3a18ce00b9a39a0f2877"
+
+# Main service
+ExecStart=/home/administrator/think_ai/target/release/think-ai-full-fixed
+
+# Process management
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/administrator/think_ai/logs/think-ai-main.log
+StandardError=append:/home/administrator/think_ai/logs/think-ai-main-error.log
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+# Allow write access to working directory
+ReadWritePaths=/home/administrator/think_ai
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+[Unit]
+Description=Ngrok Tunnel for Think AI (thinkai.lat)
+Documentation=https://ngrok.com/docs
+After=network-online.target think-ai-main.service
+Wants=network-online.target
+Requires=think-ai-main.service
+
+[Service]
+Type=simple
+User=administrator
+Group=administrator
+WorkingDirectory=/home/administrator/think_ai
+Environment="NGROK_DOMAIN=thinkai.lat"
+
+# Wait for main service to be ready
+ExecStartPre=/bin/sleep 10
+
+# Start ngrok with the domain
+ExecStart=/usr/local/bin/ngrok http 8080 --domain=thinkai.lat --log=stdout
+
+# Process management
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/administrator/think_ai/logs/ngrok.log
+StandardError=append:/home/administrator/think_ai/logs/ngrok-error.log
+
+# Resource limits
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

@@ -170,3 +170,4 @@ setup-huggingface-token.sh
 *_with_token.sh
 *_api_key*
 webapp_server.log
+.npm-cache/

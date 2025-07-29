@@ -1,0 +1,28 @@
+[Unit]
+Description=Think AI Health Monitor
+After=network.target think-ai-main.service
+Requires=think-ai-main.service
+
+[Service]
+Type=simple
+User=administrator
+Group=administrator
+WorkingDirectory=/home/administrator/think_ai
+Environment="MONITOR_INTERVAL=30"
+Environment="SERVER_URL=http://localhost:8080"
+
+# Monitor script
+ExecStart=/bin/bash /home/administrator/think_ai/monitor.sh
+
+# Process management
+Restart=always
+RestartSec=60
+StandardOutput=append:/home/administrator/think_ai/logs/monitor.log
+StandardError=append:/home/administrator/think_ai/logs/monitor-error.log
+
+# Resource limits
+Nice=10
+CPUQuota=20%
+
+[Install]
+WantedBy=multi-user.target
