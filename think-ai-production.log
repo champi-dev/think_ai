@@ -1,0 +1,4 @@
+[2m2025-07-30T18:45:15.722608Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m Initializing Think AI Production Server...
+thread 'main' panicked at full-system/src/main_production.rs:120:14:
+Failed to initialize persistent memory: StorageError("IO error: could not acquire lock on \"./think_ai_sessions.db/db\": Os { code: 11, kind: WouldBlock, message: \"Resource temporarily unavailable\" }")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

@@ -12,6 +12,7 @@ use think_ai_vector::O1VectorIndex;
 use crate::audio_service::AudioService;
 use crate::notifications::whatsapp::WhatsAppNotifier;
 use crate::metrics::MetricsCollector;
+use crate::performance_optimizer::RequestOptimizer;
 
 // State for the application
 #[derive(Clone)]
@@ -26,6 +27,7 @@ pub struct ThinkAIState {
     pub audio_service: Option<Arc<AudioService>>,
     pub whatsapp_notifier: Option<Arc<WhatsAppNotifier>>,
     pub metrics_collector: Arc<MetricsCollector>,
+    pub request_optimizer: Arc<RequestOptimizer>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]

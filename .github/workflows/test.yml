@@ -1,0 +1,210 @@
+name: Think AI Test Suite
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+        components: rustfmt, clippy
+    
+    - name: Cache Rust dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Run Rust unit tests
+      run: cargo test --lib --verbose
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install Python dependencies
+      run: |
+        pip install pytest pytest-asyncio aiohttp toml
+    
+    - name: Run Python unit tests
+      run: pytest tests/unit/ -v
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    
+    - name: Cache Rust dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Run Rust integration tests
+      run: cargo test --test '*' --verbose
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        pip install pytest pytest-asyncio aiohttp toml
+    
+    - name: Run Python integration tests
+      run: pytest tests/integration/ -v
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    
+    - name: Cache Rust dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Build release binary
+      run: cargo build --release --bin think-ai-full-production
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install Playwright
+      run: |
+        pip install playwright pytest-playwright
+        playwright install chromium --with-deps
+    
+    - name: Run E2E tests
+      run: |
+        # Start server in background
+        ./target/release/think-ai-full-production &
+        SERVER_PID=$!
+        
+        # Wait for server
+        sleep 10
+        
+        # Run tests
+        python tests/e2e/test_full_system_e2e.py
+        
+        # Stop server
+        kill $SERVER_PID
+
+  security-tests:
+    name: Security Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Run security audit
+      uses: actions-rs/audit-check@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Run clippy security lints
+      run: cargo clippy -- -D warnings
+
+  performance-tests:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    
+    - name: Build optimized binary
+      run: cargo build --release --bin think-ai-full-production
+    
+    - name: Run performance benchmarks
+      run: cargo bench
+    
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmark-results
+        path: target/criterion
+
+  test-report:
+    name: Generate Test Report
+    needs: [unit-tests, integration-tests, e2e-tests, security-tests, performance-tests]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+    
+    - name: Generate comprehensive report
+      run: |
+        echo "# Think AI Test Report" > test_report.md
+        echo "Generated: $(date)" >> test_report.md
+        echo "" >> test_report.md
+        echo "## Test Results" >> test_report.md
+        echo "- Unit Tests: ${{ needs.unit-tests.result }}" >> test_report.md
+        echo "- Integration Tests: ${{ needs.integration-tests.result }}" >> test_report.md
+        echo "- E2E Tests: ${{ needs.e2e-tests.result }}" >> test_report.md
+        echo "- Security Tests: ${{ needs.security-tests.result }}" >> test_report.md
+        echo "- Performance Tests: ${{ needs.performance-tests.result }}" >> test_report.md
+    
+    - name: Upload test report
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-report
+        path: test_report.md

@@ -1,0 +1,11 @@
+# Production Qwen Configuration
+[qwen]
+model = "qwen2.5:7b"  # Use the 7b model for better responses
+base_url = "http://localhost:11434"
+timeout_seconds = 30  # Increase timeout for longer responses
+max_tokens = 5000    # Allow up to 5k tokens
+
+[generation]
+temperature = 0.8
+top_p = 0.9
+repeat_penalty = 1.1

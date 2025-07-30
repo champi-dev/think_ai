@@ -17,7 +17,7 @@ impl Default for QwenConfig {
         Self {
             api_key: None,
             base_url: "http://localhost:11434".to_string(),
-            model: "qwen2.5:0.5b".to_string(),
+            model: std::env::var("QWEN_MODEL").unwrap_or_else(|_| "qwen2.5:0.5b".to_string()),
         }
     }
 }
@@ -182,16 +182,33 @@ impl QwenClient {
 
         prompt.push_str(&format!("Query: {}\n\nResponse:", request.query));
 
-        // Create Ollama request
+        // Extract token limit from system prompt if available
+        let token_limit = if let Some(ref system_prompt) = request.system_prompt {
+            // Try to extract the number from "Target approximately X tokens"
+            if let Some(start) = system_prompt.find("Target approximately ") {
+                let after_target = &system_prompt[start + 21..];
+                if let Some(end) = after_target.find(" tokens") {
+                    after_target[..end].parse::<i32>().unwrap_or(500)
+                } else {
+                    500
+                }
+            } else {
+                500
+            }
+        } else {
+            500
+        };
+
+        // Create Ollama request with optimized settings based on token limit
         let ollama_request = OllamaGenerateRequest {
             model: self.config.model.clone(),
             prompt: prompt.clone(),
             stream: false,
             options: Some(OllamaOptions {
-                temperature: 0.7,
-                top_p: 0.9,
-                num_ctx: 2048,    // Reduced context for speed
-                num_predict: 150, // Limit response length for speed
+                temperature: 0.3,     // Lower = faster, more consistent
+                top_p: 0.8,          // Slightly lower for speed
+                num_ctx: 4096,       // Reasonable context size
+                num_predict: token_limit,     // Use calculated token limit
             }),
         };
 
@@ -309,8 +326,8 @@ impl QwenClient {
             options: Some(OllamaOptions {
                 temperature: temperature.unwrap_or(0.7),
                 top_p: 0.9,
-                num_ctx: 2048,    // Reduced context for speed
-                num_predict: 150, // Limit response length for speed
+                num_ctx: 8192,    // Larger context for better comprehension
+                num_predict: -1, // No limit, let token allocation determine length
             }),
         };
 
@@ -393,8 +410,8 @@ impl QwenClient {
             options: Some(OllamaOptions {
                 temperature: 0.7,
                 top_p: 0.9,
-                num_ctx: 2048,    // Reduced context for speed
-                num_predict: 150, // Limit response length for speed
+                num_ctx: 8192,    // Larger context for better comprehension
+                num_predict: -1, // No limit, let token allocation determine length
             }),
         };
 

@@ -1,0 +1,115 @@
+# Think AI Test Makefile
+# Run various test suites without hardcoding
+
+.PHONY: all test unit integration e2e clean setup help
+
+# Default target
+all: test
+
+# Help target
+help:
+	@echo "Think AI Test Commands:"
+	@echo "  make test          - Run all tests"
+	@echo "  make unit          - Run unit tests only"
+	@echo "  make integration   - Run integration tests only"
+	@echo "  make e2e           - Run E2E tests only"
+	@echo "  make setup         - Set up test environment"
+	@echo "  make clean         - Clean test artifacts"
+	@echo "  make coverage      - Run tests with coverage"
+	@echo "  make report        - View last test report"
+
+# Setup test environment
+setup:
+	@echo "🔧 Setting up test environment..."
+	@pip install pytest pytest-asyncio pytest-cov pytest-json-report aiohttp playwright toml
+	@playwright install chromium
+	@cargo install cargo-tarpaulin
+	@echo "✅ Test environment ready"
+
+# Run all tests
+test:
+	@echo "🚀 Running all tests..."
+	@python tests/run_all_tests.py
+
+# Run unit tests only
+unit:
+	@echo "🧪 Running unit tests..."
+	@echo "  Rust unit tests..."
+	@cargo test --lib
+	@echo "  Python unit tests..."
+	@pytest tests/unit/ -v
+
+# Run integration tests only
+integration:
+	@echo "🔗 Running integration tests..."
+	@cargo test --test '*' -- --test-threads=1
+	@python -m pytest tests/integration/ -v
+
+# Run E2E tests only
+e2e:
+	@echo "🎯 Running E2E tests..."
+	@python tests/e2e/test_full_system_e2e.py
+
+# Run tests with coverage
+coverage:
+	@echo "📊 Running tests with coverage..."
+	@cargo tarpaulin --out Html --output-dir target/coverage
+	@pytest tests/ --cov=. --cov-report=html:htmlcov --cov-report=term
+	@echo "Coverage reports generated:"
+	@echo "  Rust: target/coverage/index.html"
+	@echo "  Python: htmlcov/index.html"
+
+# Clean test artifacts
+clean:
+	@echo "🧹 Cleaning test artifacts..."
+	@rm -rf target/coverage htmlcov .coverage
+	@rm -f tests/*.json tests/**/*.json
+	@rm -rf tests/__pycache__ tests/**/__pycache__
+	@rm -rf .pytest_cache tests/.pytest_cache
+	@find . -name "*.pyc" -delete
+	@echo "✅ Clean complete"
+
+# View last test report
+report:
+	@echo "📊 Last test report:"
+	@python -c "import json; import glob; files = glob.glob('test_data/test_results_*.json'); print(json.dumps(json.load(open(sorted(files)[-1])), indent=2)) if files else print('No test reports found')"
+
+# Quick smoke test
+smoke:
+	@echo "💨 Running smoke tests..."
+	@cargo test --lib -- --test-threads=1 quick
+	@pytest tests/unit/test_api_integration.py::TestAPIIntegration::test_basic_chat_flow -v
+
+# Performance tests
+perf:
+	@echo "⚡ Running performance tests..."
+	@python tests/integration/test_api_integration.py::TestAPIIntegration::test_performance_metrics
+
+# Security tests
+security:
+	@echo "🔒 Running security tests..."
+	@python tests/integration/test_api_integration.py::TestAPIIntegration::test_error_handling
+	@cargo test security -- --nocapture
+
+# Watch mode for development
+watch:
+	@echo "👀 Running tests in watch mode..."
+	@cargo watch -x test
+
+# Docker test environment
+docker-test:
+	@echo "🐳 Running tests in Docker..."
+	@docker build -t think-ai-test -f Dockerfile.test .
+	@docker run --rm think-ai-test
+
+# Parallel test execution
+parallel:
+	@echo "⚡ Running tests in parallel..."
+	@cargo test -- --test-threads=4
+	@pytest tests/ -n 4
+
+# Verbose test output
+verbose:
+	@echo "📢 Running tests with verbose output..."
+	@RUST_LOG=debug cargo test -- --nocapture
+	@pytest tests/ -vv -s

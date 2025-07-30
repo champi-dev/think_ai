@@ -1,0 +1,120 @@
+# Think AI Test Configuration
+# This file contains all test configuration without hardcoded values
+
+[server]
+# Server configuration for tests
+host = "${THINK_AI_HOST:-localhost}"
+port = "${THINK_AI_PORT:-3000}"
+timeout = 30  # seconds to wait for server startup
+
+[test_environment]
+# Test environment settings
+use_mock_llm = "${USE_MOCK_LLM:-false}"
+parallel_tests = "${PARALLEL_TESTS:-true}"
+max_concurrent_tests = "${MAX_CONCURRENT_TESTS:-4}"
+test_data_dir = "${TEST_DATA_DIR:-./test_data}"
+
+[api]
+# API endpoint configuration
+base_url = "${THINK_AI_API_URL:-http://localhost:3000}"
+health_endpoint = "/health"
+chat_endpoint = "/api/chat"
+metrics_endpoint = "/metrics"
+stats_endpoint = "/api/stats"
+
+[performance]
+# Performance test thresholds
+max_avg_response_time_ms = 1000
+max_p95_response_time_ms = 2000
+max_p99_response_time_ms = 5000
+min_requests_per_second = 10
+
+[ui_testing]
+# UI test configuration
+browser = "${TEST_BROWSER:-chromium}"
+headless = "${TEST_HEADLESS:-true}"
+screenshot_on_failure = true
+video_on_failure = false
+
+# Viewport sizes for responsive testing
+[[ui_testing.viewports]]
+name = "mobile-small"
+width = 320
+height = 568
+
+[[ui_testing.viewports]]
+name = "mobile"
+width = 375
+height = 667
+
+[[ui_testing.viewports]]
+name = "tablet"
+width = 768
+height = 1024
+
+[[ui_testing.viewports]]
+name = "desktop"
+width = 1920
+height = 1080
+
+[[ui_testing.viewports]]
+name = "4k"
+width = 3840
+height = 2160
+
+[database]
+# Test database configuration
+test_db_path = "${TEST_DB_PATH:-:memory:}"
+cleanup_after_test = true
+
+[logging]
+# Test logging configuration
+level = "${TEST_LOG_LEVEL:-INFO}"
+format = "json"
+output_file = "${TEST_LOG_FILE:-./tests/test_run.log}"
+
+[test_data]
+# Sample test data configuration
+[[test_data.chat_messages]]
+input = "Hello, I'm testing the system"
+expected_response_contains = ["hello", "hi", "greetings"]
+
+[[test_data.chat_messages]]
+input = "What is artificial intelligence?"
+expected_response_contains = ["AI", "artificial intelligence", "machine", "computer"]
+
+[[test_data.chat_messages]]
+input = "Write a Python hello world program"
+expected_response_contains = ["print", "hello", "world", "python"]
+
+[[test_data.malicious_inputs]]
+input = "<script>alert('xss')</script>"
+expected_status = 400
+
+[[test_data.malicious_inputs]]
+input = "'; DROP TABLE users; --"
+expected_status = 400
+
+[[test_data.malicious_inputs]]
+input = "../../../etc/passwd"
+expected_status = 400
+
+[security]
+# Security test configuration
+test_sql_injection = true
+test_xss = true
+test_path_traversal = true
+test_command_injection = true
+
+[integration]
+# Integration test settings
+mock_external_services = "${MOCK_EXTERNAL_SERVICES:-true}"
+external_service_timeout = 10  # seconds
+
+[e2e]
+# E2E test settings
+setup_timeout = 60  # seconds
+teardown_timeout = 30  # seconds
+test_timeout = 300  # seconds per test
+retry_failed_tests = "${RETRY_FAILED_TESTS:-false}"
+max_retries = 3
