@@ -12,8 +12,8 @@ async fn test_engine_initialization() {
     assert_eq!(stats.operation_count, 0);
 }
 
-#[test]
-fn test_o1_operations() {
+#[tokio::test]
+async fn test_o1_operations() {
     let engine = O1Engine::new(EngineConfig::default());
 
     let result = ComputeResult {
@@ -21,10 +21,12 @@ fn test_o1_operations() {
         metadata: serde_json::json!({"source": "test"}),
     };
 
-    engine.store("test_key", result.clone()).unwrap();
+    engine.store("test_key", result.clone()).await.unwrap();
 
-    let retrieved = engine.compute("test_key").unwrap();
-    assert_eq!(retrieved.value, result.value);
+    let retrieved = engine.compute("test_key").await;
+    assert!(retrieved.is_some());
+    let retrieved_result = retrieved.unwrap();
+    assert_eq!(retrieved_result.value, result.value);
 
     let stats = engine.stats();
     assert_eq!(stats.operation_count, 1);

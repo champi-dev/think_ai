@@ -253,6 +253,16 @@ describe('App Component', () => {
     };
     
     global.MediaRecorder = vi.fn(() => mockMediaRecorder);
+    global.MediaRecorder.isTypeSupported = vi.fn().mockReturnValue(true);
+    
+    // Mock navigator.mediaDevices
+    global.navigator.mediaDevices = {
+      getUserMedia: vi.fn().mockResolvedValue({
+        getTracks: () => [],
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      })
+    };
     
     const user = userEvent.setup();
     render(<App />);

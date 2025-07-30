@@ -12,20 +12,68 @@ use std::time::Duration;
 use tokio::sync::RwLock;
 use tower_http::cors::CorsLayer;
 use tracing::{error, info, warn};
+use uuid::Uuid;
+use base64::Engine;
 
 mod audio_service;
-mod chat;
 mod metrics;
 mod middleware;
-mod security_validator;
 mod state;
-mod whatsapp;
 
 use audio_service::AudioService;
-use chat::{generate_response_internal, ChatRequest, ThinkAIResponse};
 use metrics::MetricsCollector;
 use state::{ChatMessage, ThinkAIState};
-use whatsapp::WhatsAppNotifier;
+
+// Define missing types
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ChatRequest {
+    pub message: String,
+    pub session_id: Option<String>,
+    pub stream: Option<bool>,
+    pub use_web_search: bool,
+    pub fact_check: bool,
+    pub mode: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ThinkAIResponse {
+    pub message: String,
+    pub session_id: String,
+    pub mode: String,
+}
+
+// Error handling
+#[derive(Debug)]
+pub enum AppError {
+    Internal(String),
+    BadRequest(String),
+    ServiceUnavailable(String),
+}
+
+impl IntoResponse for AppError {
+    fn into_response(self) -> Response {
+        let (status, message) = match self {
+            AppError::Internal(msg) => (StatusCode::INTERNAL_SERVER_ERROR, msg),
+            AppError::BadRequest(msg) => (StatusCode::BAD_REQUEST, msg),
+            AppError::ServiceUnavailable(msg) => (StatusCode::SERVICE_UNAVAILABLE, msg),
+        };
+        
+        let body = Json(serde_json::json!({
+            "error": message
+        }));
+        
+        (status, body).into_response()
+    }
+}
+
+// WhatsApp notifier stub
+pub struct WhatsAppNotifier;
+
+impl WhatsAppNotifier {
+    pub fn new() -> Self {
+        Self
+    }
+}
 
 // Autonomous agent components
 mod autonomous {
@@ -431,6 +479,48 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
+// Implementation of generate_response_internal
+async fn generate_response_internal(
+    message: &str,
+    session_id: Option<&str>,
+    stream: bool,
+    state: Arc<ThinkAIState>,
+) -> Result<ThinkAIResponse> {
+    // Generate a session ID if not provided
+    let session_id = session_id.unwrap_or("default").to_string();
+    
+    // Store the incoming message
+    state.messages.write().await.push(ChatMessage {
+        session_id: session_id.clone(),
+        content: message.to_string(),
+        timestamp: chrono::Utc::now(),
+        role: "user".to_string(),
+    });
+    
+    // Generate response using consciousness engine
+    let response_text = state.consciousness_engine
+        .process_query(message)
+        .await?;
+    
+    // Store the response
+    state.messages.write().await.push(ChatMessage {
+        session_id: session_id.clone(),
+        content: response_text.clone(),
+        timestamp: chrono::Utc::now(),
+        role: "assistant".to_string(),
+    });
+    
+    // Update metrics
+    state.metrics_collector.increment_requests().await;
+    state.metrics_collector.record_response_time(0.1).await; // Placeholder
+    
+    Ok(ThinkAIResponse {
+        message: response_text,
+        session_id,
+        mode: "ai".to_string(),
+    })
+}
+
 async fn autonomous_status_handler(
     agent: Arc<autonomous::AutonomousAgent>
 ) -> impl IntoResponse {
@@ -548,7 +638,7 @@ async fn audio_synthesize_handler(
         .map_err(|e| AppError::Internal(e.to_string()))?;
 
     Ok(Json(serde_json::json!({
-        "audio": base64::encode(&audio_data),
+        "audio": base64::engine::general_purpose::STANDARD.encode(&audio_data),
         "format": "mp3",
         "status": "success"
     })))
