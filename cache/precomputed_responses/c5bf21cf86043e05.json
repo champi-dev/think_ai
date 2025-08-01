@@ -1,0 +1,6 @@
+{
+  "query": "add 3 and 5",
+  "response": "To add 3 and 5, you simply combine the two numbers. The result is 8. This operation follows basic arithmetic rules where you sum the values of the operands.",
+  "timestamp": 1754072723.1025739,
+  "normalized_query": "add 3 and 5"
+}

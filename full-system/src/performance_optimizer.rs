@@ -32,8 +32,8 @@ impl Default for OptimizationConfig {
     fn default() -> Self {
         Self {
             enable_response_cache: true,
-            cache_ttl_seconds: 3600, // 1 hour
-            max_cache_size: 10000,
+            cache_ttl_seconds: 86400, // 24 hours - trade disk for speed
+            max_cache_size: 1000000, // 1M entries - aggressive caching
             
             model_timeout_ms: 10000, // 10 seconds base timeout, will scale with token count
             max_tokens: 2000, // Default 2k tokens, will adjust based on query complexity
@@ -186,7 +186,7 @@ impl RequestOptimizer {
             // Base timeout scales with expected token generation
             // More realistic: 1s per 100 tokens for qwen2.5:7b
             let token_limit = determine_token_limit(query);
-            let base_timeout = ((token_limit as u64 / 100) * 1000).max(5000); // Min 5s
+            let base_timeout = ((token_limit as u64 / 100) * 1000).max(15000); // Min 15s to match qwen client
             let timeout_ms = base_timeout + (retry_count as u64 * base_timeout);
             let timeout_duration = Duration::from_millis(timeout_ms);
             

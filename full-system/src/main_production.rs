@@ -7,7 +7,7 @@ use axum::{
 };
 use bytes::Bytes;
 use serde::{Deserialize, Serialize};
-use std::{env, sync::Arc, path::PathBuf};
+use std::{env, sync::Arc, path::{Path, PathBuf}};
 use tokio::sync::broadcast;
 use tower_http::{
     cors::{Any, CorsLayer},
@@ -26,6 +26,7 @@ mod middleware;
 mod state;
 mod performance_optimizer;
 mod knowledge_loader;
+mod fast_cache_lookup;
 
 // Import actual Think AI components
 use think_ai_consciousness::ConsciousnessFramework;
@@ -44,6 +45,7 @@ use crate::metrics::{MetricsCollector, DashboardData};
 use crate::state::ThinkAIState;
 use crate::performance_optimizer::{RequestOptimizer, OptimizationConfig, detect_and_configure_gpu, determine_token_limit};
 use crate::knowledge_loader::KnowledgeBase;
+use crate::fast_cache_lookup::FastCacheLookup;
 
 #[derive(Deserialize)]
 struct ChatRequest {
@@ -116,11 +118,35 @@ async fn main() {
 
     let consciousness_framework = Arc::new(ConsciousnessFramework::new());
 
-    let persistent_memory = Arc::new(
-        PersistentConversationMemory::new("./think_ai_sessions.db")
-            .await
-            .expect("Failed to initialize persistent memory"),
-    );
+    // Try to use environment variable, fallback to temp directory if read-only
+    let db_path = env::var("THINK_AI_DB_PATH")
+        .unwrap_or_else(|_| {
+            // Try current directory first
+            let default_path = "./think_ai_sessions.db";
+            if std::fs::OpenOptions::new()
+                .create(true)
+                .write(true)
+                .open(default_path)
+                .is_ok()
+            {
+                default_path.to_string()
+            } else {
+                // Fallback to temp directory if current directory is read-only
+                "/tmp/think_ai_sessions.db".to_string()
+            }
+        });
+    
+    let persistent_memory = match PersistentConversationMemory::new(&db_path).await {
+        Ok(memory) => Arc::new(memory),
+        Err(e) => {
+            eprintln!("Warning: Failed to initialize persistent memory at {}: {}. Using in-memory database.", db_path, e);
+            Arc::new(
+                PersistentConversationMemory::new(":memory:")
+                    .await
+                    .expect("Failed to initialize in-memory database"),
+            )
+        }
+    };
 
     let (tx, _rx) = broadcast::channel(100);
 
@@ -180,6 +206,20 @@ async fn main() {
     
     let request_optimizer = Arc::new(RequestOptimizer::new(optimization_config));
     
+    // Initialize fast cache lookup
+    let fast_cache = Arc::new(FastCacheLookup::new());
+    
+    // Load precomputed cache from disk
+    let cache_path = if Path::new("/home/administrator/think_ai/cache/precomputed_responses").exists() {
+        Path::new("/home/administrator/think_ai/cache/precomputed_responses")
+    } else {
+        Path::new("cache/precomputed_responses")
+    };
+    
+    if let Err(e) = fast_cache.load_precomputed_cache(cache_path).await {
+        tracing::warn!("Failed to load precomputed cache: {}", e);
+    }
+    
     // Load knowledge base
     let knowledge_base = match KnowledgeBase::load_from_directory("./knowledge_files") {
         Ok(kb) => {
@@ -205,6 +245,7 @@ async fn main() {
         metrics_collector: metrics_collector.clone(),
         request_optimizer,
         knowledge_base,
+        fast_cache,
     };
 
     // Build the router
@@ -273,6 +314,21 @@ async fn chat_handler(
 
     let session_id = payload.session_id.unwrap_or_else(|| Uuid::new_v4().to_string());
 
+    // Check fast cache first for ultra-quick responses
+    if let Some(cached_response) = state.fast_cache.lookup(&payload.message).await {
+        tracing::info!("Fast cache hit for query: {}", payload.message);
+        return Ok(Json(ChatResponse {
+            response: cached_response,
+            session_id,
+            confidence: 1.0, // High confidence for cached responses
+            response_time_ms: start_time.elapsed().as_millis() as u64,
+            consciousness_level: "CACHED".to_string(),
+            tokens_used: 0,
+            context_tokens: 0,
+            compacted: false,
+        }));
+    }
+
     // Get conversation history
     let history = state
         .persistent_memory
@@ -340,10 +396,11 @@ async fn generate_intelligent_response(
     // First, check if we have knowledge base response
     let kb_response = state.knowledge_base.get_conversational_response(message);
     
-    // If we have a good knowledge base response, return it directly for speed
-    if !kb_response.contains("I'd be happy to help with") {
-        return kb_response;
-    }
+    // Disabled: This was causing unrelated cached responses to be returned
+    // TODO: Implement better matching logic for knowledge base responses
+    // if !kb_response.contains("I'd be happy to help with") {
+    //     return kb_response;
+    // }
     
     // Prepare enhanced context
     let mut context = String::new();

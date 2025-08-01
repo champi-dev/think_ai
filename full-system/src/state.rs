@@ -14,6 +14,7 @@ use crate::notifications::whatsapp::WhatsAppNotifier;
 use crate::metrics::MetricsCollector;
 use crate::performance_optimizer::RequestOptimizer;
 use crate::knowledge_loader::KnowledgeBase;
+use crate::fast_cache_lookup::FastCacheLookup;
 
 // State for the application
 #[derive(Clone)]
@@ -30,6 +31,7 @@ pub struct ThinkAIState {
     pub metrics_collector: Arc<MetricsCollector>,
     pub request_optimizer: Arc<RequestOptimizer>,
     pub knowledge_base: Arc<KnowledgeBase>,
+    pub fast_cache: Arc<FastCacheLookup>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]

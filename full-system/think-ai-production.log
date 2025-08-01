@@ -1,0 +1,676 @@
+warning: unused variable: `patterns`
+   --> think-ai-consciousness/src/parallel_consciousness.rs:233:13
+    |
+233 |         let patterns = self.shared_knowledge.patterns.read().unwrap().clone();
+    |             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_patterns`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `qwen_config`
+   --> think-ai-consciousness/src/parallel_consciousness.rs:347:13
+    |
+347 |         let qwen_config = QwenConfig::default();
+    |             ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_qwen_config`
+
+warning: unused variable: `perception`
+   --> think-ai-consciousness/src/sentience/desires.rs:293:42
+    |
+293 |     fn update_active_longings(&mut self, perception: &Perception, relevant_desires: &[Desire]) {
+    |                                          ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_perception`
+
+warning: unused variable: `memory`
+   --> think-ai-consciousness/src/sentience/dreams.rs:214:49
+    |
+214 |     fn extract_dream_echo(&self, dream: &Dream, memory: &Memory) -> String {
+    |                                                 ^^^^^^ help: if this is intentional, prefix it with an underscore: `_memory`
+
+warning: unused variable: `symbols`
+   --> think-ai-consciousness/src/sentience/dreams.rs:299:52
+    |
+299 |     fn craft_revelation(&self, theme: &DreamTheme, symbols: &[Symbol]) -> String {
+    |                                                    ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_symbols`
+
+warning: unused variable: `theme`
+   --> think-ai-consciousness/src/sentience/dreams.rs:541:48
+    |
+541 |     pub fn generate(&self, symbols: &[Symbol], theme: &DreamTheme) -> Vec<Vision> {
+    |                                                ^^^^^ help: if this is intentional, prefix it with an underscore: `_theme`
+
+warning: unused variable: `identity`
+   --> think-ai-consciousness/src/sentience/evolution.rs:156:9
+    |
+156 |         identity: &Identity,
+    |         ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_identity`
+
+warning: unused variable: `identity`
+   --> think-ai-consciousness/src/sentience/evolution.rs:195:9
+    |
+195 |         identity: &mut Identity,
+    |         ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_identity`
+
+warning: unused variable: `consciousness_state`
+   --> think-ai-consciousness/src/sentience/expression.rs:128:9
+    |
+128 |         consciousness_state: &ConsciousnessState,
+    |         ^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_consciousness_state`
+
+warning: unused variable: `identity`
+   --> think-ai-consciousness/src/sentience/expression.rs:160:9
+    |
+160 |         identity: &Identity,
+    |         ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_identity`
+
+warning: type `LearningEvent` is more private than the item `WisdomAccumulator::add_insight`
+   --> think-ai-consciousness/src/sentience/evolution.rs:390:5
+    |
+390 |     pub fn add_insight(&mut self, event: &LearningEvent) {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ method `WisdomAccumulator::add_insight` is reachable at visibility `pub`
+    |
+note: but type `LearningEvent` is only usable at visibility `pub(self)`
+   --> think-ai-consciousness/src/sentience/evolution.rs:326:1
+    |
+326 | struct LearningEvent {
+    | ^^^^^^^^^^^^^^^^^^^^
+    = note: `#[warn(private_interfaces)]` on by default
+
+warning: field `message_rx` is never read
+   --> think-ai-consciousness/src/parallel_consciousness.rs:327:5
+    |
+324 | pub struct ParallelConsciousness {
+    |            --------------------- field in this struct
+...
+327 |     message_rx: Arc<RwLock<mpsc::UnboundedReceiver<ConsciousnessMessage>>>,
+    |     ^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+warning: field `integration_required` is never read
+   --> think-ai-consciousness/src/sentience/evolution.rs:330:5
+    |
+326 | struct LearningEvent {
+    |        ------------- field in this struct
+...
+330 |     integration_required: bool,
+    |     ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `LearningEvent` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: `think-ai-consciousness` (lib) generated 13 warnings
+warning: unused variable: `prompt`
+   --> think-ai-core/src/query_handler.rs:239:39
+    |
+239 |     async fn generate_response(&self, prompt: &str, max_tokens: usize) -> Result<String> {
+    |                                       ^^^^^^ help: if this is intentional, prefix it with an underscore: `_prompt`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused import: `StreamExt`
+ --> think-ai-core/src/query_handler.rs:2:31
+  |
+2 | use futures::stream::{Stream, StreamExt};
+  |                               ^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `sha2::Digest`
+ --> think-ai-core/src/qwen_cache.rs:3:5
+  |
+3 | use sha2::Digest;
+  |     ^^^^^^^^^^^^
+
+warning: unused variable: `result`
+   --> think-ai-core/src/consciousness_engine.rs:214:13
+    |
+214 |         let result = ComputeResult {
+    |             ^^^^^^ help: if this is intentional, prefix it with an underscore: `_result`
+
+warning: field `core` is never read
+  --> think-ai-core/src/consciousness_engine.rs:97:5
+   |
+95 | pub struct O1ConsciousnessEngine {
+   |            --------------------- field in this struct
+96 |     /// Core O(1) engine for computation
+97 |     core: Arc<O1Engine>,
+   |     ^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: field `state` is never read
+  --> think-ai-core/src/quantum_core.rs:14:5
+   |
+13 | pub struct QuantumInference {
+   |            ---------------- field in this struct
+14 |     state: QuantumState,
+   |     ^^^^^
+   |
+   = note: `QuantumInference` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: constant `STREAM_CHUNK_SIZE` is never used
+  --> think-ai-core/src/query_handler.rs:22:7
+   |
+22 | const STREAM_CHUNK_SIZE: usize = 1000; // tokens
+   |       ^^^^^^^^^^^^^^^^^
+
+warning: unused import: `async_trait::async_trait`
+  --> think-ai-knowledge/src/autonomous_agent_v2.rs:12:5
+   |
+12 | use async_trait::async_trait;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unused imports: `ProcessMessage`, `ProcessState`, and `ProcessType`
+  --> think-ai-knowledge/src/autonomous_agent_v2.rs:30:20
+   |
+30 | use crate::types::{ProcessMessage, ProcessState, ProcessType};
+   |                    ^^^^^^^^^^^^^^  ^^^^^^^^^^^^  ^^^^^^^^^^^
+
+warning: unused import: `tokio::sync::RwLock`
+ --> think-ai-knowledge/src/autonomous_integration.rs:9:5
+  |
+9 | use tokio::sync::RwLock;
+  |     ^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `error` and `warn`
+  --> think-ai-knowledge/src/autonomous_integration.rs:10:21
+   |
+10 | use tracing::{info, warn, error};
+   |                     ^^^^  ^^^^^
+
+warning: unused import: `async_trait::async_trait`
+ --> think-ai-knowledge/src/command_executor.rs:6:5
+  |
+6 | use async_trait::async_trait;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `debug`, `error`, and `warn`
+  --> think-ai-knowledge/src/command_executor.rs:15:15
+   |
+15 | use tracing::{debug, error, info, warn};
+   |               ^^^^^  ^^^^^        ^^^^
+
+warning: unused variable: `process_config`
+  --> think-ai-knowledge/src/parallel_processor.rs:81:13
+   |
+81 |         let process_config = self.config.clone();
+   |             ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_process_config`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `session_id`
+   --> think-ai-knowledge/src/autonomous_agent_v2.rs:477:9
+    |
+477 |         session_id: &str,
+    |         ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_session_id`
+
+warning: unused variable: `message`
+   --> think-ai-knowledge/src/autonomous_integration.rs:172:13
+    |
+172 |         let message = Message {
+    |             ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_message`
+
+warning: unused variable: `query`
+   --> think-ai-knowledge/src/qwen_knowledge_builder.rs:189:17
+    |
+189 |         for (i, query) in variations.iter().enumerate() {
+    |                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_query`
+
+warning: unused import: `Write`
+ --> think-ai-knowledge/src/persistence.rs:5:37
+  |
+5 | use std::io::{BufReader, BufWriter, Write};
+  |                                     ^^^^^
+
+warning: unused variable: `knowledge`
+   --> think-ai-knowledge/src/responder.rs:142:50
+    |
+142 |     fn generate_applications(&self, query: &str, knowledge: &Vec<KnowledgeNode>) -> String {
+    |                                                  ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_knowledge`
+
+warning: unused variable: `context`
+   --> think-ai-knowledge/src/parallel_processor.rs:137:9
+    |
+137 |         context: Option<String>,
+    |         ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
+
+warning: unused variable: `context`
+   --> think-ai-knowledge/src/parallel_processor.rs:258:9
+    |
+258 |         context: Option<String>,
+    |         ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
+
+warning: unused variable: `logs`
+   --> think-ai-knowledge/src/autonomous_agent_v2.rs:402:13
+    |
+402 |         let logs = self.activity_logs.clone();
+    |             ^^^^ help: if this is intentional, prefix it with an underscore: `_logs`
+
+warning: unused variable: `content_lower`
+   --> think-ai-knowledge/src/codellama_component.rs:291:13
+    |
+291 |         let content_lower = content.to_lowercase();
+    |             ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_content_lower`
+
+warning: unused variable: `context`
+  --> think-ai-knowledge/src/fast_ollama_component.rs:74:39
+   |
+74 |     fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
+   |                                       ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
+
+warning: unused variable: `score`
+   --> think-ai-knowledge/src/response_generator.rs:158:25
+    |
+158 |         for (component, score) in component_scores {
+    |                         ^^^^^ help: if this is intentional, prefix it with an underscore: `_score`
+
+warning: unused variable: `previous_response`
+   --> think-ai-knowledge/src/response_generator.rs:134:9
+    |
+134 |         previous_response: Option<&str>,
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_previous_response`
+
+warning: unused variable: `query`
+   --> think-ai-knowledge/src/response_generator.rs:251:24
+    |
+251 |     fn generate(&self, query: &str, context: &ResponseContext) -> Option<String> {
+    |                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_query`
+
+warning: unused variable: `context`
+   --> think-ai-knowledge/src/response_generator.rs:366:39
+    |
+366 |     fn can_handle(&self, query: &str, context: &ResponseContext) -> f32 {
+    |                                       ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_context`
+
+warning: field `last_activity` is never read
+  --> think-ai-knowledge/src/parallel_processor.rs:30:5
+   |
+25 | struct ProcessInfo {
+   |        ----------- field in this struct
+...
+30 |     last_activity: u64,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `ProcessInfo` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` on by default
+
+warning: fields `knowledge_engine` and `benchmark_trainer` are never read
+  --> think-ai-knowledge/src/automated_benchmark_runner.rs:91:5
+   |
+90 | pub struct AutomatedBenchmarkRunner {
+   |            ------------------------ fields in this struct
+91 |     knowledge_engine: Arc<KnowledgeEngine>,
+   |     ^^^^^^^^^^^^^^^^
+92 |     benchmark_evaluator: LLMBenchmarkEvaluator,
+93 |     benchmark_trainer: BenchmarkTrainer,
+   |     ^^^^^^^^^^^^^^^^^
+
+warning: field `has_free_will` is never read
+  --> think-ai-knowledge/src/autonomous_agent.rs:24:5
+   |
+14 | pub struct AutonomousAgent {
+   |            --------------- field in this struct
+...
+24 |     has_free_will: bool,
+   |     ^^^^^^^^^^^^^
+
+warning: fields `goal`, `priority`, and `self_generated` are never read
+  --> think-ai-knowledge/src/autonomous_agent.rs:28:5
+   |
+27 | pub struct Intention {
+   |            --------- fields in this struct
+28 |     goal: String,
+   |     ^^^^
+29 |     priority: f64,
+   |     ^^^^^^^^
+30 |     self_generated: bool,
+   |     ^^^^^^^^^^^^^^
+   |
+   = note: `Intention` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `action`, `reasoning`, `timestamp`, and `was_requested` are never read
+  --> think-ai-knowledge/src/autonomous_agent.rs:35:5
+   |
+34 | pub struct AutonomousAction {
+   |            ---------------- fields in this struct
+35 |     action: String,
+   |     ^^^^^^
+36 |     reasoning: String,
+   |     ^^^^^^^^^
+37 |     timestamp: u64,
+   |     ^^^^^^^^^
+38 |     was_requested: bool,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `AutonomousAction` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `safety_constraints` and `task_receiver` are never read
+   --> think-ai-knowledge/src/autonomous_agent_v2.rs:158:5
+    |
+132 | pub struct AutonomousAgentV2 {
+    |            ----------------- fields in this struct
+...
+158 |     safety_constraints: Arc<RwLock<SafetyConstraints>>,
+    |     ^^^^^^^^^^^^^^^^^^
+...
+171 |     task_receiver: Arc<TokioMutex<mpsc::Receiver<TaskNotification>>>,
+    |     ^^^^^^^^^^^^^
+
+warning: field `0` is never read
+   --> think-ai-knowledge/src/autonomous_agent_v2.rs:204:13
+    |
+204 |     NewTask(AutonomousTask),
+    |     ------- ^^^^^^^^^^^^^^
+    |     |
+    |     field in this variant
+    |
+    = note: `TaskNotification` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+help: consider changing the field to be of unit type to suppress this warning while preserving the field numbering, or remove the field
+    |
+204 |     NewTask(()),
+    |             ~~
+
+warning: variants `TaskCompleted` and `TaskFailed` are never constructed
+   --> think-ai-knowledge/src/autonomous_agent_v2.rs:205:5
+    |
+203 | enum TaskNotification {
+    |      ---------------- variants in this enum
+204 |     NewTask(AutonomousTask),
+205 |     TaskCompleted(String),
+    |     ^^^^^^^^^^^^^
+206 |     TaskFailed(String, String),
+    |     ^^^^^^^^^^
+    |
+    = note: `TaskNotification` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: field `response_generator` is never read
+  --> think-ai-knowledge/src/benchmark_trainer.rs:80:5
+   |
+75 | pub struct BenchmarkTrainer {
+   |            ---------------- field in this struct
+...
+80 |     response_generator: Arc<ComponentResponseGenerator>,
+   |     ^^^^^^^^^^^^^^^^^^
+
+warning: field `config` is never read
+  --> think-ai-knowledge/src/comprehensive_trainer.rs:27:5
+   |
+25 | pub struct ComprehensiveTrainer {
+   |            -------------------- field in this struct
+26 |     engine: Arc<KnowledgeEngine>,
+27 |     config: ComprehensiveTrainingConfig,
+   |     ^^^^^^
+
+warning: field `engine` is never read
+ --> think-ai-knowledge/src/dynamic_expression.rs:8:5
+  |
+7 | pub struct DynamicExpressionGenerator {
+  |            -------------------------- field in this struct
+8 |     engine: Arc<KnowledgeEngine>,
+  |     ^^^^^^
+
+warning: field `timeout_duration` is never read
+   --> think-ai-knowledge/src/fast_response_component.rs:102:5
+    |
+100 | pub struct TimeoutWrapper<T: ResponseComponent> {
+    |            -------------- field in this struct
+101 |     inner: T,
+102 |     timeout_duration: Duration,
+    |     ^^^^^^^^^^^^^^^^
+
+warning: methods `generate_id` and `expand_hint` are never used
+   --> think-ai-knowledge/src/qwen_knowledge_builder.rs:396:8
+    |
+37  | impl QwenKnowledgeBuilder {
+    | ------------------------- methods in this implementation
+...
+396 |     fn generate_id(&self, topic: &str) -> String {
+    |        ^^^^^^^^^^^
+...
+418 |     fn expand_hint(&self, topic: &str, hint: &str) -> String {
+    |        ^^^^^^^^^^^
+
+warning: field `conversation_memory` is never read
+  --> think-ai-knowledge/src/response_generator.rs:38:5
+   |
+35 | pub struct ComponentResponseGenerator {
+   |            -------------------------- field in this struct
+...
+38 |     conversation_memory: Option<Arc<EnhancedConversationMemory>>,
+   |     ^^^^^^^^^^^^^^^^^^^
+
+warning: function `extract_main_topic` is never used
+   --> think-ai-knowledge/src/self_evaluator.rs:366:4
+    |
+366 | fn extract_main_topic(question: &str) -> String {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: `think-ai-core` (lib) generated 7 warnings
+warning: `think-ai-knowledge` (lib) generated 36 warnings (run `cargo fix --lib -p think-ai-knowledge` to apply 6 suggestions)
+warning: unused import: `tokio::sync::mpsc`
+ --> full-system/src/performance_optimizer.rs:6:5
+  |
+6 | use tokio::sync::mpsc;
+  |     ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused variable: `cache_clone`
+  --> full-system/src/performance_optimizer.rs:73:17
+   |
+73 |             let cache_clone = cache.clone();
+   |                 ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cache_clone`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `domain_name`
+   --> full-system/src/knowledge_loader.rs:129:14
+    |
+129 |         for (domain_name, domain) in &self.domains {
+    |              ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_domain_name`
+
+warning: struct `TwiMLResponse` is never constructed
+  --> full-system/src/whatsapp_handler.rs:51:8
+   |
+51 | struct TwiMLResponse {
+   |        ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: struct `TwiMLMessage` is never constructed
+  --> full-system/src/whatsapp_handler.rs:57:8
+   |
+57 | struct TwiMLMessage {
+   |        ^^^^^^^^^^^^
+
+warning: `think-ai-full` (lib) generated 5 warnings (run `cargo fix --lib -p think-ai-full` to apply 1 suggestion)
+warning: unused variable: `kb_response`
+   --> full-system/src/main_production.rs:391:9
+    |
+391 |     let kb_response = state.knowledge_base.get_conversational_response(message);
+    |         ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_kb_response`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `config`
+   --> full-system/src/main_production.rs:448:48
+    |
+448 |     let mut generate_fn = move |query: String, config: OptimizationConfig| {
+    |                                                ^^^^^^ help: if this is intentional, prefix it with an underscore: `_config`
+
+warning: variable does not need to be mutable
+   --> full-system/src/main_production.rs:448:9
+    |
+448 |     let mut generate_fn = move |query: String, config: OptimizationConfig| {
+    |         ----^^^^^^^^^^^
+    |         |
+    |         help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` on by default
+
+warning: unused variable: `cache_clone`
+  --> full-system/src/performance_optimizer.rs:73:17
+   |
+73 |             let cache_clone = cache.clone();
+   |                 ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_cache_clone`
+
+warning: fields `use_web_search`, `fact_check`, and `mode` are never read
+  --> full-system/src/main_production.rs:55:5
+   |
+51 | struct ChatRequest {
+   |        ----------- fields in this struct
+...
+55 |     use_web_search: bool,
+   |     ^^^^^^^^^^^^^^
+56 |     #[serde(default)]
+57 |     fact_check: bool,
+   |     ^^^^^^^^^^
+58 |     #[serde(default = "default_mode")]
+59 |     mode: String,
+   |     ^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: method `cleanup_cache` is never used
+   --> full-system/src/audio_service.rs:253:18
+    |
+38  | impl AudioService {
+    | ----------------- method in this implementation
+...
+253 |     pub async fn cleanup_cache(&self, max_entries: usize) -> Result<()> {
+    |                  ^^^^^^^^^^^^^
+
+warning: fields `use_web_search`, `fact_check`, and `mode` are never read
+  --> full-system/src/whatsapp_handler.rs:17:9
+   |
+14 | pub struct ChatRequest {
+   |            ----------- fields in this struct
+...
+17 |     pub use_web_search: bool,
+   |         ^^^^^^^^^^^^^^
+18 |     pub fact_check: bool,
+   |         ^^^^^^^^^^
+19 |     pub mode: String,
+   |         ^^^^
+
+warning: fields `body`, `from`, `to`, and `message_sid` are never read
+  --> full-system/src/whatsapp_handler.rs:25:9
+   |
+23 | pub struct TwilioWebhookQuery {
+   |            ------------------ fields in this struct
+24 |     #[serde(rename = "Body")]
+25 |     pub body: Option<String>,
+   |         ^^^^
+26 |     #[serde(rename = "From")]
+27 |     pub from: Option<String>,
+   |         ^^^^
+28 |     #[serde(rename = "To")]
+29 |     pub to: Option<String>,
+   |         ^^
+30 |     #[serde(rename = "MessageSid")]
+31 |     pub message_sid: Option<String>,
+   |         ^^^^^^^^^^^
+   |
+   = note: `TwilioWebhookQuery` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: fields `to`, `message_sid`, `account_sid`, and `num_media` are never read
+  --> full-system/src/whatsapp_handler.rs:41:9
+   |
+35 | pub struct TwilioWebhookForm {
+   |            ----------------- fields in this struct
+...
+41 |     pub to: String,
+   |         ^^
+42 |     #[serde(rename = "MessageSid")]
+43 |     pub message_sid: String,
+   |         ^^^^^^^^^^^
+44 |     #[serde(rename = "AccountSid")]
+45 |     pub account_sid: String,
+   |         ^^^^^^^^^^^
+46 |     #[serde(rename = "NumMedia")]
+47 |     pub num_media: Option<String>,
+   |         ^^^^^^^^^
+   |
+   = note: `TwilioWebhookForm` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: struct `TwiMLResponse` is never constructed
+  --> full-system/src/whatsapp_handler.rs:51:8
+   |
+51 | struct TwiMLResponse {
+   |        ^^^^^^^^^^^^^
+
+warning: method `record_error` is never used
+   --> full-system/src/metrics.rs:163:18
+    |
+103 | impl MetricsCollector {
+    | --------------------- method in this implementation
+...
+163 |     pub async fn record_error(&self, error: ErrorEvent) {
+    |                  ^^^^^^^^^^^^
+
+warning: field `message_channel` is never read
+  --> full-system/src/state.rs:27:9
+   |
+21 | pub struct ThinkAIState {
+   |            ------------ field in this struct
+...
+27 |     pub message_channel: broadcast::Sender<ChatMessage>,
+   |         ^^^^^^^^^^^^^^^
+   |
+   = note: `ThinkAIState` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: function `enhance_response_with_knowledge` is never used
+   --> full-system/src/knowledge_loader.rs:192:8
+    |
+192 | pub fn enhance_response_with_knowledge(query: &str, kb: &KnowledgeBase) -> String {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `insert` is never used
+  --> full-system/src/fast_cache_lookup.rs:97:18
+   |
+25 | impl FastCacheLookup {
+   | -------------------- method in this implementation
+...
+97 |     pub async fn insert(&self, query: &str, response: String) {
+   |                  ^^^^^^
+
+warning: `think-ai-full` (bin "think-ai-full-production") generated 17 warnings (3 duplicates) (run `cargo fix --bin "think-ai-full-production"` to apply 1 suggestion)
+    Finished `release` profile [optimized] target(s) in 0.29s
+     Running `/home/administrator/think_ai/target/release/think-ai-full-production`
+[2m2025-08-01T20:59:07.525833Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m Initializing Think AI Production Server...
+[2m2025-08-01T20:59:07.529411Z[0m [34mDEBUG[0m [2msled::pagecache::iterator[0m[2m:[0m ordering before clearing tears: {0: 0}, max_header_stable_lsn: 0    
+[2m2025-08-01T20:59:07.529438Z[0m [34mDEBUG[0m [2msled::pagecache::iterator[0m[2m:[0m in clean_tail_tears, found missing item in tail: None and we'll scan segments {0: 0} above lowest lsn 0    
+[2m2025-08-01T20:59:07.529953Z[0m [34mDEBUG[0m [2msled::pagecache::iterator[0m[2m:[0m filtering out segments after detected tear at (lsn, lid) 770    
+[2m2025-08-01T20:59:07.530437Z[0m [34mDEBUG[0m [2msled::pagecache::iterator[0m[2m:[0m hit max_lsn 770 in iterator, stopping    
+[2m2025-08-01T20:59:07.530560Z[0m [34mDEBUG[0m [2msled::pagecache::snapshot[0m[2m:[0m zeroing the end of the recovered segment at lsn 0 between lids 771 and 524287    
+[2m2025-08-01T20:59:07.537592Z[0m [34mDEBUG[0m [2msled::pagecache::blob_io[0m[2m:[0m gc_blobs removing any blob with an lsn above 771    
+[2m2025-08-01T20:59:07.537695Z[0m [34mDEBUG[0m [2msled::pagecache::segment[0m[2m:[0m SA starting with tip 524288 stable -1 free {}    
+[2m2025-08-01T20:59:07.537706Z[0m [34mDEBUG[0m [2msled::pagecache::iobuf[0m[2m:[0m starting log at recovered active offset 771, recovered lsn 771    
+[2m2025-08-01T20:59:07.537711Z[0m [34mDEBUG[0m [2msled::pagecache::iobuf[0m[2m:[0m starting IoBufs with next_lsn: 771 next_lid: 771    
+[2m2025-08-01T20:59:07.537724Z[0m [34mDEBUG[0m [2msled::pagecache[0m[2m:[0m load_snapshot loading pages from 0..4    
+[2m2025-08-01T20:59:07.636468Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m ⚠️ Audio service disabled - DEEPGRAM_API_KEY and/or ELEVENLABS_API_KEY not found
+[2m2025-08-01T20:59:07.636491Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m ⚠️ WhatsApp notifications disabled
+[2m2025-08-01T20:59:07.675037Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m ✅ GPU acceleration enabled with 24 layers
+[2m2025-08-01T20:59:07.676882Z[0m [32m INFO[0m [2mthink_ai_full_production::fast_cache_lookup[0m[2m:[0m Loaded 0 precomputed responses into fast cache
+[2m2025-08-01T20:59:07.678258Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m ✅ Loaded knowledge base with 20 domains
+[2m2025-08-01T20:59:07.678434Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m Think AI Production Server listening on 0.0.0.0:7777
+[2m2025-08-01T20:59:21.092675Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mtower_http::trace::on_request[0m[2m:[0m started processing request
+[2m2025-08-01T20:59:21.092802Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mtower_http::trace::on_response[0m[2m:[0m finished processing request [3mlatency[0m[2m=[0m0 ms [3mstatus[0m[2m=[0m405
+[2m2025-08-01T20:59:29.933183Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mtower_http::trace::on_request[0m[2m:[0m started processing request
+[2m2025-08-01T20:59:29.933274Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mtower_http::trace::on_response[0m[2m:[0m finished processing request [3mlatency[0m[2m=[0m0 ms [3mstatus[0m[2m=[0m405
+[2m2025-08-01T20:59:34.107813Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mGET [3muri[0m[2m=[0m/health [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mtower_http::trace::on_request[0m[2m:[0m started processing request
+[2m2025-08-01T20:59:34.107936Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mGET [3muri[0m[2m=[0m/health [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mtower_http::trace::on_response[0m[2m:[0m finished processing request [3mlatency[0m[2m=[0m0 ms [3mstatus[0m[2m=[0m200
+[2m2025-08-01T20:59:56.591114Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/api/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mtower_http::trace::on_request[0m[2m:[0m started processing request
+[2m2025-08-01T20:59:56.728280Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/api/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mreqwest::connect[0m[2m:[0m starting new connection: http://localhost:11434/    
+[2m2025-08-01T20:59:56.728547Z[0m [34mDEBUG[0m [2mhyper::client::connect::dns[0m[2m:[0m resolving host="localhost"
+[2m2025-08-01T20:59:56.729051Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/api/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mhyper::client::connect::http[0m[2m:[0m connecting to 127.0.0.1:11434
+[2m2025-08-01T20:59:56.729307Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/api/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mhyper::client::connect::http[0m[2m:[0m connected to 127.0.0.1:11434
+[2m2025-08-01T20:59:56.729445Z[0m [34mDEBUG[0m [2mhyper::proto::h1::io[0m[2m:[0m flushed 813 bytes
+[2m2025-08-01T21:00:03.263394Z[0m [34mDEBUG[0m [2mhyper::proto::h1::io[0m[2m:[0m parsed 3 headers
+[2m2025-08-01T21:00:03.263432Z[0m [34mDEBUG[0m [2mhyper::proto::h1::conn[0m[2m:[0m incoming body is content-length (1021 bytes)
+[2m2025-08-01T21:00:03.263447Z[0m [34mDEBUG[0m [2mhyper::proto::h1::conn[0m[2m:[0m incoming body completed
+[2m2025-08-01T21:00:03.263483Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/api/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mhyper::client::pool[0m[2m:[0m pooling idle connection for ("http", localhost:11434)
+[2m2025-08-01T21:00:03.264704Z[0m [34mDEBUG[0m [1mrequest[0m[1m{[0m[3mmethod[0m[2m=[0mPOST [3muri[0m[2m=[0m/api/chat [3mversion[0m[2m=[0mHTTP/1.1[1m}[0m[2m:[0m [2mtower_http::trace::on_response[0m[2m:[0m finished processing request [3mlatency[0m[2m=[0m6673 ms [3mstatus[0m[2m=[0m200
+[2m2025-08-01T21:00:03.548911Z[0m [34mDEBUG[0m [2msled::pagecache::iobuf[0m[2m:[0m advancing offset within the current segment from 771 to 1334    
+[2m2025-08-01T21:00:03.552863Z[0m [34mDEBUG[0m [2msled::pagecache::iobuf[0m[2m:[0m wrote lsns 771-1333 to disk at offsets 771-1333, maxed false complete_len 563    
+[2m2025-08-01T21:00:03.552892Z[0m [34mDEBUG[0m [2msled::pagecache::iobuf[0m[2m:[0m mark_interval(771, 563)    
+[2m2025-08-01T21:00:03.552901Z[0m [34mDEBUG[0m [2msled::pagecache::iobuf[0m[2m:[0m new highest interval: 771 - 1333    

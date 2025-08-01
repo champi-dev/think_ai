@@ -8,3 +8,4 @@ pub mod middleware;
 pub mod state;
 pub mod performance_optimizer;
 pub mod knowledge_loader;
+pub mod fast_cache_lookup;

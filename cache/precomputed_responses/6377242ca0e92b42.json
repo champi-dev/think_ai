@@ -1,0 +1,6 @@
+{
+  "query": "calculate 10 plus 4",
+  "response": "To calculate 10 plus 4, simply add the two numbers together. The result is 14. This operation involves basic arithmetic where you combine the values of 10 and 4 to get their sum.",
+  "timestamp": 1754072787.1010358,
+  "normalized_query": "calculate 10 plus 4"
+}

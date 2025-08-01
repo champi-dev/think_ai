@@ -1,8 +1,0 @@
-[2m2025-07-21T15:26:29.699258Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m Initializing Think AI Production Server...
-[2m2025-07-21T15:26:29.862309Z[0m [32m INFO[0m [2mthink_ai_full_production::audio_service[0m[2m:[0m Loaded 122 cached audio files
-[2m2025-07-21T15:26:29.862332Z[0m [32m INFO[0m [2mthink_ai_full_production::audio_service[0m[2m:[0m Audio service initialized with cache at "./audio_cache"
-[2m2025-07-21T15:26:29.862335Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m ✅ Audio service enabled
-[2m2025-07-21T15:26:29.862339Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m ⚠️ WhatsApp notifications disabled
-[2m2025-07-21T15:26:29.862427Z[0m [32m INFO[0m [2mthink_ai_full_production[0m[2m:[0m Think AI Production Server listening on 0.0.0.0:7777
-[2m2025-07-21T15:43:13.366935Z[0m [32m INFO[0m [2mthink_ai_full_production::audio_service[0m[2m:[0m Cached audio file: bb9dbe7c85b1a69d85b0f0308087b40de83b1e5b1ba02f748d459b1dfc5cc41b.mp3
-[2m2025-07-21T15:44:15.499834Z[0m [32m INFO[0m [2mthink_ai_full_production::audio_service[0m[2m:[0m Cached audio file: 04580cd0d3620e23566a1c31822680a9645637178bc1b1bdaae17a5668beaae6.mp3

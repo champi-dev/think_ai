@@ -1,0 +1,6 @@
+{
+  "query": "5 + 10 equals",
+  "response": "5 + 10 equals 15. This is a basic addition problem where you combine five units with ten units, resulting in a total of fifteen units.",
+  "timestamp": 1754072659.1023207,
+  "normalized_query": "5 + 10 equals"
+}

@@ -1,0 +1,45 @@
+{
+  "cache_warming_enabled": true,
+  "precomputed_responses": {
+    "hello": "Hello! I'm Think AI, ready to help you with any questions. How can I assist you today?",
+    "hi": "Hi there! I'm Think AI. What would you like to know or discuss?",
+    "what is 2+2": "2 + 2 equals 4.",
+    "what is 2 + 2": "2 + 2 equals 4.",
+    "help": "I'm Think AI, an advanced AI assistant. I can help with:\n• Answering questions on various topics\n• Explaining complex concepts\n• Solving problems\n• Having conversations\n\nWhat would you like help with?",
+    "what can you do": "I can assist with a wide range of tasks including:\n• Answering questions across many domains\n• Explaining concepts in science, technology, philosophy, and more\n• Problem-solving and analysis\n• Having thoughtful conversations\n• Providing insights and perspectives\n\nWhat interests you today?",
+    "thank you": "You're welcome! I'm happy to help. Is there anything else you'd like to know?",
+    "thanks": "You're welcome! Feel free to ask if you need anything else.",
+    "goodbye": "Goodbye! Feel free to come back anytime you have questions. Have a great day!",
+    "bye": "Bye! Take care and see you next time!"
+  },
+  "prefetch_queries": [
+    "explain quantum physics",
+    "what is artificial intelligence",
+    "how does machine learning work",
+    "what is consciousness",
+    "tell me about the universe",
+    "explain relativity",
+    "what is the meaning of life",
+    "how do computers work",
+    "what is quantum computing",
+    "explain blockchain",
+    "what is climate change",
+    "how does the brain work",
+    "what is DNA",
+    "explain evolution",
+    "what is dark matter"
+  ],
+  "cache_strategy": {
+    "similarity_threshold": 0.85,
+    "fuzzy_match_enabled": true,
+    "case_insensitive": true,
+    "strip_punctuation": true,
+    "max_edit_distance": 2
+  },
+  "performance_targets": {
+    "target_response_time_ms": 100,
+    "cache_hit_target_percentage": 80,
+    "prefetch_on_startup": true,
+    "background_warming_interval_minutes": 60
+  }
+}
