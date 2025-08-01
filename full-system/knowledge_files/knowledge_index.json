@@ -1,0 +1,29 @@
+{
+  "version": "3.0",
+  "generated_by": "claude_knowledge_trainer",
+  "generated_at": "2025-07-31T12:37:20.880479",
+  "total_entries": 100,
+  "domains": [
+    "Science",
+    "Technology",
+    "Mathematics",
+    "Philosophy",
+    "History",
+    "Arts",
+    "Language",
+    "Psychology",
+    "Medicine",
+    "Engineering",
+    "Economics",
+    "Law",
+    "Education",
+    "Environment",
+    "Culture",
+    "Sociology",
+    "Anthropology",
+    "Geography",
+    "Astronomy",
+    "Chemistry"
+  ],
+  "description": "Comprehensive knowledge base trained by Claude with extensive coverage across all domains"
+}

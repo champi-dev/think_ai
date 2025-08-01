@@ -25,6 +25,7 @@ mod metrics;
 mod middleware;
 mod state;
 mod performance_optimizer;
+mod knowledge_loader;
 
 // Import actual Think AI components
 use think_ai_consciousness::ConsciousnessFramework;
@@ -42,6 +43,7 @@ use crate::whatsapp_handler::{whatsapp_webhook_handler, whatsapp_status_webhook}
 use crate::metrics::{MetricsCollector, DashboardData};
 use crate::state::ThinkAIState;
 use crate::performance_optimizer::{RequestOptimizer, OptimizationConfig, detect_and_configure_gpu, determine_token_limit};
+use crate::knowledge_loader::KnowledgeBase;
 
 #[derive(Deserialize)]
 struct ChatRequest {
@@ -178,6 +180,18 @@ async fn main() {
     
     let request_optimizer = Arc::new(RequestOptimizer::new(optimization_config));
     
+    // Load knowledge base
+    let knowledge_base = match KnowledgeBase::load_from_directory("./knowledge_files") {
+        Ok(kb) => {
+            info!("✅ Loaded knowledge base with {} domains", kb.domains.len());
+            Arc::new(kb)
+        }
+        Err(e) => {
+            info!("⚠️ Failed to load knowledge base: {}. Using empty knowledge base.", e);
+            Arc::new(KnowledgeBase::new())
+        }
+    };
+    
     let state = ThinkAIState {
         _core_engine: core_engine,
         knowledge_engine,
@@ -190,6 +204,7 @@ async fn main() {
         whatsapp_notifier,
         metrics_collector: metrics_collector.clone(),
         request_optimizer,
+        knowledge_base,
     };
 
     // Build the router
@@ -322,6 +337,14 @@ async fn generate_intelligent_response(
     conversation_context: &str,
     concepts: &[String],
 ) -> String {
+    // First, check if we have knowledge base response
+    let kb_response = state.knowledge_base.get_conversational_response(message);
+    
+    // If we have a good knowledge base response, return it directly for speed
+    if !kb_response.contains("I'd be happy to help with") {
+        return kb_response;
+    }
+    
     // Prepare enhanced context
     let mut context = String::new();
     

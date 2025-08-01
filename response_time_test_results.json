@@ -1,0 +1,89 @@
+{
+  "test_time": "2025-07-31 14:54:09",
+  "results": [
+    {
+      "query": "hello",
+      "response_time": -1,
+      "status": "exception",
+      "error": "HTTPConnectionPool(host='localhost', port=9999): Read timed out. (read timeout=5)"
+    },
+    {
+      "query": "what is quantum mechanics",
+      "response_time": 0.006556034088134766,
+      "status": "success",
+      "tokens_used": 0,
+      "compacted": false,
+      "response_preview": "It reveals that particles exist in superposition states, can be entangled across vast distances, and..."
+    },
+    {
+      "query": "explain artificial intelligence",
+      "response_time": 0.005209207534790039,
+      "status": "success",
+      "tokens_used": 0,
+      "compacted": false,
+      "response_preview": "Artificial intelligence includes the creation of intelligent machines that can perceive, learn, reas..."
+    },
+    {
+      "query": "how are you",
+      "response_time": 0.006231784820556641,
+      "status": "success",
+      "tokens_used": 0,
+      "compacted": false,
+      "response_preview": "Consciousness is the subjective experience of awareness and sentience - the 'what it is like' of exp..."
+    },
+    {
+      "query": "what can you do",
+      "response_time": 0.003735065460205078,
+      "status": "success",
+      "tokens_used": 0,
+      "compacted": false,
+      "response_preview": "Renaissance art (14th-17th centuries) marked a cultural rebirth emphasizing humanism, naturalism, an..."
+    },
+    {
+      "query": "tell me about consciousness",
+      "response_time": 0.0016205310821533203,
+      "status": "success",
+      "tokens_used": 0,
+      "compacted": false,
+      "response_preview": "Consciousness is the subjective experience of awareness and sentience - the 'what it is like' of exp..."
+    },
+    {
+      "query": "what is machine learning",
+      "response_time": 0.0021948814392089844,
+      "status": "success",
+      "tokens_used": 0,
+      "compacted": false,
+      "response_preview": "Supervised learning algorithms like decision trees, support vector machines, and neural networks lea..."
+    },
+    {
+      "query": "explain climate change",
+      "response_time": 0.0015726089477539062,
+      "status": "success",
+      "tokens_used": 0,
+      "compacted": false,
+      "response_preview": "Effects include rising sea levels, extreme weather, ecosystem disruption, and threats to food securi..."
+    },
+    {
+      "query": "what is the meaning of life",
+      "response_time": 0.002459287643432617,
+      "status": "success",
+      "tokens_used": 0,
+      "compacted": false,
+      "response_preview": "Psycholinguistics investigates psychological and neurobiological factors enabling humans to acquire,..."
+    },
+    {
+      "query": "how does the brain work",
+      "response_time": 0.0023818016052246094,
+      "status": "success",
+      "tokens_used": 0,
+      "compacted": false,
+      "response_preview": "Translation theory examines how meaning transfers between languages, balancing fidelity to source te..."
+    }
+  ],
+  "summary": {
+    "total_queries": 10,
+    "successful": 9,
+    "fast_responses": 9,
+    "average_time": 0.0035512447357177734
+  }
+}

@@ -1,0 +1,16 @@
+[Unit]
+Description=Think AI Fixed Server
+After=network.target
+
+[Service]
+Type=simple
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+ExecStart=/usr/bin/python3 /home/administrator/think_ai/fixed_ai_server.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

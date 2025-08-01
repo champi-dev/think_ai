@@ -13,6 +13,7 @@ use crate::audio_service::AudioService;
 use crate::notifications::whatsapp::WhatsAppNotifier;
 use crate::metrics::MetricsCollector;
 use crate::performance_optimizer::RequestOptimizer;
+use crate::knowledge_loader::KnowledgeBase;
 
 // State for the application
 #[derive(Clone)]
@@ -28,6 +29,7 @@ pub struct ThinkAIState {
     pub whatsapp_notifier: Option<Arc<WhatsAppNotifier>>,
     pub metrics_collector: Arc<MetricsCollector>,
     pub request_optimizer: Arc<RequestOptimizer>,
+    pub knowledge_base: Arc<KnowledgeBase>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]

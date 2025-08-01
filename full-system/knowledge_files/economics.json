@@ -1,0 +1,177 @@
+{
+  "domain": "Economics",
+  "entries": [
+    {
+      "topic": "microeconomics",
+      "content": "Understanding microeconomics enables better personal and business decisions..",
+      "metadata": {
+        "conversational_patterns": [
+          "Understanding microeconomics enables better personal and business decisions..",
+          "Here's what you need to know: Understanding microeconomics enables better personal and business decisions..",
+          "Simply put, Understanding microeconomics enables better personal and business decisions..",
+          "Understanding microeconomics enables better personal and business decisions.. I hope this helps clarify things!",
+          "Understanding microeconomics enables better personal and business decisions.. Does this make sense?",
+          "Understanding microeconomics enables better personal and business decisions.. Let me know if you need more details.",
+          "You know what's fascinating? Understanding microeconomics enables better personal and business decisions..",
+          "Here's something cool: Understanding microeconomics enables better personal and business decisions..",
+          "This is really interesting: Understanding microeconomics enables better personal and business decisions..",
+          "Want to know something neat? Understanding microeconomics enables better personal and business decisions.."
+        ],
+        "evaluation_score": 0.998,
+        "source": "claude_comprehensive_knowledge",
+        "generated_at": "2025-07-31T12:37:20.845960",
+        "enhanced": true
+      },
+      "related_concepts": [
+        "supply and demand",
+        "market equilibrium",
+        "consumer theory",
+        "game theory",
+        "market failures",
+        "how does microeconomics work",
+        "why is microeconomics important",
+        "examples of microeconomics",
+        "microeconomics in daily life"
+      ]
+    },
+    {
+      "topic": "macroeconomics",
+      "content": "Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates..",
+      "metadata": {
+        "conversational_patterns": [
+          "Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates..",
+          "Here's what you need to know: Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates..",
+          "Simply put, Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates..",
+          "Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates.. I hope this helps clarify things!",
+          "Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates.. Does this make sense?",
+          "Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates.. Let me know if you need more details.",
+          "You know what's fascinating? Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates..",
+          "Here's something cool: Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates..",
+          "This is really interesting: Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates..",
+          "Want to know something neat? Central banks use monetary policy while governments employ fiscal policy to influence economic outcomes. Understanding macroeconomics helps interpret economic news and policy debates.."
+        ],
+        "evaluation_score": 0.963,
+        "source": "claude_comprehensive_knowledge",
+        "generated_at": "2025-07-31T12:37:20.845974",
+        "enhanced": true
+      },
+      "related_concepts": [
+        "GDP",
+        "inflation",
+        "monetary policy",
+        "fiscal policy",
+        "business cycles",
+        "how does macroeconomics work",
+        "why is macroeconomics important",
+        "examples of macroeconomics",
+        "macroeconomics in daily life"
+      ]
+    },
+    {
+      "topic": "behavioral economics",
+      "content": "Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences.",
+      "metadata": {
+        "conversational_patterns": [
+          "Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences.",
+          "Here's what you need to know: Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences.",
+          "Simply put, Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences.",
+          "Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences. I hope this helps clarify things!",
+          "Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences. Does this make sense?",
+          "Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences. Let me know if you need more details.",
+          "You know what's fascinating? Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences.",
+          "Here's something cool: Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences.",
+          "This is really interesting: Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences.",
+          "Want to know something neat? Behavioral economics incorporates psychological insights into economic analysis, challenging assumptions of perfect rationality. Cognitive biases like loss aversion, anchoring, and present bias affect decision-making. Prospect theory explains risk preferences."
+        ],
+        "evaluation_score": 0.979,
+        "source": "claude_comprehensive_knowledge",
+        "generated_at": "2025-07-31T12:37:20.845997",
+        "enhanced": true
+      },
+      "related_concepts": [
+        "cognitive biases",
+        "prospect theory",
+        "nudge theory",
+        "bounded rationality",
+        "heuristics",
+        "how does behavioral economics work",
+        "why is behavioral economics important",
+        "examples of behavioral economics",
+        "behavioral economics in daily life"
+      ]
+    },
+    {
+      "topic": "development economics",
+      "content": "Understanding development helps address global poverty and inequality..",
+      "metadata": {
+        "conversational_patterns": [
+          "Understanding development helps address global poverty and inequality..",
+          "Here's what you need to know: Understanding development helps address global poverty and inequality..",
+          "Simply put, Understanding development helps address global poverty and inequality..",
+          "Understanding development helps address global poverty and inequality.. I hope this helps clarify things!",
+          "Understanding development helps address global poverty and inequality.. Does this make sense?",
+          "Understanding development helps address global poverty and inequality.. Let me know if you need more details.",
+          "You know what's fascinating? Understanding development helps address global poverty and inequality..",
+          "Here's something cool: Understanding development helps address global poverty and inequality..",
+          "This is really interesting: Understanding development helps address global poverty and inequality..",
+          "Want to know something neat? Understanding development helps address global poverty and inequality.."
+        ],
+        "evaluation_score": 0.963,
+        "source": "claude_comprehensive_knowledge",
+        "generated_at": "2025-07-31T12:37:20.846007",
+        "enhanced": true
+      },
+      "related_concepts": [
+        "economic growth",
+        "poverty reduction",
+        "institutions",
+        "human capital",
+        "international aid",
+        "how does development economics work",
+        "why is development economics important",
+        "examples of development economics",
+        "development economics in daily life"
+      ]
+    },
+    {
+      "topic": "environmental economics",
+      "content": "Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare..",
+      "metadata": {
+        "conversational_patterns": [
+          "Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare..",
+          "Here's what you need to know: Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare..",
+          "Simply put, Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare..",
+          "Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare.. I hope this helps clarify things!",
+          "Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare.. Does this make sense?",
+          "Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare.. Let me know if you need more details.",
+          "You know what's fascinating? Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare..",
+          "Here's something cool: Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare..",
+          "This is really interesting: Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare..",
+          "Want to know something neat? Cost-benefit analysis weighs environmental protection against economic costs. Sustainable development seeks to balance current needs with future generations' welfare.."
+        ],
+        "evaluation_score": 0.998,
+        "source": "claude_comprehensive_knowledge",
+        "generated_at": "2025-07-31T12:37:20.846019",
+        "enhanced": true
+      },
+      "related_concepts": [
+        "externalities",
+        "carbon pricing",
+        "sustainability",
+        "natural capital",
+        "green economy",
+        "how does environmental economics work",
+        "why is environmental economics important",
+        "examples of environmental economics",
+        "environmental economics in daily life"
+      ]
+    }
+  ],
+  "metadata": {
+    "generated_by": "claude_knowledge_trainer",
+    "version": "3.0",
+    "timestamp": "2025-07-31T12:37:20.846024",
+    "total_entries": 5,
+    "conversational_enhancement": true
+  }
+}

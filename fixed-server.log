@@ -1,0 +1,12 @@
+✅ Fixed AI Server running on http://localhost:7777
+This version properly matches queries to correct responses
+Access at: http://localhost:7777
+Traceback (most recent call last):
+  File "/home/administrator/think_ai/fixed_ai_server.py", line 233, in <module>
+    with socketserver.TCPServer(("", PORT), FixedAIHandler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.12/socketserver.py", line 473, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use

@@ -1,0 +1,10 @@
+{
+  "total_entries": 1193,
+  "sources": {
+    "knowledge_base": 642,
+    "instant_response": 7,
+    "other": 544
+  },
+  "optimization_timestamp": "2025-07-31 14:31:47",
+  "cache_size_mb": 0.533238410949707
+}

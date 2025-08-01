@@ -1,0 +1,18 @@
+[Unit]
+Description=Think AI Production Server (thinkai.lat)
+After=network.target
+
+[Service]
+Type=simple
+User=administrator
+WorkingDirectory=/home/administrator/think_ai
+Environment="PORT=7777"
+Environment="HOST=0.0.0.0"
+ExecStart=/usr/bin/python3 /home/administrator/think_ai/webapp_server_fixed.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
