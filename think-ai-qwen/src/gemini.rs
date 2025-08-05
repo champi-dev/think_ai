@@ -15,7 +15,7 @@ impl Default for GeminiConfig {
         Self {
             api_key: std::env::var("GEMINI_API_KEY").unwrap_or_default(),
             base_url: "https://generativelanguage.googleapis.com/v1beta".to_string(),
-            model: "gemini-1.5-flash".to_string(),
+            model: "gemini-2.0-flash-exp".to_string(),
         }
     }
 }
