@@ -44,7 +44,7 @@ export const useStore = create((set, get) => ({
   })),
 
   // UI state
-  isSidebarOpen: true,
+  isSidebarOpen: typeof window !== 'undefined' ? window.innerWidth >= 1024 : false,
   toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
   isLoading: false,
   setLoading: (isLoading) => set({ isLoading }),

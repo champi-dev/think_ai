@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useStore } from './store/store';
 import { auth } from './utils/api';
 import Scene from './components/ThreeBackground/Scene';
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Chat from './pages/Chat';
@@ -31,7 +32,7 @@ function App() {
         <Route
           path="/"
           element={
-            isAuthenticated ? <Navigate to="/chat" replace /> : <Navigate to="/login" replace />
+            isAuthenticated ? <Navigate to="/chat" replace /> : <Landing />
           }
         />
         <Route

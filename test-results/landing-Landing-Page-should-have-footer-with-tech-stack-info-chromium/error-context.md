@@ -1,0 +1,57 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e7]:
+  - generic [ref=e10]:
+    - img [ref=e13]
+    - heading "Think AI" [level=1] [ref=e16]
+    - paragraph [ref=e17]: Your Personal AI Assistant
+    - paragraph [ref=e18]: Harness the power of open-source AI models running privately on Think AI's server. Currently powered by Qwen3 with more models coming soon. Fast, private, and free to use.
+    - generic [ref=e19]:
+      - link "Get Started Free" [ref=e20] [cursor=pointer]:
+        - /url: /register
+        - button "Get Started Free" [ref=e21]:
+          - text: Get Started Free
+          - img [ref=e22]
+      - link "Sign In" [ref=e24] [cursor=pointer]:
+        - /url: /login
+        - button "Sign In" [ref=e25]
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - img [ref=e29]
+        - heading "Open-Source AI" [level=3] [ref=e31]
+        - paragraph [ref=e32]: Powered by Qwen3 and other cutting-edge open-source models
+      - generic [ref=e33]:
+        - img [ref=e35]
+        - heading "Lightning Fast" [level=3] [ref=e37]
+        - paragraph [ref=e38]: Real-time streaming responses with optimized performance
+      - generic [ref=e39]:
+        - img [ref=e41]
+        - heading "Privacy First" [level=3] [ref=e43]
+        - paragraph [ref=e44]: Runs on Think AI's private server - your data stays secure
+    - generic [ref=e45]:
+      - heading "What You Get" [level=2] [ref=e46]
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - img [ref=e49]
+          - generic [ref=e52]: Multi-user support with separate conversations
+        - generic [ref=e53]:
+          - img [ref=e54]
+          - generic [ref=e57]: Beautiful, modern UI with 3D background
+        - generic [ref=e58]:
+          - img [ref=e59]
+          - generic [ref=e62]: Code highlighting and markdown support
+        - generic [ref=e63]:
+          - img [ref=e64]
+          - generic [ref=e67]: Conversation history and management
+        - generic [ref=e68]:
+          - img [ref=e69]
+          - generic [ref=e72]: Multiple open-source AI models (Qwen3 & more)
+        - generic [ref=e73]:
+          - img [ref=e74]
+          - generic [ref=e77]: Free to use - no API costs or subscriptions
+  - contentinfo [ref=e78]:
+    - generic [ref=e79]:
+      - paragraph [ref=e80]: Powered by Qwen3 and other open-source AI models via Ollama
+      - paragraph [ref=e81]: Built with React, Express, and PostgreSQL • 100% Open Source
+```

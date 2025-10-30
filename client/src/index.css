@@ -43,6 +43,7 @@ body {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   overflow: hidden;
+  height: 100%;
 }
 
 code {
@@ -71,10 +72,35 @@ code {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Fix for mobile viewport with URL bars */
+@supports (-webkit-touch-callout: none) {
+  html {
+    height: -webkit-fill-available;
+  }
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Selection */
 ::selection {
   background-color: var(--color-primary-light);
   color: var(--color-primary);
+}
+
+/* Prevent horizontal overflow in code blocks */
+pre {
+  overflow-x: auto !important;
+  max-width: 100% !important;
+}
+
+code {
+  word-break: break-word;
+  overflow-wrap: break-word;
 }

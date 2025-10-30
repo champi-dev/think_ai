@@ -4,7 +4,7 @@ import { auth } from '../utils/api';
 import { useStore } from '../store/store';
 import Button from '../components/Common/Button';
 import Input from '../components/Common/Input';
-import { MessageSquare } from 'lucide-react';
+import { Brain } from 'lucide-react';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -84,31 +84,31 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-bg-secondary/70 backdrop-blur-xl border border-border-primary rounded-2xl p-8 shadow-2xl">
+    <div className="h-full flex items-center justify-center p-3 sm:p-4 lg:p-6 overflow-y-auto">
+      <div className="w-full max-w-[90%] sm:max-w-md lg:max-w-lg 2xl:max-w-2xl">
+        <div className="bg-bg-secondary/70 backdrop-blur-xl border border-border-primary rounded-xl sm:rounded-2xl p-5 sm:p-8 lg:p-10 2xl:p-12 shadow-2xl">
           {/* Logo */}
-          <div className="flex justify-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent-1 rounded-2xl flex items-center justify-center">
-              <MessageSquare className="w-8 h-8 text-white" />
+          <div className="flex justify-center mb-6 sm:mb-8 lg:mb-10">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 2xl:w-24 2xl:h-24 bg-gradient-to-br from-primary to-accent-1 rounded-xl sm:rounded-2xl flex items-center justify-center">
+              <Brain className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 text-white" />
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl font-bold text-center mb-2">Create Account</h1>
-          <p className="text-text-secondary text-center mb-8">
-            Sign up to start chatting with AI
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-bold text-center mb-2 sm:mb-3">Create Account</h1>
+          <p className="text-sm sm:text-base lg:text-lg 2xl:text-xl text-text-secondary text-center mb-6 sm:mb-8 lg:mb-10">
+            Sign up to start using Think AI
           </p>
 
           {/* Error Message */}
           {errors.submit && (
-            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500 text-sm">
+            <div className="mb-4 sm:mb-5 lg:mb-6 p-2.5 sm:p-3 lg:p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500 text-xs sm:text-sm lg:text-base">
               {errors.submit}
             </div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 lg:space-y-5">
             <Input
               label="Username"
               type="text"
@@ -174,7 +174,7 @@ export default function Register() {
           </form>
 
           {/* Login Link */}
-          <p className="mt-6 text-center text-text-secondary text-sm">
+          <p className="mt-4 sm:mt-6 lg:mt-8 text-center text-text-secondary text-xs sm:text-sm lg:text-base 2xl:text-lg">
             Already have an account?{' '}
             <Link to="/login" className="text-primary hover:underline font-medium">
               Sign in

@@ -15,6 +15,7 @@ export default function Chat() {
     messages,
     setMessages,
     addMessage,
+    addConversation,
   } = useStore();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +52,7 @@ export default function Chat() {
       try {
         const response = await conversationsApi.create({ title: 'New Chat' });
         const newConv = response.data.data;
+        addConversation(newConv);
         setCurrentConversation(newConv);
         // The message will be sent after the conversation is set
         setTimeout(() => sendMessage(newConv.id, content), 100);
@@ -131,10 +133,10 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-full overflow-hidden">
       <Sidebar />
 
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col h-full overflow-hidden">
         <ChatWindow
           messages={messages}
           onRegenerate={handleRegenerate}
